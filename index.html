@@ -6,13 +6,16 @@
   <meta name="description" content="TomatenKuchen - dein Discord-Bot"/>
 
   <title>TomatenKuchen - Home</title>
-
-  <link rel="stylesheet" type="text/css" href="assets/css/login.css"/>
   <link rel="shortcut icon" type="image/x-icon" href="assets/icon.ico"/>
   <link rel="icon" type="image/x-icon" href="assets/icon.ico"/>
+
+  <link rel="stylesheet" type="text/css" href="assets/css/login.css"/>
+
+  <script src="assets/js/cookie.js" async></script>
+  <script>if (getCookie('access_token')) location.href = 'dashboard';</script>
 </head>
 
-<body onload="if (getCookie('access_token')) window.location.href = 'dashboard'">
+<body>
 <header>
   <a href="#" class="logo">TomatenKuchen<span>.</span></a>
   <div class="menuToggle" onclick="toggleMenu();"></div>
@@ -56,7 +59,5 @@
     navigation.classList.toggle("active")
   }
 </script>
-
-<script src="assets/js/cookie.js" async></script>
 </body>
 </html>

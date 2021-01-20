@@ -15,14 +15,14 @@
 
 <body>
 <script>
-  if (getCookie('access_token')) {
+  if (!getCookie('access_token') && getCookie('code')) {
     const params = new URLSearchParams(window.location.search);
-    let url = 'https://136.243.92.96:7025/';
+    let url = 'http://136.243.92.96:7025/';
 
     if (params.has('guild')) {
       url += 'guild/' + params.get('guild');
     } else {
-      url += 'auth-guild?code=' + getCookie('access_token');
+      url += 'login?code=' + getCookie('code');
     }
 
     document.body.innerHTML += '<iframe src="' + url + '"></iframe>';

@@ -19,5 +19,5 @@ function authRedirect() {
 
 function redirectIfAuth() {
   if (!getCookie('access_token')) return;
-  location.href = 'https://' + location.host + '/dashboard';
+  console.log('Would be redirecting to https://' + location.host + '/dashboard!');
 }

@@ -1,0 +1,123 @@
+* {
+  font-family: 'Poppins', cursive, sans-serif;
+  text-align: center;
+  scroll-behavior: smooth;
+}
+
+p {
+  font-size: 1.3em;
+  font-family: sans-serif;
+}
+
+h1 {
+  font-size: 2.2em;
+  background-color: #2389f7;
+  color: yellow;
+}
+
+h2 {
+  font-size: 1.8em;
+  background-color: #2389f7;
+}
+
+li {
+  font-size: 1.3em;
+  font-family: sans-serif;
+}
+
+nav li {
+  display: inline;
+}
+
+a:link, a:visited {
+  width: 100%;
+  height: 26px;
+  margin: 2px;
+  padding: 3px;
+  text-decoration: none;
+  color: #fc3f75;
+  font-family: sans-serif;
+}
+
+a:hover {
+  background-color: #fff;
+  color: #A67792;
+  text-decoration: #A67792;
+}
+
+nav ul {
+  list-style-type: none;
+  background-color: #c470ba;
+  margin: 0.3em;
+}
+
+body {
+  background-color: #d4d4d4;
+}
+
+img {
+  border-radius: 15px;
+}
+
+pre {
+  background-color: #eee;
+  border: 1px solid #999;
+  display: block;
+  padding: 15px;
+}
+
+button, input {
+  font-family: sans-serif;
+  border-radius: 8px;
+}
+
+.setting {
+  font-size: 1.2em;
+  border: none;
+}
+
+#savesettings {
+  font-size: 1.7em;
+  padding: 10px 15px;
+}
+
+button {
+  transition-duration: 0.4s;
+}
+
+button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.sidenav {
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 15px;
+  left: 10px;
+  background: #eee;
+  overflow-x: hidden;
+  padding: 8px 0;
+}
+
+.sidenav a {
+  padding: 5px;
+  font-size: 25px;
+  color: #2196F3;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #064579;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {
+    padding-top: 15px;
+  }
+
+  .sidenav a {
+    font-size: 18px;
+  }
+}

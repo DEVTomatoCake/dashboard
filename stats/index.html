@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>TomatenKuchen - Stats</title>
+
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
+  <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
+
+  <link rel="stylesheet" type="text/css" href="../assets/css/fullframe.css"/>
+
+  <script src="../assets/js/cookie.js"></script>
+</head>
+
+<body>
+<script>
+  const params = new URLSearchParams(window.location.search);
+  if (params.has('id')) {
+    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/stats/' + params.get('id') + '"></iframe>';
+  } else {
+    document.body.innerHTML = '' +
+      '<h1>Bitte gebe die id des Servers mit an!</h1>' +
+      '<h2>Beispiel: <a href="http://' + location.hostname + '/stats?id=608640398595719170">http://' + location.hostname + '/stats?id=608640398595719170</a></h2>';
+  }
+</script>
+</body>
+</html>

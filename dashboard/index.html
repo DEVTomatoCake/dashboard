@@ -15,17 +15,16 @@
 
 <body>
 <script>
+  const params = new URLSearchParams(window.location.search);
+
   if (!getCookie('access_token') && getCookie('code')) {
-    const params = new URLSearchParams(window.location.search);
-    let url = 'http://136.243.92.96:7025/';
-
-    if (params.has('guild')) {
-      url += 'guild/' + params.get('guild');
-    } else {
-      url += 'login?code=' + getCookie('code');
-    }
-
-    document.body.innerHTML += '<iframe src="' + url + '"></iframe>';
+    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/login?code=' + getCookie('code') + '"></iframe>';
+  } else if (getCookie('access_token') && params.has('guild')) {
+    document.body.innerText = '<iframe src="http://136.243.92.96:7025/guild/"' + params.get('guild') + '></iframe>'
+  } else if (getCookie('access_token')) {
+    document.body.innerText = '<iframe src="http://136.243.92.96:7025/guilds"></iframe>'
+  } else {
+    document.body.innerText = '<h1>Redirecting...</h1>';
   }
 </script>
 </body>

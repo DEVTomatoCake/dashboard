@@ -1,9 +1,9 @@
 function authRedirect() {
   const params = new URLSearchParams(location.search);
 
-  if (!params.has('code') && !getCookie('access_token')) {
+  if (!params.has('code') && !getCookie('code')) {
     location.href = 'http://' + location.host + '/login';
-  } else if (!getCookie('access_token')) {
+  } else if (!getCookie('code')) {
     setCookie('code', params.get('code'), 7);
 
     if (params.has('guild_id')) {

@@ -2,7 +2,7 @@ const baseURL = 'http://136.243.92.96:7025/api/';
 
 function get(component, auth) {
   return new Promise(((resolve, reject) => {
-    fetch(baseURL + component + (auth ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('access_token')) : ''))
+    fetch(baseURL + component + ((auth && getCookie('access_token')) ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('access_token')) : ''))
       .then((data) => {
         data.text()
           .then((text) => {
@@ -54,7 +54,7 @@ function getSettings(guild) {
 
 function setSettings(guild, settings) {
   return new Promise((((resolve, reject) => {
-    get('settings/set/' + encodeURIComponent(guild) + '?' + encodeURIComponent(settings.replace(',', '&')))
+    get('settings/set/' + encodeURIComponent(guild) + '?' + encodeURIComponent(settings.replace(',', '&')), true)
       .then(() => resolve())
       .catch((error) => reject(error));
   })));
@@ -62,7 +62,7 @@ function setSettings(guild, settings) {
 
 function getAccessToken(code) {
   return new Promise((((resolve, reject) => {
-    get('auth?code=' + encodeURIComponent(code))
+    get('auth?code=' + encodeURIComponent(code), false)
       .then((data) => resolve(data))
       .catch((error) => reject(error));
   })));

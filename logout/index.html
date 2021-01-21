@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <title>TomatenKuchen - Invite</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
+  <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
+
+  <script src="../assets/js/cookie.js"></script>
+  <script>
+    if (getCookie('code')) deleteCookie('code');
+    if (getCookie('access_token')) deleteCookie('access_token');
+
+    window.location.href = 'http://' + location.host + '/';
+  </script>
+</head>
+
+<body>
+</body>
+</html>

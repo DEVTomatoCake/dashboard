@@ -1,6 +1,5 @@
 const pureCookieTitle = "Information";
 const pureCookieDescription = "Unsere Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.";
-const pureCookieLink = '<a href="../../datenschutz" target="_blank">Mehr Infos</a>';
 const pureCookieButton = "Verstanden";
 
 function pureFadeIn(elementId, display) {
@@ -57,6 +56,10 @@ function getCookie(name) {
   return null;
 }
 
+function deleteCookie(name) {
+  document.cookie = name+'=; Max-Age=-99999999;'
+}
+
 function cookieConsent() {
   if (getCookie('pureCookieDismiss')) return;
 
@@ -66,7 +69,7 @@ function cookieConsent() {
     '<a>' + pureCookieTitle + '</a>' +
     '</div>' +
     '<div class="cookieDesc">' +
-    '<p>' + pureCookieDescription + ' ' + pureCookieLink + '</p>' +
+    '<p>' + pureCookieDescription + '</p>' +
     '</div>' +
     '<div class="cookieButton">' +
     '<a onClick="pureCookieDismiss();">' + pureCookieButton + '</a>' +

@@ -2,7 +2,7 @@ const baseURL = 'http://136.243.92.96:7025/api/';
 
 function get(component, auth) {
   return new Promise(((resolve, reject) => {
-    fetch(baseURL + component + (auth ? '?token=' + getCookie('access_token') : ''))
+    fetch(baseURL + component + (auth ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('access_token')) : ''))
       .then((data) => {
         data.text()
           .then((text) => {
@@ -18,14 +18,6 @@ function get(component, auth) {
         reject(error);
       });
   }));
-}
-
-function getChangelog() {
-  return new Promise((((resolve, reject) => {
-    get('changelog', false)
-      .then((data) => resolve(data))
-      .catch((error) => reject(error));
-  })));
 }
 
 function getCommands() {
@@ -44,17 +36,17 @@ function getGuilds() {
   })));
 }
 
-function getSettings(guild) {
+function getStats(guild) {
   return new Promise((((resolve, reject) => {
-    get('settings/get/' + guild, true)
+    get('stats/' + encodeURIComponent(guild), true)
       .then((data) => resolve(data))
       .catch((error) => reject(error));
   })));
 }
 
-function getStats(guild) {
+function getSettings(guild) {
   return new Promise((((resolve, reject) => {
-    get('stats/' + guild, true)
+    get('settings/get/' + encodeURIComponent(guild), true)
       .then((data) => resolve(data))
       .catch((error) => reject(error));
   })));
@@ -62,8 +54,16 @@ function getStats(guild) {
 
 function setSettings(guild, settings) {
   return new Promise((((resolve, reject) => {
-    get('settings/set/' + guild + '?' + settings.replace(',', '&'))
+    get('settings/set/' + encodeURIComponent(guild) + '?' + encodeURIComponent(settings.replace(',', '&')))
       .then(() => resolve())
+      .catch((error) => reject(error));
+  })));
+}
+
+function getAccessToken(code) {
+  return new Promise((((resolve, reject) => {
+    get('auth?code=' + encodeURIComponent(code))
+      .then((data) => resolve(data))
       .catch((error) => reject(error));
   })));
 }

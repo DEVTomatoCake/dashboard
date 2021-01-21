@@ -18,7 +18,8 @@
   const params = new URLSearchParams(window.location.search);
 
   if (!getCookie('access_token') && getCookie('code')) {
-    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/login?code=' + getCookie('code') + '"></iframe>';
+    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/auth?code=' + getCookie('code') + '"></iframe>';
+    setCookie('access_token', getCookie('code'), 7);
   } else if (getCookie('access_token') && params.has('guild')) {
     document.body.innerText = '<iframe src="http://136.243.92.96:7025/guild/"' + params.get('guild') + '></iframe>'
   } else if (getCookie('access_token')) {

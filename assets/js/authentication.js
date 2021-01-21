@@ -7,9 +7,14 @@ function authRedirect() {
     setCookie('code', params.get('code'), 7);
 
     if (params.has('guild_id')) {
+      setCookie('guild_id', params.get('guild_id'), 1);
       location.href = 'http://' + location.host + '/dashboard?guild=' + params.get('guild_id');
     } else {
       location.href = 'http://' + location.host + '/dashboard';
+    }
+
+    if (params.has('permissions')) {
+      setCookie('permissions', params.get('permissions'), 1);
     }
   }
 }

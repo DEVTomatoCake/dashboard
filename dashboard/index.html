@@ -18,10 +18,14 @@
   const params = new URLSearchParams(window.location.search);
 
   if (!getCookie('access_token') && getCookie('code')) {
-    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/auth?code=' + getCookie('code') + '"></iframe>';
+    let params = '?code=' + encodeURIComponent(getCookie('code'));
+    if (getCookie('guild_id')) params += '&guild_id=' + encodeURIComponent(getCookie('guild_id'))
+    if (getCookie('permissions')) params += '&permissions=' + encodeURIComponent(getCookie('permissions'));
+
+    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/login' + params + '"></iframe>';
     setCookie('access_token', getCookie('code'), 7);
   } else if (getCookie('access_token') && params.has('guild')) {
-    document.body.innerText = '<iframe src="http://136.243.92.96:7025/guild/"' + params.get('guild') + '></iframe>'
+    document.body.innerText = '<iframe src="http://136.243.92.96:7025/guild/"' + encodeURIComponent(params.get('guild')) + '></iframe>'
   } else if (getCookie('access_token')) {
     document.body.innerText = '<iframe src="http://136.243.92.96:7025/guilds"></iframe>'
   } else {

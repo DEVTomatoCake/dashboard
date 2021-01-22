@@ -5,15 +5,32 @@
   <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
   <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
 
-  <script src="../assets/js/cookie.js"></script>
-  <script>
-    if (getCookie('code')) deleteCookie('code');
-    if (getCookie('token')) deleteCookie('access_token');
+  <link rel="stylesheet" type="text/css" href="../assets/css/style.css"/>
 
-    window.location.href = 'http://' + location.host + '/';
-  </script>
+  <script src="../assets/js/cookie.js"></script>
+  <script src="../assets/js/api/api.js"></script>
 </head>
 
 <body>
+<div id="root-container">
+  <h1>Logging out, please wait...</h1>
+  <h2>You will be redirected, when logging out is finished.</h2>
+</div>
+
+<script>
+  logout()
+    .then((response) => {
+      const json = JSON.parse(response);
+
+      if (json.status === 'success') {
+        if (getCookie('token')) deleteCookie('token');
+        window.location.href = 'http://' + location.host + '/';
+      } else {
+        document.getElementById('root-container').innerHTML = '' +
+          '<h1>There was an error while processing the api request!</h1>' +
+          '<h1>' + json.message + '</h1>';
+      }
+    });
+</script>
 </body>
 </html>

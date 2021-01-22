@@ -2,14 +2,45 @@
 <html lang="de">
 <head>
   <title>TomatenKuchen - Datenschutz</title>
+  <meta charset="UTF-8">
 
   <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
   <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
 
-  <link rel="stylesheet" type="text/css" href="../assets/css/fullframe.css"/>
+  <link rel="stylesheet" type="text/css" href="../assets/css/commands.css"/>
+
+  <script type="text/javascript" src="../assets/js/api/api.js"></script>
+  <script type="text/javascript" src="../assets/js/api/transformer.js"></script>
 </head>
 
 <body>
-<iframe src="http://136.243.92.96:7025/commands"></iframe>
+<header>
+  <a href=".." class="logo">
+    TomatenKuchen<span>.</span>
+  </a>
+</header>
+
+<section class="banner" id="banner">
+  <div class="content">
+    <h2>TomatenKuchen</h2>
+    <p>Alle Befehle für TomatenKuchen</p>
+    <a href="#commands" class="btn">Commands</a>
+  </div>
+</section>
+
+<section id="commands">
+  <div class="row">
+    <div class="col50">
+      <h1 id="commands-container">Loading...</h1>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  getCommandsHTML()
+  .then((html) => {
+    document.getElementById('commands-container').parentElement.innerHTML = html;
+  });
+</script>
 </body>
 </html>

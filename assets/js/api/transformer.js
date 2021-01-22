@@ -1,8 +1,8 @@
 function getCommandsHTML() {
   return new Promise(((resolve) => {
     getCommands()
-      .then((data) => {
-        const json = JSON.parse(data);
+      .then((response) => {
+        const json = JSON.parse(response);
         if (json.status === 'success') {
           let text = '';
 
@@ -39,8 +39,8 @@ function getCommandsHTML() {
 function getGuildsHTML() {
   return new Promise((resolve) => {
     getGuilds()
-      .then((data) => {
-        const json = JSON.parse(data);
+      .then((response) => {
+        const json = JSON.parse(response);
         if (json.status === 'success') {
           let text = '';
 
@@ -86,12 +86,44 @@ function getGuildsHTML() {
 function getStatsHTML(guild) {
   return new Promise((resolve) => {
     getStats(guild)
-      .then((data) => {
-        const json = JSON.parse(data);
+      .then((response) => {
+        const json = JSON.parse(response);
         if (json.status === 'success') {
           resolve('' +
-            '<h1>Serverstatistiken für <b>' + data.name + '</b></h1>' +
+            '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
             '<p>Mitglieder: <b>' + guild.member_count + '</b></p>');
+        } else {
+          resolve('' +
+            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        resolve('' +
+          '<h1>There was an error while processing the api request!</h1>' +
+          '<h1>Look into your browser console for more info!</h1>');
+      });
+  });
+}
+
+function getSettingsHTML(guild) {
+  return new Promise((resolve) => {
+    getSettings(guild)
+      .then((response) => {
+        const json = JSON.parse(response);
+        if (json.status === 'success') {
+          let text = '';
+
+          json.data.forEach((setting) => {
+            text += '' +
+              '<p>' + setting.help + '</p>' +
+              '<input class="setting" size="35" onkeypress="this.style.width = ((this.value.length + 3) * 8.3) + \'px\';" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
+              '<br/><br/>';
+          });
+
+          resolve(text + '<button onclick="saveSettings();" id="savesettings">Speichern</button>');
         } else {
           resolve('' +
             '<h1>There was an error while processing the api request!</h1>' +

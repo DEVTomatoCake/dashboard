@@ -82,3 +82,28 @@ function getGuildsHTML() {
       });
   });
 }
+
+function getStatsHTML(guild) {
+  return new Promise((resolve) => {
+    getStats(guild)
+      .then((data) => {
+        const json = JSON.parse(data);
+        if (json.status === 'success') {
+          resolve('' +
+            '<h1>Serverstatistiken für <b>' + data.name + '</b></h1>' +
+            '<p>Mitglieder: <b>' + guild.member_count + '</b></p>');
+        } else {
+          resolve('' +
+            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+
+        resolve('' +
+          '<h1>There was an error while processing the api request!</h1>' +
+          '<h1>Look into your browser console for more info!</h1>');
+      });
+  });
+}

@@ -63,12 +63,8 @@ function getGuildsHTML() {
               '<h1>I didn\'t find you on any guilds!</h1>');
           } else {
             resolve('' +
-              '<div class="row">' +
-              '<div class="col50">' +
               '<div class="columnrow">' +
               '<div style="text-align: center;">' + text + '</div>' +
-              '</div>' +
-              '</div>' +
               '</div>');
           }
         } else {

@@ -6,30 +6,49 @@
   <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
   <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
 
-  <link rel="stylesheet" type="text/css" href="../assets/css/fullframe.css"/>
+  <link rel="stylesheet" type="text/css" href="../assets/css/commands.css"/>
 
-  <script src="../assets/js/cookie.js"></script>
-  <script src="../assets/js/authentication.js"></script>
-  <script>authRedirect();</script>
+  <script type="text/javascript" src="../assets/js/cookie.js"></script>
+  <script type="text/javascript" src="../assets/js/api/api.js"></script>
+  <script type="text/javascript" src="../assets/js/api/transformer.js"></script>
 </head>
 
 <body>
-<script>
+<header>
+  <a href=".." class="logo">
+    TomatenKuchen<span>.</span>
+  </a>
+</header>
+
+<section class="banner" id="banner">
+  <div class="content">
+    <h2>TomatenKuchen</h2>
+    <p>Deine Server</p>
+
+    <a href="#guilds" class="btn">
+      Server
+    </a>
+  </div>
+</section>
+
+<section id="guilds">
+  <div class="row">
+    <div class="col50">
+      <h1 id="guilds-container">Loading...</h1>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
   const params = new URLSearchParams(window.location.search);
 
-  if (!getCookie('access_token') && getCookie('code')) {
-    let params = '?code=' + encodeURIComponent(getCookie('code'));
-    if (getCookie('guild_id')) params += '&guild_id=' + encodeURIComponent(getCookie('guild_id'))
-    if (getCookie('permissions')) params += '&permissions=' + encodeURIComponent(getCookie('permissions'));
-
-    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/login' + params + '"></iframe>';
-    setCookie('access_token', getCookie('code'), 7);
-  } else if (getCookie('access_token') && params.has('guild')) {
-    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/guild/"' + encodeURIComponent(params.get('guild')) + '></iframe>'
-  } else if (getCookie('access_token')) {
-    document.body.innerHTML = '<iframe src="http://136.243.92.96:7025/guilds"></iframe>'
+  if(params.has('guild')){
+    const guild = params.get('guild');
   } else {
-    document.body.innerHTML = '<h1>Redirecting...</h1>';
+    getGuildsHTML()
+      .then((html) => {
+        document.getElementById('guilds-container').parentElement.innerHTML = html;
+      });
   }
 </script>
 </body>

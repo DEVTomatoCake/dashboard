@@ -5,7 +5,12 @@
   <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
   <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
 
-  <script>window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=685166801394335819&redirect_uri=https%3A%2F%2F' + location.host + '%2Fdashboard&response_type=code&scope=identify%20guilds';</script>
+  <script>
+    const client_id = '685166801394335819';
+    const redirect_uri = 'https://' + location.host + '/dashboard';
+
+    window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + encodeURIComponent(client_id) + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=identify%20guilds';
+  </script>
 </head>
 
 <body>

@@ -11,8 +11,8 @@
 
   <link rel="stylesheet" type="text/css" href="assets/css/login.css"/>
 
-  <script src="assets/js/cookie.js"></script>
-  <script src="assets/js/authentication.js"></script>
+  <script type="text/javascript" src="assets/js/cookie.js"></script>
+  <script type="text/javascript" src="assets/js/authentication.js"></script>
   <script>redirectIfAuth();</script>
 </head>
 
@@ -48,7 +48,7 @@
   </div>
 </section>
 
-<script>
+<script type="text/javascript">
   window.addEventListener("scroll", function () {
     const header = document.querySelector("header")
     header.classList.toggle("sticky", window.scrollY > 0)

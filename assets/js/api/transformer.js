@@ -1,8 +1,7 @@
 function getCommandsHTML() {
   return new Promise(((resolve) => {
     getCommands()
-      .then((response) => {
-        const json = JSON.parse(response);
+      .then((json) => {
         if (json.status === 'success') {
           let text = '';
 
@@ -39,8 +38,7 @@ function getCommandsHTML() {
 function getGuildsHTML() {
   return new Promise((resolve) => {
     getGuilds()
-      .then((response) => {
-        const json = JSON.parse(response);
+      .then((json) => {
         if (json.status === 'success') {
           let text = '';
 
@@ -86,8 +84,7 @@ function getGuildsHTML() {
 function getStatsHTML(guild) {
   return new Promise((resolve) => {
     getStats(guild)
-      .then((response) => {
-        const json = JSON.parse(response);
+      .then((json) => {
         if (json.status === 'success') {
           resolve('' +
             '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
@@ -111,8 +108,7 @@ function getStatsHTML(guild) {
 function getSettingsHTML(guild) {
   return new Promise((resolve) => {
     getSettings(guild)
-      .then((response) => {
-        const json = JSON.parse(response);
+      .then((json) => {
         if (json.status === 'success') {
           let text = '';
 
@@ -139,3 +135,4 @@ function getSettingsHTML(guild) {
       });
   });
 }
+

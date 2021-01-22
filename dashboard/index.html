@@ -66,9 +66,7 @@
     }
 
     setSettings(params.get('guild'), items)
-      .then((response) => {
-        const json = JSON.parse(response);
-
+      .then((json) => {
         if (json.status === 'success') {
           rootContainer.innerHTML = '' +
             '<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +

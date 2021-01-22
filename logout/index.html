@@ -19,9 +19,7 @@
 
 <script>
   logout()
-    .then((response) => {
-      const json = JSON.parse(response);
-
+    .then((json) => {
       if (json.status === 'success') {
         if (getCookie('token')) deleteCookie('token');
         window.location.href = 'https://' + location.host + '/';

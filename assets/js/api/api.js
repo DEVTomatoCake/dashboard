@@ -1,4 +1,4 @@
-const baseURL = 'https://node6.mgservers.de:7025/api/';
+const baseURL = 'https://tomatenkuchen.free.beeceptor.com/api/';
 
 function get(component, auth) {
   return new Promise((resolve, reject) => {

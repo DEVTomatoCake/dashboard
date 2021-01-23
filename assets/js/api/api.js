@@ -1,4 +1,4 @@
-const baseURL = 'http://136.243.92.96:7025/api/';
+const baseURL = 'https://136.243.92.96:7025/api/';
 
 function get(component, auth) {
   return new Promise((resolve, reject) => {

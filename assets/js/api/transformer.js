@@ -119,6 +119,7 @@ function getSettingsHTML(guild) {
               '<br/><br/>';
           });
 
+          console.log('Resolving Promise');
           resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" id="savesettings">Speichern</button>');
         } else {
           resolve('' +

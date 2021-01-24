@@ -56,7 +56,7 @@ function getSettings(guild) {
 function setSettings(guild, settings) {
   return new Promise((resolve, reject) => {
     get('settings/set/' + encodeURIComponent(guild) + '?' + encodeURIComponent(settings).replace(',', '&'), true)
-      .then(() => resolve())
+      .then((data) => resolve(data))
       .catch((error) => reject(error));
   });
 }

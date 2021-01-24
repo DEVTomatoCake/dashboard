@@ -4,11 +4,11 @@ const endpoints = 10;
 async function get(component, auth) {
   while (true) {
     const url = baseURL.replace('%s', Math.floor(Math.random() * (endpoints + 1)).toString());
-    const response = await fetch(url + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('token')) : ''));
+    const response = await fetch(url + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + getCookie('token') : ''));
 
     if (response.status !== 429) {
       const json = await response.json();
-      console.log('Received Response: URL=' + url + component + ', JSON=' + JSON.stringify(json));
+      console.log('Response for \'' + url + component + '\': ' + JSON.stringify(json));
       return json;
     }
   }
@@ -32,7 +32,7 @@ function getGuilds() {
 
 function getStats(guild) {
   return new Promise((resolve, reject) => {
-    get('stats/' + encodeURIComponent(guild), true)
+    get('stats/' + guild, true)
       .then((data) => resolve(data))
       .catch((error) => reject(error));
   });
@@ -40,7 +40,7 @@ function getStats(guild) {
 
 function getSettings(guild) {
   return new Promise((resolve, reject) => {
-    get('settings/get/' + encodeURIComponent(guild), true)
+    get('settings/get/' + guild, true)
       .then((data) => resolve(data))
       .catch((error) => reject(error));
   });
@@ -48,7 +48,7 @@ function getSettings(guild) {
 
 function setSettings(guild, settings) {
   return new Promise((resolve, reject) => {
-    get('settings/set/' + encodeURIComponent(guild) + settings, true)
+    get('settings/set/' + guild + settings, true)
       .then((data) => resolve(data))
       .catch((error) => reject(error));
   });

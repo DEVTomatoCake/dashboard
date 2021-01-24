@@ -21,7 +21,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(../background.jpg);
+  background: url(../images/background.jpg);
   background-size: cover;
 }
 
@@ -43,7 +43,7 @@ p {
   background: transparent;
 }
 
-.btn {
+.button {
   font-size: 1em;
   color: #fff;
   background: #ff0157;
@@ -56,7 +56,7 @@ p {
   transition: 0.5s;
 }
 
-.btn:hover {
+.button:hover {
   letter-spacing: 6px;
 }
 
@@ -75,9 +75,9 @@ header {
 }
 
 header.sticky {
+  background: #fff;
   padding: 10px 100px;
   box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-  background: transparent;
 }
 
 header .logo {
@@ -95,6 +95,35 @@ header.sticky .logo {
 
 header .logo span {
   color: #ff0157;
+  background: transparent;
+}
+
+header .navigation {
+  position: relative;
+  display: flex;
+  background: transparent;
+}
+
+header .navigation li {
+  list-style: none;
+  margin-left: 30px;
+  background: transparent;
+}
+
+header .navigation li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: 300;
+  background: transparent;
+}
+
+header.sticky .navigation li a {
+  color: #111;
+  background: transparent;
+}
+
+header .navigation li a:hover {
+  color: #fc3f75;
   background: transparent;
 }
 
@@ -142,14 +171,14 @@ section {
   background: #111;
 }
 
-.titleText {
+.title {
   margin-bottom: 150px;
   color: #fff;
   font-size: 2em;
   font-weight: 300;
 }
 
-.titleText span {
+.title span {
   color: #ff0157;
   font-weight: 700;
   font-size: 1.5em;

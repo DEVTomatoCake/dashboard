@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <title>TomatenKuchen - Invite</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TomatenKuchen - Dein Discord Bot"/>
 
-  <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
+  <title>TomatenKuchen - Einladung</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icon.ico"/>
+  <link rel="icon" type="image/x-icon" href="../assets/images/icon.ico"/>
 
-  <script>window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=685166801394335819&redirect_uri=https://' + location.host + '/dashboard&response_type=code&scope=bot%20identify%20guilds%20applications.commands.update%20applications.commands&permissions=355855607';</script>
+  <script>
+    const client_id = '685166801394335819';
+    const redirect_uri = 'https://' + location.host + '/dashboard';
+    const scopes = 'identify guilds bot applications.commands.update applications.commands'
+    const permissions = '355855607';
+
+    window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=' + encodeURIComponent(scopes) + '&permissions=' + permissions;
+  </script>
 </head>
 
 <body>

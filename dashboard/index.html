@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <title>TomatenKuchen - Dashboard</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TomatenKuchen - Dein Discord Bot"/>
 
-  <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
+  <title>TomatenKuchen - Dashboard</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icon.ico"/>
+  <link rel="icon" type="image/x-icon" href="../assets/images/icon.ico"/>
 
-  <link rel="stylesheet" type="text/css" href="../assets/css/commands.css"/>
+  <link rel="stylesheet" type="text/css" href="../assets/css/dark.css"/>
 
+  <script type="text/javascript" src="../assets/js/script.js"></script>
   <script type="text/javascript" src="../assets/js/cookie.js"></script>
   <script type="text/javascript" src="../assets/js/api/api.js"></script>
   <script type="text/javascript" src="../assets/js/api/transformer.js"></script>
@@ -16,27 +19,30 @@
 
 <body>
 <div id="root-container">
-  <header>
-    <a href=".." class="logo">
-      TomatenKuchen<span>.</span>
-    </a>
+  <header id="top">
+    <a href=".." class="logo">TomatenKuchen<span>.</span></a>
+    <div class="menu-toggle" onclick="toggleMenu();"></div>
+
+    <ul class="navigation">
+      <li><a href="..">Home</a></li>
+      <li><a href="../commands">Befehle</a></li>
+      <li><a href="../invite">Einladung</a></li>
+      <li><a href="../docs">Dokumentation</a></li>
+      <li class="active"><a href="#top">Dashboard</a></li>
+    </ul>
   </header>
 
-  <section class="banner" id="banner">
+  <section class="banner">
     <div class="content">
       <h2>TomatenKuchen</h2>
-      <p>Deine Server</p>
-
-      <a href="#guilds" class="btn">
-        Server
-      </a>
+      <a href="#guilds" class="button">Deine Server</a>
     </div>
   </section>
 
   <section id="guilds">
     <div class="row">
-      <div class="col50">
-        <h1 id="guilds-container">Loading...</h1>
+      <div class="col50" id="guilds-container">
+        <h1>Die Server werden geladen...</h1>
       </div>
     </div>
   </section>
@@ -65,31 +71,33 @@
       }
     }
 
-    document.getElementById('root-container').innerHTML = '<h1>Saving settings, please wait...</h1>';
+    document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';
     setSettings(params.get('guild'), items)
       .then((json) => {
+        const timeout = 5;
+
         if (json.status === 'success') {
           document.getElementById('root-container').innerHTML = '' +
             '<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
-            '<h1>The page will return to the settings in 5 seconds.</h1>';
+            '<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
         } else {
           document.getElementById('root-container').innerHTML = '' +
-            '<h1>There was an error while processing the api request!</h1>' +
-            '<h1>The page will return to the settings in 5 seconds.</h1>' +
-            '<h1>' + json.message + '</h1>';
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>' + json.message + '</h1>' +
+            '<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
         }
 
         setTimeout(() => {
           location.reload();
-        }, 5000);
+        }, 1000 * timeout);
 
         saving = false;
       })
   }
 
   if (params.has('code')) {
-    document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-    document.getElementById('root-container').innerHTML = '<h1>Logging in, please wait...</h1>';
+    document.head.innerHTML = document.head.innerHTML.replace('dark.css', 'simple.css');
+    document.getElementById('root-container').innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';
 
     login(params.get('code'))
       .then((json) => {
@@ -104,20 +112,20 @@
           location.href = 'https://' + location.host + '/dashboard' + query;
         } else {
           document.getElementById('root-container').innerHTML = '' +
-            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
             '<h1>' + json.message + '</h1>';
         }
       })
   } else if (!getCookie('token')) {
-    document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-    document.getElementById('root-container').innerHTML = '<h1>Redirecting to login form...</h1>';
+    document.head.innerHTML = document.head.innerHTML.replace('dark.css', 'simple.css');
+    document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
 
     location.href = '../login';
   } else if (params.has('guild')) {
     const guild = params.get('guild');
 
-    document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-    document.getElementById('root-container').innerHTML = '<h1>Loading Settings, please wait...</h1>';
+    document.head.innerHTML = document.head.innerHTML.replace('dark.css', 'simple.css');
+    document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 
     getSettingsHTML(guild)
       .then((html) => {
@@ -126,7 +134,7 @@
   } else {
     getGuildsHTML()
       .then((html) => {
-        document.getElementById('guilds-container').parentElement.innerHTML = html;
+        document.getElementById('guilds-container').innerHTML = html;
       });
   }
 </script>

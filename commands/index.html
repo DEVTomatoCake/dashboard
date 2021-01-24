@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <title>TomatenKuchen - Datenschutz</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TomatenKuchen - Dein Discord Bot"/>
 
-  <link rel="shortcut icon" type="image/x-icon" href="../assets/icon.ico"/>
-  <link rel="icon" type="image/x-icon" href="../assets/icon.ico"/>
+  <title>TomatenKuchen - Befehle</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icon.ico"/>
+  <link rel="icon" type="image/x-icon" href="../assets/images/icon.ico"/>
 
-  <link rel="stylesheet" type="text/css" href="../assets/css/commands.css"/>
+  <link rel="stylesheet" type="text/css" href="../assets/css/dark.css"/>
 
+  <script type="text/javascript" src="../assets/js/script.js"></script>
   <script type="text/javascript" src="../assets/js/cookie.js"></script>
   <script type="text/javascript" src="../assets/js/api/api.js"></script>
   <script type="text/javascript" src="../assets/js/api/transformer.js"></script>
 </head>
 
 <body>
-<header>
-  <a href=".." class="logo">
-    TomatenKuchen<span>.</span>
-  </a>
+<header id="top">
+  <a href=".." class="logo">TomatenKuchen<span>.</span></a>
+  <div class="menu-toggle" onclick="toggleMenu();"></div>
+
+  <ul class="navigation">
+    <li><a href="..">Home</a></li>
+    <li class="active"><a href="#top">Befehle</a></li>
+    <li><a href="../invite">Einladung</a></li>
+    <li><a href="../docs">Dokumentation</a></li>
+    <li><a href="../dashboard">Dashboard</a></li>
+  </ul>
 </header>
 
-<section class="banner" id="banner">
+<section class="banner">
   <div class="content">
     <h2>TomatenKuchen</h2>
-    <p>Alle Befehle für TomatenKuchen</p>
-    <a href="#commands" class="btn">Commands</a>
+    <a href="#commands" class="button">Commands</a>
   </div>
 </section>
 
 <section id="commands">
   <div class="row">
-    <div class="col50">
-      <h1 id="commands-container">Loading...</h1>
+    <div class="col50" id="commands-container">
+      <h1>Die Befehle werden geladen...</h1>
     </div>
   </div>
 </section>
@@ -40,7 +49,7 @@
 <script type="text/javascript">
   getCommandsHTML()
   .then((html) => {
-    document.getElementById('commands-container').parentElement.innerHTML = html;
+    document.getElementById('commands-container').innerHTML = html;
   });
 </script>
 </body>

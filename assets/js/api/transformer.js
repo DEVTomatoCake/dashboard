@@ -4,7 +4,6 @@ function getCommandsHTML() {
       .then((json) => {
         if (json.status === 'success') {
           let text = '';
-
           json.data.forEach((command) => {
             text += '' +
               '<h1>' + command.name + '</h1>' +
@@ -15,22 +14,21 @@ function getCommandsHTML() {
 
           if (text === '') {
             resolve('' +
-              '<h1>At the moment, no registered commands exits!</h1>');
+              '<h1>Es gibt noch keine Befehle!</h1>');
           } else {
             resolve(text);
           }
         } else {
           resolve('' +
-            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
             '<h1>' + json.message + '</h1>');
         }
       })
       .catch((error) => {
         console.error(error);
-
         resolve('' +
-          '<h1>There was an error while processing the api request!</h1>' +
-          '<h1>Look into your browser console for more info!</h1>');
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
       });
   }));
 }
@@ -41,7 +39,6 @@ function getGuildsHTML() {
       .then((json) => {
         if (json.status === 'success') {
           let text = '';
-
           json.data.forEach((guild) => {
             text += '' +
               '<div class="column">' +
@@ -58,7 +55,7 @@ function getGuildsHTML() {
 
           if (text === '') {
             resolve('' +
-              '<h1>I didn\'t find you on any guilds!</h1>');
+              '<h1>Es wurden keine Server von dir gefunden!</h1>');
           } else {
             resolve('' +
               '<div class="columnrow">' +
@@ -67,16 +64,15 @@ function getGuildsHTML() {
           }
         } else {
           resolve('' +
-            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
             '<h1>' + json.message + '</h1>');
         }
       })
       .catch((error) => {
         console.error(error);
-
         resolve('' +
-          '<h1>There was an error while processing the api request!</h1>' +
-          '<h1>Look into your browser console for more info!</h1>');
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
       });
   });
 }
@@ -91,16 +87,15 @@ function getStatsHTML(guild) {
             '<p>Mitglieder: <b>' + guild.member_count + '</b></p>');
         } else {
           resolve('' +
-            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
             '<h1>' + json.message + '</h1>');
         }
       })
       .catch((error) => {
         console.error(error);
-
         resolve('' +
-          '<h1>There was an error while processing the api request!</h1>' +
-          '<h1>Look into your browser console for more info!</h1>');
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
       });
   });
 }
@@ -111,27 +106,25 @@ function getSettingsHTML(guild) {
       .then((json) => {
         if (json.status === 'success') {
           let text = '';
-
           json.data.forEach((setting) => {
             text += '' +
               '<p>' + setting.help + '</p>' +
-              '<input class="setting" size="35" onkeypress="const calc = ((this.value.length + 5) * 10); this.style.width = 35 > calc ? 35 : calc + \'px\';" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
+              '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
               '<br/><br/>';
           });
 
-          resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" id="savesettings">Speichern</button>');
+          resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button>');
         } else {
           resolve('' +
-            '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
             '<h1>' + json.message + '</h1>');
         }
       })
       .catch((error) => {
         console.error(error);
-
         resolve('' +
-          '<h1>There was an error while processing the api request!</h1>' +
-          '<h1>Look into your browser console for more info!</h1>');
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
       });
   });
 }

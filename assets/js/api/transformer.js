@@ -119,7 +119,7 @@ function getSettingsHTML(guild) {
               '<br/><br/>';
           });
 
-          resolve(text + '<button onclick="saveSettings();" id="savesettings">Speichern</button>');
+          resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" id="savesettings">Speichern</button>');
         } else {
           resolve('' +
             '<h1>There was an error while processing the api request!</h1>' +

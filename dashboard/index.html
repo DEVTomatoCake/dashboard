@@ -54,13 +54,13 @@
     const settings = document.getElementsByClassName('setting');
     document.getElementById('root-container').innerHTML = '<h1>Saving settings, please wait...</h1>';
 
-    let items = '';
+    let items = '?';
     for (let i = 0; i < settings.length; i++) {
       const item = settings.item(i);
       const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
       if (i !== settings.length - 1) {
-        items += entry + ',';
+        items += entry + '&';
       } else {
         items += entry;
       }

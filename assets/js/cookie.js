@@ -29,7 +29,7 @@ window.onload = function () {
   if (getCookie('cookie-dismiss')) return;
 
   document.body.innerHTML += '' +
-    '<div class="cookie-container" id="cookie-container">' +
+    '<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
     '<div class="cookie-title">' +
     '<a>Information</a>' +
     '</div>' +
@@ -37,7 +37,9 @@ window.onload = function () {
     '<p>Unsere Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.</p>' +
     '</div>' +
     '<div class="cookie-button">' +
-    '<a onclick="setCookie(\'cookie-dismiss\', \'true\', 7);document.getElementById(\'cookie-container\').remove();">Verstanden</a>' +
+    '<a onclick="setCookie(\'cookie-dismiss\', \'true\', 7);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</a>' +
     '</div>' +
     '</div>';
+
+  setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
 };

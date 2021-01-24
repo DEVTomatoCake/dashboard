@@ -6,7 +6,7 @@ function get(component, auth) {
       .then((data) => {
         data.json()
           .then((json) => {
-            console.log('Received Response: URL=' + baseURL + component + ', JSON=' + json);
+            console.log('Received Response: URL=' + baseURL + component + ', JSON=' + JSON.stringify(json));
             resolve(json);
           })
           .catch((error) => {

@@ -123,9 +123,7 @@
 
     getSettingsHTML(guild)
       .then((html) => {
-        console.log('Replacing contents');
-        rootContainer.innerHTML = html;
-        console.log('Replaced contents');
+        document.getElementById('root-container').innerHTML = html;
       });
   } else {
     getGuildsHTML()

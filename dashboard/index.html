@@ -44,7 +44,6 @@
 
 <script type="text/javascript">
   const params = new URLSearchParams(window.location.search);
-  const rootContainer = document.getElementById('root-container');
   let saving = false;
 
   function saveSettings() {
@@ -53,6 +52,7 @@
 
     saving = true;
     const settings = document.getElementsByClassName('setting');
+    document.getElementById('root-container').innerHTML = '<h1>Saving settings, please wait...</h1>';
 
     let items = '';
     for (let i = 0; i < settings.length; i++) {
@@ -69,16 +69,14 @@
     setSettings(params.get('guild'), items)
       .then((json) => {
         if (json.status === 'success') {
-          rootContainer.innerHTML = '' +
+          document.getElementById('root-container').innerHTML = '' +
             '<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
-            '<h1>The page will return to the settings in 5 seconds.</h1>' +
-            '<br/>' + rootContainer.innerHTML;
+            '<h1>The page will return to the settings in 5 seconds.</h1>';
         } else {
-          rootContainer.innerHTML = '' +
+          document.getElementById('root-container').innerHTML = '' +
             '<h1>There was an error while processing the api request!</h1>' +
             '<h1>The page will return to the settings in 5 seconds.</h1>' +
-            '<h1>' + json.message + '</h1>' +
-            '<br/>' + rootContainer.innerHTML;
+            '<h1>' + json.message + '</h1>';
         }
 
         setTimeout(() => {
@@ -91,7 +89,7 @@
 
   if (params.has('code')) {
     document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-    rootContainer.innerHTML = '<h1>Logging in, please wait...</h1>';
+    document.getElementById('root-container').innerHTML = '<h1>Logging in, please wait...</h1>';
 
     login(params.get('code'))
       .then((json) => {
@@ -105,21 +103,21 @@
 
           location.href = 'https://' + location.host + '/dashboard' + query;
         } else {
-          rootContainer.innerHTML = '' +
+          document.getElementById('root-container').innerHTML = '' +
             '<h1>There was an error while processing the api request!</h1>' +
             '<h1>' + json.message + '</h1>';
         }
       })
   } else if (!getCookie('token')) {
     document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-    rootContainer.innerHTML = '<h1>Redirecting to login form...</h1>';
+    document.getElementById('root-container').innerHTML = '<h1>Redirecting to login form...</h1>';
 
     location.href = '../login';
   } else if (params.has('guild')) {
     const guild = params.get('guild');
 
     document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-    rootContainer.innerHTML = '<h1>Loading Settings, please wait...</h1>';
+    document.getElementById('root-container').innerHTML = '<h1>Loading Settings, please wait...</h1>';
 
     getSettingsHTML(guild)
       .then((html) => {

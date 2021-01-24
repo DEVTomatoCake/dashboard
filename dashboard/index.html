@@ -52,7 +52,6 @@
 
     saving = true;
     const settings = document.getElementsByClassName('setting');
-    document.getElementById('root-container').innerHTML = '<h1>Saving settings, please wait...</h1>';
 
     let items = '?';
     for (let i = 0; i < settings.length; i++) {
@@ -66,6 +65,7 @@
       }
     }
 
+    document.getElementById('root-container').innerHTML = '<h1>Saving settings, please wait...</h1>';
     setSettings(params.get('guild'), items)
       .then((json) => {
         if (json.status === 'success') {

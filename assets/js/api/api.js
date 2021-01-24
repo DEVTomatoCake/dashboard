@@ -4,9 +4,10 @@ function get(component, auth) {
   return new Promise((resolve, reject) => {
     fetch(baseURL + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('token')) : ''))
       .then((data) => {
-        data.text()
-          .then((text) => {
-            resolve(JSON.parse(text));
+        data.json()
+          .then((json) => {
+            console.log('Received Response: URL=' + baseURL + component + ', JSON=' + json);
+            resolve(json);
           })
           .catch((error) => {
             console.error(error);

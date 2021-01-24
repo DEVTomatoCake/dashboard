@@ -106,6 +106,11 @@
             '<h1>' + json.message + '</h1>';
         }
       })
+  } else if (!getCookie('token')) {
+    document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
+    rootContainer.innerHTML = '<h1>Redirecting to login form...</h1>';
+
+    location.href = '../login';
   } else if (params.has('guild')) {
     const guild = params.get('guild');
 

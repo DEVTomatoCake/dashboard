@@ -88,9 +88,7 @@
     rootContainer.innerHTML = '<h1>Logging in, please wait...</h1>';
 
     login(params.get('code'))
-      .then((response) => {
-        const json = JSON.parse(response);
-
+      .then((json) => {
         if (json.status === 'success') {
           setCookie('token', json.token);
 

@@ -1,5 +1,5 @@
 const baseURL = 'https://tomatenkuchen%s.free.beeceptor.com/api/';
-const endpoints = 10;
+const endpoints = 50;
 
 async function get(component, auth) {
   while (true) {

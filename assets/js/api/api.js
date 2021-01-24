@@ -1,24 +1,17 @@
-const baseURL = 'https://tomatenkuchen.free.beeceptor.com/api/';
+const baseURL = 'https://tomatenkuchen%s.free.beeceptor.com/api/';
+const endpoints = 10;
 
-function get(component, auth) {
-  return new Promise((resolve, reject) => {
-    fetch(baseURL + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('token')) : ''))
-      .then((data) => {
-        data.json()
-          .then((json) => {
-            console.log('Received Response: URL=' + baseURL + component + ', JSON=' + JSON.stringify(json));
-            resolve(json);
-          })
-          .catch((error) => {
-            console.error(error);
-            reject(error);
-          });
-      })
-      .catch((error) => {
-        console.error(error);
-        reject(error);
-      });
-  });
+async function get(component, auth) {
+  while (true) {
+    const url = baseURL.replace('%s', Math.floor(Math.random() * (endpoints + 1)).toString());
+    const response = await fetch(url + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + encodeURIComponent(getCookie('token')) : ''));
+
+    if (response.status !== 429) {
+      const json = await response.json();
+      console.log('Received Response: URL=' + url + component + ', JSON=' + JSON.stringify(json));
+      return json;
+    }
+  }
 }
 
 function getCommands() {

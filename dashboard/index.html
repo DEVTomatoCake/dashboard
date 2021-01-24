@@ -71,13 +71,19 @@
         if (json.status === 'success') {
           rootContainer.innerHTML = '' +
             '<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
+            '<h1>The page will return to the settings in 5 seconds.</h1>' +
             '<br/>' + rootContainer.innerHTML;
         } else {
           rootContainer.innerHTML = '' +
             '<h1>There was an error while processing the api request!</h1>' +
+            '<h1>The page will return to the settings in 5 seconds.</h1>' +
             '<h1>' + json.message + '</h1>' +
             '<br/>' + rootContainer.innerHTML;
         }
+
+        setTimeout(() => {
+          location.reload();
+        }, 5000);
 
         saving = false;
       })

@@ -112,10 +112,12 @@
   } else if (params.has('guild')) {
     const guild = params.get('guild');
 
+    document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
+    rootContainer.innerHTML = '<h1>Loading Settings, please wait...</h1>';
+
     getSettingsHTML(guild)
       .then((html) => {
-        document.head.innerHTML = document.head.innerHTML.replace('commands.css', 'style.css');
-        document.getElementById('root-container').innerHTML = html;
+        rootContainer.innerHTML = html;
       });
   } else {
     getGuildsHTML()

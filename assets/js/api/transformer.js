@@ -115,7 +115,7 @@ function getSettingsHTML(guild) {
           json.data.forEach((setting) => {
             text += '' +
               '<p>' + setting.help + '</p>' +
-              '<input class="setting" size="35" onkeypress="this.style.width = ((this.value.length + 3) * 8.3) + \'px\';" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
+              '<input class="setting" size="35" onkeypress="const calc = ((this.value.length + 5) * 10); this.style.width = 35 > calc ? 35 : calc + \'px\';" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
               '<br/><br/>';
           });
 

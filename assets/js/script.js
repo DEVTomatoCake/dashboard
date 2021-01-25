@@ -9,12 +9,14 @@ function toggleMenu() {
 }
 
 function fadeOut(element) {
+  if(!element.style.opacity) element.style.opacity = 1;
   element.style.opacity -= 0.05;
   if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25);
   else element.remove();
 }
 
 function fadeIn(element) {
+  if(!element.style.opacity) element.style.opacity = 0;
   element.style.opacity = parseFloat(element.style.opacity) + 0.05;
   if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }

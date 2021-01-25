@@ -1,5 +1,6 @@
 window.addEventListener('scroll', function () {
-  document.querySelector('header').classList.toggle('sticky', window.scrollY > 0)
+  const header = document.querySelector('header');
+  if (header) header.classList.toggle('sticky', window.scrollY > 0);
 })
 
 function toggleMenu() {

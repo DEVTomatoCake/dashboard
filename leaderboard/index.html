@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TomatenKuchen - Dein Discord Bot"/>
+
+  <title>TomatenKuchen - Leaderboard</title>
+  <link rel="shortcut icon" type="image/x-icon" href="../assets/images/icon.ico"/>
+  <link rel="icon" type="image/x-icon" href="../assets/images/icon.ico"/>
+
+  <link rel="stylesheet" type="text/css" href="../assets/css/simple.css"/>
+
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/cookie.js"></script>
+  <script src="../assets/js/api/api.js"></script>
+  <script src="../assets/js/api/transformer.js"></script>
+</head>
+
+<body>
+<div id="root-container">
+  <h1>Das Leaderboard wird geladen...</h1>
+</div>
+
+<script>
+  const rootContainer = document.getElementById('root-container');
+  const params = new URLSearchParams(location.search);
+
+  if (params.has('guild')) {
+    getLeaderboardHTML(params.get('guild')).then((html) => rootContainer.innerHTML = html);
+  } else {
+    rootContainer.innerHTML = '<h1>Bitte gebe den Server mit an!</h1>';
+  }
+</script>
+</body>

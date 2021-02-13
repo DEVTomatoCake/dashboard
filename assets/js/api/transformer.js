@@ -131,3 +131,26 @@ function getSettingsHTML(guild) {
   });
 }
 
+function getLeaderboardHTML(guild) {
+  return new Promise((resolve) => {
+    getLeaderboard(guild)
+      .then((json) => {
+        if (json.status === 'success') {
+          let text = '<h1>Das Leaderboard von ' + json.guild + '</h1>';
+          json.data.forEach((entry) => text += '<p>' + entry.place + '. ' + entry.user + ' <b>' + entry.points + '</b> Punkte (Level <b>' + entry.level + '</b>)</p>');
+          resolve(text);
+        } else {
+          resolve('' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        resolve('' +
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+      });
+  });
+}
+

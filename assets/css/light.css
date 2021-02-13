@@ -20,7 +20,7 @@ p {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(../images/background.jpg);
+  background: url(https://tomatenkuchen.eu/assets/images/background.jpg);
   background-size: cover;
 }
 
@@ -40,11 +40,16 @@ p {
 }
 
 .about {
-  background: #111;
+  opacity: 0;
+  position: fixed;
+  bottom: 5px;
+  left: 5px;
+  align-items: center
 }
 
 .about .title {
   color: #FFF;
+  font-weight: 500;
 }
 
 .button {
@@ -202,13 +207,13 @@ section {
     width: 40px;
     height: 40px;
     background-size: 30px;
-    background: url(../images/menu.png) no-repeat center;
+    background: url(https://tomatenkuchen.eu/assets/images/menu.png) no-repeat center;
     cursor: pointer;
   }
 
   .menu-toggle.active {
     background-size: 25px;
-    background: url(../images/close.png) no-repeat center;
+    background: url(https://tomatenkuchen.eu/assets/images/close.png) no-repeat center;
   }
 
   header.sticky .menu-toggle {

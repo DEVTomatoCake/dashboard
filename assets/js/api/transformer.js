@@ -35,13 +35,15 @@ function getCommandsHTML() {
 
 function getGuildsHTML() {
   return new Promise((resolve) => {
+    const noRow = screen.height <= 720;
+
     getGuilds()
       .then((json) => {
         if (json.status === 'success') {
           let text = '';
           json.data.forEach((guild) => {
             text += '' +
-              '<div class="column">' +
+              (noRow ? '' : '<div class="column">') +
               '<div class="container">' +
               '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
               '<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
@@ -50,7 +52,7 @@ function getGuildsHTML() {
               '</div>' +
               '</a>' +
               '</div>' +
-              '</div>';
+              (noRow ? '' : '</div>');
           });
 
           if (text === '') {
@@ -58,9 +60,9 @@ function getGuildsHTML() {
               '<h1>Es wurden keine Server von dir gefunden!</h1>');
           } else {
             resolve('' +
-              '<div class="columnrow">' +
-              '<div style="text-align: center;">' + text + '</div>' +
-              '</div>');
+              (noRow ? '' : '<div class="columnrow">') +
+              '<div' + (noRow ? ' style="left: 37.5%; position: absolute;"' : '') + '>' + text + '</div>' +
+              (noRow ? '' : '</div>'));
           }
         } else {
           resolve('' +

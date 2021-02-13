@@ -11,27 +11,27 @@
 
   <link rel="stylesheet" type="text/css" href="../assets/css/dark.css"/>
 
-  <script type="text/javascript" src="../assets/js/script.js"></script>
-  <script type="text/javascript" src="../assets/js/cookie.js"></script>
-  <script type="text/javascript" src="../assets/js/api/api.js"></script>
-  <script type="text/javascript" src="../assets/js/api/transformer.js"></script>
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/cookie.js"></script>
+  <script src="../assets/js/api/api.js"></script>
+  <script src="../assets/js/api/transformer.js"></script>
 </head>
 
 <body>
-<header id="top">
+<header>
   <a href=".." class="logo">TomatenKuchen<span>.</span></a>
   <div class="menu-toggle" onclick="toggleMenu();"></div>
 
   <ul class="navigation">
     <li><a href="..">Home</a></li>
-    <li class="active"><a href="#top">Befehle</a></li>
+    <li class="active"><a href="#top" onclick="hideMenu();">Befehle</a></li>
     <li><a href="../invite">Einladung</a></li>
     <li><a href="../docs">Dokumentation</a></li>
     <li><a href="../dashboard">Dashboard</a></li>
   </ul>
 </header>
 
-<section class="banner">
+<section class="banner" id="top">
   <div class="content">
     <h2>TomatenKuchen</h2>
     <a href="#commands" class="button">Commands</a>
@@ -46,11 +46,6 @@
   </div>
 </section>
 
-<script type="text/javascript">
-  getCommandsHTML()
-  .then((html) => {
-    document.getElementById('commands-container').innerHTML = html;
-  });
-</script>
+<script>getCommandsHTML().then((html) => document.getElementById('commands-container').innerHTML = html);</script>
 </body>
 </html>

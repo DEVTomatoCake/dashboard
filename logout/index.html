@@ -11,9 +11,9 @@
 
   <link rel="stylesheet" type="text/css" href="../assets/css/simple.css"/>
 
-  <script type="text/javascript" src="../assets/js/script.js"></script>
-  <script type="text/javascript" src="../assets/js/cookie.js"></script>
-  <script type="text/javascript" src="../assets/js/api/api.js"></script>
+  <script src="../assets/js/script.js"></script>
+  <script src="../assets/js/cookie.js"></script>
+  <script src="../assets/js/api/api.js"></script>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
   logout()
     .then((json) => {
       if (json.status === 'success') {
-        if (getCookie('token')) setCookie('token', undefined, 0);
+        if (getCookie('token')) setCookie('token', 'undefined', 0);
         window.location.href = 'https://' + location.host + '/';
       } else {
         document.getElementById('root-container').innerHTML = '' +

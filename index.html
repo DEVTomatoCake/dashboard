@@ -9,19 +9,19 @@
   <link rel="shortcut icon" type="image/x-icon" href="assets/images/icon.ico"/>
   <link rel="icon" type="image/x-icon" href="assets/images/icon.ico"/>
 
-  <link rel="stylesheet" type="text/css" href="assets/css/homepage.css"/>
+  <link rel="stylesheet" type="text/css" href="assets/css/light.css"/>
 
-  <script type="text/javascript" src="assets/js/script.js"></script>
-  <script type="text/javascript" src="assets/js/cookie.js"></script>
+  <script src="assets/js/script.js"></script>
+  <script src="assets/js/cookie.js"></script>
 </head>
 
 <body>
-<header id="top">
+<header>
   <a href="#top" class="logo">TomatenKuchen<span>.</span></a>
   <div class="menu-toggle" onclick="toggleMenu();"></div>
 
   <ul class="navigation">
-    <li class="active"><a href="#top">Home</a></li>
+    <li class="active"><a href="#top" onclick="hideMenu();">Home</a></li>
     <li><a href="commands">Befehle</a></li>
     <li><a href="invite">Einladung</a></li>
     <li><a href="docs">Dokumentation</a></li>
@@ -29,22 +29,17 @@
   </ul>
 </header>
 
-<section class="banner">
+<section class="banner" id="top">
   <div class="content">
     <h2>TomatenKuchen</h2>
     <a href="dashboard" class="button">Dashboard</a>
   </div>
 </section>
 
-<section class="about">
-  <div class="row">
-    <div class="col50">
-      <h2 class="title">&Uuml;ber TomatenKuchen</h2>
-
-      <script src="https://discordbotlist.com/widget/index.js" async></script>
-      <dbl-widget bot-id="tomatenkuchen"></dbl-widget>
-    </div>
-  </div>
-</section>
+<div class="about" id="about">
+  <h2 class="title">&Uuml;ber TomatenKuchen</h2>
+  <script src="https://discordbotlist.com/widget/index.js"></script>
+  <dbl-widget bot-id="tomatenkuchen"></dbl-widget>
+</div>
 </body>
 </html>

@@ -3,7 +3,7 @@ window.addEventListener('scroll', function () {
   if (header) header.classList.toggle('sticky', window.scrollY > 0);
 });
 
-window.addEventListener('load', function () {
+function aboutVisibility() {
   const about = document.getElementById('about');
   if (!about) return;
 
@@ -12,7 +12,7 @@ window.addEventListener('load', function () {
   } else {
     about.remove();
   }
-});
+}
 
 function hideMenu() {
   document.querySelector('.menu-toggle').classList.remove('active');

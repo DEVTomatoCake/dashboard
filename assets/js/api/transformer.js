@@ -109,12 +109,20 @@ function getSettingsHTML(guild) {
         if (json.status === 'success') {
           let text = '';
           json.data.forEach(setting => {
-            if (setting.type == "boolean") {
+            if (setting.type == "boolean" && setting.value == "true") {
+              text += '' +
+                '<p>' + setting.help + '</p>' +
+                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
+                '<option value="true" selected>true</option>' +
+                '<option value="false">false</option>' +
+                '</select>'
+                '<br /><br />';
+            } else if (setting.type == "boolean" && setting.value == "false") {
               text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
                 '<option value="true">true</option>' +
-                '<option value="false">false</option>' +
+                '<option value="false" selected>false</option>' +
                 '</select>'
                 '<br /><br />';
             } else {

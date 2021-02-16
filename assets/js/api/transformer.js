@@ -127,13 +127,17 @@ function getSettingsHTML(guild) {
                 '<br /><br />';
             } else if (setting.type.startsWith("select")) {
               selectable = setting.type.replace("select,", "").split(" ")
-              console.log(selectable)
-              /*text += '' +
+              text += '' +
                 '<p>' + setting.help + '</p>' +
-                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
-                '<option value="true">-</option>' +
-                '</select>'
-                '<br /><br />';*/
+                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">'
+
+              selectable.forEach(item => {
+                text += '' +
+                  '<option value="' + item + '">' + item + '</option>'
+              })
+              text += '' +
+                '</select>' +
+                '<br /><br />';
             } else {
               text += '' +
                 '<p>' + setting.help + '</p>' +

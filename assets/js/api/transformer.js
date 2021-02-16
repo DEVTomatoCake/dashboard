@@ -132,8 +132,8 @@ function getSettingsHTML(guild) {
                 '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">'
 
               selectable.forEach(item => {
-                text += '' +
-                  '<option value="' + item + '">' + item + '</option>'
+                if (item == setting.value) text += '' + '<option value="' + item + '" selected>' + item + '</option>'
+                else text += '' + '<option value="' + item + '">' + item + '</option>'
               })
               text += '' +
                 '</select>' +

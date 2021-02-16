@@ -112,9 +112,9 @@ function getSettingsHTML(guild) {
             if (setting.type == "boolean") {
               text += '' +
                 '<p>' + setting.help + '</p>' +
-                '<select class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '">' +
-                '<option value="true">True</option>' +
-                '<option value="false">False</option>' +
+                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
+                '<option value="true">true</option>' +
+                '<option value="false">false</option>' +
                 '</select>'
                 '<br /><br />';
             } else {

@@ -1,10 +1,10 @@
 function getCommandsHTML() {
-  return new Promise(((resolve) => {
+  return new Promise((resolve => {
     getCommands()
-      .then((json) => {
+      .then(json => {
         if (json.status === 'success') {
           let text = '';
-          json.data.forEach((command) => {
+          json.data.forEach(command => {
             text += '' +
               '<h1>' + command.name + '</h1>' +
               '<p>' + command.description + '</p>' +
@@ -24,7 +24,7 @@ function getCommandsHTML() {
             '<h1>' + json.message + '</h1>');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -34,14 +34,14 @@ function getCommandsHTML() {
 }
 
 function getGuildsHTML() {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     const noRow = screen.height <= 720;
 
     getGuilds()
-      .then((json) => {
+      .then(json => {
         if (json.status === 'success') {
           let text = '';
-          json.data.forEach((guild) => {
+          json.data.forEach(guild => {
             text += '' +
               (noRow ? '' : '<div class="column">') +
               '<div class="container">' +
@@ -70,7 +70,7 @@ function getGuildsHTML() {
             '<h1>' + json.message + '</h1>');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -80,9 +80,9 @@ function getGuildsHTML() {
 }
 
 function getStatsHTML(guild) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     getStats(guild)
-      .then((json) => {
+      .then(json => {
         if (json.status === 'success') {
           resolve('' +
             '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
@@ -93,7 +93,7 @@ function getStatsHTML(guild) {
             '<h1>' + json.message + '</h1>');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -103,16 +103,26 @@ function getStatsHTML(guild) {
 }
 
 function getSettingsHTML(guild) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     getSettings(guild)
-      .then((json) => {
+      .then(json => {
         if (json.status === 'success') {
           let text = '';
-          json.data.forEach((setting) => {
-            text += '' +
-              '<p>' + setting.help + '</p>' +
-              '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
-              '<br/><br/>';
+          json.data.forEach(setting => {
+            if (setting.type == "boolean") {
+              text += '' +
+                '<p>' + setting.help + '</p>' +
+                '<select class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '">' +
+                '<option value="true">True</option>' +
+                '<option value="false">False</option>' +
+                '</select>'
+                '<br /><br />';
+            } else {
+              text += '' +
+                '<p>' + setting.help + '</p>' +
+                '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
+                '<br /><br />';
+            }
           });
 
           resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button>');
@@ -122,7 +132,7 @@ function getSettingsHTML(guild) {
             '<h1>' + json.message + '</h1>');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -132,9 +142,9 @@ function getSettingsHTML(guild) {
 }
 
 function getLeaderboardHTML(guild) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     getLeaderboard(guild)
-      .then((json) => {
+      .then(json => {
         if (json.status === 'success') {
           let text = '<h1>Das Leaderboard von ' + json.guild + '</h1>';
           json.data.forEach((entry) => text += '<p>' + entry.place + '. ' + entry.user + ' <b>' + entry.points + '</b> Punkte (Level <b>' + entry.level + '</b>)</p>');
@@ -145,7 +155,7 @@ function getLeaderboardHTML(guild) {
             '<h1>' + json.message + '</h1>');
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

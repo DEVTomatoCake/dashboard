@@ -73,8 +73,8 @@
 
     document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';
     setSettings(params.get('guild'), items)
-      .then((json) => {
-        const timeout = 5;
+      .then(json => {
+        const timeout = 3;
 
         if (json.status === 'success') {
           document.getElementById('root-container').innerHTML = '' +

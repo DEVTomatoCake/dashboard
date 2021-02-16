@@ -10,11 +10,10 @@
   <link rel="icon" type="image/x-icon" href="../assets/images/icon.ico"/>
 
   <script>
-    const client_id = '685166801394335819';
     const redirect_uri = 'https://' + location.host + '/dashboard';
     const scopes = 'identify guilds'
 
-    window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=' + encodeURIComponent(scopes);
+    window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=685166801394335819&redirect_uri=' + encodeURIComponent(redirect_uri) + '&promt=none&response_type=code&scope=' + encodeURIComponent(scopes);
   </script>
 </head>
 

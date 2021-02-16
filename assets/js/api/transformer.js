@@ -125,15 +125,15 @@ function getSettingsHTML(guild) {
                 '<option value="false" selected>false</option>' +
                 '</select>'
                 '<br /><br />';
-            } else if (setting.type.startWith("select") && setting.value == "false") {
+            } else if (setting.type.startWith("select")) {
               selectable = setting.type.replace("select,", "").split(" ")
               console.log(selectable)
-              text += '' +
+              /*text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
                 '<option value="true">-</option>' +
                 '</select>'
-                '<br /><br />';
+                '<br /><br />';*/
             } else {
               text += '' +
                 '<p>' + setting.help + '</p>' +

@@ -119,7 +119,7 @@ function getSettingsHTML(guild) {
               const possible = setting.possible;
 
               text += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
-              Object.keys(possible).forEach(key => text += '<option value="' + possible[key] + '" ' + (setting.value === possible[key] ? 'selected' : '') + '>' + key + '</option>')
+              Object.keys(possible).forEach(key => text += '<option value="' + key + '" ' + (setting.value === key ? 'selected' : '') + '>' + possible[key] + '</option>')
               text += '</select><br/><br/>';
             }
           });

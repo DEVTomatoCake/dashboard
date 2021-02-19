@@ -109,35 +109,27 @@ function getSettingsHTML(guild) {
         if (json.status === 'success') {
           let text = '';
           json.data.forEach(setting => {
-            if (setting.type == "boolean" && setting.value == "true") {
+            if (setting.type === 'boolean') {
+              const isTrue = settings.value === 'true';
+
               text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
-                '<option value="true" selected>true</option>' +
-                '<option value="false">false</option>' +
-                '</select>'
-                '<br /><br />';
-            } else if (setting.type == "boolean" && setting.value == "false") {
+                '<option value="true" ' + (isTrue ? 'selected' : '') + '>true</option>' +
+                '<option value="false" ' + (isTrue ? '' : 'selected') + '>false</option>' +
+                '</select><br/><br/>';
+            } else if (setting.type.startsWith('select')) {
+              const selectable = setting.type.replace('select,', '').split(' ');
               text += '' +
                 '<p>' + setting.help + '</p>' +
-                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
-                '<option value="true">true</option>' +
-                '<option value="false" selected>false</option>' +
-                '</select>'
-                '<br /><br />';
-            } else if (setting.type.startsWith("select")) {
-              selectable = setting.type.replace("select,", "").split(" ")
-              text += '' +
-                '<p>' + setting.help + '</p>' +
-                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">'
+                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 
               selectable.forEach(item => {
-                if (item == setting.value) text += '' + '<option value="' + item + '" selected>' + item + '</option>'
-                else text += '' + '<option value="' + item + '">' + item + '</option>'
-              })
-              text += '' +
-                '</select>' +
-                '<br /><br />';
+                if (item === setting.value) text += '' + '<option value="' + item + '" selected>' + item + '</option>';
+                else text += '' + '<option value="' + item + '">' + item + '</option>';
+              });
+
+              text += '</select><br/><br/>';
             } else {
               text += '' +
                 '<p>' + setting.help + '</p>' +

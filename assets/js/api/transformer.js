@@ -108,33 +108,19 @@ function getSettingsHTML(guild) {
       .then(json => {
         if (json.status === 'success') {
           let text = '';
+
           json.data.forEach(setting => {
-            if (setting.type === 'boolean') {
-              const isTrue = settings.value === 'true';
-
-              text += '' +
-                '<p>' + setting.help + '</p>' +
-                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">' +
-                '<option value="true" ' + (isTrue ? 'selected' : '') + '>true</option>' +
-                '<option value="false" ' + (isTrue ? '' : 'selected') + '>false</option>' +
-                '</select><br/><br/>';
-            } else if (setting.type.startsWith('select')) {
-              const selectable = setting.type.replace('select,', '').split(' ');
-              text += '' +
-                '<p>' + setting.help + '</p>' +
-                '<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
-
-              selectable.forEach(item => {
-                if (item === setting.value) text += '' + '<option value="' + item + '" selected>' + item + '</option>';
-                else text += '' + '<option value="' + item + '">' + item + '</option>';
-              });
-
-              text += '</select><br/><br/>';
-            } else {
+            if (setting.possible === undefined) {
               text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
                 '<br /><br />';
+            } else {
+              const possible = setting.possible;
+
+              text += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+              possible.forEach((name, value) => text += '<option value="' + value + '" ' + (setting.value === value ? 'selected' : '') + '>' + name + '</option>');
+              text += '</select><br/><br/>';
             }
           });
 

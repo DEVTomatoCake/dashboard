@@ -22,9 +22,9 @@
   const params = new URLSearchParams(window.location.search);
   if (params.has('guild')) {
     getStatsHTML(params.get('guild'))
-    .then((html) => {
-      document.body.innerHTML += html;
-    });
+      .then((html) => {
+        document.body.innerHTML += html;
+      });
   } else {
     document.body.innerHTML += '<h1>Bitte gebe den gewünschten Server mit an!</h1>';
   }

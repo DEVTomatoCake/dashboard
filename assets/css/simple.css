@@ -150,6 +150,10 @@ button:hover {
   color: #fff;
 }
 
+.user-image {
+  border-radius: 50%;
+}
+
 @media (max-width: 980px) {
   .cookie-container {
     bottom: 0 !important;

@@ -146,7 +146,7 @@ function getLeaderboardHTML(guild) {
       .then(json => {
         if (json.status === 'success') {
           let text = '<h1>Das Leaderboard von ' + json.guild + '</h1>';
-          json.data.forEach((entry) => text += '<p>' + entry.place + '. ' + entry.user + ' <b>' + entry.points + '</b> Punkte (Level <b>' + entry.level + '</b>)</p>');
+          json.data.forEach((entry) => text += '<p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '" alt="' + entry.place + '">' + entry.user + ' <b>' + entry.points + '</b> Punkte (Level <b>' + entry.level + '</b>)</p>');
           resolve(text);
         } else {
           resolve('' +

@@ -33,6 +33,41 @@ function getCommandsHTML() {
   }));
 }
 
+function getBotstatsHTML() {
+  return new Promise((resolve => {
+    getCommands()
+      .then(json => {
+        if (json.status === 'success') {
+          let text = '';
+          json.data.forEach(botstat => {
+            text += '' +
+              '<h1>' + botstat.name + '</h1>' +
+              '<p>' + botstat.description + '</p>' +
+              '<pre>' + botstat.usage + '</pre>' +
+              '<br/>';
+          });
+
+          if (text === '') {
+            resolve('' +
+              '<h1>Es gibt keine Stats!</h1>');
+          } else {
+            resolve(text);
+          }
+        } else {
+          resolve('' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        resolve('' +
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+      });
+  }));
+}
+
 function getGuildsHTML() {
   return new Promise(resolve => {
     const noRow = screen.height <= 720;

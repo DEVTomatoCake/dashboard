@@ -38,14 +38,7 @@ function getBotstatsHTML() {
     getCommands()
       .then(json => {
         if (json.status === 'success') {
-          let text = '';
-          json.data.forEach(botstat => {
-            text += '' +
-              '<h1>' + botstat.name + '</h1>' +
-              '<p>' + botstat.description + '</p>' +
-              '<pre>' + botstat.usage + '</pre>' +
-              '<br/>';
-          });
+          let text = '<h1>Server: <b>' + json.data.guilds + '</b></h1>';
 
           if (text === '') {
             resolve('' +

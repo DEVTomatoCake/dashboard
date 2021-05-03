@@ -37,8 +37,7 @@ function getBotstatsHTML() {
   return new Promise((resolve => {
     getBotstats()
       .then(json => {
-        if (json.status === 'success') {
-          let text = '<h1>Server: <b>' + json.data.guilds + '</b></h1><br /><h1>Nutzer: <b>' + json.data.users + '</b></h1><br /><h1>API-Ping: <b>' + json.data.apiping + '</b></h1>';
+          let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br /><h1>Nutzer: <b>' + json.users + '</b></h1><br /><h1>API-Ping: <b>' + json.apiping + '</b></h1>';
 
           if (text === '') {
             resolve('' +
@@ -46,11 +45,6 @@ function getBotstatsHTML() {
           } else {
             resolve(text);
           }
-        } else {
-          resolve('' +
-            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-            '<h1>' + json.message + '</h1>');
-        }
       })
       .catch(error => {
         console.error(error);

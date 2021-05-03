@@ -35,10 +35,10 @@ function getCommandsHTML() {
 
 function getBotstatsHTML() {
   return new Promise((resolve => {
-    getCommands()
+    getBotstats()
       .then(json => {
         if (json.status === 'success') {
-          let text = '<h1>Server: <b>' + json.data.guilds + '</b></h1>';
+          let text = '<h1>Server: <b>' + json.data.guilds + '</b></h1><br /><h1>Nutzer: <b>' + json.data.users + '</b></h1><br /><h1>API-Ping: <b>' + json.data.apiping + '</b></h1>';
 
           if (text === '') {
             resolve('' +

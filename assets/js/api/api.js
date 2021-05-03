@@ -22,6 +22,14 @@ function getCommands() {
   });
 }
 
+function getBotstats() {
+  return new Promise((resolve, reject) => {
+    get('stats', false)
+      .then((data) => resolve(data))
+      .catch((error) => reject(error));
+  });
+}
+
 function getGuilds() {
   return new Promise((resolve, reject) => {
     get('guilds', true)

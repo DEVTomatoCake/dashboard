@@ -1,9 +1,7 @@
-const baseURL = 'https://tomatenkuchen%s.free.beeceptor.com/api/';
-const endpoints = 50;
+const url = 'https://node2.chaoshosting.tk:25508/api/';
 
 async function get(component, auth) {
   while (true) {
-    const url = baseURL.replace('%s', Math.floor(Math.random() * (endpoints + 1)).toString());
     const response = await fetch(url + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + getCookie('token') : ''));
 
     if (response.status !== 429) {

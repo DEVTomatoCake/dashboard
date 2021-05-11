@@ -108,7 +108,7 @@ function getStatsHTML(guild) {
         if (json.status === 'success') {
           resolve('' +
             '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
-            '<p>Mitglieder: <b>' + guild.member_count + '</b></p>');
+            '<p>Mitglieder: <b>' + json.member_count + '</b></p>');
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

@@ -26,35 +26,35 @@
       .then((html) => {
         //document.body.innerHTML += html;
         console.log(html)
-        document.body.innerHTML = document.body.innerHTML.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS', html.labels.split(","))
-        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"//UND HIER DAS DATA ZEUG *triggered*', html.data.split(","))
+        document.body.innerHTML = document.body.innerHTML.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN', html.labels.split(","))
+        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"', html.data.split(","))
         createChart()
       });
   } else {
    document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
   }
 
-  const labels = [
-    //HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS
-  ]
-      
-  const data = {
-    labels: labels,
-    datasets: [{
-      label: "Nutzer",
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgb(255, 99, 132)",
-      data: "DIESE DAMN FEHLER ES REGT AUF"//UND HIER DAS DATA ZEUG *triggered*
-    }]
-  }
-
-  const config = {
-    type: "line",
-    data,
-    options: {}
-  }
-
   function createChart() {
+    const labels = [
+      //HIER KOMMEN DIE VERDAMMTEN LABELS HIN
+    ]
+
+    const data = {
+      labels: labels,
+      datasets: [{
+        label: "Nutzer",
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgb(255, 99, 132)",
+        data: "DIESE DAMN FEHLER ES REGT AUF"
+      }]
+    }
+
+    const config = {
+      type: "line",
+      data,
+      options: {}
+    }
+
     var myChart = new Chart(document.getElementById("myChart"), config)
   }
 </script>

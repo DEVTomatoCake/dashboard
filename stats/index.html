@@ -24,11 +24,10 @@
   if (params.has('guild')) {
     getStatsHTML(params.get('guild'))
       .then((html) => {
-        console.log(html)
         console.log(html.data.split(","))
         console.log(html.labels.split(","))
-        document.body.innerHTML = document.body.innerHTML.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN', html.labels.split(","))
-        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"', html.data.split(","))
+        document.body = document.body.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN', html.labels.split(","))
+        document.body = document.body.replace('"DIESE DAMN FEHLER ES REGT AUF"', html.data.split(","))
         createChart()
       });
   } else {

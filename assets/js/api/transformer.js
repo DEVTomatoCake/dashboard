@@ -55,6 +55,33 @@ function getBotstatsHTML() {
   }));
 }
 
+function getStatsHTML(guild) {
+  return new Promise(resolve => {
+    getStats(guild)
+      .then(json => {
+        if (json.status === 'success') {
+          //resolve('' +
+          //  '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
+          //  '<p>Mitglieder: <b>' + json.member_count + '</b></p>');
+          resolve({
+            data: '[' + json.data + ']',
+            labels: '"' + json.labels.join("', '") + '"'
+          });
+        } else {
+          resolve('' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        resolve('' +
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+      });
+  });
+}
+
 function getGuildsHTML() {
   return new Promise(resolve => {
     const noRow = screen.height <= 720;
@@ -86,29 +113,6 @@ function getGuildsHTML() {
               '<div' + (noRow ? ' style="left: 37.5%; position: absolute;"' : '') + '>' + text + '</div>' +
               (noRow ? '' : '</div>'));
           }
-        } else {
-          resolve('' +
-            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-            '<h1>' + json.message + '</h1>');
-        }
-      })
-      .catch(error => {
-        console.error(error);
-        resolve('' +
-          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
-      });
-  });
-}
-
-function getStatsHTML(guild) {
-  return new Promise(resolve => {
-    getStats(guild)
-      .then(json => {
-        if (json.status === 'success') {
-          resolve('' +
-            '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
-            '<p>Mitglieder: <b>' + json.member_count + '</b></p>');
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

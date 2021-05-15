@@ -18,7 +18,8 @@
 </head>
 
 <body>
-<script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
   const params = new URLSearchParams(window.location.search);
   if (params.has('guild')) {
     getStatsHTML(params.get('guild'))
@@ -29,37 +30,33 @@
         createChart()
       });
   } else {
-    document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
+   document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
+  }
+
+  const labels = [
+    //HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS
+  ]
+      
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: "Nutzer",
+      backgroundColor: "rgb(255, 99, 132)",
+      borderColor: "rgb(255, 99, 132)",
+      data: //UND HIER DAS DATA ZEUG JETZT NERVT NICHT MEHR
+    }]
+  }
+
+  const config = {
+    type: "line",
+    data,
+    options: {}
+  }
+
+  function createChart() {
+    var myChart = new Chart(document.getElementById("myChart"), config)
   }
 </script>
-  <div>
-    <canvas id="myChart"></canvas>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-      const labels = [
-          //HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS
-      ]
-      
-      const data = {
-          labels: labels,
-          datasets: [{
-            label: "Nutzer",
-            backgroundColor: "rgb(255, 99, 132)",
-            borderColor: "rgb(255, 99, 132)",
-            data: //UND HIER DAS DATA ZEUG JETZT NERVT NICHT MEHR
-          }]
-      }
-
-      const config = {
-          type: "line",
-          data,
-          options: {}
-      }
-
-      function createChart() {
-        var myChart = new Chart(document.getElementById("myChart"), config)
-      }
-    </script>
-  </div>
+  <canvas id="myChart"></canvas>
 </body>
 </html>

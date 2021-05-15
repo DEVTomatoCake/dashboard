@@ -64,6 +64,7 @@ function getStatsHTML(guild) {
           //  '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
           //  '<p>Mitglieder: <b>' + json.member_count + '</b></p>');
           resolve({
+            name: json.name
             data: '[' + json.data + ']',
             labels: '"' + json.labels.join("', '") + '"'
           });

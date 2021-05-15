@@ -24,8 +24,8 @@
     getStatsHTML(params.get('guild'))
       .then((html) => {
         //document.body.innerHTML += html;
-        document.body.innerHTML = document.body.innerHTML.replace("{DATA}", html.data)
-        document.body.innerHTML = document.body.innerHTML.replace("{LABELS}", html.labels)
+        document.body.innerHTML = document.body.innerHTML.replace('{"DATA"}', html.data)
+        document.body.innerHTML = document.body.innerHTML.replace('{"LABELS"}', html.labels)
       });
   } else {
     document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
@@ -34,9 +34,9 @@
   <div>
     <canvas id="myChart"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="text/javascript">
+    <script>
       const labels = [
-          {LABELS}
+          {"LABELS"}
       ]
       
       const data = {
@@ -45,7 +45,7 @@
             label: "Nutzer",
             backgroundColor: "rgb(255, 99, 132)",
             borderColor: "rgb(255, 99, 132)",
-            data: {DATA}
+            data: {"DATA"}
           }]
       }
 

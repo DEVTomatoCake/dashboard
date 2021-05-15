@@ -25,8 +25,9 @@
     getStatsHTML(params.get('guild'))
       .then((html) => {
         //document.body.innerHTML += html;
-        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"//UND HIER DAS DATA ZEUG *triggered*', html.data)
+        console.log(html)
         document.body.innerHTML = document.body.innerHTML.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS', html.labels)
+        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"//UND HIER DAS DATA ZEUG *triggered*', html.data)
         createChart()
       });
   } else {

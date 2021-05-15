@@ -26,17 +26,15 @@
       .then((html) => {
         console.log(html.data.split(","))
         console.log(html.labels.split(","))
-        document.body = document.body.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN', html.labels.split(","))
-        document.body = document.body.replace('"DIESE DAMN FEHLER ES REGT AUF"', html.data.split(","))
-        createChart()
+        createChart(html.labels.split(","), html.data.split(","))
       });
   } else {
    document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
   }
 
-  function createChart() {
+  function createChart(apilabels, apidata) {
     const labels = [
-      //HIER KOMMEN DIE VERDAMMTEN LABELS HIN
+      apilabels
     ]
 
     const data = {
@@ -45,7 +43,7 @@
         label: "Nutzer",
         backgroundColor: "rgb(255, 99, 132)",
         borderColor: "rgb(255, 99, 132)",
-        data: "DIESE DAMN FEHLER ES REGT AUF"
+        data: apidata
       }]
     }
 

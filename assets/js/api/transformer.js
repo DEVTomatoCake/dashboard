@@ -65,8 +65,8 @@ function getStatsHTML(guild) {
           //  '<p>Mitglieder: <b>' + json.member_count + '</b></p>');
           resolve({
             name: json.name,
-            data: '[' + json.data + ']',
-            labels: '"' + json.labels.split(",").join("', '") + '"'
+            data: json.data,
+            labels: json.labels
           });
         } else {
           resolve('' +

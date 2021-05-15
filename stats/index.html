@@ -26,8 +26,8 @@
       .then((html) => {
         //document.body.innerHTML += html;
         console.log(html)
-        document.body.innerHTML = document.body.innerHTML.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS', html.labels)
-        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"//UND HIER DAS DATA ZEUG *triggered*', html.data)
+        document.body.innerHTML = document.body.innerHTML.replace('//HIER KOMMEN DIE VERDAMMTEN LABELS HIN UND JETZT LASST MICH IN RUHE MIT EUREN SYNTAX ERRORS', html.labels.split(","))
+        document.body.innerHTML = document.body.innerHTML.replace('"DIESE DAMN FEHLER ES REGT AUF"//UND HIER DAS DATA ZEUG *triggered*', html.data.split(","))
         createChart()
       });
   } else {

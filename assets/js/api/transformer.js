@@ -66,7 +66,7 @@ function getStatsHTML(guild) {
           resolve({
             name: json.name,
             data: '[' + json.data + ']',
-            labels: '"' + json.labels.join("', '") + '"'
+            labels: '"' + json.labels.split(",").join("', '") + '"'
           });
         } else {
           resolve('' +

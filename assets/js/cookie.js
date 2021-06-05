@@ -31,7 +31,7 @@ window.onload = function () {
   document.body.innerHTML += '' +
     '<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
     '<div class="cookie-title">' +
-    '<h3>Information</h3>' +
+    '<h2 style="color: white;">Information</h2>' +
     '</div>' +
     '<div class="cookie-description">' +
     '<p>Unsere Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.</p>' +

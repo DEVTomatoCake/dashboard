@@ -69,8 +69,15 @@ pre {
 }
 
 button, input {
+  padding: 3px 8px;
   font-family: sans-serif;
-  border-radius: 8px;
+  border-radius: 6px;
+}
+
+select {
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
 }
 
 .setting {
@@ -79,7 +86,7 @@ button, input {
 }
 
 .save {
-  font-size: 1.7em;
+  font-size: 1.6em;
   padding: 10px 15px;
 }
 
@@ -88,7 +95,7 @@ button {
 }
 
 button:hover {
-  background-color: #4CAF50;
+  background-color: #4EC252;
   color: white;
 }
 

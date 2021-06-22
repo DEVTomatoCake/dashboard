@@ -14,7 +14,7 @@ function getCommandsHTML() {
 
           if (text === '') {
             resolve('' +
-              '<h1>Es gibt noch keine Befehle!</h1>');
+              '<h1>Es gibt keine Befehle!</h1>');
           } else {
             resolve(text);
           }
@@ -60,9 +60,6 @@ function getStatsHTML(guild) {
     getStats(guild)
       .then(json => {
         if (json.status === 'success') {
-          //resolve('' +
-          //  '<h1>Serverstatistiken für <b>' + json.name + '</b></h1>' +
-          //  '<p>Mitglieder: <b>' + json.member_count + '</b></p>');
           resolve({
             name: json.name,
             data: json.data,

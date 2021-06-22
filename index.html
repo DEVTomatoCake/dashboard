@@ -13,36 +13,56 @@
 
   <script src="assets/js/script.js"></script>
   <script src="assets/js/cookie.js"></script>
+  <script src="./assets/js/api/api.js"></script>
+  <script src="./assets/js/api/transformer.js"></script>
 </head>
 
-<body>
-<header>
-  <a class="logo" href="#top">TomatenKuchen<span>.</span></a>
-  <div class="menu-toggle" onclick="toggleMenu();"></div>
+<body style="background-color: #EEE;">
+  <header>
+    <a class="logo" href="#top">TomatenKuchen<span>.</span></a>
+    <div class="menu-toggle" onclick="toggleMenu();"></div>
 
-  <ul class="navigation">
-    <li class="active"><a href="#top" onclick="hideMenu();">Home</a></li>
-    <li><a href="commands">Befehle</a></li>
-    <li><a href="invite">Bot einladen</a></li>
-    <li><a href="docs">Dokumentation</a></li>
-    <li><a href="dashboard">Dashboard</a></li>
-  </ul>
-</header>
+    <ul class="navigation">
+      <li class="active"><a href="#top" onclick="hideMenu();">Home</a></li>
+      <li><a href="commands">Befehle</a></li>
+      <li><a href="invite">Bot einladen</a></li>
+      <li><a href="docs">Dokumentation</a></li>
+      <li><a href="dashboard">Dashboard</a></li>
+    </ul>
+  </header>
 
-<section class="banner" id="top">
-  <div class="content">
-    <h2>TomatenKuchen</h2>
-    <a class="button" href="dashboard">Dashboard</a>
-  </div>
-</section>
+  <section class="banner" id="top">
+    <div class="content">
+      <h2>TomatenKuchen</h2>
+      <a class="button" href="dashboard">Dashboard</a>
+    </div>
+  </section>
 
-<div class="about" id="about">
+  <script>aboutVisibility();</script>
+
+  <div class="about" id="about">
   <h2 class="title">&Uuml;ber TomatenKuchen</h2>
+  </div>
+
+  <br>
+  <br>
+  <h1>Statistiken</h1>
+
+  <section id="botstats">
+    <div class="row">
+      <div class="col50" id="botstats-container">
+        <h1>Die Stats werden geladen...</h1>
+      </div>
+    </div>
+  </section>
+
+  <h1>Embeds</h1>
+  <br>
+
   <script src="https://discordbotlist.com/widget/index.js" async></script>
   <dbl-widget bot-id="bot-685166801394335819"></dbl-widget>
-  <img src="https://voidbots.net/api/embed/685166801394335819" width="286" height="163" alt=""/>
-</div>
+  <img src="https://voidbots.net/api/embed/685166801394335819?theme=custom&bg=D9C9C9&downbg=F77272&text=200C0C&cards=74BDEB" width="286" height="163" alt=""/>
 
-<script>aboutVisibility();</script>
+  <script>getBotstatsHTML().then((html) => document.getElementById('botstats-container').innerHTML = html);</script>
 </body>
 </html>

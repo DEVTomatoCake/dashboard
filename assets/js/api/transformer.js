@@ -135,7 +135,6 @@ function getSettingsHTML(guild) {
           var categories = [];
 
           json.data.forEach(setting => {
-            if (setting.category && !categories.includes(setting.category)) categories.push(setting.category)
             if (!setting.possible) {
               text += '' +
                 '<p>' + setting.help + '</p>' +
@@ -148,10 +147,29 @@ function getSettingsHTML(guild) {
               Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
               text += '</select><br><br>';
             }
+
+            temp = '';
+            if (!setting.possible) {
+              temp += '' +
+                '<p>' + setting.help + '</p>' +
+                '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
+                '<br><br>';
+            } else {
+              const possible = setting.possible;
+
+              temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+              Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+              temp += '</select><br><br>';
+            }
+            if (setting.category && !categories.includes(setting.category)) categories.push(setting.category)
+            if (setting.category) categoryData.push([setting.category, temp])
           });
 
           categories.forEach(category => {
             text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
+            categoryData.forEach(data => {
+              if (category == data[0]) text += data[1]
+            })
           })
 
           resolve('<h1>Einstellungen von <b>' + json.name + '</b></h1>' + text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button><br><br>');

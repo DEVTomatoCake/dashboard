@@ -83,7 +83,7 @@
             '<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
         } else {
           document.getElementById('root-container').innerHTML = '' +
-            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>Die Einstellungen konnten nicht gespeichert werden!</h1>' +
             '<h1>' + json.message + '</h1>' +
             '<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
         }
@@ -132,8 +132,9 @@
       .then((html) => {
         document.getElementById('root-container').innerHTML = 
           "<div class=\"sidebar\">" +
-          "  <a class=\"active\" href=\"#allgemein\">Allgemein</a>" + 
-          "  <a href=\"#moderation\">Moderation</a>" +
+          //"  <a class=\"active\" href=\"#prefix\">Allgemein</a>" + 
+          "  <a href=\"#prefix\">Allgemein</a>" + 
+          "  <a href=\"#maxMentions\">Moderation</a>" +
           "</div>" +
           "<div class=\"content\">" +
           html +

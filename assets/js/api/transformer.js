@@ -133,6 +133,7 @@ function getSettingsHTML(guild) {
         if (json.status === 'success') {
           let text = '';
           var categories = [];
+          var categoryData = [];
 
           json.data.forEach(setting => {
             if (!setting.possible) {

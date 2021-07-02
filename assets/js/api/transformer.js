@@ -154,7 +154,7 @@ function getSettingsHTML(guild) {
             text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
           })
 
-          resolve('<h1>Einstellungen von <b>' + json.name + '</b></h1>' + text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button><br><br><br>');
+          resolve('<h1>Einstellungen von <b>' + json.name + '</b></h1>' + text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button><br><br>');
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

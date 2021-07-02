@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<title>TomatenKuchen</title>
+  		<link href="https://tomatenkuchen.eu/assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+		<script src="https://unpkg.com/wc-discord-message@^2.0.0/dist/wc-discord-message/wc-discord-message.js"></script>
+		<script>
+			window.$discordMessage = {
+				profiles: {
+					TomatoCake: {
+						author: "TomatoCake",
+						avatar: "https://cdn.discordapp.com/avatars/581146486646243339/df1e089020483dbf42db054373a21657.png",
+						//roleColor: "#DDD"
+					},
+					TomatenKuchen: {
+						author: "TomatenKuchen",
+						avatar: "https://cdn.discordapp.com/avatars/685166801394335819/1f982aa5fa769d10d5d7c061092c03e2.png",
+						bot: true,
+						roleColor: "#A724EC"
+					}
+				}
+			}
+		</script>
+	</head>
+	<body>
+		<discord-messages light-theme>
+			<discord-message profile="TomatoCake">
+				!help
+			</discord-message>
+			<discord-message profile="TomatenKuchen">
+				Hallo <discord-mention highlight>TomatoCake</discord-mention>, ich bin <b>TomatenKuchen</b>!
+				<discord-embed slot="embeds" color="#0099ff">
+					Hier siehst du meine Befehle :feelslookingman:
+					<discord-embed-fields slot="footer">
+						fArBe IsT fAkE
+					</discord-embed-fields>
+				</discord-embed>
+			</discord-message>
+		</discord-messages>
+	</body>
+</html>

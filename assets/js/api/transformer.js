@@ -136,7 +136,7 @@ function getSettingsHTML(guild) {
           var categoryData = [];
 
           json.data.forEach(setting => {
-            if (!setting.possible) {
+            /*if (!setting.possible) {
               text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
@@ -147,7 +147,7 @@ function getSettingsHTML(guild) {
               text += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
               Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
               text += '</select><br><br>';
-            }
+            }*/
 
             temp = '';
             if (!setting.possible) {
@@ -167,7 +167,7 @@ function getSettingsHTML(guild) {
           });
 
           categories.forEach(category => {
-            text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
+            text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>';
             categoryData.forEach(data => {
               if (category == data[0]) text += data[1]
             })

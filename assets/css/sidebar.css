@@ -16,12 +16,7 @@
   text-align: justify;
 }
 
-.sidebar a.active {
-  background-color: #04AA6D;
-  color: white;
-}
-
-.sidebar a:hover:not(.active) {
+.sidebar a:hover {
   background-color: #DDD;
 }
 
@@ -38,7 +33,7 @@ div.settingsContent {
     position: relative;
   }
   .sidebar a {float: left;}
-  div.content {margin-left: 0;}
+  div.settingsContent {margin-left: 0;}
 }
 
 @media screen and (max-width: 400px) {

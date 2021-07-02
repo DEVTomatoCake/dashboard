@@ -132,23 +132,26 @@ function getSettingsHTML(guild) {
       .then(json => {
         if (json.status === 'success') {
           let text = '';
+          var categories = [];
 
           json.data.forEach(setting => {
+            if (setting.category && !categories.includes(setting.category)) categories.push(setting.category)
+            console.log(categories)
             if (!setting.possible) {
               text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
-                '<br /><br />';
+                '<br><br>';
             } else {
               const possible = setting.possible;
 
               text += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
               Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
-              text += '</select><br/><br/>';
+              text += '</select><br><br>';
             }
           });
 
-          resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button>');
+          resolve(text + '<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button><br>');
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

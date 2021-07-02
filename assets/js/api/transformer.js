@@ -134,7 +134,7 @@ function getSettingsHTML(guild) {
           let text = '';
 
           json.data.forEach(setting => {
-            if (setting.possible === undefined) {
+            if (!setting.possible) {
               text += '' +
                 '<p>' + setting.help + '</p>' +
                 '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +

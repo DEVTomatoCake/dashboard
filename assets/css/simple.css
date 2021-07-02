@@ -71,13 +71,13 @@ pre {
 button, input {
   padding: 3px 8px;
   font-family: sans-serif;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 select {
   padding: 6px 8px;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
 }
 
 .setting {

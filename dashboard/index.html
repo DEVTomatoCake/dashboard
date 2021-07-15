@@ -132,13 +132,14 @@
       .then((html) => {
         document.getElementById('root-container').innerHTML = 
           "<div class=\"sidebar\">" +
-          "  <a href=\"#allgemein\">Allgemein</a>" +
-          "  <a href=\"#moderation\">Moderation</a>" +
-          "  <a href=\"#willkommen\">Willkommen</a>" +
-          "  <a href=\"#starconfig\">Starboard</a>" +
-          "  <a href=\"#ticket\">Ticket</a>" +
-          "  <a href=\"#youtube\">YouTube</a>" +
-          "  <a href=\"#level\">Level</a>" +
+          "<a href=\"#allgemein\">Allgemein</a>" +
+          "<a href=\"#moderation\">Moderation</a>" +
+          "<a href=\"#willkommen\">Willkommen</a>" +
+          "<a href=\"#starconfig\">Starboard</a>" +
+          "<a href=\"#ticket\">Ticket</a>" +
+          "<a href=\"#youtube\">YouTube</a>" +
+          "<a href=\"#level\">Level</a>" +
+          "<button style="cursor: pointer;" onclick="saveSettings();" class="save">Speichern</button>" +
           "</div>" +
           "<div class=\"settingsContent\">" +
           html +

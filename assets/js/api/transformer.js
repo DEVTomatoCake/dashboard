@@ -37,7 +37,7 @@ function getBotstatsHTML() {
   return new Promise((resolve => {
     getBotstats()
       .then(json => {
-          let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br /><h1>Nutzer: <b>' + json.users + '</b></h1><br /><h1>API-Ping: <b>' + json.apiping + '</b></h1>';
+          let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br><h1>Nutzer: <b>' + json.users + '</b></h1><br><h1>API-Ping: <b>' + json.apiping + '</b></h1>';
 
           if (text === '') {
             resolve('' +

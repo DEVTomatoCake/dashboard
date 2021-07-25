@@ -4,13 +4,25 @@ function getCommandsHTML() {
       .then(json => {
         if (json.status === 'success') {
           let text = '';
+          var categories = [];
+          var categoryData = [];
+
           json.data.forEach(command => {
-            text += '' +
+            temp = '' +
               '<h1>' + command.name + '</h1>' +
               '<p>' + command.description + '</p>' +
               '<pre>' + command.usage + '</pre>' +
               '<br/>';
+            if (command.category && !categories.includes(command.category)) categories.push(command.category)
+            if (command.category) categoryData.push([command.category, temp])
           });
+
+          categories.forEach(category => {
+            text += '<h1 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br><br>';
+            categoryData.forEach(data => {
+              if (category == data[0]) text += data[1]
+            })
+          })
 
           if (text === '') {
             resolve('' +

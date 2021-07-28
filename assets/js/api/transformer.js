@@ -196,7 +196,7 @@ function getCustomcommandsHTML(guild) {
           let text = '';
 
           json.data.forEach(setting => {
-            temp += '' +
+            text += '' +
               '<p>' + setting.help + '</p>' +
               '<input class="setting" size="45" id="' + setting.name + '" name="' + setting.name + '" value="' + setting.value + '">' +
               '<br><br>';

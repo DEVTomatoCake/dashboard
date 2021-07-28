@@ -190,14 +190,14 @@ function getSettingsHTML(guild) {
 
 function getCustomcommandsHTML(guild) {
   return new Promise(resolve => {
-    getSettings(guild)
+    getCustomcommands(guild)
       .then(json => {
         if (json.status === 'success') {
           let text = '';
 
           json.data.forEach(setting => {
             text += '' +
-              '<p>' + setting.help + '</p>' +
+              '<p><b>' + setting.name + '</b></p>' +
               '<input class="setting" size="45" id="' + setting.name + '" name="' + setting.name + '" value="' + setting.value + '">' +
               '<br><br>';
           });

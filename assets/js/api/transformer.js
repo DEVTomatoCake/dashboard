@@ -199,12 +199,12 @@ function getCustomcommandsHTML(guild) {
             if (setting.value.split("").filter(i => i == "\n").length > 3) {
               text += '' +
                 '<p><b>' + setting.name + '</b></p>' +
-                '<textarea class="setting" rows="7" cols="60" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+                '<textarea class="setting" rows="8" cols="65" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
                 '<br>';
             } else {
               text += '' +
                 '<p><b>' + setting.name + '</b></p>' +
-                '<textarea class="setting" rows="3" cols="60" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+                '<textarea class="setting" rows="3" cols="65" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
                 '<br>';
             }
           });

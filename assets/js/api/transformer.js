@@ -188,6 +188,36 @@ function getSettingsHTML(guild) {
   });
 }
 
+function getCustomcommandsHTML(guild) {
+  return new Promise(resolve => {
+    getSettings(guild)
+      .then(json => {
+        if (json.status === 'success') {
+          let text = '';
+
+          json.data.forEach(setting => {
+            temp += '' +
+              '<p>' + setting.help + '</p>' +
+              '<input class="setting" size="45" id="' + setting.name + '" name="' + setting.name + '" value="' + setting.value + '">' +
+              '<br><br>';
+          });
+
+          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1>' + text);
+        } else {
+          resolve('' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        resolve('' +
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+      });
+  });
+}
+
 function getLeaderboardHTML(guild) {
   return new Promise(resolve => {
     getLeaderboard(guild)

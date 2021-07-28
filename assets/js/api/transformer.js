@@ -196,10 +196,17 @@ function getCustomcommandsHTML(guild) {
           let text = '';
 
           json.data.forEach(setting => {
-            text += '' +
-              '<p><b>' + setting.name + '</b></p>' +
-              '<textarea class="setting" rows="5" cols="70" id="' + setting.name + '" name="' + setting.name + '">' + setting.value + '</textarea>' +
-              '<br><br>';
+            if (setting.value.split("\n").filter(i => i == "").length > 3) {
+              text += '' +
+                '<p><b>' + setting.name + '</b></p>' +
+                '<textarea class="setting" rows="7" cols="60" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+                '<br>';
+            } else {
+              text += '' +
+                '<p><b>' + setting.name + '</b></p>' +
+                '<textarea class="setting" rows="3" cols="60" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+                '<br>';
+            }
           });
 
           resolve('<h1>Customcommands von <b>' + json.name + '</b></h1><h2>Wenn du ein Feld leerst wird der Customcommand gelöscht.</h2><br>' + text);

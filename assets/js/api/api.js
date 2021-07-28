@@ -60,6 +60,22 @@ function setSettings(guild, settings) {
   });
 }
 
+function getCustomcommands(guild) {
+  return new Promise((resolve, reject) => {
+    get('customcommands/get/' + guild, true)
+      .then((data) => resolve(data))
+      .catch((error) => reject(error));
+  });
+}
+
+function setCustomcommands(guild, commands) {
+  return new Promise((resolve, reject) => {
+    get('customcommands/set/' + guild + commands, true)
+      .then((data) => resolve(data))
+      .catch((error) => reject(error));
+  });
+}
+
 function login(code) {
   return new Promise((resolve, reject) => {
     get('auth/login?code=' + encodeURIComponent(code), false)

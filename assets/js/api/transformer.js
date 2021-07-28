@@ -196,7 +196,7 @@ function getCustomcommandsHTML(guild) {
           let text = '';
 
           json.data.forEach(setting => {
-            if (setting.value.split("\n").filter(i => i == "").length > 3) {
+            if (setting.value.split("").filter(i => i == "\n").length > 3) {
               text += '' +
                 '<p><b>' + setting.name + '</b></p>' +
                 '<textarea class="setting" rows="7" cols="60" id="' + setting.name + '" maxlength="4000" name="' + setting.name + '">' + setting.value + '</textarea>' +
@@ -209,7 +209,7 @@ function getCustomcommandsHTML(guild) {
             }
           });
 
-          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1><h2>Wenn du ein Feld leerst wird der Customcommand gelöscht.</h2><br>' + text);
+          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1><h2>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h2><br>' + text);
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

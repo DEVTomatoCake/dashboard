@@ -198,11 +198,11 @@ function getCustomcommandsHTML(guild) {
           json.data.forEach(setting => {
             text += '' +
               '<p><b>' + setting.name + '</b></p>' +
-              '<input class="setting" size="45" id="' + setting.name + '" name="' + setting.name + '" value="' + setting.value + '">' +
+              '<textarea class="setting" rows="3" cols="45" id="' + setting.name + '" name="' + setting.name + '">' + setting.value + '</textarea>' +
               '<br><br>';
           });
 
-          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1>' + text);
+          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1><br><p>Wenn du ein Feld leerst wird der Customcommand gelöscht.</p>' + text);
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

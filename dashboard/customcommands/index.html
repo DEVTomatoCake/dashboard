@@ -132,15 +132,15 @@
       .then((html) => {
         document.getElementById('root-container').innerHTML = 
           "<div class=\"sidebar\">" +
-          "<a href=\"../\">Allgemein</a>" +
-          "<a href=\"../\">Moderation</a>" +
-          "<a href=\"../\">Willkommen</a>" +
-          "<a href=\"../\">Starboard</a>" +
-          "<a href=\"../\">Ticket</a>" +
-          "<a href=\"../\">YouTube</a>" +
-          "<a href=\"../\">Level</a>" +
+          "<a href=\"../" + location.search + "#allgemein\">Allgemein</a>" +
+          "<a href=\"../" + location.search + "#moderation\">Moderation</a>" +
+          "<a href=\"../" + location.search + "#willkommen\">Willkommen</a>" +
+          "<a href=\"../" + location.search + "#starconfig\">Starboard</a>" +
+          "<a href=\"../" + location.search + "#ticket\">Ticket</a>" +
+          "<a href=\"../" + location.search + "#youtube\">YouTube</a>" +
+          "<a href=\"../" + location.search + "#level\">Level</a>" +
           "<hr><a href=\"#\">Customcommands</a>" +
-          "<button style=\"cursor: pointer;\" onclick=\"saveSettings();\" class=\"save\">Speichern</button>" +
+          "<hr><br><button style=\"cursor: pointer;\" onclick=\"saveSettings();\" class=\"save\">Speichern</button>" +
           "</div>" +
           "<div class=\"settingsContent\">" +
           html +

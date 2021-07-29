@@ -121,7 +121,7 @@
     document.head.innerHTML = document.head.innerHTML.replace('dark.css', 'simple.css');
     document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
 
-    location.href = '../login';
+    location.href = '../../login';
   } else if (params.has('guild')) {
     const guild = params.get('guild');
 
@@ -130,7 +130,21 @@
 
     getCustomcommandsHTML(guild)
       .then((html) => {
-        document.getElementById('root-container').innerHTML = html;
+        document.getElementById('root-container').innerHTML = 
+          "<div class=\"sidebar\">" +
+          "<a href=\"../\">Allgemein</a>" +
+          "<a href=\"../\">Moderation</a>" +
+          "<a href=\"../\">Willkommen</a>" +
+          "<a href=\"../\">Starboard</a>" +
+          "<a href=\"../\">Ticket</a>" +
+          "<a href=\"../\">YouTube</a>" +
+          "<a href=\"../\">Level</a>" +
+          "<hr><a href=\"#\">Customcommands</a>" +
+          "<button style=\"cursor: pointer;\" onclick=\"saveSettings();\" class=\"save\">Speichern</button>" +
+          "</div>" +
+          "<div class=\"settingsContent\">" +
+          html +
+          "</div>"
       });
   } else {
     getGuildsHTML()

@@ -73,7 +73,8 @@
     }
 
     document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden gespeichert...</h1>';
-    setCustomcommands(params.get('guild'), items)
+    console.log(items)
+    /*setCustomcommands(params.get('guild'), items)
       .then(json => {
         const timeout = 3;
 
@@ -93,7 +94,7 @@
         }, 1000 * timeout);
 
         saving = false;
-      });
+      });*/
   }
 
   if (params.has('code')) {
@@ -140,7 +141,7 @@
           "<a href=\"../" + location.search + "#youtube\">YouTube</a>" +
           "<a href=\"../" + location.search + "#level\">Level</a>" +
           "<hr><a href=\"#\">Customcommands</a>" +
-          //"<hr><br><button style=\"cursor: pointer;\" onclick=\"saveCustomcommands();\" class=\"save\">Speichern</button>" +
+          "<hr><br><button style=\"cursor: pointer;\" onclick=\"saveCustomcommands();\" class=\"save\">Speichern</button>" +
           "</div>" +
           "<div class=\"settingsContent\">" +
           html +

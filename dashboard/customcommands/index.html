@@ -73,8 +73,7 @@
     }
 
     document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden gespeichert...</h1>';
-    console.log(items)
-    /*setCustomcommands(params.get('guild'), items)
+    setCustomcommands(params.get('guild'), items)
       .then(json => {
         const timeout = 3;
 
@@ -94,7 +93,7 @@
         }, 1000 * timeout);
 
         saving = false;
-      });*/
+      });
   }
 
   if (params.has('code')) {

@@ -9,16 +9,18 @@ function getCommandsHTML() {
 
           json.data.forEach(command => {
             temp = '' +
-              '<h1>' + command.name + '</h1>' +
-              '<p>' + command.description + '</p>' +
-              '<pre>' + command.usage + '</pre>' +
-              '<br/>';
+              '<p style="color: gold; font-size: 1.7em;">' + command.name + '</p>' +
+              '<p>' + command.description + '</p>';
+
+            if (command.name != command.usage) temp += '<pre>' + command.usage + '</pre>';
+            temp += '<br>';
+            
             if (command.category && !categories.includes(command.category)) categories.push(command.category)
             if (command.category) categoryData.push([command.category, temp])
           });
 
           categories.forEach(category => {
-            text += '<h1 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br><br>';
+            text += '<br><h1 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br>';
             categoryData.forEach(data => {
               if (category == data[0]) text += data[1]
             })
@@ -49,8 +51,7 @@ function getBotstatsHTML() {
   return new Promise((resolve => {
     getBotstats()
       .then(json => {
-          let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br><h1>Nutzer: <b>' + json.users + '</b></h1><br><h1>API-Ping: <b>' + json.apiping + '</b></h1>';
-
+          let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br><h1>Nutzer: <b>' + json.users + '</b></h1><br><h1>API-Ping: <b>' + json.apiping + '</b></h1><br><h1>Befehle: <b>' + json.commands + '</b></h1><br><h1>Uptime: <b>' + luxon.DateTime.fromMillis(Date.now() - json.uptime, {locale: "de-DE"}).toRelative() + '</b></h1>';
           if (text === '') {
             resolve('' +
               '<h1>Es gibt keine Stats!</h1>');

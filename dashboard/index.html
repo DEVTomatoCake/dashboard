@@ -103,8 +103,8 @@
     login(params.get('code'))
       .then((json) => {
         if (json.status === 'success') {
-          setCookie('token', json.token);
-          setCookie('user', json.user);
+          setCookie('token', json.token, 3);
+          setCookie('user', json.user, 3);
 
           let query = '';
           if (params.has('guild')) query = '?guild=' + params.get('guild');
@@ -116,7 +116,7 @@
             '<h1>' + json.message + '</h1>';
         }
       });
-  } else if (!getCookie('token')) {
+  } else if (!getCookie('token') || !getCookie('user')) {
     document.head.innerHTML = document.head.innerHTML.replace('dark.css', 'simple.css');
     document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
 

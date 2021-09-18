@@ -37,7 +37,7 @@ window.onload = function () {
     '<p>Unsere Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.</p>' +
     '</div>' +
     '<div class="cookie-button">' +
-    '<a onclick="setCookie(\'cookie-dismiss\', \'true\', 7);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</a>' +
+    '<a onclick="setCookie(\'cookie-dismiss\', \'true\', 10);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</a>' +
     '</div>' +
     '</div>';
 

@@ -104,11 +104,10 @@
       .then((json) => {
         if (json.status === 'success') {
           setCookie('token', json.token);
+          setCookie('user', json.user);
 
           let query = '';
-          if (params.has('guild')) {
-            query = '?guild=' + params.get('guild');
-          }
+          if (params.has('guild')) query = '?guild=' + params.get('guild');
 
           location.href = 'https://' + location.host + '/dashboard' + query;
         } else {

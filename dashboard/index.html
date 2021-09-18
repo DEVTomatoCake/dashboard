@@ -121,6 +121,11 @@
     document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
 
     location.href = '../login';
+  } else if (getCookie('token') == "undefined") {
+    document.head.innerHTML = document.head.innerHTML.replace('dark.css', 'simple.css');
+    document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
+
+    location.href = '../login';
   } else if (params.has('guild')) {
     const guild = params.get('guild');
 

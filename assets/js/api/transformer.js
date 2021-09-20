@@ -3,7 +3,7 @@ function getCommandsHTML() {
     getCommands()
       .then(json => {
         if (json.status === 'success') {
-          let text = '';
+          let text = '<input type="text" id="cmdSearch" onkeyup="cmdSearch()" placeholder="Suchen..." title="Nach Befehl suchen">';
           var categories = [];
           var categoryData = [];
 
@@ -13,7 +13,7 @@ function getCommandsHTML() {
               '<p>' + command.description + '</p>';
 
             if (command.name != command.usage) temp += '<pre>' + command.usage + '</pre>';
-            temp += '<br>';
+            temp += '<p style="padding-bottom: 20px;"></p>';
             
             if (command.category && !categories.includes(command.category)) categories.push(command.category)
             if (command.category) categoryData.push([command.category, temp])

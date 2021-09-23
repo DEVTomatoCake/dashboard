@@ -18,30 +18,18 @@
 
   <script>
     function cmdSearch() {
-      var input, filter, ul, p, a, i;
+      var input, filter, div, a, i;
       input = document.getElementById("cmdSearch");
       filter = input.value.toUpperCase();
-      ul = document.getElementById("commands-container");
 
-      var p = ul.getElementsByTagName("p");
+      var div = document.getElementById("commands-container").getElementsByClassName("command");
 
-      for (i = 0; i < p.length; i++) {
-        a = p[i];
+      for (i = 0; i < div.length; i++) {
+        a = div[i];
         if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-          p[i].style.display = "";
+          div[i].style.display = "";
         } else {
-          p[i].style.display = "none";
-        }
-      }
-      
-      var pre = ul.getElementsByTagName("pre");
-
-      for (i = 0; i < pre.length; i++) {
-        a = pre[i];
-        if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-          pre[i].style.display = "";
-        } else {
-          pre[i].style.display = "none";
+          div[i].style.display = "none";
         }
       }
     }

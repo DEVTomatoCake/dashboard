@@ -152,19 +152,21 @@ function getSettingsHTML(guild) {
           json.data.forEach(setting => {
             temp = '';
             if (!setting.possible) {
-              temp += '' +
+              if (setting.key == "maxMentions") temp += '' +
                 '<p>' + setting.help + '</p>' +
-                '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">' +
-                '<br><br>';
+                '<input type="number" min="0" class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+              else temp += '' +
+                '<p>' + setting.help + '</p>' +
+                '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
             } else {
               const possible = setting.possible;
 
               temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
               Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
-              temp += '</select><br><br>';
+              temp += '</select>';
             }
             if (setting.category && !categories.includes(setting.category)) categories.push(setting.category)
-            if (setting.category) categoryData.push([setting.category, temp])
+            if (setting.category) categoryData.push([setting.category, temp + '<br><br>'])
           });
 
           categories.forEach(category => {

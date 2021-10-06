@@ -154,7 +154,7 @@ function getSettingsHTML(guild) {
             if (!setting.possible) {
               if (setting.key == "maxMentions") temp += '' +
                 '<p>' + setting.help + '</p>' +
-                '<input type="number" min="0" class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+                '<input type="number" min="0" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
               else temp += '' +
                 '<p>' + setting.help + '</p>' +
                 '<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';

@@ -3,7 +3,7 @@ function getCommandsHTML() {
     getCommands()
       .then(json => {
         if (json.status === 'success') {
-          let text = '<input type="text" id="cmdSearch" onkeyup="cmdSearch()" placeholder="Befehl suchen...">';
+          let text = '';
           var categories = [];
           var categoryData = [];
 
@@ -11,9 +11,9 @@ function getCommandsHTML() {
             temp = '' +
               '<div class="command">' +
               '<p style="color: gold; font-size: 1.7em;">' + command.name + '</p>' +
-              '<p>' + command.description + '</p>';
+              '<p style="color: var(--primary-text-color);">' + command.description + '</p>';
 
-            if (command.name != command.usage) temp += '<pre>' + command.usage + '</pre>';
+            if (command.name != command.usage) temp += '<pre style="color: var(--primary-text-color);">' + command.usage + '</pre>';
             temp += '<p style="padding-bottom: 20px;"></p></div>';
             
             if (command.category && !categories.includes(command.category)) categories.push(command.category)
@@ -105,7 +105,7 @@ function getGuildsHTML() {
           json.data.forEach(guild => {
             text += '' +
               (noRow ? '' : '<div class="column">') +
-              '<div class="container">' +
+              '<div class="guilds-container">' +
               '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
               '<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
               '<div class="middle">' +
@@ -165,18 +165,18 @@ function getSettingsHTML(guild) {
               Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
               temp += '</select>';
             }
-            if (setting.category && !categories.includes(setting.category)) categories.push(setting.category)
-            if (setting.category) categoryData.push([setting.category, temp + '<br><br>'])
+            if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
+            if (setting.category) categoryData.push([setting.category, temp + '<br><br>']);
           });
 
           categories.forEach(category => {
             text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>';
             categoryData.forEach(data => {
-              if (category == data[0]) text += data[1]
+              if (category == data[0]) text += data[1];
             })
           })
 
-          resolve('<h1>Einstellungen von <b>' + json.name + '</b></h1>' + text);
+          resolve('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -213,7 +213,7 @@ function getCustomcommandsHTML(guild) {
             }
           });
 
-          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1><h2>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h2><button onclick="createCustomcommand()">Customcommand erstellen</button><br><br>' + text);
+          resolve('<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h2>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h2><button onclick="createCustomcommand()">Customcommand erstellen</button><br><br>' + text);
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

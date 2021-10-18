@@ -21,7 +21,7 @@ function getCommandsHTML() {
           });
 
           categories.forEach(category => {
-            text += '<br><h1 id="' + category + '" style="color: var(--primary-text-color);">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br>';
+            text += '<br><h1 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br>';
             categoryData.forEach(data => {
               if (category == data[0]) text += data[1]
             })

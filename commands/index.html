@@ -17,7 +17,7 @@
 
 	  	<script>
 	  		getCommandsHTML().then(html => {
-	  			document.getElementById("commands-container").innerHTML = html
+	  			document.getElementById("commands-container").innerHTML = html;
 	  		});
 
 			function cmdSearch() {
@@ -91,7 +91,7 @@
 
   	<body class="dark-theme">		
 		<div class="sidebar-container visible" id="sidebar-container">
-	  
+
 			<div class="sidebar" id="sidebar">
 				<div class="hamburger" id="hamburger" onclick="sidebar();">
 					<div class="line" id="lineTop2"></div>
@@ -165,15 +165,15 @@
 
 				<div id="commands-container"></div>
 
-				<p id="author">Website erstellt von Bookie0</p>
+				<p id="author">Website erstellt von <a href="https://bookie0.repl.co/">Bookie0</a></p>
 			</div>
 		</section>
 
 		<script>
-			const username = getCookie("user")
+			const username = getCookie("user");
 	  		if (username) {
-	  			document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!"
-	  			document.getElementById("username-header").innerText = username
+	  			document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
+	  			document.getElementById("username-header").innerText = username;
 	  		}
 
 			document.getElementById("theme-toggle").addEventListener("change", function() {

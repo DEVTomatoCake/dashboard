@@ -364,7 +364,7 @@ html, body {
 
 .sidebar .section .tab p {
 	font-size: 24px;
-}	
+}
 
 .main .top {
 	background: var(--secondary-color);
@@ -591,6 +591,9 @@ html, body {
 	background: var(--red);
 }
 
+.main .content h1 {
+	color: var(--primary-text-color);
+}
 
 .main .content .row .data .container .text h3 {
 	color: var(--primary-text-color);

@@ -3,7 +3,7 @@ function getCommandsHTML() {
     getCommands()
       .then(json => {
         if (json.status === 'success') {
-          let text = '<input type="text" id="cmdSearch" onkeyup="cmdSearch()" placeholder="Befehl suchen...">';
+          let text = '';
           var categories = [];
           var categoryData = [];
 
@@ -11,9 +11,9 @@ function getCommandsHTML() {
             temp = '' +
               '<div class="command">' +
               '<p style="color: gold; font-size: 1.7em;">' + command.name + '</p>' +
-              '<p>' + command.description + '</p>';
+              '<p style="color: var(--primary-text-color);">' + command.description + '</p>';
 
-            if (command.name != command.usage) temp += '<pre>' + command.usage + '</pre>';
+            if (command.name != command.usage) temp += '<pre style="color: var(--primary-text-color);">' + command.usage + '</pre>';
             temp += '<p style="padding-bottom: 20px;"></p></div>';
             
             if (command.category && !categories.includes(command.category)) categories.push(command.category)
@@ -21,7 +21,7 @@ function getCommandsHTML() {
           });
 
           categories.forEach(category => {
-            text += '<br><h1 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br>';
+            text += '<br><h1 id="' + category + '" style="color: var(--primary-text-color);">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br>';
             categoryData.forEach(data => {
               if (category == data[0]) text += data[1]
             })

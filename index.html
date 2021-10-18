@@ -1,68 +1,393 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <meta content="TomatenKuchen - Dein Discord Bot" name="description"/>
+  	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TomatenKuchen - Home</title>
-  <link href="./assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-  <link href="./assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+	  	<title>TomatenKuchen - Home</title>
+	  	<link href="./assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+	  	<link href="./assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
-  <link href="./assets/css/light.css" rel="stylesheet" type="text/css"/>
+		<link href="./assets/style.css" rel="stylesheet" type="text/css">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
 
-  <script src="./assets/js/script.js"></script>
-  <script src="./assets/js/cookie.js"></script>
-  <script src="./assets/js/luxon.js"></script>
-  <script src="./assets/js/api/api.js"></script>
-  <script src="./assets/js/api/transformer.js"></script>
-</head>
+	  	<script src="./assets/js/script.js"></script>
+	  	<script src="./assets/js/cookie.js"></script>
+	  	<script src="./assets/js/luxon.js"></script>
+	  	<script src="./assets/js/api/api.js"></script>
+	  	<script src="./assets/js/api/transformer.js"></script>
 
-<body style="background-color: #EEE;">
-  <header>
-    <a class="logo" href="#top">TomatenKuchen<span>.</span></a>
-    <div class="menu-toggle" onclick="toggleMenu();"></div>
+	  	<script>
+	  		getBotstats().then(json => {
+	  			console.log(json)
+	  			document.getElementById('stats-guilds').innerText = json.guilds
+	  			document.getElementById('stats-users').innerText = json.users
+	  			document.getElementById('stats-apiping').innerText = json.apiping
+	  		});
 
-    <ul class="navigation">
-      <li class="active"><a href="#top" onclick="hideMenu();">Home</a></li>
-      <li><a href="commands">Befehle</a></li>
-      <li><a href="invite">Bot einladen</a></li>
-      <li><a href="docs">Dokumentation</a></li>
-      <li><a href="dashboard">Dashboard</a></li>
-    </ul>
-  </header>
+			var i = 0;
+			if (screen.width <= 500) {
+				document.getElementById("sidebar-container").classList.toggle("visible");
+				document.getElementById("content").style.paddingLeft = "0";
+				i = 1;
+			}
 
-  <section class="banner" id="top">
-    <div class="content">
-      <h2>TomatenKuchen</h2>
-      <a class="button" href="dashboard">Dashboard</a>
-    </div>
-  </section>
+			function sidebar() {
+				i++;
 
-  <script>aboutVisibility();</script>
+				document.getElementById("lineTop2").style.transform = "rotate(45deg)";
+				document.getElementById("lineTop2").style.top = "5px";
+				document.getElementById("lineBottom2").style.transform = "rotate(-45deg)";
+				document.getElementById("lineBottom2").style.bottom = "5px";
 
-  <div class="about" id="about">
-  <h2 class="title">&Uuml;ber TomatenKuchen</h2>
-  </div>
+				document.getElementById("lineTop1").style.transform = "rotate(45deg)";
+				document.getElementById("lineTop1").style.top = "5px";
+				document.getElementById("lineBottom1").style.transform = "rotate(-45deg)";
+				document.getElementById("lineBottom1").style.bottom = "5px";
 
-  <br>
-  <br>
-  <h1>Statistiken</h1>
+				if (i % 2 == 0) {
+					setTimeout(() => { 
+						document.getElementById("content").style.paddingLeft = "230px";
+						document.getElementById("sidebar-container").classList.toggle("visible");		
+					}, 300);
+				} else {
+					document.getElementById("content").style.paddingLeft = "0";
 
-  <section id="botstats">
-    <div class="row">
-      <div class="col50" id="botstats-container">
-        <h1>Die Stats werden geladen...</h1>
-      </div>
-    </div>
-  </section>
+					document.getElementById("lineTop2").style.transform = "rotate(0)";
+					document.getElementById("lineTop2").style.top = "0";
+					document.getElementById("lineBottom2").style.transform = "rotate(0)";
+					document.getElementById("lineBottom2").style.bottom = "0";
 
-  <!--<h1>Embeds</h1>
-  <br>
-  <script src="https://discordbotlist.com/widget/index.js" async></script>
-  <dbl-widget bot-id="bot-685166801394335819"></dbl-widget>
-  <a href="https://voidbots.net/bot/685166801394335819"><img src="https://voidbots.net/api/embed/685166801394335819?theme=custom&bg=D7B1B1&downbg=F78181&text=140000&cards=74BDEB" width="286" height="163" alt=""/></a>-->
+					document.getElementById("lineTop1").style.transform = "rotate(0)";
+					document.getElementById("lineTop1").style.top = "0";
+					document.getElementById("lineBottom1").style.transform = "rotate(0)";
+					document.getElementById("lineBottom1").style.bottom = "0";
 
-  <script>getBotstatsHTML().then((html) => document.getElementById('botstats-container').innerHTML = html);</script>
-</body>
+					setTimeout(() => { 
+						document.getElementById("sidebar-container").classList.toggle("visible");		
+					}, 100);
+				}
+			}
+
+			function redirect(url) {
+				window.location = url;
+			}
+	  	</script>
+  	</head>
+
+  	<body class="dark-theme">		
+		<div class="sidebar-container visible" id="sidebar-container">
+	  
+			<div class="sidebar" id="sidebar">
+				<div class="hamburger" id="hamburger" onclick="sidebar();">
+					<div class="line" id="lineTop2"></div>
+					<div class="line" id="lineBottom2"></div>
+				</div>
+
+				<button onclick="redirect('/invite')"><ion-icon name="add"></ion-icon> BOT EINLADEN</button>
+
+				<div class="section">
+					<!-- <p class="title">MAIN</p> -->
+
+					<div class="tab active">
+						<ion-icon name="home-outline"></ion-icon>
+			 			<p>Home</p>
+					</div>
+
+					<div onclick="redirect('/commands')" class="tab">
+						<ion-icon name="terminal-outline"></ion-icon>
+						<p>Befehle</p>
+					</div>
+
+					<div onclick="redirect('/dashboard')" class="tab">
+						<ion-icon name="settings-outline"></ion-icon>
+						<p>Dashboard</p>
+					</div>
+
+					<div onclick="redirect('/docs')" class="tab">
+						<ion-icon name="document-text-outline"></ion-icon>
+						<p>Docs</p>
+					</div>
+				</div>
+
+				<div class="section middle">
+					<p class="title">PEOPLE</p>
+
+					<div class="tab">
+						<ion-icon name="flag-outline"></ion-icon>
+						<p>Bewertungen</p>
+					</div>
+				</div>
+
+				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
+					<!--<div class="tab">
+						<ion-icon name="settings-outline"></ion-icon>
+					</div>-->
+
+					<label class="switch">
+						<input type="checkbox" id="theme-toggle">
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<section class="main" id="main">
+			<div class="top">
+				<div class="hamburger" id="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="account">
+					<p id="username-header" onclick="redirect('/login')">Anmelden</p>
+
+					<div class="notification">42</div>
+					<ion-icon name="person-circle-outline"></ion-icon>
+				</div>
+			</div>
+
+			<div class="content" id="content">
+				<h1 id="username-content" class="greeting">Hallo!</h1>
+
+				<div class="row">
+					<div class="data rect">
+						<div class="container session-length">
+							<ion-icon name="hourglass-outline" class="session-length-icon"></ion-icon>							
+
+							<div class="text">
+								<h3 id="stats-guilds">Lade...</h3>
+								<p>SERVER INSGESAMT</p>
+							</div>
+
+							<a href="https://beta.statcord.com/bot/685166801394335819" style="padding-left: 180px;"><ion-icon name="open-outline" class="open"></ion-icon></a>
+						</div>
+
+						<table class="charts-css area multiple hide-data session-length">
+							<tbody>
+								<tr class="first">
+									<td style="--start:0.1; --size:0.45;" class="first"></td>
+									<td style="--start:0; --size:0.2;" class="second"></td>
+									<td style="--start:0.2; --size:0.3;" class="third"></td>
+								</tr>
+								<tr>
+									<td style="--start:0.45; --size:0.6;" class="first"></td>
+									<td style="--start:0.2; --size:0.4;" class="second"></td>
+									<td style="--start:0.3; --size:0.1;" class="third"></td>
+								</tr>
+								<tr class="last">
+									<td style="--start:0.6; --size:0.7;" class="first"></td>
+									<td style="--start:0.4; --size:0.3;" class="second"></td>
+									<td style="--start:0.1; --size:0.2;" class="third"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+					<div class="small-container">
+						<div class="data small red">
+							<div class="container">
+								<ion-icon name="trending-down"></ion-icon>
+
+								<div class="text">
+									<h3 id="stats-apiping">Lade...</h3>
+									<p>API PING</p>
+								</div>
+
+								<a href="https://discordstatus.com" style="padding-left: 50px;"><ion-icon name="open-outline" class="open"></ion-icon></a>
+							</div>
+
+							<h1>42%</h1>
+						</div>
+
+						<div class="data small green">
+							<div class="container">
+								<ion-icon name="trending-up"></ion-icon>
+
+								<div class="text">
+									<h3 id="stats-users">Lade...</h3>
+									<p>NUTZER</p>
+								</div>
+
+								<a href="https://beta.statcord.com/bot/685166801394335819" style="padding-left: 0px;"><ion-icon name="open-outline" class="open"></ion-icon></a>
+							</div>
+
+							<h1>69%</h1>
+						</div>
+					</div>
+				</div>
+
+				<!--<div class="row">
+					<div class="data rect">
+						<div class="container">								
+							<ion-icon name="people-outline" class="users-icon"></ion-icon>
+
+							<div class="text">
+								<h3>2.3K</h3>
+								<p>DAILY USERS</p>
+							</div>
+
+							<ion-icon name="open-outline" class="open"></ion-icon>
+						</div>
+
+						<table class="charts-css line users">
+							<tbody>
+								<tr>
+									<td style="--start: 0.1; --size: 0.2"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.2; --size: 0.4"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.4; --size: 0.2"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.2; --size: 0.3"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.3; --size: 0.6"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.6; --size: 0.8"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.8; --size: 1.0"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					
+					<div class="data rect">
+						<div class="container">								
+							<ion-icon name="flash-outline" class="performance-icon"></ion-icon>
+
+							<div class="text">
+								<h3>73.5%</h3>
+								<p>PERFORMANCE</p>
+							</div>
+
+							<ion-icon name="open-outline" class="open"></ion-icon>
+						</div>
+
+						<table class="charts-css line performance">
+							<tbody>
+								<tr>
+									<td style="--start: 0.7; --size: 0.7"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.7; --size: 0.6"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.6; --size: 0.7"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.7; --size: 0.6"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.6; --size: 0.5"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.5; --size: 0.7"></td>
+								</tr>
+								<tr>
+									<td style="--start: 0.7; --size: 0.7"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>-->
+
+				<div class="row">
+					<div class="data large">
+						<div class="container">
+							<ion-icon name="flag-outline" class="reviews-icon"></ion-icon>
+
+							<div class="text">
+								<h3>0</h3>
+								<p>BEWERTUNGEN</p>
+							</div>
+						</div>
+
+						<div class="reviews">
+							<div class="review">
+								<div class="image-text-container">
+									<img src="./assets/images/discorddefault.png">
+
+									<div class="text-container">
+										<h4>Jemand</h4>
+
+										<div class="stars">
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+										</div>
+									</div>
+								</div>
+
+								<p>Hier könnte deine <s>Werbung</s> Bewertung stehen!</p>
+							</div>
+
+							<div class="review">
+								<div class="image-text-container">
+									<img src="./assets/images/discorddefault.png">
+
+									<div class="text-container">
+										<h4>Jemand</h4>
+
+										<div class="stars">
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+										</div>
+									</div>
+								</div>
+
+								<p>Stunning and beautiful design. Professional service that is always here for you! Was skeptical at first, but was way better than I expected!</p>
+							</div>
+
+							<div class="review">
+								<div class="image-text-container">
+									<img src="./assets/images/discorddefault.png">
+
+									<div class="text-container">
+										<h4>Jemand</h4>
+
+										<div class="stars">
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star"></ion-icon>
+											<ion-icon name="star-half"></ion-icon>
+										</div>
+									</div>
+								</div>
+
+								<p>Stunning and beautiful design. Professional service that is always here for you! Was skeptical at first, but was way better than I expected!</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p id="author">Website erstellt von Bookie0</p>
+			</div>
+		</section>
+
+		<script>
+			const username = getCookie("user")
+	  		if (username) {
+	  			document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!"
+	  			document.getElementById("username-header").innerText = username
+	  		}
+
+			document.getElementById("theme-toggle").addEventListener("change", function() {
+			  	document.body.classList.toggle("light-theme");
+			  	document.body.classList.toggle("dark-theme");
+			});
+		</script>
+		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  	</body>
 </html>

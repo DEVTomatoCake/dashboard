@@ -25,7 +25,7 @@ function deleteCookie(name) {
   document.cookie = name + '=; Max-Age=-99999999;';
 }
 
-window.onload = function () {
+/*window.onload = function () {
   if (getCookie('cookie-dismiss')) return;
 
   document.body.innerHTML += '' +
@@ -42,4 +42,4 @@ window.onload = function () {
     '</div>';
 
   setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
-};
+};*/

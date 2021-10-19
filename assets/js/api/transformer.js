@@ -105,7 +105,7 @@ function getGuildsHTML() {
           json.data.forEach(guild => {
             text += '' +
               (noRow ? '' : '<div class="column">') +
-              '<div class="container">' +
+              '<div class="guilds-container">' +
               '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
               '<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
               '<div class="middle">' +

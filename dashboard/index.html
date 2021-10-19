@@ -109,15 +109,6 @@
 					</div>
 				</div>
 
-				<div class="section middle">
-					<p class="title">PEOPLE</p>
-
-					<div class="tab">
-						<ion-icon name="flag-outline"></ion-icon>
-						<p>Bewertungen</p>
-					</div>
-				</div>
-
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
 					<label class="switch">
 						<input type="checkbox" id="theme-toggle">
@@ -145,7 +136,7 @@
 			<div class="content" id="content">
 				<h1 id="username-content" class="greeting">Hallo!</h1>
 
-				<div class="row">
+				<div id="root-container" class="row">
 					<section id="guilds">
 						<div class="col50" id="guilds-container">
 							<h1>Die Server werden geladen...</h1>
@@ -206,7 +197,7 @@
 
 					setTimeout(() => {
 						location.reload();
-					}, 1000 * timeout);
+					}, timeout * 1000);
 
 					saving = false;
 				});

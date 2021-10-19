@@ -25,7 +25,24 @@ function deleteCookie(name) {
   document.cookie = name + '=; Max-Age=-99999999;';
 }
 
-/*window.onload = function () {
+function fadeOut(element) {
+  if (!element) return;
+  if (!element.style.opacity) element.style.opacity = 1;
+
+  element.style.opacity = parseFloat(element.style.opacity) - 0.05;
+  if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25);
+  else element.remove();
+}
+
+function fadeIn(element) {
+  if (!element) return;
+  if (!element.style.opacity) element.style.opacity = 0;
+
+  element.style.opacity = parseFloat(element.style.opacity) + 0.05;
+  if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
+}
+
+window.onload = function () {
   if (getCookie('cookie-dismiss')) return;
 
   document.body.innerHTML += '' +
@@ -42,4 +59,4 @@ function deleteCookie(name) {
     '</div>';
 
   setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
-};*/
+};

@@ -147,6 +147,15 @@
 			});
 
 
+			function createCustomcommand() {
+			    var name = prompt("Wie soll der Customcommand heißen?", "test");
+			    if (name == null) name = "test";
+
+			    var div = document.createElement("DIV");
+			    div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="4000" name="' + name + '"></textarea><br>';
+			    document.getElementById('settingsContent').appendChild(div); 
+		  	}
+
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;
 

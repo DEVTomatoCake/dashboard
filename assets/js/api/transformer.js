@@ -213,7 +213,7 @@ function getCustomcommandsHTML(guild) {
             }
           });
 
-          resolve('<h1>Customcommands von <b>' + json.name + '</b></h1><h2>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h2><button onclick="createCustomcommand()">Customcommand erstellen</button><br><br>' + text);
+          resolve('<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h2>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h2><button onclick="createCustomcommand()">Customcommand erstellen</button><br><br>' + text);
         } else {
           resolve('' +
             '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	  	<title>TomatenKuchen - Home</title>
+	  	<title>TomatenKuchen - Befehle</title>
 	  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
 	  	<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
@@ -122,15 +122,6 @@
 					</div>
 				</div>
 
-				<!--<div class="section middle">
-					<p class="title">PEOPLE</p>
-
-					<div class="tab">
-						<ion-icon name="flag-outline"></ion-icon>
-						<p>Bewertungen</p>
-					</div>
-				</div>-->
-
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
 					<label class="switch">
 						<input type="checkbox" id="theme-toggle">
@@ -171,10 +162,7 @@
 
 		<script>
 			const username = getCookie("user");
-	  		if (username) {
-	  			document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
-	  			document.getElementById("username-header").innerText = username;
-	  		}
+	  		if (username) document.getElementById("username-header").innerText = username;
 
 			document.getElementById("theme-toggle").addEventListener("change", function() {
 			  	document.body.classList.toggle("light-theme");

@@ -78,7 +78,7 @@
 
 				<button onclick="redirect('/invite')"><ion-icon name="add"></ion-icon> BOT EINLADEN</button>
 
-				<div class="section">
+				<div id="linksidebar" class="section">
 					<!-- <p class="title">MAIN</p> -->
 
 					<div onclick="redirect('/')" class="tab">
@@ -201,7 +201,7 @@
 			document.getElementById('root-container').innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';
 
 			login(params.get('code'))
-			  .then((json) => {
+			  .then(json => {
 				if (json.status === 'success') {
 				  setCookie('token', json.token, 3);
 				  setCookie('user', json.user, 3);
@@ -233,10 +233,10 @@
 			document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 
 			getSettingsHTML(guild)
-			  .then((html) => {
-				document.getElementById('root-container').innerHTML = 
-				  "<div class=\"sidebar\">" +
-				  "<a href=\"#allgemein\">Allgemein</a>" +
+			  .then(html => {
+				document.getElementById('linksidebar').innerHTML +=
+				  '<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
+				  '<div class="tab"><ion-icon name="settings-outline"></ion-icon><p onclick="redirect(\"#allgemein\")">Allgemein</p></div>' +
 				  "<a href=\"#moderation\">Moderation</a>" +
 				  "<a href=\"#willkommen\">Willkommen</a>" +
 				  "<a href=\"#starconfig\">Starboard</a>" +
@@ -252,7 +252,7 @@
 			  });
 		  } else {
 			getGuildsHTML()
-			  .then((html) => {
+			  .then(html => {
 				document.getElementById('guilds-container').innerHTML = html;
 			  });
 		  }

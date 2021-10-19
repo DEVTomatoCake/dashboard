@@ -69,65 +69,65 @@ html, body {
 }
 
 .guilds-container .guild {
-  width: 100%;
-  height: 26px;
-  margin: 2px;
-  padding: 3px;
-  text-decoration: none;
-  color: #fc3f75;
-  font-family: sans-serif;
+	width: 100%;
+	height: 26px;
+	margin: 2px;
+	padding: 3px;
+	text-decoration: none;
+	color: #fc3f75;
+	font-family: sans-serif;
 }
 
 .guilds-container .guild a:hover {
-  background-color: #fff;
-  color: #A67792;
-  text-decoration: #A67792;
+	background-color: #fff;
+	color: #A67792;
+	text-decoration: #A67792;
 }
 
 .guilds-container {
-  position: relative;
+	position: relative;
 }
 
 .guilds-container .image {
-  opacity: 1;
-  display: block;
-  width: 100%;
-  height: auto;
-  transition: .5s ease;
-  backface-visibility: hidden;
-  border-radius: 50%;
+	opacity: 1;
+	display: block;
+	width: 100%;
+	height: auto;
+	transition: .5s ease;
+	backface-visibility: hidden;
+	border-radius: 50%;
 }
 
 .guilds-container .middle {
-  transition: .5s ease;
-  opacity: 0;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -ms-transform: translate(-50%, -50%);
-  text-align: center;
+	transition: .5s ease;
+	opacity: 0;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-ms-transform: translate(-50%, -50%);
+	text-align: center;
 }
 
 .guilds-container:hover .image {
-  opacity: 0.3;
-  border-radius: 25%;
+	opacity: 0.3;
+	border-radius: 25%;
 }
 
 .guilds-container:hover .middle {
-  opacity: 1;
+	opacity: 1;
 }
 
 .guilds-container .text {
-  background-color: #4CAF50;
-  color: white;
-  font-size: 16px;
-  padding: 10px 16px;
+	background-color: #4CAF50;
+	color: white;
+	font-size: 16px;
+	padding: 10px 16px;
 }
 
 .setting {
-  font-size: 1.1em;
-  border: none;
+	font-size: 1.1em;
+	border: none;
 }
 
 .sidebar-container {
@@ -314,41 +314,41 @@ html, body {
 }
 
 .switch {
-  position: relative;
-  display: inline-block;
-  width: 60px;
-  height: 34px;
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
 	margin-left: auto;
 	margin-right: 10px;
 }
 
 .switch input { 
-  opacity: 0;
-  width: 0;
-  height: 0;
+	opacity: 0;
+	width: 0;
+	height: 0;
 }
 
 .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: var(--secondary-color);
-  border-radius: 20px;
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: var(--secondary-color);
+	border-radius: 20px;
 }
 
 .slider:before {
-  position: absolute;
+	position: absolute;
 	content: "☀️";
-  height: 26px;
-  width: 26px;
-  left: 4px;
-  bottom: 4px;
-  background-color: var(--primary-color);
-  transition: 0.5s;
-  border-radius: 50%;
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: var(--primary-color);
+	transition: 0.5s;
+	border-radius: 50%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -356,7 +356,7 @@ html, body {
 }
 
 .switch input + .slider {
-  background-color: var(--accent-color);
+	background-color: var(--accent-color);
 }
 
 .switch input:checked + .slider:before {
@@ -364,7 +364,7 @@ html, body {
 }
 
 .switch input:checked + .slider:before {
-  transform: translateX(26px);
+	transform: translateX(26px);
 }
 
 
@@ -1008,16 +1008,16 @@ table.charts-css {
 
 
 ::-webkit-scrollbar {
-  width: 8px;
+	width: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--accent-color);;
+	background: var(--accent-color);;
 	border-radius: 20px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-color-hover);
+	background: var(--accent-color-hover);
 }
 
 ::selection {

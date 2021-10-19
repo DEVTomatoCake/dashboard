@@ -86,7 +86,6 @@ html, body {
 
 .guilds-container {
   position: relative;
-  width: 75%;
 }
 
 .guilds-container .image {
@@ -127,7 +126,7 @@ html, body {
 }
 
 .setting {
-  font-size: 1.2em;
+  font-size: 1.1em;
   border: none;
 }
 

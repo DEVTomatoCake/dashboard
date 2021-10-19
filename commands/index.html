@@ -1,41 +1,41 @@
 <!DOCTYPE html>
 <html lang="de">
-  	<head>
+	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	  	<title>TomatenKuchen - Befehle</title>
-	  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-	  	<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+		<title>TomatenKuchen - Befehle</title>
+		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
 		<link href="../assets/style.css" rel="stylesheet" type="text/css">
 
-	  	<script src="../assets/js/script.js"></script>
-	  	<script src="../assets/js/cookie.js"></script>
-	  	<script src="../assets/js/api/api.js"></script>
-	  	<script src="../assets/js/api/transformer.js"></script>
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/cookie.js"></script>
+		<script src="../assets/js/api/api.js"></script>
+		<script src="../assets/js/api/transformer.js"></script>
 
-	  	<script>
-	  		getCommandsHTML().then(html => {
-	  			document.getElementById("commands-container").innerHTML = html;
-	  		});
+		<script>
+			getCommandsHTML().then(html => {
+				document.getElementById("commands-container").innerHTML = html;
+			});
 
 			function cmdSearch() {
-		      	var input, filter, div, a, i;
-		      	input = document.getElementById("cmdSearch");
-		      	filter = input.value.toUpperCase();
+				var input, filter, div, a, i;
+				input = document.getElementById("cmdSearch");
+				filter = input.value.toUpperCase();
 
-		      	var div = document.getElementById("commands-container").getElementsByClassName("command");
+				var div = document.getElementById("commands-container").getElementsByClassName("command");
 
-		      	for (i = 0; i < div.length; i++) {
-		        	a = div[i];
-		        	if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-		          		div[i].style.display = "";
-		        	} else {
-		          		div[i].style.display = "none";
-		        	}
-		      	}
-		    }
+				for (i = 0; i < div.length; i++) {
+					a = div[i];
+					if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+						div[i].style.display = "";
+					} else {
+						div[i].style.display = "none";
+					}
+				}
+			}
 
 			var i = 0;
 			if (screen.width <= 500) {
@@ -86,10 +86,10 @@
 			function redirect(url) {
 				window.location = url;
 			}
-	  	</script>
-  	</head>
+		</script>
+	</head>
 
-  	<body class="dark-theme">		
+	<body class="dark-theme">		
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">
@@ -103,7 +103,7 @@
 				<div class="section">
 					<div onclick="redirect('/')" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
-			 			<p>Home</p>
+						<p>Home</p>
 					</div>
 
 					<div class="tab active">
@@ -162,14 +162,14 @@
 
 		<script>
 			const username = getCookie("user");
-	  		if (username) document.getElementById("username-header").innerText = username;
+			if (username) document.getElementById("username-header").innerText = username;
 
 			document.getElementById("theme-toggle").addEventListener("change", function() {
-			  	document.body.classList.toggle("light-theme");
-			  	document.body.classList.toggle("dark-theme");
+				document.body.classList.toggle("light-theme");
+				document.body.classList.toggle("dark-theme");
 			});
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-  	</body>
+	</body>
 </html>

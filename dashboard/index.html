@@ -78,8 +78,6 @@
 				<button onclick="redirect('/invite')"><ion-icon name="add"></ion-icon> BOT EINLADEN</button>
 
 				<div id="linksidebar" class="section">
-					<!-- <p class="title">MAIN</p> -->
-
 					<div onclick="redirect('/')" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p>Home</p>
@@ -170,27 +168,26 @@
 				}
 
 				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';
-				setSettings(params.get('guild'), items)
-					.then(json => {
-						const timeout = 3;
+				setSettings(params.get('guild'), items).then(json => {
+					const timeout = 3;
 
-						if (json.status === 'success') {
-							document.getElementById('root-container').innerHTML = '' +
-								'<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
-								'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
-						} else {
-							document.getElementById('root-container').innerHTML = '' +
-								'<h1>Die Einstellungen konnten nicht gespeichert werden!</h1>' +
-								'<h1>' + json.message + '</h1>' +
-								'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
-						}
+					if (json.status === 'success') {
+						document.getElementById('root-container').innerHTML = '' +
+							'<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
+							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
+					} else {
+						document.getElementById('root-container').innerHTML = '' +
+							'<h1>Die Einstellungen konnten nicht gespeichert werden!</h1>' +
+							'<h1>' + json.message + '</h1>' +
+							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
+					}
 
-						setTimeout(() => {
-							location.reload();
-						}, timeout * 1000);
+					setTimeout(() => {
+						location.reload();
+					}, timeout * 1000);
 
-						saving = false;
-					});
+					saving = false;
+				});
 			}
 
 		  	if (params.has('code')) {

@@ -223,13 +223,13 @@
 					.then(html => {
 						document.getElementById('linksidebar').innerHTML +=
 							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#allgemein\")'>Allgemein</p></div>" +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#moderation\")'>Moderation</p></div>" +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#willkommen\")'>Willkommen</p></div>" +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#starconfig\")'>Starboard</p></div>" +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#ticket\")'>Ticket</p></div>" +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#youtube\")'>YouTube</p></div>" +
-							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"#level\")'>Level</p></div>" +
+							"<div class='tab' onclick='redirect(\"#allgemein\")'><ion-icon name='settings-outline'></ion-icon><p>Allgemein</p></div>" +
+							"<div class='tab' onclick='redirect(\"#moderation\")'><ion-icon name='settings-outline'></ion-icon><p>Moderation</p></div>" +
+							"<div class='tab' onclick='redirect(\"#willkommen\")'><ion-icon name='settings-outline'></ion-icon><p>Willkommen</p></div>" +
+							"<div class='tab' onclick='redirect(\"#starconfig\")'><ion-icon name='settings-outline'></ion-icon><p>Starboard</p></div>" +
+							"<div class='tab' onclick='redirect(\"#ticket\")'><ion-icon name='settings-outline'></ion-icon><p>Ticket</p></div>" +
+							"<div class='tab' onclick='redirect(\"#youtube\")'><ion-icon name='settings-outline'></ion-icon><p>YouTube</p></div>" +
+							"<div class='tab' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
 							"<hr><div class='tab'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;' onclick='redirect(\"./customcommands/" + location.search + "\")'>Customcommands</p></div>" +
 							"<hr><br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 							"</div>";

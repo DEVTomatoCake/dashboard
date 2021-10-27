@@ -242,8 +242,8 @@
 					.then(html => {
 						document.getElementById('linksidebar').innerHTML +=
 							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
-							"<hr><br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+							"<button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+							"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
 							"<hr><div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "#allgemein\")'>Allgemein</p></div>" +
 							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "#moderation\")'>Moderation</p></div>" +
 							"<div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "#willkommen\")'>Willkommen</p></div>" +

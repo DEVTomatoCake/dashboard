@@ -232,15 +232,15 @@
 					.then(html => {
 						document.getElementById('linksidebar').innerHTML +=
 							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<div class='tab' onclick='redirect(\"#allgemein\")'><ion-icon name='settings-outline'></ion-icon><p>Allgemein</p></div>" +
+							"<br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+							"<hr><div class='tab' onclick='redirect(\"./customcommands/" + location.search + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
+							"<hr><div class='tab' onclick='redirect(\"#allgemein\")'><ion-icon name='settings-outline'></ion-icon><p>Allgemein</p></div>" +
 							"<div class='tab' onclick='redirect(\"#moderation\")'><ion-icon name='settings-outline'></ion-icon><p>Moderation</p></div>" +
 							"<div class='tab' onclick='redirect(\"#willkommen\")'><ion-icon name='settings-outline'></ion-icon><p>Willkommen</p></div>" +
 							"<div class='tab' onclick='redirect(\"#starconfig\")'><ion-icon name='settings-outline'></ion-icon><p>Starboard</p></div>" +
 							"<div class='tab' onclick='redirect(\"#ticket\")'><ion-icon name='settings-outline'></ion-icon><p>Ticket</p></div>" +
 							"<div class='tab' onclick='redirect(\"#youtube\")'><ion-icon name='settings-outline'></ion-icon><p>YouTube</p></div>" +
 							"<div class='tab' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
-							"<hr><div class='tab' onclick='redirect(\"./customcommands/" + location.search + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
-							"<hr><br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 							"</div>";
 
 						document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";

@@ -48,13 +48,13 @@ window.onload = function () {
   document.body.innerHTML += '' +
     '<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
     '<div class="cookie-title">' +
-    '<h2 style="color: white;">Information</h2>' +
+    '<h2 style="color: var(--primary-text-color);">Information</h2>' +
     '</div>' +
     '<div class="cookie-description">' +
     '<p>Unsere Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.</p>' +
     '</div>' +
     '<div class="cookie-button">' +
-    '<a onclick="setCookie(\'cookie-dismiss\', \'true\', 10);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</a>' +
+    '<a onclick="setCookie(\'cookie-dismiss\', \'true\', 14);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</a>' +
     '</div>' +
     '</div>';
 

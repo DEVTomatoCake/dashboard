@@ -133,7 +133,7 @@
 		  	const params = new URLSearchParams(location.search);
 
 		  	if (params.has('guild')) {
-		    	getLeaderboardHTML(params.get('guild')).then((html) => rootContainer.innerHTML = html);
+		    	getLeaderboardHTML(params.get('guild')).then(html => rootContainer.innerHTML = html);
 		  	} else {
 		    	rootContainer.innerHTML = '<h1 class="greeting">Bitte gib den Server mit an!</h1>';
 		  	}

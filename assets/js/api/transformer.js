@@ -234,8 +234,8 @@ function getLeaderboardHTML(guild) {
     getLeaderboard(guild)
       .then(json => {
         if (json.status === 'success') {
-          let text = '<h1>Das Leaderboard von ' + json.guild + '</h1>';
-          json.data.forEach((entry) => text += '<p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '" alt="' + entry.place + '">' + entry.user + ' <b>' + entry.points + '</b> Punkte (Level <b>' + entry.level + '</b>)</p>');
+          let text = '<h1 class="greeting">Leaderboard von ' + json.guild + '</h1>';
+          json.data.forEach(entry => text += '<p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '" alt="' + entry.place + '">' + entry.user + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p>');
           resolve(text);
         } else {
           resolve('' +
@@ -251,4 +251,3 @@ function getLeaderboardHTML(guild) {
       });
   });
 }
-

@@ -1,38 +1,35 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+	<head>
+  		<meta charset="UTF-8">
+  		<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-  <title>TomatenKuchen - Abmeldung</title>
-  <link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-  <link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+  		<title>TomatenKuchen - Abmeldung</title>
+  		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+  		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
-  <link href="../assets/css/simple.css" rel="stylesheet" type="text/css"/>
+  		<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
 
-  <script src="../assets/js/script.js"></script>
-  <script src="../assets/js/cookie.js"></script>
-  <script src="../assets/js/api/api.js"></script>
-</head>
-
-<body>
-<div id="root-container">
-  <h1>Die Abmeldung erfolgt...</h1>
-  <h2>Du wirst auf die Startseite geleitet, wenn die Abmeldung erfolgreich war!</h2>
-</div>
-
-<script>
-  logout()
-    .then((json) => {
-      if (json.status === 'success') {
-        if (getCookie('token')) setCookie('token', 'undefined', 0);
-        window.location.href = 'https://' + location.host + '/';
-      } else {
-        document.getElementById('root-container').innerHTML = '' +
-          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>' + json.message + '</h1>';
-      }
-    });
-</script>
-</body>
+  		<script src="../assets/js/cookie.js"></script>
+  		<script src="../assets/js/api/api.js"></script>
+	</head>
+	<body>
+		<center>
+		  	<h1>Die Abmeldung erfolgt...</h1>
+		  	<h2>Du wirst auf die Startseite geleitet, wenn die Abmeldung erfolgreich war!</h2>
+		</center>
+		<script>
+		  	logout()
+				.then((json) => {
+			  		if (json.status === 'success') {
+						if (getCookie('token')) setCookie('token', 'undefined', 0);
+						window.location.href = 'https://' + location.host + '/';
+			  		} else {
+						document.getElementById('root-container').innerHTML = '' +
+				  		'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+				  		'<h1>' + json.message + '</h1>';
+			  		}
+				});
+		</script>
+	</body>
 </html>

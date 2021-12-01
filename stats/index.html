@@ -1,60 +1,59 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <meta content="TomatenKuchen - Serverstatistiken" name="description"/>
+	<head>
+	  	<meta charset="UTF-8">
+	  	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+	  	<meta content="TomatenKuchen - Serverstatistiken" name="description"/>
 
-  <title>TomatenKuchen - Serverstatistiken</title>
-  <link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-  <link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+	  	<title>TomatenKuchen - Serverstatistiken</title>
+	  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+	  	<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
-  <link href="../assets/css/simple.css" rel="stylesheet" type="text/css"/>
+	  	<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
+	  	<style>
+			body {
+				background-color: #DCDCDC;
+			}
+	  	</style>
 
-  <script src="../assets/js/script.js"></script>
-  <script src="../assets/js/cookie.js"></script>
-  <script src="../assets/js/api/api.js"></script>
-  <script src="../assets/js/api/transformer.js"></script>
-</head>
+	  	<script src="../assets/js/cookie.js"></script>
+	  	<script src="../assets/js/api/api.js"></script>
+	  	<script src="../assets/js/api/transformer.js"></script>
+	  	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	</head>
+	<body>
+	  	<script>
+	  		const params = new URLSearchParams(window.location.search);
+	  		if (params.has('guild')) {
+				getStatsHTML(params.get('guild'))
+				  	.then((html) => {
+						createChart(html.labels.split(","), html.data.split(","))
+				  	});
+			} else {
+			   	document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
+			}
 
-<body>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script>
-  const params = new URLSearchParams(window.location.search);
-  if (params.has('guild')) {
-    getStatsHTML(params.get('guild'))
-      .then((html) => {
-        console.log(html.data.split(","))
-        console.log(html.labels.split(","))
-        createChart(html.labels.split(","), html.data.split(","))
-      });
-  } else {
-   document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
-  }
+		  	function createChart(apilabels, apidata) {
+				const data = {
+				  	labels: apilabels,
+				  	datasets: [{
+						label: "Nutzer",
+						backgroundColor: "rgb(255, 99, 132)",
+						borderColor: "rgb(255, 99, 132)",
+						data: apidata
+					}]
+				}
 
-  function createChart(apilabels, apidata) {
-    const labels = apilabels
+				const config = {
+				  	type: "line",
+				  	data,
+				  	options: {}
+				}
+				console.log(config.data.labels)
 
-    const data = {
-      labels: labels,
-      datasets: [{
-        label: "Nutzer",
-        backgroundColor: "rgb(255, 99, 132)",
-        borderColor: "rgb(255, 99, 132)",
-        data: apidata
-      }]
-    }
-
-    const config = {
-      type: "line",
-      data,
-      options: {}
-    }
-    console.log(config)
-
-    var myChart = new Chart(document.getElementById("myChart"), config)
-  }
-</script>
-  <canvas id="myChart"></canvas>
-</body>
+				new Chart(document.getElementById("stats"), config)
+		  	}
+		</script>
+	  	<canvas id="stats"></canvas>
+	</body>
 </html>

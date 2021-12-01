@@ -313,10 +313,12 @@ html, body {
 }
 
 .light-theme #author {
-	font-size: 80%; color: var(--primary-text-color);
+	font-size: 80%;
+	color: var(--primary-text-color);
 }
 .dark-theme #author {
-	font-size: 80%; color: var(--primary-text-color);
+	font-size: 80%;
+	color: var(--primary-text-color);
 }
 
 .switch {
@@ -479,7 +481,6 @@ html, body {
 	color: var(--secondary-text-color);
 }
 
-
 .main .top .search-box ion-icon {
 	position: relative;
 	margin-left: -50px;
@@ -537,7 +538,6 @@ html, body {
 .main .top .search-box:hover {
 	transform: scaleY(1.05) scaleX(1.01);
 }
-
 
 .main .top .account ion-icon {
 	font-size: 35px;
@@ -870,9 +870,7 @@ table.charts-css {
 }
 
 
-
 @media only screen and (max-width: 1000px) {
-
 	.main .top .account .notification {
 		margin-left: -17px;
 	}
@@ -887,7 +885,6 @@ table.charts-css {
 	}
 }
 
-
 @media only screen and (max-width: 600px) {
 	.main .content {
 		gap: 20px;
@@ -899,7 +896,6 @@ table.charts-css {
 
 	.main .content .row .data.rect {
 		width: 90%;
-		/* height: 500px; */
 	}
 
 	.main .content .row .small-container {

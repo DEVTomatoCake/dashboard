@@ -73,15 +73,20 @@ html, body {
 .grid {
 	width: auto;
 	display: grid;
-	grid-template-areas: ". . .";
+	grid-template-areas: ". . . .";
 	overflow: hidden;
 }
-@media (max-width: 950) {
+@media (max-width: 1200px) {
+  	.grid {
+		grid-template-areas: ". . .";
+  	}
+}
+@media (max-width: 950px) {
   	.grid {
 		grid-template-areas: ". .";
   	}
 }
-@media (max-width: 750px) {
+@media (max-width: 800px) {
   	.grid {
 		grid-template-areas: ".";
   	}

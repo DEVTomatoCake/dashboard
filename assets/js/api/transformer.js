@@ -96,24 +96,11 @@ function getStatsHTML(guild) {
 
 function getGuildsHTML() {
   return new Promise(resolve => {
-    const noRow = screen.height <= 720;
-
     getGuilds()
       .then(json => {
         if (json.status === 'success') {
           let text = '';
           json.data.forEach(guild => {
-            /*text += '' +
-              (noRow ? '' : '<div class="column">') +
-              '<div class="guilds-container">' +
-              '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
-              '<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
-              '<div class="middle">' +
-              '<div class="text">' + guild.name + '</div>' +
-              '</div>' +
-              '</a>' +
-              '</div>' +
-              (noRow ? '' : '</div>');*/
             text += '' +
               '<div class="guilds-container">' +
               '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
@@ -126,13 +113,8 @@ function getGuildsHTML() {
           });
 
           if (text === '') {
-            resolve('' +
-              '<h1>Es wurden keine Server von dir gefunden!</h1>');
+            resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
           } else {
-            /*resolve('' +
-              (noRow ? '' : '<div class="columnrow">') +
-              '<div' + (noRow ? ' style="left: 37.5%; position: absolute;"' : '') + '>' + text + '</div>' +
-              (noRow ? '' : '</div>'));*/
             resolve(text);
           }
         } else {

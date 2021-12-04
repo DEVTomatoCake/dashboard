@@ -103,7 +103,7 @@ function getGuildsHTML() {
         if (json.status === 'success') {
           let text = '';
           json.data.forEach(guild => {
-            text += '' +
+            /*text += '' +
               (noRow ? '' : '<div class="column">') +
               '<div class="guilds-container">' +
               '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
@@ -113,17 +113,27 @@ function getGuildsHTML() {
               '</div>' +
               '</a>' +
               '</div>' +
-              (noRow ? '' : '</div>');
+              (noRow ? '' : '</div>');*/
+            text += '' +
+              '<div class="grid">' +
+              '<a class="guild" href="' + (guild.activated ? '' : '../invite') + '?guild=' + guild.id + '">' +
+              '<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
+              '<div class="middle">' +
+              '<div class="text">' + guild.name + '</div>' +
+              '</div>' +
+              '</a>' +
+              '</div>';
           });
 
           if (text === '') {
             resolve('' +
               '<h1>Es wurden keine Server von dir gefunden!</h1>');
           } else {
-            resolve('' +
+            /*resolve('' +
               (noRow ? '' : '<div class="columnrow">') +
               '<div' + (noRow ? ' style="left: 37.5%; position: absolute;"' : '') + '>' + text + '</div>' +
-              (noRow ? '' : '</div>'));
+              (noRow ? '' : '</div>'));*/
+            resolve(text);
           }
         } else {
           resolve('' +

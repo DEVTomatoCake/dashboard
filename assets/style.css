@@ -50,10 +50,6 @@
 	margin: 0;
 }
 
-*:focus {
-	outline: none;
-}
-
 html, body {
 	box-sizing: border-box;
 	height: 100%;
@@ -72,6 +68,18 @@ html, body {
   	border-radius: 50%;
   	width: 32px;
   	height: 32px;
+}
+
+.grid {
+	width: auto;
+	display: grid;
+	grid-template-areas: ". . .";
+	overflow: hidden;
+}
+@media (max-width: 1000px) {
+  	.grid {
+		grid-template-areas: ".";
+  	}
 }
 
 .guilds-container .guild {

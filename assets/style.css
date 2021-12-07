@@ -886,6 +886,12 @@ table.charts-css {
 	gap: 50px;
 }
 
+@media only screen and (max-width: 1100px) {
+	.main .content .row .data.large {
+		width: 500px;
+		height: auto;
+	}
+}
 
 @media only screen and (max-width: 1000px) {
 	.main .top .account .notification {
@@ -894,11 +900,6 @@ table.charts-css {
 
 	.main .content .row {
 		flex-direction: column;
-	}
-
-	.main .content .row .data.large {
-		width: 500px;
-		height: auto;
 	}
 }
 

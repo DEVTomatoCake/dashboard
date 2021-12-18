@@ -332,12 +332,9 @@ html, body {
 	color: var(--primary-text-color);
 }
 
-.light-theme #author {
+#author {
 	font-size: 80%;
-	color: var(--primary-text-color);
-}
-.dark-theme #author {
-	font-size: 80%;
+	padding-top: 50px;
 	color: var(--primary-text-color);
 }
 
@@ -565,8 +562,8 @@ html, body {
 
 
 .main .content {
-	margin-top: 50px;
-	display: flex;
+	margin-top: 40px;
+	margin-left: 70px;
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;
@@ -577,6 +574,8 @@ html, body {
 .main .content h1.greeting {
 	font-size: 60px;
 	color: var(--primary-text-color);
+	text-align: center;
+	padding-bottom: 50px;
 	margin-right: auto;
 	margin-left: auto;
 }
@@ -906,6 +905,7 @@ table.charts-css {
 @media only screen and (max-width: 600px) {
 	.main .content {
 		gap: 20px;
+		margin-left: 50px;
 	}
 	
 	.main .content .row {
@@ -952,6 +952,10 @@ table.charts-css {
 		font-size: 24px;
 	}
 
+	.main .content {
+		margin-left: 35px;
+	}
+
 	.main .content h1.greeting {
 		text-align: center;
 		margin: 10px;
@@ -996,6 +1000,10 @@ table.charts-css {
 
 	.charts-css.column.sales tbody {
 		gap: 15px;
+	}
+
+	.main .content {
+		margin-left: 15px;
 	}
 
 	.main .content .row .data.small .container {

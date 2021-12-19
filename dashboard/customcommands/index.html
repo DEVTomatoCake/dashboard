@@ -17,10 +17,10 @@
 
 		<script>
 			function openForm() {
-			  	document.getElementById("customcommandForm").style.display = "block";
+				document.getElementById("customcommandForm").style.display = "block";
 			}
 			function closeForm() {
-			  	document.getElementById("customcommandForm").style.display = "none";
+				document.getElementById("customcommandForm").style.display = "none";
 			}
 
 			var i = 0;
@@ -126,8 +126,8 @@
 					<label for="customcommand-text"><b>Inhalt</b></label>
 					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" rows="6" required></textarea>
 
-				    <button type="submit" class="btn">Customcommand erstellen</button>
-				    <button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
+					<button type="submit" class="btn">Customcommand erstellen</button>
+					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
 				</form>
 			</div>
 
@@ -176,7 +176,7 @@
 
 			const formElem = document.getElementById("customcommandForm")
 			formElem.addEventListener("submit", e => {
-			  	e.preventDefault();
+				e.preventDefault();
 				new FormData(formElem);
 			});
 

@@ -124,7 +124,7 @@
 					<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" required>
 
 					<label for="customcommand-text"><b>Inhalt</b></label>
-					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" rows="6" required></textarea>
+					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" rows="6" id="customcommand-text" required></textarea>
 
 					<button type="submit" class="btn">Customcommand erstellen</button>
 					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
@@ -173,15 +173,15 @@
 				else setCookie("theme", "light", 60);
 			});
 
-
-			document.getElementById("customcommandFormForm").addEventListener("submit", e => {
+			const formElem = document.getElementById("customcommandFormForm")
+			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				closeForm();
-				const formData = new FormData(document.getElementById("customcommandFormForm"));
+				const formData = new FormData(formElem);
 				const name = formData.get("customcommand-name");
 
 				var div = document.createElement("div");
-				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="4000" name="' + name + '">' + formData.get("customcommand-text") + '</textarea><br>';
+				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="2000" name="' + name + '">' + document.getElementById("customcommand-text").value + '</textarea><br>';
 				document.getElementById('settingsContent').appendChild(div); 
 			});
 

@@ -179,10 +179,9 @@
 				closeForm();
 				const formData = new FormData(document.getElementById("customcommandFormForm"));
 				const name = formData.get("customcommand-name");
-				return console.log(formData, name);
 
 				var div = document.createElement("div");
-				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="4000" name="' + name + '"></textarea><br>';
+				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="4000" name="' + name + '">' + formData.get("customcommand-text") + '</textarea><br>';
 				document.getElementById('settingsContent').appendChild(div); 
 			});
 

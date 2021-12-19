@@ -117,7 +117,7 @@
 
 		<section class="main" id="main">
 			<div class="form-popup" id="customcommandForm">
-				<form class="form-container">
+				<form class="form-container" id="customcommandFormForm">
 					<h1>Customcommand erstellen</h1>
 
 					<label for="customcommand-name"><b>Name</b></label>
@@ -174,7 +174,7 @@
 			});
 
 
-			const formElem = document.getElementById("customcommandForm")
+			const formElem = document.getElementById("customcommandFormForm")
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				new FormData(formElem);
@@ -182,7 +182,7 @@
 
 			function createCustomcommand() {
 				openForm();
-				const formData = new FormData(document.getElementById("customcommandForm"));
+				const formData = new FormData(document.getElementById("customcommandFormForm"));
 				const name = formData["customcommand-name"];
 				return console.log(formData, name);
 

@@ -53,12 +53,7 @@ function getBotstatsHTML() {
     getBotstats()
       .then(json => {
           let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br><h1>Nutzer: <b>' + json.users + '</b></h1><br><h1>API-Ping: <b>' + json.apiping + '</b></h1><br><h1>Befehle: <b>' + json.commands + '</b></h1><br><h1>Gestartet: <b>' + luxon.DateTime.fromMillis(Date.now() - json.uptime, {locale: "de-DE"}).toRelative() + '</b></h1>';
-          if (text === '') {
-            resolve('' +
-              '<h1>Es gibt keine Stats!</h1>');
-          } else {
-            resolve(text);
-          }
+          resolve(text);
       })
       .catch(error => {
         console.error(error);

@@ -16,6 +16,13 @@
 		<script src="https://js.sentry-cdn.com/f70fc8beed314b2a8378609155962141.min.js" crossorigin="anonymous" data-lazy="no"></script>
 
 		<script>
+			function openForm() {
+			  	document.getElementById("customcommandForm").style.display = "block";
+			}
+			function closeForm() {
+			  	document.getElementById("customcommandForm").style.display = "none";
+			}
+
 			var i = 0;
 			if (screen.width <= 500) {
 				document.getElementById("sidebar-container").classList.toggle("visible");
@@ -109,6 +116,21 @@
 		</div>
 
 		<section class="main" id="main">
+			<div class="form-popup" id="customcommandForm">
+				<form class="form-container">
+					<h1>Customcommand erstellen</h1>
+
+					<label for="customcommand-name"><b>Name</b></label>
+					<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" required>
+
+					<label for="customcommand-text"><b>Inhalt</b></label>
+					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" rows="6" required></textarea>
+
+				    <button type="submit" class="btn">Customcommand erstellen</button>
+				    <button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
+				</form>
+			</div>
+
 			<div class="top">
 				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
@@ -153,10 +175,12 @@
 
 
 			function createCustomcommand() {
-				var name = prompt("Wie soll der Customcommand heißen?", "test");
-				if (name == null) name = "test";
+				openForm();
+				const formData = new FormData(document.getElementById("customcommandForm"));
+				const name = formData["customcommand-name"];
+				return console.log(formData, name);
 
-				var div = document.createElement("DIV");
+				var div = document.createElement("div");
 				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="4000" name="' + name + '"></textarea><br>';
 				document.getElementById('settingsContent').appendChild(div); 
 			}

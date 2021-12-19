@@ -49,6 +49,7 @@
 
 * {
 	margin: 0;
+	box-sizing: border-box;
 }
 
 html, body {
@@ -883,6 +884,60 @@ table.charts-css {
 	display: flex;
 	flex-direction: column;
 	gap: 50px;
+}
+
+
+.form-popup {
+  	display: none;
+  	position: fixed;
+  	top: 10px;
+  	left: 50%;
+  	border: 3px solid #f1f1f1;
+  	z-index: 9;
+}
+
+.form-container {
+  	max-width: 350px;
+  	padding: 10px;
+  	background-color: white;
+}
+
+.form-container h1 {
+	padding-bottom: 15px;
+}
+
+.form-container input[type=text], .form-container textarea {
+  	width: 100%;
+  	padding: 15px;
+  	margin: 5px 0 22px 0;
+  	border: none;
+  	background: #f1f1f1;
+  	max-width: 400px;
+}
+
+.form-container input[type=text]:focus, .form-container textarea:focus {
+  	background-color: #ddd;
+  	outline: none;
+}
+
+.form-container .btn {
+  	background-color: #04AA6D;
+  	color: white;
+  	padding: 16px 20px;
+  	border: none;
+  	cursor: pointer;
+  	width: 100%;
+  	margin-bottom:10px;
+  	opacity: 0.7;
+  	transition: 0.3s;
+}
+
+.form-container .cancel {
+  	background-color: red;
+}
+
+.form-container .btn:hover {
+  	opacity: 1;
 }
 
 @media only screen and (max-width: 1100px) {

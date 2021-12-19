@@ -18,6 +18,8 @@
 		<script>
 			function openForm() {
 				document.getElementById("customcommandForm").style.display = "block";
+				document.getElementById("customcommand-name").value = "";
+				document.getElementById("customcommand-text").value = "";
 			}
 			function closeForm() {
 				document.getElementById("customcommandForm").style.display = "none";
@@ -121,10 +123,10 @@
 					<h1>Customcommand erstellen</h1>
 
 					<label for="customcommand-name"><b>Name</b></label>
-					<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" required>
+					<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
 
 					<label for="customcommand-text"><b>Inhalt</b></label>
-					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" rows="6" id="customcommand-text" required></textarea>
+					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="6" required></textarea>
 
 					<button type="submit" class="btn">Customcommand erstellen</button>
 					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>

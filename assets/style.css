@@ -156,6 +156,11 @@ html, body {
 	border: none;
 }
 
+textarea:focus {
+  	background-color: #f1f1f1;
+  	outline: none;
+}
+
 .sidebar-container {
 	width: 0;
 	position: fixed;
@@ -915,7 +920,7 @@ table.charts-css {
 	box-sizing: border-box;
 }
 
-.form-container input[type=text]:focus, textarea:focus {
+.form-container input[type=text]:focus, .form-container textarea:focus {
   	background-color: #ddd;
   	outline: none;
 }

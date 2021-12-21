@@ -43,7 +43,7 @@ function getCommandsHTML() {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   }));
 }
@@ -59,7 +59,7 @@ function getBotstatsHTML() {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   }));
 }
@@ -84,7 +84,7 @@ function getStatsHTML(guild) {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   });
 }
@@ -122,7 +122,7 @@ function getGuildsHTML() {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   });
 }
@@ -174,7 +174,7 @@ function getSettingsHTML(guild) {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   });
 }
@@ -211,7 +211,7 @@ function getCustomcommandsHTML(guild) {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   });
 }
@@ -234,7 +234,7 @@ function getLeaderboardHTML(guild) {
         console.error(error);
         resolve('' +
           '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-          '<h1>Guck in deine Browser Konsole, um mehr zu erfahren!</h1>');
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
       });
   });
 }

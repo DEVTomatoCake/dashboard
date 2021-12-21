@@ -224,10 +224,11 @@ function getReactionrolesHTML(guild) {
           let text = '';
 
           json.data.forEach(setting => {
+          	if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>'
+          	else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png" />'
             text += '' +
-                '<p><b>' + setting.reaction + '</b></p>' +
                 '<input class="setting" size="35" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '-' + setting.reaction + '" value="' + setting.role + '">';
-                '<br>';
+                '<br><br>';
           });
 
           resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);

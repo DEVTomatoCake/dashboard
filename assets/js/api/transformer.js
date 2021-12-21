@@ -218,7 +218,7 @@ function getCustomcommandsHTML(guild) {
 
 function getReactionrolesHTML(guild) {
   return new Promise(resolve => {
-    getCustomcommands(guild)
+    getReactionroles(guild)
       .then(json => {
         if (json.status === 'success') {
           let text = '';

@@ -216,6 +216,36 @@ function getCustomcommandsHTML(guild) {
   });
 }
 
+function getReactionrolesHTML(guild) {
+  return new Promise(resolve => {
+    getCustomcommands(guild)
+      .then(json => {
+        if (json.status === 'success') {
+          let text = '';
+
+          json.data.forEach(setting => {
+            text += '' +
+                '<p><b>' + setting.reaction + '</b></p>' +
+                '<input class="setting" size="35" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '-' + setting.reaction + '" value="' + setting.role + '">';
+                '<br>';
+          });
+
+          resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);
+        } else {
+          resolve('' +
+            '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+            '<h1>' + json.message + '</h1>');
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        resolve('' +
+          '<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+          '<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+      });
+  });
+}
+
 function getLeaderboardHTML(guild) {
   return new Promise(resolve => {
     getLeaderboard(guild)

@@ -125,11 +125,14 @@
 					<label for="reactionroles-reaction"><b>Reaktion</b></label>
 					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" required>
 
-					<label for="reactionroles-name"><b>Nachrichten-ID</b></label>
+					<label for="reactionroles-channel"><b>Kanal</b></label>
+					<select name="reactionroles-channel" id="reactionroles-channel">
+
+					<label for="reactionroles-msg"><b>Nachrichten-ID</b></label>
 					<input type="text" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" required>
 
-					<label for="reactionroles-name"><b>Rolle</b></label>
-					<select type="text" name="reactionroles-rol4" id="reactionroles-role">
+					<label for="reactionroles-role"><b>Rolle</b></label>
+					<select name="reactionroles-role" id="reactionroles-role">
 
 					<button type="submit" class="btn">Reactionrole erstellen</button>
 					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>

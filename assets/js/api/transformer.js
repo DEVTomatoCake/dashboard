@@ -233,6 +233,10 @@ function getReactionrolesHTML(guild) {
             text += '</select><br><br>';
 		  });
 
+          let roleoptions = "";
+          Object.keys(json.data[0]?.possible).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data[0].possible[key] + '</option>');
+		  document.getElementById("reactionroles-role").innerHTML = roleoptions;
+
           resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);
         } else {
           resolve('' +

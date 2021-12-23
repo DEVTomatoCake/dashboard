@@ -125,14 +125,14 @@
 					<label for="reactionroles-reaction"><b>Reaktion</b></label>
 					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" required>
 
-					<label for="reactionroles-channel"><b>Kanal</b></label>
-					<select name="reactionroles-channel" id="reactionroles-channel"></select>
+					<label for="reactionroles-channel"><b>Kanal</b></label><br>
+					<select name="reactionroles-channel" id="reactionroles-channel"></select><br>
 
 					<label for="reactionroles-msg"><b>Nachrichten-ID</b></label>
 					<input type="text" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" required>
 
-					<label for="reactionroles-role"><b>Rolle</b></label>
-					<select name="reactionroles-role" id="reactionroles-role"></select>
+					<label for="reactionroles-role"><b>Rolle</b></label><br>
+					<select name="reactionroles-role" id="reactionroles-role"></select><br>
 
 					<button type="submit" class="btn">Reactionrole erstellen</button>
 					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
@@ -274,7 +274,7 @@
 					.then(html => {
 						document.getElementById('linksidebar').innerHTML +=
 							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<br><button onclick='saveReactionroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+							"<br><button onclick='saveReactionroles();' class='save' disabled><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 							"<br><hr><div class='tab'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;' onclick='redirect(\"../customcommands/" + location.search + "\")'>Customcommands</p></div>" +
 							"<div class='tab active'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
 							"<hr><div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +

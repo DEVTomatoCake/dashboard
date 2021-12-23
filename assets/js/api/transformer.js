@@ -225,13 +225,13 @@ function getReactionrolesHTML(guild) {
 
           json.data.forEach(setting => {
           	if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
-          	else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" />';
+          	else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" /><br>';
 
             const possible = setting.possible;
             text += '<select class="setting" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '-' + setting.reaction + '">';
-            Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+            Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
             text += '</select><br><br>';
-          });
+		  });
 
           resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);
         } else {

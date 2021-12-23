@@ -234,7 +234,7 @@ function getReactionrolesHTML(guild) {
 		  });
 
           let channeloptions = "";
-          Object.keys(json.data?.channels[0].possible).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[0].possible[key] + '</option>');
+          Object.keys(json.data?.channels).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[0].possible[key] + '</option>');
 		  document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
           let roleoptions = "";

@@ -223,7 +223,7 @@ function getReactionrolesHTML(guild) {
         if (json.status === 'success') {
           let text = '';
 
-          json.data.forEach(setting => {
+          json.data.reactionroles.forEach(setting => {
           	if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
           	else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" /><br>';
 
@@ -233,8 +233,12 @@ function getReactionrolesHTML(guild) {
             text += '</select><br><br>';
 		  });
 
+          let channeloptions = "";
+          Object.keys(json.data?.channels[0].possible).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[0].possible[key] + '</option>');
+		  document.getElementById("reactionroles-channel").innerHTML = channeloptions;
+
           let roleoptions = "";
-          Object.keys(json.data[0]?.possible).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data[0].possible[key] + '</option>');
+          Object.keys(json.data?.reactionroles[0].possible).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.reactionroles[0].possible[key] + '</option>');
 		  document.getElementById("reactionroles-role").innerHTML = roleoptions;
 
           resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);

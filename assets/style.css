@@ -924,6 +924,9 @@ table.charts-css {
   	background-color: #ddd;
   	outline: none;
 }
+.form-container select:focus {
+  	outline: none;
+}
 
 .form-container .btn {
   	background-color: #04AA6D;

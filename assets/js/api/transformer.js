@@ -236,7 +236,7 @@ function getReactionrolesHTML(guild) {
 					});
 
 					let typeoptions = "";
-					Object.keys(json.data.types).forEach(key => typeoptions += '<option value="' + key + '">' + json.data.channels[key] + '</option>');
+					Object.keys(json.data.types).forEach(key => typeoptions += '<option value="' + key + '">' + json.data.types[key] + '</option>');
 					document.getElementById("reactionroles-type").innerHTML = typeoptions;
 
 					let channeloptions = "";

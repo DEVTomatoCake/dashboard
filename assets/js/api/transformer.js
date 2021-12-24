@@ -234,13 +234,14 @@ function getReactionrolesHTML(guild) {
 		  });
 
           let channeloptions = "";
-          Object.keys(json.data?.channels).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[key] + '</option>');
+          Object.keys(json.data.channels).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[key] + '</option>');
 		  document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
           let roleoptions = "";
-          Object.keys(json.data?.reactionroles[0].possible).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.reactionroles[0].possible[key] + '</option>');
+          Object.keys(json.data.reactionroles[0]?.possible).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.reactionroles[0].possible[key] + '</option>');
 		  document.getElementById("reactionroles-role").innerHTML = roleoptions;
 
+		  if (text == "") text = "<b>Es sind keine Reactionroles vorhanden!</b>"
           resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);
         } else {
           resolve('' +

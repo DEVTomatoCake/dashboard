@@ -186,10 +186,17 @@
 				e.preventDefault();
 				closeForm();
 				const formData = new FormData(formElem);
-				const name = formData.get("reactionrole-name");
+				const reaction = formData.get("reactionroles-reaction");
+				const msg = formData.get("reactionrole-msg");
 
 				var div = document.createElement("div");
-				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="3" cols="65" id="' + name + '" maxlength="2000" name="' + name + '">' + document.getElementById("reactionrole-text").value + '</textarea><br>';
+				if (isNaN(reaction)) div.innerHTML += '<p><b>' + reaction + '</b></p>';
+	          	else div.innerHTML += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
+
+	            const possible = setting.possible;
+	            div.innerHTML += '<select class="setting" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
+	            //Object.keys(possible).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+	            div.innerHTML += '</select><br><br>';
 				document.getElementById('settingsContent').appendChild(div); 
 			});
 

@@ -16,7 +16,7 @@
 	--button-accent-color: #384396;
 	--primary-text-color: #131524;
 	--secondary-text-color: #3D404E;
-	--blue: #1A237E;
+	--blue: #2E39A7;
 	--green: #1B5E20;
 	--red: #B71C1C;
 	--yellow-1: #F57F17;
@@ -648,36 +648,20 @@ textarea:focus {
 
 .main .content .row .data .container ion-icon.open:hover {
 	background: var(--tertiary-color) !important;
-	right: -5px;
-	top: -5px;
+	right: -3px;
+	top: -3px;
 	color: var(--primary-text-color) !important;
 }
 
-.main .content .row .data .container ion-icon.users-icon {
-	background: var(--blue);
-}
-
-.main .content .row .data .container ion-icon.session-length-icon {
+.main .content .row .data .container ion-icon.server-icon {
 	background: var(--yellow-2);
 }
 
-.main .content .row .data .container ion-icon.performance-icon {
-	background: var(--pink);
+.main .content .row .data.users .container ion-icon {
+	background: var(--blue);
 }
 
-.main .content .row .data .container ion-icon.reviews-icon {
-	background: var(--purple);
-}
-
-.main .content .row .data .container ion-icon.sales-icon {
-	background: var(--cyan);
-}
-
-.main .content .row .data .container ion-icon.revenue-icon {
-	background: var(--green);
-}
-
-.main .content .row .data .container ion-icon.costs-icon {
+.main .content .row .data.ping .container ion-icon {
 	background: var(--red);
 }
 
@@ -712,16 +696,16 @@ textarea:focus {
 	gap: 75px;
 }
 
-.main .content .row .data.small.green h1 {
-	color: var(--green);
-	font-size: 60px;
+.main .content .row .data.users h1 {
+	color: var(--blue);
+	font-size: 50px;
 	position: relative;
 	top: -50px;
 }
 
-.main .content .row .data.small.red h1 {
+.main .content .row .data.ping h1 {
 	color: var(--red);
-	font-size: 60px;
+	font-size: 50px;
 	position: relative;
 	top: -50px;
 }
@@ -749,20 +733,9 @@ textarea:focus {
 	font-size: 20px;
 }
 
-
-.main .content .row .data.small.green .container ion-icon {
-	background: var(--green);
-	color: var(--primary-color);
-}
-
-.main .content .row .data.small.red .container ion-icon {
-	background: var(--red);
-}
-
 .charts-css.area.multiple.session-length {
 	margin-top: auto;
 }
-
 
 .charts-css.area.multiple.session-length tr .first {
 	--color: var(--yellow-1);

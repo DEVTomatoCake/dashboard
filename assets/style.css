@@ -152,6 +152,7 @@ html, body {
 }
 
 .setting {
+	overflow-wrap: anywhere;
 	font-size: 1.1em;
 	border: none;
 }

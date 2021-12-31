@@ -141,12 +141,12 @@ function getSettingsHTML(guild) {
 					json.data.forEach(setting => {
 						temp = '';
 						if (!setting.possible) {
-							if (setting.key == "maxMentions") temp += '' +
+							if (setting.key == "maxMentions" || setting.key == "starboardStars") temp += '' +
 								'<p>' + setting.help + '</p>' +
 								'<input type="number" min="0" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 							else temp += '' +
 								'<p>' + setting.help + '</p>' +
-								'<input class="setting" size="35" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+								'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 						} else {
 							const possible = setting.possible;
 

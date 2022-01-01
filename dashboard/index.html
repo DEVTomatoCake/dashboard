@@ -176,12 +176,13 @@
 					if (item.name == "autorole") {
 						entry += encodeURIComponent(item.name) + '=';
 						autoroleDrop.selected.forEach(possible => {
-							if (!possible.removed) entry += encodeURIComponent(autoroleDrop.options[possible.index].value + ",");
+							if (!possible.removed) entry += autoroleDrop.options[possible.index].value + ",";
 						})
-						if (entry.endsWith(encodeURIComponent(","))) entry = entry.slice(0, -1)
+						if (entry.endsWith(",")) entry = entry.slice(0, -1)
+						entry = encodeURIComponent(entry)
 					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
-					if (i !== settings.length - 1) {
+					if (i != settings.length - 1) {
 						items += entry + '&';
 					} else {
 						items += entry;

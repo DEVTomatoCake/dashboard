@@ -151,7 +151,7 @@ function getSettingsHTML(guild) {
 							const possible = setting.possible;
 
 							if (setting.key == "autorole") {
-								temp += '<p>' + setting.help + '</p><select multiple id="' + setting.key + '" name="' + setting.key + '">';
+								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								Object.keys(possible).forEach(key => {
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 								});

@@ -151,11 +151,14 @@ function getSettingsHTML(guild) {
 							const possible = setting.possible;
 
 							if (setting.key == "autorole") {
-								temp += '<p>' + setting.help + '</p><select multiple id="' + setting.key + '" name="' + setting.key + '">var ' + setting.key + 'Drop = new drop({selector:  "#' + setting.key + '"});';
+								temp += '<p>' + setting.help + '</p><select multiple id="' + setting.key + '" name="' + setting.key + '"><script>var ' + setting.key + 'Drop = new drop({selector:  "#' + setting.key + '"});</script>';
+								Object.keys(possible).forEach(key => {
+									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
+								});
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+								Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 							}
-							Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 							temp += '</select>';
 						}
 						if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);

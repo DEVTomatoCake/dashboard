@@ -156,8 +156,8 @@ function getSettingsHTML(guild) {
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 								});
 								setTimeout(() => {
-									var autoroleDrop = new drop({selector: "#" + setting.key})
-								}, 3000)
+									autoroleDrop = new drop({selector: "#" + setting.key})
+								}, 2500)
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');

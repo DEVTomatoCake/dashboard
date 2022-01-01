@@ -169,7 +169,14 @@
 				let items = '?';
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
+
+					var entry = "";
+					if (item.name == "autorole") {
+						entry += encodeURIComponent(item.name) + '=';
+						autoroleDrop.selected.forEach(possible => {
+							if (!possible.removed) entry += encodeURIComponent(autoroleDrop.options[possible.index].value + ",");
+						})
+					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
 					if (i !== settings.length - 1) {
 						items += entry + '&';

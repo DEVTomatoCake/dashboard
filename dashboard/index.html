@@ -178,6 +178,7 @@
 						autoroleDrop.selected.forEach(possible => {
 							if (!possible.removed) entry += encodeURIComponent(autoroleDrop.options[possible.index].value + ",");
 						})
+						if (entry.endsWith(",")) entry = entry.slice(0, -1)
 					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
 					if (i !== settings.length - 1) {

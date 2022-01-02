@@ -254,7 +254,7 @@ function getReactionrolesHTML(guild) {
 					document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
 					let roleoptions = "";
-					if (json.data.reactionroles[0]) Object.keys(json.data.reactionroles[0].possible).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.reactionroles[0].possible[key] + '</option>');
+					Object.keys(json.data.roles).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.roles[key] + '</option>');
 					document.getElementById("reactionroles-role").innerHTML = roleoptions;
 
 					if (text == "") text = "<b>Es sind keine Reactionroles vorhanden!</b>"

@@ -70,6 +70,9 @@ html, body {
   	width: 32px;
   	height: 32px;
 }
+.leaderboard {
+	padding: 5px;
+}
 
 .grid {
 	width: auto;

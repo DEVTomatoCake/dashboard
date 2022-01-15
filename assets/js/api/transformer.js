@@ -279,8 +279,8 @@ function getLeaderboardHTML(guild) {
 		getLeaderboard(guild)
 			.then(json => {
 				if (json.status === 'success') {
-					let text = '<h1 class="greeting">Leaderboard von ' + json.guild + '</h1>';
-					json.data.forEach(entry => text += '<p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '" alt="' + entry.place + '">' + entry.user + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p>');
+					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + json.guild + '</span></h1>';
+					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" alt="' + entry.place + '">' + entry.user + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);
 				} else {
 					resolve('' +

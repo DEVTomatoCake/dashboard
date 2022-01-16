@@ -191,13 +191,14 @@
 				const formData = new FormData(formElem);
 				const reaction = formData.get("reactionroles-reaction");
 				const msg = formData.get("reactionrole-msg");
+				const channel = formData.get("reactionrole-channel");
 
 				var div = document.createElement("div");
 				if (isNaN(reaction)) div.innerHTML += '<p><b>' + reaction + '</b></p>';
 	          	else div.innerHTML += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
 	            //const possible = setting.possible;
-	            div.innerHTML += '<select class="setting" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
+	            div.innerHTML += '<select class="setting" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
 	            //Object.keys(possible).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 	            div.innerHTML += '</select><br><br>';
 				document.getElementById('settingsContent').appendChild(div); 
@@ -218,7 +219,7 @@
 					const item = settings.item(i);
 					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(JSON.stringify({
 						role: item.value,
-						//channel: item.getAttribute("data-channel"),
+						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						reaction: item.getAttribute("data-reaction")
 					}));

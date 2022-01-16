@@ -240,7 +240,7 @@ function getReactionrolesHTML(guild) {
 						else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" /><br>';
 
 						const possible = setting.possible;
-						text += '<select class="setting" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '-' + setting.reaction + '">';
+						text += '<select class="setting" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '-' + setting.reaction + '">';
 						Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 						text += '</select><br><br>';
 					});

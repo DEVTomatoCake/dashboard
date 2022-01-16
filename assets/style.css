@@ -165,6 +165,15 @@ textarea:focus {
   	outline: none;
 }
 
+input.hidearrows::-webkit-outer-spin-button,
+input.hidearrows::-webkit-inner-spin-button {
+  	-webkit-appearance: none;
+  	margin: 0;
+}
+input .hidearrows {
+  	-moz-appearance: textfield;
+}
+
 .sidebar-container {
 	width: 0;
 	position: fixed;

@@ -196,7 +196,7 @@
 				if (isNaN(reaction)) div.innerHTML += '<p><b>' + reaction + '</b></p>';
 	          	else div.innerHTML += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
-	            const possible = setting.possible;
+	            //const possible = setting.possible;
 	            div.innerHTML += '<select class="setting" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
 	            //Object.keys(possible).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 	            div.innerHTML += '</select><br><br>';
@@ -216,7 +216,12 @@
 				let items = '?';
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
+					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent({
+						role: item.value,
+						//channel: item.getAttribute("data-channel"),
+						msg: item.getAttribute("data-msg"),
+						reaction: item.getAttribute("data-reaction")
+					});
 
 					if (i !== settings.length - 1) {
 						items += entry + '&';

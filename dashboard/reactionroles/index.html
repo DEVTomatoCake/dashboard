@@ -199,7 +199,7 @@
 	          	else div.innerHTML += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
 	            div.innerHTML += '<select class="setting" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
-	            Object.keys(rolecopy).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>');
+	            Object.keys(rolecopy).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>');
 	            div.innerHTML += '</select><br><br>';
 				document.getElementById('settingsContent').appendChild(div); 
 			});

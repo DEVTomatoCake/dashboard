@@ -216,12 +216,12 @@
 				let items = '?';
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent({
+					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(JSON.stringify({
 						role: item.value,
 						//channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						reaction: item.getAttribute("data-reaction")
-					});
+					}));
 
 					if (i !== settings.length - 1) {
 						items += entry + '&';
@@ -289,7 +289,7 @@
 					.then(html => {
 						document.getElementById('linksidebar').innerHTML +=
 							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<br><button onclick='saveReactionroles();' class='save' disabled><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+							"<br><button onclick='saveReactionroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 							"<br><hr><div class='tab'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;' onclick='redirect(\"../customcommands/" + location.search + "\")'>Customcommands</p></div>" +
 							"<div class='tab active'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
 							"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +

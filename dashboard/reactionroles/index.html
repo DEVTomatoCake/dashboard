@@ -184,6 +184,7 @@
 				else setCookie("theme", "light", 60);
 			});
 
+			var rolecopy = {};
 			const formElem = document.getElementById("rrForm")
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
@@ -197,9 +198,8 @@
 				if (isNaN(reaction)) div.innerHTML += '<p><b>' + reaction + '</b></p>';
 	          	else div.innerHTML += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
-	            //const possible = setting.possible;
 	            div.innerHTML += '<select class="setting" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
-	            //Object.keys(possible).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+	            Object.keys(rolecopy).forEach(key => div.innerHTML += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>');
 	            div.innerHTML += '</select><br><br>';
 				document.getElementById('settingsContent').appendChild(div); 
 			});

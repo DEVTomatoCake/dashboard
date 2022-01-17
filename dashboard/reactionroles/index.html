@@ -191,9 +191,9 @@
 				closeForm();
 				const formData = new FormData(formElem);
 				const reaction = formData.get("reactionroles-reaction");
-				const msg = formData.get("reactionrole-msg");
-				const role = formData.get("reactionrole-role");
-				const channel = formData.get("reactionrole-channel");
+				const msg = document.getElementById("reactionroles-msg").value;
+				const role = document.getElementById("reactionroles-role").value;
+				const channel = document.getElementById("reactionroles-channel").value;
 
 				var div = document.createElement("div");
 				var html = "";

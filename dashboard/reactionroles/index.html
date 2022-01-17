@@ -200,8 +200,11 @@
 				if (isNaN(reaction)) html += '<p><b>' + reaction + '</b></p>';
 	          	else html += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
-	            html += '<select class="setting" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '-' + reaction + '">';
-	            Object.keys(rolecopy).forEach(key => html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>');
+	            html += '<select class="setting" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '">';
+	            Object.keys(rolecopy).forEach(key => {
+	            	console.log(role, key)
+	            	html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>'
+	            });
 	            html += '</select><br><br>';
 
 	            div.innerHTML = html;

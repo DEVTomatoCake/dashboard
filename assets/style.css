@@ -158,6 +158,8 @@ html, body {
 	overflow-wrap: anywhere;
 	font-size: 1.1em;
 	border: none;
+	border-radius: 7px;
+	padding: 3px;
 }
 
 textarea:focus {

@@ -194,13 +194,14 @@
 				const msg = document.getElementById("reactionroles-msg").value;
 				const role = document.getElementById("reactionroles-role").value;
 				const channel = document.getElementById("reactionroles-channel").value;
+				const type = document.getElementById("reactionroles-type").value;
 
 				var div = document.createElement("div");
 				var html = "";
 				if (isNaN(reaction)) html += '<p><b>' + reaction + '</b></p>';
 	          	else html += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
-	            html += '<select class="setting" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '">';
+	            html += '<select class="setting" data-type="' + type + '" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '">';
 	            Object.keys(rolecopy).forEach(key => {
 	            	console.log(role, key)
 	            	html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>'
@@ -228,7 +229,8 @@
 						role: item.value,
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
-						reaction: item.getAttribute("data-reaction")
+						reaction: item.getAttribute("data-reaction"),
+						type: item.getAttribute("data-type")
 					}));
 
 					if (i !== settings.length - 1) {

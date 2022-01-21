@@ -126,13 +126,13 @@
 					<select name="reactionroles-type" id="reactionroles-type"></select><br><br>
 
 					<label for="reactionroles-reaction"><b>Reaktion</b></label>
-					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" required>
+					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
 
 					<label for="reactionroles-channel"><b>Kanal</b></label><br>
 					<select name="reactionroles-channel" id="reactionroles-channel"></select><br><br>
 
 					<label for="reactionroles-msg"><b>Nachrichten-ID</b></label><br>
-					<input type="number" min="0" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" required><br><br>
+					<input type="number" min="10000000000000000" max="9999999999999999999" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required><br><br>
 
 					<label for="reactionroles-role"><b>Rolle</b></label><br>
 					<select name="reactionroles-role" id="reactionroles-role"></select><br><br>
@@ -300,7 +300,7 @@
 						document.getElementById('linksidebar').innerHTML +=
 							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
 							"<br><button onclick='saveReactionroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
-							"<br><hr><div class='tab'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;' onclick='redirect(\"../customcommands/" + location.search + "\")'>Customcommands</p></div>" +
+							"<br><hr><div class='tab' onclick='redirect(\"../customcommands/" + location.search + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
 							"<div class='tab active'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
 							"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
 							"<div class='tab' onclick='redirect(\"../../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +

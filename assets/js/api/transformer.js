@@ -8,7 +8,7 @@ function getCommandsHTML() {
 					var categoryData = [];
 
 					json.data.forEach(command => {
-						temp = '' +
+						var temp = '' +
 							'<div class="command">' +
 							'<p style="color: gold; font-size: 1.7em;">' + command.name + '</p>' +
 							'<p style="color: var(--primary-text-color);">' + command.description + '</p>';

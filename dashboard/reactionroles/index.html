@@ -79,7 +79,7 @@
 		<div class="sidebar-container visible" id="sidebar-container">
 	  
 			<div class="sidebar" id="sidebar">
-				<div class="hamburger" id="hamburger" onclick="sidebar();">
+				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
 				</div>
@@ -185,7 +185,7 @@
 			});
 
 			var rolecopy = {};
-			const formElem = document.getElementById("rrForm")
+			const formElem = document.getElementById("rrForm");
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				closeForm();
@@ -203,8 +203,7 @@
 
 	            html += '<select class="setting" data-type="' + type + '" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '">';
 	            Object.keys(rolecopy).forEach(key => {
-	            	console.log(role, key)
-	            	html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>'
+	            	html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>';
 	            });
 	            html += '</select><br><br>';
 
@@ -233,11 +232,8 @@
 						type: item.getAttribute("data-type")
 					}));
 
-					if (i !== settings.length - 1) {
-						items += entry + '&';
-					} else {
-						items += entry;
-					}
+					if (i != settings.length - 1) items += entry + '&';
+					else items += entry;
 				}
 
 				document.getElementById('root-container').innerHTML = '<h1>Die Reactionroles werden gespeichert...</h1>';

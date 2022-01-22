@@ -79,7 +79,7 @@
 		<div class="sidebar-container visible" id="sidebar-container">
 	  
 			<div class="sidebar" id="sidebar">
-				<div class="hamburger" id="hamburger" onclick="sidebar();">
+				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
 				</div>
@@ -175,7 +175,7 @@
 				else setCookie("theme", "light", 60);
 			});
 
-			const formElem = document.getElementById("ccForm")
+			const formElem = document.getElementById("ccForm");
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				closeForm();
@@ -202,11 +202,8 @@
 					const item = settings.item(i);
 					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
-					if (i !== settings.length - 1) {
-						items += entry + '&';
-					} else {
-						items += entry;
-					}
+					if (i != settings.length - 1) items += entry + '&';
+					else items += entry;
 				}
 
 				document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden gespeichert...</h1>';

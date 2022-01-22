@@ -138,8 +138,8 @@
 				i = 1;
 			}
 
-			const username = getCookie("user")
-			if (username) document.getElementById("username-header").innerText = username
+			const username = getCookie("user");
+			if (username) document.getElementById("username-header").innerText = username;
 
 			const theme = getCookie("theme");
 			if (theme == "light") {
@@ -156,8 +156,7 @@
 			});
 
 
-			var autoroleDrop
-
+			var autoroleDrop;
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;
 
@@ -177,15 +176,12 @@
 						entry += encodeURIComponent(item.name) + '=';
 						autoroleDrop.selected.forEach(possible => {
 							if (!possible.removed) entry += encodeURIComponent(autoroleDrop.options[possible.index].value + ",");
-						})
-						if (entry.endsWith("%2C")) entry = entry.slice(0, -3)
+						});
+						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
 					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
-					if (i != settings.length - 1) {
-						items += entry + '&';
-					} else {
-						items += entry;
-					}
+					if (i != settings.length - 1) items += entry + '&';
+					else items += entry;
 				}
 
 				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';

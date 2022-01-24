@@ -156,11 +156,11 @@ function getSettingsHTML(guild) {
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 								});
 								setTimeout(() => {
-									autoroleDrop = new drop({selector: "#" + setting.key})
-								}, 2000)
+									autoroleDrop = new drop({selector: "#" + setting.key});
+								}, 2000);
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
-								Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+								Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 							}
 							temp += '</select>';
 						}
@@ -172,7 +172,7 @@ function getSettingsHTML(guild) {
 						text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>';
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
-						})
+						});
 					})
 
 					resolve('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);

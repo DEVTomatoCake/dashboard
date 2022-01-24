@@ -169,7 +169,7 @@ function getSettingsHTML(guild) {
 					});
 
 					categories.forEach(category => {
-						text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>';
+						text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
 						});

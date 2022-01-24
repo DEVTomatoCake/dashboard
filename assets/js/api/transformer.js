@@ -212,7 +212,8 @@ function getCustomcommandsHTML(guild) {
 						}
 					});
 
-					resolve('<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h2>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h2><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text);
+					if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
+					resolve('<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text);
 				} else {
 					resolve('' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -258,7 +259,7 @@ function getReactionrolesHTML(guild) {
 					document.getElementById("reactionroles-role").innerHTML = roleoptions;
 					rolecopy = json.data.roles;
 
-					if (text == "") text = "<b>Es sind keine Reactionroles vorhanden!</b>"
+					if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
 					resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);
 				} else {
 					resolve('' +

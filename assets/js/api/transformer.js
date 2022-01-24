@@ -143,21 +143,21 @@ function getSettingsHTML(guild) {
 						if (!setting.possible) {
 							if (setting.key == "maxMentions" || setting.key == "starboardStars") temp += '' +
 								'<p>' + setting.help + '</p>' +
-								'<input type="number" min="0" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+								'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 							else temp += '' +
 								'<p>' + setting.help + '</p>' +
 								'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 						} else {
 							const possible = setting.possible;
 
-							if (setting.key == "autorole") {
+							if (setting.key == "autorole" || setting.key == "enabledLogs") {
 								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								Object.keys(possible).forEach(key => {
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 								});
 								setTimeout(() => {
 									autoroleDrop = new drop({selector: "#" + setting.key})
-								}, 2500)
+								}, 2000)
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');

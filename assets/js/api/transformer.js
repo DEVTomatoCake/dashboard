@@ -150,13 +150,13 @@ function getSettingsHTML(guild) {
 						} else {
 							const possible = setting.possible;
 
-							if (setting.key == "autorole" || setting.key == "enabledLogs") {
+							if (setting.key == "autorole" || setting.key == "disabledLogs") {
 								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								Object.keys(possible).forEach(key => {
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 								});
 								setTimeout(() => {
-									autoroleDrop = new drop({selector: "#" + setting.key});
+									drops.push(new drop({selector: "#" + setting.key}));
 								}, 2000);
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';

@@ -25,6 +25,8 @@
 	--purple: #4527A0;
 	--pink: #880E4F;
 	--cyan: #00BCD4;
+	--textarea-background: #FFF;
+	--textarea-color: #000;
 }
 
 .dark-theme {
@@ -45,6 +47,8 @@
 	--purple: #B388FF;
 	--pink: #FF80AB;
 	--cyan: #84FFFF;
+	--textarea-background: #000;
+	--textarea-color: #FFF;
 }
 
 * {
@@ -162,6 +166,10 @@ html, body {
 	padding: 3px;
 }
 
+textarea {
+	color: var(--textarea-color);
+	background-color: var(--textarea-background);
+}
 textarea:focus {
   	background-color: #f6f6f6;
   	outline: none;

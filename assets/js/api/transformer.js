@@ -161,6 +161,7 @@ function getSettingsHTML(guild) {
 									i++;
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
 								});
+								console.log(i)
 								setTimeout(() => {
 									drops.push(new drop({selector: "#" + setting.key, preselected: selected}));
 								}, 2000);

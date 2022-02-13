@@ -97,7 +97,7 @@ var drop = function(info) {
 					selected: option.selected,
 					state: ''
 				}
-				console.log(1, this.options[i])
+				console.log(i, this.html.options.length, this.options[i])
 			}
 		},
 		preselect: function() {

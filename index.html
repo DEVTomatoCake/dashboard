@@ -21,8 +21,8 @@
 		<script>
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
-				document.getElementById("stats-users").innerText = json.users;
 				document.getElementById("stats-apiping").innerText = json.apiping;
+				document.getElementById("stats-users").innerText = json.users;
 			});
 
 			var i = 0;

@@ -91,13 +91,13 @@ var drop = function(info) {
 			this.options = [];
 			for (var i = 0; i < this.html.options.length; i++) {
 				var option = this.html.options[i]
-				console.log(option)
 				this.options[i] = {
 					html: option.innerHTML,
 					value: option.value,
 					selected: option.selected,
 					state: ''
 				}
+				console.log(this.options[i])
 			}
 		},
 		preselect: function() {
@@ -109,8 +109,8 @@ var drop = function(info) {
 					state: 'add',
 					removed: false
 				});
-				console.log(that.options)
 				if (that.options[pre]) console.log(that.options[pre])
+				else console.log(that.options)
 				if (that.options[pre]) that.options[pre].state = 'remove';
 				else that.options[pre] = {
 					state: "removed"

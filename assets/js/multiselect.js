@@ -97,13 +97,12 @@ var drop = function(info) {
 					selected: option.selected,
 					state: ''
 				}
-				console.log(3, this.options[i])
+				console.log(1, this.options[i])
 			}
 		},
 		preselect: function() {
 			var that = this;
 			this.selected = [];
-			console.log(1, that.options);
 			this.preselected.forEach(function(pre) {
 				that.selected.push({
 					index: pre,

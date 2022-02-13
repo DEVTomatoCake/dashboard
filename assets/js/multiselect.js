@@ -110,6 +110,8 @@ var drop = function(info) {
 				})
 				//that.options[pre].state = 'remove';
 				console.log(that.options)
+				console.log(that.options[pre])
+				console.log(that.selected)
 				that.options[pre] = {
 					state: "removed"
 				};

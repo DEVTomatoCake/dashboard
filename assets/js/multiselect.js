@@ -97,12 +97,13 @@ var drop = function(info) {
 					selected: option.selected,
 					state: ''
 				}
-				console.log(this.options[i])
+				console.log(3, this.options[i])
 			}
 		},
 		preselect: function() {
 			var that = this;
 			this.selected = [];
+			console.log(1, that.options);
 			this.preselected.forEach(function(pre) {
 				that.selected.push({
 					index: pre,
@@ -110,12 +111,12 @@ var drop = function(info) {
 					removed: false
 				});
 				if (that.options[pre]) console.log(that.options[pre])
-				else console.log(that.options)
-				if (that.options[pre]) that.options[pre].state = 'remove';
+				if (that.options[pre]) that.options[pre].state = 'remove'
 				else that.options[pre] = {
 					state: "remove"
 				};
 			})
+			console.log(2, that.options);
 		},
 		render: function() {
 			this.renderDrop()

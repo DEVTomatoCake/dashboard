@@ -108,7 +108,10 @@ var drop = function(info) {
 					state: 'add',
 					removed: false
 				})
-				that.options[pre].state = 'remove';
+				//that.options[pre].state = 'remove';
+				that.options[pre] = {
+					state: "removed"
+				};
 			})
 		},
 		render: function() {

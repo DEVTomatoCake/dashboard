@@ -109,10 +109,7 @@ var drop = function(info) {
 					state: 'add',
 					removed: false
 				});
-				if (that.options[pre]) that.options[pre].state = 'remove'
-				else that.options[pre] = {
-					state: "remove"
-				};
+				if (that.options[pre]) that.options[pre].state = 'remove';
 			})
 		},
 		render: function() {

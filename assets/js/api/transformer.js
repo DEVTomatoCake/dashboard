@@ -152,11 +152,15 @@ function getSettingsHTML(guild) {
 
 							if (setting.key == "autorole" || setting.key == "disabledLogs") {
 								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+								var selected = [];
+								var i = 0;
 								Object.keys(possible).forEach(key => {
+									i++;
+									if (setting.value == key.replace('_', '')) selected.push(i);
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 								});
 								setTimeout(() => {
-									drops.push(new drop({selector: "#" + setting.key}));
+									drops.push(new drop({selector: "#" + setting.key, preselect: selected}));
 								}, 2000);
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';

@@ -114,7 +114,6 @@ var drop = function(info) {
 					state: "remove"
 				};
 			})
-			console.log(2, that.options);
 		},
 		render: function() {
 			this.renderDrop()

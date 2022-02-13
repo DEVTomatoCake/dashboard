@@ -21,18 +21,18 @@
 			});
 
 			function cmdSearch() {
-				var input, filter, div, a, i;
+				var input, filter, div, a, j;
 				input = document.getElementById("cmdSearch");
 				filter = input.value.toUpperCase();
 
 				var div = document.getElementById("commands-container").getElementsByClassName("command");
 
-				for (i = 0; i < div.length; i++) {
-					a = div[i];
+				for (j = 0; j < div.length; j++) {
+					a = div[j];
 					if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-						div[i].style.display = "";
+						div[j].style.display = "";
 					} else {
-						div[i].style.display = "none";
+						div[j].style.display = "none";
 					}
 				}
 			}

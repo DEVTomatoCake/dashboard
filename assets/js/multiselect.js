@@ -113,7 +113,7 @@ var drop = function(info) {
 				else console.log(that.options)
 				if (that.options[pre]) that.options[pre].state = 'remove';
 				else that.options[pre] = {
-					state: "removed"
+					state: "remove"
 				};
 			})
 		},

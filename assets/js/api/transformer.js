@@ -10,7 +10,7 @@ function getCommandsHTML() {
 					json.data.forEach(command => {
 						var temp = '' +
 							'<div class="command">' +
-							'<p style="color: gold; font-size: 1.7em;">' + command.name + '</p>' +
+							'<p style="color: var(--accent-color); font-size: 1.6em;">' + command.name + '</p>' +
 							'<p style="color: var(--primary-text-color);">' + command.description + '</p>';
 
 						if (command.name != command.usage) temp += '<pre style="color: var(--primary-text-color);">' + command.usage + '</pre>';

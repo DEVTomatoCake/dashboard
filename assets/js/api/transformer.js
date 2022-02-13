@@ -156,6 +156,7 @@ function getSettingsHTML(guild) {
 								var i = 0;
 								Object.keys(possible).forEach(key => {
 									i++;
+									console.log(setting.value, key);
 									if (setting.value == key.replace('_', '')) selected.push(i);
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
 									console.log(i, selected);

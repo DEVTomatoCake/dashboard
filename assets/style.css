@@ -13,7 +13,7 @@
 	--tertiary-color: #E6E7F1;
 	--accent-color: #505FD2;
 	--accent-color-hover: #3C47A0;
-	--button-accent-color: #384396;
+	--button-accent-color: #414DA7;
 	--primary-text-color: #131524;
 	--secondary-text-color: #3D404E;
 	--blue: #2E39A7;
@@ -34,10 +34,11 @@
 	--primary-color-hover: #000000;
 	--secondary-color: #232742;
 	--tertiary-color: #525569;
-	--accent-color: #6b3dc7;
-	--accent-color-hover: #5b2abd;
-	--primary-text-color: #e6e7f1;
-	--secondary-text-color: #c1c4db;
+	--accent-color: #7B4CD9;
+	--accent-color-hover: #5B2ABD;
+	--button-accent-color: #41298b;
+	--primary-text-color: #E6E7F1;
+	--secondary-text-color: #C1C4DB;
 	--blue: #8C9EFF;
 	--green: #B9F6CA;
 	--red: #F44336;

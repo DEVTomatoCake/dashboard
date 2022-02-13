@@ -155,6 +155,7 @@ function getSettingsHTML(guild) {
 								var selected = [];
 								var i = 0;
 								Object.keys(possible).forEach(key => {
+									console.log(key)
 									setting.value.split(",").forEach(data => {
 										if (data == key.replace('_', '')) selected.push(i);
 									});

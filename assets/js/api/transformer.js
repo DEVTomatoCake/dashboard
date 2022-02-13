@@ -164,7 +164,7 @@ function getSettingsHTML(guild) {
 									console.log(i, selected);
 								});
 								setTimeout(() => {
-									drops.push(new drop({selector: "#" + setting.key, preselect: selected}));
+									drops.push(new drop({selector: "#" + setting.key, preselected: selected}));
 								}, 2000);
 							} else {
 								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';

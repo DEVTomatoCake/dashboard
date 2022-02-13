@@ -154,14 +154,12 @@ function getSettingsHTML(guild) {
 								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								var selected = [];
 								var i = 0;
-								console.log(setting.value);
 								Object.keys(possible).forEach(key => {
 									i++;
 									setting.value.split(",").forEach(data => {
 										if (data == key.replace('_', '')) selected.push(i);
 									});
 									if (key != "") temp += '<option value="' + key.replace('_', '') + '">' + possible[key] + '</option>';
-									console.log(i, key, selected);
 								});
 								setTimeout(() => {
 									drops.push(new drop({selector: "#" + setting.key, preselected: selected}));

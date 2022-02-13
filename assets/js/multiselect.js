@@ -109,6 +109,7 @@ var drop = function(info) {
 					removed: false
 				})
 				//that.options[pre].state = 'remove';
+				console.log(that.options)
 				that.options[pre] = {
 					state: "removed"
 				};

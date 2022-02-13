@@ -91,6 +91,7 @@ var drop = function(info) {
 			this.options = [];
 			for (var i = 0; i < this.html.options.length; i++) {
 				var option = this.html.options[i]
+				console.log(option)
 				this.options[i] = {
 					html: option.innerHTML,
 					value: option.value,

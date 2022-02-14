@@ -180,8 +180,9 @@
 					if (multiselect.includes(item.name)) {
 						entry += encodeURIComponent(item.name) + '=';
 						drops.forEach(drop => {
-							drop.selected.forEach(possible => {
-								if (!possible.removed) entry += encodeURIComponent(drop.options[possible.index].value + ",");
+							if (drop.key != item.name) return
+							drop.data.selected.forEach(possible => {
+								if (!possible.removed) entry += encodeURIComponent(drop.data.options[possible.index].value + ",");
 							});
 						})
 						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);

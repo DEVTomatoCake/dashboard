@@ -178,15 +178,9 @@
 					if (item.name == "autorole" || item.name == "disabledLogs") {
 						entry += encodeURIComponent(item.name) + '=';
 						drops.forEach(drop => {
-							if (item.name == "disabledLogs") {
-								drop.options.forEach(possible => {
-									if (possible.state == "") entry += encodeURIComponent(drop.options[possible.index].value + ",");
-								});
-							} else {
-								drop.selected.forEach(possible => {
-									if (!possible.removed) entry += encodeURIComponent(drop.options[possible.index].value + ",");
-								});
-							}
+							drop.selected.forEach(possible => {
+								if (!possible.removed) entry += encodeURIComponent(drop.options[possible.index].value + ",");
+							});
 						})
 						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
 					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);

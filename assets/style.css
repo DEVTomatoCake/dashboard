@@ -449,7 +449,7 @@ input .hidearrows {
 
 .sidebar .section .tab.active {
 	background: var(--accent-color);
-	color: var(--light-text-color);
+	color: #FFF;
 }
 
 .sidebar .section .tab ion-icon {

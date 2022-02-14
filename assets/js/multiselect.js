@@ -96,8 +96,7 @@ var drop = function(info) {
 					value: option.value,
 					selected: option.selected,
 					state: ''
-				}
-				console.log(i, this.html.options.length, this.options[i])
+				};
 			}
 		},
 		preselect: function() {

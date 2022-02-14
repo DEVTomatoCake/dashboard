@@ -150,7 +150,7 @@ function getSettingsHTML(guild) {
 						} else {
 							const possible = setting.possible;
 
-							if (setting.key == "autorole" || setting.key == "disabledLogs") {
+							if (multiselect.includes(setting.key)) {
 								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 								var selected = [];
 								var i = 0;

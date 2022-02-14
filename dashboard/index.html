@@ -160,6 +160,8 @@
 
 
 			var drops = [];
+			const multiselect = ["autorole", "disabledLogs", "starboardExcludedChannels", "starboardExcludedUsers", "levelExcludedChannels", "levelExcludedUsers"]
+
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;
 
@@ -175,7 +177,7 @@
 					const item = settings.item(i);
 
 					var entry = "";
-					if (item.name == "autorole" || item.name == "disabledLogs") {
+					if (multiselect.includes(item.name)) {
 						entry += encodeURIComponent(item.name) + '=';
 						drops.forEach(drop => {
 							drop.selected.forEach(possible => {

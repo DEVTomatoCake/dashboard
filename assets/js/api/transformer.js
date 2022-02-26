@@ -9,30 +9,26 @@ function getCommandsHTML() {
 
 					json.data.forEach(command => {
 						var temp = '' +
-							'<div class="command">' +
+							'<div class="command"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
 							'<p style="color: var(--accent-color); font-size: 1.6em;">' + command.name + '</p>' +
 							'<p style="color: var(--primary-text-color);">' + command.description + '</p>';
 
 						if (command.name != command.usage) temp += '<pre style="color: var(--primary-text-color);">' + command.usage + '</pre>';
 						temp += '<p style="padding-bottom: 20px;"></p></div>';
 
-						if (command.category && !categories.includes(command.category)) categories.push(command.category)
-						if (command.category) categoryData.push([command.category, temp])
+						if (command.category && !categories.includes(command.category)) categories.push(command.category);
+						if (command.category) categoryData.push([command.category, temp]);
 					});
 
 					categories.forEach(category => {
-						text += '<br><h1 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1><br>';
+						text += '<h1 class="category" id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1>';
 						categoryData.forEach(data => {
-							if (category == data[0]) text += data[1]
-						})
+							if (category == data[0]) text += data[1];
+						});
 					})
 
-					if (text === '') {
-						resolve('' +
-							'<h1>Es gibt keine Befehle!</h1>');
-					} else {
-						resolve(text);
-					}
+					if (text == '') resolve('<h1>Es gibt keine Befehle!</h1>');
+					else resolve(text);
 				} else {
 					resolve('' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

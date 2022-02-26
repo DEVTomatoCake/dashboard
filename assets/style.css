@@ -70,6 +70,9 @@ html, body {
 	height: auto;
 }
 
+.category {
+	padding: 15px 0;
+}
 .user-image {
   	border-radius: 50%;
   	width: 32px;
@@ -520,7 +523,7 @@ input .hidearrows {
 }
 
 .main .top .search-box input:focus {
-	box-shadow: 0 0 8px 2px var(--primary-color);
+	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 
 .main .top .search-box input::placeholder {
@@ -540,6 +543,10 @@ input .hidearrows {
 .main .top .search-box ion-icon:hover {
 	background: var(--tertiary-color);
 	color: var(--primary-text-color);
+}
+
+.main .top .search-box:hover {
+	transform: scaleY(1.025) scaleX(1.006);
 }
 
 .main .top .account {
@@ -579,10 +586,6 @@ input .hidearrows {
 
 .main .top .account:hover, .main .top .calendar:hover {
 	transform: scale(1.05);
-}
-
-.main .top .search-box:hover {
-	transform: scaleY(1.05) scaleX(1.01);
 }
 
 .main .top .account ion-icon {

@@ -77,13 +77,14 @@ html, body {
 }
 .category caption {
 	font-size: 1.4em;
+	color: var(--primary-text-color);
+}
+tr {
+	color: var(--primary-text-color);
 }
 tr:nth-child(even) {
   	background-color: var(--table-bgcolor);
   	transition: .4s;
-}
-tr {
-	color: var(--primary-text-color);
 }
 
 .user-image {

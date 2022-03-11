@@ -10,15 +10,15 @@
   <link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
   <script>
-    const params = new URLSearchParams(location.search);
+	const params = new URLSearchParams(location.search);
 
-    const client_id = '685166801394335819';
-    const redirect_uri = 'https://' + location.host + '/dashboard';
-    const scopes = 'identify guilds bot applications.commands';
-    const permissions = '1393602981110';
-    const guild = params.has('guild') ? '&guild_id=' + encodeURIComponent(params.get('guild')) : '';
+	const client_id = '685166801394335819';
+	const redirect_uri = 'https://' + location.host + '/dashboard';
+	const scopes = 'identify guilds bot applications.commands';
+	const permissions = '1393602981110';
+	const guild = params.has('guild') ? '&guild_id=' + encodeURIComponent(params.get('guild')) : '';
 
-    window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=' + encodeURIComponent(scopes) + '&permissions=' + permissions + guild;
+	window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=' + encodeURIComponent(scopes) + '&permissions=' + permissions + guild;
   </script>
 </head>
 

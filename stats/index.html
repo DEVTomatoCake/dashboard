@@ -3,7 +3,7 @@
 	<head>
 	  	<meta charset="UTF-8">
 	  	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-	  	<meta content="TomatenKuchen - Serverstatistiken" name="description"/>
+	  	<meta content="TomatenKuchen - Serverstats" name="description"/>
 
 	  	<title>TomatenKuchen - Serverstatistiken</title>
 	  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -20,7 +20,6 @@
 	  	<script src="../assets/js/api/api.js"></script>
 	  	<script src="../assets/js/api/transformer.js"></script>
 	  	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-		<script src="https://js.sentry-cdn.com/f70fc8beed314b2a8378609155962141.min.js" crossorigin="anonymous" data-lazy="no"></script>
 	</head>
 	<body>
 	  	<script>
@@ -30,9 +29,7 @@
 				  	.then((html) => {
 						createChart(html.labels.split(","), html.data.split(","))
 				  	});
-			} else {
-			   	document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
-			}
+			} else document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
 
 		  	function createChart(apilabels, apidata) {
 				const data = {

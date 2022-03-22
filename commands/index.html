@@ -11,10 +11,12 @@
 
 		<link href="../assets/style.css" rel="stylesheet" type="text/css">
 
+		<link rel="preconnect" href="https://node2.chaoshosting.tk:25508">
+		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
+
 		<script src="../assets/js/cookie.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer.js"></script>
-		<script src="https://js.sentry-cdn.com/f70fc8beed314b2a8378609155962141.min.js" crossorigin="anonymous" data-lazy="no"></script>
 
 		<script>
 			getCommandsHTML().then(html => {
@@ -22,7 +24,7 @@
 					'<div class="section middle"><p class="title">KATEGORIEN</p>' +
 					"<div class='tab' onclick='cmdSearch(\"ticket\")'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"fun\")'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"suggest\")'><ion-icon name='settings-outline'></ion-icon><p>Suggest</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"suggest\")'><ion-icon name='settings-outline'></ion-icon><p>Vorschläge</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"economy\")'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"moderation\")'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"owner\")'><ion-icon name='settings-outline'></ion-icon><p>Owner</p></div>" +

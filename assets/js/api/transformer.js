@@ -240,7 +240,7 @@ function getReactionrolesHTML(guild) {
 
 					json.data.reactionroles.forEach(setting => {
 						if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
-						else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" /><br>';
+						else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" width="32" height="32" loading="lazy" /><br>';
 
 						const possible = setting.possible;
 						text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
@@ -284,7 +284,7 @@ function getLeaderboardHTML(guild) {
 			.then(json => {
 				if (json.status === 'success') {
 					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + json.guild + '</span></h1>';
-					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" alt="' + entry.place + '">' + entry.user + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
+					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + entry.user + '" />' + entry.user + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);
 				} else {
 					resolve('' +

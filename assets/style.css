@@ -255,6 +255,10 @@ input .hidearrows {
 	bottom: 0;
 }
 
+.sidebar a {
+	text-decoration: none;
+}
+
 .sidebar .hamburger {
 	margin: 20px;
 	padding: 10px;

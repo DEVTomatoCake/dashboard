@@ -9,26 +9,25 @@ function getCommandsHTML() {
 
 					json.data.forEach(command => {
 						var temp = '' +
-							'<div class="command"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
-							'<p style="color: var(--accent-color); font-size: 1.6em;">' + command.name + '</p>' +
-							'<p style="color: var(--primary-text-color);">' + command.description + '</p>';
-
-						if (command.name != command.usage) temp += '<pre style="color: var(--primary-text-color);">' + command.usage + '</pre>';
-						temp += '<p style="padding-bottom: 20px;"></p></div>';
+							'<tr class="command"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
+							'<td>' + command.name + '</td>' +
+							'<td>' + command.description + '</td>' +
+							'<td>' + command.usage + '</td>' +
+							'</tr>';
 
 						if (command.category && !categories.includes(command.category)) categories.push(command.category);
 						if (command.category) categoryData.push([command.category, temp]);
 					});
 
 					categories.forEach(category => {
-						text += '<h1 class="category" id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h1>';
+						text += '<table cellpadding="8" cellspacing="0" class="category" id="' + category + '"><caption>' + category.charAt(0).toUpperCase() + category.slice(1) + '</caption><thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
 						});
+						text += '</tbody></table>';
 					})
 
-					if (text == '') resolve('<h1>Es gibt keine Befehle!</h1>');
-					else resolve(text);
+					resolve(text);
 				} else {
 					resolve('' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

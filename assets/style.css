@@ -25,6 +25,7 @@
 	--purple: #4527A0;
 	--pink: #880E4F;
 	--cyan: #00BCD4;
+	--table-bgcolor: #E5E7f1;
 	--textarea-background: #FFF;
 	--textarea-color: #000;
 }
@@ -48,6 +49,7 @@
 	--purple: #B388FF;
 	--pink: #FF80AB;
 	--cyan: #84FFFF;
+	--table-bgcolor: #363952;
 	--textarea-background: #000;
 	--textarea-color: #FFF;
 }
@@ -62,7 +64,7 @@ html, body {
 	font-size: 20px;
 	overflow-x: hidden;
 	background: var(--primary-color);
-	transition: 0.5s;
+	transition: .5s;
 	font-family: 'Be Vietnam Pro', sans-serif;
 }
 
@@ -71,8 +73,20 @@ html, body {
 }
 
 .category {
-	padding: 15px 0;
+	padding: 10px 0;
 }
+.category caption {
+	font-size: 1.4em;
+	color: var(--primary-text-color);
+}
+tr {
+	color: var(--primary-text-color);
+}
+tr:nth-child(even) {
+  	background-color: var(--table-bgcolor);
+  	transition: .4s;
+}
+
 .user-image {
   	border-radius: 50%;
   	width: 32px;
@@ -244,7 +258,7 @@ input .hidearrows {
 .sidebar .hamburger {
 	margin: 20px;
 	padding: 10px;
-	transition-duration: 0.5s;
+	transition-duration: .5s;
 }
 
 .hamburger {
@@ -290,7 +304,7 @@ input .hidearrows {
 	height: 5px;
 	background: var(--primary-text-color);
 	position: relative;
-	transition: 0.5s;
+	transition: .5s;
 }
 
 .sidebar button {
@@ -404,7 +418,7 @@ input .hidearrows {
 	left: 4px;
 	bottom: 4px;
 	background-color: var(--primary-color);
-	transition: 0.5s;
+	transition: .5s;
 	border-radius: 50%;
 	display: flex;
 	justify-content: center;
@@ -599,7 +613,7 @@ input .hidearrows {
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;
-	transition: 0.3s;
+	transition: .4s;
 	padding: 100px 0 100px 300px;
 }
 
@@ -937,7 +951,7 @@ table.charts-css {
   	width: 100%;
   	margin-bottom:10px;
   	opacity: 0.7;
-  	transition: 0.3s;
+  	transition: .3s;
 }
 
 .form-container .cancel {

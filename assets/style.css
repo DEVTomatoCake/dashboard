@@ -89,11 +89,12 @@ tr:nth-child(even) {
 
 .user-image {
   	border-radius: 50%;
-  	width: 32px;
-  	height: 32px;
+  	width: 24px;
+  	height: 24px;
 }
 .leaderboard {
 	padding: 5px;
+	font-size: 120%;
 }
 
 .grid {
@@ -793,7 +794,6 @@ h1.greeting {
 	--color: var(--yellow-3);
 }
 
-
 .charts-css.area.multiple.session-length tr.first td::before {
 	border-bottom-left-radius: 20px;
 }
@@ -801,7 +801,6 @@ h1.greeting {
 .charts-css.area.multiple.session-length tr.last td::before {
 	border-bottom-right-radius: 20px;
 }
-
 
 .charts-css.line.users td {
 	--color: var(--blue);
@@ -1054,9 +1053,21 @@ table.charts-css {
 	.linkicon {
 		display: none;
 	}
+	.main .content .row .data.small h1 {
+		font-size: 40px;
+		transition: 0.3s;
+	}
+	.main .content .row .data.small h3 {
+		font-size: 20px;
+		transition: 0.3s;
+	}
 }
 
 @media only screen and (max-width: 400px) {
+	.statsicon {
+		display: none;
+	}
+
 	.main .top .account {
 		margin-right: 20px;
 	}
@@ -1114,6 +1125,15 @@ table.charts-css {
 	.main .content .row .data.small .container ion-icon.open {
 		top: -65px;
 		left: 5px;
+	}
+
+	.main .content .row .data.small h1 {
+		font-size: 30px;
+		transition: 0.3s;
+	}
+	.main .content .row .data.small h3 {
+		font-size: 15px;
+		transition: 0.3s;
 	}
 }
 

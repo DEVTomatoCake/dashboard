@@ -195,7 +195,7 @@
 				saving = true;
 				const settings = document.getElementsByClassName('setting');
 
-				let items = '?';
+				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
 
@@ -211,24 +211,22 @@
 						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
 					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
-					if (i != settings.length - 1) items += entry + '&';
-					else items += entry;
+					items[item.name] = entry;
 				}
 
 				socket.send(JSON.stringify({
 					token: getCookie("token"),
 					guild: params.get("guild"),
 					data: items
-				}))
+				}));
 				document.getElementById('saving-container').hidden = false;
 				document.getElementById('guilds-container').hidden = true;
 				setTimeout(() => {
 					document.getElementById('saving-container').hidden = true;
 					document.getElementById('guilds-container').hidden = false;
-				}, 3000)
+					saving = false;
+				}, 3000);
 				/*setSettings(params.get('guild'), items).then(json => {
-					const timeout = 3;
-
 					if (json.status === 'success') {
 						document.getElementById('root-container').innerHTML = '' +
 							'<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
@@ -239,12 +237,6 @@
 							'<h1>' + json.message + '</h1>' +
 							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
 					}
-
-					setTimeout(() => {
-						location.reload();
-					}, timeout * 1000);
-
-					saving = false;
 				});*/
 			}
 

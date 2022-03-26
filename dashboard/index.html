@@ -212,14 +212,14 @@
 					else items += entry;
 				}
 
-				socket.send({
+				socket.send(JSON.stringify({
 					token: getCookie("token"),
 					guild: params.get("guild"),
 					data: items
-				})
+				}))
 				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1><!--' + document.getElementById('root-container').innerHTML + "savecomment-->";
 				setTimeout(() => {
-					document.getElementById('root-container').innerHTML = document.getElementById('root-container').innerHTML.replace("'<h1>Die Einstellungen werden gespeichert...</h1><!--'", "").replace("savecomment-->", "");
+					document.getElementById('root-container').innerHTML = document.getElementById('root-container').innerHTML.replace("<h1>Die Einstellungen werden gespeichert...</h1><!--", "").replace("savecomment-->", "");
 				}, 3000)
 				/*setSettings(params.get('guild'), items).then(json => {
 					const timeout = 3;

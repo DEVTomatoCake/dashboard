@@ -146,6 +146,9 @@
 						<div id="guilds-container" class="grid">
 							<h1>Die Server werden geladen...</h1>
 						</div>
+						<h1 id="saving-container">
+							Die Einstellungen werden gespeichert...
+						</h1>
 					</section>
 				</div>
 
@@ -217,9 +220,11 @@
 					guild: params.get("guild"),
 					data: items
 				}))
-				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1><!--' + document.getElementById('root-container').innerHTML + "savecomment-->";
+				document.getElementById('saving-container').hidden = false;
+				document.getElementById('guilds-container').hidden = true;
 				setTimeout(() => {
-					document.getElementById('root-container').innerHTML = document.getElementById('root-container').innerHTML.replace("<h1>Die Einstellungen werden gespeichert...</h1><!--", "").replace("savecomment-->", "");
+					document.getElementById('saving-container').hidden = true;
+					document.getElementById('guilds-container').hidden = false;
 				}, 3000)
 				/*setSettings(params.get('guild'), items).then(json => {
 					const timeout = 3;

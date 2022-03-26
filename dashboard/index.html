@@ -147,7 +147,7 @@
 						<div id="guilds-container" class="grid">
 							<h1>Die Server werden geladen...</h1>
 						</div>
-						<h1 id="saving-container">
+						<h1 id="saving-container" hidden>
 							Die Einstellungen werden gespeichert...
 						</h1>
 					</section>
@@ -219,11 +219,11 @@
 					guild: params.get("guild"),
 					data: items
 				}));
-				document.getElementById('saving-container').hidden = false;
-				document.getElementById('guilds-container').hidden = true;
+				document.getElementById('saving-container').setAttribute("hidden", false);
+				document.getElementById('guilds-container').setAttribute("hidden", true);
 				setTimeout(() => {
-					document.getElementById('saving-container').hidden = true;
-					document.getElementById('guilds-container').hidden = false;
+					document.getElementById('saving-container').setAttribute("hidden", true);
+					document.getElementById('guilds-container').setAttribute("hidden", false);
 					saving = false;
 				}, 3000);
 				/*setSettings(params.get('guild'), items).then(json => {

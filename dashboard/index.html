@@ -66,7 +66,6 @@
 
 				socket.addEventListener("open", function (event) {
 					console.log("Connected on " + location.search)
-					socket.send("Connected on " + location.search)
 				})
 				socket.addEventListener("close", function (event) {
 					console.log("WebSocket connection closed", event)
@@ -213,13 +212,16 @@
 					else items += entry;
 				}
 
-				socket.send(JSON.stringify({
+				socket.send({
 					token: getCookie("token"),
 					guild: params.get("guild"),
 					data: items
-				}))
-				/*document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';
-				setSettings(params.get('guild'), items).then(json => {
+				})
+				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1><!--' + document.getElementById('root-container').innerHTML + "savecomment-->";
+				setTimeout(() => {
+					document.getElementById('root-container').innerHTML = document.getElementById('root-container').innerHTML.replace("'<h1>Die Einstellungen werden gespeichert...</h1><!--'", "").replace("savecomment-->", "");
+				}, 3000)
+				/*setSettings(params.get('guild'), items).then(json => {
 					const timeout = 3;
 
 					if (json.status === 'success') {

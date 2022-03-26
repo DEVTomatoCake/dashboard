@@ -60,6 +60,18 @@
 				}
 			}
 
+			function connect() {
+				const socket = new WebSocket("wss://node2.chaoshosting.tk:25508")
+
+				socket.addEventListener("open", function (event) {
+				    socket.send("Connected on " + location.search)
+				})
+
+				socket.addEventListener("message", function (event) {
+				    console.log("Incoming message: " + event.data)
+				})
+			}
+
 			function redirect(url) {
 				window.location = url;
 			}

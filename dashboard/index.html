@@ -83,7 +83,7 @@
 			  		} catch (e) {
 			  			console.warn(e, event)
 			  			return socket.send(JSON.stringify({
-			  				state: "error",
+			  				status: "error",
 			  				message: "Invalid json",
 			  				debug: event.data
 			  			}))
@@ -232,10 +232,8 @@
 					data: items
 				}));
 				document.getElementById('saving-container').setAttribute("hidden", false);
-				document.getElementById('guilds-container').setAttribute("hidden", true);
 				setTimeout(() => {
 					document.getElementById('saving-container').setAttribute("hidden", true);
-					document.getElementById('guilds-container').setAttribute("hidden", false);
 					saving = false;
 				}, 3000);
 			}

@@ -70,6 +70,8 @@
 				})
 				socket.addEventListener("close", function (event) {
 					console.log("WebSocket connection closed", event)
+
+					setTimeout(connect, 5000)
 				})
 				socket.addEventListener("error", function (event) {
 					console.error("WebSocket message couldnt be sent", error)
@@ -211,7 +213,12 @@
 					else items += entry;
 				}
 
-				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';
+				socket.send(JSON.stringify({
+					token: getCookie("token"),
+					guild: params.get("guild"),
+					data: items
+				}))
+				/*document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden gespeichert...</h1>';
 				setSettings(params.get('guild'), items).then(json => {
 					const timeout = 3;
 
@@ -231,7 +238,7 @@
 					}, timeout * 1000);
 
 					saving = false;
-				});
+				});*/
 			}
 
 			if (params.has('code')) {

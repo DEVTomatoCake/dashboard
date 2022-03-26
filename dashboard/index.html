@@ -65,9 +65,14 @@
 				socket.addEventListener("open", function (event) {
 				    socket.send("Connected on " + location.search)
 				})
-
+				socket.addEventListener("close", function (event) {
+				    console.log("WebSocket connection closed", event)
+				})
+				socket.addEventListener("error", function (event) {
+				    console.error("WebSocket message couldnt be sent", error)
+				})
 				socket.addEventListener("message", function (event) {
-				    console.log("Incoming message: " + event.data)
+				    console.log("Incoming message: " + event.data, event)
 				})
 			}
 

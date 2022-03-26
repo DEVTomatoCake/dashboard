@@ -76,7 +76,20 @@
 					console.error("WebSocket message couldnt be sent", event)
 				})
 				socket.addEventListener("message", function (event) {
-					console.log("Incoming message: " + event.data, event)
+					console.log("Incoming message: " + event.data)
+
+					try {
+			  			var json = JSON.parse(event.data)
+			  		} catch (e) {
+			  			console.warn(e, event)
+			  			return socket.send(JSON.stringify({
+			  				state: "error",
+			  				message: "Invalid json",
+			  				debug: event.data
+			  			}))
+			  		}
+
+			  		console.log(json)
 				})
 			}
 
@@ -225,18 +238,6 @@
 					document.getElementById('guilds-container').setAttribute("hidden", false);
 					saving = false;
 				}, 3000);
-				/*setSettings(params.get('guild'), items).then(json => {
-					if (json.status === 'success') {
-						document.getElementById('root-container').innerHTML = '' +
-							'<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
-							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
-					} else {
-						document.getElementById('root-container').innerHTML = '' +
-							'<h1>Die Einstellungen konnten nicht gespeichert werden!</h1>' +
-							'<h1>' + json.message + '</h1>' +
-							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
-					}
-				});*/
 			}
 
 			if (params.has('code')) {

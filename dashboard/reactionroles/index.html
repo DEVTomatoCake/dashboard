@@ -283,14 +283,10 @@
 								'<h1>' + json.message + '</h1>';
 						}
 					});
-			} else if (!getCookie('token') || !getCookie('user')) {
+			} else if (!getCookie('token') || !getCookie('user') || getCookie('token') == "undefined") {
 				document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
 
-				location.href = '../login';
-			} else if (getCookie('token') == "undefined") {
-				document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
-
-				location.href = '../login';
+				location.href = '../../login';
 			} else if (params.has('guild')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 

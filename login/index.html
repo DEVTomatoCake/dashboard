@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  	<meta charset="UTF-8">
+  	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
-  <title>TomatenKuchen - Login</title>
-  <link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-  <link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+  	<title>TomatenKuchen - Login</title>
+  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+  	<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
-  <script>
-	const redirect_uri = 'https://' + location.host + '/dashboard';
-	const scopes = 'identify guilds';
+  	<script>
+		const redirect_uri = 'https://' + location.host + '/dashboard';
+		const scopes = 'identify guilds';
 
-	window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=685166801394335819&redirect_uri=' + encodeURIComponent(redirect_uri) + '&prompt=none&response_type=code&scope=' + encodeURIComponent(scopes);
-  </script>
+		window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=685166801394335819&redirect_uri=' + encodeURIComponent(redirect_uri) + '&prompt=none&response_type=code&scope=' + encodeURIComponent(scopes);
+  	</script>
 </head>
 </html>

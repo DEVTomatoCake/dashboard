@@ -262,7 +262,6 @@ input .hidearrows {
 
 .sidebar .hamburger {
 	margin: 20px;
-	padding: 10px;
 	transition-duration: .5s;
 }
 
@@ -281,11 +280,8 @@ input .hidearrows {
 	height: 30px;
 }
 
-.hamburger:hover {
-	background: var(--tertiary-color);
-}
-
 .sidebar .hamburger:hover {
+	background: var(--tertiary-color);
 	animation: spin 1s;
 }
 
@@ -387,6 +383,7 @@ input .hidearrows {
 	font-size: 80%;
 	padding-top: 50px;
 	color: var(--primary-text-color);
+	text-align: center;
 }
 
 .switch {
@@ -471,6 +468,9 @@ input .hidearrows {
 
 .sidebar .section .tab.active {
 	background: var(--accent-color);
+	color: #FFF;
+}
+.sidebar .section .tab.active p {
 	color: #FFF;
 }
 

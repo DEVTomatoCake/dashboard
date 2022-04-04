@@ -76,12 +76,16 @@
 				window.location = url;
 			}
 		</script>
-		<script src="https://browser.sentry-cdn.com/6.17.2/bundle.tracing.min.js" integrity="sha384-/06LGwfzQ1pgdFsQEtOB+4auE4K6SV85cy/7wKx5H+8Uhtmb5dajgm6/AM31blzh" crossorigin="anonymous"></script>
+		<script
+		  	src="https://browser.sentry-cdn.com/6.19.3/bundle.tracing.min.js"
+		  	integrity="sha384-u/dqcM1j6egSEhWjOpjx4ali0U4WHOJNVqX2hrtpYorMs8e0ILJUbP9HAdbV0UQU"
+		  	crossorigin="anonymous"
+		></script>
 		<script>
 			Sentry.init({
 			  	dsn: "https://f70fc8beed314b2a8378609155962141@o1070850.ingest.sentry.io/6069419",
 			  	integrations: [new Sentry.Integrations.BrowserTracing()],
-			  	tracesSampleRate: 0.8
+			  	tracesSampleRate: 1.0
 			});
 		</script>
 	</head>

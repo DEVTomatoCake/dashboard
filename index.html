@@ -4,7 +4,6 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
   		<meta content="TomatenKuchen - Dein Discord Bot" name="description"/>
-		<meta name="sentry-trace" content="{{ span.toSentryTrace() }}" />
 
 		<title>TomatenKuchen - Home</title>
 		<link href="./assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -35,7 +34,6 @@
 			function currentSlide(n) {
 			  	showSlides(slideIndex = n);
 			}
-
 			function showSlides(n) {
 			  	let i;
 			  	let slides = document.getElementsByClassName("imgSlide");
@@ -99,18 +97,6 @@
 			function redirect(url) {
 				window.location = url;
 			}
-		</script>
-		<script
-		  	src="https://browser.sentry-cdn.com/6.19.3/bundle.tracing.min.js"
-		  	integrity="sha384-u/dqcM1j6egSEhWjOpjx4ali0U4WHOJNVqX2hrtpYorMs8e0ILJUbP9HAdbV0UQU"
-		  	crossorigin="anonymous"
-		></script>
-		<script>
-			Sentry.init({
-			  	dsn: "https://f70fc8beed314b2a8378609155962141@o1070850.ingest.sentry.io/6069419",
-			  	integrations: [new Sentry.Integrations.BrowserTracing()],
-			  	tracesSampleRate: 1.0
-			});
 		</script>
 	</head>
 	<body class="dark-theme" onload="showSlides(1)">
@@ -240,12 +226,11 @@
 					<br>
 					<br>
 					<br>
-					<br>
-					<h2>Features</h2>
+					<h1>Features</h1>
 					<div class="slideshow-container">
 					  	<div class="imgSlide">
 							<img class="imgSlideImg" src="./assets/images/stats_dark.png" width="450" height="550">
-					    	<p class="text">Statistiken in Kanalnamen</p>
+					    	<p class="text">Serverstatistiken in Kanalnamen</p>
 					  	</div>
 
 					  	<div class="imgSlide">
@@ -267,10 +252,10 @@
 		</section>
 
 		<script>
-			const username = getCookie("user")
+			const username = getCookie("user");
 			if (username) {
-				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!"
-				document.getElementById("username-header").innerText = username
+				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
+				document.getElementById("username-header").innerText = username;
 			}
 
 			let slides = document.getElementsByClassName("imgSlideImg");

@@ -852,24 +852,21 @@ table.charts-css {
 	--line-size: 4px;
 }
 
-* {box-sizing:border-box}
-
 /* https://www.w3schools.com/howto/howto_js_slideshow.asp */
 .slideshow-container {
 	max-width: 450px;
 	position: relative;
-	margin: 30px auto;
+	margin: 40px auto;
 }
 
 .prev, .next {
 	cursor: pointer;
 	position: absolute;
 	top: 50%;
-	width: 25px;
 	color: var(--yellow-1);
 	font-weight: bold;
-	font-size: 30px;
-	transition: 0.6s ease;
+	font-size: 35px;
+	transition: .6s ease;
 	user-select: none;
 }
 
@@ -886,12 +883,11 @@ table.charts-css {
 	background-color: var(--yellow-3);
 }
 
-/* Caption text */
 .slideshow-container .text {
 	color: var(--primary-text-color);
 	font-size: 20px;
 	position: absolute;
-	top: -25px;
+	bottom: -25px;
 	width: 100%;
 	text-align: center;
 }
@@ -914,17 +910,7 @@ table.charts-css {
 
 .imgSlide {
 	display: none;
-	animation-name: imgSlide;
-	animation-duration: 1.5s;
-}
-
-.imgSlide img {
 	transition: .5s;
-}
-
-@keyframes imgSlide {
-	from {opacity: .4}
-	to {opacity: 1}
 }
 
 

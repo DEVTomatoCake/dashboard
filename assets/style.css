@@ -83,14 +83,14 @@ tr {
 	color: var(--primary-text-color);
 }
 tr:nth-child(even) {
-  	background-color: var(--table-bgcolor);
-  	transition: .4s;
+	background-color: var(--table-bgcolor);
+	transition: .4s;
 }
 
 .user-image {
-  	border-radius: 50%;
-  	width: 24px;
-  	height: 24px;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
 }
 .leaderboard {
 	padding: 5px;
@@ -104,19 +104,19 @@ tr:nth-child(even) {
 	overflow: hidden;
 }
 @media (max-width: 1200px) {
-  	.grid {
+	.grid {
 		grid-template-areas: ". . .";
-  	}
+	}
 }
 @media (max-width: 950px) {
-  	.grid {
+	.grid {
 		grid-template-areas: ". .";
-  	}
+	}
 }
 @media (max-width: 800px) {
-  	.grid {
+	.grid {
 		grid-template-areas: ".";
-  	}
+	}
 }
 
 .guilds-container .guild {
@@ -190,17 +190,17 @@ textarea {
 	background-color: var(--textarea-background);
 }
 textarea:focus {
-  	background-color: #f6f6f6;
-  	outline: none;
+	background-color: #f6f6f6;
+	outline: none;
 }
 
 input.hidearrows::-webkit-outer-spin-button,
 input.hidearrows::-webkit-inner-spin-button {
-  	-webkit-appearance: none;
-  	margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 input .hidearrows {
-  	-moz-appearance: textfield;
+	-moz-appearance: textfield;
 }
 
 .sidebar-container {
@@ -702,12 +702,12 @@ h1.greeting {
 	background: var(--yellow-2);
 }
 
-.main .content .row .data.users .container ion-icon {
-	background: var(--blue);
+.main .content .row .data.uptime .container ion-icon {
+	background: var(--green);
 }
 
-.main .content .row .data.ping .container ion-icon {
-	background: var(--red);
+.main .content .row .data.users .container ion-icon {
+	background: var(--blue);
 }
 
 .main .content h1, h2, p {
@@ -741,28 +741,18 @@ h1.greeting {
 	gap: 75px;
 }
 
+.main .content .row .data.uptime h1 {
+	color: var(--green);
+	font-size: 50px;
+	position: relative;
+	top: -50px;
+}
+
 .main .content .row .data.users h1 {
 	color: var(--blue);
 	font-size: 50px;
 	position: relative;
 	top: -50px;
-}
-
-.main .content .row .data.ping h1 {
-	color: var(--red);
-	font-size: 50px;
-	position: relative;
-	top: -50px;
-}
-
-.main .content .row .data.rect.green h1 {
-	color: var(--green);
-	font-size: 60px;
-}
-
-.main .content .row .data.rect.red h1 {
-	color: var(--red);
-	font-size: 60px;
 }
 
 .main .content .row .data.rect .numbers {
@@ -862,42 +852,78 @@ table.charts-css {
 	--line-size: 4px;
 }
 
+* {box-sizing:border-box}
 
-.main .content .row .data.large .reviews {
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-	margin-right: auto;
-	margin-left: 20px;
+/* https://www.w3schools.com/howto/howto_js_slideshow.asp */
+.slideshow-container {
+	max-width: 450px;
 	position: relative;
-	top: -30px;
-	padding-right: 50px;
+	margin: 30px auto;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-bottom: 10px;
+.imgSlide {
+	display: none;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container .text-container h4 {
-	font-size: 20px;	
+.prev, .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	width: 25px;
+	color: var(--yellow-1);
+	font-weight: bold;
+	font-size: 30px;
+	transition: 0.6s ease;
+	user-select: none;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container .text-container ion-icon {
-	color: var(--purple);
+.prev {
+	left: -45px;
+	border-radius: 5px 0 0 5px;
+}
+.next {
+	right: -45px;
+	border-radius: 0 5px 5px 0;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container img {
-	width: 70px;
-	height: 70px;
+.prev:hover, .next:hover {
+	background-color: var(--yellow-3);
+}
+
+/* Caption text */
+.slideshow-container .text {
+	color: var(--primary-text-color);
+	font-size: 20px;
+	position: absolute;
+	top: -25px;
+	width: 100%;
+	text-align: center;
+}
+
+/* The dots/bullets/indicators */
+.dot {
+	cursor: pointer;
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	background-color: #bbb;
 	border-radius: 50%;
+	display: inline-block;
+	transition: background-color 0.6s ease;
 }
 
-.main .content .row .data.large .reviews .review p {
-	color: var(--secondary-text-color);
-	font-size: 16px;
+.slideactive, .dot:hover {
+	background-color: #717171;
+}
+
+.slidefade {
+	animation-name: slidefade;
+	animation-duration: 1.5s;
+}
+
+@keyframes slidefade {
+	from {opacity: .4}
+	to {opacity: 1}
 }
 
 
@@ -909,18 +935,18 @@ table.charts-css {
 
 
 .form-popup {
-  	display: none;
-  	position: fixed;
-  	top: 10px;
-  	left: 50%;
-  	border: 3px solid #f1f1f1;
-  	z-index: 9;
+	display: none;
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	border: 3px solid #f1f1f1;
+	z-index: 9;
 }
 
 .form-container {
-  	max-width: 350px;
-  	padding: 10px;
-  	background-color: white;
+	max-width: 350px;
+	padding: 10px;
+	background-color: white;
 }
 
 .form-container h1 {
@@ -928,41 +954,41 @@ table.charts-css {
 }
 
 .form-container input[type=text], .form-container textarea {
-  	width: 100%;
-  	padding: 15px;
-  	margin: 5px 0 22px 0;
-  	border: none;
-  	background: #f1f1f1;
-  	max-width: 350px;
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #f1f1f1;
+	max-width: 350px;
 	box-sizing: border-box;
 }
 
 .form-container input[type=text]:focus, .form-container textarea:focus {
-  	background-color: #ddd;
-  	outline: none;
+	background-color: #ddd;
+	outline: none;
 }
 .form-container select:focus {
-  	outline: none;
+	outline: none;
 }
 
 .form-container .btn {
-  	background-color: #04AA6D;
-  	color: white;
-  	padding: 16px 20px;
-  	border: none;
-  	cursor: pointer;
-  	width: 100%;
-  	margin-bottom:10px;
-  	opacity: 0.7;
-  	transition: .3s;
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom:10px;
+	opacity: 0.7;
+	transition: .3s;
 }
 
 .form-container .cancel {
-  	background-color: red;
+	background-color: red;
 }
 
 .form-container .btn:hover {
-  	opacity: 1;
+	opacity: 1;
 }
 
 @media only screen and (max-width: 1200px) {

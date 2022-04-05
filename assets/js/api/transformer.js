@@ -43,24 +43,6 @@ function getCommandsHTML() {
 	}));
 }
 
-function getBotstatsHTML() {
-	return new Promise((resolve => {
-		getBotstats()
-			.then(json => {
-				let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br><h1>Nutzer: <b>' + json.users + '</b></h1><br><h1>API-Ping: <b>' + json.apiping + '</b></h1><br><h1>Befehle: <b>' + json.commands + '</b></h1><br><h1>Gestartet: <b>' + luxon.DateTime.fromMillis(Date.now() - json.uptime, {
-					locale: "de-DE"
-				}).toRelative() + '</b></h1>';
-				resolve(text);
-			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
-	}));
-}
-
 function getStatsHTML(guild) {
 	return new Promise(resolve => {
 		getStats(guild)

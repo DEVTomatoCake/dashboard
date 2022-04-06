@@ -180,8 +180,11 @@ tr:nth-child(even) {
 }
 
 .guilds-container .notactivated {
-	transition: .5s ease;
-    opacity: 0.4;
+    -webkit-filter: grayscale(70%);
+       -moz-filter: grayscale(70%);
+         -o-filter: grayscale(70%);
+        -ms-filter: grayscale(70%);
+            filter: grayscale(70%);
 }
 
 .setting {

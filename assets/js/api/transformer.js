@@ -75,9 +75,9 @@ function getGuildsHTML() {
 				if (json.status === 'success') {
 					let text = '';
 					json.data.sort((a, b) => {
-						if (a && b) return 0
-						if (a && !b) return 1
-						return -1
+						if (a.activated && b.activated) return 0;
+						if (a.activated && !b.activated) return 1;
+						return -1;
 					})
 					json.data.forEach(guild => {
 						text += '' +

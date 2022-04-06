@@ -918,10 +918,26 @@ table.charts-css {
 
 .cookie-container {
 	position: absolute;
-	right: 20px;
-	bottom: 20px;
+	right: 15px;
+	bottom: 15px;
 	background-color: var(--secondary-color);
-	padding: 10px;
+	padding: 15px;
+}
+.cookie-container button {
+	transition: var(--transition-buttons);
+	border: none;
+	width: 140px;
+	height: 40px;
+	border-radius: 20px;
+	font-size: 20px;
+	background: var(--button-accent-color);
+	cursor: pointer;
+	color: var(--light-text-color);
+	transition: var(--transition-buttons);
+	font-family: 'Roboto Condensed', sans-serif;
+	letter-spacing: 1px;
+	margin-top: 10px;
+	justify-content: center;
 }
 
 .form-popup {

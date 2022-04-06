@@ -48,7 +48,7 @@ function cookieBanner() {
 	document.body.innerHTML += '' +
 		'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
 		'<h2 style="color: var(--primary-text-color);">Information</h2>' +
-		'<p>Unsere Website nutzt Cookies, um bestmögliche Funktionalität bieten zu können.</p>' +
+		'<p>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
 		'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</button>' +
 		'</div>';
 

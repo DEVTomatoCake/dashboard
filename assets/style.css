@@ -879,10 +879,6 @@ table.charts-css {
 	border-radius: 0 5px 5px 0;
 }
 
-.prev:hover, .next:hover {
-	background-color: var(--yellow-3);
-}
-
 .slideshow-container .text {
 	color: var(--primary-text-color);
 	font-size: 20px;
@@ -920,6 +916,13 @@ table.charts-css {
 	gap: 50px;
 }
 
+.cookie-container {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+	background-color: var(--secondary-color);
+	padding: 10px;
+}
 
 .form-popup {
 	display: none;

@@ -99,11 +99,11 @@
 			}
 		</script>
 	</head>
-	<body class="dark-theme" onload="showSlides(1)">
+	<body class="dark-theme" onload="showSlides(1);cookieBanner()">
 		<div class="sidebar-container visible" id="sidebar-container">
 	  
 			<div class="sidebar" id="sidebar">
-				<div class="hamburger" id="hamburger" onclick="sidebar();">
+				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
 				</div>
@@ -267,6 +267,7 @@
 			    	slides[i].src = slides[i].src.replace("dark", "light");
 			  	};
 			}
+			// Ist teilweise auch in cookie.js weil es sonst warum auch immer nicht funktioniert
 			document.getElementById("theme-toggle").addEventListener("change", function() {
 				if (document.body.classList.contains("light-theme")) {
 					document.body.classList.replace("light-theme", "dark-theme");

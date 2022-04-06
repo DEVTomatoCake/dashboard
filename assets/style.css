@@ -164,6 +164,10 @@ tr:nth-child(even) {
 	transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	text-align: center;
+	background-color: #4CAF50;
+	color: white;
+	font-size: 16px;
+	padding: 10px 16px;
 }
 
 .guilds-container:hover .image {
@@ -171,15 +175,13 @@ tr:nth-child(even) {
 	border-radius: 25%;
 }
 
-.guilds-container:hover .text {
-	opacity: 1;
+.guild .notactivated {
+	transition: .5s ease;
+    opacity: 0.4;
 }
 
-.guilds-container .text {
-	background-color: #4CAF50;
-	color: white;
-	font-size: 16px;
-	padding: 10px 16px;
+.guilds-container:hover .text {
+	opacity: 1;
 }
 
 .setting {

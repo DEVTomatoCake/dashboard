@@ -76,17 +76,15 @@ function getGuildsHTML() {
 					let text = '';
 					json.data.sort((a, b) => {
 						if (a.activated && b.activated) return 0;
-						if (a.activated && !b.activated) return 1;
+						if (!a.activated && b.activated) return 1;
 						return -1;
 					})
 					json.data.forEach(guild => {
 						text += '' +
 							'<div class="guilds-container">' +
-							'<a class="guild" href="' + (guild.activated ? '' : '../invite/') + '?guild=' + guild.id + '">' +
+							'<a class="guild' + (guild.activated ? '' : ' notactivated') + '" href="' + (guild.activated ? '' : '../invite/') + '?guild=' + guild.id + '">' +
 							'<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
-							'<div class="middle">' +
 							'<div class="text">' + guild.name + '</div>' +
-							'</div>' +
 							'</a>' +
 							'</div>';
 					});

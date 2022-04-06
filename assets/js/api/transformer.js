@@ -74,6 +74,11 @@ function getGuildsHTML() {
 			.then(json => {
 				if (json.status === 'success') {
 					let text = '';
+					json.data.sort((a, b) => {
+						if (a && b) return 0
+						if (a && !b) return 1
+						return -1
+					})
 					json.data.forEach(guild => {
 						text += '' +
 							'<div class="guilds-container">' +
@@ -86,11 +91,8 @@ function getGuildsHTML() {
 							'</div>';
 					});
 
-					if (text === '') {
-						resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
-					} else {
-						resolve(text);
-					}
+					if (text == '') resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
+					else resolve(text);
 				} else {
 					resolve('' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

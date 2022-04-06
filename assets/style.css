@@ -175,13 +175,13 @@ tr:nth-child(even) {
 	border-radius: 25%;
 }
 
-.guild .notactivated {
-	transition: .5s ease;
-    opacity: 0.4;
-}
-
 .guilds-container:hover .text {
 	opacity: 1;
+}
+
+.guilds-container .notactivated {
+	transition: .5s ease;
+    opacity: 0.4;
 }
 
 .setting {

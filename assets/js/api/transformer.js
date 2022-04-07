@@ -123,7 +123,7 @@ function getSettingsHTML(guild) {
 								'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 							else temp += '' +
 								'<p>' + setting.help + '</p>' +
-								'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+								'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 						} else {
 							const possible = setting.possible;
 

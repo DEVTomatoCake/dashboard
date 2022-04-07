@@ -467,7 +467,7 @@ input .hidearrows {
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
-	padding: 7px 20px 7px 20px;
+	padding: 7px 20px;
 	color: var(--primary-text-color);
 }
 
@@ -497,7 +497,7 @@ input .hidearrows {
 }
 
 .sidebar .section .tab.small {
-	padding: 2px 16px;
+	padding: 2px 20px;
 }
 .sidebar .section .tab.small p {
 	font-size: 20px;

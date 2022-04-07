@@ -463,8 +463,7 @@ input .hidearrows {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-right: 70px;
-	margin-top: 10px;
+	margin: 10px 70px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -493,6 +492,17 @@ input .hidearrows {
 	transform: rotate(20deg);
 }
 
+.sidebar .section .tab p {
+	padding: 7px 5px;
+}
+
+.sidebar .section .tab.small {
+	font-size: 20px;
+}
+.sidebar .section .tab.small p, .sidebar .section .tab.small ion-icon {
+	font-size: 20px;
+}
+
 
 .sidebar .section.bottom .tab  {
 	background: transparent;
@@ -508,13 +518,6 @@ input .hidearrows {
 .sidebar .section.bottom .tab ion-icon:hover {
 	transform: rotate(30deg);
 	background: var(--tertiary-color);
-}
-
-.sidebar .section .tab p {
-	font-size: 24px;
-}
-.sidebar .section .tab.small p, ion-icon {
-	font-size: 20px;
 }
 
 .main .top {

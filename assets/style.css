@@ -497,7 +497,8 @@ input .hidearrows {
 }
 
 .sidebar .section .tab.small {
-	padding: 7px 0;
+	padding: 0 7px;
+	margin: 5px 70px 0 0;
 }
 .sidebar .section .tab.small p {
 	font-size: 22px;

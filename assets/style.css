@@ -513,6 +513,9 @@ input .hidearrows {
 .sidebar .section .tab p {
 	font-size: 24px;
 }
+.sidebar .section .tab.small {
+	font-size: 18px;
+}
 
 .main .top {
 	background: var(--secondary-color);

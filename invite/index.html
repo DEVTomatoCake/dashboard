@@ -1,27 +1,26 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-  <meta content="TomatenKuchen - Bot einladen" name="description"/>
+  	<meta charset="utf-8">
+  	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  	<meta content="TomatenKuchen - Bot einladen" name="description"/>
 
-  <title>TomatenKuchen - Bot einladen</title>
-  <link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-  <link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+  	<title>TomatenKuchen - Bot einladen</title>
+  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+  	<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
-  <script>
-	const params = new URLSearchParams(location.search);
+  	<script>
+		const params = new URLSearchParams(location.search);
 
-	const client_id = '685166801394335819';
-	const redirect_uri = 'https://' + location.host + '/dashboard';
-	const scopes = 'identify guilds bot applications.commands';
-	const permissions = '1393602981110';
-	const guild = params.has('guild') ? '&guild_id=' + encodeURIComponent(params.get('guild')) : '';
+		const client_id = '685166801394335819';
+		const redirect_uri = 'https://' + location.host + '/dashboard';
+		const scopes = 'identify guilds bot applications.commands';
+		const permissions = '1393602981110';
+		const guild = params.has('guild') ? '&guild_id=' + encodeURIComponent(params.get('guild')) : '';
 
-	window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=' + encodeURIComponent(scopes) + '&permissions=' + permissions + guild;
-  </script>
+		window.location.href = 'https://discord.com/api/oauth2/authorize?client_id=' + client_id + '&redirect_uri=' + encodeURIComponent(redirect_uri) + '&response_type=code&scope=' + encodeURIComponent(scopes) + '&permissions=' + permissions + guild;
+  	</script>
 </head>
-
 <body>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="de">
 	<head>
-	  	<meta charset="UTF-8">
+	  	<meta charset="utf-8">
 	  	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 	  	<meta content="TomatenKuchen - Serverstats" name="description"/>
 
@@ -29,7 +29,7 @@
 	  		const params = new URLSearchParams(window.location.search);
 	  		if (params.has('guild')) {
 				getStatsHTML(params.get('guild'))
-				  	.then((html) => {
+				  	.then(html => {
 						createChart(html.labels.split(","), html.data.split(","))
 				  	});
 			} else document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
@@ -43,16 +43,16 @@
 						borderColor: "rgb(255, 99, 132)",
 						data: apidata
 					}]
-				}
+				};
 
 				const config = {
 				  	type: "line",
 				  	data,
 				  	options: {}
-				}
-				console.log(config.data.labels)
+				};
+				console.log(config.data.labels);
 
-				new Chart(document.getElementById("stats"), config)
+				new Chart(document.getElementById("stats"), config);
 		  	}
 		</script>
 	  	<canvas id="stats"></canvas>

@@ -83,14 +83,14 @@ tr {
 	color: var(--primary-text-color);
 }
 tr:nth-child(even) {
-  	background-color: var(--table-bgcolor);
-  	transition: .4s;
+	background-color: var(--table-bgcolor);
+	transition: .4s;
 }
 
 .user-image {
-  	border-radius: 50%;
-  	width: 24px;
-  	height: 24px;
+	border-radius: 50%;
+	width: 24px;
+	height: 24px;
 }
 .leaderboard {
 	padding: 5px;
@@ -100,23 +100,28 @@ tr:nth-child(even) {
 .grid {
 	width: auto;
 	display: grid;
-	grid-template-areas: ". . . .";
+	grid-template-areas: ". . . . .";
 	overflow: hidden;
 }
-@media (max-width: 1200px) {
-  	.grid {
+@media (max-width: 1300px) {
+	.grid {
+		grid-template-areas: ". . . .";
+	}
+}
+@media (max-width: 1150px) {
+	.grid {
 		grid-template-areas: ". . .";
-  	}
+	}
 }
-@media (max-width: 950px) {
-  	.grid {
+@media (max-width: 900px) {
+	.grid {
 		grid-template-areas: ". .";
-  	}
+	}
 }
-@media (max-width: 800px) {
-  	.grid {
+@media (max-width: 750px) {
+	.grid {
 		grid-template-areas: ".";
-  	}
+	}
 }
 
 .guilds-container .guild {
@@ -143,14 +148,14 @@ tr:nth-child(even) {
 .guilds-container .image {
 	opacity: 1;
 	display: block;
-	width: 100%;
-	height: auto;
+	width: 128px;
+	height: 128px;
 	transition: .5s ease;
 	backface-visibility: hidden;
 	border-radius: 50%;
 }
 
-.guilds-container .middle {
+.guilds-container .text {
 	transition: .5s ease;
 	opacity: 0;
 	position: absolute;
@@ -159,6 +164,10 @@ tr:nth-child(even) {
 	transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
 	text-align: center;
+	background-color: #4CAF50;
+	color: white;
+	font-size: 16px;
+	padding: 10px 16px;
 }
 
 .guilds-container:hover .image {
@@ -166,15 +175,16 @@ tr:nth-child(even) {
 	border-radius: 25%;
 }
 
-.guilds-container:hover .middle {
+.guilds-container:hover .text {
 	opacity: 1;
 }
 
-.guilds-container .text {
-	background-color: #4CAF50;
-	color: white;
-	font-size: 16px;
-	padding: 10px 16px;
+.guilds-container .notactivated {
+    -webkit-filter: grayscale(100%);
+       -moz-filter: grayscale(100%);
+         -o-filter: grayscale(100%);
+        -ms-filter: grayscale(100%);
+            filter: grayscale(100%);
 }
 
 .setting {
@@ -190,17 +200,17 @@ textarea {
 	background-color: var(--textarea-background);
 }
 textarea:focus {
-  	background-color: #f6f6f6;
-  	outline: none;
+	background-color: #f6f6f6;
+	outline: none;
 }
 
 input.hidearrows::-webkit-outer-spin-button,
 input.hidearrows::-webkit-inner-spin-button {
-  	-webkit-appearance: none;
-  	margin: 0;
+	-webkit-appearance: none;
+	margin: 0;
 }
 input .hidearrows {
-  	-moz-appearance: textfield;
+	-moz-appearance: textfield;
 }
 
 .sidebar-container {
@@ -262,7 +272,6 @@ input .hidearrows {
 
 .sidebar .hamburger {
 	margin: 20px;
-	padding: 10px;
 	transition-duration: .5s;
 }
 
@@ -281,11 +290,8 @@ input .hidearrows {
 	height: 30px;
 }
 
-.hamburger:hover {
-	background: var(--tertiary-color);
-}
-
 .sidebar .hamburger:hover {
+	background: var(--tertiary-color);
 	animation: spin 1s;
 }
 
@@ -384,9 +390,14 @@ input .hidearrows {
 }
 
 #author {
-	font-size: 80%;
+	font-size: 75%;
 	padding-top: 50px;
 	color: var(--primary-text-color);
+	text-align: center;
+}
+#author a {
+	color: var(--blue);
+	text-decoration: none;
 }
 
 .switch {
@@ -456,12 +467,11 @@ input .hidearrows {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin-right: 70px;
-	margin-top: 10px;
+	margin: 10px 70px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
-	padding: 7px 20px 7px 20px;
+	padding: 7px 20px;
 	color: var(--primary-text-color);
 }
 
@@ -473,6 +483,9 @@ input .hidearrows {
 	background: var(--accent-color);
 	color: #FFF;
 }
+.sidebar .section .tab.active p {
+	color: #FFF;
+}
 
 .sidebar .section .tab ion-icon {
 	font-size: 32px;
@@ -481,6 +494,20 @@ input .hidearrows {
 
 .sidebar .section .tab:hover ion-icon {
 	transform: rotate(20deg);
+}
+
+.sidebar .section .tab p {
+	font-size: 24px;
+}
+
+.sidebar .section .tab.small {
+	padding: 2px 20px;
+}
+.sidebar .section .tab.small p {
+	font-size: 20px;
+}
+.sidebar .section .tab.small ion-icon {
+	font-size: 26px;
 }
 
 
@@ -498,10 +525,6 @@ input .hidearrows {
 .sidebar .section.bottom .tab ion-icon:hover {
 	transform: rotate(30deg);
 	background: var(--tertiary-color);
-}
-
-.sidebar .section .tab p {
-	font-size: 24px;
 }
 
 .main .top {
@@ -702,12 +725,12 @@ h1.greeting {
 	background: var(--yellow-2);
 }
 
-.main .content .row .data.users .container ion-icon {
-	background: var(--blue);
+.main .content .row .data.uptime .container ion-icon {
+	background: var(--green);
 }
 
-.main .content .row .data.ping .container ion-icon {
-	background: var(--red);
+.main .content .row .data.users .container ion-icon {
+	background: var(--blue);
 }
 
 .main .content h1, h2, p {
@@ -741,28 +764,18 @@ h1.greeting {
 	gap: 75px;
 }
 
+.main .content .row .data.uptime h1 {
+	color: var(--green);
+	font-size: 50px;
+	position: relative;
+	top: -50px;
+}
+
 .main .content .row .data.users h1 {
 	color: var(--blue);
 	font-size: 50px;
 	position: relative;
 	top: -50px;
-}
-
-.main .content .row .data.ping h1 {
-	color: var(--red);
-	font-size: 50px;
-	position: relative;
-	top: -50px;
-}
-
-.main .content .row .data.rect.green h1 {
-	color: var(--green);
-	font-size: 60px;
-}
-
-.main .content .row .data.rect.red h1 {
-	color: var(--red);
-	font-size: 60px;
 }
 
 .main .content .row .data.rect .numbers {
@@ -862,44 +875,66 @@ table.charts-css {
 	--line-size: 4px;
 }
 
-
-.main .content .row .data.large .reviews {
-	display: flex;
-	flex-direction: column;
-	gap: 30px;
-	margin-right: auto;
-	margin-left: 20px;
+/* https://www.w3schools.com/howto/howto_js_slideshow.asp */
+.slideshow-container {
+	max-width: 450px;
 	position: relative;
-	top: -30px;
-	padding-right: 50px;
+	margin: 40px auto;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	margin-bottom: 10px;
+.prev, .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	color: var(--yellow-1);
+	font-weight: bold;
+	font-size: 35px;
+	transition: .6s ease;
+	user-select: none;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container .text-container h4 {
-	font-size: 20px;	
+.prev {
+	left: -45px;
+	border-radius: 5px 0 0 5px;
+}
+.next {
+	right: -45px;
+	border-radius: 0 5px 5px 0;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container .text-container ion-icon {
-	color: var(--purple);
+.slideshow-container .text {
+	color: var(--primary-text-color);
+	font-size: 20px;
+	position: absolute;
+	bottom: -25px;
+	width: 100%;
+	text-align: center;
 }
 
-.main .content .row .data.large .reviews .review .image-text-container img {
-	width: 70px;
-	height: 70px;
+/* The dots/bullets/indicators */
+.dot {
+	cursor: pointer;
+	height: 15px;
+	width: 15px;
+	margin: 0 2px;
+	background-color: #bbb;
 	border-radius: 50%;
+	display: inline-block;
+	transition: background-color .6s ease;
 }
 
-.main .content .row .data.large .reviews .review p {
-	color: var(--secondary-text-color);
-	font-size: 16px;
+.slideactive, .dot:hover {
+	background-color: #717171;
 }
 
+.imgSlide {
+	display: none;
+	transition: .5s;
+}
+
+h3, h4, ul li {
+	color: var(--primary-text-color);
+}
 
 .main .content .row .rect-container {
 	display: flex;
@@ -907,20 +942,43 @@ table.charts-css {
 	gap: 50px;
 }
 
+.cookie-container {
+	position: absolute;
+	right: 15px;
+	bottom: 15px;
+	background-color: var(--secondary-color);
+	padding: 15px;
+}
+.cookie-container button {
+	transition: var(--transition-buttons);
+	border: none;
+	width: 140px;
+	height: 40px;
+	border-radius: 20px;
+	font-size: 20px;
+	background: var(--button-accent-color);
+	cursor: pointer;
+	color: var(--light-text-color);
+	transition: var(--transition-buttons);
+	font-family: 'Roboto Condensed', sans-serif;
+	letter-spacing: 1px;
+	margin-top: 10px;
+	justify-content: center;
+}
 
 .form-popup {
-  	display: none;
-  	position: fixed;
-  	top: 10px;
-  	left: 50%;
-  	border: 3px solid #f1f1f1;
-  	z-index: 9;
+	display: none;
+	position: fixed;
+	top: 10px;
+	left: 50%;
+	border: 3px solid #f1f1f1;
+	z-index: 9;
 }
 
 .form-container {
-  	max-width: 350px;
-  	padding: 10px;
-  	background-color: white;
+	max-width: 350px;
+	padding: 10px;
+	background-color: white;
 }
 
 .form-container h1 {
@@ -928,41 +986,47 @@ table.charts-css {
 }
 
 .form-container input[type=text], .form-container textarea {
-  	width: 100%;
-  	padding: 15px;
-  	margin: 5px 0 22px 0;
-  	border: none;
-  	background: #f1f1f1;
-  	max-width: 350px;
+	width: 100%;
+	padding: 15px;
+	margin: 5px 0 22px 0;
+	border: none;
+	background: #f1f1f1;
+	max-width: 350px;
 	box-sizing: border-box;
 }
 
 .form-container input[type=text]:focus, .form-container textarea:focus {
-  	background-color: #ddd;
-  	outline: none;
+	background-color: #ddd;
+	outline: none;
 }
 .form-container select:focus {
-  	outline: none;
+	outline: none;
 }
 
 .form-container .btn {
-  	background-color: #04AA6D;
-  	color: white;
-  	padding: 16px 20px;
-  	border: none;
-  	cursor: pointer;
-  	width: 100%;
-  	margin-bottom:10px;
-  	opacity: 0.7;
-  	transition: .3s;
+	background-color: #04AA6D;
+	color: white;
+	padding: 16px 20px;
+	border: none;
+	cursor: pointer;
+	width: 100%;
+	margin-bottom:10px;
+	opacity: 0.7;
+	transition: .3s;
 }
 
 .form-container .cancel {
-  	background-color: red;
+	background-color: red;
 }
 
 .form-container .btn:hover {
-  	opacity: 1;
+	opacity: 1;
+}
+
+@media only screen and (max-width: 1200px) {
+	.main .content .row {
+		flex-direction: column;
+	}
 }
 
 @media only screen and (max-width: 1100px) {
@@ -975,10 +1039,6 @@ table.charts-css {
 @media only screen and (max-width: 1000px) {
 	.main .top .account .notification {
 		margin-left: -17px;
-	}
-
-	.main .content .row {
-		flex-direction: column;
 	}
 }
 
@@ -1055,11 +1115,11 @@ table.charts-css {
 	}
 	.main .content .row .data.small h1 {
 		font-size: 40px;
-		transition: 0.3s;
+		transition: .3s;
 	}
 	.main .content .row .data.small h3 {
 		font-size: 20px;
-		transition: 0.3s;
+		transition: .3s;
 	}
 }
 
@@ -1129,11 +1189,11 @@ table.charts-css {
 
 	.main .content .row .data.small h1 {
 		font-size: 30px;
-		transition: 0.3s;
+		transition: .3s;
 	}
 	.main .content .row .data.small h3 {
 		font-size: 15px;
-		transition: 0.3s;
+		transition: .3s;
 	}
 }
 

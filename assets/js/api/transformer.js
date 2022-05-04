@@ -124,73 +124,78 @@ function getGuildsHTML() {
 	});
 }
 
-function getSettingsHTML(guild) {
-	return new Promise(resolve => {
-		getSettings(guild)
-			.then(json => {
-				if (json.status === 'success') {
-					let text = '';
-					var categories = [];
-					var categoryData = [];
+async function getSettingsHTML(guild, json) {
+	if (!json) {
+		var json = await getSettings(guild).catch(error => {
+			console.error(error);
+			resolve('' +
+				'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+				'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+		});
+	};
 
-					json.data.forEach(setting => {
-						temp = '';
-						if (!setting.possible) {
-							if (setting.key == "maxMentions" || setting.key == "starboardStars") temp += '' +
-								'<p>' + setting.help + '</p>' +
-								'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
-							else temp += '' +
-								'<p>' + setting.help + '</p>' +
-								'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
-						} else {
-							const possible = setting.possible;
+	if (json.status == 'success') {
+		let text = '';
+		var categories = [];
+		var categoryData = [];
 
-							if (multiselect.includes(setting.key)) {
-								temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
-								var selected = [];
-								var i = 0;
-								Object.keys(possible).forEach(key => {
-									if (key == "") return
-									setting.value.split(",").forEach(data => {
-										if (data == key.replace('_', '')) selected.push(i);
-									});
-									i++;
-									if (key != "") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
-								});
-								setTimeout(() => {
-									drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});
-								}, 2000);
-							} else {
-								temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
-								Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
-							}
-							temp += '</select>';
-						}
-						if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
-						if (setting.category) categoryData.push([setting.category, temp + '<br><br>']);
-					});
+		json.data.forEach(setting => {
+			temp = '';
+			if (!setting.possible) {
+				if (setting.key == "maxMentions" || setting.key == "starboardStars") temp += '' +
+					'<p>' + setting.help + '</p>' +
+					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+				else temp += '' +
+					'<p>' + setting.help + '</p>' +
+					'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+			} else {
+				const possible = setting.possible;
 
-					categories.forEach(category => {
-						text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
-						categoryData.forEach(data => {
-							if (category == data[0]) text += data[1];
+				if (multiselect.includes(setting.key)) {
+					temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					var selected = [];
+					var i = 0;
+					Object.keys(possible).forEach(key => {
+						if (key == "") return
+						setting.value.split(",").forEach(data => {
+							if (data == key.replace('_', '')) selected.push(i);
 						});
-					})
-
-					resolve('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);
+						i++;
+						if (key != "") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
+					});
+					setTimeout(() => {
+						drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});
+					}, 2000);
 				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-						'<h1>' + json.message + '</h1>');
+					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
 				}
-			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+				temp += '</select>';
+			}
+			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
+			if (setting.category) categoryData.push([setting.category, temp + '<br><br>']);
+		});
+
+		categories.forEach(category => {
+			text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
+			categoryData.forEach(data => {
+				if (category == data[0]) text += data[1];
 			});
-	});
+		})
+
+		resolve('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);
+	} else {
+		resolve('' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>' + json.message + '</h1>');
+	}
+	/*})
+	.catch(error => {
+		console.error(error);
+		resolve('' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+	});*/
 }
 
 function getCustomcommandsHTML(guild) {

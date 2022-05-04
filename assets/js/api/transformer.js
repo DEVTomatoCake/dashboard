@@ -115,8 +115,8 @@ function getSettingsHTML(guild) {
 					var categories = [];
 					var categoryData = [];
 
-					multiselect = json.constant.multiselect
-					const integer = json.constant.integer
+					multiselect = json.constant.multiselect;
+					const integer = json.constant.integer;
 
 					json.data.forEach(setting => {
 						temp = '';

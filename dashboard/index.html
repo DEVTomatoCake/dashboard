@@ -257,8 +257,11 @@
 					guild: params.get("guild"),
 					token: getCookie("token")
 				}));
-				document.getElementById('saving-container').setAttribute("hidden", false);
+
+				document.getElementById('settings-content').setAttribute("hidden", true);
+				document.getElementById('saving-container').removeAttribute("hidden");
 				setTimeout(() => {
+					document.getElementById('settings-content').removeAttribute("hidden");
 					document.getElementById('saving-container').setAttribute("hidden", true);
 					saving = false;
 				}, 3000);

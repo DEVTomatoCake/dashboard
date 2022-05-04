@@ -128,7 +128,7 @@ async function getSettingsHTML(guild, json) {
 	if (!json) {
 		var json = await getSettings(guild).catch(error => {
 			console.error(error);
-			resolve('' +
+			return ('' +
 				'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 				'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
 		});
@@ -183,16 +183,16 @@ async function getSettingsHTML(guild, json) {
 			});
 		})
 
-		resolve('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);
+		return ('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);
 	} else {
-		resolve('' +
+		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	}
 	/*})
 	.catch(error => {
 		console.error(error);
-		resolve('' +
+		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
 	});*/

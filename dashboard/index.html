@@ -237,15 +237,14 @@
 
 					var entry = "";
 					if (multiselect.includes(item.name)) {
-						//entry += encodeURIComponent(item.name) + '=';
 						drops.forEach(drop => {
 							if (drop.key != item.name) return
 							drop.data.selected.forEach(possible => {
-								if (!possible.removed) entry += encodeURIComponent(drop.data.options[possible.index].value + ",");
+								if (!possible.removed) entry += drop.data.options[possible.index].value + ",";
 							});
-						})
-						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
-					} else entry = /*encodeURIComponent(item.name) + '=' +*/ encodeURIComponent(item.value);
+						});
+						if (entry.endsWith(",")) entry = entry.slice(0, -1);
+					} else entry = item.value;
 
 					items[item.name] = entry;
 				}

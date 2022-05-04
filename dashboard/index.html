@@ -18,6 +18,7 @@
 		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
 
 		<script src="../assets/js/cookie.js"></script>
+		<script src="../assets/js/sockette.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer.js"></script>
 
@@ -36,9 +37,9 @@
 				document.getElementById("lineBottom1").style.bottom = "5px";
 
 				if (i % 2 == 0) {
-					setTimeout(() => { 
+					setTimeout(() => {
 						document.getElementById("content").style.paddingLeft = "230px";
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 300);
 				} else {
 					document.getElementById("content").style.paddingLeft = "0";
@@ -53,40 +54,79 @@
 					document.getElementById("lineBottom1").style.transform = "rotate(0)";
 					document.getElementById("lineBottom1").style.bottom = "0";
 
-					setTimeout(() => { 
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+					setTimeout(() => {
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 100);
 				}
 			}
 
 			var socket
-			function connect() {
-				socket = new WebSocket("wss://node2.chaoshosting.tk:25508")
+			function connectWS(guild) {
+				socket = sockette("wss://api.tomatenkuchen.eu", {
+				  	timeout: 5000,
+				  	maxAttempts: 10,
+				  	onReconnect: event => console.log("Reconnecting...", event),
+				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
+				  	onClose: event => console.log("Closed", event),
+				  	onError: event => console.error("Error", event),
+				  	onOpen: event => {
+				    	console.log("Connected!", event);
+				    	socket.send({
+				    		status: "success",
+				    		action: "GET_settings",
+				    		guild: guild,
+				    		token: getCookie("token")
+				    	});
+				  	},
+				  	onMessage: event => {
+				  		console.log("Received message: " + event.data);
 
-				socket.addEventListener("open", function (event) {
-					console.log("Connected on " + location.search)
-				})
-				socket.addEventListener("close", function (event) {
-					console.log("WebSocket connection closed", event)
+						try {
+				  			var json = JSON.parse(event.data);
+				  		} catch (e) {
+				  			console.warn(e, event);
+				  			return socket.send({
+				  				status: "error",
+				  				message: "Invalid json",
+				  				debug: event.data
+				  			});
+				  		};
+				  		console.log(json);
 
-					setTimeout(connect, 3000)
-				})
-				socket.addEventListener("error", function (event) {
-					console.error("WebSocket message couldnt be sent", event)
-				})
-				socket.addEventListener("message", function (event) {
-					console.log("Incoming message: " + event.data, event)
-				})
-			}
+				  		if (json.action == "RECEIVE_settings") {
+							document.getElementById("linksidebar").innerHTML =
+								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
+								"<br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+								"<br><hr><div class='tab' onclick='redirect(\"./customcommands/" + location.search + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
+								"<div class='tab' onclick='redirect(\"./reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
+								"<div class='tab' onclick='redirect(\"../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
+								"<div class='tab' onclick='redirect(\"../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
+								"<hr><div class='tab' onclick='redirect(\"#allgemein\")'><ion-icon name='settings-outline'></ion-icon><p>Allgemein</p></div>" +
+								"<div class='tab' onclick='redirect(\"#moderation\")'><ion-icon name='settings-outline'></ion-icon><p>Moderation</p></div>" +
+								"<div class='tab' onclick='redirect(\"#willkommen\")'><ion-icon name='settings-outline'></ion-icon><p>Willkommen</p></div>" +
+								"<div class='tab' onclick='redirect(\"#starconfig\")'><ion-icon name='settings-outline'></ion-icon><p>Starboard</p></div>" +
+								"<div class='tab' onclick='redirect(\"#ticket\")'><ion-icon name='settings-outline'></ion-icon><p>Ticket</p></div>" +
+								"<div class='tab' onclick='redirect(\"#youtube\")'><ion-icon name='settings-outline'></ion-icon><p>YouTube</p></div>" +
+								"<div class='tab' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
+								"</div>";
+
+							getSettingsHTML(guild, json).then(html => {
+								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>" +
+									"<h1 id='saving-container' hidden>Die Einstellungen werden gespeichert...</h1>";
+							});
+				  		};
+			  		}
+				});
+			};
 
 			function redirect(url) {
 				window.location = url;
-			}
+			};
 		</script>
 	</head>
 	<body class="dark-theme" onload="cookieBanner()">
 		<div class="sidebar-container visible" id="sidebar-container">
-	  
+
 			<div class="sidebar" id="sidebar">
 				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
@@ -95,7 +135,7 @@
 
 				<button onclick="redirect('/invite')"><ion-icon name="add"></ion-icon> BOT EINLADEN</button>
 
-				<div id="linksidebar" class="section">
+				<div class="section">
 					<a href="/" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p>Home</p>
@@ -117,6 +157,7 @@
 						<p>Support</p>
 					</a>
 				</div>
+				<div id="linksidebar" class="section"></div>
 
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
 					<label class="switch">
@@ -195,58 +236,40 @@
 				saving = true;
 				const settings = document.getElementsByClassName("setting");
 
-				let items = "?";
+				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
 
 					var entry = "";
 					if (multiselect.includes(item.name)) {
-						entry += encodeURIComponent(item.name) + '=';
 						drops.forEach(drop => {
 							if (drop.key != item.name) return
 							drop.data.selected.forEach(possible => {
-								if (!possible.removed) entry += encodeURIComponent(drop.data.options[possible.index].value + ",");
+								if (!possible.removed) entry += drop.data.options[possible.index].value + ",";
 							});
 						});
-						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
-					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
+						if (entry.endsWith(",")) entry = entry.slice(0, -1);
+					} else entry = item.value;
 
-					if (i != settings.length - 1) items += entry + '&';
-					else items += entry;
+					items[item.name] = entry;
 				}
 
 				socket.send(JSON.stringify({
-					token: getCookie("token"),
+					status: "success",
+					action: "SAVE_settings",
+					data: items,
 					guild: params.get("guild"),
-					data: items
-				}))
-				document.getElementById('saving-container').hidden = false;
-				document.getElementById('guilds-container').hidden = true;
+					token: getCookie("token")
+				}));
+
+				document.getElementsByClassName('settingsContent')[0].setAttribute("hidden", true);
+				document.getElementById('saving-container').removeAttribute("hidden");
 				setTimeout(() => {
-					document.getElementById('saving-container').hidden = true;
-					document.getElementById('guilds-container').hidden = false;
-				}, 3000)
-				/*setSettings(params.get('guild'), items).then(json => {
-					const timeout = 3;
-
-					if (json.status === 'success') {
-						document.getElementById('root-container').innerHTML = '' +
-							'<h1>Die Einstellungen wurden erfolgreich aktualisiert!</h1>' +
-							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
-					} else {
-						document.getElementById('root-container').innerHTML = '' +
-							'<h1>Die Einstellungen konnten nicht gespeichert werden!</h1>' +
-							'<h1>' + json.message + '</h1>' +
-							'<h1>In ' + timeout + ' Sekunden werden die Einstellungen wieder angezeigt.</h1>';
-					}
-
-					setTimeout(() => {
-						location.reload();
-					}, timeout * 1000);
-
+					document.getElementsByClassName('settingsContent')[0].removeAttribute("hidden");
+					document.getElementById('saving-container').setAttribute("hidden", true);
 					saving = false;
-				});*/
-			}
+				}, 3000);
+			};
 
 			if (params.has('code')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';
@@ -267,39 +290,19 @@
 								'<h1>' + json.message + '</h1>';
 						}
 					});
-			} else if (!getCookie('token') || !getCookie('user')) {
-				document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
-
-				location.href = '../login';
-			} else if (getCookie('token') == "undefined") {
+			} else if (!getCookie('token') || !getCookie('user') || getCookie('token') == "undefined") {
 				document.getElementById('root-container').innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
 
 				location.href = '../login';
 			} else if (params.has('guild')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 
-				const guild = params.get('guild');
+				/*const guild = params.get('guild');
 				getSettingsHTML(guild)
 					.then(html => {
-						document.getElementById('linksidebar').innerHTML +=
-							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
-							"<br><hr><div class='tab' onclick='redirect(\"./customcommands/" + location.search + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.8em;'>Customcommands</p></div>" +
-							"<div class='tab' onclick='redirect(\"./reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.8em;'>Reactionroles</p></div>" +
-							"<div class='tab' onclick='redirect(\"../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.8em;'>Leaderboard</p></div>" +
-							"<div class='tab' onclick='redirect(\"../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.8em;'>Statistiken</p></div>" +
-							"<br><hr>" +
-							"<div class='tab small' onclick='redirect(\"#allgemein\")'><ion-icon name='settings-outline'></ion-icon><p>Allgemein</p></div>" +
-							"<div class='tab small' onclick='redirect(\"#moderation\")'><ion-icon name='settings-outline'></ion-icon><p>Moderation</p></div>" +
-							"<div class='tab small' onclick='redirect(\"#willkommen\")'><ion-icon name='settings-outline'></ion-icon><p>Willkommen</p></div>" +
-							"<div class='tab small' onclick='redirect(\"#starconfig\")'><ion-icon name='settings-outline'></ion-icon><p>Starboard</p></div>" +
-							"<div class='tab small' onclick='redirect(\"#ticket\")'><ion-icon name='settings-outline'></ion-icon><p>Ticket</p></div>" +
-							"<div class='tab small' onclick='redirect(\"#youtube\")'><ion-icon name='settings-outline'></ion-icon><p>YouTube</p></div>" +
-							"<div class='tab small' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
-							"</div>";
-
 						document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
-					});
+					});*/
+				connectWS(params.get("guild"));
 			} else {
 				getGuildsHTML()
 					.then(html => {

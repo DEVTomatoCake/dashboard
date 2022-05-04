@@ -160,19 +160,19 @@
 
 
 			var drops = [];
-			const multiselect = ["autorole", "autoroleBots", "disabledLogs", "mcupdateSelected", "starboardExcludedChannels", "levelExcludedChannels", "onlyAttachmentChannels", "deleteLinksChannels", "invitesAllowedChannels", "autoPublishChannels"]
+			var multiselect = [];
 
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;
 
 			function saveSettings() {
-				if (!params.has('guild')) return;
+				if (!params.has("guild")) return;
 				if (saving) return;
 
 				saving = true;
-				const settings = document.getElementsByClassName('setting');
+				const settings = document.getElementsByClassName("setting");
 
-				let items = '?';
+				let items = "?";
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
 
@@ -184,7 +184,7 @@
 							drop.data.selected.forEach(possible => {
 								if (!possible.removed) entry += encodeURIComponent(drop.data.options[possible.index].value + ",");
 							});
-						})
+						});
 						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
 					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 

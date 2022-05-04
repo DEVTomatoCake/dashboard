@@ -62,36 +62,7 @@
 			}
 
 			var socket
-			function connect() {
-				/*socket = new WebSocket("wss://node2.chaoshosting.tk:25508")
-
-				socket.addEventListener("open", function (event) {
-					console.log("Connected on " + location.search)
-				})
-				socket.addEventListener("close", function (event) {
-					console.log("WebSocket connection closed", event)
-
-					setTimeout(connect, 3000)
-				})
-				socket.addEventListener("error", function (event) {
-					console.error("WebSocket message couldnt be sent", event)
-				})
-				socket.addEventListener("message", function (event) {
-					console.log("Incoming message: " + event.data)
-
-					try {
-			  			var json = JSON.parse(event.data)
-			  		} catch (e) {
-			  			console.warn(e, event)
-			  			return socket.send(JSON.stringify({
-			  				status: "error",
-			  				message: "Invalid json",
-			  				debug: event.data
-			  			}))
-			  		}
-
-			  		console.log(json)
-				})*/
+			function connectWS() {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 				  	timeout: 5000,
 				  	maxAttempts: 10,
@@ -107,20 +78,20 @@
 				    	});
 				  	},
 				  	onMessage: async event => {
-				  		console.log("Incoming message: " + event.data)
+				  		console.log("Received message: " + event.data);
 
 						try {
-				  			var json = JSON.parse(event.data)
+				  			var json = JSON.parse(event.data);
 				  		} catch (e) {
-				  			console.warn(e, event)
+				  			console.warn(e, event);
 				  			return socket.send({
 				  				status: "error",
 				  				message: "Invalid json",
 				  				debug: event.data
-				  			})
+				  			});
 				  		}
 
-				  		console.log(json)
+				  		console.log(json);
 			  		}
 				});
 			};
@@ -130,7 +101,7 @@
 			};
 		</script>
 	</head>
-	<body class="dark-theme" onload="connect()">		
+	<body class="dark-theme">		
 		<div class="sidebar-container visible" id="sidebar-container">
 	  
 			<div class="sidebar" id="sidebar">
@@ -296,7 +267,7 @@
 			} else if (params.has('guild')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 
-				const guild = params.get('guild');
+				/*const guild = params.get('guild');
 				getSettingsHTML(guild)
 					.then(html => {
 						document.getElementById('linksidebar').innerHTML +=
@@ -316,7 +287,8 @@
 							"</div>";
 
 						document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
-					});
+					});*/
+				connectWS(params.get("guild"));
 			} else {
 				getGuildsHTML()
 					.then(html => {

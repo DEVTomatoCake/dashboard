@@ -149,7 +149,7 @@ async function getSettingsHTML(guild, json) {
 			} else {
 				var possible = setting.possible;
 
-				if (typeof possible == "string") possible = json.data.constant[possible]
+				if (typeof possible == "string") possible = json.constant[possible]
 
 				if (multiselect.includes(setting.key)) {
 					temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';

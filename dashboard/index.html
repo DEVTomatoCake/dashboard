@@ -18,6 +18,7 @@
 		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
 
 		<script src="../assets/js/cookie.js"></script>
+		<script src="../assets/js/sockette.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer.js"></script>
 		<script src="https://js.sentry-cdn.com/f70fc8beed314b2a8378609155962141.min.js" crossorigin="anonymous" data-lazy="no"></script>
@@ -62,7 +63,7 @@
 
 			var socket
 			function connect() {
-				socket = new WebSocket("wss://node2.chaoshosting.tk:25508")
+				/*socket = new WebSocket("wss://node2.chaoshosting.tk:25508")
 
 				socket.addEventListener("open", function (event) {
 					console.log("Connected on " + location.search)
@@ -90,7 +91,20 @@
 			  		}
 
 			  		console.log(json)
-				})
+				})*/
+				socket = sockette("wss://node2.chaoshosting.tk:25593", {
+				  	timeout: 5000,
+				  	maxAttempts: 10,
+				  	onOpen: event => {
+				    	console.log("Connected!", event);
+				    	socket.write("Hello World!");
+				  	},
+				  	onMessage: async event => console.log(`Received text: ${await event.data.text()}`, event),
+				  	onReconnect: event => console.log("Reconnecting...", event),
+				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
+				  	onClose: event => console.log("Closed", event),
+				  	onError: event => console.error("Error", event),
+				});
 			}
 
 			function redirect(url) {

@@ -118,7 +118,7 @@ function getSettingsHTML(guild) {
 					json.data.forEach(setting => {
 						temp = '';
 						if (!setting.possible) {
-							if (setting.key == "maxMentions" || setting.key == "starboardStars") temp += '' +
+							if (setting.key == "maxMentions" || setting.key == "starboardStars" || setting.key == "accountMinAge") temp += '' +
 								'<p>' + setting.help + '</p>' +
 								'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 							else temp += '' +

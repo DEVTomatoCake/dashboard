@@ -39,7 +39,10 @@ const sockette = (url, arguments = {}) => {
 		} else if (arguments.onMaxTries) arguments.onMaxTries(event);
   	};
 
-  	object.write = string => websocket.send(string);
+  	object.send = string => {
+  		if (typeof string == "object") string = JSON.stringify(string);
+  		websocket.send(string);
+  	};
 
   	object.close = (code, reason) => {
 		reconnectTimer = clearTimeout(reconnectTimer);

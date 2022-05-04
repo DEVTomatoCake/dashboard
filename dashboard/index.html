@@ -101,7 +101,10 @@
 				  	onError: event => console.error("Error", event),
 				  	onOpen: event => {
 				    	console.log("Connected!", event);
-				    	socket.write("Hello World!");
+				    	socket.send({
+				    		status: "success",
+				    		message: "Connected successfully!"
+				    	});
 				  	},
 				  	onMessage: async event => {
 				  		console.log("Incoming message: " + event.data)
@@ -110,11 +113,11 @@
 				  			var json = JSON.parse(event.data)
 				  		} catch (e) {
 				  			console.warn(e, event)
-				  			return socket.send(JSON.stringify({
+				  			return socket.send({
 				  				status: "error",
 				  				message: "Invalid json",
 				  				debug: event.data
-				  			}))
+				  			})
 				  		}
 
 				  		console.log(json)

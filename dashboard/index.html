@@ -92,24 +92,39 @@
 
 			  		console.log(json)
 				})*/
-				socket = sockette("wss://node2.chaoshosting.tk:25593", {
+				socket = sockette("wss://api.tomatenkuchen.eu", {
 				  	timeout: 5000,
 				  	maxAttempts: 10,
-				  	onOpen: event => {
-				    	console.log("Connected!", event);
-				    	socket.write("Hello World!");
-				  	},
-				  	onMessage: async event => console.log(`Received text: ${await event.data.text()}`, event),
 				  	onReconnect: event => console.log("Reconnecting...", event),
 				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
 				  	onClose: event => console.log("Closed", event),
 				  	onError: event => console.error("Error", event),
+				  	onOpen: event => {
+				    	console.log("Connected!", event);
+				    	socket.write("Hello World!");
+				  	},
+				  	onMessage: async event => {
+				  		console.log("Incoming message: " + event.data)
+
+						try {
+				  			var json = JSON.parse(event.data)
+				  		} catch (e) {
+				  			console.warn(e, event)
+				  			return socket.send(JSON.stringify({
+				  				status: "error",
+				  				message: "Invalid json",
+				  				debug: event.data
+				  			}))
+				  		}
+
+				  		console.log(json)
+			  		}
 				});
-			}
+			};
 
 			function redirect(url) {
 				window.location = url;
-			}
+			};
 		</script>
 	</head>
 	<body class="dark-theme" onload="connect()">		

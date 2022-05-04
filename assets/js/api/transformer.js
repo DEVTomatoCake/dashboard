@@ -126,12 +126,10 @@ function getGuildsHTML() {
 
 async function getSettingsHTML(guild, json) {
 	if (!json) {
-		var json = await getSettings(guild).catch(error => {
-			console.error(error);
-			return ('' +
-				'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-				'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-		});
+		console.error("Missing json in getSettingsHTML");
+		return ('' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
 	};
 
 	if (json.status == 'success') {
@@ -149,7 +147,9 @@ async function getSettingsHTML(guild, json) {
 					'<p>' + setting.help + '</p>' +
 					'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 			} else {
-				const possible = setting.possible;
+				var possible = setting.possible;
+
+				if (typeof possible == "string") possible = json.data.constant[possible]
 
 				if (multiselect.includes(setting.key)) {
 					temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';

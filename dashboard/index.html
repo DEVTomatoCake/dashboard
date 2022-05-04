@@ -258,14 +258,14 @@
 					token: getCookie("token")
 				}));
 
-				document.getElementById('settings-content').setAttribute("hidden", true);
+				document.getElementsByClassName('settingsContent')[0].setAttribute("hidden", true);
 				document.getElementById('saving-container').removeAttribute("hidden");
 				setTimeout(() => {
-					document.getElementById('settings-content').removeAttribute("hidden");
+					document.getElementsByClassName('settingsContent')[0].removeAttribute("hidden");
 					document.getElementById('saving-container').setAttribute("hidden", true);
 					saving = false;
 				}, 3000);
-			}
+			};
 
 			if (params.has('code')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';

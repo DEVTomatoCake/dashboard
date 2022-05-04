@@ -74,7 +74,6 @@
 				    	console.log("Connected!", event);
 				    	socket.send({
 				    		status: "success",
-				    		message: "Connected successfully!",
 				    		action: "GET_settings",
 				    		guild: guild,
 				    		token: getCookie("token")
@@ -93,6 +92,7 @@
 				  				debug: event.data
 				  			});
 				  		};
+				  		console.log(json);
 
 				  		if (json.action == "RECEIVE_settings") {
 							document.getElementById("linksidebar").innerHTML +=
@@ -114,9 +114,7 @@
 							getSettingsHTML(guild, json).then(html => {
 								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
 							});
-				  		}
-
-				  		console.log(json);
+				  		};
 			  		}
 				});
 			};
@@ -255,9 +253,11 @@
 				}
 
 				socket.send(JSON.stringify({
-					token: getCookie("token"),
+					status: "success",
+					action: "SAVE_settings",
+					data: items,
 					guild: params.get("guild"),
-					data: items
+					token: getCookie("token")
 				}));
 				document.getElementById('saving-container').setAttribute("hidden", false);
 				setTimeout(() => {

@@ -95,7 +95,7 @@
 				  		console.log(json);
 
 				  		if (json.action == "RECEIVE_settings") {
-							document.getElementById("linksidebar").innerHTML +=
+							document.getElementById("linksidebar").innerHTML =
 								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
 								"<br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 								"<br><hr><div class='tab' onclick='redirect(\"./customcommands/" + location.search + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
@@ -136,7 +136,7 @@
 
 				<button onclick="redirect('/invite')"><ion-icon name="add"></ion-icon> BOT EINLADEN</button>
 
-				<div id="linksidebar" class="section">
+				<div class="section">
 					<a href="/" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p>Home</p>
@@ -157,6 +157,7 @@
 						<p>Docs</p>
 					</a>
 				</div>
+				<div id="linksidebar" class="section"></div>
 
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
 					<label class="switch">

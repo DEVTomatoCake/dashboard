@@ -62,7 +62,7 @@
 			}
 
 			var socket
-			function connectWS() {
+			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 				  	timeout: 5000,
 				  	maxAttempts: 10,
@@ -74,7 +74,9 @@
 				    	console.log("Connected!", event);
 				    	socket.send({
 				    		status: "success",
-				    		message: "Connected successfully!"
+				    		message: "Connected successfully!",
+				    		guild: guild,
+				    		token: getCookie("token")
 				    	});
 				  	},
 				  	onMessage: async event => {

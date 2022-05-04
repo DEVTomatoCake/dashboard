@@ -112,7 +112,8 @@
 								"</div>";
 
 							getSettingsHTML(guild, json).then(html => {
-								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
+								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>" + 
+									"<h1 id='saving-container' hidden>Die Einstellungen werden gespeichert...</h1>";
 							});
 				  		};
 			  		}
@@ -185,9 +186,6 @@
 						<div id="guilds-container" class="grid">
 							<h1>Die Server werden geladen...</h1>
 						</div>
-						<h1 id="saving-container" hidden>
-							Die Einstellungen werden gespeichert...
-						</h1>
 					</section>
 				</div>
 				<p id="author">Diese Website nutzt Cookies, um das Dashboard funktionsfähig zu machen.<br>Website erstellt von <a href="https://bookie0.repl.co/">Bookie0</a></p>
@@ -239,7 +237,7 @@
 
 					var entry = "";
 					if (multiselect.includes(item.name)) {
-						entry += encodeURIComponent(item.name) + '=';
+						//entry += encodeURIComponent(item.name) + '=';
 						drops.forEach(drop => {
 							if (drop.key != item.name) return
 							drop.data.selected.forEach(possible => {
@@ -247,7 +245,7 @@
 							});
 						})
 						if (entry.endsWith("%2C")) entry = entry.slice(0, -3);
-					} else entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
+					} else entry = /*encodeURIComponent(item.name) + '=' +*/ encodeURIComponent(item.value);
 
 					items[item.name] = entry;
 				}

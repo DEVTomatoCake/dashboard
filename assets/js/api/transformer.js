@@ -122,7 +122,7 @@ async function getSettingsHTML(guild, json) {
 		multiselect = json.constant.multiselect;
 
 		json.data.forEach(setting => {
-			temp = '';
+			let temp = "";
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp += '' +
 					'<p>' + setting.help + '</p>' +

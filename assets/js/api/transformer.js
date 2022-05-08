@@ -43,24 +43,6 @@ function getCommandsHTML() {
 	}));
 }
 
-function getBotstatsHTML() {
-	return new Promise((resolve => {
-		getBotstats()
-			.then(json => {
-				let text = '<h1>Server: <b>' + json.guilds + '</b></h1><br><h1>Nutzer: <b>' + json.users + '</b></h1><br><h1>API-Ping: <b>' + json.apiping + '</b></h1><br><h1>Befehle: <b>' + json.commands + '</b></h1><br><h1>Gestartet: <b>' + luxon.DateTime.fromMillis(Date.now() - json.uptime, {
-					locale: "de-DE"
-				}).toRelative() + '</b></h1>';
-				resolve(text);
-			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
-	}));
-}
-
 function getStatsHTML(guild) {
 	return new Promise(resolve => {
 		getStats(guild)
@@ -90,25 +72,25 @@ function getGuildsHTML() {
 	return new Promise(resolve => {
 		getGuilds()
 			.then(json => {
-				if (json.status === 'success') {
+				if (json.status == 'success') {
 					let text = '';
+					json.data.sort((a, b) => {
+						if (a.activated && b.activated) return 0;
+						if (!a.activated && b.activated) return 1;
+						return -1;
+					})
 					json.data.forEach(guild => {
 						text += '' +
 							'<div class="guilds-container">' +
 							'<a class="guild" href="' + (guild.activated ? '' : '../invite/') + '?guild=' + guild.id + '">' +
-							'<img class="image" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
-							'<div class="middle">' +
+							'<img class="image' + (guild.activated ? '' : ' notactivated') + '" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
 							'<div class="text">' + guild.name + '</div>' +
-							'</div>' +
 							'</a>' +
 							'</div>';
 					});
 
-					if (text === '') {
-						resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
-					} else {
-						resolve(text);
-					}
+					if (text == '') resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
+					else resolve(text);
 				} else {
 					resolve('' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -137,18 +119,19 @@ async function getSettingsHTML(guild, json) {
 		var categories = [];
 		var categoryData = [];
 
+		multiselect = json.constant.multiselect;
+
 		json.data.forEach(setting => {
 			temp = '';
 			if (!setting.possible) {
-				if (setting.key == "maxMentions" || setting.key == "starboardStars") temp += '' +
+				if (json.constant.integer.includes(setting.key)) temp += '' +
 					'<p>' + setting.help + '</p>' +
 					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 				else temp += '' +
 					'<p>' + setting.help + '</p>' +
-					'<input class="setting" size="' + (screen.width > 500 ? 35 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 			} else {
 				var possible = setting.possible;
-
 				if (typeof possible == "string") possible = json.constant[possible]
 
 				if (multiselect.includes(setting.key)) {
@@ -188,14 +171,7 @@ async function getSettingsHTML(guild, json) {
 		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
-	}
-	/*})
-	.catch(error => {
-		console.error(error);
-		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-	});*/
+	};
 }
 
 function getCustomcommandsHTML(guild) {

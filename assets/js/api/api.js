@@ -94,7 +94,7 @@ function setReactionroles(guild, roles) {
 
 function login(code) {
 	return new Promise((resolve, reject) => {
-		get('auth/login?code=' + encodeURIComponent(code), false)
+		get('auth/login?code=' + encodeURIComponent(code) + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
 			.then(data => resolve(data))
 			.catch(error => reject(error));
 	});

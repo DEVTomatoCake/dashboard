@@ -2,7 +2,7 @@
 <html lang="de">
 	<head>
 		<meta charset="utf-8">
-		<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<title>TomatenKuchen - Abmeldung</title>
 		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -13,23 +13,23 @@
 		<script src="../assets/js/cookie.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 	</head>
-	<body>
+	<body class="dark-theme">
 		<center>
 			<h1>Die Abmeldung erfolgt...</h1>
 			<h2>Du wirst auf die Startseite geleitet, wenn die Abmeldung erfolgreich war!</h2>
 		</center>
 		<script>
-			logout()
-				.then(json => {
-					if (json.status == 'success') {
-						if (getCookie('token')) setCookie('token', 'undefined', 0);
-						window.location.href = 'https://' + location.host + '/';
-					} else {
-						document.getElementById('root-container').innerHTML = '' +
-							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-							'<h1>' + json.message + '</h1>';
-					}
-				});
+			logout().then(json => {
+				if (json.status == 'success') {
+					if (getCookie('token')) deleteCookie('token');
+					if (getCookie('user')) deleteCookie('user');
+					window.location.href = 'https://' + location.host + '/';
+				} else {
+					document.getElementById('root-container').innerHTML = '' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>' + json.message + '</h1>';
+				};
+			});
 		</script>
 	</body>
 </html>

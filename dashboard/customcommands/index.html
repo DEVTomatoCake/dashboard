@@ -182,7 +182,7 @@
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				closeForm();
-				document.getElementById("no-cc").innerHTML = "";
+				if (document.getElementById("no-cc")) document.getElementById("no-cc").innerHTML = "";
 				const formData = new FormData(formElem);
 				const name = formData.get("customcommand-name");
 

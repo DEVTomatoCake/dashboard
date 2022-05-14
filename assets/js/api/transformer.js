@@ -182,17 +182,10 @@ function getCustomcommandsHTML(guild) {
 					let text = '';
 
 					json.data.forEach(setting => {
-						if (setting.value.split("").filter(i => i == "\n").length > 3) {
-							text += '' +
-								'<p><b>' + setting.name + '</b></p>' +
-								'<textarea class="setting" rows="8" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
-								'<br>';
-						} else {
-							text += '' +
-								'<p><b>' + setting.name + '</b></p>' +
-								'<textarea class="setting" rows="3" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
-								'<br>';
-						}
+						text += '' +
+							'<p><b>' + setting.name + '</b></p>' +
+							'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+							'<br>';
 					});
 
 					if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"

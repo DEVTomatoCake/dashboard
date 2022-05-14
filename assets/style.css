@@ -646,8 +646,10 @@ input .hidearrows {
 }
 
 h1 {
-	font-size: 60px;
 	color: var(--primary-text-color);
+}
+h1.greeting {
+	font-size: 60px;
 	text-align: center;
 	padding-bottom: 50px;
 	margin-right: auto;
@@ -1010,7 +1012,7 @@ h3, h4, ul li {
 	border: none;
 	cursor: pointer;
 	width: 100%;
-	margin-bottom:10px;
+	margin-bottom: 10px;
 	opacity: 0.7;
 	transition: .3s;
 }

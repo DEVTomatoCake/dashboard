@@ -26,8 +26,9 @@
 	--pink: #880E4F;
 	--cyan: #00BCD4;
 	--table-bgcolor: #E5E7f1;
-	--textarea-background: #FFF;
 	--textarea-color: #000;
+	--textarea-background: #FFF;
+	--textarea-background-focus: #f6f6f6;
 }
 
 .dark-theme {
@@ -50,8 +51,9 @@
 	--pink: #FF80AB;
 	--cyan: #84FFFF;
 	--table-bgcolor: #363952;
-	--textarea-background: #000;
 	--textarea-color: #FFF;
+	--textarea-background: #000;
+	--textarea-background-focus: #090909;
 }
 
 * {
@@ -200,7 +202,7 @@ textarea {
 	background-color: var(--textarea-background);
 }
 textarea:focus {
-	background-color: #f6f6f6;
+	background-color: var(--textarea-background-focus);
 	outline: none;
 }
 

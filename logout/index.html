@@ -23,7 +23,9 @@
 				if (json.status == 'success') {
 					if (getCookie('token')) deleteCookie('token');
 					if (getCookie('user')) deleteCookie('user');
-					window.location.href = 'https://' + location.host + '/';
+					setTimeout(() => {
+						window.location.href = 'https://' + location.host + '/';
+					}, 10);
 				} else {
 					document.getElementById('root-container').innerHTML = '' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

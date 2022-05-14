@@ -645,7 +645,7 @@ input .hidearrows {
 	padding: 100px 0 100px 300px;
 }
 
-h1.greeting {
+h1 {
 	font-size: 60px;
 	color: var(--primary-text-color);
 	text-align: center;

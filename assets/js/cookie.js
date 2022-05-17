@@ -6,7 +6,6 @@ function setCookie(name, value, days, global) {
 		cookie += "expires=" + date.toUTCString() + ";";
 	}
 	if (global) cookie += "domain=.tomatenkuchen.eu;";
-	console.log(cookie);
 
 	document.cookie = cookie;
 }
@@ -57,10 +56,10 @@ function cookieBanner() {
 	document.getElementById("theme-toggle").addEventListener("change", function() {
 		if (document.body.classList.contains("light-theme")) {
 			document.body.classList.replace("light-theme", "dark-theme");
-			setCookie("theme", "dark", 60);
+			setCookie("theme", "dark", 60, true);
 		} else {
 			document.body.classList.replace("dark-theme", "light-theme");
-			setCookie("theme", "light", 60);
+			setCookie("theme", "light", 60, true);
 		}
 	});
 

@@ -5,7 +5,8 @@ function setCookie(name, value, days, global) {
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
 		cookie += "expires=" + date.toUTCString() + ";";
 	}
-	if (global) cookie += "domain=tomatenkuchen.eu;";
+	if (global) cookie += "domain=.tomatenkuchen.eu;";
+	console.log(cookie);
 
 	document.cookie = cookie;
 }

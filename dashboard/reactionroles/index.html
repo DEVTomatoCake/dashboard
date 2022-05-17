@@ -192,7 +192,7 @@
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				closeForm();
-				document.getElementById("no-rr").innerHTML = "";
+				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
 				const formData = new FormData(formElem);
 				const reaction = formData.get("reactionroles-reaction");
 				const msg = document.getElementById("reactionroles-msg").value;

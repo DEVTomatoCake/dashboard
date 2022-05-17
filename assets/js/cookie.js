@@ -1,22 +1,23 @@
-function setCookie(name, value, days) {
-	let expires = '';
+function setCookie(name, value, days, global) {
+	let cookie = name + "=" + (value || "") + ';path=/;';
 	if (days) {
 		const date = new Date();
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-		expires = '; expires=' + date.toUTCString();
+		cookie += "expires=" + date.toUTCString() + ";";
 	}
+	if (global) cookie += "domain=tomatenkuchen.eu;";
 
-	document.cookie = name + '=' + (value || '') + expires + '; path=/';
+	document.cookie = cookie;
 }
 
 function getCookie(name) {
-	const cookies = document.cookie.split(';');
+	const cookies = document.cookie.split(";");
 
 	for (let i = 0; i < cookies.length; i++) {
 		let cookie = cookies[i];
 
-		while (cookie.charAt(0) === ' ') cookie = cookie.substring(1, cookie.length);
-		if (cookie.indexOf(name + '=') === 0) return cookie.substring(name.length + 1, cookie.length);
+		while (cookie.charAt(0) == " ") cookie = cookie.substring(1, cookie.length);
+		if (cookie.indexOf(name + "0") == 0) return cookie.substring(name.length + 1, cookie.length);
 	}
 	return undefined;
 }

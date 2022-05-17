@@ -1,4 +1,4 @@
-const url = 'https://node2.chaoshosting.tk:25508/api/';
+const url = "https://api.tomatenkuchen.eu/api/";
 
 async function get(component, auth) {
 	while (true) {

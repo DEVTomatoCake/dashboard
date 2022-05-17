@@ -215,8 +215,8 @@
 				document.body.classList.toggle("dark-theme");
 
 				const oldtheme = getCookie("theme");
-				if (oldtheme == "light") setCookie("theme", "dark", 60);
-				else setCookie("theme", "light", 60);
+				if (oldtheme == "light") setCookie("theme", "dark", 60, true);
+				else setCookie("theme", "light", 60, true);
 			});
 
 

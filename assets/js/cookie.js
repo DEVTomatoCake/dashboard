@@ -14,10 +14,9 @@ function getCookie(name) {
 	const cookies = document.cookie.split(";");
 
 	for (let i = 0; i < cookies.length; i++) {
-		let cookie = cookies[i];
+		let cookie = cookies[i].trim();
 
-		while (cookie.charAt(0) == " ") cookie = cookie.substring(1, cookie.length);
-		if (cookie.indexOf(name + "0") == 0) return cookie.substring(name.length + 1, cookie.length);
+		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length);
 	}
 	return undefined;
 }

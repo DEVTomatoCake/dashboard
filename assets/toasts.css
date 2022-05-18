@@ -14,7 +14,7 @@
 	--toast-notification-warning-color: #efb849;
 	--toast-notification-error-color: #e34e4e;
 
-	--shadow-color: rgba(0, 0, 0, 0.2);
+	--shadow-color: rgba(0, 0, 0, 0.9);
 }
 
 #toast-notification-wrapper {

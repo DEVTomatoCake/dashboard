@@ -1,0 +1,249 @@
+:root {
+	--divider-color: rgba(0, 0, 0, 0.2);
+
+	--scroll-thumb-color: rgba(0, 0, 0, 0.4);
+
+	--toast-notification-background-color: var(--secondary-color);
+	--toast-notification-wrapper-color: var(--primary-color);
+	--toast-notification-close-color: var(--primary-text-color);
+	--toast-notification-tag-color: #76767a;
+
+	--toast-notification-success-color: #56ee59;
+	--toast-notification-loading-color: #cc6ef1;
+	--toast-notification-info-color: #60bbec;
+	--toast-notification-warning-color: #efb849;
+	--toast-notification-error-color: #e34e4e;
+
+	--shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+#toast-notification-wrapper {
+    position: absolute;
+    display: flex;
+    width: 350px;
+    top: 0;
+    bottom: 90px;
+    right: 0;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+#toast-notification-wrapper .close-all {
+    display: flex;
+    margin: 5px 15px;
+    padding: 5px;
+    height: 20px;
+    gap: 5px;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 0 0 3px 3px var(--shadow-color);
+    color: var(--primary-text-color);
+    background-color: var(--toast-notification-wrapper-color);
+}
+
+#toast-notification-wrapper .close-all span {
+    font-weight: bolder;
+    font-size: 10px;
+}
+
+#toast-notification-wrapper .close-all svg {
+    height: 100%;
+    color: var(--toast-notification-error-color);
+}
+
+#toast-notification-wrapper .toast-notification-container {
+    display: flex;
+    padding: 5px 5px 5px 50px;
+    width: 100%;
+    height: 100%;
+    flex-direction: column;
+    gap: 10px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+#toast-notification-wrapper .toast-notification-container::-webkit-scrollbar {
+    width: 10px;
+}
+#toast-notification-wrapper .toast-notification-container::-webkit-scrollbar-thumb {
+    width: 10px;
+    background-clip: padding-box;
+    background-color: var(--scroll-thumb-color);
+    border: 3px solid transparent;
+    border-radius: 5px;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification {
+    display: flex;
+    flex-shrink: 0;
+    box-shadow: 0 0 3px 3px var(--shadow-color);
+    border-radius: 5px;
+    overflow: hidden;
+    animation-fill-mode: both;
+    animation-timing-function: cubic-bezier(0.7, 0.06, 0.48, 1.42);
+    animation-duration: 0.4s;
+    animation-name: slide-in-animation;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification.closed {
+    animation-name: slide-out-animation;
+}
+
+@keyframes slide-in-animation{
+  from {
+    transform: translateX(150%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-out-animation{
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(150%);
+  }
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper {
+    display: flex;
+    align-items: center;
+    user-select: none;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='INFO'] {
+    background-color: var(--toast-notification-info-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='LOADING'] {
+    background-color: var(--toast-notification-loading-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='SUCCESS'] {
+    background-color: var(--toast-notification-success-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='WARNING'] {
+    background-color: var(--toast-notification-warning-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='ERROR'] {
+    background-color: var(--toast-notification-error-color);
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='INFO'] .type-image {
+    background-image: url("images/toasts/info.svg");
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='LOADING'] .type-image {
+    background-image: url("images/toasts/loading.svg");
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='SUCCESS'] .type-image {
+    background-image: url("images/toasts/success.svg");
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='WARNING'] .type-image {
+    background-image: url("images/toasts/warning.svg");
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='ERROR'] .type-image {
+    background-image: url("images/toasts/error.svg");
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper .type-image {
+    margin: 10px;
+    width: 25px;
+    height: 25px;
+    opacity: 0.5;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper {
+    display: flex;
+    padding: 3px 3px 3px 5px;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3px;
+    background-color: var(--toast-notification-wrapper-color);
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .title-wrapper .title {
+    color: var(--primary-text-color);
+    font-weight: bold;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .title-wrapper .tag {
+    color: var(--toast-notification-tag-color);
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close {
+    display: flex;
+    align-items: center;
+    border-radius: 50px;
+    user-select: none;
+    background-color: var(--toast-notification-background-color);
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close .timeout {
+    font-size: 11px;
+    margin: 0 3px 1px 6px;
+    color: var(--primary-text-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close .timeout:empty {
+    display: none;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close svg {
+    margin: 5px;
+    width: 10px;
+    height: 10px;
+    cursor: pointer;
+    color: var(--toast-notification-close-color);
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .description {
+    padding-top: 2px;
+    font-size: 13px;
+    border-top: 1px solid var(--divider-color);
+    color: var(--secondary-text-color);
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .description:empty {
+    display: none;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage {
+    position: relative;
+    margin: 4px 0;
+    padding-right: 29px;
+    width: auto;
+    height: 4px;
+    background-color: transparent;
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage[value='null'] {
+    display: none;
+}
+
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage::after {
+    content: attr(value) '%';
+    position: absolute;
+    top: -5px;
+    right: 5px;
+    font-size: 9px;
+    color: var(--primary-text-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage::-webkit-progress-bar {
+    border-radius: 5px;
+    background-color: var(--toast-notification-background-color);
+}
+#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage::-webkit-progress-value {
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    transition: width 0.2s ease-in-out;
+}

@@ -11,9 +11,11 @@
 
 		<link href="../assets/style.css" rel="stylesheet" type="text/css">
 
-		<link href="../assets/toasts.css" rel="stylesheet" type="text/css">
 		<link href="../assets/multiselect.css" rel="stylesheet" type="text/css">
 		<script src="../assets/js/multiselect.js"></script>
+
+		<link href="./assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="./assets/js/toasts.js"></script>
 
 		<link rel="preconnect" href="https://node2.chaoshosting.tk:25508">
 		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
@@ -112,9 +114,11 @@
 								"</div>";
 
 							getSettingsHTML(guild, json).then(html => {
-								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>" + 
-									"<h1 id='saving-container' hidden>Die Einstellungen werden gespeichert...</h1>";
+								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
 							});
+				  		} else if (json.action == "SAVED_SETTINGS") {
+							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!")
+							saving = false;
 				  		};
 			  		}
 				});
@@ -226,6 +230,7 @@
 
 			const params = new URLSearchParams(window.location.search);
 			var saving = false;
+			var savingToast;
 
 			function saveSettings() {
 				if (!params.has('guild')) return;
@@ -260,13 +265,7 @@
 					token: getCookie("token")
 				}));
 
-				document.getElementsByClassName("settingsContent")[0].setAttribute("hidden", true);
-				document.getElementById("saving-container").removeAttribute("hidden");
-				setTimeout(() => {
-					document.getElementsByClassName("settingsContent")[0].removeAttribute("hidden");
-					document.getElementById("saving-container").setAttribute("hidden", true);
-					saving = false;
-				}, 3000);
+				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();
 			};
 
 			if (params.has("guild") && getCookie("token")) {

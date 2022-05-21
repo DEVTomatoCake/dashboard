@@ -12,8 +12,6 @@
 		<link href="../assets/style.css" rel="stylesheet" type="text/css">
 
 		<script src="../assets/js/cookie.js"></script>
-		<script src="../assets/js/api/api.js"></script>
-		<script src="../assets/js/api/transformer.js"></script>
 
 		<script>
 			var i = 0;
@@ -38,10 +36,10 @@
 
 				if (i % 2 == 0) {
 					setTimeout(() => { 
-						document.getElementById("content").style.paddingLeft = "230px";
+						document.getElementById("content").style.paddingLeft = "300px";
 						document.getElementById("sidebar-container").classList.toggle("visible");
 
-						document.getElementById("privacy-container").style.paddingLeft = "200px";
+						document.getElementById("privacy-container").style.paddingLeft = "60px";
 					}, 300);
 				} else {
 					document.getElementById("content").style.paddingLeft = "0";
@@ -129,27 +127,25 @@
 
 				<div id="privacy-container" style="padding-left: 60px; padding-right: 60px;">
 					<h3>Indem du den Bot oder die Website <a href="https://tomatenkuchen.eu">tomatenkuchen.eu</a> nutzt stimmst du dieser Datenschutzerlärung, den Terms of Use und den eventuell daraus resultierenden Konsequenzen zu.</h3><br>
-					<h4>Diese Datenschutzerklärung sowie die Terms of Use wurden zuletzt am 1. Mai 2022 aktualisiert.</h4>
+					<p>Diese Datenschutzerklärung sowie die Terms of Use wurden zuletzt am 21. Mai 2022 aktualisiert.</p><br>
 					<h2>Datenschutzerklärung für TomatenKuchen</h2><br>
 					<h3>Welche Daten werden gespeichert und wofür werden diese benötigt?</h3>
 					<ul>
 						<li>Nutzer-IDs: Blacklist, Reminder, Economy, Todo, AFK, Geburtstag, Nutzereinstellungen, Modlogs, Rejoin-Rollen, Badges, Level</li>
+						<li>Nutzer-Avatar: Ticketsystem</li>
 						<li>Server-IDs: Statistiken, Servereinstellungen, Modlogs, Level, Customcommands</li>
 						<li>Kanal-IDs: Servereinstellungen, Minecraft-Serverstatus, Ticketsystem</li>
 						<li>Rollen-IDs: Reactionroles, Autorole, Rejoin-Rollen</li>
 						<li>Nachrichten-IDs: Reactionroles, Antispam, Minecraft-Serverstatus, Starboard, Vorschläge, Giveaway</li>
 						<li>Genutzte Befehle: Bot-Statistiken, ggf. Fehlerbehebung</li>
 					</ul><br>
+					<h3>Daten anfordern</h3>
+					<p>Mit dem Befehl  <code>!misc dataexport</code>  kannst du deine Daten direkt exportieren und ansehen.</p><br>
 					<h3>Wer hat Zugriff auf die Daten?</h3>
 					<p>Der Bot-Entwickler <strong>TomatoCake#2691</strong> hat Zugriff auf die Daten und kann sie jederzeit ändern, zurücksetzen oder löschen.<br>
 					Zusätzlich haben einige Mitglieder des TomatenKuchen-Discords teilweise Zugriff auf Fehlermeldungen und ähnliches.</p><br>
-					<h3>Du kannst einen Teil deiner Daten selbst löschen:</h3>
-					<ul>
-						<li>Servereinstellungen, Customcommands, Reactionroles, Serverstatistiken: Sobald der Bot von einem Server entfernt wird werden diese automatisch gelöscht.</li>
-						<li>Reminder, AFK: Diese Einstellungen werden von alleine gelöscht, sobald der Reminder abgelaufen ist oder der AFK-Status beendet wurde.</li>
-						<li>Todo: Deine Todo-Liste kann du mit dem Todo-Befehl selber verwalten.</li>
-						<li>Antispam: Antispam-Daten werden wenige Minuten nach dem Senden einer Nachricht automatisch wieder gelöscht.</li>
-					</ul><br>
+					<h3>Daten löschen</h3>
+					<p>Viele Daten werden, nachdem sie nicht mehr benötigt werden, automatisch gelöscht.</p>
 					<h4>Solltest du andere Wünsche haben oder wollen, das <strong>alle</strong> deine Daten gelöscht werden, kannst du auf unserem <a href="https://tomatenkuchen.eu/discord">Support-Server</a> ein Ticket öffnen oder dem Bot eine PN senden. Beachte aber, das nicht alle Daten gelöscht werden, dazu gehören:</h4>
 					<ul>
 						<li>Modlogs: Ohne Erlaubnis eines beteiligten Serveradmins können diese Daten nicht gelöscht werden.</li>
@@ -157,6 +153,7 @@
 						<li>Genutzte Befehle: Befehle, die ausgeführt werden, werden zu Statistikzwecken und zur Fehlerbehebung gespeichert und werden daher normalerweise nicht gelöscht.</li>
 					</ul><br>
 					<p>Wenn du ein Ticket geöffnet hast werden die Daten im Normalfall innerhalb weniger Stunden gelöscht.</p><br>
+
 					<h2>Terms of Use</h2>
 					<ul>
 						<li>Du darfst das Dashboard, TomatenKuchen, den Manage Bot sowie alle anderen Bots, die auf diese Seite verweisen, in keiner Form ausnutzen (Befehle/sonstige Dinge wie z.B. Reaktionen spammen sowie Bugs ausnutzen).</li>

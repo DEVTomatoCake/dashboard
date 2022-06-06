@@ -166,7 +166,7 @@ async function getSettingsHTML(guild, json) {
 			});
 		})
 
-		return ('<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text);
+		return '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text;
 	} else {
 		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
@@ -174,35 +174,31 @@ async function getSettingsHTML(guild, json) {
 	};
 }
 
-function getCustomcommandsHTML(guild) {
-	return new Promise(resolve => {
-		getCustomcommands(guild)
-			.then(json => {
-				if (json.status === 'success') {
-					let text = '';
+function getCustomcommandsHTML(guild, json) {
+	if (!json) {
+		console.error("Missing json in getCustomcommandsHTML");
+		return ('' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+	};
 
-					json.data.forEach(setting => {
-						text += '' +
-							'<p><b>' + setting.name + '</b></p>' +
-							'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
-							'<br>';
-					});
+	if (json.status == 'success') {
+		let text = '';
 
-					if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
-					resolve('<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text);
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-						'<h1>' + json.message + '</h1>');
-				}
-			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
-	});
+		json.data.forEach(setting => {
+			text += '' +
+				'<p><b>' + setting.name + '</b></p>' +
+				'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+				'<br>';
+		});
+
+		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
+		return '<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
+	} else {
+		return ('' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>' + json.message + '</h1>');
+	};
 }
 
 function getReactionrolesHTML(guild) {

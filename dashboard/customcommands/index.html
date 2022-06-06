@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta content="Dashboard für TomatenKuchen - Customcommands" name="description"/>
 
 		<title>TomatenKuchen - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -10,10 +11,14 @@
 
 		<link href="../../assets/style.css" rel="stylesheet" type="text/css">
 
+		<link href="../../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../../assets/js/toasts.js"></script>
+
 		<link rel="preconnect" href="https://node2.chaoshosting.tk:25508">
 		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
 
 		<script src="../../assets/js/cookie.js"></script>
+		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/api.js"></script>
 		<script src="../../assets/js/api/transformer.js"></script>
 
@@ -22,17 +27,17 @@
 				document.getElementById("customcommandForm").style.display = "block";
 				document.getElementById("customcommand-name").value = "";
 				document.getElementById("customcommand-text").value = "";
-			}
+			};
 			function closeForm() {
 				document.getElementById("customcommandForm").style.display = "none";
-			}
+			};
 
 			var i = 0;
 			if (screen.width <= 500) {
 				document.getElementById("sidebar-container").classList.toggle("visible");
 				document.getElementById("content").style.paddingLeft = "0";
 				i = 1;
-			}
+			};
 
 			function sidebar() {
 				i++;
@@ -68,12 +73,71 @@
 					setTimeout(() => { 
 						document.getElementById("sidebar-container").classList.toggle("visible");		
 					}, 100);
-				}
-			}
+				};
+			};
+
+			var socket;
+			function connectWS(guild) {
+				socket = sockette("wss://api.tomatenkuchen.eu", {
+				  	timeout: 4000,
+				  	maxAttempts: 7,
+				  	onReconnect: event => console.log("Reconnecting...", event),
+				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
+				  	onClose: event => {
+				  		console.log("Closed", event);
+						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt..."}).show();
+				  	},
+				  	onError: event => console.error("Error", event),
+				  	onOpen: event => {
+				    	console.log("Connected!", event);
+				    	if (errorToast) errorToast.setType("SUCCESS").close();
+				    	socket.send({
+				    		status: "success",
+				    		action: "GET_customcommands",
+				    		guild: guild,
+				    		token: getCookie("token")
+				    	});
+				  	},
+				  	onMessage: event => {
+				  		console.log("Received message: " + event.data);
+
+						try {
+				  			var json = JSON.parse(event.data);
+				  		} catch (e) {
+				  			console.warn(e, event);
+				  			return socket.send({
+				  				status: "error",
+				  				message: "Invalid json",
+				  				debug: event.data
+				  			});
+				  		};
+				  		console.log(json);
+
+				  		if (json.action == "RECEIVE_customcommands") {
+							document.getElementById("linksidebar").innerHTML =
+								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
+								"<br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
+								"<div class='tab' onclick='redirect(\"../reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
+								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +
+								"</div>";
+
+							getCustomcommandsHTML(guild, json).then(html => {
+								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
+							});
+				  		} else if (json.action == "SAVED_customcommands") {
+							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
+							saving = false;
+				  		};
+			  		}
+				});
+			};
 
 			function redirect(url) {
 				window.location = url;
-			}
+			};
 		</script>
 	</head>
 	<body class="dark-theme" onload="cookieBanner()">
@@ -193,66 +257,32 @@
 			});
 
 			const params = new URLSearchParams(window.location.search);
-			let saving = false;
+			var saving = false;
+			var savingToast;
+			var errorToast;
 
 			function saveCustomcommands() {
-				if (!params.has('guild')) return;
-				if (saving) return;
-
-				saving = true;
-				const settings = document.getElementsByClassName('setting');
-
-				let items = '?';
+				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					const entry = encodeURIComponent(item.name) + '=' + encodeURIComponent(item.value);
 
-					if (i != settings.length - 1) items += entry + '&';
-					else items += entry;
+					items[item.name] = item.value;
 				}
 
-				document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden gespeichert...</h1>';
-				setCustomcommands(params.get('guild'), items)
-					.then(json => {
-						const timeout = 3;
+				socket.send(JSON.stringify({
+					status: "success",
+					action: "SAVE_customcommands",
+					data: items,
+					guild: params.get("guild"),
+					token: getCookie("token")
+				}));
 
-						if (json.status === 'success') {
-							document.getElementById('root-container').innerHTML = '' +
-								'<h1>Die Customcommands wurden erfolgreich aktualisiert!</h1>' +
-								'<h1>In ' + timeout + ' Sekunden werden die Customcommands wieder angezeigt.</h1>';
-						} else {
-							document.getElementById('root-container').innerHTML = '' +
-								'<h1>Die Customcommands konnten nicht gespeichert werden!</h1>' +
-								'<h1>' + json.message + '</h1>' +
-								'<h1>In ' + timeout + ' Sekunden werden die Customcommands wieder angezeigt.</h1>';
-						}
-
-						setTimeout(() => {
-							location.reload();
-						}, timeout * 1000);
-
-						saving = false;
-					});
+				savingToast = toastNotification({type: "LOADING", title: "Customcommands werden gespeichert...", timeout: 5}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById('root-container').innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
-
-				const guild = params.get('guild');
-				getCustomcommandsHTML(guild)
-					.then(html => {
-						document.getElementById('linksidebar').innerHTML +=
-							'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-							"<br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
-							"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
-							"<div class='tab' onclick='redirect(\"../reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
-							"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
-							"<div class='tab' onclick='redirect(\"../../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
-							"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +
-							"</div>";
-
-						document.getElementById("root-container").innerHTML = "<div class='settingsContent' id='settingsContent'>" + html + "</div>";
-					});
+				document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden geladen...</h1>';
+				connectWS(params.get("guild"));
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Serverauswahl weitergeleitet...</h1>';
 

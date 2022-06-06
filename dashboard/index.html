@@ -120,7 +120,7 @@
 							getSettingsHTML(guild, json).then(html => {
 								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
 							});
-				  		} else if (json.action == "SAVED_SETTINGS") {
+				  		} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
 				  		};

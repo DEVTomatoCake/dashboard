@@ -117,9 +117,7 @@
 								"<div class='tab small' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
 								"</div>";
 
-							getSettingsHTML(guild, json).then(html => {
-								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
-							});
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getSettingsHTML(guild, json) + "</div>";
 				  		} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;

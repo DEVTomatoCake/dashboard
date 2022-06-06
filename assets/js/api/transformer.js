@@ -106,7 +106,7 @@ function getGuildsHTML() {
 	});
 }
 
-async function getSettingsHTML(guild, json) {
+function getSettingsHTML(guild, json) {
 	if (!json) {
 		console.error("Missing json in getSettingsHTML");
 		return ('' +

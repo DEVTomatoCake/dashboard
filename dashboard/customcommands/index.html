@@ -124,9 +124,7 @@
 								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +
 								"</div>";
 
-							getCustomcommandsHTML(guild, json).then(html => {
-								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>";
-							});
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(guild, json) + "</div>";
 				  		} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;

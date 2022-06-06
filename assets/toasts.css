@@ -4,7 +4,6 @@
 	--scroll-thumb-color: rgba(0, 0, 0, 0.4);
 
 	--toast-notification-background-color: var(--secondary-color);
-	--toast-notification-wrapper-color: var(--primary-color);
 	--toast-notification-close-color: var(--primary-text-color);
 	--toast-notification-tag-color: #76767a;
 
@@ -139,7 +138,7 @@
     justify-content: center;
     flex-direction: column;
     gap: 3px;
-    background-color: var(--toast-notification-wrapper-color);
+    background-color: var(--secondary-color);
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header {

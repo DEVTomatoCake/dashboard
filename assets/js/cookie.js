@@ -22,8 +22,8 @@ function getCookie(name) {
 }
 
 function deleteCookie(name) {
-	document.cookie = name + '=; Max-Age=-99999999;';
-	document.cookie = name + '=; Max-Age=-99999999; domain=.tomatenkuchen.eu;';
+	document.cookie = name + '=;Max-Age=-99999999;path=/;';
+	document.cookie = name + '=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;';
 }
 
 function fadeOut(element) {

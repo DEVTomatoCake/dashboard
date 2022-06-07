@@ -273,10 +273,8 @@
 	            Object.keys(rolecopy).forEach(key => {
 	            	html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>';
 	            });
-	            html += '</select><br><br>';
-
-	            div.innerHTML = html;
-				document.getElementById('settingsContent').appendChild(div); 
+	            div.innerHTML = html + '</select><br><br>';
+				document.getElementsByClassName('settingsContent')[0].appendChild(div);
 			});
 
 			const params = new URLSearchParams(window.location.search);

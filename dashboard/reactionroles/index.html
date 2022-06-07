@@ -117,7 +117,7 @@
 				  		if (json.action == "RECEIVE_reactionroles") {
 							document.getElementById("linksidebar").innerHTML =
 								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-								"<br><button onclick='saveReactionsroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+								"<br><button onclick='saveReactionroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
 								"<div class='tab' onclick='redirect(\"../reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
 								"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
@@ -292,13 +292,13 @@
 				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					items[item.name] = {
+					items[item.name] = JSON.stringify({
 						role: item.value,
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						reaction: item.getAttribute("data-reaction"),
 						type: item.getAttribute("data-type")
-					};
+					});
 				};
 
 				socket.send(JSON.stringify({

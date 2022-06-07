@@ -107,13 +107,6 @@ function getGuildsHTML() {
 }
 
 function getSettingsHTML(guild, json) {
-	if (!json) {
-		console.error("Missing json in getSettingsHTML");
-		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-	};
-
 	if (json.status == 'success') {
 		let text = '';
 		var categories = [];
@@ -175,13 +168,6 @@ function getSettingsHTML(guild, json) {
 }
 
 function getCustomcommandsHTML(guild, json) {
-	if (!json) {
-		console.error("Missing json in getCustomcommandsHTML");
-		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-			'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-	};
-
 	if (json.status == 'success') {
 		let text = '';
 
@@ -201,51 +187,40 @@ function getCustomcommandsHTML(guild, json) {
 	};
 }
 
-function getReactionrolesHTML(guild) {
-	return new Promise(resolve => {
-		getReactionroles(guild)
-			.then(json => {
-				if (json.status === 'success') {
-					let text = '';
+function getReactionrolesHTML(guild, json) {
+	if (json.status == 'success') {
+		let text = '';
 
-					json.data.reactionroles.forEach(setting => {
-						if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
-						else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" width="32" height="32" loading="lazy" /><br>';
+		json.data.reactionroles.forEach(setting => {
+			if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
+			else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" width="32" height="32" loading="lazy" /><br>';
 
-						const possible = setting.possible;
-						text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
-						Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
-						text += '</select><br><br>';
-					});
+			const possible = setting.possible;
+			text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
+			Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+			text += '</select><br><br>';
+		});
 
-					let typeoptions = "";
-					Object.keys(json.data.types).forEach(key => typeoptions += '<option value="' + key + '">' + json.data.types[key] + '</option>');
-					document.getElementById("reactionroles-type").innerHTML = typeoptions;
+		let typeoptions = "";
+		Object.keys(json.data.types).forEach(key => typeoptions += '<option value="' + key + '">' + json.data.types[key] + '</option>');
+		document.getElementById("reactionroles-type").innerHTML = typeoptions;
 
-					let channeloptions = "";
-					Object.keys(json.data.channels).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[key] + '</option>');
-					document.getElementById("reactionroles-channel").innerHTML = channeloptions;
+		let channeloptions = "";
+		Object.keys(json.data.channels).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[key] + '</option>');
+		document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
-					let roleoptions = "";
-					Object.keys(json.data.roles).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.roles[key] + '</option>');
-					document.getElementById("reactionroles-role").innerHTML = roleoptions;
-					rolecopy = json.data.roles;
+		let roleoptions = "";
+		Object.keys(json.data.roles).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.roles[key] + '</option>');
+		document.getElementById("reactionroles-role").innerHTML = roleoptions;
+		rolecopy = json.data.roles;
 
-					if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
-					resolve('<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text);
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-						'<h1>' + json.message + '</h1>');
-				}
-			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
-	});
+		if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
+		return '<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
+	} else {
+		return ('' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>' + json.message + '</h1>');
+	};
 }
 
 function getLeaderboardHTML(guild) {

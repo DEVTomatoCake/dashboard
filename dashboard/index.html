@@ -67,17 +67,19 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 				  	timeout: 4000,
-				  	maxAttempts: 7,
 				  	onReconnect: event => console.log("Reconnecting...", event),
 				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
 				  	onClose: event => {
 				  		console.log("Closed", event);
-						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt..."}).show();
+						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 				  	},
 				  	onError: event => console.error("Error", event),
 				  	onOpen: event => {
 				    	console.log("Connected!", event);
-				    	if (errorToast) errorToast.setType("SUCCESS").close();
+				    	if (errorToast) {
+				    		errorToast.setType("SUCCESS");
+				    		setTimeout(errorToast.close, 1000);
+				    	};
 				    	socket.send({
 				    		status: "success",
 				    		action: "GET_settings",

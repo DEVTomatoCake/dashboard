@@ -80,17 +80,19 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 				  	timeout: 4000,
-				  	maxAttempts: 7,
 				  	onReconnect: event => console.log("Reconnecting...", event),
 				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
 				  	onClose: event => {
 				  		console.log("Closed", event);
-						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt..."}).show();
+						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 				  	},
 				  	onError: event => console.error("Error", event),
 				  	onOpen: event => {
 				    	console.log("Connected!", event);
-				    	if (errorToast) errorToast.setType("SUCCESS").close();
+				    	if (errorToast) {
+				    		errorToast.setType("SUCCESS");
+				    		setTimeout(errorToast.close, 1000);
+				    	};
 				    	socket.send({
 				    		status: "success",
 				    		action: "GET_customcommands",
@@ -270,9 +272,8 @@
 				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-
 					items[item.name] = item.value;
-				}
+				};
 
 				socket.send(JSON.stringify({
 					status: "success",
@@ -283,14 +284,13 @@
 				}));
 
 				savingToast = toastNotification({type: "LOADING", title: "Customcommands werden gespeichert...", timeout: 5}).show();
-			}
+			};
 
 			if (params.has("guild") && getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden geladen...</h1>';
 				connectWS(params.get("guild"));
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Serverauswahl weitergeleitet...</h1>';
-
 				location.href = "../";
 			} else if (params.has("code")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';

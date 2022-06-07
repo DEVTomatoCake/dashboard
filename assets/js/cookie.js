@@ -23,6 +23,7 @@ function getCookie(name) {
 
 function deleteCookie(name) {
 	document.cookie = name + '=; Max-Age=-99999999;';
+	document.cookie = name + '=; Max-Age=-99999999; domain=.tomatenkuchen.eu;';
 }
 
 function fadeOut(element) {

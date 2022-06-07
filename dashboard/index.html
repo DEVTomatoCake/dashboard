@@ -184,8 +184,8 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account">
-					<p id="username-header" onclick="redirect('/login')">Anmelden</p>
+				<div class="account" onclick="redirect('/login')">
+					<p id="username-header">Anmelden</p>
 					<ion-icon name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
@@ -212,7 +212,10 @@
 			}
 
 			const username = getCookie("user");
-			if (username) document.getElementById("username-header").innerText = username;
+			if (username) {
+				document.getElementById("username-header").innerText = username;
+				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+			};
 
 			const theme = getCookie("theme");
 			if (theme == "light") {

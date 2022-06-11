@@ -14,8 +14,11 @@
 		<link href="../assets/multiselect.css" rel="stylesheet" type="text/css">
 		<script src="../assets/js/multiselect.js"></script>
 
-		<link rel="preconnect" href="https://node2.chaoshosting.tk:25508">
-		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
+		<link href="../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../assets/js/toasts.js"></script>
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
 		<script src="../assets/js/cookie.js"></script>
 		<script src="../assets/js/sockette.js"></script>
@@ -57,20 +60,26 @@
 					setTimeout(() => { 
 						document.getElementById("sidebar-container").classList.toggle("visible");		
 					}, 100);
-				}
-			}
+				};
+			};
 
-			var socket
+			var socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
-				  	timeout: 5000,
-				  	maxAttempts: 10,
+				  	timeout: 4000,
 				  	onReconnect: event => console.log("Reconnecting...", event),
 				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
-				  	onClose: event => console.log("Closed", event),
+				  	onClose: event => {
+				  		console.log("Closed", event);
+						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
+				  	},
 				  	onError: event => console.error("Error", event),
 				  	onOpen: event => {
 				    	console.log("Connected!", event);
+				    	if (errorToast) {
+				    		errorToast.setType("SUCCESS");
+				    		setTimeout(errorToast.close, 1000);
+				    	};
 				    	socket.send({
 				    		status: "success",
 				    		action: "GET_settings",
@@ -110,10 +119,10 @@
 								"<div class='tab small' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
 								"</div>";
 
-							getSettingsHTML(guild, json).then(html => {
-								document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + html + "</div>" + 
-									"<h1 id='saving-container' hidden>Die Einstellungen werden gespeichert...</h1>";
-							});
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getSettingsHTML(guild, json) + "</div>";
+				  		} else if (json.action == "SAVED_settings") {
+							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
+							saving = false;
 				  		};
 			  		}
 				});
@@ -175,8 +184,8 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account">
-					<p id="username-header" onclick="redirect('/login')">Anmelden</p>
+				<div class="account" onclick="redirect('/login')">
+					<p id="username-header">Anmelden</p>
 					<ion-icon name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
@@ -203,7 +212,10 @@
 			}
 
 			const username = getCookie("user");
-			if (username) document.getElementById("username-header").innerText = username;
+			if (username) {
+				document.getElementById("username-header").innerText = username;
+				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+			};
 
 			const theme = getCookie("theme");
 			if (theme == "light") {
@@ -225,6 +237,8 @@
 
 			const params = new URLSearchParams(window.location.search);
 			var saving = false;
+			var savingToast;
+			var errorToast;
 
 			function saveSettings() {
 				if (!params.has('guild')) return;
@@ -259,13 +273,7 @@
 					token: getCookie("token")
 				}));
 
-				document.getElementsByClassName("settingsContent")[0].setAttribute("hidden", true);
-				document.getElementById("saving-container").removeAttribute("hidden");
-				setTimeout(() => {
-					document.getElementsByClassName("settingsContent")[0].removeAttribute("hidden");
-					document.getElementById("saving-container").setAttribute("hidden", true);
-					saving = false;
-				}, 3000);
+				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();
 			};
 
 			if (params.has("guild") && getCookie("token")) {

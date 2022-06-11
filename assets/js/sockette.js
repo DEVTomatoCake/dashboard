@@ -2,7 +2,7 @@
 // Modified by booky10
 
 const sockette = (url, arguments = {}) => {
-  	const reconnectMaxAttempts = arguments.maxAttempts || Infinity;
+  	const reconnectMaxAttempts = arguments.maxAttempts || 7;
   	let reconnectAttempts = 0;
   	let reconnectTimer = 1;
 

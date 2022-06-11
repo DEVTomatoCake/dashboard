@@ -132,14 +132,11 @@
 		</section>
 
 		<script>
-		  	const rootContainer = document.getElementById('leaderboard-container');
-		  	const params = new URLSearchParams(location.search);
-
-		  	if (params.has('guild')) getLeaderboardHTML(params.get('guild')).then(html => rootContainer.innerHTML = html);
-		  	else rootContainer.innerHTML = '<h1 class="greeting">Bitte gib den Server mit an!</h1>';
-
-			const username = getCookie("user");
-			if (username) document.getElementById("username-header").innerText = username;
+		  	const username = getCookie("user");
+			if (username) {
+				document.getElementById("username-header").innerText = username;
+				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+			};
 
 			const theme = getCookie("theme");
 			if (theme == "light") {
@@ -154,6 +151,12 @@
 				if (oldtheme == "light") setCookie("theme", "dark", 60, true);
 				else setCookie("theme", "light", 60, true);
 			});
+
+			const rootContainer = document.getElementById('leaderboard-container');
+		  	const params = new URLSearchParams(location.search);
+
+		  	if (params.has('guild')) getLeaderboardHTML(params.get('guild')).then(html => rootContainer.innerHTML = html);
+		  	else rootContainer.innerHTML = '<h1 class="greeting">Bitte gib den Server mit an!</h1>';
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

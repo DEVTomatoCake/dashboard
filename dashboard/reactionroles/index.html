@@ -295,19 +295,20 @@
 				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					items[item.name] = JSON.stringify({
+					if (!items[item.name]) items[item.name] = []
+					items[item.name].push(JSON.stringify({
 						role: item.value,
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						reaction: item.getAttribute("data-reaction"),
 						type: item.getAttribute("data-type")
-					});
+					}));
 				};
 
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_reactionroles",
-					data: items,
+					data: JSON.stringify(items),
 					guild: params.get("guild"),
 					token: getCookie("token")
 				}));

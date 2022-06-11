@@ -308,7 +308,7 @@
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_reactionroles",
-					data: JSON.stringify(items),
+					data: items,
 					guild: params.get("guild"),
 					token: getCookie("token")
 				}));

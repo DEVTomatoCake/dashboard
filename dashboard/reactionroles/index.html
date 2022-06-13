@@ -244,7 +244,7 @@
 			if (theme == "light") {
 				document.body.classList.toggle("light-theme");
 				document.body.classList.toggle("dark-theme");
-			}
+			};
 			document.getElementById("theme-toggle").addEventListener("change", function() {
 				document.body.classList.toggle("light-theme");
 				document.body.classList.toggle("dark-theme");
@@ -319,6 +319,9 @@
 			if (params.has('guild')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Reactionroles werden geladen...</h1>';
 				connectWS(params.get("guild"));
+			} else if (params.has("guild_id") && getCookie("token")) {
+				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
+				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Serverauswahl weitergeleitet...</h1>';
 				location.href = "../";
@@ -338,13 +341,12 @@
 						document.getElementById("root-container").innerHTML =
 							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 							'<h1>' + json.message + '</h1>';
-					}
+					};
 				});
 			} else {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
-
 				location.href = "../../login";
-			}
+			};
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

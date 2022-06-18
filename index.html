@@ -16,6 +16,7 @@
 		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
 
 		<script src="./assets/js/cookie.js"></script>
+		<script src="./assets/js/language.js"></script>
 		<script src="./assets/js/api/api.js"></script>
 		<script src="./assets/js/api/transformer.js"></script>
 
@@ -133,7 +134,11 @@
 				</div>
 
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
-					<label class="switch">
+					<label class="switch" data-type="lang">
+						<input type="checkbox" id="lang-toggle">
+						<span class="slider round"></span>
+					</label>
+					<label class="switch" data-type="theme">
 						<input type="checkbox" id="theme-toggle">
 						<span class="slider round"></span>
 					</label>
@@ -257,9 +262,9 @@
 			if (username) {
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
 				document.getElementById("username-header").innerText = username;
-			}
+			};
 
-			let slides = document.getElementsByClassName("imgSlideImg");
+			var slides = document.getElementsByClassName("imgSlideImg");
 			const theme = getCookie("theme");
 			if (theme == "light") {
 				document.body.classList.replace("dark-theme", "light-theme");
@@ -267,26 +272,9 @@
 			  	for (i = 0; i < slides.length; i++) {
 			    	slides[i].src = slides[i].src.replace("dark", "light");
 			  	};
-			}
-			// Ist teilweise auch in assets/js/cookie.js weil es sonst irgendwie nicht funktioniert
-			document.getElementById("theme-toggle").addEventListener("change", function() {
-				if (document.body.classList.contains("light-theme")) {
-					document.body.classList.replace("light-theme", "dark-theme");
-					setCookie("theme", "dark", 60, true);
-
-				  	for (i = 0; i < slides.length; i++) {
-				    	slides[i].src = slides[i].src.replace("light", "dark");
-				  	};
-				} else {
-					document.body.classList.replace("dark-theme", "light-theme");
-					setCookie("theme", "light", 60, true);
-
-				  	for (i = 0; i < slides.length; i++) {
-				    	slides[i].src = slides[i].src.replace("dark", "light");
-				  	};
-				}
-			});
+			};
 		</script>
+		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	</body>

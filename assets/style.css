@@ -407,6 +407,12 @@ input .hidearrows {
 	display: inline-block;
 	width: 60px;
 	height: 34px;
+}
+.switch[data-type="lang"] {
+	margin-left: 10px;
+	margin-right: auto;
+}
+.switch[data-type="theme"] {
 	margin-left: auto;
 	margin-right: 10px;
 }
@@ -428,9 +434,8 @@ input .hidearrows {
 	border-radius: 20px;
 }
 
-.slider:before {
+.switch .slider:before {
 	position: absolute;
-	content: "☀️";
 	height: 26px;
 	width: 26px;
 	left: 4px;
@@ -443,12 +448,21 @@ input .hidearrows {
 	align-items: center;
 	padding-left: 1px;
 }
+.switch[data-type="lang"] .slider:before {
+	content: "🇩🇪";
+}
+.switch[data-type="theme"] .slider:before {
+	content: "☀️";
+}
 
 .switch input + .slider {
 	background-color: var(--accent-color);
 }
 
-.switch input:checked + .slider:before {
+.switch[data-type="lang"] input:checked + .slider:before {
+	content: "🇺🇸";
+}
+.switch[data-type="theme"] input:checked + .slider:before {
 	content: "🌙";
 }
 

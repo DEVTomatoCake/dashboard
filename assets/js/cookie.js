@@ -44,24 +44,46 @@ function fadeIn(element) {
 }
 
 function cookieBanner() {
-	if (getCookie('cookie-dismiss')) return;
-
-	document.body.innerHTML += '' +
-		'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
-		'<h2 style="color: var(--primary-text-color);">Information</h2>' +
-		'<p>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
-		'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</button>' +
-		'</div>';
+	if (!getCookie('cookie-dismiss')) {
+		document.body.innerHTML += '' +
+			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
+			'<h2 style="color: var(--primary-text-color);">Information</h2>' +
+			'<p>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
+			'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</button>' +
+			'</div>';
+		setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
+	};
 
 	document.getElementById("theme-toggle").addEventListener("change", function() {
 		if (document.body.classList.contains("light-theme")) {
 			document.body.classList.replace("light-theme", "dark-theme");
 			setCookie("theme", "dark", 60, true);
+
+			if (slides) {
+				for (i = 0; i < slides.length; i++) {
+					slides[i].src = slides[i].src.replace("light", "dark");
+				};
+			};
 		} else {
 			document.body.classList.replace("dark-theme", "light-theme");
 			setCookie("theme", "light", 60, true);
-		}
+
+			if (slides) {
+				for (i = 0; i < slides.length; i++) {
+					slides[i].src = slides[i].src.replace("dark", "light");
+				};
+			};
+		};
 	});
 
-	setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
+	document.getElementById("lang-toggle").addEventListener("change", function() {
+		if (document.body.classList.contains("en")) {
+			reloadText("de");
+			setCookie("lang", "de", 60, true);
+		} else {
+			reloadText("en");
+			setCookie("lang", "en", 60, true);
+		};
+	});
+	if (reloadText) reloadText(getLanguage());
 };

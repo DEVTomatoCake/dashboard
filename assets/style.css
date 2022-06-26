@@ -25,7 +25,8 @@
 	--purple: #4527A0;
 	--pink: #880E4F;
 	--cyan: #00BCD4;
-	--table-bgcolor: #E5E7f1;
+	--primary-table-bgcolor: #E5E7f1;
+	--secondary-table-bgcolor: #E5E7f1;
 	--textarea-color: #000;
 	--textarea-background: #FFF;
 	--textarea-background-focus: #f6f6f6;
@@ -50,7 +51,8 @@
 	--purple: #B388FF;
 	--pink: #FF80AB;
 	--cyan: #84FFFF;
-	--table-bgcolor: #363952;
+	--primary-table-bgcolor: #25273A;
+	--secondary-table-bgcolor: #363952;
 	--textarea-color: #FFF;
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
@@ -82,11 +84,11 @@ html, body {
 	color: var(--primary-text-color);
 }
 tr {
-	color: var(--primary-text-color);
+	color: var(--primary-table-bgcolor);
+	transition: .4s;
 }
 tr:nth-child(even) {
-	background-color: var(--table-bgcolor);
-	transition: .4s;
+	background-color: var(--secondary-table-bgcolor);
 }
 
 .user-image {

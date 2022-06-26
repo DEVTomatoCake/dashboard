@@ -169,7 +169,11 @@
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
-					<label class="switch">
+					<label class="switch" data-type="lang">
+						<input type="checkbox" id="lang-toggle">
+						<span class="slider round"></span>
+					</label>
+					<label class="switch" data-type="theme">
 						<input type="checkbox" id="theme-toggle">
 						<span class="slider round"></span>
 					</label>
@@ -214,7 +218,7 @@
 			const username = getCookie("user");
 			if (username) {
 				document.getElementById("username-header").innerText = username;
-				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
 			const theme = getCookie("theme");

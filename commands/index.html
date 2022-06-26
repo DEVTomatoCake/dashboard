@@ -152,7 +152,11 @@
 				</div>
 
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
-					<label class="switch">
+					<label class="switch" data-type="lang">
+						<input type="checkbox" id="lang-toggle">
+						<span class="slider round"></span>
+					</label>
+					<label class="switch" data-type="theme">
 						<input type="checkbox" id="theme-toggle">
 						<span class="slider round"></span>
 					</label>
@@ -191,22 +195,13 @@
 			const username = getCookie("user");
 			if (username) {
 				document.getElementById("username-header").innerText = username;
-				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
 			const theme = getCookie("theme");
 			if (theme == "light") {
-				document.body.classList.toggle("light-theme");
-				document.body.classList.toggle("dark-theme");
-			}
-			document.getElementById("theme-toggle").addEventListener("change", function() {
-				document.body.classList.toggle("light-theme");
-				document.body.classList.toggle("dark-theme");
-
-				const oldtheme = getCookie("theme");
-				if (oldtheme == "light") setCookie("theme", "dark", 60, true);
-				else setCookie("theme", "light", 60, true);
-			});
+				document.body.classList.replace("dark-theme", "light-theme");
+			};
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

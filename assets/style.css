@@ -25,8 +25,8 @@
 	--purple: #4527A0;
 	--pink: #880E4F;
 	--cyan: #00BCD4;
-	--primary-table-bgcolor: #E5E7f1;
-	--secondary-table-bgcolor: #E5E7f1;
+	--primary-table-bgcolor: #E5E7F1;
+	--secondary-table-bgcolor: #C1C4DB;
 	--textarea-color: #000;
 	--textarea-background: #FFF;
 	--textarea-background-focus: #f6f6f6;
@@ -1044,8 +1044,8 @@ h3, h4, ul li {
 	opacity: 1;
 }
 
-@media only screen and (max-width: 1200px) {
-	.main .content .row {
+@media only screen and (max-width: 1300px) {
+	.sidebar-container.visible + .main .content .row {
 		flex-direction: column;
 	}
 }
@@ -1060,6 +1060,9 @@ h3, h4, ul li {
 @media only screen and (max-width: 1000px) {
 	.main .top .account .notification {
 		margin-left: -17px;
+	}
+	.main .content .row {
+		flex-direction: column;
 	}
 }
 

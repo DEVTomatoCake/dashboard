@@ -262,6 +262,7 @@
 			if (username) {
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
 				document.getElementById("username-header").innerText = username;
+				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
 			var slides = document.getElementsByClassName("imgSlideImg");

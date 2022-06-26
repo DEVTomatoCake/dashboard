@@ -84,7 +84,8 @@ html, body {
 	color: var(--primary-text-color);
 }
 tr {
-	color: var(--primary-table-bgcolor);
+	color: var(--primary-text-color);
+	background-color: var(--primary-table-bgcolor);
 	transition: .4s;
 }
 tr:nth-child(even) {

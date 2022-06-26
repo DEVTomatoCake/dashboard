@@ -1133,17 +1133,17 @@ h3, h4, ul li {
 	}
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
 	.linkicon {
 		display: none;
 	}
 	.main .content .row .data.small h1 {
 		font-size: 40px;
-		transition: .3s;
+		transition: .2s;
 	}
 	.main .content .row .data.small h3 {
 		font-size: 20px;
-		transition: .3s;
+		transition: .2s;
 	}
 }
 

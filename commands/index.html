@@ -57,12 +57,14 @@
 				};
 				for (var j = 0; j < categorydiv.length; j++) {
 					var category = categorydiv[j];
-					console.log(category)
-					console.log(categorydiv.item(i))
-					console.log(categorydiv.item(i).id)
 
-					if (categories[category.id] > 0) category.style.display = "";
-					else category.style.display = "none";
+					if (categories[category.id] > 0) {
+						category.style.display = "";
+						document.getElementById(category.id + "tb").style.display = "";
+					} else {
+						category.style.display = "none";
+						document.getElementById(category.id + "tb").style.display = "none";
+					};
 				};
 			};
 

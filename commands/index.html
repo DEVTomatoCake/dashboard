@@ -47,11 +47,11 @@
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
 					if (cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) {
-						if (!cmd.classList.has("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 						categories[cmd.getAttribute("data-category")]++;
 					} else {
-						if (cmd.classList.has("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "none";
 					};
 				};

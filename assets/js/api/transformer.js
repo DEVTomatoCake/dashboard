@@ -9,7 +9,7 @@ function getCommandsHTML() {
 
 					json.data.forEach(command => {
 						var temp = '' +
-							'<tr class="command"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
+							'<tr class="command cmdvisible"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
 							'<td>' + command.name + '</td>' +
 							'<td>' + command.description + '</td>' +
 							'<td>' + command.usage + '</td>' +

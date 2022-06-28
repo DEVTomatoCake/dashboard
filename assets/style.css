@@ -88,7 +88,7 @@ tr {
 	background-color: var(--primary-table-bgcolor);
 	transition: .4s;
 }
-tr:nth-child(even) {
+tr .cmdvisible:nth-child(even) {
 	background-color: var(--secondary-table-bgcolor);
 }
 
@@ -657,6 +657,7 @@ input .hidearrows {
 .main .content {
 	margin-top: 40px;
 	margin-left: 70px;
+	margin-right: 50px;
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;

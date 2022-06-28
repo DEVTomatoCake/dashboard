@@ -47,9 +47,13 @@
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
 					if (cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) {
+						cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 						categories[cmd.getAttribute("data-category")]++;
-					} else cmd.style.display = "none";
+					} else {
+						cmd.style.display = "none";
+						cmd.classList.toggle("cmdvisible");
+					}
 				};
 				for (var j = 0; j < categorydiv.length; j++) {
 					var category = categorydiv[j];

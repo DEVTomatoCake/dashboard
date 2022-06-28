@@ -43,6 +43,7 @@ function fadeIn(element) {
 	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }
 
+var reloadText;
 function cookieBanner() {
 	if (!getCookie('cookie-dismiss')) {
 		document.body.innerHTML += '' +

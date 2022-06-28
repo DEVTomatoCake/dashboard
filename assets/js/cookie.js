@@ -58,21 +58,9 @@ function cookieBanner() {
 		if (document.body.classList.contains("light-theme")) {
 			document.body.classList.replace("light-theme", "dark-theme");
 			setCookie("theme", "dark", 60, true);
-
-			if (slides) {
-				for (i = 0; i < slides.length; i++) {
-					slides[i].src = slides[i].src.replace("light", "dark");
-				};
-			};
 		} else {
 			document.body.classList.replace("dark-theme", "light-theme");
 			setCookie("theme", "light", 60, true);
-
-			if (slides) {
-				for (i = 0; i < slides.length; i++) {
-					slides[i].src = slides[i].src.replace("dark", "light");
-				};
-			};
 		};
 	});
 

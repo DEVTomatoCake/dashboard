@@ -26,30 +26,6 @@
 				document.getElementById("stats-users").innerText = Math.floor(json.users / 1000) + "k";
 			});
 
-			let slideIndex = 1;
-
-			function plusSlides(n) {
-			  	showSlides(slideIndex += n);
-			}
-			function currentSlide(n) {
-			  	showSlides(slideIndex = n);
-			}
-			function showSlides(n) {
-			  	let i;
-			  	let slides = document.getElementsByClassName("imgSlide");
-			  	let dots = document.getElementsByClassName("dot");
-			  	if (n > slides.length) slideIndex = 1
-			  	if (n < 1) {slideIndex = slides.length}
-			  	for (i = 0; i < slides.length; i++) {
-			    	slides[i].style.display = "none";
-			  	}
-			  	for (i = 0; i < dots.length; i++) {
-			    	dots[i].className = dots[i].className.replace(" slideactive", "");
-			  	}
-			  	slides[slideIndex-1].style.display = "block";
-			  	dots[slideIndex-1].className += " slideactive";
-			}
-
 			var i = 0;
 			if (screen.width <= 500) {
 				if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
@@ -99,7 +75,7 @@
 			}
 		</script>
 	</head>
-	<body class="dark-theme" onload="showSlides(1);cookieBanner()">
+	<body class="dark-theme" onload="cookieBanner()">
 		<div class="sidebar-container visible" id="sidebar-container">
 	  
 			<div class="sidebar" id="sidebar">
@@ -230,30 +206,22 @@
 					<br>
 					<br>
 					<br>
-					<br>
 					<h1>Features</h1>
-					<div class="slideshow-container">
-					  	<div class="imgSlide">
-							<img class="imgSlideImg" src="./assets/images/stats_dark.png" width="450" height="550">
-					    	<p class="text">Serverstatistiken in Kanalnamen</p>
-					  	</div>
-
-					  	<div class="imgSlide">
-							<img class="imgSlideImg" src="./assets/images/ticketembed_dark.png" width="450" height="550">
-					    	<p class="text">Umfangreiches Ticketssystem</p>
-					  	</div>
-
-					  	<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-					  	<a class="next" onclick="plusSlides(1)">&#10095;</a>
+					<div class="features right">
+						<img src="./assets/images/tomato_ban.png" />
+						<p><strong>Advanced moderation features</strong><br>
+						Useful moderation commands and auto moderation using a regex!</p>
 					</div>
-
-					<div style="text-align: center;">
-					  	<span class="dot" onclick="currentSlide(1)"></span>
-					  	<span class="dot" onclick="currentSlide(2)"></span>
+					<div class="features left">
+						<img src="./assets/images/tomato_ban.png" />
+						<p><strong>Advanced moderation features</strong><br>
+						Useful moderation commands and auto moderation using a regex!</p>
 					</div>
+					<br>
+					<br>
 				</div>
 
-				<p id="author">Websiten-Design erstellt von <a href="https://bookie0.repl.co/">Bookie0</a>, Dashboard von <a href="https://booky.dev/">booky10</a> und TomatoCake</p>
+				<p id="author">Websiten-Design erstellt von <a href="https://bookie0.repl.co/">Bookie0</a> und <a href="https://discords.com/">Elliana</a>, Dashboard von <a href="https://booky.dev/">booky10</a> und TomatoCake</p>
 			</div>
 		</section>
 
@@ -265,14 +233,9 @@
 				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
-			var slides = document.getElementsByClassName("imgSlideImg");
 			const theme = getCookie("theme");
 			if (theme == "light") {
 				document.body.classList.replace("dark-theme", "light-theme");
-
-			  	for (i = 0; i < slides.length; i++) {
-			    	slides[i].src = slides[i].src.replace("dark", "light");
-			  	};
 			};
 		</script>
 		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>

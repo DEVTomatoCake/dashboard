@@ -53,7 +53,7 @@
 					} else {
 						cmd.style.display = "none";
 						cmd.classList.toggle("cmdvisible");
-					}
+					};
 				};
 				for (var j = 0; j < categorydiv.length; j++) {
 					var category = categorydiv[j];
@@ -66,7 +66,13 @@
 			function toggleCategory(category) {
 				var toModify = document.getElementById(category);
 
-				
+				if (toModify.style.display == "none") {
+					toModify.style.display = "block";
+					document.getElementById(category + "tb").innerText = "Verstecken";
+				} else {
+					toModify.style.display = "none";
+					document.getElementById(category + "tb").innerText = "Zeigen";
+				};
 			};
 
 			var i = 0;

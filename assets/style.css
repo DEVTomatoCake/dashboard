@@ -1050,7 +1050,7 @@ h3, h4, ul li {
 	align-items: center;
 	flex-wrap: nowrap;
 	padding: 30px 30px;
-	width: 90%;
+	width: 100%;
 }
 .features strong {
 	width: 28em;

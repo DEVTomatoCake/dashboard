@@ -73,4 +73,5 @@ function cookieBanner() {
 		};
 	});
 	if (reloadText) reloadText(getLanguage());
+	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true
 };

@@ -66,12 +66,10 @@ function cookieBanner() {
 	});
 
 	document.getElementById("lang-toggle").addEventListener("change", function() {
-		if (document.body.classList.contains("en")) {
+		if (document.documentElement.lang.contains("en")) {
 			reloadText("de");
-			setCookie("lang", "de", 60, true);
 		} else {
 			reloadText("en");
-			setCookie("lang", "en", 60, true);
 		};
 	});
 	if (reloadText) reloadText(getLanguage());

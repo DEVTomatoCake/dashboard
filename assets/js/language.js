@@ -8,6 +8,9 @@ const getLanguage = () => {
 };
 
 var reloadText = language => {
+	setCookie("lang", language, 60, true);
+	document.documentElement.lang = language;
+
 	const i18n = document.querySelectorAll("[translation]");
 	const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 

@@ -7,7 +7,7 @@ const getLanguage = () => {
 	return userLang ? (userLang.split("-")[0] == "de" ? "de" : "en") : "en";
 };
 
-const reloadText = language => {
+var reloadText = language => {
 	const i18n = document.querySelectorAll("[translation]");
 	const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 

@@ -66,7 +66,7 @@ function cookieBanner() {
 	});
 
 	document.getElementById("lang-toggle").addEventListener("change", function() {
-		if (document.documentElement.lang.contains("en")) {
+		if (document.documentElement.lang.includes("en")) {
 			reloadText("de");
 		} else {
 			reloadText("en");

@@ -12,7 +12,7 @@ const reloadText = language => {
 	const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
 
 	if (i18n.length <= 0) return;
-	retrieveJson("https://raw.githubusercontent.com/DEVTomatoCake/TomatenKuchen-i18n/dashboard/" + language + ".json").then(json => {
+	retrieveJson("https://raw.githubusercontent.com/DEVTomatoCake/TomatenKuchen-i18n/website/" + language + ".json").then(json => {
 		for (let i = 0; i < i18n.length; i++) {
 			const element = i18n.item(i);
 			const key = element.getAttribute("translation");

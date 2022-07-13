@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@200;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
 
+@font-face {
+  	font-family: NotoColorEmojiLimited;
+  	unicode-range: U+1F1E6-1F1FF;
+  	src: url(https://raw.githack.com/googlefonts/noto-emoji/main/fonts/NotoColorEmoji.ttf);
+}
+
 :root {
 	--light-text-color: #e6e7f1;
 	--transition-buttons: 0.3s;
@@ -452,7 +458,9 @@ input .hidearrows {
 	align-items: center;
 	padding-left: 1px;
 }
+
 .switch[data-type="lang"] .slider:before {
+	font-family: "NotoColorEmojiLimited";
 	content: "🇩🇪";
 }
 .switch[data-type="theme"] .slider:before {
@@ -1050,7 +1058,7 @@ h3, h4, ul li {
 	justify-content: space-around;
 	align-items: center;
 	flex-wrap: nowrap;
-	padding: 20px 30px;
+	padding: 15px;
 	width: 100%;
 }
 .features strong {
@@ -1058,16 +1066,25 @@ h3, h4, ul li {
 	font-size: 1.3em;
 }
 .features p {
-	width: 25em;
+	width: 35em;
+	min-width: 10%;
+	max-width: 50%;
 	font-size: 1.2em;
-}
-.features img {
-	width: 200px;
-	height: 200px;
 }
 .features a {
 	color: var(--blue);
 	text-decoration: none;
+}
+
+.features img {
+	width: 200px;
+	height: 200px;
+}
+.features.left img {
+	margin-left: 100px;
+}
+.features.right img {
+	margin-right: 100px;
 }
 
 .form-container .cancel {

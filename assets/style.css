@@ -8,7 +8,7 @@
 
 .light-theme {
 	--primary-color: #F3F3F8;
-	--primary-color-hover: #FFFFFF;
+	--primary-color-hover: #FFF;
 	--secondary-color: #C1C4DB;
 	--tertiary-color: #E6E7F1;
 	--accent-color: #505FD2;
@@ -16,7 +16,7 @@
 	--button-accent-color: #414DA7;
 	--primary-text-color: #131524;
 	--secondary-text-color: #3D404E;
-	--blue: #2E39A7;
+	--blue: #4B57C9;
 	--green: #1B5E20;
 	--red: #B71C1C;
 	--yellow-1: #F57F17;
@@ -34,7 +34,7 @@
 
 .dark-theme {
 	--primary-color: #131524;
-	--primary-color-hover: #000000;
+	--primary-color-hover: #000;
 	--secondary-color: #232742;
 	--tertiary-color: #525569;
 	--accent-color: #7B4CD9;
@@ -410,6 +410,7 @@ input .hidearrows {
 	display: inline-block;
 	width: 60px;
 	height: 34px;
+	color: var(--textarea-color);
 }
 .switch[data-type="lang"] {
 	margin-left: 10px;
@@ -1063,6 +1064,10 @@ h3, h4, ul li {
 .features img {
 	width: 200px;
 	height: 200px;
+}
+.features a {
+	color: var(--blue);
+	text-decoration: none;
 }
 
 .form-container .cancel {

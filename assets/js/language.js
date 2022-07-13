@@ -34,6 +34,7 @@ var reloadText = language => {
 				Object.keys(arguments).forEach(replaceKey => text = text.replaceAll(replaceKey, arguments[replaceKey]));
 			};
 
+			if (typeof text != "string") return console.warn("Couldn't load string " + key + ", got following instead", text);
 			element.innerHTML = text;
 		};
 

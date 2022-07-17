@@ -129,14 +129,14 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account">
-					<p id="username-header" onclick="redirect('/login')">Anmelden</p>
+				<div class="account" onclick="redirect('/login')">
+					<p id="username-header" translation="global.login"></p>
 					<ion-icon name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
 
 			<div class="content" id="content">
-				<h1 id="username-content" class="greeting">Hallo!</h1>
+				<h1 id="username-content" class="greeting" translation="main.hello">Hallo!</h1>
 
 				<div class="row">
 					<div class="data rect">
@@ -209,23 +209,23 @@
 					<h1>Features</h1>
 					<div class="features right">
 						<img src="./assets/images/tomato_ban.png" />
-						<p><strong><span translation="main.features.moderation.title">Fortgeschrittene Moderationsfunktionen</span></strong><br>
-						<span translation="main.features.moderation.description">Nützliche Moderations-Befehle und Automoderation mithilfe von RegEx!</span></p>
+						<p><strong><span translation="main.features.moderation.title"></span></strong><br>
+						<span translation="main.features.moderation.description"></span></p>
 					</div>
 					<div class="features left">
 						<img src="./assets/images/tomato_empty.png" />
-						<p><strong><span translation="main.features.template.title">Discord-Template laden</span></strong><br>
-						<span translation="main.features.template.description">Mit !template kannst du Discord-Templates auf vorhandene Server laden</span></p>
+						<p><strong><span translation="main.features.template.title"></span></strong><br>
+						<span translation="main.features.template.description"></span></p>
 					</div>
 					<div class="features right">
 						<img src="./assets/images/tomato_empty.png" />
-						<p><strong><span translation="main.features.ticket.title">Komplett konfigurierbares Ticketsystem</span></strong><br>
-						<span translation="main.features.ticket.description">Verschiedene Ticketkategorien, Ticketembeds und erweiterte Transcripte</span></p>
+						<p><strong><span translation="main.features.ticket.title"></span></strong><br>
+						<span translation="main.features.ticket.description"></span></p>
 					</div>
 					<div class="features left">
 						<img src="./assets/images/tomato_empty.png" />
-						<p><strong><span translation="main.features.stats.title">Serverstatistiken in Sprachkanälen</span></strong><br>
-						<span>In den <a href="https://help.tomatenkuchen.eu">Docs</a> findest du Tipps, wie man die Stats einrichtet</span></p>
+						<p><strong><span translation="main.features.stats.title"></span></strong><br>
+						<span translation="main.features.stats.description"></span></p>
 					</div>
 					<br>
 					<br>
@@ -239,8 +239,8 @@
 			const username = getCookie("user");
 			if (username) {
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
+				document.getElementById("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
 			const theme = getCookie("theme");

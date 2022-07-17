@@ -197,14 +197,14 @@
 					<ion-icon name="search"></ion-icon>
 				</div>
 
-				<div class="account">
-					<p id="username-header" onclick="redirect('/login')">Anmelden</p>
+				<div class="account" onclick="redirect('/login')">
+					<p id="username-header" translation="global.login"></p>
 					<ion-icon name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
 
 			<div class="content" id="content" style="padding-left: 250px;">
-				<h1 class="greeting">Befehle von TomatenKuchen</h1>
+				<h1 class="greeting" translation="commands.title"></h1>
 
 				<div id="commands-container" style="padding-left: 80px;"></div>
 
@@ -215,8 +215,8 @@
 		<script>
 			const username = getCookie("user");
 			if (username) {
+				document.getElementById("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
 			const theme = getCookie("theme");

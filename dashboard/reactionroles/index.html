@@ -219,7 +219,7 @@
 				</div>
 
 				<div class="account" onclick="redirect('/login')">
-					<p id="username-header">Anmelden</p>
+					<p id="username-header" translation="global.login"></p>
 					<ion-icon name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
@@ -240,8 +240,8 @@
 		<script>
 			const username = getCookie("user");
 			if (username) {
+				document.getElementById("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-				document.getElementById("username-header").onclick = () => redirect("/logout");
 			};
 
 			const theme = getCookie("theme");

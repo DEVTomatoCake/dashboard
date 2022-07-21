@@ -85,10 +85,6 @@ html, body {
 .category {
 	padding: 10px 0;
 }
-.category caption {
-	font-size: 1.4em;
-	color: var(--primary-text-color);
-}
 tr {
 	color: var(--primary-text-color);
 	background-color: var(--primary-table-bgcolor);
@@ -96,6 +92,33 @@ tr {
 }
 tr.cmdvisible:nth-child(odd) {
 	background-color: var(--secondary-table-bgcolor);
+}
+.commands-container h3 {
+	font-size: 1.4em;
+	color: var(--primary-text-color);
+}
+
+.categorybutton {
+	border: none;
+	width: 130px;
+	height: 35px;
+	border-radius: 20px;
+	font-size: 19px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-left: auto;
+	margin-right: auto;
+	background: var(--button-accent-color);
+	cursor: pointer;
+	color: var(--light-text-color);
+	transition: var(--transition-buttons);
+}
+.categorybutton:hover {
+	background: var(--accent-color-hover);
+}
+.categorybutton:focus {
+	box-shadow: 0 0 4px 2px var(--accent-color);
 }
 
 .user-image {

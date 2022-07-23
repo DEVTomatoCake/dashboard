@@ -929,63 +929,6 @@ table.charts-css {
 	--line-size: 4px;
 }
 
-/* https://www.w3schools.com/howto/howto_js_slideshow.asp */
-.slideshow-container {
-	max-width: 450px;
-	position: relative;
-	margin: 40px auto;
-}
-
-.prev, .next {
-	cursor: pointer;
-	position: absolute;
-	top: 50%;
-	color: var(--yellow-1);
-	font-weight: bold;
-	font-size: 35px;
-	transition: .6s ease;
-	user-select: none;
-}
-
-.prev {
-	left: -45px;
-	border-radius: 5px 0 0 5px;
-}
-.next {
-	right: -45px;
-	border-radius: 0 5px 5px 0;
-}
-
-.slideshow-container .text {
-	color: var(--primary-text-color);
-	font-size: 20px;
-	position: absolute;
-	bottom: -25px;
-	width: 100%;
-	text-align: center;
-}
-
-/* The dots/bullets/indicators */
-.dot {
-	cursor: pointer;
-	height: 15px;
-	width: 15px;
-	margin: 0 2px;
-	background-color: #bbb;
-	border-radius: 50%;
-	display: inline-block;
-	transition: background-color .6s ease;
-}
-
-.slideactive, .dot:hover {
-	background-color: #717171;
-}
-
-.imgSlide {
-	display: none;
-	transition: .5s;
-}
-
 h3, h4, ul li {
 	color: var(--primary-text-color);
 }
@@ -1101,8 +1044,9 @@ h3, h4, ul li {
 }
 
 .features img {
-	width: 200px;
-	height: 200px;
+	transition: .5s;
+	width: 190px;
+	height: 190px;
 }
 .features.left img {
 	margin-left: 100px;
@@ -1115,6 +1059,11 @@ h3, h4, ul li {
 	.features img {
 		width: 140px;
 		height: 140px;
+	}
+}
+@media only screen and (max-width: 800px) {
+	.features p {
+		font-size: 1.1em;
 	}
 }
 @media only screen and (max-width: 700px) {

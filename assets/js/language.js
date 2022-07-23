@@ -1,11 +1,20 @@
 // Modified from https://booky.dev/assets/js/language.js
-var langCache = {}
+var langCache = {};
 
 const getLanguage = () => {
 	if (getCookie("lang")) return getCookie("lang");
 
 	const userLang = navigator.language || navigator.userLanguage;
 	return userLang ? (userLang.split("-")[0] == "de" ? "de" : "en") : "en";
+};
+
+const resolveValue = (obj, key) => {
+  	return resolveValue0(obj, key.split("."));
+};
+
+const resolveValue0 = (obj, keySplit) => {
+  	if (keySplit.length == 1) return obj[keySplit[0]];
+  	return resolveValue0(obj[keySplit[0]], keySplit.slice(1));
 };
 
 var reloadText = async language => {
@@ -22,14 +31,7 @@ var reloadText = async language => {
 		const element = i18n.item(i);
 		const key = element.getAttribute("translation");
 		const splitted = key.split(".");
-
-		var text = "";
-		if (json[splitted[0]][splitted[1]]) {
-		    if (json[splitted[0]][splitted[1]][splitted[2]]) {
-		    	if (json[splitted[0]][splitted[1]][splitted[2]][splitted[3]]) text = json[splitted[0]][splitted[1]][splitted[2]][splitted[3]];
-		    	else text = json[splitted[0]][splitted[1]][splitted[2]];
-		    } else text = json[splitted[0]][splitted[1]];
-		} else text = json[splitted[0]];
+		var text = resolveValue(json, key);
 
 		if (element.hasAttribute("arguments")) {
 			const arguments = JSON.parse(element.getAttribute("arguments"));

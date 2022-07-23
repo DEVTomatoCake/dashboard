@@ -14,8 +14,8 @@
 		<link href="../../assets/toasts.css" rel="stylesheet" type="text/css">
 		<script src="../../assets/js/toasts.js"></script>
 
-		<link rel="preconnect" href="https://node2.chaoshosting.tk:25508">
-		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
 		<script src="../../assets/js/script.js"></script>
 		<script src="../../assets/js/language.js"></script>
@@ -292,13 +292,14 @@
 				let items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					items[item.name] = JSON.stringify({
+					if (!items[item.name]) items[item.name] = []
+					items[item.name].push(JSON.stringify({
 						role: item.value,
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						reaction: item.getAttribute("data-reaction"),
 						type: item.getAttribute("data-type")
-					});
+					}));
 				};
 
 				socket.send(JSON.stringify({
@@ -315,6 +316,9 @@
 			if (params.has('guild')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Reactionroles werden geladen...</h1>';
 				connectWS(params.get("guild"));
+			} else if (params.has("guild_id") && getCookie("token")) {
+				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
+				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Serverauswahl weitergeleitet...</h1>';
 				location.href = "../";
@@ -334,13 +338,12 @@
 						document.getElementById("root-container").innerHTML =
 							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 							'<h1>' + json.message + '</h1>';
-					}
+					};
 				});
 			} else {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
-
 				location.href = "../../login";
-			}
+			};
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

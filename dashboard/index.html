@@ -274,6 +274,9 @@
 			if (params.has("guild") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 				connectWS(params.get("guild"));
+			} else if (params.has("guild_id") && getCookie("token")) {
+				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
+				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				getGuildsHTML().then(html => {
 					document.getElementById("guilds-container").innerHTML = html;
@@ -294,11 +297,10 @@
 						document.getElementById("root-container").innerHTML =
 							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 							'<h1>' + json.message + '</h1>';
-					}
+					};
 				});
 			} else {
 				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
-
 				location.href = "../login";
 			};
 		</script>

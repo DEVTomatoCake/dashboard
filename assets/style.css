@@ -1045,6 +1045,7 @@ h3, h4, ul li {
 	margin: 5px 0 22px 0;
 	border: none;
 	background: #f1f1f1;
+	min-width: 300px;
 	max-width: 350px;
 	box-sizing: border-box;
 }

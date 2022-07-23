@@ -9,7 +9,7 @@ function getCommandsHTML() {
 
 					json.data.forEach(command => {
 						var temp = '' +
-							'<tr class="command"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
+							'<tr class="command cmdvisible"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
 							'<td>' + command.name + '</td>' +
 							'<td>' + command.description + '</td>' +
 							'<td>' + command.usage + '</td>' +
@@ -20,12 +20,15 @@ function getCommandsHTML() {
 					});
 
 					categories.forEach(category => {
-						text += '<table cellpadding="8" cellspacing="0" class="category" id="' + category + '"><caption>' + category.charAt(0).toUpperCase() + category.slice(1) + '</caption><thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
+						text += '<center><h3 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h3>' +
+						'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
+						'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
+						'<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
 						});
-						text += '</tbody></table>';
-					})
+						text += '</tbody></table></center><br id="' + category + 'br">';
+					});
 
 					resolve(text);
 				} else {

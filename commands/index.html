@@ -14,7 +14,8 @@
 		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
-		<script src="../assets/js/cookie.js"></script>
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer.js"></script>
 
@@ -47,17 +48,42 @@
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
 					if (cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) {
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 						categories[cmd.getAttribute("data-category")]++;
-					} else cmd.style.display = "none";
+					} else {
+						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "none";
+					};
 				};
 				for (var j = 0; j < categorydiv.length; j++) {
 					var category = categorydiv[j];
 
-					if (categories[category.id] > 0) category.style.display = "";
-					else category.style.display = "none";
+					if (categories[category.id] > 0) {
+						category.style.display = "";
+						document.getElementById(category.id + "tb").style.display = "";
+						document.getElementById(category.id + "title").style.display = "";
+						document.getElementById(category.id + "br").style.display = "";
+					} else {
+						category.style.display = "none";
+						document.getElementById(category.id + "tb").style.display = "none";
+						document.getElementById(category.id + "title").style.display = "none";
+						document.getElementById(category.id + "br").style.display = "none";
+					};
 				};
-			}
+			};
+
+			function toggleCategory(category) {
+				var toModify = document.getElementById(category);
+
+				if (toModify.style.display == "none") {
+					toModify.style.display = "block";
+					document.getElementById(category + "tb").innerText = "Verstecken";
+				} else {
+					toModify.style.display = "none";
+					document.getElementById(category + "tb").innerText = "Zeigen";
+				};
+			};
 
 			var i = 0;
 			function checkDeviceWidth() {
@@ -66,8 +92,8 @@
 					document.getElementById("content").style.paddingLeft = "0";
 					i = 1;
 					sidebar();
-				}
-			}
+				};
+			};
 
 			function sidebar() {
 				i++;
@@ -117,7 +143,7 @@
 			}
 		</script>
 	</head>
-	<body class="dark-theme" onload="checkDeviceWidth();cookieBanner()">		
+	<body class="dark-theme" onload="checkDeviceWidth();pageLoad()">		
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">
@@ -126,33 +152,37 @@
 					<div class="line" id="lineBottom2"></div>
 				</div>
 
-				<button onclick="redirect('/invite')"><ion-icon name="add"></ion-icon> BOT EINLADEN</button>
+				<button onclick="redirect('/invite')" translation="sidebar.invite"></button>
 
 				<div id="linksidebar" class="section">
 					<a href="/" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
-						<p>Home</p>
+						<p translation="sidebar.home"></p>
 					</a>
 					<a href="/commands" class="tab active">
 						<ion-icon name="terminal-outline"></ion-icon>
-						<p>Befehle</p>
+						<p translation="sidebar.commands"></p>
 					</a>
 					<a href="/dashboard" class="tab">
 						<ion-icon name="settings-outline"></ion-icon>
-						<p>Dashboard</p>
+						<p translation="sidebar.dashboard"></p>
 					</a>
 					<a href="/docs" class="tab">
 						<ion-icon name="document-text-outline"></ion-icon>
-						<p>Docs</p>
+						<p translation="sidebar.docs"></p>
 					</a>
 					<a href="/discord" class="tab">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
-						<p>Support</p>
+						<p translation="sidebar.support"></p>
 					</a>
 				</div>
 
 				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
-					<label class="switch">
+					<label class="switch" data-type="lang">
+						<input type="checkbox" id="lang-toggle">
+						<span class="slider round"></span>
+					</label>
+					<label class="switch" data-type="theme">
 						<input type="checkbox" id="theme-toggle">
 						<span class="slider round"></span>
 					</label>
@@ -172,14 +202,14 @@
 					<ion-icon name="search"></ion-icon>
 				</div>
 
-				<div class="account">
-					<p id="username-header" onclick="redirect('/login')">Anmelden</p>
+				<div class="account" onclick="redirect('/login')">
+					<p id="username-header" translation="global.login"></p>
 					<ion-icon name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
 
 			<div class="content" id="content" style="padding-left: 250px;">
-				<h1 class="greeting">Befehle von TomatenKuchen</h1>
+				<h1 class="greeting" translation="commands.title"></h1>
 
 				<div id="commands-container" style="padding-left: 80px;"></div>
 
@@ -190,23 +220,14 @@
 		<script>
 			const username = getCookie("user");
 			if (username) {
-				document.getElementById("username-header").innerText = username;
 				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+				document.getElementById("username-header").innerText = username;
 			};
 
 			const theme = getCookie("theme");
 			if (theme == "light") {
-				document.body.classList.toggle("light-theme");
-				document.body.classList.toggle("dark-theme");
-			}
-			document.getElementById("theme-toggle").addEventListener("change", function() {
-				document.body.classList.toggle("light-theme");
-				document.body.classList.toggle("dark-theme");
-
-				const oldtheme = getCookie("theme");
-				if (oldtheme == "light") setCookie("theme", "dark", 60, true);
-				else setCookie("theme", "light", 60, true);
-			});
+				document.body.classList.replace("dark-theme", "light-theme");
+			};
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

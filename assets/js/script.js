@@ -9,7 +9,6 @@ function setCookie(name, value, days, global) {
 
 	document.cookie = cookie;
 }
-
 function getCookie(name) {
 	const cookies = document.cookie.split(";");
 
@@ -20,7 +19,6 @@ function getCookie(name) {
 	}
 	return undefined;
 }
-
 function deleteCookie(name) {
 	document.cookie = name + '=;Max-Age=-99999999;path=/;';
 	document.cookie = name + '=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;';
@@ -34,7 +32,6 @@ function fadeOut(element) {
 	if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25);
 	else element.remove();
 }
-
 function fadeIn(element) {
 	if (!element) return;
 	if (!element.style.opacity) element.style.opacity = 0;
@@ -43,15 +40,17 @@ function fadeIn(element) {
 	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }
 
-function cookieBanner() {
-	if (getCookie('cookie-dismiss')) return;
-
-	document.body.innerHTML += '' +
-		'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
-		'<h2 style="color: var(--primary-text-color);">Information</h2>' +
-		'<p>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
-		'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</button>' +
-		'</div>';
+var reloadText;
+function pageLoad() {
+	if (!getCookie('cookie-dismiss')) {
+		document.body.innerHTML += '' +
+			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
+			'<h2 style="color: var(--primary-text-color);">Information</h2>' +
+			'<p>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
+			'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));">Verstanden</button>' +
+			'</div>';
+		setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
+	};
 
 	document.getElementById("theme-toggle").addEventListener("change", function() {
 		if (document.body.classList.contains("light-theme")) {
@@ -60,8 +59,13 @@ function cookieBanner() {
 		} else {
 			document.body.classList.replace("dark-theme", "light-theme");
 			setCookie("theme", "light", 60, true);
-		}
+		};
 	});
 
-	setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
+	document.getElementById("lang-toggle").addEventListener("change", function() {
+		if (document.documentElement.lang.includes("en")) reloadText("de");
+		else reloadText("en");
+	});
+	if (reloadText) reloadText(getLanguage());
+	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
 };

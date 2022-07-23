@@ -62,9 +62,13 @@
 					if (categories[category.id] > 0) {
 						category.style.display = "";
 						document.getElementById(category.id + "tb").style.display = "";
+						document.getElementById(category.id + "title").style.display = "";
+						document.getElementById(category.id + "br").style.display = "";
 					} else {
 						category.style.display = "none";
 						document.getElementById(category.id + "tb").style.display = "none";
+						document.getElementById(category.id + "title").style.display = "none";
+						document.getElementById(category.id + "br").style.display = "none";
 					};
 				};
 			};

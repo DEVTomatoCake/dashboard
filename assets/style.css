@@ -1111,10 +1111,21 @@ h3, h4, ul li {
 	margin-right: 100px;
 }
 
+@media only screen and (max-width: 850px) {
+	.features img {
+		width: 140px;
+		height: 140px;
+	}
+}
+@media only screen and (max-width: 700px) {
+	.features p {
+		font-size: 1em;
+	}
+}
+
 .form-container .cancel {
 	background-color: red;
 }
-
 .form-container .btn:hover {
 	opacity: 1;
 }

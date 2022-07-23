@@ -138,7 +138,7 @@
 		<script>
 		  	const username = getCookie("user");
 			if (username) {
-				document.getElementById("account")[0].onclick = () => redirect("/logout");
+				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
 			};
 

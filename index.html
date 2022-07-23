@@ -239,7 +239,7 @@
 			const username = getCookie("user");
 			if (username) {
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
-				document.getElementById("account")[0].onclick = () => redirect("/logout");
+				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
 			};
 

@@ -15,6 +15,7 @@
 		<link rel="dns-prefetch" href="https://node2.chaoshosting.tk:25508">
 
 		<script src="../assets/js/cookie.js"></script>
+		<script src="../assets/js/language.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer.js"></script>
 
@@ -215,7 +216,7 @@
 		<script>
 			const username = getCookie("user");
 			if (username) {
-				document.getElementById("account")[0].onclick = () => redirect("/logout");
+				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
 			};
 

@@ -56,6 +56,9 @@
 	--textarea-color: #000;
 	--textarea-background: #FFF;
 	--textarea-background-focus: #f6f6f6;
+	--select-background: #FFF;
+	--select-hover: #99b6ff;
+	--select-border: #000;
 }
 
 .dark-theme {
@@ -82,6 +85,9 @@
 	--textarea-color: #FFF;
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
+	--select-background: #0c1659;
+	--select-hover: #8a7ff0;
+	--select-border: var(--secondary-text-color);
 }
 
 * {

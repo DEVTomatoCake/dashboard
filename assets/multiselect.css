@@ -1,21 +1,14 @@
 @charset "UTF-8";
 /* CSS Document * Varun Dewan 2019 */
 
-.container {
-	max-width: 600px;
-	margin: 40px auto;
-	background: #cdcdcd;
-	min-height: 330px;
-	height: 400px;
-	padding: 20px 20px;
-}
-
 .drop {
 	position: relative;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	min-width: 150px;
+	max-width: 600px;
 }
 
 .drop.open {
@@ -31,7 +24,7 @@
 }
 .drop.open .drop-display {
 	z-index: 200;
-	border-color: #465;
+	border-color: var(--select-border);
 }
 
 .drop select {
@@ -53,9 +46,10 @@
 .drop .drop-display {
 	position: relative;
 	padding: 0px 20px 5px 5px;
-	border: 3px solid #444;
+	border: 1px solid var(--secondary-text-color);
 	width: 100%;
-	background: #FFF;
+	background: var(--select-background);
+	color: var(--textarea-color);
 	z-index: 1;
 	margin: 0px;
 	font-size: 16px;
@@ -65,7 +59,7 @@
 .drop .drop-display .item {
 	position: relative;
 	display: inline-block;
-	border: 2px solid #333;
+	border: 2px solid var(--secondary-text-color);
 	margin: 5px 5px -4px 0px;
 	padding: 0px 25px 0px 10px;
 	overflow: hidden;
@@ -90,7 +84,7 @@
 }
 
 .drop .drop-options {
-	background: #444;
+	background: var(--select-background);
 	box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
 	position: absolute;
 	width: 100%;
@@ -105,15 +99,14 @@
 	height: 40px;
 	line-height: 40px;
 	padding: 0px 20px;
-	color: white;
+	color: var(--textarea-color);
 	position: relative;
 	max-height: 40px;
-	transition: all 1s;
+	transition: all 1s, background .5s;
 	overflow: hidden;
 }
-
 .drop .drop-options a:hover {
-	background: #465;
+	background: var(--select-hover);
 	cursor: pointer;
 }
 

@@ -46,15 +46,14 @@ function getCommandsHTML() {
 	}));
 }
 
-function getStatsHTML(guild) {
+function getStatsHTML(guild, filter) {
 	return new Promise(resolve => {
-		getStats(guild)
+		getStats(guild + (filter.time ? "&time=" + filter.time : "") + (filter.type ? "&type=" + filter.type : ""))
 			.then(json => {
 				if (json.status === 'success') {
 					resolve({
 						name: json.name,
-						data: json.data,
-						labels: json.labels
+						data: json.data
 					});
 				} else {
 					resolve('' +

@@ -1,60 +1,73 @@
 <!DOCTYPE html>
 <html lang="de">
 	<head>
-	  	<meta charset="utf-8">
-	  	<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-	  	<meta content="TomatenKuchen - Serverstats" name="description"/>
+		<meta charset="utf-8">
+		<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+		<meta content="TomatenKuchen - Serverstats" name="description"/>
 
-	  	<title>TomatenKuchen - Serverstatistiken</title>
-	  	<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-	  	<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+		<title>TomatenKuchen - Serverstats</title>
+		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
-	  	<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
-	  	<style>
+		<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
+		<style>
 			body {
-				background-color: #DCDCDC;
+				background-color: var(--textarea-background);
 			}
-	  	</style>
+		</style>
 
 		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
-	  	<script src="../assets/js/script.js"></script>
-	  	<script src="../assets/js/api/api.js"></script>
-	  	<script src="../assets/js/api/transformer.js"></script>
-	  	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/api/api.js"></script>
+		<script src="../assets/js/api/transformer.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body>
-	  	<script>
-	  		const params = new URLSearchParams(window.location.search);
-	  		if (params.has('guild')) {
-				getStatsHTML(params.get('guild'))
-				  	.then(html => {
-						createChart(html.labels.split(","), html.data.split(","))
-				  	});
-			} else document.body.innerHTML += '<h1>Bitte gib den gewünschten Server mit an!</h1>';
+		<script>
+			const params = new URLSearchParams(window.location.search);
+			if (params.has("guild")) {
+				getStatsHTML(params.get("guild"), {time: params.get("time"), type: params.get("type")}).then(html => {
+					if (typeof html == "string") document.body.innerHTML = html;
+					else createChart(html);
+				});
+			} else document.body.innerHTML = '<h1>Bitte gib den gewünschten Server mit an!</h1>';
 
-		  	function createChart(apilabels, apidata) {
-				const data = {
-				  	labels: apilabels,
-				  	datasets: [{
-						label: "Nutzer",
-						backgroundColor: "rgb(255, 99, 132)",
-						borderColor: "rgb(255, 99, 132)",
-						data: apidata
-					}]
-				};
-
+			function createChart(apiresponse) {
 				const config = {
-				  	type: "line",
-				  	data,
-				  	options: {}
+					type: "line",
+					data: {
+						labels: apiresponse.data.labels.split(","),
+						datasets: [{
+							label: "Mitglieder",
+							backgroundColor: "rgb(255, 99, 132)",
+							borderColor: "rgb(255, 99, 132)",
+							data: apiresponse.data.members.split(",")
+						},{
+							label: "Nachrichten pro Tag",
+							backgroundColor: "rgb(110, 255, 180)",
+							borderColor: "rgb(110, 255, 180)",
+							data: apiresponse.data.messages.split(",")
+						}]
+					},
+					options: {
+						plugins: {
+							title: {
+								display: true,
+								text: "Statistiken von " + apiresponse.name
+							},
+							subtitle: {
+								display: false,//params.get("type") != "members" && params.get("type") != "messages" && !params.has("time"),
+								text: "Ein Teil der Mitgliederdaten wird nicht angezeigt. Nutze die Query-Parameter \"type\" und \"time\", um sie anzuzeigen."
+							}
+						}
+					}
 				};
-				console.log(config.data.labels);
 
 				new Chart(document.getElementById("stats"), config);
-		  	}
+			};
 		</script>
-	  	<canvas id="stats"></canvas>
+		<canvas id="stats"></canvas>
 	</body>
 </html>

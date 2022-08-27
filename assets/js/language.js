@@ -29,8 +29,8 @@ var reloadText = async language => {
 	const json = await loadLangFile(language)
 	for (let i = 0; i < i18n.length; i++) {
 		const element = i18n.item(i);
-		const key = element.getAttribute("translation");
-		const splitted = key.split(".");
+		var key = element.getAttribute("translation");
+		if (key == "global.login" && getCookie("user")) return element.innerHTML = getCookie("user");
 		var text = resolveValue(json, key);
 
 		if (element.hasAttribute("arguments")) {

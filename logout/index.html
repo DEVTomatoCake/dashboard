@@ -20,8 +20,10 @@
 		</center>
 		<script>
 			logout().then(json => {
-				if (getCookie('token')) deleteCookie('token');
-				if (getCookie('user')) deleteCookie('user');
+				if (getCookie("token")) deleteCookie("token");
+				if (getCookie("user")) deleteCookie("user");
+				if (getCookie("avatar")) deleteCookie("avatar");
+
 				if (json.status == 'success') {
 					setTimeout(() => {
 						window.location.href = 'https://' + location.host + '/';
@@ -34,7 +36,7 @@
 
 					setTimeout(() => {
 						window.location.href = 'https://' + location.host + '/';
-					}, 5000);
+					}, 4000);
 				};
 			});
 		</script>

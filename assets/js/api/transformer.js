@@ -247,3 +247,46 @@ function getLeaderboardHTML(guild) {
 			});
 	});
 }
+
+function getDataexportHTML(token) {
+	return new Promise(resolve => {
+		getDataexport(token)
+			.then(json => {
+				console.log(json);
+				if (json.status === 'success') {
+
+					
+					let badges = '';
+					if (json.data.userProfiles.badges.length > 0) {
+						json.data.userProfiles.badges.toString().split(',').forEach(badge => badges += ' <p class="badge">'+badge+'</p>');
+					}
+
+					let text = '<div class="container">'+
+					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>'+
+
+					'<h1>Account</h1>'+
+					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>'+
+					'<p><b>Badges:</b> ' + badges + '</p>'+
+
+					'<br>'+
+
+					'<h1> Daten im JSON-Format: </h1>'+
+					'<br> <textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>'+
+					
+					'</div>';
+
+					resolve(text);
+				} else {
+					resolve('' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>' + json.message + '</h1>');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				resolve('' +
+					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+			});
+	});
+}

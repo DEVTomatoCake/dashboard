@@ -1275,3 +1275,9 @@ h3, h4, ul li {
 	background: var(--accent-color);
 	color: var(--primary-text-color);
 }
+
+.badge {
+	background-color: var(--accent-color-hover);
+	color: var(--primary-text-color);
+	display: inline-block;
+}

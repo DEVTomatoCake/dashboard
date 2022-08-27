@@ -500,10 +500,16 @@ input .hidearrows {
 }
 
 .switch[data-type="lang"] .slider:before {
-	content: "🇩🇪";
+	content: "";
+	background-image: url("./images/de_flag.png");
+	background-position: center;
+	background-size: cover;
 }
 .switch[data-type="lang"] input:checked + .slider:before {
-	content: "🇺🇸";
+	content: "";
+	background-image: url("./images/us_flag.png");
+	background-position: center;
+	background-size: cover;
 }
 
 .switch[data-type="theme"] .slider:before {

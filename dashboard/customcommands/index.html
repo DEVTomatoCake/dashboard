@@ -214,7 +214,7 @@
 
 				<div class="account" onclick="redirect('/login')">
 					<p id="username-header" translation="global.login"></p>
-					<ion-icon name="person-circle-outline"></ion-icon>
+					<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
 
@@ -236,12 +236,11 @@
 			if (username) {
 				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-			};
+				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+			} else document.getElementById("username-avatar").style = "display: block;";
 
 			const theme = getCookie("theme");
-			if (theme == "light") {
-				document.body.classList.replace("dark-theme", "light-theme");
-			};
+			if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
 
 			const formElem = document.getElementById("ccForm");
 			formElem.addEventListener("submit", e => {

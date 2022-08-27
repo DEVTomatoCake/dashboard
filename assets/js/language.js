@@ -30,7 +30,10 @@ var reloadText = async language => {
 	for (let i = 0; i < i18n.length; i++) {
 		const element = i18n.item(i);
 		var key = element.getAttribute("translation");
-		if (key == "global.login" && getCookie("user")) return element.innerHTML = getCookie("user");
+		if (key == "global.login" && getCookie("user")) {
+			element.innerHTML = getCookie("user");
+			continue;
+		};
 		var text = resolveValue(json, key);
 
 		if (element.hasAttribute("arguments")) {

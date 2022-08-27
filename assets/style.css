@@ -501,13 +501,13 @@ input .hidearrows {
 
 .switch[data-type="lang"] .slider:before {
 	content: "";
-	background-image: url("./images/de_flag.png");
+	background-image: url("./images/wikimedia_flagde.svg");
 	background-position: center;
 	background-size: cover;
 }
 .switch[data-type="lang"] input:checked + .slider:before {
 	content: "";
-	background-image: url("./images/us_flag.png");
+	background-image: url("./images/wikimedia_flagen.svg");
 	background-position: center;
 	background-size: cover;
 }

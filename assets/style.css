@@ -273,7 +273,7 @@ input .hidearrows {
 	transition: var(--transition-buttons);
 	height: 100%;
 }
-	
+
 .sidebar {
 	width: 0;
 	height: 100%;
@@ -299,7 +299,7 @@ input .hidearrows {
 
 .sidebar-container.visible #lineTop2 {
 	transform: rotate(45deg);
-	top: 5px;	
+	top: 5px;
 }
 
 .sidebar-container.visible #lineBottom2 {
@@ -358,7 +358,7 @@ input .hidearrows {
 @keyframes wide {
 	0% { gap: 5px;}
 	50% { gap: 10px;}
-	100% { gap: 5px;}	
+	100% { gap: 5px;}
 }
 
 .hamburger .line {
@@ -417,7 +417,7 @@ input .hidearrows {
 
 .sidebar .section.bottom {
 	position: absolute;
-	width: 100%;	
+	width: 100%;
 	bottom: 0;
 	background: var(--primary-color);
 	display: flex;
@@ -467,7 +467,7 @@ input .hidearrows {
 	margin-right: 10px;
 }
 
-.switch input { 
+.switch input {
 	opacity: 0;
 	width: 0;
 	height: 0;
@@ -529,7 +529,7 @@ input .hidearrows {
 .sidebar .section p.title {
 	font-size: 13px;
 	margin-left: 15px;
-	color: var(--secondary-text-color);	
+	color: var(--secondary-text-color);
 	font-family: 'Roboto Condensed', sans-serif;
 	letter-spacing: 2px;
 }
@@ -678,31 +678,14 @@ input .hidearrows {
 
 .main .top .account:hover {
 	background: var(--primary-color-hover);
-}
-
-.main .top .account .notification {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	width: 20px;
-	height: 20px;
-	font-size: 12px;	
-	border-radius: 50%;
-	background: var(--accent-color);
-	color: var(--light-text-color);
-	position: relative;
-	right: -15px;
-	top: -10px;
-	z-index: 2;
-	margin-left: -10px;
-}
-
-.main .top .account:hover, .main .top .calendar:hover {
 	transform: scale(1.05);
 }
 
 .main .top .account ion-icon {
 	font-size: 35px;
+}
+.main .top .account img {
+	border-radius: 50%;
 }
 
 
@@ -748,8 +731,8 @@ h1.greeting {
 
 .main .content .row .data {
 	border-radius: 20px;
-	background-color: var(--secondary-color);	
-	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);	
+	background-color: var(--secondary-color);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -764,7 +747,7 @@ h1.greeting {
 	margin-left: 15px;
 	width: 100%;
 	margin-top: 20px;
-	margin-bottom: auto;	
+	margin-bottom: auto;
 }
 
 .main .content .row .data .container ion-icon {
@@ -1113,9 +1096,6 @@ h3, h4, ul li {
 }
 
 @media only screen and (max-width: 1000px) {
-	.main .top .account .notification {
-		margin-left: -17px;
-	}
 	.main .content .row {
 		flex-direction: column;
 	}
@@ -1126,7 +1106,7 @@ h3, h4, ul li {
 		gap: 20px;
 		margin-left: 50px;
 	}
-	
+
 	.main .content .row {
 		gap: 20px;
 	}
@@ -1210,7 +1190,7 @@ h3, h4, ul li {
 	.main .top .account {
 		margin-right: 20px;
 	}
-	
+
 	.main .top .account p {
 		display: none;
 	}

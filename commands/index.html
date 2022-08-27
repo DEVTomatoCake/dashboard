@@ -109,7 +109,7 @@
 				document.getElementById("lineBottom1").style.bottom = "5px";
 
 				if (i % 2 == 0) {
-					setTimeout(() => { 
+					setTimeout(() => {
 						document.getElementById("content").style.paddingLeft = "250px";
 						document.getElementById("search-box").style.marginLeft = "240px";
 						document.getElementById("sidebar-container").classList.toggle("visible");
@@ -143,7 +143,7 @@
 			}
 		</script>
 	</head>
-	<body class="dark-theme" onload="checkDeviceWidth();pageLoad()">		
+	<body class="dark-theme" onload="checkDeviceWidth();pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">
@@ -198,13 +198,13 @@
 				</div>
 
 				<div id="search-box" class="search-box">
-					<input type="text" id="cmdSearch" onkeyup="cmdSearch()" placeholder="Befehle durchsuchen...">	
+					<input type="text" id="cmdSearch" onkeyup="cmdSearch()" placeholder="Befehle durchsuchen...">
 					<ion-icon name="search"></ion-icon>
 				</div>
 
 				<div class="account" onclick="redirect('/login')">
 					<p id="username-header" translation="global.login"></p>
-					<ion-icon name="person-circle-outline"></ion-icon>
+					<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
 
@@ -222,12 +222,11 @@
 			if (username) {
 				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-			};
+				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+			} else document.getElementById("username-avatar").style = "display: block;";
 
 			const theme = getCookie("theme");
-			if (theme == "light") {
-				document.body.classList.replace("dark-theme", "light-theme");
-			};
+			if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

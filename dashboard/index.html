@@ -41,9 +41,9 @@
 				document.getElementById("lineBottom1").style.bottom = "5px";
 
 				if (i % 2 == 0) {
-					setTimeout(() => { 
+					setTimeout(() => {
 						document.getElementById("content").style.paddingLeft = "230px";
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 300);
 				} else {
 					document.getElementById("content").style.paddingLeft = "0";
@@ -58,8 +58,8 @@
 					document.getElementById("lineBottom1").style.transform = "rotate(0)";
 					document.getElementById("lineBottom1").style.bottom = "0";
 
-					setTimeout(() => { 
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+					setTimeout(() => {
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 100);
 				};
 			};
@@ -134,9 +134,9 @@
 			};
 		</script>
 	</head>
-	<body class="dark-theme" onload="pageLoad()">		
+	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-	  
+
 			<div class="sidebar" id="sidebar">
 				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
@@ -288,6 +288,7 @@
 					if (json.status == "success") {
 						setCookie("token", json.token, 4);
 						setCookie("user", json.user, 4);
+						setCookie("avatar", json.avatar, 4);
 
 						let query = "";
 						if (params.has("guild")) query = "?guild=" + params.get("guild");

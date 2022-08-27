@@ -47,9 +47,9 @@
 				document.getElementById("lineBottom1").style.bottom = "5px";
 
 				if (i % 2 == 0) {
-					setTimeout(() => { 
+					setTimeout(() => {
 						document.getElementById("content").style.paddingLeft = "230px";
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 300);
 				} else {
 					document.getElementById("content").style.paddingLeft = "0";
@@ -64,8 +64,8 @@
 					document.getElementById("lineBottom1").style.transform = "rotate(0)";
 					document.getElementById("lineBottom1").style.bottom = "0";
 
-					setTimeout(() => { 
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+					setTimeout(() => {
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 100);
 				}
 			}
@@ -77,7 +77,7 @@
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-	  
+
 			<div class="sidebar" id="sidebar">
 				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
@@ -131,7 +131,7 @@
 
 				<div class="account" onclick="redirect('/login')">
 					<p id="username-header" translation="global.login"></p>
-					<ion-icon name="person-circle-outline"></ion-icon>
+					<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
 				</div>
 			</div>
 
@@ -141,7 +141,7 @@
 				<div class="row">
 					<div class="data rect">
 						<div class="container session-length">
-							<div style="min-width: 50px;"><ion-icon name="server-outline" class="server-icon"></ion-icon></div>						
+							<div style="min-width: 50px;"><ion-icon name="server-outline" class="server-icon"></ion-icon></div>
 
 							<div class="text">
 								<h3 id="stats-guilds">Lade...</h3>
@@ -208,22 +208,22 @@
 					<br>
 					<h1>Features</h1>
 					<div class="features right">
-						<img src="./assets/images/tomato_ban.webp" />
+						<img src="./assets/images/tomato_ban.webp" alt="Tomato holding a ban sign" />
 						<p><strong><span translation="main.features.moderation.title"></span></strong><br>
 						<span translation="main.features.moderation.description"></span></p>
 					</div>
 					<div class="features left">
-						<img src="./assets/images/tomato_empty.webp" />
+						<img src="./assets/images/tomato_empty.webp" alt="Default tomato image" />
 						<p><strong><span translation="main.features.template.title"></span></strong><br>
 						<span translation="main.features.template.description"></span></p>
 					</div>
 					<div class="features right">
-						<img src="./assets/images/tomato_empty.webp" />
+						<img src="./assets/images/tomato_empty.webp" alt="Default tomato image" />
 						<p><strong><span translation="main.features.ticket.title"></span></strong><br>
 						<span translation="main.features.ticket.description"></span></p>
 					</div>
 					<div class="features left">
-						<img src="./assets/images/tomato_empty.webp" />
+						<img src="./assets/images/tomato_empty.webp" alt="Default tomato image" />
 						<p><strong><span translation="main.features.stats.title"></span></strong><br>
 						<span translation="main.features.stats.description"></span></p>
 					</div>
@@ -241,7 +241,8 @@
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
 				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-			};
+				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+			} else document.getElementById("username-avatar").style = "display: block;";
 
 			const theme = getCookie("theme");
 			if (theme == "light") {

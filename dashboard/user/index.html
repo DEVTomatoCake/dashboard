@@ -164,6 +164,7 @@
 			if (getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen..</h1>';
 				getDataexportHTML(getCookie("token")).then(data => {
+					// console.log(data);
 					document.getElementById('root-container').innerHTML = data;
 				}).catch(err => {
 					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden...</h1>';
@@ -177,10 +178,7 @@
 						setCookie("token", json.token, 4);
 						setCookie("user", json.user, 4);
 
-						let query = "";
-						if (params.has("guild")) query = "?guild=" + params.get("guild");
-
-						location.href = "https://" + location.host + "/dashboard/customcommands" + query;
+						location.href = "https://" + location.host + "/dashboard/user";
 					} else {
 						document.getElementById("root-container").innerHTML =
 							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +

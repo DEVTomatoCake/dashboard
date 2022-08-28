@@ -13,8 +13,8 @@ function getCookie(name) {
 	const cookies = document.cookie.split(";");
 
 	// DEBUG cookies
-	if (name == "token") return "ea78da5c-cbf5-41e1-9cc3-43aa7f8aa237";
-	if (name == "user") return "Funty#8818";
+	// if (name == "token") return "jaja ich bin nicht blöd";
+	// if (name == "user") return "Funty#8818";
 
 	for (let i = 0; i < cookies.length; i++) {
 		let cookie = cookies[i].trim();

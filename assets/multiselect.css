@@ -7,8 +7,8 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
-	min-width: 150px;
-	max-width: 600px;
+	min-width: 180px;
+	max-width: 700px;
 }
 
 .drop.open {

@@ -157,19 +157,11 @@ var drop = function(info) {
 		changeState: function(state) {
 			switch (state) {
 				case 'remove':
-					return 'hide'
 				case 'hide':
 					return 'hide'
 				default:
 					return ''
 			}
-		},
-		isSelected: function(index) {
-			var check = false
-			this.selected.forEach(function(select) {
-				if (select.index == index && select.removed == false) check = true
-			})
-			return check
 		}
 	};
 	o.init();

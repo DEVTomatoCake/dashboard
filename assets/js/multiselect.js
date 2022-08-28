@@ -1,26 +1,25 @@
 //Varun Dewan 2019
 var $ = {
 	get: function(selector) {
-		var ele = document.querySelectorAll(selector);
+		var ele = document.querySelectorAll(selector)
 		for (var i = 0; i < ele.length; i++) {
-			this.init(ele[i]);
+			this.init(ele[i])
 		}
-		return ele;
+		return ele
 	},
 	template: function(html) {
-		var template = document.createElement('div');
-		template.innerHTML = html.trim();
-		return this.init(template.childNodes[0]);
+		var template = document.createElement('div')
+		template.innerHTML = html.trim()
+		return this.init(template.childNodes[0])
 	},
 	init: function(ele) {
 		ele.on = function(event, func) {
-			this.addEventListener(event, func);
+			this.addEventListener(event, func)
 		}
-		return ele;
+		return ele
 	}
-};
+}
 
-//Build the plugin
 var drop = function(info) {
 	var o = {
 		options: info.options,
@@ -29,8 +28,8 @@ var drop = function(info) {
 		open: false,
 		html: {
 			select: $.get(info.selector)[0],
-			options: $.get(info.selector + ' option'),
-			parent: undefined,
+			options: $.get(info.selector + " option"),
+			parent: undefined
 		},
 		init: function() {
 			//Setup Drop HTML
@@ -45,70 +44,69 @@ var drop = function(info) {
 			this.html.drop.appendChild(this.html.dropOptions)
 			this.html.drop.appendChild(this.html.dropScreen)
 			//Hide old select
-			this.html.drop.appendChild(this.html.select);
+			this.html.drop.appendChild(this.html.select)
 
-			//Core Events
-			var that = this;
+			var that = this
 			this.html.dropDisplay.on('click', function() {
 				that.toggle()
-			});
+			})
 			this.html.dropScreen.on('click', function() {
 				that.toggle()
-			});
+			})
 			//Run Render
 			this.load()
 			this.preselect()
-			this.render();
+			this.render()
 		},
 		toggle: function() {
-			this.html.drop.classList.toggle('open');
+			this.html.drop.classList.toggle("open")
 		},
 		addOption: function(e, element) {
-			var index = Number(element.dataset.index);
+			var index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
 				index: Number(index),
-				state: 'add',
+				state: "add",
 				removed: false
 			})
-			this.options[index].state = 'remove';
+			this.options[index].state = "remove"
 			this.render()
 		},
 		removeOption: function(e, element) {
-			e.stopPropagation();
+			e.stopPropagation()
 			this.clearStates()
-			var index = Number(element.dataset.index);
+			var index = Number(element.dataset.index)
 			this.selected.forEach(function(select) {
 				if (select.index == index && !select.removed) {
 					select.removed = true
-					select.state = 'remove'
+					select.state = "remove"
 				}
 			})
-			this.options[index].state = 'add'
-			this.render();
+			this.options[index].state = "add"
+			this.render()
 		},
 		load: function() {
-			this.options = [];
+			this.options = []
 			for (var i = 0; i < this.html.options.length; i++) {
 				var option = this.html.options[i]
 				this.options[i] = {
 					html: option.innerHTML,
 					value: option.value,
 					selected: option.selected,
-					state: ''
-				};
+					state: ""
+				}
 			}
 		},
 		preselect: function() {
-			var that = this;
-			this.selected = [];
+			var that = this
+			this.selected = []
 			this.preselected.forEach(function(pre) {
 				that.selected.push({
 					index: pre,
-					state: 'add',
+					state: "add",
 					removed: false
-				});
-				if (that.options[pre]) that.options[pre].state = 'remove';
+				})
+				if (that.options[pre]) that.options[pre].state = "remove"
 			})
 		},
 		render: function() {
@@ -116,38 +114,37 @@ var drop = function(info) {
 			this.renderOptions()
 		},
 		renderDrop: function() {
-			var that = this;
-			var parentHTML = $.template('<div></div>')
-			this.selected.forEach(function(select, index) {
-				var option = that.options[select.index];
+			var that = this
+			var parentHTML = $.template("<div></div>")
+			this.selected.forEach(function(select) {
+				var option = that.options[select.index]
 				var childHTML = $.template('<span class="item ' + select.state + '">' + option.html + '</span>')
-				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + '">&#xe5c9;</ion-icon></span>')
-				childCloseHTML.on('click', function(e) {
+				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + '"></ion-icon></span>')
+				childCloseHTML.on("click", function(e) {
 					that.removeOption(e, this)
 				})
 				childHTML.appendChild(childCloseHTML)
 				parentHTML.appendChild(childHTML)
 			})
-			this.html.dropDisplay.innerHTML = '';
+			this.html.dropDisplay.innerHTML = ""
 			this.html.dropDisplay.appendChild(parentHTML)
 		},
 		renderOptions: function() {
-			var that = this;
-			var parentHTML = $.template('<div></div>')
+			var that = this
+			var parentHTML = $.template("<div></div>")
 			this.options.forEach(function(option, index) {
-				var childHTML = $.template(
-					'<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
-				childHTML.on('click', function(e) {
+				var childHTML = $.template('<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
+				childHTML.on("click", function(e) {
 					that.addOption(e, this)
 				})
 				parentHTML.appendChild(childHTML)
 			})
-			this.html.dropOptions.innerHTML = '';
+			this.html.dropOptions.innerHTML = ""
 			this.html.dropOptions.appendChild(parentHTML)
 		},
 		clearStates: function() {
-			var that = this;
-			this.selected.forEach(function(select, index) {
+			var that = this
+			this.selected.forEach(function(select) {
 				select.state = that.changeState(select.state)
 			})
 			this.options.forEach(function(option) {
@@ -156,22 +153,14 @@ var drop = function(info) {
 		},
 		changeState: function(state) {
 			switch (state) {
-				case 'remove':
-					return 'hide'
-				case 'hide':
-					return 'hide'
+				case "remove":
+				case "hide":
+					return "hide"
 				default:
-					return ''
+					return ""
 			}
-		},
-		isSelected: function(index) {
-			var check = false
-			this.selected.forEach(function(select) {
-				if (select.index == index && select.removed == false) check = true
-			})
-			return check
 		}
-	};
-	o.init();
-	return o;
+	}
+	o.init()
+	return o
 }

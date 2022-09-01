@@ -271,6 +271,10 @@ function getDataexportHTML(token) {
 
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
+					let reminders = '';
+					if (json.data.remind.length > 0)
+						reminders = json.data.remind.map(reminder => ' <p class="badge" title="Bis ' + new Date(reminder.date).toLocaleString() + '">' + reminder.text + '</p>').join('');
+
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
@@ -314,9 +318,12 @@ function getDataexportHTML(token) {
 						'</div>'
 					: "") +
 
+					// Remind
+					(reminders != "" ? reminders : "") +
+
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
-					'<br><textarea rows="16" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'<br><textarea rows="16" cols="80" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
 					'</div>' +
 
 					'</div>';

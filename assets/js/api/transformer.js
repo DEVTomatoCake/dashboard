@@ -274,11 +274,8 @@ function getDataexportHTML(token) {
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
-					'<div class="userdatagrid">' +
 					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
-
-					// row 1
-					//'<div class="row container">' +
+					'<div class="userdatagrid">' +
 
 					// User
 					'<div class="userData">' +
@@ -294,9 +291,6 @@ function getDataexportHTML(token) {
 					'<p><b>Embed color:</b> <a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';">ㅤ</a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
 					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>'  +
 					'</div>' +
-
-					// row 2
-					//'</div><div class="row container">' +
 
 					// Economy
 					'<div class="userData">' +
@@ -320,14 +314,12 @@ function getDataexportHTML(token) {
 						'</div>'
 					: "") +
 
-					//'</div><div class="row container">' +
-
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
 					'<br><textarea rows="16" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
-					'</div></div>' //+
+					'</div>' +
 
-					//'</div>';
+					'</div>';
 
 					resolve(text);
 				} else {

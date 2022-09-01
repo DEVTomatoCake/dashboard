@@ -158,7 +158,7 @@
 
 			if (getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen..</h1>';
-				getDataexportHTML(getCookie("token")).then(data => {
+				getDataexportHTML().then(data => {
 					document.getElementById('root-container').innerHTML = data;
 				}).catch(err => {
 					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden...</h1>';

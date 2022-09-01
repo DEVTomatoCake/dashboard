@@ -269,7 +269,7 @@ function getDataexportHTML(token) {
 
 					let cooldowns = '';
 					if (json.data?.economy.cooldowns.length > 0)
-						json.data.economy.cooldowns.forEach(cooldown => cooldowns += '<p title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
+						json.data.economy.cooldowns.forEach(cooldown => cooldowns += '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
 
 					let mentions = '';
 					if (json.data?.userProfiles.afk.mentions.length > 0)
@@ -278,10 +278,10 @@ function getDataexportHTML(token) {
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
 					if (json.data?.remind.length > 0)
-						var reminders = json.data.remind.map(reminder => '<p title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
+						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
 
 					if (json.data?.ticket.length > 0)
-						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join(", ");
+						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '"><p>' + ticket.id + '</p></a>').join(", ");
 
 					let text =
 					'<center>' +

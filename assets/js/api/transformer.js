@@ -248,34 +248,41 @@ function getLeaderboardHTML(guild) {
 	});
 }
 
+const tkbadges = {
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=32' /> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=32' /> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=32' /> Denkääär",
+	translator: "🏴‍☠️ Übersetzer",
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=32' /> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=32' /> Altes Economysystem"
+}
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
 		getDataexport(token)
 			.then(json => {
 				if (json.status === 'success') {
-					let badges = '';
-					if (json.data.userProfiles.badges.length > 0)
-						json.data.userProfiles.badges.toString().split(',').forEach(badge => badges += ' <p class="badge">' + badge + '</p>');
+					if (json.data?.userProfiles.badges.length > 0)
+						var badges = json.data.userProfiles.badges.split(',').map(badge => '<p class="badge">' + tkbadges[badge] + '</p>');
 
 					let items = '';
-					if (json.data.economy.shop.length > 0)
+					if (json.data?.economy.shop.length > 0)
 						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
 
 					let cooldowns = '';
-					if (json.data.economy.cooldowns.length > 0)
+					if (json.data?.economy.cooldowns.length > 0)
 						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
 
 					let mentions = '';
-					if (json.data.userProfiles.afk.mentions.length > 0)
+					if (json.data?.userProfiles.afk.mentions.length > 0)
 						json.data.userProfiles.afk.mentions.forEach(mention => mentions += ' <a class="accent" href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
 
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
-					if (json.data.remind.length > 0)
+					if (json.data?.remind.length > 0)
 						var reminders = json.data.remind.map(reminder => ' <p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join('');
 
-					if (json.data.ticket.length > 0)
-						var tickets = json.data.ticket.map(ticket => ' <a class="accent" href="/transcript?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join('');
+					if (json.data?.ticket.length > 0)
+						var tickets = json.data.ticket.map(ticket => ' <a class="accent" href="/ticket/?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join('');
 
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
@@ -289,7 +296,7 @@ function getDataexportHTML(token) {
 					'<h1>User</h1>' +
 					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>' +
 					'<p><b>Birthday:</b> ' + birthday.day + '.' + birthday.month + '.</p>' +
-					'<p><b>Badges:</b> ' + badges + '</p>' +
+					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
 					'</div>' +
 
 					// Settings

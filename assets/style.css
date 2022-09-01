@@ -528,6 +528,7 @@ input .hidearrows {
 	justify-content: center;
 	align-items: center;
 	padding-left: 1px;
+	line-height: 0;
 }
 
 .switch[data-type="lang"] .slider:before {

@@ -116,9 +116,9 @@ function getLeaderboard(guild) {
 	});
 }
 
-function getDataexport(token) {
+function getDataexport() {
 	return new Promise((resolve, reject) => {
-		get('users/dataexport?token=' + token, false)
+		get('users/dataexport', true)
 			.then(data => resolve(data))
 			.catch(error => reject(error));
 	});

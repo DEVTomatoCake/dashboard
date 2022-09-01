@@ -12,10 +12,6 @@ function setCookie(name, value, days, global) {
 function getCookie(name) {
 	const cookies = document.cookie.split(";");
 
-	// DEBUG cookies
-	// if (name == "token") return "jaja ich bin nicht blöd";
-	// if (name == "user") return "Funty#8818";
-
 	for (let i = 0; i < cookies.length; i++) {
 		let cookie = cookies[i].trim();
 

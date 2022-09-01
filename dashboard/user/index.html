@@ -5,7 +5,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta content="Dashboard für TomatenKuchen - User" name="description"/>
 
-		<title>TomatenKuchen - Dashboard</title>
+		<title>TomatenKuchen - User</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
 		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 
@@ -20,12 +20,10 @@
 		<script src="../../assets/js/script.js"></script>
 		<script src="../../assets/js/language.js"></script>
 
-		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/api.js"></script>
 		<script src="../../assets/js/api/transformer.js"></script>
 
 		<script>
-
 			var i = 0;
 			if (screen.width <= 500) {
 				document.getElementById("sidebar-container").classList.toggle("visible");
@@ -47,9 +45,9 @@
 				document.getElementById("lineBottom1").style.bottom = "5px";
 
 				if (i % 2 == 0) {
-					setTimeout(() => { 
+					setTimeout(() => {
 						document.getElementById("content").style.paddingLeft = "230px";
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 300);
 				} else {
 					document.getElementById("content").style.paddingLeft = "0";
@@ -64,8 +62,8 @@
 					document.getElementById("lineBottom1").style.transform = "rotate(0)";
 					document.getElementById("lineBottom1").style.bottom = "0";
 
-					setTimeout(() => { 
-						document.getElementById("sidebar-container").classList.toggle("visible");		
+					setTimeout(() => {
+						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 100);
 				};
 			};
@@ -77,7 +75,7 @@
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-	  
+
 			<div class="sidebar" id="sidebar">
 				<div class="hamburger" id="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
@@ -146,25 +144,21 @@
 		</section>
 
 		<script>
-
-
 			const username = getCookie("user");
 			if (username) {
 				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
 				document.getElementById("username-header").innerText = username;
-			};
+				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+			} else document.getElementById("username-avatar").style = "display: block;";
 
 			const theme = getCookie("theme");
-			if (theme == "light") {
-				document.body.classList.replace("dark-theme", "light-theme");
-			};
+			if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
 
 			const params = new URLSearchParams(window.location.search);
 
 			if (getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen..</h1>';
 				getDataexportHTML(getCookie("token")).then(data => {
-					// console.log(data);
 					document.getElementById('root-container').innerHTML = data;
 				}).catch(err => {
 					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden...</h1>';

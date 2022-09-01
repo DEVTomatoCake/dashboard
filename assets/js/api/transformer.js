@@ -252,37 +252,32 @@ function getDataexportHTML(token) {
 	return new Promise(resolve => {
 		getDataexport(token)
 			.then(json => {
-				console.log(json);
 				if (json.status === 'success') {
-
-					
 					let badges = '';
 					if (json.data.userProfiles.badges.length > 0) {
-						json.data.userProfiles.badges.toString().split(',').forEach(badge => badges += ' <p class="badge">'+badge+'</p>');
+						json.data.userProfiles.badges.toString().split(',').forEach(badge => badges += ' <p class="badge">' + badge + '</p>');
 					}
 
 					let items = '';
 					if (json.data.economy.shop.length > 0) {
-						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '" >'+item.name+'</p>');
+						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '" >' + item.name + '</p>');
 					}
 
 					let cooldowns = '';
 					if (json.data.economy.cooldowns.length > 0) {
-						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '" >'+cooldown.cmd+'</p>');
+						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '" >' + cooldown.cmd + '</p>');
 					}
-					
+
 					let mentions = '';
 					if (json.data.userProfiles.afk.mentions.length > 0) {
-						json.data.userProfiles.afk.mentions.forEach(mention => mentions += ' <a class="accent" href="' + mention.url + '"><p class="badge" >'+mention.user+'</p></a><br>');
+						json.data.userProfiles.afk.mentions.forEach(mention => mentions += ' <a class="accent" href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
 					}
 
-					let afkSince = !json.data.userProfiles.afk.date ? "" : new Date(json.data.userProfiles.afk.date).toLocaleString()
+					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
-					let birthday = !json.data.birthday ? {day: '?', month: '?'} : json.data.birthday;
-					let birthdayDay = !birthday.day ? '?' : birthday.day;
-					let birthdayMonth = !birthday.month ? '?' : birthday.month;
+					let birthday = json.data.birthday || {day: '?', month: '?'};
 
-					let text = 
+					let text =
 					'<div class="container">'+
 					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>'+
 
@@ -293,7 +288,7 @@ function getDataexportHTML(token) {
 					'<div class="userData">'+
 					'<h1>User</h1>'+
 					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>'+
-					'<p><b>Birthday:</b> ' + birthdayDay + '.' + birthdayMonth + '.' + '</p>'+
+					'<p><b>Birthday:</b> ' + birthday.day + '.' + birthday.month + '.' + '</p>'+
 					'<p><b>Badges:</b> ' + badges + '</p>'+
 					'</div>'+
 
@@ -318,7 +313,7 @@ function getDataexportHTML(token) {
 					'<p><b>School:</b> ' + json.data.economy.school + '</p>'+
 					'<p><b>Items:</b> ' + items + '</p>'+
 					'<p><b>Cooldowns:</b> ' + cooldowns + '</p>'+
-					// '<p><b>Job:</b> ' + json.data.economy.job + '</p>'+
+					//'<p><b>Job:</b> ' + json.data.economy.job + '</p>'+
 					'</div>'+
 
 					// AFK
@@ -334,12 +329,12 @@ function getDataexportHTML(token) {
 					'<div class="row container">'+
 					'<div class="userData">'+
 
-					'<h1> Daten im JSON-Format: </h1>'+
-					'<br> <textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>'+
+					'<h1>Daten im JSON-Format:</h1>'+
+					'<br><textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>'+
 					'</div>'+
 
 					'</div>'+
-					
+
 					'</div>';
 
 					resolve(text);

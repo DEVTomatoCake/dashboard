@@ -278,7 +278,7 @@ input .hidearrows {
 	width: fit-content;
 	margin: 20px;
 }
-.userData img {
+.userData .userbadge img {
 	height: 20px;
 }
 

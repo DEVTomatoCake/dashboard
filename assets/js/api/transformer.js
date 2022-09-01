@@ -262,7 +262,7 @@ function getDataexportHTML(token) {
 			.then(json => {
 				if (json.status === 'success') {
 					if (json.data?.userProfiles.badges.length > 0)
-						var badges = json.data.userProfiles.badges.split(',').map(badge => '<p class="badge">' + tkbadges[badge] + '</p>');
+						var badges = json.data.userProfiles.badges.map(badge => '<p class="badge">' + tkbadges[badge] + '</p>');
 
 					let items = '';
 					if (json.data?.economy.shop.length > 0)

@@ -264,25 +264,24 @@ function getDataexportHTML(token) {
 					if (json.data?.userProfiles.badges.length > 0)
 						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
 
-					let items = '';
 					if (json.data?.economy.shop.length > 0)
-						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
+						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
 
 					let cooldowns = '';
 					if (json.data?.economy.cooldowns.length > 0)
-						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
+						json.data.economy.cooldowns.forEach(cooldown => cooldowns += '<p title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
 
 					let mentions = '';
 					if (json.data?.userProfiles.afk.mentions.length > 0)
-						json.data.userProfiles.afk.mentions.forEach(mention => mentions += ' <a class="accent" href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
+						json.data.userProfiles.afk.mentions.forEach(mention => mentions += '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
 
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
 					if (json.data?.remind.length > 0)
-						var reminders = json.data.remind.map(reminder => ' <p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join('');
+						var reminders = json.data.remind.map(reminder => '<p title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
 
 					if (json.data?.ticket.length > 0)
-						var tickets = json.data.ticket.map(ticket => ' <a class="accent" href="/ticket/?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join('');
+						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join(", ");
 
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
@@ -314,7 +313,7 @@ function getDataexportHTML(token) {
 						'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
 						'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
 						'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
-						'<p><b>Items:</b> ' + items + '</p>' +
+						(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
 						(cooldowns != "" ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
 						//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
 						'</div>'

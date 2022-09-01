@@ -269,9 +269,6 @@ input .hidearrows {
 	color: var(--primary-text-color);
 	display: inline-block;
 }
-.badge img {
-	height: 20px;
-}
 
 .userData {
 	background-color: var(--secondary-color);
@@ -280,6 +277,9 @@ input .hidearrows {
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22);
 	width: fit-content;
 	margin: 20px;
+}
+.userData img {
+	height: 20px;
 }
 
 .userdatagrid {

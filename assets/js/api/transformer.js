@@ -287,7 +287,7 @@ function getDataexportHTML(token) {
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
-					'<center>' +
+					'<div style="text-align: center;">' +
 					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
 					'<div class="userdatagrid">' +
 
@@ -348,14 +348,14 @@ function getDataexportHTML(token) {
 
 					'</div>' +
 
-					'<div style="overflow: auto;">' +
-					'<div class="userData">' +
+					//'<div style="overflow: auto;">' +
+					'<div style="overflow: auto;" class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
 					'<br><textarea rows="15" cols="90" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
-					'</div>' +
+					//'</div>' +
 					'</div>' +
 
-					'</center>';
+					'</div>';
 
 					resolve(text);
 				} else {

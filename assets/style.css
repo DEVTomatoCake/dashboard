@@ -269,6 +269,11 @@ input .hidearrows {
 	color: var(--primary-text-color);
 	display: inline-block;
 }
+.badge img {
+	width: 20px;
+	height: 20px;
+}
+
 .userData {
 	background-color: var(--secondary-color);
 	padding: 20px;

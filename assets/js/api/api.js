@@ -115,3 +115,11 @@ function getLeaderboard(guild) {
 			.catch(error => reject(error));
 	});
 }
+
+function getDataexport() {
+	return new Promise((resolve, reject) => {
+		get('users/dataexport', true)
+			.then(data => resolve(data))
+			.catch(error => reject(error));
+	});
+}

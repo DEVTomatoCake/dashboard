@@ -1275,3 +1275,22 @@ h3, h4, ul li {
 	background: var(--accent-color);
 	color: var(--primary-text-color);
 }
+
+.badge {
+	background-color: var(--accent-color-hover);
+	color: var(--primary-text-color);
+	display: inline-block;
+}
+
+.userData {
+	background-color: var(--secondary-color);
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	width: fit-content;
+	margin: 20px;
+}
+
+.debug {
+	box-shadow: #FFD740 0px 0px 0px 5px;
+}

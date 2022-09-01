@@ -247,3 +247,100 @@ function getLeaderboardHTML(guild) {
 			});
 	});
 }
+
+function getDataexportHTML(token) {
+	return new Promise(resolve => {
+		getDataexport(token)
+			.then(json => {
+				if (json.status === 'success') {
+					let badges = '';
+					if (json.data.userProfiles.badges.length > 0)
+						json.data.userProfiles.badges.toString().split(',').forEach(badge => badges += ' <p class="badge">' + badge + '</p>');
+
+					let items = '';
+					if (json.data.economy.shop.length > 0)
+						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
+
+					let cooldowns = '';
+					if (json.data.economy.cooldowns.length > 0)
+						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
+
+					let mentions = '';
+					if (json.data.userProfiles.afk.mentions.length > 0)
+						json.data.userProfiles.afk.mentions.forEach(mention => mentions += ' <a class="accent" href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
+
+					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
+
+					let birthday = json.data.birthday || {day: '?', month: '?'};
+
+					let text =
+					'<div class="container">' +
+					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
+
+					// row 1
+					'<div class="row container">' +
+
+					// User
+					'<div class="userData">' +
+					'<h1>User</h1>' +
+					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>' +
+					'<p><b>Birthday:</b> ' + birthday.day + '.' + birthday.month + '.</p>' +
+					'<p><b>Badges:</b> ' + badges + '</p>' +
+					'</div>' +
+
+					// Settings
+					'<div class="userData">' +
+					'<h1>Settings</h1>' +
+					'<p><b>Embed color:</b> <a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';">ㅤ</a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Levelbackground von ' + getCookie('user') + '"/></a></p>'  +
+					'</div>' +
+
+					'</div>' +
+
+					// row 2
+					'<div class="row container">' +
+
+					// Economy
+					'<div class="userData">' +
+					'<h1>Economy</h1>' +
+					'<p><b>Wallet:</b> ' + json.data.economy.wallet + '🍅</p>' +
+					'<p><b>Bank:</b> ' + json.data.economy.bank + '🍅</p>' +
+					'<p><b>Skill:</b> ' + json.data.economy.skill + '</p>' +
+					'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
+					'<p><b>Items:</b> ' + items + '</p>' +
+					'<p><b>Cooldowns:</b> ' + cooldowns + '</p>' +
+					//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
+					'</div>' +
+
+					// AFK
+					'<div class="userData">' +
+					'<h1>AFK</h1>' +
+					'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
+					'<p><b>Seit:</b> ' + afkSince + '</p>' +
+					'<p><b>Mentions:</b> ' + mentions + '</p>' +
+					'</div>' +
+
+					'</div>' +
+
+					'<div class="row container"><div class="userData">' +
+					'<h1>Daten im JSON-Format:</h1>' +
+					'<br><textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'</div></div>' +
+
+					'</div>';
+
+					resolve(text);
+				} else {
+					resolve('' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>' + json.message + '</h1>');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				resolve('' +
+					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+			});
+	});
+}

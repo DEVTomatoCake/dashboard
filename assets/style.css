@@ -284,12 +284,12 @@ input .hidearrows {
 	grid-template-areas: ". . .";
 	overflow: auto;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1450px) {
 	.userdatagrid {
 		grid-template-areas: ". .";
 	}
 }
-@media (max-width: 900px) {
+@media (max-width: 1200px) {
 	.userdatagrid {
 		grid-template-areas: ".";
 	}

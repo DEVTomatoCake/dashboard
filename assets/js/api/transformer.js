@@ -272,7 +272,7 @@ function getDataexportHTML(token) {
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
 					if (json.data.remind.length > 0)
-						var reminders = json.data.remind.map(reminder => ' <p class="badge" title="Bis ' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join('');
+						var reminders = json.data.remind.map(reminder => ' <p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join('');
 
 					if (json.data.ticket.length > 0)
 						var tickets = json.data.remind.map(ticket => ' <p class="badge">' + ticket.id + '</p>').join('');
@@ -280,6 +280,7 @@ function getDataexportHTML(token) {
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
+					'<center>' +
 					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
 					'<div class="userdatagrid">' +
 
@@ -299,19 +300,21 @@ function getDataexportHTML(token) {
 					'</div>' +
 
 					// Economy
-					'<div class="userData">' +
-					'<h1>Economy</h1>' +
-					'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
-					'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
-					'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
-					'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
-					'<p><b>Items:</b> ' + items + '</p>' +
-					(cooldowns != "" ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
-					//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
-					'</div>' +
+					(json.data.economy ?
+						'<div class="userData">' +
+						'<h1>Economy</h1>' +
+						'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
+						'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
+						'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
+						'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
+						'<p><b>Items:</b> ' + items + '</p>' +
+						(cooldowns != "" ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
+						//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
+						'</div>'
+					: "") +
 
 					// AFK
-					(json.data.userProfiles.afk.text != "" ?
+					(json.data.userProfiles.afk?.text != "" ?
 						'<div class="userData">' +
 						'<h1>AFK</h1>' +
 						'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
@@ -340,10 +343,10 @@ function getDataexportHTML(token) {
 
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
-					'<br><textarea rows="16" cols="80" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
-					'</div>' //+
+					'<br><textarea rows="15" cols="90" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'</div>' +
 
-					//'</div>';
+					'</center>';
 
 					resolve(text);
 				} else {

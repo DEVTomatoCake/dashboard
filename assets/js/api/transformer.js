@@ -274,7 +274,7 @@ function getDataexportHTML(token) {
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
-					'<div class="container">' +
+					'<div class="userdatagrid">' +
 					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
 
 					// row 1

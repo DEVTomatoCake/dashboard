@@ -33,7 +33,7 @@ function getCommandsHTML() {
 					resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -57,7 +57,7 @@ function getStatsHTML(guild, filter) {
 					});
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -95,7 +95,7 @@ function getGuildsHTML() {
 					else resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -164,7 +164,7 @@ function getSettingsHTML(guild, json) {
 		return '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text;
 	} else {
 		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -184,7 +184,7 @@ function getCustomcommandsHTML(guild, json) {
 		return '<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -220,7 +220,7 @@ function getReactionrolesHTML(guild, json) {
 		return '<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -235,7 +235,7 @@ function getLeaderboardHTML(guild) {
 					resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -265,7 +265,7 @@ function getDataexportHTML(token) {
 						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
 
 					if (json.data?.economy.shop.length > 0)
-						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
+						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>').join(", ");
 
 					let cooldowns = '';
 					if (json.data?.economy.cooldowns.length > 0)
@@ -273,7 +273,7 @@ function getDataexportHTML(token) {
 
 					let mentions = '';
 					if (json.data?.userProfiles.afk.mentions.length > 0)
-						json.data.userProfiles.afk.mentions.forEach(mention => mentions += '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
+						json.data.userProfiles.afk.mentions.forEach(mention => mentions += '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>').join(", ");
 
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
@@ -282,8 +282,6 @@ function getDataexportHTML(token) {
 
 					if (json.data?.ticket.length > 0)
 						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join(", ");
-
-					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
 					'<center>' +
@@ -294,7 +292,7 @@ function getDataexportHTML(token) {
 					'<div class="userData">' +
 					'<h1>User</h1>' +
 					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>' +
-					'<p><b>Birthday:</b> ' + birthday.day + '.' + birthday.month + '.</p>' +
+					(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
 					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
 					'</div>' +
 
@@ -359,7 +357,7 @@ function getDataexportHTML(token) {
 					resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})

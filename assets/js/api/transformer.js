@@ -319,14 +319,21 @@ function getDataexportHTML(token) {
 					: "") +
 
 					// Remind
-					(reminders != "" ? reminders : "") +
+					(reminders != "" ?
+						'<div class="userData">' +
+						'<h1>Remind</h1>' +
+						reminders +
+						'</div>'
+					: "") +
+
+					'</div>' +
 
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
 					'<br><textarea rows="16" cols="80" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
-					'</div>' +
+					'</div>' //+
 
-					'</div>';
+					//'</div>';
 
 					resolve(text);
 				} else {

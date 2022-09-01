@@ -260,12 +260,12 @@ function getDataexportHTML(token) {
 
 					let items = '';
 					if (json.data.economy.shop.length > 0) {
-						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '" >' + item.name + '</p>');
+						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
 					}
 
 					let cooldowns = '';
 					if (json.data.economy.cooldowns.length > 0) {
-						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '" >' + cooldown.cmd + '</p>');
+						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
 					}
 
 					let mentions = '';
@@ -293,47 +293,43 @@ function getDataexportHTML(token) {
 					'</div>'+
 
 					// Settings
-					'<div class="userData">'+
-					'<h1>Settings</h1>'+
-					'<p><b>Embed color:</b> <a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';">ㅤ</a> ' + json.data.userProfiles.settings.embedcolor + '</p>'+
-					'<p><b>Level background:</b><br> <a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Level background von ' + getCookie('user') + '"/></a></p>'+
-					'</div>'+
+					'<div class="userData">' +
+					'<h1>Settings</h1>' +
+					'<p><b>Embed color:</b> <a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';">ㅤ</a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Levelbackground von ' + getCookie('user') + '"/></a></p>'  +
+					'</div>' +
 
-					'</div>'+
+					'</div>' +
 
 					// row 2
-					'<div class="row container">'+
+					'<div class="row container">' +
 
 					// Economy
-					'<div class="userData">'+
-					'<h1>Economy</h1>'+
-					'<p><b>Wallet:</b> ' + json.data.economy.wallet + '🍅</p>'+
-					'<p><b>Bank:</b> ' + json.data.economy.bank + '🍅</p>'+
-					'<p><b>Skill:</b> ' + json.data.economy.skill + '</p>'+
-					'<p><b>School:</b> ' + json.data.economy.school + '</p>'+
-					'<p><b>Items:</b> ' + items + '</p>'+
-					'<p><b>Cooldowns:</b> ' + cooldowns + '</p>'+
-					//'<p><b>Job:</b> ' + json.data.economy.job + '</p>'+
-					'</div>'+
+					'<div class="userData">' +
+					'<h1>Economy</h1>' +
+					'<p><b>Wallet:</b> ' + json.data.economy.wallet + '🍅</p>' +
+					'<p><b>Bank:</b> ' + json.data.economy.bank + '🍅</p>' +
+					'<p><b>Skill:</b> ' + json.data.economy.skill + '</p>' +
+					'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
+					'<p><b>Items:</b> ' + items + '</p>' +
+					'<p><b>Cooldowns:</b> ' + cooldowns + '</p>' +
+					//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
+					'</div>' +
 
 					// AFK
-					'<div class="userData">'+
-					'<h1>AFK</h1>'+
-					'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>'+
-					'<p><b>Seit:</b> ' + afkSince + '</p>'+
-					'<p><b>Mentions:</b> ' + mentions + '</p>'+
-					'</div>'+
+					'<div class="userData">' +
+					'<h1>AFK</h1>' +
+					'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
+					'<p><b>Seit:</b> ' + afkSince + '</p>' +
+					'<p><b>Mentions:</b> ' + mentions + '</p>' +
+					'</div>' +
 
-					'</div>'+
+					'</div>' +
 
-					'<div class="row container">'+
-					'<div class="userData">'+
-
-					'<h1>Daten im JSON-Format:</h1>'+
-					'<br><textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>'+
-					'</div>'+
-
-					'</div>'+
+					'<div class="row container"><div class="userData">' +
+					'<h1>Daten im JSON-Format:</h1>' +
+					'<br><textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'</div></div>' +
 
 					'</div>';
 

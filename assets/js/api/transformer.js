@@ -275,7 +275,7 @@ function getDataexportHTML(token) {
 						var reminders = json.data.remind.map(reminder => ' <p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join('');
 
 					if (json.data.ticket.length > 0)
-						var tickets = json.data.remind.map(ticket => ' <p class="badge">' + ticket.id + '</p>').join('');
+						var tickets = json.data.ticket.map(ticket => ' <a class="accent" href="/transcript?id=' + ticket.id + '"><p class="badge">' + ticket.id + '</p></a>').join('');
 
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
@@ -341,9 +341,11 @@ function getDataexportHTML(token) {
 
 					'</div>' +
 
+					'<div style="overflow: auto;">'
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
 					'<br><textarea rows="15" cols="90" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'</div>' +
 					'</div>' +
 
 					'</center>';

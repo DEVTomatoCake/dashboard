@@ -254,43 +254,39 @@ function getDataexportHTML(token) {
 			.then(json => {
 				if (json.status === 'success') {
 					let badges = '';
-					if (json.data.userProfiles.badges.length > 0) {
+					if (json.data.userProfiles.badges.length > 0)
 						json.data.userProfiles.badges.toString().split(',').forEach(badge => badges += ' <p class="badge">' + badge + '</p>');
-					}
 
 					let items = '';
-					if (json.data.economy.shop.length > 0) {
+					if (json.data.economy.shop.length > 0)
 						json.data.economy.shop.forEach(item => items += ' <p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>');
-					}
 
 					let cooldowns = '';
-					if (json.data.economy.cooldowns.length > 0) {
+					if (json.data.economy.cooldowns.length > 0)
 						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
-					}
 
 					let mentions = '';
-					if (json.data.userProfiles.afk.mentions.length > 0) {
+					if (json.data.userProfiles.afk.mentions.length > 0)
 						json.data.userProfiles.afk.mentions.forEach(mention => mentions += ' <a class="accent" href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>');
-					}
 
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
 					let birthday = json.data.birthday || {day: '?', month: '?'};
 
 					let text =
-					'<div class="container">'+
-					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>'+
+					'<div class="container">' +
+					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
 
 					// row 1
-					'<div class="row container">'+
+					'<div class="row container">' +
 
 					// User
-					'<div class="userData">'+
-					'<h1>User</h1>'+
-					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>'+
-					'<p><b>Birthday:</b> ' + birthday.day + '.' + birthday.month + '.' + '</p>'+
-					'<p><b>Badges:</b> ' + badges + '</p>'+
-					'</div>'+
+					'<div class="userData">' +
+					'<h1>User</h1>' +
+					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>' +
+					'<p><b>Birthday:</b> ' + birthday.day + '.' + birthday.month + '.</p>' +
+					'<p><b>Badges:</b> ' + badges + '</p>' +
+					'</div>' +
 
 					// Settings
 					'<div class="userData">' +

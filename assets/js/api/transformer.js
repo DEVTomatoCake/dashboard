@@ -274,7 +274,7 @@ function getDataexportHTML(token) {
 					if (json.data.remind.length > 0)
 						var reminders = json.data.remind.map(reminder => ' <p class="badge" title="Bis ' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join('');
 
-					if (json.data.tickets.length > 0)
+					if (json.data.ticket.length > 0)
 						var tickets = json.data.remind.map(ticket => ' <p class="badge">' + ticket.id + '</p>').join('');
 
 					let birthday = json.data.birthday || {day: '?', month: '?'};

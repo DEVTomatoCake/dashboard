@@ -263,7 +263,7 @@ function getDataexportHTML(token) {
 
 					let cooldowns = '';
 					if (json.data.economy.cooldowns.length > 0)
-						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title=" bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
+						json.data.economy.cooldowns.forEach(cooldown => cooldowns += ' <p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>');
 
 					let mentions = '';
 					if (json.data.userProfiles.afk.mentions.length > 0)
@@ -278,7 +278,7 @@ function getDataexportHTML(token) {
 					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
 
 					// row 1
-					'<div class="row container">' +
+					//'<div class="row container">' +
 
 					// User
 					'<div class="userData">' +
@@ -296,7 +296,7 @@ function getDataexportHTML(token) {
 					'</div>' +
 
 					// row 2
-					'</div><div class="row container">' +
+					//'</div><div class="row container">' +
 
 					// Economy
 					'<div class="userData">' +
@@ -306,7 +306,7 @@ function getDataexportHTML(token) {
 					'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
 					'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
 					'<p><b>Items:</b> ' + items + '</p>' +
-					'<p><b>Cooldowns:</b> ' + cooldowns + '</p>' +
+					(cooldowns != "" ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
 					//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
 					'</div>' +
 
@@ -320,14 +320,14 @@ function getDataexportHTML(token) {
 						'</div>'
 					: "") +
 
-					'</div><div class="row container">' +
+					//'</div><div class="row container">' +
 
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
 					'<br><textarea rows="16" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
-					'</div></div>' +
+					'</div></div>' //+
 
-					'</div>';
+					//'</div>';
 
 					resolve(text);
 				} else {

@@ -292,20 +292,18 @@ function getDataexportHTML(token) {
 					'<div class="userData">' +
 					'<h1>Settings</h1>' +
 					'<p><b>Embed color:</b> <a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';">ㅤ</a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
-					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Levelbackground von ' + getCookie('user') + '"/></a></p>'  +
-					'</div>' +
-
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>'  +
 					'</div>' +
 
 					// row 2
-					'<div class="row container">' +
+					'</div><div class="row container">' +
 
 					// Economy
 					'<div class="userData">' +
 					'<h1>Economy</h1>' +
-					'<p><b>Wallet:</b> ' + json.data.economy.wallet + '🍅</p>' +
-					'<p><b>Bank:</b> ' + json.data.economy.bank + '🍅</p>' +
-					'<p><b>Skill:</b> ' + json.data.economy.skill + '</p>' +
+					'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
+					'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
+					'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
 					'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
 					'<p><b>Items:</b> ' + items + '</p>' +
 					'<p><b>Cooldowns:</b> ' + cooldowns + '</p>' +
@@ -313,18 +311,20 @@ function getDataexportHTML(token) {
 					'</div>' +
 
 					// AFK
+					(json.data.userProfiles.afk.text != "" ?
+						'<div class="userData">' +
+						'<h1>AFK</h1>' +
+						'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
+						'<p><b>Seit:</b> ' + afkSince + '</p>' +
+						(mentions != "" ? '<p><b>Mentions:</b> ' + mentions + '</p>' : "") +
+						'</div>'
+					: "") +
+
+					'</div><div class="row container">' +
+
 					'<div class="userData">' +
-					'<h1>AFK</h1>' +
-					'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
-					'<p><b>Seit:</b> ' + afkSince + '</p>' +
-					'<p><b>Mentions:</b> ' + mentions + '</p>' +
-					'</div>' +
-
-					'</div>' +
-
-					'<div class="row container"><div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
-					'<br><textarea rows="20" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'<br><textarea rows="16" cols="100" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
 					'</div></div>' +
 
 					'</div>';

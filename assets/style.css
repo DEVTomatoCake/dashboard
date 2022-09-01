@@ -278,9 +278,6 @@ input .hidearrows {
 	width: fit-content;
 	margin: 20px;
 }
-.userData .userbadge img {
-	height: 20px;
-}
 
 .userdatagrid {
 	width: auto;

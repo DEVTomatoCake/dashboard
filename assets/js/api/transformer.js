@@ -249,12 +249,12 @@ function getLeaderboardHTML(guild) {
 }
 
 const tkbadges = {
-	developer: "<img class='userbadge' src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=32' /> Entwickler",
-	team: "<img class='userbadge' src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=32' /> Team",
-	contributor: "<img class='userbadge' src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=32' /> Denkääär",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=20' /> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=20' /> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=20' /> Denkääär",
 	translator: "🏴‍☠️ Übersetzer",
-	kek: "<img class='userbadge' src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=32' /> Kek",
-	oldeconomy: "<img class='userbadge' src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=32' /> Altes Economysystem"
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=20' /> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=20' /> Altes Economysystem"
 }
 function getDataexportHTML(token) {
 	return new Promise(resolve => {

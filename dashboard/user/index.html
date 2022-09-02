@@ -159,7 +159,7 @@
 			if (getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen..</h1>';
 				getDataexportHTML().then(data => {
-					document.getElementById('content').innerHTML = data;
+					document.getElementById('content').innerHTML = data + '<p id="author">Websiten-Design erstellt von <a href="https://bookie0.repl.co/">Bookie0</a>,<br> Dashboard von <a href="https://booky.dev/">booky10</a>, TomatoCake und <a href="https://github.com/FuntyGithub">Funty</a></p>';
 				}).catch(err => {
 					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden...</h1>';
 					console.log(err);

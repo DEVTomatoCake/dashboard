@@ -249,12 +249,12 @@ function getLeaderboardHTML(guild) {
 }
 
 const tkbadges = {
-	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=25' loading='lazy' /> Entwickler",
-	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=25' loading='lazy' /> Team",
-	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=25' loading='lazy' /> Denkääär",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' loading='lazy' /> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' loading='lazy' /> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' loading='lazy' /> Denkääär",
 	translator: "🏴‍☠️ Übersetzer",
-	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=25' loading='lazy' /> Kek",
-	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=25' loading='lazy' /> Altes Economysystem"
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' loading='lazy' /> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' loading='lazy' /> Altes Economysystem"
 }
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
@@ -296,11 +296,12 @@ function getDataexportHTML(token) {
 					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
 					'</div>' +
 
-					// Settings
+					// Usersettings
 					'<div class="userData">' +
 					'<h1>Settings</h1>' +
-					'<p><b>Embed color:</b> <a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';">ㅤ</a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
-					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>'  +
+					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';"></a>' + json.data.userProfiles.settings.embedcolor + '</p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
+					'<p><b>Save avatar and attachments in tickets:</b>' + json.data.userProfiles.settings.saveTicketAttachments + '</p>' +
 					'</div>' +
 
 					// Economy
@@ -327,6 +328,14 @@ function getDataexportHTML(token) {
 						'</div>'
 					: "") +
 
+					// Remind
+					(reminders ?
+						'<div class="userData">' +
+						'<h1>Reminders</h1>' +
+						reminders +
+						'</div>'
+					: "") +
+
 					// Tickets
 					(tickets ?
 						'<div class="userData">' +
@@ -335,19 +344,11 @@ function getDataexportHTML(token) {
 						'</div>'
 					: "") +
 
-					// Suggestions
+					// Suggest
 					(suggests ?
 						'<div class="userData">' +
 						'<h1>Suggestions</h1>' +
 						suggests +
-						'</div>'
-					: "") +
-
-					// Remind
-					(reminders ?
-						'<div class="userData">' +
-						'<h1>Remind</h1>' +
-						reminders +
 						'</div>'
 					: "") +
 

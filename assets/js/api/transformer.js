@@ -249,12 +249,12 @@ function getLeaderboardHTML(guild) {
 }
 
 const tkbadges = {
-	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=20' /> Entwickler",
-	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=20' /> Team",
-	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=20' /> Denkääär",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=25' loading='lazy' /> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=25' loading='lazy' /> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=25' loading='lazy' /> Denkääär",
 	translator: "🏴‍☠️ Übersetzer",
-	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=20' /> Kek",
-	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=20' /> Altes Economysystem"
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=25' loading='lazy' /> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=25' loading='lazy' /> Altes Economysystem"
 }
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
@@ -265,23 +265,23 @@ function getDataexportHTML(token) {
 						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
 
 					if (json.data?.economy.shop.length > 0)
-						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Gekauft am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>').join(", ");
+						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>').join(", ");
 
-					let cooldowns = '';
 					if (json.data?.economy.cooldowns.length > 0)
-						json.data.economy.cooldowns.forEach(cooldown => cooldowns += '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
+						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
 
-					let mentions = '';
 					if (json.data?.userProfiles.afk.mentions.length > 0)
-						json.data.userProfiles.afk.mentions.forEach(mention => mentions += '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>').join(", ");
-
+						var mentions = json.data.userProfiles.afk.mentions.map(mention => '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>').join(", ");
 					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
 
 					if (json.data?.remind.length > 0)
 						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
 
 					if (json.data?.ticket.length > 0)
-						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '"><p>' + ticket.id + '</p></a>').join(", ");
+						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a>').join(", ");
+
+					if (json.data?.suggest.length > 0)
+						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + suggest.text + '">#' + suggest.id + '</p>').join(", ");
 
 					let text =
 					'<center>' +
@@ -312,7 +312,7 @@ function getDataexportHTML(token) {
 						'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
 						'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
 						(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
-						(cooldowns != "" ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
+						(cooldowns ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
 						//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
 						'</div>'
 					: "") +
@@ -323,7 +323,7 @@ function getDataexportHTML(token) {
 						'<h1>AFK</h1>' +
 						'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
 						'<p><b>Seit:</b> ' + afkSince + '</p>' +
-						(mentions != "" ? '<p><b>Mentions:</b> ' + mentions + '</p>' : "") +
+						(mentions ? '<p><b>Mentions:</b> ' + mentions + '</p>' : "") +
 						'</div>'
 					: "") +
 
@@ -332,6 +332,14 @@ function getDataexportHTML(token) {
 						'<div class="userData">' +
 						'<h1>Tickets</h1>' +
 						tickets +
+						'</div>'
+					: "") +
+
+					// Suggestions
+					(suggests ?
+						'<div class="userData">' +
+						'<h1>Suggestions</h1>' +
+						suggests +
 						'</div>'
 					: "") +
 

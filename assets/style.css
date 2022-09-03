@@ -284,6 +284,7 @@ input .hidearrows {
 	display: grid;
 	grid-template-areas: ". . .";
 	overflow: auto;
+	color: var(--primary-text-color);
 }
 @media (max-width: 1450px) {
 	.userdatagrid {

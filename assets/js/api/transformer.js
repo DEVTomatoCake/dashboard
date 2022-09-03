@@ -332,7 +332,7 @@ function getDataexportHTML(token) {
 					(reminders ?
 						'<div class="userData">' +
 						'<h1>Reminders</h1>' +
-						'<p>' + reminders + '</p>' +
+						reminders +
 						'</div>'
 					: "") +
 

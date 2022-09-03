@@ -265,7 +265,7 @@ input .hidearrows {
 }
 
 .badge {
-	background-color: var(--accent-color-hover);
+	background-color: var(--select-hover);
 	color: var(--primary-text-color);
 	display: inline-block;
 }

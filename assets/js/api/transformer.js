@@ -300,7 +300,7 @@ function getDataexportHTML(token) {
 					'<div class="userData">' +
 					'<h1>Settings</h1>' +
 					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';"></a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
-					'<p><b>Level background:</b><br><a href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
 					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles.settings.saveTicketAttachments + '</p>' +
 					'</div>' +
 
@@ -332,7 +332,7 @@ function getDataexportHTML(token) {
 					(reminders ?
 						'<div class="userData">' +
 						'<h1>Reminders</h1>' +
-						reminders +
+						'<p>' + reminders + '</p>' +
 						'</div>'
 					: "") +
 

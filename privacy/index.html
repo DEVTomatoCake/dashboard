@@ -13,8 +13,6 @@
 
 		<script src="../assets/js/script.js"></script>
 		<script src="../assets/js/language.js"></script>
-		<script src="../assets/js/api/api.js"></script>
-		<script src="../assets/js/api/transformer.js"></script>
 
 		<script>
 			var i = 0;
@@ -140,14 +138,19 @@
 					<h3>Welche Daten werden gespeichert und wofür werden diese benötigt?</h3>
 					<ul>
 						<li>Nutzer-IDs: Blacklist, Reminder, Economy, Todo, AFK, Geburtstag, Nutzereinstellungen, Modlogs, Rejoin-Rollen, Badges, Level, Antispam</li>
-						<li>Nutzer-Avatar: Ticketsystem</li>
+						<li>Nutzer-Avatar: Ticketsystem¹</li>
 						<li>Server-IDs: Statistiken, Servereinstellungen, Modlogs, Level, Customcommands</li>
 						<li>Kanal-IDs: Servereinstellungen, Minecraft-Serverstatus, Ticketsystem</li>
 						<li>Rollen-IDs: Reactionroles, Autorole, Rejoin-Rollen</li>
-						<li>Nachrichten-IDs: Reactionroles, Antispam, Minecraft-Serverstatus, Starboard, Vorschläge, Giveaway</li>
+						<li>Nachrichten-IDs: Reactionroles, Minecraft-Serverstatus, Starboard, Vorschläge, Giveaway</li>
 						<li>Nachrichten-Inhalt: Antispam</li>
+						<li>Anhänge: Ticketsystem¹</li>
 						<li>Genutzte Befehle: Bot-Statistiken, ggf. Fehlerbehebung</li>
 					</ul><br>
+					<h4>
+						¹Da Anhänge und Nutzer-Avatare automatisch von Discord nach einer gewissen Zeit gelöscht werden, jedoch in Ticket-Transcripten für den Kontext wichtig sein können, werden diese in einem Kanal auf dem TomatenKuchen-Discord gespeichert.
+						Wenn du dies nicht möchtest, kannst du die Funktion in den Nutzereinstellungen deaktivieren.
+					</h4><br>
 					<h3>Daten anfordern</h3>
 					<p>Mit dem Befehl <code>/misc dataexport</code> kannst du deine Daten direkt exportieren und ansehen.</p><br>
 					<h3>Wer hat Zugriff auf die Daten?</h3>

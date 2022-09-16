@@ -94,7 +94,7 @@ var drop = function(info) {
 				if (option.dataset.type == "text") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013330953038475355.png" width="25" height="25" />'
 				else if (option.dataset.type == "voice") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013333740187033671.png" width="25" height="25" />'
 				else if (option.dataset.type == "category") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013339254593687592.png" width="25" height="25" />'
-				else if (option.dataset.type == "role") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013338522830250014.png" width="25" height="25" />'
+				else if (option.dataset.type == "role") prefix = '<img style="vertical-align: middle; padding-right: 2px;" src="https://cdn.discordapp.com/emojis/1013338522830250014.png" width="25" height="25" />'
 				//else if (option.dataset.type == "role" && option.dataset.color) prefix = "<span style='color: " + option.dataset.color + ";'>"
 
 				this.options[i] = {

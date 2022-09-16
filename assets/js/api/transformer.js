@@ -118,20 +118,19 @@ function getSettingsHTML(json) {
 
 		json.data.forEach(setting => {
 			let temp = "";
-			let value = setting.value?.replace(/</g, "&#60;").replace(/>/g, "&#62;");
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp += '' +
 					'<p>' + setting.help + '</p>' +
-					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + value + '">';
+					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 				else temp += '' +
 					'<p>' + setting.help + '</p>' +
-					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + value + '">';
+					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
 
 				if (setting.value?.includes("<") || setting.value?.includes(">")) {
 					setTimeout(() => {
 						document.getElementById(setting.key).value = setting.value;
-					}, 3000)
-				}
+					}, 2000);
+				};
 			} else {
 				var possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
@@ -142,7 +141,7 @@ function getSettingsHTML(json) {
 					var i = 0;
 					Object.keys(possible).forEach(key => {
 						if (key == "") return;
-						value.split(",").forEach(data => {
+						setting.value.split(",").forEach(data => {
 							if (data == key.replace('_', '')) selected.push(i);
 						});
 						i++;

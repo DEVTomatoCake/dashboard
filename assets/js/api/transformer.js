@@ -108,7 +108,7 @@ function getGuildsHTML() {
 	});
 }
 
-function getSettingsHTML(guild, json) {
+function getSettingsHTML(json) {
 	if (json.status == 'success') {
 		let text = '';
 		var categories = [];
@@ -118,24 +118,25 @@ function getSettingsHTML(guild, json) {
 
 		json.data.forEach(setting => {
 			let temp = "";
+			let value = setting.value?.replace(/</g, "&#60;").replace(/>/g, "&#62;");
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp += '' +
 					'<p>' + setting.help + '</p>' +
-					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + value + '">';
 				else temp += '' +
 					'<p>' + setting.help + '</p>' +
-					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + setting.value + '">';
+					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + value + '">';
 			} else {
 				var possible = setting.possible;
-				if (typeof possible == "string") possible = json.constant[possible]
+				if (typeof possible == "string") possible = json.constant[possible];
 
 				if (multiselect.includes(setting.key)) {
 					temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					var selected = [];
 					var i = 0;
 					Object.keys(possible).forEach(key => {
-						if (key == "") return
-						setting.value.split(",").forEach(data => {
+						if (key == "") return;
+						value.split(",").forEach(data => {
 							if (data == key.replace('_', '')) selected.push(i);
 						});
 						i++;
@@ -147,7 +148,7 @@ function getSettingsHTML(guild, json) {
 				} else {
 					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
-				}
+				};
 				temp += '</select>';
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
@@ -169,7 +170,7 @@ function getSettingsHTML(guild, json) {
 	};
 }
 
-function getCustomcommandsHTML(guild, json) {
+function getCustomcommandsHTML(json) {
 	if (json.status == 'success') {
 		let text = '';
 
@@ -189,7 +190,7 @@ function getCustomcommandsHTML(guild, json) {
 	};
 }
 
-function getReactionrolesHTML(guild, json) {
+function getReactionrolesHTML(json) {
 	if (json.status == 'success') {
 		let text = '';
 

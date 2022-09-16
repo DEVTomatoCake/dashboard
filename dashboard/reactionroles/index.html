@@ -127,7 +127,7 @@
 								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +
 								"</div>";
 
-							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(guild, json) + "</div>";
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>";
 				  		} else if (json.action == "SAVED_reactionroles") {
 							savingToast.setType("SUCCESS").setTitle("Reactionroles wurden gespeichert!");
 							saving = false;

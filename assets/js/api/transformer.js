@@ -119,6 +119,7 @@ function getSettingsHTML(json) {
 		json.data.forEach(setting => {
 			let temp = "";
 			let value = setting.value?.replace(/</g, "&#60;").replace(/>/g, "&#62;");
+			if (setting.key == "prefix") console.log(value)
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp += '' +
 					'<p>' + setting.help + '</p>' +

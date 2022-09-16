@@ -145,7 +145,8 @@ function getSettingsHTML(json) {
 							if (data == key.replace('_', '')) selected.push(i);
 						});
 						i++;
-						if (key != "") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
+						if (typeof setting.possible != "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
+						else temp += '<option value="' + key.replace('_', '') + '" data-type="' + setting.possible[key].type + '" ' + (setting.possible[key].color ? ' data-color="' + setting.possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + setting.possible[key].name + '</option>';
 					});
 					setTimeout(() => {
 						drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});

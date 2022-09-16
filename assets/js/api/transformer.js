@@ -127,6 +127,12 @@ function getSettingsHTML(json) {
 				else temp += '' +
 					'<p>' + setting.help + '</p>' +
 					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + value + '">';
+
+				if (setting.value.includes("<") || setting.value.includes(">")) {
+					setTimeout(() => {
+						document.getElementById(setting.key).value = setting.value;
+					}, 3000)
+				}
 			} else {
 				var possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];

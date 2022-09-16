@@ -119,7 +119,6 @@ function getSettingsHTML(json) {
 		json.data.forEach(setting => {
 			let temp = "";
 			let value = setting.value?.replace(/</g, "&#60;").replace(/>/g, "&#62;");
-			if (setting.key == "prefix") console.log(value)
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp += '' +
 					'<p>' + setting.help + '</p>' +
@@ -128,7 +127,7 @@ function getSettingsHTML(json) {
 					'<p>' + setting.help + '</p>' +
 					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + value + '">';
 
-				if (setting.value.includes("<") || setting.value.includes(">")) {
+				if (setting.value?.includes("<") || setting.value?.includes(">")) {
 					setTimeout(() => {
 						document.getElementById(setting.key).value = setting.value;
 					}, 3000)

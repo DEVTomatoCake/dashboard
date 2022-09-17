@@ -729,6 +729,7 @@ input .hidearrows {
 	position: absolute;
 	width: 100%;
 	overflow: auto;
+	border-radius: 5px;
 	box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.4);
 }
 
@@ -744,7 +745,7 @@ input .hidearrows {
 	background: var(--primary-color);
 }
 .accdropdown-content a:hover {
-	background-color: var(--button-accent-color);
+	background-color: var(--select-hover);
 }
 
 .main .content {

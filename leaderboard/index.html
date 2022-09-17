@@ -2,8 +2,9 @@
 <html lang="de">
 	<head>
   		<meta charset="utf-8">
-  		<meta content="width=device-width, initial-scale=1.0" name="viewport">
-  		<meta content="TomatenKuchen - Leaderboard" name="description"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="TomatenKuchen online leaderboard"/>
+		<meta name="theme-color" content="#ed8721">
 
   		<title>TomatenKuchen - Leaderboard</title>
   		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -146,7 +147,7 @@
 		  	const params = new URLSearchParams(location.search);
 
 		  	if (params.has('guild')) getLeaderboardHTML(params.get('guild')).then(html => rootContainer.innerHTML = html);
-		  	else rootContainer.innerHTML = '<h1 class="greeting">Bitte gib den Server mit an!</h1>';
+		  	else rootContainer.innerHTML = '<h1 class="greeting" translation="leaderboard.missingguild"></h1>';
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

@@ -192,25 +192,25 @@
 		<section class="main" id="main">
 			<div class="form-popup" id="reactionrolesForm">
 				<form class="form-container" id="rrForm">
-					<h1>Reactionrole erstellen</h1>
+					<h1 translation="dashboard.rr.create"></h1>
 
-					<label for="reactionroles-type"><b>Typ</b></label><br>
+					<label for="reactionroles-type"><b translation="dashboard.type">Typ</b></label><br>
 					<select name="reactionroles-type" id="reactionroles-type"></select><br><br>
 
-					<label for="reactionroles-reaction"><b>Reaktion</b></label>
+					<label for="reactionroles-reaction"><b translation="dashboard.reaction"></b></label>
 					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
 
-					<label for="reactionroles-channel"><b>Kanal</b></label><br>
+					<label for="reactionroles-channel"><b translation="dashboard.channel"></b></label><br>
 					<select name="reactionroles-channel" id="reactionroles-channel"></select><br><br>
 
 					<label for="reactionroles-msg"><b>Nachrichten-ID</b></label><br>
 					<input type="number" min="10000000000000000" max="9999999999999999999" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required><br><br>
 
-					<label for="reactionroles-role"><b>Rolle</b></label><br>
+					<label for="reactionroles-role"><b translation="dashboard.role"></b></label><br>
 					<select name="reactionroles-role" id="reactionroles-role"></select><br><br>
 
-					<button type="submit" class="btn">Reactionrole erstellen</button>
-					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
+					<button type="submit" class="btn" translation="dashboard.rr.create"></button>
+					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
 				</form>
 			</div>
 

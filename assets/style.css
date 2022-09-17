@@ -710,11 +710,6 @@ input .hidearrows {
 	transition: var(--transition-buttons);
 }
 
-.main .top .account:hover {
-	background: var(--primary-color-hover);
-	transform: scale(1.05);
-}
-
 .main .top .account ion-icon {
 	font-size: 35px;
 }
@@ -723,6 +718,16 @@ input .hidearrows {
 	border-radius: 50%;
 }
 
+.accdropdown-content {
+	display: none;
+}
+.main .top .account:hover + .accdropdown-content, .accdropdown-content:hover {
+	display: block;
+}
+.accdropdown-content ul {
+	list-style-type: none;
+	margin-right: 30px;
+}
 
 .main .content {
 	margin-top: 40px;

@@ -131,16 +131,19 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account" onclick="redirect('/login')">
-					<p id="username-header" translation="global.login"></p>
-					<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+				<div class="accdropdown">
+					<div class="account" onclick="redirect('/login')">
+						<p id="username-header" translation="global.login"></p>
+						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="accdropdown-content">
+						
+							<a href="/logout">Abmelden</a>
+							<a href="/dashboard/user">Eigene Daten ansehen</a>
+						
+					</div>
 				</div>
-				<div class="accdropdown-content">
-					<ul>
-						<li><a href="/logout">Abmelden</a></li>
-						<li><a href="/dashboard/user">Eigene Daten ansehen</a></li>
-					</ul>
-				</div>
+
 			</div>
 
 			<div class="content" id="content">

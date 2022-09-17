@@ -132,13 +132,12 @@
 				</div>
 
 				<div class="accdropdown">
-					<div class="account" onclick="redirect('/login')">
-						<p id="username-header" translation="global.login"></p>
+					<div class="account">
+						<p id="username-header">Account</p>
 						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
-							<a href="/logout">Abmelden</a>
-							<a href="/dashboard/user">Eigene Daten ansehen</a>
+						<a href="/login" translation="global.login"></a>
 					</div>
 				</div>
 			</div>
@@ -247,7 +246,7 @@
 			const username = getCookie("user");
 			if (username) {
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
-				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
+				document.getElementsByClassName("accdropdown-content").innerHTML = '<a href="/logout">Abmelden</a><a href="/dashboard/user" style="display: none;">Eigene Daten ansehen</a>';
 				document.getElementById("username-header").innerText = username;
 				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
 			} else document.getElementById("username-avatar").style = "display: block;";

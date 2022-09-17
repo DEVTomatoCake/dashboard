@@ -1,20 +1,18 @@
 const url = "https://api.tomatenkuchen.eu/api/";
 
 async function get(component, auth) {
-	while (true) {
-		const response = await fetch(url + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + getCookie('token') : ''));
+	const response = await fetch(url + component + ((auth && getCookie('token')) ? (component.includes('?') ? '&' : '?') + 'token=' + getCookie('token') : ''));
 
-		if (response.status !== 429) {
-			const json = await response.json();
-			console.log('Response for \'' + url + component + '\': ' + JSON.stringify(json));
-			return json;
-		}
+	if (response.status != 429) {
+		const json = await response.json();
+		console.log('Response for \'' + url + component + '\': ' + JSON.stringify(json));
+		return json;
 	}
 }
 
 function getCommands() {
 	return new Promise((resolve, reject) => {
-		get('commands', false)
+		get('commands/?lang=' + getLanguage(), false)
 			.then(data => resolve(data))
 			.catch(error => reject(error));
 	});

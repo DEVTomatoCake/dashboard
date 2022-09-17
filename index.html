@@ -143,7 +143,7 @@
 			</div>
 
 			<div class="content" id="content">
-				<h1 id="username-content" class="greeting" translation="main.hello">Hallo!</h1>
+				<h1 id="username-content" class="greeting">Hallo!</h1>
 
 				<div class="row">
 					<div class="data rect">
@@ -246,8 +246,8 @@
 			const username = getCookie("user");
 			if (username) {
 				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
-				document.getElementsByClassName("accdropdown-content").innerHTML = '<a href="/logout">Abmelden</a><a href="/dashboard/user" style="display: none;">Eigene Daten ansehen</a>';
 				document.getElementById("username-header").innerText = username;
+				document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout">Abmelden</a><a href="/dashboard/user">Eigene Daten ansehen</a>';
 				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
 			} else document.getElementById("username-avatar").style = "display: block;";
 

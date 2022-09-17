@@ -260,27 +260,27 @@ function getDataexportHTML(token) {
 	return new Promise(resolve => {
 		getDataexport(token)
 			.then(json => {
-				if (json.status === 'success') {
-					if (json.data?.userProfiles.badges.length > 0)
+				if (json.status == 'success') {
+					if (json.data.userProfiles?.badges?.length > 0)
 						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
 
-					if (json.data?.economy.shop.length > 0)
+					if (json.data.economy?.shop?.length > 0)
 						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>').join(", ");
 
-					if (json.data?.economy.cooldowns.length > 0)
+					if (json.data.economy?.cooldowns?.length > 0)
 						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
 
-					if (json.data?.userProfiles.afk.mentions.length > 0)
+					if (json.data.userProfiles?.afk?.mentions?.length > 0)
 						var mentions = json.data.userProfiles.afk.mentions.map(mention => '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>').join(", ");
-					let afkSince = json.data.userProfiles.afk.date ? new Date(json.data.userProfiles.afk.date).toLocaleString() : "";
+					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
 
-					if (json.data?.remind.length > 0)
+					if (json.data.remind?.length > 0)
 						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
 
-					if (json.data?.ticket.length > 0)
+					if (json.data.ticket?.length > 0)
 						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a>').join(", ");
 
-					if (json.data?.suggest.length > 0)
+					if (json.data.suggest?.length > 0)
 						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + suggest.text + '">#' + suggest.id + '</p>').join(", ");
 
 					let text =
@@ -291,7 +291,7 @@ function getDataexportHTML(token) {
 					// User
 					'<div class="userData">' +
 					'<h1>User</h1>' +
-					'<p><b>ID:</b> ' + json.data.userProfiles.id + '</p>' +
+					'<p><b>ID:</b> ' + json.data.userProfiles?.id + '</p>' +
 					(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
 					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
 					'</div>' +
@@ -299,9 +299,9 @@ function getDataexportHTML(token) {
 					// Usersettings
 					'<div class="userData">' +
 					'<h1>Settings</h1>' +
-					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles.settings.embedcolor + ';"></a> ' + json.data.userProfiles.settings.embedcolor + '</p>' +
-					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles.settings.levelBackground + '"><img src="' + json.data.userProfiles.settings.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
-					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles.settings.saveTicketAttachments + '</p>' +
+					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></a> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
+					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
 					'</div>' +
 
 					// Economy
@@ -319,7 +319,7 @@ function getDataexportHTML(token) {
 					: "") +
 
 					// AFK
-					(json.data.userProfiles.afk?.text != "" ?
+					(json.data.userProfiles?.afk?.text != "" ?
 						'<div class="userData">' +
 						'<h1>AFK</h1>' +
 						'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +

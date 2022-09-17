@@ -123,9 +123,14 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account" onclick="redirect('/login')">
-					<p id="username-header" translation="global.login"></p>
-					<ion-icon name="person-circle-outline"></ion-icon>
+				<div class="accdropdown">
+					<div class="account">
+						<p id="username-header">Account</p>
+						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="accdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
 				</div>
 			</div>
 
@@ -137,17 +142,6 @@
 		</section>
 
 		<script>
-		  	const username = getCookie("user");
-			if (username) {
-				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
-				document.getElementById("username-header").innerText = username;
-			};
-
-			const theme = getCookie("theme");
-			if (theme == "light") {
-				document.body.classList.replace("dark-theme", "light-theme");
-			};
-
 			const rootContainer = document.getElementById('leaderboard-container');
 		  	const params = new URLSearchParams(location.search);
 

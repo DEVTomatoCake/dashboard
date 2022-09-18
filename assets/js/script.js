@@ -40,7 +40,7 @@ function fadeIn(element) {
 	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }
 
-const encode = s => s.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const encode = s => s.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "amp;").replace(/"/g, "quot;");
 
 var reloadText;
 function pageLoad(isMainPage) {

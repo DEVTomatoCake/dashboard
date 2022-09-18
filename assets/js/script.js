@@ -40,6 +40,8 @@ function fadeIn(element) {
 	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }
 
+const encode = s => s.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
 var reloadText;
 function pageLoad(isMainPage) {
 	if (!getCookie('cookie-dismiss')) {

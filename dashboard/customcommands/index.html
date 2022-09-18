@@ -122,10 +122,10 @@
 								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
 								"<br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
-								"<div class='tab' onclick='redirect(\"../reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
-								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +
+								"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
+								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../?guild=" + guild + "\")'>Andere Einstellungen</p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(guild, json) + "</div>";
@@ -243,8 +243,8 @@
 				closeForm();
 				if (document.getElementById("no-cc")) document.getElementById("no-cc").innerHTML = "";
 				const formData = new FormData(formElem);
-				const name = formData.get("customcommand-name");
-				const value = document.getElementById("customcommand-text").value;
+				const name = encode(formData.get("customcommand-name"));
+				const value = encode(document.getElementById("customcommand-text").value);
 
 				var div = document.createElement("div");
 				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="' + Math.round(value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + name + '" maxlength="2000" name="' + name + '">' + value + '</textarea><br>';
@@ -273,7 +273,7 @@
 					status: "success",
 					action: "SAVE_customcommands",
 					data: items,
-					guild: params.get("guild"),
+					guild: encode(params.get("guild")),
 					token: getCookie("token")
 				}));
 
@@ -282,7 +282,7 @@
 
 			if (params.has("guild") && getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden geladen...</h1>';
-				connectWS(params.get("guild"));
+				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 				location.href = "./?guild=" + params.get("guild_id");
@@ -298,10 +298,7 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						let query = "";
-						if (params.has("guild")) query = "?guild=" + params.get("guild");
-
-						location.href = "https://" + location.host + "/dashboard/customcommands" + query;
+						location.href = "https://" + location.host + "/dashboard/customcommands" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
 							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +

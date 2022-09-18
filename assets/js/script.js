@@ -40,8 +40,10 @@ function fadeIn(element) {
 	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }
 
+const encode = s => s.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
 var reloadText;
-function pageLoad() {
+function pageLoad(isMainPage) {
 	if (!getCookie('cookie-dismiss')) {
 		document.body.innerHTML += '' +
 			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
@@ -51,6 +53,18 @@ function pageLoad() {
 			'</div>';
 		setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
 	};
+
+	const username = getCookie("user");
+	if (username) {
+		if (isMainPage) document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
+		document.getElementById("username-header").innerText = username;
+		document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout" translation="global.logout">Abmelden</a><a href="/dashboard/user">Eigene Daten ansehen</a>';
+		document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+	} else document.getElementById("username-avatar").style = "display: block;";
+
+	const theme = getCookie("theme");
+	if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
+	else document.getElementById("theme-toggle").checked = true;
 
 	document.getElementById("theme-toggle").addEventListener("change", function() {
 		if (document.body.classList.contains("light-theme")) {

@@ -33,7 +33,7 @@ function getCommandsHTML() {
 					resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -57,7 +57,7 @@ function getStatsHTML(guild, filter) {
 					});
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -95,7 +95,7 @@ function getGuildsHTML() {
 					else resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})
@@ -174,7 +174,7 @@ function getSettingsHTML(json) {
 		return '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text;
 	} else {
 		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -194,7 +194,7 @@ function getCustomcommandsHTML(json) {
 		return '<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -230,7 +230,7 @@ function getReactionrolesHTML(json) {
 		return '<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -245,7 +245,138 @@ function getLeaderboardHTML(guild) {
 					resolve(text);
 				} else {
 					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
+						'<h1>' + json.message + '</h1>');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				resolve('' +
+					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+			});
+	});
+}
+
+const tkbadges = {
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' loading='lazy' /> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' loading='lazy' /> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' loading='lazy' /> Denkääär",
+	translator: "🏴‍☠️ Übersetzer",
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' loading='lazy' /> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' loading='lazy' /> Altes Economysystem"
+}
+function getDataexportHTML(token) {
+	return new Promise(resolve => {
+		getDataexport(token)
+			.then(json => {
+				if (json.status == 'success') {
+					if (json.data.userProfiles?.badges?.length > 0)
+						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
+
+					if (json.data.economy?.shop?.length > 0)
+						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>').join(", ");
+
+					if (json.data.economy?.cooldowns?.length > 0)
+						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
+
+					if (json.data.userProfiles?.afk?.mentions?.length > 0)
+						var mentions = json.data.userProfiles.afk.mentions.map(mention => '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>').join(", ");
+					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
+
+					if (json.data.remind?.length > 0)
+						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
+
+					if (json.data.ticket?.length > 0)
+						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a>').join(", ");
+
+					if (json.data.suggest?.length > 0)
+						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + suggest.text + '">#' + suggest.id + '</p>').join(", ");
+
+					let text =
+					'<center>' +
+					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
+					'<div class="userdatagrid">' +
+
+					// User
+					'<div class="userData">' +
+					'<h1>User</h1>' +
+					'<p><b>ID:</b> ' + json.data.userProfiles?.id + '</p>' +
+					(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
+					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
+					'</div>' +
+
+					// Usersettings
+					'<div class="userData">' +
+					'<h1>Settings</h1>' +
+					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></a> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
+					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
+					'</div>' +
+
+					// Economy
+					(json.data.economy ?
+						'<div class="userData">' +
+						'<h1>Economy</h1>' +
+						'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
+						'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
+						'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
+						'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
+						(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
+						(cooldowns ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
+						//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
+						'</div>'
+					: "") +
+
+					// AFK
+					(json.data.userProfiles?.afk?.text != "" ?
+						'<div class="userData">' +
+						'<h1>AFK</h1>' +
+						'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
+						'<p><b>Seit:</b> ' + afkSince + '</p>' +
+						(mentions ? '<p><b>Mentions:</b> ' + mentions + '</p>' : "") +
+						'</div>'
+					: "") +
+
+					// Remind
+					(reminders ?
+						'<div class="userData">' +
+						'<h1>Reminders</h1>' +
+						reminders +
+						'</div>'
+					: "") +
+
+					// Tickets
+					(tickets ?
+						'<div class="userData">' +
+						'<h1>Tickets</h1>' +
+						tickets +
+						'</div>'
+					: "") +
+
+					// Suggest
+					(suggests ?
+						'<div class="userData">' +
+						'<h1>Suggestions</h1>' +
+						suggests +
+						'</div>'
+					: "") +
+
+					'</div>' +
+
+					'<div style="overflow: auto;">' +
+					'<div class="userData">' +
+					'<h1>Daten im JSON-Format:</h1>' +
+					'<br><textarea rows="15" cols="90" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'</div>' +
+					'</div>' +
+
+					'</center>';
+
+					resolve(text);
+				} else {
+					resolve('' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>');
 				}
 			})

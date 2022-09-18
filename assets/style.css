@@ -264,6 +264,39 @@ input .hidearrows {
 	-moz-appearance: textfield;
 }
 
+.badge {
+	background-color: var(--select-hover);
+	color: var(--primary-text-color);
+	display: inline-block;
+}
+
+.userData {
+	background-color: var(--secondary-color);
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22);
+	width: fit-content;
+	margin: 20px;
+}
+
+.userdatagrid {
+	width: auto;
+	display: grid;
+	grid-template-areas: ". . .";
+	overflow: auto;
+	color: var(--primary-text-color);
+}
+@media (max-width: 1450px) {
+	.userdatagrid {
+		grid-template-areas: ". .";
+	}
+}
+@media (max-width: 1200px) {
+	.userdatagrid {
+		grid-template-areas: ".";
+	}
+}
+
 .sidebar-container {
 	width: 0;
 	position: fixed;
@@ -497,6 +530,7 @@ input .hidearrows {
 	justify-content: center;
 	align-items: center;
 	padding-left: 1px;
+	line-height: 0;
 }
 
 .switch[data-type="lang"] .slider:before {
@@ -676,11 +710,6 @@ input .hidearrows {
 	transition: var(--transition-buttons);
 }
 
-.main .top .account:hover {
-	background: var(--primary-color-hover);
-	transform: scale(1.05);
-}
-
 .main .top .account ion-icon {
 	font-size: 35px;
 }
@@ -689,6 +718,35 @@ input .hidearrows {
 	border-radius: 50%;
 }
 
+.accdropdown {
+	display: inline-block;
+	position: relative;
+	margin-left: auto;
+}
+
+.accdropdown-content {
+	display: none;
+	position: absolute;
+	width: 80%;
+	overflow: auto;
+	border-radius: 5px;
+	box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.4);
+}
+
+.accdropdown:hover .accdropdown-content {
+	display: block;
+}
+
+.accdropdown-content a {
+	display: block;
+	color: var(--primary-text-color);
+	padding: 5px;
+	text-decoration: none;
+	background: var(--primary-color);
+}
+.accdropdown-content a:hover {
+	background-color: var(--select-hover);
+}
 
 .main .content {
 	margin-top: 40px;
@@ -733,7 +791,7 @@ h1.greeting {
 .main .content .row .data {
 	border-radius: 20px;
 	background-color: var(--secondary-color);
-	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;

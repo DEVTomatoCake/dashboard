@@ -121,10 +121,10 @@
 								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
 								"<br><button onclick='saveReactionroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 								"<br><hr><div class='tab'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
-								"<div class='tab active' onclick='redirect(\"../reactionroles/" + location.search + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../leaderboard/" + location.search + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../stats/" + location.search + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
-								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../" + location.search + "\")'>Andere Einstellungen</p></div>" +
+								"<div class='tab active' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
+								"<hr><div class='tab small'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../?guild=" + guild + "\")'>Andere Einstellungen</p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>";
@@ -192,25 +192,25 @@
 		<section class="main" id="main">
 			<div class="form-popup" id="reactionrolesForm">
 				<form class="form-container" id="rrForm">
-					<h1>Reactionrole erstellen</h1>
+					<h1 translation="dashboard.rr.create"></h1>
 
-					<label for="reactionroles-type"><b>Typ</b></label><br>
+					<label for="reactionroles-type"><b translation="dashboard.type">Typ</b></label><br>
 					<select name="reactionroles-type" id="reactionroles-type"></select><br><br>
 
-					<label for="reactionroles-reaction"><b>Reaktion</b></label>
+					<label for="reactionroles-reaction"><b translation="dashboard.reaction"></b></label>
 					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
 
-					<label for="reactionroles-channel"><b>Kanal</b></label><br>
+					<label for="reactionroles-channel"><b translation="dashboard.channel"></b></label><br>
 					<select name="reactionroles-channel" id="reactionroles-channel"></select><br><br>
 
 					<label for="reactionroles-msg"><b>Nachrichten-ID</b></label><br>
 					<input type="number" min="10000000000000000" max="9999999999999999999" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required><br><br>
 
-					<label for="reactionroles-role"><b>Rolle</b></label><br>
+					<label for="reactionroles-role"><b translation="dashboard.role"></b></label><br>
 					<select name="reactionroles-role" id="reactionroles-role"></select><br><br>
 
-					<button type="submit" class="btn">Reactionrole erstellen</button>
-					<button type="button" class="btn cancel" onclick="closeForm()">Abbrechen</button>
+					<button type="submit" class="btn" translation="dashboard.rr.create"></button>
+					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
 				</form>
 			</div>
 
@@ -220,9 +220,14 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account" onclick="redirect('/login')">
-					<p id="username-header" translation="global.login"></p>
-					<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+				<div class="accdropdown">
+					<div class="account">
+						<p id="username-header">Account</p>
+						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="accdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
 				</div>
 			</div>
 
@@ -240,16 +245,6 @@
 		</section>
 
 		<script>
-			const username = getCookie("user");
-			if (username) {
-				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
-				document.getElementById("username-header").innerText = username;
-				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
-			} else document.getElementById("username-avatar").style = "display: block;";
-
-			const theme = getCookie("theme");
-			if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
-
 			var rolecopy = {};
 			const formElem = document.getElementById("rrForm");
 			formElem.addEventListener("submit", e => {
@@ -257,20 +252,17 @@
 				closeForm();
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
 				const formData = new FormData(formElem);
-				const reaction = formData.get("reactionroles-reaction");
-				const msg = document.getElementById("reactionroles-msg").value;
-				const role = document.getElementById("reactionroles-role").value;
-				const channel = document.getElementById("reactionroles-channel").value;
-				const type = document.getElementById("reactionroles-type").value;
+				const reaction = encode(formData.get("reactionroles-reaction"));
+				const msg = encode(document.getElementById("reactionroles-msg").value);
 
 				var div = document.createElement("div");
 				var html = "";
 				if (isNaN(reaction)) html += '<p><b>' + reaction + '</b></p>';
 	          	else html += '<img src="https://cdn.discordapp.com/emojis/' + reaction + '.png?size=32" /><br>';
 
-	            html += '<select class="setting" data-type="' + type + '" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + channel + '" id="' + msg + '-' + reaction + '" name="' + msg + '">';
+	            html += '<select class="setting" data-type="' + encode(document.getElementById("reactionroles-type").value) + '" data-msg="' + msg + '" data-reaction="' + reaction + '" data-channel="' + encode(document.getElementById("reactionroles-channel").value) + '" id="' + msg + '-' + reaction + '" name="' + msg + '">';
 	            Object.keys(rolecopy).forEach(key => {
-	            	html += '<option value="' + key.replace('_', '') + '" ' + (role === key.replace('_', '') ? 'selected' : '') + '>' + rolecopy[key] + '</option>';
+	            	html += '<option value="' + key.replace("_", "") + '" ' + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? 'selected' : '') + '>' + rolecopy[key] + '</option>';
 	            });
 	            div.innerHTML = html + '</select><br><br>';
 				document.getElementsByClassName('settingsContent')[0].appendChild(div);
@@ -305,7 +297,7 @@
 					status: "success",
 					action: "SAVE_reactionroles",
 					data: items,
-					guild: params.get("guild"),
+					guild: encode(params.get("guild")),
 					token: getCookie("token")
 				}));
 
@@ -314,7 +306,7 @@
 
 			if (params.has('guild')) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Reactionroles werden geladen...</h1>';
-				connectWS(params.get("guild"));
+				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 				location.href = "./?guild=" + params.get("guild_id");
@@ -330,13 +322,10 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						let query = "";
-						if (params.has("guild")) query = "?guild=" + params.get("guild");
-
-						location.href = "https://" + location.host + "/dashboard/reactionroles" + query;
+						location.href = "https://" + location.host + "/dashboard/reactionroles" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
-							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 							'<h1>' + json.message + '</h1>';
 					};
 				});

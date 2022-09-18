@@ -3,7 +3,8 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  		<meta content="TomatenKuchen - Dein Discord Bot" name="description"/>
+  		<meta name="description" content="Multipurpose discord bot including many features for your discord and a web dashboard"/>
+		<meta name="theme-color" content="#ed8721">
 
 		<title>TomatenKuchen - Home</title>
 		<link href="./assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -75,7 +76,7 @@
 			}
 		</script>
 	</head>
-	<body class="dark-theme" onload="pageLoad()">
+	<body class="dark-theme" onload="pageLoad(true)">
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">
@@ -129,14 +130,19 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div class="account" onclick="redirect('/login')">
-					<p id="username-header" translation="global.login"></p>
-					<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+				<div class="accdropdown">
+					<div class="account">
+						<p id="username-header">Account</p>
+						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="accdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
 				</div>
 			</div>
 
 			<div class="content" id="content">
-				<h1 id="username-content" class="greeting" translation="main.hello">Hallo!</h1>
+				<h1 id="username-content" class="greeting">Hallo!</h1>
 
 				<div class="row">
 					<div class="data rect">
@@ -234,19 +240,6 @@
 				<p id="author" translation="main.footer"></p>
 			</div>
 		</section>
-
-		<script>
-			const username = getCookie("user");
-			if (username) {
-				document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
-				document.getElementsByClassName("account")[0].onclick = () => redirect("/logout");
-				document.getElementById("username-header").innerText = username;
-				document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
-			} else document.getElementById("username-avatar").style = "display: block;";
-
-			const theme = getCookie("theme");
-			if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
-		</script>
 		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>

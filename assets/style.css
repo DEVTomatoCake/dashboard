@@ -1335,17 +1335,14 @@ h3, h4, ul li {
 }
 
 
-
 .creditsContainer {
 	text-align: center;
 }
 
-.credits h1, .credits h2, .credits h3, .credits a{
+.credits h1, .credits h2, .credits h3, .credits a {
     color: var(--primary-text-color);
 	text-decoration: none;
 	text-align: center;
-	margin-right: auto;
-	margin-left: auto;
 }
 
 .credits a {
@@ -1367,14 +1364,6 @@ h3, h4, ul li {
     text-shadow: 3px 4px 5px black;
 }
 
-.creditsIMG {
-    width: 150px;
-    height: 150px;
-    box-shadow: 0 0 20px black;
-    transition: 0.5s;
-    border-radius: 50%;
-}
-
 .creditsUser {
     background-color: var(--secondary-color);
 	padding: 20px;
@@ -1390,11 +1379,18 @@ h3, h4, ul li {
     display: inline-block;
     margin: 30px;
 }
-
 .creditsUser:hover {
     box-shadow: 0 0 20px var(--primary-text-color);
     transition: 0.5s;
     transform: scale(1.05);
+}
+
+.creditsUser img {
+    width: 150px;
+    height: 150px;
+    box-shadow: 0 0 20px black;
+    transition: 0.5s;
+    border-radius: 50%;
 }
 
 .creditsMedia {
@@ -1404,12 +1400,10 @@ h3, h4, ul li {
     padding: 3px;
     margin-bottom: 15px;
 }
-
 .creditsMedia:hover {
     transition: 0.5s;
     transform: scale(1.2);
 }
-
 .creditsMedia:active {
     transition: 0.5s;
     transform: scale(1.0);

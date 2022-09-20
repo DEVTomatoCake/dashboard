@@ -1339,14 +1339,15 @@ h3, h4, ul li {
 	text-align: center;
 }
 
-.credits h1, .credits h2, .credits h3, .credits a {
+.credits h1, .credits h2, .credits h3 {
     color: var(--primary-text-color);
-	text-decoration: none;
 	text-align: center;
 }
 
-.credits a {
+.creditsContainer a {
     cursor: pointer;
+	text-decoration: none;
+	color: var(--blue);
 }
 
 .credits h1 {

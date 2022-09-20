@@ -142,24 +142,60 @@
 			</div>
 
 			<div class="content" id="content">
-				<div id="root-container" class="row">
-					<h1>Daten werden geladen...</h1>
+				<div id="root-container" class="creditsContainer">
+				
+					<h1 class='greeting'>Credits</h1>
+					<h1 class='credits'> <a class='credits'
+							href='https://github.com/DEVTomatoCake/dashboard/graphs/contributors'>Contributors</a></h1>
+					<div class='creditsUser'>
+						<h3 class='credits'>TomatoCake </h3>
+						<a href='https://tomatenkuchen.eu/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia ' title='tomatenkuchen.eu'></i></a>
+						<a href='https://github.com/DEVTomatoCake' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='Github (DEVTomatoCake)'></i></a>
+						<a href='https://discord.com/users/581146486646243339' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia ' title='Discord (TomatoCake#2691)'></i></a>
+						<br>
+						<img class='creditsIMG' src='https://github.com/DEVTomatoCake.png' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+				
+					<div class='creditsUser'>
+						<h3 class='credits'>booky10</h3>
+						<a href='https://booky.dev/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia ' title='booky.dev'></i></a>
+						<a href='https://github.com/booky10' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='Github (booky10)'></i></a>
+						<a href='https://discord.com/users/324648170011492352' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia ' title='Discord (booky10#6666)'></i></a>
+						<br>
+						<img class='creditsIMG' src='https://github.com/booky10.png' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+				
+					<div class='creditsUser'>
+						<h3 class='credits'>Funty</h3>
+						<a href='https://funty.org/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia ' title='funty.org'></i></a>
+						<a href='https://github.com/FuntyGithub' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='Github (FuntyGithub)'></i></a>
+						<a href='https://discord.com/users/417258282479124480' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia ' title='Discord (Funty#8818)'></i></a>
+						<br>
+						<img class='creditsIMG' src='https://github.com/FuntyGithub.png' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+				
+				
+					<h1 class='credits'>Websiten-Design</h1>
+					<div class='creditsUser'>
+						<h3 class='credits'>Bookie0</h3>
+						<a href='https://bookie0.repl.co/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia ' title='bookie0.repl.co'></i></a>
+						<a href='https://github.com/Bookie0' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='Github (Bookie0)'></i></a>
+						<br>
+						<img class='creditsIMG' src='https://github.com/Bookie0.png' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+				
+					<div class='creditsUser'>
+						<h3 class='credits'>Elliana</h3>
+						<a href='https://discords.com/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia ' title='discords.com'></i></a>
+						<a href='https://discord.com/users/483018474273374208' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia ' title='Discord (Ell1ana#7880)'></i></a>
+						<br>
+						<img class='creditsIMG' src='https://cdn.discordapp.com/avatars/483018474273374208/858da1d39e9464059fe9b72bf85c9cb0.png' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+				
 				</div>
 
-				<!-- <p id="author">Websiten-Design erstellt von <a href="https://bookie0.repl.co/">Bookie0</a>,<br> Dashboard von <a href="https://booky.dev/">booky10</a>, TomatoCake und <a href="https://github.com/FuntyGithub">Funty</a></p> -->
 			</div>
 		</section>
-
-        <script>
-            document.getElementById('root-container').innerHTML = '<h1>Daten werden geladen..</h1>';
-            getCreditsHTML().then(data => {
-                document.getElementById('content').innerHTML = data
-            }).catch(err => {
-                document.getElementById('root-container').innerHTML = '<h1>Daten konnten nicht geladen werden...</h1>';
-                console.log(err);
-            });
-
-        </script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
 		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	</body>

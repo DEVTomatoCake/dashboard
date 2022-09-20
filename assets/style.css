@@ -1336,7 +1336,7 @@ h3, h4, ul li {
 
 
 
-.crditsContainer {
+.creditsContainer {
 	text-align: center;
 }
 
@@ -1371,8 +1371,8 @@ h3, h4, ul li {
 }
 
 .creditsIMG {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     box-shadow: 0 0 20px black;
     transition: 0.5s;
     border-radius: 50%;
@@ -1397,12 +1397,11 @@ h3, h4, ul li {
 .creditsUser:hover {
     box-shadow: 0 0 20px var(--primary-text-color);
     transition: 0.5s;
-    transform: scale(1.2);
+    transform: scale(1.05);
 }
 
 .creditsMedia {
     transition: 0.5s;
-    /* text-shadow: 3px 4px 5px black; */
     font-size: 20px;
     color: var(--primary-text-color);
     padding: 3px;
@@ -1411,11 +1410,11 @@ h3, h4, ul li {
 
 .creditsMedia:hover {
     transition: 0.5s;
-    transform: scale(1.3);
+    transform: scale(1.2);
 }
 
 .creditsMedia:active {
     transition: 0.5s;
-    transform: scale(1.1);
+    transform: scale(1.0);
     color: var(--secondary-text-color);
 }

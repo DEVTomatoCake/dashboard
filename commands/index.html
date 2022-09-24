@@ -85,15 +85,6 @@
 			};
 
 			var i = 0;
-			function checkDeviceWidth() {
-				if (screen.width <= 500) {
-					document.getElementById("sidebar-container").classList.toggle("visible");
-					document.getElementById("content").style.paddingLeft = "0";
-					i = 1;
-					sidebar();
-				};
-			};
-
 			function sidebar() {
 				i++;
 
@@ -142,7 +133,7 @@
 			}
 		</script>
 	</head>
-	<body class="dark-theme" onload="checkDeviceWidth();pageLoad()">
+	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">

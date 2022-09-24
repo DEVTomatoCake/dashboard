@@ -54,6 +54,12 @@ function pageLoad(isMainPage) {
 		setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
 	};
 
+	if (screen.width <= 800) {
+		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
+		document.getElementById("content").style.paddingLeft = "0";
+		i = 1;
+	};
+
 	const username = getCookie("user");
 	if (username) {
 		if (isMainPage) document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";

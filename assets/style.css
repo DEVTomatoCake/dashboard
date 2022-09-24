@@ -1347,7 +1347,7 @@ h3, h4, ul li {
 .creditsContainer a {
     cursor: pointer;
 	text-decoration: none;
-	color: var(--blue);
+	color: var(--primary-text-color);
 }
 
 .credits h1 {
@@ -1382,13 +1382,12 @@ h3, h4, ul li {
 }
 .creditsUser:hover {
     box-shadow: 0 0 20px var(--primary-text-color);
-    transition: 0.5s;
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
 .creditsUser img {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     box-shadow: 0 0 20px black;
     transition: 0.5s;
     border-radius: 50%;
@@ -1402,11 +1401,5 @@ h3, h4, ul li {
     margin-bottom: 15px;
 }
 .creditsMedia:hover {
-    transition: 0.5s;
     transform: scale(1.2);
-}
-.creditsMedia:active {
-    transition: 0.5s;
-    transform: scale(1.0);
-    color: var(--secondary-text-color);
 }

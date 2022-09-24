@@ -43,7 +43,7 @@ function fadeIn(element) {
 const encode = s => s.replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 
 var reloadText;
-function pageLoad(isMainPage) {
+function pageLoad(page = "") {
 	if (!getCookie('cookie-dismiss')) {
 		document.body.innerHTML += '' +
 			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
@@ -55,6 +55,10 @@ function pageLoad(isMainPage) {
 	};
 
 	if (screen.width <= 800) {
+		if (page == "commands") {
+			document.getElementById("commands-container").style.paddingLeft = "0";
+			document.getElementById("search-box").style.marginLeft = "10px";
+		}
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
 		document.getElementById("content").style.paddingLeft = "0";
 		i = 1;
@@ -62,9 +66,9 @@ function pageLoad(isMainPage) {
 
 	const username = getCookie("user");
 	if (username) {
-		if (isMainPage) document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
+		if (page == "main") document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
 		document.getElementById("username-header").innerText = username;
-		document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout" translation="global.logout">Abmelden</a><a href="/dashboard/user">Eigene Daten ansehen</a>';
+		document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout" translation="global.logout">Abmelden</a><a href="/dashboard/user" translation="global.viewdataexport">Eigene Daten ansehen</a>';
 		document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
 	} else document.getElementById("username-avatar").style = "display: block;";
 

@@ -367,7 +367,7 @@ function getDataexportHTML(token) {
 					'<div style="overflow: auto;">' +
 					'<div class="userData">' +
 					'<h1>Daten im JSON-Format:</h1>' +
-					'<br><textarea rows="13" cols="' + Math.round(screen.width / 10) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'<br><textarea rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
 					'</div>' +
 					'</div>' +
 

@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-  		<meta content="TomatenKuchen - Befehle" name="description">
+  		<meta content="Befehle von TomatenKuchen" name="description">
 
 		<title>TomatenKuchen - Befehle</title>
 		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -123,17 +123,16 @@
 						document.getElementById("search-box").style.marginLeft = "10px";
 						document.getElementById("sidebar-container").classList.toggle("visible");
 						document.getElementById("commands-container").style.paddingLeft = "0";
-						if (screen.width <= 500) document.body.style = "width: 140%;"
 					}, 100);
-				}
-			}
+				};
+			};
 
 			function redirect(url) {
 				window.location = url;
-			}
+			};
 		</script>
 	</head>
-	<body class="dark-theme" onload="pageLoad()">
+	<body class="dark-theme" onload="pageLoad('commands')">
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">

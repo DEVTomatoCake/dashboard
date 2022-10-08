@@ -131,6 +131,7 @@
 			};
 
 			function addRole(setting, select) {
+				console.log(setting, currentlySelected[setting]);
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " "
 				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', this, \'' + select.value + '\')"></ion-icon></div>';

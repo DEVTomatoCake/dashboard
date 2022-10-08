@@ -130,25 +130,25 @@
 				});
 			};
 
-			function addRole(setting, select) {
+			function addRole(setting, possible, select) {
 				currentlySelected[setting] += select.value + " "
-				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', this, \'' + select.value + '\')"></ion-icon></div>';
+				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', ' + possible + ', this, \'' + select.value + '\')"></ion-icon></div>';
 				document.getElementById("testlist").innerHTML += created;
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
 				Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).forEach(key => {
-					selectoptions += '<option value="' + key.replace('_', '') + '"' + '>' + possible[key].name + '</option>';
+					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
 				select.innerHTML = selectoptions;
 				if (Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).length == 0) select.disabled = true;
-			}
-			function removeRole(setting, item, role) {
+			};
+			function removeRole(setting, possible, item, role) {
 				currentlySelected[setting] = currentlySelected[setting].replace(role + " ", "");
 				item.parentElement.remove();
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
 				Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).forEach(key => {
-					selectoptions += '<option value="' + key.replace('_', '') + '"' + '>' + possible[key].name + '</option>';
+					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
 				document.getElementById("test").innerHTML = selectoptions;
 				if (Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).length > 0) document.getElementById("test").disabled = false;

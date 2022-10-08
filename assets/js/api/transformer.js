@@ -156,11 +156,11 @@ function getSettingsHTML(json) {
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(""),
-						possible
+						possible: possible.filter(r => r.trim() != "")
 					};
 
 					temp += '<select class="setting" id="' + setting.key + '" name="' + setting.key + '" onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
-					Object.keys(possible).filter(r => !setting.value.includes(r)).forEach(key => {
+					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r)).forEach(key => {
 						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
 					});
 					temp += '</select><div id="' + setting.key + 'list">';

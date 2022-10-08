@@ -130,30 +130,30 @@
 				});
 			};
 
-			function addRole(setting, possible, select) {
-				possible = JSON.parse(possible);
-				currentlySelected[setting] += select.value + " "
-				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', ' + JSON.stringify(possible) + ', this, \'' + select.value + '\')"></ion-icon></div>';
+			function addRole(setting, select) {
+				const possible = currentlySelected[setting].possible;
+				currentlySelected[setting].value += select.value + " "
+				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', this, \'' + select.value + '\')"></ion-icon></div>';
 				document.getElementById("testlist").innerHTML += created;
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
-				Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).forEach(key => {
+				Object.keys(possible).filter(r => !currentlySelected[setting].value.includes(r)).forEach(key => {
 					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
 				select.innerHTML = selectoptions;
-				if (Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).length == 0) select.disabled = true;
+				if (Object.keys(possible).filter(r => !currentlySelected[setting].value.includes(r)).length == 0) select.disabled = true;
 			};
-			function removeRole(setting, possible, item, role) {
-				possible = JSON.parse(possible);
-				currentlySelected[setting] = currentlySelected[setting].replace(role + " ", "");
+			function removeRole(setting, item, role) {
+				const possible = currentlySelected[setting].possible;
+				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
 				item.parentElement.remove();
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
-				Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).forEach(key => {
+				Object.keys(possible).filter(r => !currentlySelected[setting].value.includes(r)).forEach(key => {
 					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
 				document.getElementById("test").innerHTML = selectoptions;
-				if (Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).length > 0) document.getElementById("test").disabled = false;
+				if (Object.keys(possible).filter(r => !currentlySelected[setting].value.includes(r)).length > 0) document.getElementById("test").disabled = false;
 			};
 
 			function redirect(url) {

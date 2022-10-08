@@ -133,8 +133,8 @@
 			function addRole(setting, select) {
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " "
-				var created = '<br><div><p>' + possible["_" + select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
-				document.getElementById("testlist").innerHTML += created;
+				var created = '<br><div><p>' + possible["_" + select.value].name + '</p><input id="an_' + select.value + 'value" class="setting"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
+				document.getElementById(setting + "list").innerHTML += created;
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
 				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).forEach(key => {
@@ -152,8 +152,8 @@
 				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).forEach(key => {
 					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
-				document.getElementById("test").innerHTML = selectoptions;
-				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).length > 0) document.getElementById("test").disabled = false;
+				document.getElementById(setting).innerHTML = selectoptions;
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).length > 0) document.getElementById(setting).disabled = false;
 			};
 
 			function redirect(url) {
@@ -273,7 +273,7 @@
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 					} else if (advancedsetting.includes(item.name)) {
 						currentlySelected[item.name].value.split(" ").forEach(r => {
-							entry += r + ":" + r + ",";
+							entry += r + ":" + document.getElementById("an_" + r + "value") + ",";
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 					} else entry = item.value;

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="de">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta content="View all contributors for this site" name="description"/>
+
+		<title>TomatenKuchen - Credits</title>
+		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+
+		<link href="../assets/style.css" rel="stylesheet" type="text/css">
+
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
+
+        <script src="https://kit.fontawesome.com/e818a9840c.js" crossorigin="anonymous"></script>
+
+		<script>
+			var i = 0;
+			function sidebar() {
+				i++;
+
+				document.getElementById("lineTop2").style.transform = "rotate(45deg)";
+				document.getElementById("lineTop2").style.top = "5px";
+				document.getElementById("lineBottom2").style.transform = "rotate(-45deg)";
+				document.getElementById("lineBottom2").style.bottom = "5px";
+
+				document.getElementById("lineTop1").style.transform = "rotate(45deg)";
+				document.getElementById("lineTop1").style.top = "5px";
+				document.getElementById("lineBottom1").style.transform = "rotate(-45deg)";
+				document.getElementById("lineBottom1").style.bottom = "5px";
+
+				if (i % 2 == 0) {
+					setTimeout(() => {
+						document.getElementById("content").style.paddingLeft = "230px";
+						document.getElementById("sidebar-container").classList.toggle("visible");
+					}, 300);
+				} else {
+					document.getElementById("content").style.paddingLeft = "0";
+
+					document.getElementById("lineTop2").style.transform = "rotate(0)";
+					document.getElementById("lineTop2").style.top = "0";
+					document.getElementById("lineBottom2").style.transform = "rotate(0)";
+					document.getElementById("lineBottom2").style.bottom = "0";
+
+					document.getElementById("lineTop1").style.transform = "rotate(0)";
+					document.getElementById("lineTop1").style.top = "0";
+					document.getElementById("lineBottom1").style.transform = "rotate(0)";
+					document.getElementById("lineBottom1").style.bottom = "0";
+
+					setTimeout(() => {
+						document.getElementById("sidebar-container").classList.toggle("visible");
+					}, 100);
+				};
+			};
+
+			function redirect(url) {
+				window.location = url;
+			};
+		</script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<div class="sidebar-container visible" id="sidebar-container">
+
+			<div class="sidebar" id="sidebar">
+				<div class="hamburger" id="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop2"></div>
+					<div class="line" id="lineBottom2"></div>
+				</div>
+
+				<button onclick="redirect('/invite')" translation="sidebar.invite"></button>
+
+				<div class="section">
+					<a href="/" class="tab">
+						<ion-icon name="home-outline"></ion-icon>
+						<p translation="sidebar.home"></p>
+					</a>
+					<a href="/commands" class="tab">
+						<ion-icon name="terminal-outline"></ion-icon>
+						<p translation="sidebar.commands"></p>
+					</a>
+					<a href="/dashboard" class="tab active">
+						<ion-icon name="settings-outline"></ion-icon>
+						<p translation="sidebar.dashboard"></p>
+					</a>
+					<a href="/docs" class="tab">
+						<ion-icon name="document-text-outline"></ion-icon>
+						<p translation="sidebar.docs"></p>
+					</a>
+					<a href="/discord" class="tab">
+						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
+						<p translation="sidebar.support"></p>
+					</a>
+				</div>
+				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
+
+				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
+					<label class="switch" data-type="lang">
+						<input type="checkbox" id="lang-toggle">
+						<span class="slider round"></span>
+					</label>
+					<label class="switch" data-type="theme">
+						<input type="checkbox" id="theme-toggle">
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</div>
+		</div>
+
+		<section class="main" id="main">
+			<div class="top">
+				<div class="hamburger" id="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="accdropdown">
+					<div class="account">
+						<p id="username-header">Account</p>
+						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="accdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</div>
+
+			<div class="content" id="content">
+				<div id="root-container" class="creditsContainer">
+					<h1 class='greeting'>Credits</h1>
+					<h2><a href='https://github.com/DEVTomatoCake/dashboard/graphs/contributors'>Contributors</a></h2>
+					<div class='creditsUser'>
+						<h3>TomatoCake</h3>
+						<a href='https://tomatenkuchen.eu/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia' title='tomatenkuchen.eu'></i></a>
+						<a href='https://github.com/DEVTomatoCake' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='GitHub (DEVTomatoCake)'></i></a>
+						<a href='https://discord.com/users/581146486646243339' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia' title='Discord (TomatoCake#2691)'></i></a>
+						<br>
+						<img src='https://github.com/DEVTomatoCake.png?size=140' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+
+					<div class='creditsUser'>
+						<h3>booky10</h3>
+						<a href='https://github.com/booky10' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='GitHub (booky10)'></i></a>
+						<a href='https://discord.com/users/324648170011492352' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia' title='Discord (booky10#6666)'></i></a>
+						<br>
+						<img src='https://github.com/booky10.png?size=140' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+
+					<div class='creditsUser'>
+						<h3>Funty</h3>
+						<a href='https://funty.org/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia' title='funty.org'></i></a>
+						<a href='https://github.com/FuntyGithub' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='GitHub (FuntyGithub)'></i></a>
+						<a href='https://discord.com/users/417258282479124480' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia' title='Discord (Funty#8818)'></i></a>
+						<br>
+						<img src='https://github.com/FuntyGithub.png?size=140' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+
+					<br>
+					<br>
+					<h2>Websiten-Design</h2>
+					<div class='creditsUser'>
+						<h3>Bookie0</h3>
+						<a href='https://bookie0.repl.co/' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia' title='bookie0.repl.co'></i></a>
+						<a href='https://github.com/Bookie0' target='_blank'><i aria-hidden='true' class='fab fa-github creditsMedia' title='GitHub (Bookie0)'></i></a>
+						<br>
+						<img src='https://github.com/Bookie0.png?size=140' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+
+					<div class='creditsUser'>
+						<h3>Elliana</h3>
+						<a href='https://discords.com/bio/p/ell1ana' target='_blank'><i aria-hidden='true' class='fas fa-link creditsMedia' title='Discords.com (Ell1ana)'></i></a>
+						<a href='https://discord.com/users/483018474273374208' target='_blank'><i aria-hidden='true' class='fab fa-discord creditsMedia' title='Discord (Ell1ana#7880)'></i></a>
+						<br>
+						<img src='https://github.com/Ell1ana.png?size=140' alt='could not load image' onerror='this.src = "../assets/images/tomato_empty.webp"'>
+					</div>
+				</div>
+			</div>
+		</section>
+		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+		<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+	</body>
+</html>

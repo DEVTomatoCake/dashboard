@@ -1333,3 +1333,73 @@ h3, h4, ul li {
 	background: var(--accent-color);
 	color: var(--primary-text-color);
 }
+
+
+.creditsContainer {
+	text-align: center;
+}
+
+.credits h1, .credits h2, .credits h3 {
+    color: var(--primary-text-color);
+	text-align: center;
+}
+
+.creditsContainer a {
+    cursor: pointer;
+	text-decoration: none;
+	color: var(--primary-text-color);
+}
+
+.credits h1 {
+	font-size: 60px;
+    text-transform: uppercase;
+}
+
+.credits h2 {
+    font-size: 40px;
+    text-transform: uppercase;
+}
+
+.credits h3 {
+    font-size: 30px;
+    text-shadow: 3px 4px 5px black;
+}
+
+.creditsUser {
+    background-color: var(--secondary-color);
+	padding: 20px;
+	border-radius: 10px;
+	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+	width: fit-content;
+	margin: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    transition: 0.5s;
+    text-align: center;
+    cursor: default;
+    display: inline-block;
+    margin: 30px;
+}
+.creditsUser:hover {
+    box-shadow: 0 0 20px var(--primary-text-color);
+    transform: scale(1.08);
+}
+
+.creditsUser img {
+    width: 140px;
+    height: 140px;
+    box-shadow: 0 0 20px black;
+    transition: 0.5s;
+    border-radius: 50%;
+}
+
+.creditsMedia {
+    transition: 0.5s;
+    font-size: 20px;
+    color: var(--primary-text-color);
+    padding: 3px;
+    margin-bottom: 15px;
+}
+.creditsMedia:hover {
+    transform: scale(1.2);
+}

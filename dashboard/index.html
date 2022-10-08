@@ -252,8 +252,7 @@
 			var errorToast;
 
 			function saveSettings() {
-				if (!params.has('guild')) return;
-				if (saving) return;
+				if (!params.has("guild") || saving) return;
 
 				saving = true;
 				const settings = document.getElementsByClassName('setting');
@@ -274,11 +273,9 @@
 					} else if (advancedsetting.includes(item.name)) {
 						currentlySelected[item.name].value.trim().split(" ").forEach(r => {
 							let value = document.getElementById("an_" + r + "value").value;
-							if (value.trim() != "") entry += r + ":" + value + ",";
+							if (value.trim() != "") entry += r + ":" + value.replace(/,/g, ";") + ","; // TODO: Handle commas in values
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
-						console.log(entry)
-						entry = ""
 					} else entry = item.value;
 
 					items[item.name] = entry;

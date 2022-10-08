@@ -159,7 +159,7 @@ function getSettingsHTML(json) {
 						possible
 					};
 
-					temp += '<select class="setting" id="' + setting.key + '" name="' + setting.key + '" onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
+					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '" onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r)).forEach(key => {
 						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
 					});

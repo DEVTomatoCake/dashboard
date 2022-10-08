@@ -137,11 +137,11 @@
 				document.getElementById(setting + "list").innerHTML += created;
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
-				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).forEach(key => {
+				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).forEach(key => {
 					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
 				select.innerHTML = selectoptions;
-				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).length == 0) select.disabled = true;
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
 			};
 			function removeRole(setting, item, role) {
 				const possible = currentlySelected[setting].possible;
@@ -149,11 +149,11 @@
 				item.parentElement.remove();
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
-				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).forEach(key => {
+				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).forEach(key => {
 					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
 				});
 				document.getElementById(setting).innerHTML = selectoptions;
-				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r)).length > 0) document.getElementById(setting).disabled = false;
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) document.getElementById(setting).disabled = false;
 			};
 
 			function redirect(url) {
@@ -276,6 +276,8 @@
 							entry += r + ":" + document.getElementById("an_" + r + "value") + ",";
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
+						console.log(entry)
+						entry = ""
 					} else entry = item.value;
 
 					items[item.name] = entry;

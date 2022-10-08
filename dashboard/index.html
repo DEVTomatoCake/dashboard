@@ -272,8 +272,9 @@
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 					} else if (advancedsetting.includes(item.name)) {
-						currentlySelected[item.name].value.split(" ").forEach(r => {
-							entry += r + ":" + document.getElementById("an_" + r + "value") + ",";
+						currentlySelected[item.name].value.trim().split(" ").forEach(r => {
+							let value = document.getElementById("an_" + r + "value").value;
+							if (value.trim() != "") entry += r + ":" + value + ",";
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 						console.log(entry)

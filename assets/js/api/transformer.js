@@ -115,6 +115,7 @@ function getSettingsHTML(json) {
 		var categoryData = [];
 
 		multiselect = json.constant.multiselect;
+		advancedsetting = json.constant.advancedsetting;
 
 		json.data.forEach(setting => {
 			let temp = "";
@@ -145,31 +146,45 @@ function getSettingsHTML(json) {
 							if (data == key.replace('_', '')) selected.push(i);
 						});
 						i++;
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
-						else temp += '<option value="' + key.replace('_', '') + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>';
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
+						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>';
 					});
+					temp += "</select>";
 					setTimeout(() => {
 						drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});
 					}, 2000);
+				} else if (advancedsetting.includes(setting.key)) {
+					currentlySelected[setting.key] = setting.value.split(",").map(r => r.split(":")[0]).join("");
+
+					temp += '<select class="setting" id="' + setting.key + '" name="' + setting.key + '" onchange="addRole(this)"><option>Rolle hinzufügen...</option>';
+					Object.keys(possible).filter(r => !setting.value.includes(r)).forEach(key => {
+						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
+					});
+					temp += '</select><div id="' + setting.key + 'list">';
+
+					setting.value.split(",").forEach(r => {
+						temp += "<br><div><p>" + possible[r.split(":")[0]].name + '</p><input class="setting" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
+					});
+					temp += "</div>";
 				} else {
-					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					temp += "<p>" + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => {
 						if (typeof possible[key] == "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>'
 						else temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>'
 					});
+					temp += "</select>";
 				};
-				temp += '</select>';
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
-			if (setting.category) categoryData.push([setting.category, temp + '<br><br>']);
+			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
 		});
 
 		categories.forEach(category => {
-			text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
+			text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + "</h2><br>";
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1];
 			});
-		})
+		});
 
 		return '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text;
 	} else {

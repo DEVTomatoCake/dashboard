@@ -130,6 +130,30 @@
 				});
 			};
 
+			function addRole(select) {
+				currentlySelected += select.value + " "
+				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(this, \'' + select.value + '\')"></ion-icon></div>';
+				document.getElementById("testlist").innerHTML += created;
+
+				var selectoptions = "<option>Rolle hinzufügen...</option>";
+				Object.keys(possible).filter(r => !currentlySelected.includes(r)).forEach(key => {
+					selectoptions += '<option value="' + key.replace('_', '') + '"' + '>' + possible[key].name + '</option>';
+				});
+				select.innerHTML = selectoptions;
+				if (Object.keys(possible).filter(r => !currentlySelected.includes(r)).length == 0) select.disabled = true;
+			}
+			function removeRole(item, role) {
+				currentlySelected = currentlySelected.replace(role + " ", "");
+				item.parentElement.remove();
+
+				var selectoptions = "<option>Rolle hinzufügen...</option>";
+				Object.keys(possible).filter(r => !currentlySelected.includes(r)).forEach(key => {
+					selectoptions += '<option value="' + key.replace('_', '') + '"' + '>' + possible[key].name + '</option>';
+				});
+				document.getElementById("test").innerHTML = selectoptions;
+				if (Object.keys(possible).filter(r => !currentlySelected.includes(r)).length > 0) document.getElementById("test").disabled = false;
+			};
+
 			function redirect(url) {
 				window.location = url;
 			};
@@ -217,6 +241,8 @@
 		<script>
 			var drops = [];
 			var multiselect = [];
+			var advancedsetting = [];
+			var currentlySelected = {};
 
 			const params = new URLSearchParams(window.location.search);
 			var saving = false;

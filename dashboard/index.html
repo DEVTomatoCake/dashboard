@@ -133,12 +133,12 @@
 			function addRole(setting, select) {
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " "
-				var created = '<br><div><p>' + possible["_" + select.value].name + '</p><input id="an_' + select.value + 'value" class="setting"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
+				var created = '<br><div><p>' + possible["_" + select.value].name + '</p><input id="an_' + select.value + 'value"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
 				document.getElementById(setting + "list").innerHTML += created;
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
 				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).forEach(key => {
-					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
+					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>"; // TODO: Fix overwriting of values
 				});
 				select.innerHTML = selectoptions;
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
@@ -148,11 +148,8 @@
 				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
 				item.parentElement.remove();
 
-				var selectoptions = "<option>Rolle hinzufügen...</option>";
-				Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).forEach(key => {
-					selectoptions += '<option value="' + key.replace("_", "") + '"' + ">" + possible[key].name + "</option>";
-				});
-				document.getElementById(setting).innerHTML = selectoptions;
+				document.getElementById(setting).innerHTML += '<option value="' + role + '"' + ">" + possible[role].name + "</option>";
+				document.getElementById(setting).value = "Rolle hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) document.getElementById(setting).disabled = false;
 			};
 

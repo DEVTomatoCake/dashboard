@@ -166,7 +166,7 @@ function getSettingsHTML(json) {
 					temp += '</select><div id="' + setting.key + 'list">';
 
 					setting.value.split(",").forEach(r => {
-						temp += "<br><div><p>" + possible["_" + r.split(":")[0]].name + '</p><input id="an_' + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
+						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input id="an_' + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
 					});
 					temp += "</div>";
 				} else {

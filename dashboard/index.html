@@ -131,8 +131,9 @@
 			};
 
 			function addRole(setting, possible, select) {
+				possible = JSON.parse(possible);
 				currentlySelected[setting] += select.value + " "
-				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', ' + possible + ', this, \'' + select.value + '\')"></ion-icon></div>';
+				var created = '<br><div><p>' + possible[select.value].name + '</p><input class="setting"><ion-icon name="close-outline" onclick="removeRole(' + setting + ', ' + JSON.stringify(possible) + ', this, \'' + select.value + '\')"></ion-icon></div>';
 				document.getElementById("testlist").innerHTML += created;
 
 				var selectoptions = "<option>Rolle hinzufügen...</option>";
@@ -143,6 +144,7 @@
 				if (Object.keys(possible).filter(r => !currentlySelected[setting].includes(r)).length == 0) select.disabled = true;
 			};
 			function removeRole(setting, possible, item, role) {
+				possible = JSON.parse(possible);
 				currentlySelected[setting] = currentlySelected[setting].replace(role + " ", "");
 				item.parentElement.remove();
 

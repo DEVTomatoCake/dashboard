@@ -156,7 +156,7 @@ function getSettingsHTML(json) {
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(""),
-						possible: possible.filter(r => r.trim() != "")
+						possible
 					};
 
 					temp += '<select class="setting" id="' + setting.key + '" name="' + setting.key + '" onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';

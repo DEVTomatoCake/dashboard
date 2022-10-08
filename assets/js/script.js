@@ -1,5 +1,5 @@
 function setCookie(name, value, days, global) {
-	if (name != "token" && name != "user" && !getCookie("cookie-dismiss")) return console.warn("Skipping cookie " + name);
+	if (name != "token" && name != "user" && name != "cookie-dismiss" && !getCookie("cookie-dismiss")) return console.warn("Skipping cookie " + name);
 	let cookie = name + "=" + (value || "") + ';path=/;';
 	if (days) {
 		const date = new Date();
@@ -71,7 +71,7 @@ function pageLoad(page = "") {
 		if (page == "main") document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
 		document.getElementById("username-header").innerText = username;
 		document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout" translation="global.logout">Abmelden</a><a href="/dashboard/user" translation="global.viewdataexport">Eigene Daten ansehen</a>';
-		document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' width='32' height='32' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
 	} else document.getElementById("username-avatar").style = "display: block;";
 
 	const theme = getCookie("theme");

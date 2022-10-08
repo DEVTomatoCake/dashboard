@@ -1009,20 +1009,18 @@ h3, h4, ul li {
 	padding: 15px;
 }
 .cookie-container button {
-	transition: var(--transition-buttons);
 	border: none;
-	width: 140px;
-	height: 40px;
-	border-radius: 20px;
+	padding: 10px;
+	margin: 10px 10px 0 0;
+	border-radius: 17px;
 	font-size: 20px;
-	background: var(--button-accent-color);
-	cursor: pointer;
+	background-color: var(--button-accent-color);
 	color: var(--light-text-color);
+	cursor: pointer;
 	transition: var(--transition-buttons);
-	font-family: 'Roboto Condensed', sans-serif;
-	letter-spacing: 1px;
-	margin-top: 10px;
-	justify-content: center;
+}
+.cookie-container button:hover {
+	background-color: var(--accent-color);
 }
 
 .form-popup {
@@ -1039,7 +1037,6 @@ h3, h4, ul li {
 	padding: 10px;
 	background-color: white;
 }
-
 .form-container h1 {
 	padding-bottom: 15px;
 }
@@ -1054,7 +1051,6 @@ h3, h4, ul li {
 	max-width: 350px;
 	box-sizing: border-box;
 }
-
 .form-container input[type=text]:focus, .form-container textarea:focus {
 	background-color: #ddd;
 	outline: none;

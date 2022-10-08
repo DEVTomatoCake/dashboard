@@ -155,7 +155,7 @@ function getSettingsHTML(json) {
 					}, 2000);
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
-						value: setting.value.split(",").map(r => r.split(":")[0]).join(""),
+						value: setting.value.split(",").map(r => r.split(":")[0]).join(" "),
 						possible
 					};
 

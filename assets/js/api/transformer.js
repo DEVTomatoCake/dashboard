@@ -2,8 +2,8 @@ function getCommandsHTML() {
 	return new Promise((resolve => {
 		getCommands()
 			.then(json => {
-				if (json.status === 'success') {
-					let text = '';
+				if (json.status == 'success') {
+					let text = "";
 					var categories = [];
 					var categoryData = [];
 
@@ -20,7 +20,7 @@ function getCommandsHTML() {
 					});
 
 					categories.forEach(category => {
-						text += '<center><h3 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h3>' +
+						text += '<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>' +
 						'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
 						'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
 						'<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';

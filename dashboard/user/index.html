@@ -138,7 +138,7 @@
 					<h1>Deine Daten werden geladen...</h1>
 				</div>
 
-				<p id="author">Websiten-Design erstellt von <a href="https://bookie0.repl.co/">Bookie0</a>,<br> Dashboard von <a href="https://booky.dev/">booky10</a>, TomatoCake und <a href="https://github.com/FuntyGithub">Funty</a></p>
+				<p id="author" translation="global.footer"></p>
 			</div>
 		</section>
 
@@ -146,11 +146,12 @@
 			const params = new URLSearchParams(window.location.search);
 
 			if (getCookie("token")) {
-				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen..</h1>';
+				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen...</h1>';
 				getDataexportHTML().then(data => {
-					document.getElementById('content').innerHTML = data + '<p id="author">Websiten-Design erstellt von <a href="https://bookie0.repl.co/">Bookie0</a>,<br> Dashboard von <a href="https://booky.dev/">booky10</a>, TomatoCake und <a href="https://github.com/FuntyGithub">Funty</a></p>';
+					document.getElementById('content').innerHTML = data + '<p id="author" translation="global.footer"></p>';
+					reloadText(getLanguage());
 				}).catch(err => {
-					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden...</h1>';
+					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden!</h1>';
 					console.log(err);
 				});
 			} else if (params.has("code")) {
@@ -160,6 +161,7 @@
 					if (json.status == "success") {
 						setCookie("token", json.token, 4);
 						setCookie("user", json.user, 4);
+						setCookie("avatar", json.avatar, 4);
 
 						location.href = "https://" + location.host + "/dashboard/user";
 					} else {

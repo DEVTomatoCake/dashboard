@@ -132,9 +132,9 @@
 
 			function addRole(setting, select) {
 				const possible = currentlySelected[setting].possible;
-				currentlySelected[setting].value += select.value + " "
-				var created = '<div><br><p>' + possible["_" + select.value].name + '</p><input id="an_' + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
-				document.getElementById(setting + "list").innerHTML += created;
+				currentlySelected[setting].value += select.value + " ";
+				document.getElementById(setting + "list").innerHTML += "" +
+					"<div><br><p>" + possible["_" + select.value].name + '</p><input id="an_' + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
 
 				select.innerHTML = select.innerHTML.replace('<option value="' + select.value + '"' + ">" + possible["_" + select.value].name + "</option>", "");
 				select.value = "Rolle hinzufügen...";
@@ -145,9 +145,10 @@
 				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
 				item.parentElement.remove();
 
-				document.getElementById(setting).innerHTML += '<option value="' + role + '"' + ">" + possible["_" + role].name + "</option>";
-				document.getElementById(setting).value = "Rolle hinzufügen...";
-				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) document.getElementById(setting).disabled = false;
+				const select = document.getElementById(setting);
+				select.innerHTML += '<option value="' + role + '"' + ">" + possible["_" + role].name + "</option>";
+				select.value = "Rolle hinzufügen...";
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
 			};
 
 			function redirect(url) {

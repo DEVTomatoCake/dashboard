@@ -163,10 +163,10 @@ function getSettingsHTML(json) {
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
 						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
 					});
-					temp += '</select><div id="' + setting.key + 'list">';
+					temp += '</select><div id="' + setting.key + 'list" class="advancedsetting">';
 
 					setting.value.split(",").forEach(r => {
-						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input id="an_' + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
+						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input size="' + (screen.width > 500 ? 30 : 20) + '" id="an_' + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
 					});
 					temp += "</div>";
 				} else {

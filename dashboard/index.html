@@ -134,7 +134,7 @@
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " ";
 				document.getElementById(setting + "list").innerHTML += "" +
-					"<div><br><p>" + possible["_" + select.value].name + '</p><input id="an_' + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
+					"<div><br><p>" + possible["_" + select.value].name + '</p><input size="' + (screen.width > 500 ? 30 : 20) + '" id="an_' + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
 
 				select.innerHTML = select.innerHTML.replace('<option value="' + select.value + '"' + ">" + possible["_" + select.value].name + "</option>", "");
 				select.value = "Rolle hinzufügen...";

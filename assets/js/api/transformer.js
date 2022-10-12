@@ -150,7 +150,9 @@ function getSettingsHTML(json) {
 						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>';
 					});
 					temp += "</select>";
-					runOnLoaded.push(() => drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})}));
+					setTimeout(() => {
+						drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});
+					}, 2000);
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",

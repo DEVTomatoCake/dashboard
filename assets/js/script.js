@@ -44,11 +44,7 @@ function fadeIn(element) {
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 var reloadText;
-var runOnLoaded = [];
 function pageLoad(page = "") {
-	console.log(runOnLoaded)
-	runOnLoaded.forEach(func => func());
-	runOnLoaded = [];
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML += '' +
 			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +

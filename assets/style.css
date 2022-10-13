@@ -232,9 +232,6 @@ tr.cmdvisible:nth-child(odd) {
 
 .guilds-container .notactivated {
     -webkit-filter: grayscale(100%);
-       -moz-filter: grayscale(100%);
-         -o-filter: grayscale(100%);
-        -ms-filter: grayscale(100%);
             filter: grayscale(100%);
 }
 
@@ -244,6 +241,16 @@ tr.cmdvisible:nth-child(odd) {
 	border: none;
 	border-radius: 4px;
 	padding: 3px;
+}
+.settingcopy {
+	overflow-wrap: anywhere;
+	font-size: 1.1em;
+	border: none;
+	border-radius: 4px;
+	padding: 3px;
+}
+.advancedsetting {
+	margin-left: 30px;
 }
 
 textarea {
@@ -255,13 +262,10 @@ textarea:focus {
 	outline: none;
 }
 
-input.hidearrows::-webkit-outer-spin-button,
-input.hidearrows::-webkit-inner-spin-button {
-	-webkit-appearance: none;
-	margin: 0;
-}
 input .hidearrows {
-	-moz-appearance: textfield;
+	-moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
 }
 
 .badge {

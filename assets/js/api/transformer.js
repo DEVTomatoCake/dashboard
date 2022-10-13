@@ -2,8 +2,8 @@ function getCommandsHTML() {
 	return new Promise((resolve => {
 		getCommands()
 			.then(json => {
-				if (json.status === 'success') {
-					let text = '';
+				if (json.status == 'success') {
+					let text = "";
 					var categories = [];
 					var categoryData = [];
 
@@ -20,7 +20,7 @@ function getCommandsHTML() {
 					});
 
 					categories.forEach(category => {
-						text += '<center><h3 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h3>' +
+						text += '<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>' +
 						'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
 						'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
 						'<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
@@ -110,19 +110,20 @@ function getGuildsHTML() {
 
 function getSettingsHTML(json) {
 	if (json.status == 'success') {
-		let text = '';
+		let text = "";
 		var categories = [];
 		var categoryData = [];
 
 		multiselect = json.constant.multiselect;
+		advancedsetting = json.constant.advancedsetting;
 
 		json.data.forEach(setting => {
 			let temp = "";
 			if (!setting.possible) {
-				if (json.constant.integer.includes(setting.key)) temp += '' +
+				if (json.constant.integer.includes(setting.key)) temp += "" +
 					'<p>' + setting.help + '</p>' +
 					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
-				else temp += '' +
+				else temp += "" +
 					'<p>' + setting.help + '</p>' +
 					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 
@@ -145,31 +146,48 @@ function getSettingsHTML(json) {
 							if (data == key.replace('_', '')) selected.push(i);
 						});
 						i++;
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
-						else temp += '<option value="' + key.replace('_', '') + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>';
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
+						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>';
 					});
+					temp += "</select>";
 					setTimeout(() => {
 						drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});
 					}, 2000);
+				} else if (advancedsetting.includes(setting.key)) {
+					currentlySelected[setting.key] = {
+						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
+						possible
+					};
+
+					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '" ' + (Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") + 'onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
+					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
+						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
+					});
+					temp += '</select><div id="' + setting.key + 'list" class="advancedsetting">';
+
+					setting.value.split(",").forEach(r => {
+						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input size="' + (screen.width > 500 ? 30 : 20) + '" id="an_' + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
+					});
+					temp += "</div>";
 				} else {
-					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					temp += "<p>" + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => {
 						if (typeof possible[key] == "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>'
 						else temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>'
 					});
+					temp += "</select>";
 				};
-				temp += '</select>';
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
-			if (setting.category) categoryData.push([setting.category, temp + '<br><br>']);
+			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
 		});
 
 		categories.forEach(category => {
-			text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2><br>';
+			text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + "</h2><br>";
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1];
 			});
-		})
+		});
 
 		return '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text;
 	} else {
@@ -276,7 +294,7 @@ function getDataexportHTML(token) {
 						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
 
 					if (json.data.economy?.shop?.length > 0)
-						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + '">' + item.name + '</p>').join(", ");
+						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + (item.used > 0 ? ", " + item.used + " mal genutzt" : "") + '">' + item.name + '</p>').join(", ");
 
 					if (json.data.economy?.cooldowns?.length > 0)
 						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
@@ -301,7 +319,7 @@ function getDataexportHTML(token) {
 
 					// User
 					'<div class="userData">' +
-					'<h1>User</h1>' +
+					'<h1 translation="user.general"></h1>' +
 					'<p><b>ID:</b> ' + json.data.userProfiles?.id + '</p>' +
 					(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
 					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
@@ -309,7 +327,7 @@ function getDataexportHTML(token) {
 
 					// Usersettings
 					'<div class="userData">' +
-					'<h1>Settings</h1>' +
+					'<h1 translation="user.settings"></h1>' +
 					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></a> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
 					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
 					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
@@ -325,7 +343,6 @@ function getDataexportHTML(token) {
 						'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
 						(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
 						(cooldowns ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
-						//'<p><b>Job:</b> ' + json.data.economy.job + '</p>' +
 						'</div>'
 					: "") +
 
@@ -342,7 +359,7 @@ function getDataexportHTML(token) {
 					// Remind
 					(reminders ?
 						'<div class="userData">' +
-						'<h1>Reminders</h1>' +
+						'<h1 translation="user.reminders"></h1>' +
 						reminders +
 						'</div>'
 					: "") +
@@ -358,7 +375,7 @@ function getDataexportHTML(token) {
 					// Suggest
 					(suggests ?
 						'<div class="userData">' +
-						'<h1>Suggestions</h1>' +
+						'<h1 translation="user.suggestions"></h1>' +
 						suggests +
 						'</div>'
 					: "") +
@@ -367,7 +384,7 @@ function getDataexportHTML(token) {
 
 					'<div style="overflow: auto;">' +
 					'<div class="userData">' +
-					'<h1>Daten im JSON-Format:</h1>' +
+					'<h1 translation="user.json"></h1>' +
 					'<br><textarea rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
 					'</div>' +
 					'</div>' +

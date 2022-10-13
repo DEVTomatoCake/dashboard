@@ -130,6 +130,27 @@
 				});
 			};
 
+			function addRole(setting, select) {
+				const possible = currentlySelected[setting].possible;
+				currentlySelected[setting].value += select.value + " ";
+				document.getElementById(setting + "list").innerHTML += "" +
+					"<div><br><p>" + possible["_" + select.value].name + '</p><input size="' + (screen.width > 500 ? 30 : 20) + '" id="an_' + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon></div>';
+
+				select.innerHTML = select.innerHTML.replace('<option value="' + select.value + '"' + ">" + possible["_" + select.value].name + "</option>", "");
+				select.value = "Rolle hinzufügen...";
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
+			};
+			function removeRole(setting, item, role) {
+				const possible = currentlySelected[setting].possible;
+				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
+				item.parentElement.remove();
+
+				const select = document.getElementById(setting);
+				select.innerHTML += '<option value="' + role + '"' + ">" + possible["_" + role].name + "</option>";
+				select.value = "Rolle hinzufügen...";
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
+			};
+
 			function redirect(url) {
 				window.location = url;
 			};
@@ -217,6 +238,8 @@
 		<script>
 			var drops = [];
 			var multiselect = [];
+			var advancedsetting = [];
+			var currentlySelected = {};
 
 			const params = new URLSearchParams(window.location.search);
 			var saving = false;
@@ -224,8 +247,7 @@
 			var errorToast;
 
 			function saveSettings() {
-				if (!params.has('guild')) return;
-				if (saving) return;
+				if (!params.has("guild") || saving) return;
 
 				saving = true;
 				const settings = document.getElementsByClassName('setting');
@@ -241,6 +263,12 @@
 							drop.data.selected.forEach(possible => {
 								if (!possible.removed) entry += drop.data.options[possible.index].value + ",";
 							});
+						});
+						if (entry.endsWith(",")) entry = entry.slice(0, -1);
+					} else if (advancedsetting.includes(item.name)) {
+						if (currentlySelected[item.name].value.trim().length > 0) currentlySelected[item.name].value.trim().split(" ").forEach(r => {
+							let value = document.getElementById("an_" + r + "value").value;
+							if (value.trim() != "") entry += r + ":" + value.replace(/,/g, ";") + ","; // TODO: Handle commas in values
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 					} else entry = item.value;

@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /assets/
+Disallow: /login
+Disallow: /logout
+Disallow: /docs
+
+Sitemap: https://tomatenkuchen.eu/sitemap.xml

@@ -1,5 +1,5 @@
 function setCookie(name, value, days, global) {
-	if (name != "token" && name != "user" && name != "cookie-dismiss" && !getCookie("cookie-dismiss")) return console.warn("Skipping cookie " + name);
+	if (!getCookie("cookie-dismiss") && name != "token" && name != "user" && name != "cookie-dismiss") return console.warn("Skipping cookie " + name);
 	let cookie = name + "=" + (value || "") + ';path=/;';
 	if (days) {
 		const date = new Date();
@@ -49,9 +49,9 @@ function pageLoad(page = "") {
 		document.body.innerHTML += '' +
 			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
 			'<h2 style="color: var(--primary-text-color);">Information</h2>' +
-			'<p>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
-			'<button onclick="fadeOut(document.getElementById(\'cookie-container\'));">Nur funktionale akzeptieren</button>' +
-			'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));">Alle akzeptieren</button>' +
+			'<p translation="cookie.text">Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
+			'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));" translation="cookie.all">Alle akzeptieren</button>' +
+			'<button onclick="fadeOut(document.getElementById(\'cookie-container\'));" translation="cookie.necessary">Nur notwendige</button>' +
 			'</div>';
 		setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
 	};

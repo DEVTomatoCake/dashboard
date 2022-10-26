@@ -47,8 +47,8 @@ var reloadText;
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML += '' +
-			'<div class="cookie-container" id="cookie-container" style="opacity: 0;">' +
-			'<h2 style="color: var(--primary-text-color);">Information</h2>' +
+			'<div class="cookie-container" id="cookie-container">' +
+			'<h2>Cookie-Information</h2>' +
 			'<p translation="cookie.text">Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>' +
 			'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));" translation="cookie.all">Alle akzeptieren</button>' +
 			'<button onclick="fadeOut(document.getElementById(\'cookie-container\'));" translation="cookie.necessary">Nur notwendige</button>' +

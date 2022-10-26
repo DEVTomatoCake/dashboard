@@ -468,15 +468,6 @@ input .hidearrows {
 	padding: 0;
 }
 
-.sidebar .section.bottom ion-icon {
-	margin: 10px;
-	color: var(--secondary-text-color);
-}
-
-.sidebar .section.bottom ion-icon:hover {
-	color: var(--primary-text-color);
-}
-
 #author {
 	font-size: 75%;
 	padding-top: 50px;
@@ -857,12 +848,12 @@ h1.greeting {
 	color: var(--primary-text-color);
 }
 
-.main .content .row .data .container .text h3 {
+.main .content .row .data .container h3.text {
 	color: var(--primary-text-color);
 	font-size: 25px;
 }
 
-.main .content .row .data .container .text p {
+.main .content .row .data .container p.text {
 	color: var(--secondary-text-color);
 	font-size: 18px;
 	font-family: 'Roboto Condensed', sans-serif;
@@ -873,29 +864,28 @@ h1.greeting {
 	width: 50px;
 }
 
-.main .content .row .data.rect {
-	width: 500px;
+.main .content .row .data {
 	height: 235px;
 }
-
+.main .content .row .data.rect {
+	width: 500px;
+}
 .main .content .row .data.small {
 	width: 235px;
-	height: 235px;
 	gap: 75px;
 }
 
-.main .content .row .data.uptime h1 {
-	color: var(--green);
+.main .content .row .data.small p {
+	font-weight: 600;
 	font-size: 50px;
 	position: relative;
 	top: -50px;
 }
-
-.main .content .row .data.users h1 {
+.main .content .row .data.uptime p {
+	color: var(--green);
+}
+.main .content .row .data.users p {
 	color: var(--blue);
-	font-size: 50px;
-	position: relative;
-	top: -50px;
 }
 
 .main .content .row .data.rect .numbers {
@@ -935,56 +925,12 @@ h1.greeting {
 	border-bottom-right-radius: 20px;
 }
 
-.charts-css.line.users td {
-	--color: var(--blue);
-}
-
-.charts-css.line.performance td {
-	--color: var(--pink);
-}
-
-.charts-css.column.sales {
-	margin-top: auto;
-}
-
-.charts-css.column.sales tbody {
-	display: flex;
-	gap: 30px;
-}
-
-.charts-css.column.sales td {
-	--color: var(--cyan);
-}
-
-.charts-css.column.sales td.first {
-	border-bottom-left-radius: 20px;
-}
-
-.charts-css.column.sales td.last {
-	border-bottom-right-radius: 20px;
-}
-
 
 .main .content .row .small-container {
 	display: flex;
 	justify-content: center;
 	height: 235px;
 	gap: 30px;
-}
-
-.main .content .row .data.big {
-	width: 500px;
-	height: 520px;
-}
-
-.main .content .row .data.large {
-	width: 1025px;
-	height: 520px;
-	color: var(--primary-text-color);
-}
-
-.main .content .row .data.large .container {
-	margin-bottom: 50px;
 }
 
 table.charts-css {
@@ -1011,6 +957,18 @@ h3, h4, ul li {
 	bottom: 15px;
 	background-color: var(--secondary-color);
 	padding: 15px;
+	opacity: 0;
+}
+@media only screen and (max-width: 550px) {
+	.cookie-container {
+		position: absolute;
+		right: 0;
+		bottom: 0;
+	}
+}
+
+.cookie-container h2 {
+	color: var(--primary-text-color);
 }
 .cookie-container button {
 	border: none;
@@ -1025,6 +983,10 @@ h3, h4, ul li {
 }
 .cookie-container button:hover {
 	background-color: var(--accent-color);
+}
+
+.statsicon {
+	min-width: 50px;
 }
 
 .form-popup {
@@ -1075,63 +1037,26 @@ h3, h4, ul li {
 	transition: .3s;
 }
 
-.left {
-	float: left;
+.featurelist {
+	margin-top: 4rem;
 }
-.right {
-	float: right;
-	flex-direction: row-reverse;
-}
-.features {
-	display: flex;
-	justify-content: space-around;
+.feature {
+	margin-top: 10px;
+	display: grid;
+	grid-template-columns: auto auto;
+	gap: 15px;
 	align-items: center;
-	flex-wrap: nowrap;
-	padding: 15px;
-	width: 100%;
+	vertical-align: middle;
 }
-.features strong {
-	width: 28em;
-	font-size: 1.3em;
-}
-.features p {
-	width: 35em;
-	min-width: 10%;
-	max-width: 50%;
+.feature strong {
 	font-size: 1.2em;
 }
-.features a {
+.feature p {
+	font-size: 1.1em;
+}
+.feature a {
 	color: var(--blue);
 	text-decoration: none;
-}
-
-.features img {
-	transition: .5s;
-	width: 190px;
-	height: 190px;
-}
-.features.left img {
-	margin-left: 100px;
-}
-.features.right img {
-	margin-right: 100px;
-}
-
-@media only screen and (max-width: 850px) {
-	.features img {
-		width: 140px;
-		height: 140px;
-	}
-}
-@media only screen and (max-width: 800px) {
-	.features p {
-		font-size: 1.1em;
-	}
-}
-@media only screen and (max-width: 700px) {
-	.features p {
-		font-size: 1em;
-	}
 }
 
 .form-container .cancel {
@@ -1201,6 +1126,12 @@ h3, h4, ul li {
 	}
 }
 
+@media only screen and (max-width: 550px) {
+	.linkicon {
+		display: none;
+	}
+}
+
 @media only screen and (max-width: 500px) {
 	.sidebar-container.visible {
 		width: 100%;
@@ -1225,12 +1156,7 @@ h3, h4, ul li {
 	.main .content p.subtitle {
 		margin: 10px;
 	}
-}
 
-@media only screen and (max-width: 500px) {
-	.linkicon {
-		display: none;
-	}
 	.main .content .row .data.small h1 {
 		font-size: 40px;
 		transition: .2s;

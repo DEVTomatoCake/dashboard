@@ -141,14 +141,12 @@
 				<div class="row">
 					<div class="data rect">
 						<div class="container session-length">
-							<div style="min-width: 50px;"><ion-icon name="server-outline" class="server-icon"></ion-icon></div>
+							<div class="statsicon"><ion-icon name="server-outline" class="server-icon"></ion-icon></div>
 
-							<div class="text">
-								<h3 id="stats-guilds">Lade...</h3>
-								<p>SERVER INSGESAMT</p>
-							</div>
+							<h3 id="stats-guilds" class="text">Lade...</h3>
+							<p class="text">SERVER INSGESAMT</p>
 
-							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" style="padding-left: 180px;" target="_blank"><ion-icon name="open-outline" class="open"></ion-icon></a>
+							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" style="padding-left: 180px;" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
 
 						<table class="charts-css area multiple session-length">
@@ -174,61 +172,60 @@
 					<div class="small-container">
 						<div class="data small uptime">
 							<div class="container">
-								<div class="statsicon" style="min-width: 50px;"><ion-icon name="game-controller-outline"></ion-icon></div>
+								<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
 
-								<div class="text">
-									<h3>UPTIME</h3>
-								</div>
+								<h3 class="text">UPTIME</h3>
 
-								<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank"><ion-icon name="open-outline" class="open"></ion-icon></a>
+								<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 							</div>
 
-							<h1 id="stats-apiping">99,99%</h1>
+							<p>99,99%</p>
 						</div>
 
 						<div class="data small users">
 							<div class="container">
-								<div class="statsicon" style="min-width: 50px;"><ion-icon name="people-outline"></ion-icon></div>
+								<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
 
-								<div class="text">
-									<h3>NUTZER</h3>
-								</div>
+								<h3 class="text">NUTZER</h3>
 
-								<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank"><ion-icon name="open-outline" class="open"></ion-icon></a>
+								<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 							</div>
 
-							<h1 id="stats-users">Lade...</h1>
+							<p id="stats-users">Lade...</p>
 						</div>
 					</div>
 				</div>
-				<div>
-					<br>
-					<br>
-					<br>
-					<br>
+
+				<div class="featurelist">
 					<h1>Features</h1>
-					<div class="features right">
-						<img src="./assets/images/tomato_ban.webp" alt="Tomato holding a ban sign" />
-						<p><strong><span translation="main.features.moderation.title"></span></strong><br>
-						<span translation="main.features.moderation.description"></span></p>
+					<div class="feature">
+						<img src="./assets/images/tomato_ban.webp" width="170" height="170" alt="Tomato holding a ban sign" />
+						<div>
+							<p><strong><span translation="main.features.moderation.title"></span></strong><br>
+							<span translation="main.features.moderation.description"></span></p>
+						</div>
 					</div>
-					<div class="features left">
-						<img src="./assets/images/tomato_empty.webp" alt="Default tomato image" />
-						<p><strong><span translation="main.features.template.title"></span></strong><br>
-						<span translation="main.features.template.description"></span></p>
+					<div class="feature">
+						<div>
+							<p><strong><span translation="main.features.template.title"></span></strong><br>
+							<span translation="main.features.template.description"></span></p>
+						</div>
+						<img src="./assets/images/tomato_empty.webp" width="170" height="170" alt="Default tomato image" />
 					</div>
-					<div class="features right">
-						<img src="./assets/images/tomato_empty.webp" alt="Default tomato image" />
-						<p><strong><span translation="main.features.ticket.title"></span></strong><br>
-						<span translation="main.features.ticket.description"></span></p>
+					<div class="feature">
+						<img src="./assets/images/tomato_empty.webp" width="170" height="170" alt="Default tomato image" />
+						<div>
+							<p><strong><span translation="main.features.ticket.title"></span></strong><br>
+							<span translation="main.features.ticket.description"></span></p>
+						</div>
 					</div>
-					<div class="features left">
-						<img src="./assets/images/tomato_empty.webp" alt="Default tomato image" />
-						<p><strong><span translation="main.features.stats.title"></span></strong><br>
-						<span translation="main.features.stats.description"></span></p>
+					<div class="feature">
+						<div>
+							<p><strong><span translation="main.features.stats.title"></span></strong><br>
+							<span translation="main.features.stats.description"></span></p>
+						</div>
+						<img src="./assets/images/tomato_empty.webp" width="170" height="170" alt="Default tomato image" />
 					</div>
-					<br>
-					<br>
 				</div>
 
 				<p id="author" translation="global.footer"></p>

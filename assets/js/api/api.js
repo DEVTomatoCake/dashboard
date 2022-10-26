@@ -42,54 +42,6 @@ function getStats(guild) {
 	});
 }
 
-function getSettings(guild) {
-	return new Promise((resolve, reject) => {
-		get('settings/get/' + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
-	});
-}
-
-function setSettings(guild, settings) {
-	return new Promise((resolve, reject) => {
-		get('settings/set/' + guild + settings, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
-	});
-}
-
-function getCustomcommands(guild) {
-	return new Promise((resolve, reject) => {
-		get('customcommands/get/' + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
-	});
-}
-
-function setCustomcommands(guild, commands) {
-	return new Promise((resolve, reject) => {
-		get('customcommands/set/' + guild + commands, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
-	});
-}
-
-function getReactionroles(guild) {
-	return new Promise((resolve, reject) => {
-		get('reactionroles/get/' + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
-	});
-}
-
-function setReactionroles(guild, roles) {
-	return new Promise((resolve, reject) => {
-		get('reactionroles/set/' + guild + roles, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
-	});
-}
-
 function login(code) {
 	return new Promise((resolve, reject) => {
 		get('auth/login?code=' + encodeURIComponent(code) + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)

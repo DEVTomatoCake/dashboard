@@ -3,7 +3,7 @@
 
 /* latin */
 @font-face {
-	font-family: 'Be Vietnam Pro';
+	font-family: "Be Vietnam Pro";
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
@@ -13,7 +13,7 @@
 
 /* latin */
 @font-face {
-	font-family: 'Roboto Condensed';
+	font-family: "Roboto Condensed";
 	font-style: normal;
 	font-weight: 400;
 	font-display: swap;
@@ -95,7 +95,11 @@ html, body {
 	overflow-x: hidden;
 	background: var(--primary-color);
 	transition: .5s;
-	font-family: 'Be Vietnam Pro', sans-serif;
+	font-family: "Be Vietnam Pro", sans-serif;
+}
+
+image {
+	image-rendering: auto;
 }
 
 .main {
@@ -421,7 +425,7 @@ input .hidearrows {
 	cursor: pointer;
 	color: var(--light-text-color);
 	transition: var(--transition-buttons);
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 2px;
 }
 
@@ -559,7 +563,7 @@ input .hidearrows {
 	font-size: 13px;
 	margin-left: 15px;
 	color: var(--secondary-text-color);
-	font-family: 'Roboto Condensed', sans-serif;
+	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 2px;
 }
 
@@ -661,7 +665,7 @@ input .hidearrows {
 	transition: var(--transition-buttons);
 	background: var(--primary-color);
 	color: var(--primary-text-color);
-	font-family: 'Be Vietnam Pro', sans-serif;
+	font-family: "Be Vietnam Pro", sans-serif;
 }
 
 .main .top .search-box input:focus {
@@ -856,7 +860,6 @@ h1.greeting {
 .main .content .row .data .container p.text {
 	color: var(--secondary-text-color);
 	font-size: 18px;
-	font-family: 'Roboto Condensed', sans-serif;
 	letter-spacing: 2px;
 }
 

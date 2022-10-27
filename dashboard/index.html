@@ -89,6 +89,7 @@
 							status: "success",
 							action: "GET_settings",
 							guild: guild,
+							lang: getLanguage(),
 							token: getCookie("token")
 						});
 					},
@@ -108,23 +109,23 @@
 						console.log(json);
 
 						if (json.action == "RECEIVE_settings") {
-							document.getElementById("linksidebar").innerHTML =
-								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
+							const rendered = getSettingsHTML(json);
+
+							var sidebarHTML = "" +
+								"<div class='section middle'><p class='title'>EINSTELLUNGEN</p>" +
 								"<br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
 								"<br><hr><div class='tab' onclick='redirect(\"./customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
 								"<div class='tab' onclick='redirect(\"./reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
 								"<div class='tab' onclick='redirect(\"../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
 								"<div class='tab' onclick='redirect(\"../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
-								"<hr><div class='tab small' onclick='redirect(\"#allgemein\")'><ion-icon name='settings-outline'></ion-icon><p>Allgemein</p></div>" +
-								"<div class='tab small' onclick='redirect(\"#moderation\")'><ion-icon name='settings-outline'></ion-icon><p>Moderation</p></div>" +
-								"<div class='tab small' onclick='redirect(\"#willkommen\")'><ion-icon name='settings-outline'></ion-icon><p>Willkommen</p></div>" +
-								"<div class='tab small' onclick='redirect(\"#starconfig\")'><ion-icon name='settings-outline'></ion-icon><p>Starboard</p></div>" +
-								"<div class='tab small' onclick='redirect(\"#ticket\")'><ion-icon name='settings-outline'></ion-icon><p>Ticket</p></div>" +
-								"<div class='tab small' onclick='redirect(\"#youtube\")'><ion-icon name='settings-outline'></ion-icon><p>YouTube</p></div>" +
-								"<div class='tab small' onclick='redirect(\"#level\")'><ion-icon name='settings-outline'></ion-icon><p>Level</p></div>" +
-								"</div>";
+								"<hr>";
 
-							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getSettingsHTML(json) + "</div>";
+							rendered.categories.forEach(category => {
+								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
+							});
+
+							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
@@ -138,7 +139,7 @@
 				currentlySelected[setting].value += select.value + " ";
 				var roleelement = document.createElement("div");
 				roleelement.innerHTML = "<br><p>" + possible["_" + select.value].name + '</p><input size="' + (screen.width > 500 ? 30 : 20) + '" id="an_' + setting + "_" + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon>';
-				document.getElementById(setting + "list").appendChild(roleelement)
+				document.getElementById(setting + "list").appendChild(roleelement);
 
 				select.innerHTML = select.innerHTML.replace('<option value="' + select.value + '"' + ">" + possible["_" + select.value].name + "</option>", "");
 				select.value = "Rolle hinzufügen...";
@@ -240,6 +241,10 @@
 		</section>
 
 		<script>
+			var friendlyCat = {
+				starconfig: "Starboard"
+			};
+
 			var drops = [];
 			var multiselect = [];
 			var advancedsetting = [];

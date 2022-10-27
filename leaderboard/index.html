@@ -1,26 +1,26 @@
 <!DOCTYPE html>
 <html lang="de">
 	<head>
-  		<meta charset="utf-8">
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="TomatenKuchen online leaderboard"/>
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. View the level leaderboard of a Discord server." />
 		<meta name="theme-color" content="#ed8721">
 
-  		<title>TomatenKuchen - Leaderboard</title>
-		  <link href="/assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-		  <link href="/assets/images/icon.ico" rel="icon" type="image/x-icon"/>
-		  <link href="/assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
-		  <link href="/assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
+		<title>TomatenKuchen - Discord Server Leaderboard</title>
+		  <link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+		  <link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+		  <link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
+		  <link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
 
-  		<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
+		<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
 
 		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
-  		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/script.js"></script>
 		<script src="../assets/js/language.js"></script>
-  		<script src="../assets/js/api/api.js"></script>
-  		<script src="../assets/js/api/transformer.js"></script>
+		<script src="../assets/js/api/api.js"></script>
+		<script src="../assets/js/api/transformer.js"></script>
 
 		<script>
 			var i = 0;
@@ -140,10 +140,10 @@
 
 		<script>
 			const rootContainer = document.getElementById('leaderboard-container');
-		  	const params = new URLSearchParams(location.search);
+			const params = new URLSearchParams(location.search);
 
-		  	if (params.has('guild')) getLeaderboardHTML(params.get('guild')).then(html => rootContainer.innerHTML = html);
-		  	else {
+			if (params.has('guild')) getLeaderboardHTML(params.get('guild')).then(html => rootContainer.innerHTML = html);
+			else {
 				rootContainer.innerHTML = '<h1 class="greeting" translation="leaderboard.missingguild"></h1>';
 				reloadText(getLanguage());
 			};

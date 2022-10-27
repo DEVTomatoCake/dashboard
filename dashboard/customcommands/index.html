@@ -3,13 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta content="Dashboard für TomatenKuchen - Customcommands" name="description"/>
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server, like unlimited customcommands." />
+		<meta name="theme-color" content="#ed8721">
 
-		<title>TomatenKuchen - Dashboard</title>
-		<link href="/assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-		<link href="/assets/images/icon.ico" rel="icon" type="image/x-icon"/>
-		<link href="/assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
-		<link href="/assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
+		<title>TomatenKuchen - Customcommands settings - Dashboard</title>
+		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
+		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
+		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
 
 		<link href="../../assets/style.css" rel="stylesheet" type="text/css">
 
@@ -77,43 +78,43 @@
 			var socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
-				  	timeout: 4000,
-				  	onReconnect: event => console.log("Reconnecting...", event),
-				  	onMaxTries: event => console.log("Stopped reconnection attempts", event),
-				  	onClose: event => {
-				  		console.log("Closed", event);
+					timeout: 4000,
+					onReconnect: event => console.log("Reconnecting...", event),
+					onMaxTries: event => console.log("Stopped reconnection attempts", event),
+					onClose: event => {
+						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
-				  	},
-				  	onError: event => console.error("Error", event),
-				  	onOpen: event => {
-				    	console.log("Connected!", event);
-				    	if (errorToast) {
-				    		errorToast.setType("SUCCESS");
-				    		setTimeout(errorToast.close, 1000);
-				    	};
-				    	socket.send({
-				    		status: "success",
-				    		action: "GET_customcommands",
-				    		guild: guild,
-				    		token: getCookie("token")
-				    	});
-				  	},
-				  	onMessage: event => {
-				  		console.log("Received message: " + event.data);
+					},
+					onError: event => console.error("Error", event),
+					onOpen: event => {
+						console.log("Connected!", event);
+						if (errorToast) {
+							errorToast.setType("SUCCESS");
+							setTimeout(errorToast.close, 1000);
+						};
+						socket.send({
+							status: "success",
+							action: "GET_customcommands",
+							guild: guild,
+							token: getCookie("token")
+						});
+					},
+					onMessage: event => {
+						console.log("Received message: " + event.data);
 
 						try {
-				  			var json = JSON.parse(event.data);
-				  		} catch (e) {
-				  			console.warn(e, event);
-				  			return socket.send({
-				  				status: "error",
-				  				message: "Invalid json",
-				  				debug: event.data
-				  			});
-				  		};
-				  		console.log(json);
+							var json = JSON.parse(event.data);
+						} catch (e) {
+							console.warn(e, event);
+							return socket.send({
+								status: "error",
+								message: "Invalid json",
+								debug: event.data
+							});
+						};
+						console.log(json);
 
-				  		if (json.action == "RECEIVE_customcommands") {
+						if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML =
 								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
 								"<br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
@@ -125,11 +126,11 @@
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
-				  		} else if (json.action == "SAVED_customcommands") {
+						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
-				  		};
-			  		}
+						};
+					}
 				});
 			};
 

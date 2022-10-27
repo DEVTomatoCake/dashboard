@@ -2,53 +2,53 @@
 // Modified by booky10
 
 const sockette = (url, arguments = {}) => {
-  	const reconnectMaxAttempts = arguments.maxAttempts || 7;
-  	let reconnectAttempts = 0;
-  	let reconnectTimer = 1;
+	const reconnectMaxAttempts = arguments.maxAttempts || 7;
+	let reconnectAttempts = 0;
+	let reconnectTimer = 1;
 
-  	const object = {};
-  	let websocket;
+	const object = {};
+	let websocket;
 
-  	object.open = () => {
+	object.open = () => {
 		websocket = new WebSocket(url, []);
 
 		if (arguments.onMessage) websocket.onmessage = arguments.onMessage;
 
 		websocket.onopen = event => {
-	  		reconnectAttempts = 0;
-	  		if (arguments.onOpen) arguments.onOpen(event);
+			reconnectAttempts = 0;
+			if (arguments.onOpen) arguments.onOpen(event);
 		};
 
 		websocket.onclose = event => {
-		  	if (event.code !== 1000 && event.code !== 1001 && event.code !== 1005) object.reconnect(event);
-		  	if (arguments.onClose) arguments.onClose(event);
+			if (event.code !== 1000 && event.code !== 1001 && event.code !== 1005) object.reconnect(event);
+			if (arguments.onClose) arguments.onClose(event);
 		};
 
 		websocket.onerror = event => {
-		  	if (event && event.code == "ECONNREFUSED") object.reconnect(event);
-		  	if (arguments.onError) arguments.onError(event);
+			if (event && event.code == "ECONNREFUSED") object.reconnect(event);
+			if (arguments.onError) arguments.onError(event);
 		};
 	};
 
 	object.reconnect = event => {
 		if (reconnectTimer && reconnectAttempts++ < reconnectMaxAttempts) {
-		  	reconnectTimer = setTimeout(() => {
+			reconnectTimer = setTimeout(() => {
 				if (arguments.onReconnect) arguments.onReconnect(event);
 				object.open();
-		  	}, arguments.timeout || 1000);
+			}, arguments.timeout || 1000);
 		} else if (arguments.onMaxTries) arguments.onMaxTries(event);
-  	};
+	};
 
-  	object.send = string => {
-  		if (typeof string == "object") string = JSON.stringify(string);
-  		websocket.send(string);
-  	};
+	object.send = string => {
+		if (typeof string == "object") string = JSON.stringify(string);
+		websocket.send(string);
+	};
 
-  	object.close = (code, reason) => {
+	object.close = (code, reason) => {
 		reconnectTimer = clearTimeout(reconnectTimer);
 		websocket.close(code || 1000, reason);
-  	};
+	};
 
-  	object.open();
-  	return object;
+	object.open();
+	return object;
 };

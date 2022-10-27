@@ -3,22 +3,22 @@
 
 /* latin */
 @font-face {
-  	font-family: 'Be Vietnam Pro';
-  	font-style: normal;
-  	font-weight: 400;
-  	font-display: swap;
-  	src: url(./fonts/gfonts_bevietmanpro_latin.woff2) format('woff2');
-  	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	font-family: 'Be Vietnam Pro';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(./fonts/gfonts_bevietmanpro_latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 /* latin */
 @font-face {
-  	font-family: 'Roboto Condensed';
-  	font-style: normal;
-  	font-weight: 400;
-  	font-display: swap;
-  	src: url(./fonts/gfonts_robotocondensed_latin.woff2) format('woff2');
-  	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url(./fonts/gfonts_robotocondensed_latin.woff2) format('woff2');
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
 :root {
@@ -231,8 +231,8 @@ tr.cmdvisible:nth-child(odd) {
 }
 
 .guilds-container .notactivated {
-    -webkit-filter: grayscale(100%);
-            filter: grayscale(100%);
+	-webkit-filter: grayscale(100%);
+			filter: grayscale(100%);
 }
 
 .setting {
@@ -611,7 +611,7 @@ input .hidearrows {
 }
 
 
-.sidebar .section.bottom .tab  {
+.sidebar .section.bottom .tab {
 	background: transparent;
 }
 
@@ -1266,66 +1266,66 @@ h3, h4, ul li {
 }
 
 .credits h1, .credits h2, .credits h3 {
-    color: var(--primary-text-color);
+	color: var(--primary-text-color);
 	text-align: center;
 }
 
 .creditsContainer a {
-    cursor: pointer;
+	cursor: pointer;
 	text-decoration: none;
 	color: var(--primary-text-color);
 }
 
 .credits h1 {
 	font-size: 60px;
-    text-transform: uppercase;
+	text-transform: uppercase;
 }
 
 .credits h2 {
-    font-size: 40px;
-    text-transform: uppercase;
+	font-size: 40px;
+	text-transform: uppercase;
 }
 
 .credits h3 {
-    font-size: 30px;
-    text-shadow: 3px 4px 5px black;
+	font-size: 30px;
+	text-shadow: 3px 4px 5px black;
 }
 
 .creditsUser {
-    background-color: var(--secondary-color);
+	background-color: var(--secondary-color);
 	padding: 20px;
 	border-radius: 10px;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	width: fit-content;
 	margin: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    transition: 0.5s;
-    text-align: center;
-    cursor: default;
-    display: inline-block;
-    margin: 30px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: 0.5s;
+	text-align: center;
+	cursor: default;
+	display: inline-block;
+	margin: 30px;
 }
 .creditsUser:hover {
-    box-shadow: 0 0 20px var(--primary-text-color);
-    transform: scale(1.08);
+	box-shadow: 0 0 20px var(--primary-text-color);
+	transform: scale(1.08);
 }
 
 .creditsUser img {
-    width: 140px;
-    height: 140px;
-    box-shadow: 0 0 20px black;
-    transition: 0.5s;
-    border-radius: 50%;
+	width: 140px;
+	height: 140px;
+	box-shadow: 0 0 20px black;
+	transition: 0.5s;
+	border-radius: 50%;
 }
 
 .creditsMedia {
-    transition: 0.5s;
-    font-size: 20px;
-    color: var(--primary-text-color);
-    padding: 3px;
-    margin-bottom: 15px;
+	transition: 0.5s;
+	font-size: 20px;
+	color: var(--primary-text-color);
+	padding: 3px;
+	margin-bottom: 15px;
 }
 .creditsMedia:hover {
-    transform: scale(1.2);
+	transform: scale(1.2);
 }

@@ -1,12 +1,16 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server combined with a lot customization options."/>
+		<meta name="theme-color" content="#ed8721">
 
-		<title>TomatenKuchen - Abmeldung</title>
+		<title>TomatenKuchen - Discord Account Logout</title>
 		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
 		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
+		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
+		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
 
 		<link href="../assets/style.css" rel="stylesheet" type="text/css"/>
 
@@ -24,18 +28,16 @@
 				if (getCookie("user")) deleteCookie("user");
 				if (getCookie("avatar")) deleteCookie("avatar");
 
-				if (json.status == 'success') {
-					setTimeout(() => {
-						window.location.href = 'https://' + location.host + '/';
-					}, 10);
-				} else {
+				if (json.status == 'success') location.href = 'https://' + location.host + '/';
+				else {
 					document.body.innerHTML = '<center>' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
 						'<h1>' + json.message + '</h1>' +
-						'<h2>Du wurdest trotzdem aus dem Browser abgemeldet.</h2></center>';
+						'<h2>Du wurdest trotzdem aus dem Browser abgemeldet.</h2>' +
+						'</center>';
 
 					setTimeout(() => {
-						window.location.href = 'https://' + location.host + '/';
+						location.href = 'https://' + location.host + '/';
 					}, 4000);
 				};
 			});

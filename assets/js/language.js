@@ -9,12 +9,12 @@ const getLanguage = () => {
 };
 
 const resolveValue = (obj, key) => {
-  	return resolveValue0(obj, key.split("."));
+	return resolveValue0(obj, key.split("."));
 };
 
 const resolveValue0 = (obj, keySplit) => {
-  	if (keySplit.length == 1) return obj[keySplit[0]];
-  	return resolveValue0(obj[keySplit[0]], keySplit.slice(1));
+	if (keySplit.length == 1) return obj[keySplit[0]];
+	return resolveValue0(obj[keySplit[0]], keySplit.slice(1));
 };
 
 var reloadText = async language => {

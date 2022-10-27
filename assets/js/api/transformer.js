@@ -183,13 +183,16 @@ function getSettingsHTML(json) {
 		});
 
 		categories.forEach(category => {
-			text += '<h2 id="' + category + '">' + category.charAt(0).toUpperCase() + category.slice(1) + "</h2><br>";
+			text += '<h2 id="' + category + '">' + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1];
 			});
 		});
 
-		return '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text;
+		return {
+			html: '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text,
+			categories
+		};
 	} else {
 		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +

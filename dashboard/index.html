@@ -89,6 +89,7 @@
 							status: "success",
 							action: "GET_settings",
 							guild: guild,
+							lang: getLanguage(),
 							token: getCookie("token")
 						});
 					},
@@ -241,8 +242,7 @@
 
 		<script>
 			var friendlyCat = {
-				starconfig: "Starboard",
-				youtube: "YouTube-, Minecraft- und RSS-Feeds"
+				starconfig: "Starboard"
 			};
 
 			var drops = [];

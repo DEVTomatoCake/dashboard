@@ -85,8 +85,8 @@ function getGuildsHTML() {
 						text += '' +
 							'<div class="guilds-container">' +
 							'<a class="guild" href="' + (guild.activated ? '' : '../invite/') + '?guild=' + guild.id + '">' +
-							'<img class="image' + (guild.activated ? '' : ' notactivated') + '" alt="' + guild.id + '" title="' + guild.name + '" src="' + guild.icon + '">' +
-							'<div class="text">' + guild.name + '</div>' +
+							'<img class="image' + (guild.activated ? '' : ' notactivated') + '" alt="' + guild.id + '" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							'<div class="text">' + encode(guild.name) + '</div>' +
 							'</a>' +
 							'</div>';
 					});
@@ -177,7 +177,7 @@ function getSettingsHTML(json) {
 					});
 					temp += "</select>";
 				};
-			}
+			};
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
 		});
@@ -190,7 +190,7 @@ function getSettingsHTML(json) {
 		});
 
 		return {
-			html: '<center><h1>Einstellungen von <span class="accent">' + json.name + '</span></h1></center>' + text,
+			html: '<center><h1>Einstellungen von <span class="accent">' + encode(json.name) + '</span></h1></center>' + text,
 			categories
 		};
 	} else {
@@ -212,7 +212,7 @@ function getCustomcommandsHTML(json) {
 		});
 
 		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
-		return '<center><h1>Customcommands von <span class="accent">' + json.name + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
+		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
@@ -248,7 +248,7 @@ function getReactionrolesHTML(json) {
 		rolecopy = json.data.roles;
 
 		if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
-		return '<center><h1>Reactionroles von <span class="accent">' + json.name + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
+		return '<center><h1>Reactionroles von <span class="accent">' + encode(json.name) + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
@@ -261,8 +261,8 @@ function getLeaderboardHTML(guild) {
 		getLeaderboard(guild)
 			.then(json => {
 				if (json.status === 'success') {
-					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + json.guild + '</span></h1>';
-					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + entry.user + '" />' + entry.user + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
+					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + encode(json.guild) + '</span></h1>';
+					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + encode(entry.user) + '" />' + encode(entry.user) + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);
 				} else {
 					resolve('' +
@@ -307,17 +307,17 @@ function getDataexportHTML(token) {
 					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
 
 					if (json.data.remind?.length > 0)
-						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + reminder.text + '</p>').join(", ");
+						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + encode(reminder.text) + '</p>').join(", ");
 
 					if (json.data.ticket?.length > 0)
 						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a>').join(", ");
 
 					if (json.data.suggest?.length > 0)
-						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + suggest.text + '">#' + suggest.id + '</p>').join(", ");
+						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + encode(suggest.text) + '">#' + suggest.id + '</p>').join(", ");
 
 					let text =
 					'<center>' +
-					'<h1 class="greeting">Daten von <span class="accent">' + getCookie('user') + '</span></h1>' +
+					'<h1 class="greeting">Daten von <span class="accent">' + encode(getCookie('user')) + '</span></h1>' +
 					'<div class="userdatagrid">' +
 
 					// User
@@ -353,7 +353,7 @@ function getDataexportHTML(token) {
 					(json.data.userProfiles?.afk?.text != "" ?
 						'<div class="userData">' +
 						'<h1>AFK</h1>' +
-						'<p><b>Reason:</b> ' + json.data.userProfiles.afk.text + '</p>' +
+						'<p><b>Reason:</b> ' + encode(json.data.userProfiles.afk.text) + '</p>' +
 						'<p><b>Seit:</b> ' + afkSince + '</p>' +
 						(mentions ? '<p><b>Mentions:</b> ' + mentions + '</p>' : "") +
 						'</div>'

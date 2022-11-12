@@ -283,21 +283,21 @@ function getLeaderboardHTML(guild) {
 }
 
 const tkbadges = {
-	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' loading='lazy' /> Entwickler",
-	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' loading='lazy' /> Team",
-	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' loading='lazy' /> Denkääär",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Denkääär",
 	translator: "🏴‍☠️ Übersetzer",
-	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' loading='lazy' /> Kek",
-	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' loading='lazy' /> Altes Economysystem"
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy' /> Altes Economysystem"
 }
 
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
 		getDataexport(token)
 			.then(json => {
-				if (json.status == 'success') {
+				if (json.status == "success") {
 					if (json.data.userProfiles?.badges?.length > 0)
-						var badges = json.data.userProfiles.badges.map(badge => tkbadges[badge]).join(", ");
+						var badges = json.data.userProfiles.badges.map(badge => '<div class="badge">' + tkbadges[badge] + '</div>').join(", ");
 
 					if (json.data.economy?.shop?.length > 0)
 						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + (item.used > 0 ? ", " + item.used + " mal genutzt" : "") + '">' + item.name + '</p>').join(", ");
@@ -334,8 +334,8 @@ function getDataexportHTML(token) {
 					// Usersettings
 					'<div class="userData">' +
 					'<h1 translation="user.settings"></h1>' +
-					'<p><b>Embed color:</b><a style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></a> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
-					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350px" height="140px" alt="Your level background"/></a></p>' +
+					'<p><b>Embed color:</b><p style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></p> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
+					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350" height="140" alt="Your level background"/></a></p>' +
 					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
 					'</div>' +
 
@@ -390,8 +390,8 @@ function getDataexportHTML(token) {
 
 					'<div style="overflow: auto;">' +
 					'<div class="userData">' +
-					'<h1 translation="user.json"></h1>' +
-					'<br><textarea rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+					'<label for="datajson"><h1 translation="user.json"></h1></label>' +
+					'<br><textarea id="datajson" rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
 					'</div>' +
 					'</div>' +
 

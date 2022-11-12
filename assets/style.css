@@ -758,7 +758,7 @@ h1 {
 	color: var(--primary-text-color);
 }
 h1.greeting {
-	font-size: 60px;
+	font-size: 55px;
 	text-align: center;
 	padding-bottom: 50px;
 	margin-right: auto;
@@ -1149,7 +1149,7 @@ h3, h4, ul li {
 	}
 
 	.main .content h1.greeting {
-		text-align: center;
+		font-size: 40px;
 		margin: 10px;
 	}
 

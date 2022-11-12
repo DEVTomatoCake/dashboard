@@ -848,9 +848,10 @@ h1.greeting {
 	color: var(--primary-text-color);
 }
 
-.main .content .row .data .container h3.text {
+#stats-guilds {
 	color: var(--primary-text-color);
 	font-size: 25px;
+	font-weight: 700;
 }
 
 .main .content .row .data .container p.text {

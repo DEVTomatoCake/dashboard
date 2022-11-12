@@ -6,7 +6,7 @@
 		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. View and search all commands of the bot here."/>
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="/commands/" />
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/commands/" />
 		<link rel="canonical" href="https://tomatenkuchen.eu/commands/">
 
 		<title>TomatenKuchen - View all commands of the Discord bot</title>
@@ -43,8 +43,9 @@
 				reloadText(getLanguage());
 			});
 
-			function cmdSearch(search) {
-				if (!search) search = document.getElementById("cmdSearch").value.toLowerCase();
+			function cmdSearch(search = "") {
+				if (search) document.getElementById("cmdSearch").value = "";
+				else search = document.getElementById("cmdSearch").value.toLowerCase();
 				var cmddiv = document.getElementById("commands-container").getElementsByClassName("command");
 				var categorydiv = document.getElementById("commands-container").getElementsByClassName("category");
 
@@ -53,7 +54,7 @@
 					var cmd = cmddiv[i];
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
-					if (cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) {
+					if ((cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 						categories[cmd.getAttribute("data-category")]++;
@@ -204,7 +205,7 @@
 						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
-						<a href="/login" translation="global.login"></a>
+						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
 			</div>

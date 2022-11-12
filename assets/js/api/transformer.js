@@ -121,10 +121,10 @@ function getSettingsHTML(json) {
 			let temp = "";
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp += "" +
-					'<p>' + setting.help + '</p>' +
+					'<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 				else temp += "" +
-					'<p>' + setting.help + '</p>' +
+					'<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 
 				if (setting.value?.includes("<") || setting.value?.includes(">")) {
@@ -137,7 +137,8 @@ function getSettingsHTML(json) {
 				if (typeof possible == "string") possible = json.constant[possible];
 
 				if (multiselect.includes(setting.key)) {
-					temp += '<p>' + setting.help + '</p><select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
+						'<select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					var selected = [];
 					var i = 0;
 					Object.keys(possible).forEach(key => {
@@ -159,7 +160,8 @@ function getSettingsHTML(json) {
 						possible
 					};
 
-					temp += '<p>' + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '" ' + (Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") + 'onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
+					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
+						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '" ' + (Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") + 'onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
 						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
 					});
@@ -170,7 +172,8 @@ function getSettingsHTML(json) {
 					});
 					temp += "</div>";
 				} else {
-					temp += "<p>" + setting.help + '</p><select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
+						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => {
 						if (typeof possible[key] == "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>'
 						else temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>'
@@ -201,8 +204,8 @@ function getSettingsHTML(json) {
 }
 
 function getCustomcommandsHTML(json) {
-	if (json.status == 'success') {
-		let text = '';
+	if (json.status == "success") {
+		let text = "";
 
 		json.data.forEach(setting => {
 			text += '' +
@@ -212,7 +215,7 @@ function getCustomcommandsHTML(json) {
 		});
 
 		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
-		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><h3>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</h3><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
+		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
 		return ('' +
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
@@ -221,12 +224,12 @@ function getCustomcommandsHTML(json) {
 }
 
 function getReactionrolesHTML(json) {
-	if (json.status == 'success') {
-		let text = '';
+	if (json.status == "success") {
+		let text = "";
 
 		json.data.reactionroles.forEach(setting => {
 			if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
-			else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.png?size=32" width="32" height="32" loading="lazy" /><br>';
+			else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.webp?size=32" width="32" height="32" loading="lazy" alt="Reactionrole image" /><br>';
 
 			const possible = setting.possible;
 			text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
@@ -260,7 +263,7 @@ function getLeaderboardHTML(guild) {
 	return new Promise(resolve => {
 		getLeaderboard(guild)
 			.then(json => {
-				if (json.status === 'success') {
+				if (json.status == 'success') {
 					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + encode(json.guild) + '</span></h1>';
 					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + encode(entry.user) + '" />' + encode(entry.user) + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);

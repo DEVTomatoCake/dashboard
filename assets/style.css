@@ -1321,9 +1321,9 @@ h3, h4, ul li {
 
 .creditsMedia {
 	transition: 0.5s;
-	font-size: 20px;
+	font-size: 30px;
 	color: var(--primary-text-color);
-	padding: 3px;
+	padding: 5px;
 	margin-bottom: 15px;
 }
 .creditsMedia:hover {

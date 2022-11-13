@@ -92,7 +92,7 @@ html, body {
 	box-sizing: border-box;
 	height: 100%;
 	font-size: 20px;
-	overflow-x: hidden;
+	/*overflow-x: hidden;*/
 	background: var(--primary-color);
 	transition: .5s;
 	font-family: "Be Vietnam Pro", sans-serif;
@@ -952,7 +952,7 @@ h3, h4, ul li {
 }
 
 .cookie-container {
-	position: absolute;
+	position: fixed;
 	right: 15px;
 	bottom: 15px;
 	background-color: var(--secondary-color);
@@ -961,7 +961,6 @@ h3, h4, ul li {
 }
 @media only screen and (max-width: 550px) {
 	.cookie-container {
-		position: absolute;
 		right: 0;
 		bottom: 0;
 	}

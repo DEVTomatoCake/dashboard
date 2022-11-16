@@ -23,7 +23,7 @@
 
 :root {
 	--light-text-color: #e6e7f1;
-	--transition-buttons: 0.3s;
+	--transition-buttons: .3s;
 }
 
 .light-theme {
@@ -92,7 +92,6 @@ html, body {
 	box-sizing: border-box;
 	height: 100%;
 	font-size: 20px;
-	/*overflow-x: hidden;*/
 	background: var(--primary-color);
 	transition: .5s;
 	font-family: "Be Vietnam Pro", sans-serif;
@@ -222,7 +221,7 @@ tr.cmdvisible:nth-child(odd) {
 }
 
 .guilds-container:hover .image {
-	opacity: 0.3;
+	opacity: .3s;
 	border-radius: 25%;
 }
 
@@ -1032,7 +1031,7 @@ h3, h4, ul li {
 	cursor: pointer;
 	width: 100%;
 	margin-bottom: 10px;
-	opacity: 0.7;
+	opacity: .7s;
 	transition: .3s;
 }
 
@@ -1299,7 +1298,7 @@ h3, h4, ul li {
 	margin: 20px;
 	margin-left: auto;
 	margin-right: auto;
-	transition: 0.5s;
+	transition: .5s;
 	text-align: center;
 	cursor: default;
 	display: inline-block;
@@ -1314,12 +1313,12 @@ h3, h4, ul li {
 	width: 140px;
 	height: 140px;
 	box-shadow: 0 0 20px black;
-	transition: 0.5s;
+	transition: .5s;
 	border-radius: 50%;
 }
 
 .creditsMedia {
-	transition: 0.5s;
+	transition: .5s;
 	font-size: 30px;
 	color: var(--primary-text-color);
 	padding: 5px;

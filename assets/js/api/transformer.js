@@ -192,7 +192,6 @@ function getSettingsHTML(json) {
 			});
 		});
 
-		console.log("Länge JSON: " + JSON.stringify(json).length + ", Länge compiled: " + text.length);
 		return {
 			html: '<center><h1>Einstellungen von <span class="accent">' + encode(json.name) + '</span></h1></center>' + text,
 			categories

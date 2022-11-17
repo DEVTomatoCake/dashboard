@@ -843,7 +843,7 @@ h1.greeting {
 	background: var(--blue);
 }
 
-.main .content h1, h2, p {
+.main .content h1, h2, label, p {
 	color: var(--primary-text-color);
 }
 

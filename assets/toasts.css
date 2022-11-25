@@ -17,7 +17,7 @@
 }
 
 #toast-notification-wrapper {
-	position: absolute;
+	position: fixed;
 	display: flex;
 	width: 350px;
 	top: 0;

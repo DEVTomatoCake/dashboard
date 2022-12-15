@@ -146,7 +146,7 @@
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " ";
 				var roleelement = document.createElement("div");
-				roleelement.innerHTML = "<br><p>" + possible["_" + select.value].name + '</p><input type="' + (setting == "levelMultipliers" ? 'number" min="0.1" max="2" step="0.1" value="1"' : 'text" size="' + (screen.width > 500 ? 30 : 20) + '"') + ' id="an_' + setting + "_" + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" class="removeItem" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon>';
+				roleelement.innerHTML = "<br><p>" + possible["_" + select.value].name + '</p><input type="' + (setting == "levelMultipliers" ? 'number" min="0.1" max="3" step="0.1" value="1"' : 'text" size="' + (screen.width > 500 ? 30 : 20) + '"') + ' id="an_' + setting + "_" + select.value + 'value" class="settingcopy"><ion-icon name="close-outline" class="removeItem" onclick="removeRole(\'' + setting + '\', this, \'' + select.value + '\')"></ion-icon>';
 				document.getElementById(setting + "list").appendChild(roleelement);
 
 				select.innerHTML = select.innerHTML.replace('<option value="' + select.value + '"' + ">" + possible["_" + select.value].name + "</option>", "");

@@ -81,6 +81,10 @@
 						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 						drops = [];
+						var olddrops = document.getElementsByClassName("drop");
+						for (let drop of olddrops) {
+							drop.remove();
+						};
 					},
 					onError: event => console.error("Error", event),
 					onOpen: event => {

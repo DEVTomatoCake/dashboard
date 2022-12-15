@@ -161,14 +161,18 @@ function getSettingsHTML(json) {
 					};
 
 					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
-						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '" ' + (Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") + 'onchange="addRole(\'' + setting.key + '\', this)"><option>Rolle hinzufügen...</option>';
+						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '" ' +
+						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
+						'onchange="addRole(\'' + setting.key + '\', this)">' +
+						'<option>' + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + ' hinzufügen...</option>';
+
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
 						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
 					});
 					temp += '</select><div id="' + setting.key + 'list" class="advancedsetting">';
 
 					if (setting.value.trim() != "") setting.value.split(",").forEach(r => {
-						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input size="' + (screen.width > 500 ? 30 : 20) + '" id="an_' + setting.key + "_" + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
+						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input type="' + (setting == "levelMultipliers" ? 'number" min="0.1" max="2" step="0.1" value="1"' : 'text" size="' + (screen.width > 500 ? 30 : 20) + '"') + ' id="an_' + setting.key + "_" + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" class="removeItem" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
 					});
 					temp += "</div>";
 				} else {

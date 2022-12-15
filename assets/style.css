@@ -986,6 +986,9 @@ h3, h4, ul li {
 .statsicon {
 	min-width: 50px;
 }
+.removeItem {
+	color: var(--select-border);
+}
 
 .form-popup {
 	display: none;

@@ -1,4 +1,5 @@
-//Varun Dewan 2019
+// Varun Dewan 2019
+// https://github.com/varundewan/multiselect/blob/master/js/index.js
 var $ = {
 	get: function(selector) {
 		var ele = document.querySelectorAll(selector)
@@ -8,7 +9,7 @@ var $ = {
 		return ele
 	},
 	template: function(html) {
-		var template = document.createElement('div')
+		var template = document.createElement("div")
 		template.innerHTML = html.trim()
 		return this.init(template.childNodes[0])
 	},

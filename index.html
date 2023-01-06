@@ -29,7 +29,7 @@
 		<script>
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
-				document.getElementById("stats-users").innerText = Math.floor(json.users / 1000) + "k";
+				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
 			});
 
 			var i = 0;

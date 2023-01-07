@@ -294,7 +294,6 @@ const tkbadges = {
 	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Kek",
 	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy' /> Altes Economysystem"
 }
-
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
 		getDataexport(token)
@@ -402,6 +401,46 @@ function getDataexportHTML(token) {
 					'</center>';
 
 					resolve(text);
+				} else {
+					resolve('' +
+						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
+						'<h1>' + json.message + '</h1>');
+				}
+			})
+			.catch(error => {
+				console.error(error);
+				resolve('' +
+					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
+					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
+			});
+	});
+}
+
+const ticketStates = {
+	open: "Offen",
+	closed: "Geschlossen",
+	deleted: "Gelöscht"
+}
+function getTicketsHTML(guild) {
+	return new Promise(resolve => {
+		getTickets(guild)
+			.then(json => {
+				if (json.status == 'success') {
+					let text = '<h1 class="greeting">Tickets von <span class="accent">' + encode(json.guild) + '</span></h1>' +
+						'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
+						'<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>';
+
+					json.data.forEach(ticket => {
+						text +=
+							'<tr class="ticket cmdvisible">' +
+							'<td>' + ticket.id + '</td>' +
+							'<td>' + ticket.owner + '</td>' +
+							'<td>' + ticket.users.filter(u => u != ticket.owner).join(", ") + '</td>' +
+							'<td>' + ticketStates[ticket.state] + '</td>' +
+							'</tr>';
+					});
+
+					resolve(text + "</tbody></table>");
 				} else {
 					resolve('' +
 						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +

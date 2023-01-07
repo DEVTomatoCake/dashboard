@@ -1041,6 +1041,9 @@ h3, h4, ul li {
 .featurelist {
 	margin-top: 4rem;
 }
+.featurelist h2 {
+	font-size: 36px;
+}
 .feature {
 	margin-top: 10px;
 	display: grid;
@@ -1248,7 +1251,7 @@ h3, h4, ul li {
 }
 
 ::-webkit-scrollbar-thumb {
-	background: var(--accent-color);;
+	background: var(--accent-color);
 	border-radius: 20px;
 }
 

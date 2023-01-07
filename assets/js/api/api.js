@@ -44,9 +44,15 @@ function getStats(guild) {
 
 function login(code) {
 	return new Promise((resolve, reject) => {
-		get('auth/login?code=' + encodeURIComponent(code) + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
-			.then(data => resolve(data))
-			.catch(error => reject(error));
+		get('auth/login?code=' + encodeURIComponent(code) + (getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
+			.then(data => {
+				deleteCookie("clientState")
+				resolve(data)
+			})
+			.catch(error => {
+				deleteCookie("clientState")
+				reject(error)
+			});
 	});
 }
 

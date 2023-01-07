@@ -27,6 +27,23 @@
 		<script src="../../assets/js/api/transformer.js"></script>
 
 		<script>
+			function ticketSearch() {
+				search = document.getElementById("ticketSearch").value.toLowerCase();
+				var cmddiv = document.getElementById("root-container").getElementsByClassName("ticket");
+
+				for (var i = 0; i < cmddiv.length; i++) {
+					var cmd = cmddiv[i];
+
+					if ((cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "";
+					} else {
+						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "none";
+					};
+				};
+			};
+
 			var i = 0;
 			function sidebar() {
 				i++;
@@ -125,6 +142,11 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
+				<div id="search-box" class="search-box">
+					<input type="text" id="ticketSearch" onkeyup="ticketSearch()" placeholder="Tickets durchsuchen...">
+					<ion-icon name="search"></ion-icon>
+				</div>
+
 				<div class="accdropdown">
 					<div class="account">
 						<p id="username-header">Account</p>
@@ -149,8 +171,8 @@
 
 			if (getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Tickets werden geladen...</h1>';
-				getTicketsHTML().then(data => {
-					document.getElementById('root-container').innerHTML = data + '<p id="author" translation="global.footer"></p>';
+				getTicketsHTML(params.get("guild")).then(data => {
+					document.getElementById('root-container').innerHTML = data;
 					reloadText(getLanguage());
 				}).catch(err => {
 					document.getElementById('root-container').innerHTML = '<h1>Die Tickets konnten nicht geladen werden!</h1>';

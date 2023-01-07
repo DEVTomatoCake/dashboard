@@ -310,6 +310,19 @@
 			} else if (params.has("guild_id") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 				location.href = "./?guild=" + params.get("guild_id");
+			} else if (params.has("state") && params.get("state").startsWith("linked-role-")) {
+				document.getElementById("root-container").innerHTML = '<h1>Die Linked Role-Verknüpfung wurde aktualisiert!</h1>';
+
+				login(params.get("code")).then(json => {
+					if (json.status == "success") {
+						setCookie("user", json.user, 4);
+						setCookie("avatar", json.avatar, 4);
+					} else {
+						document.getElementById("root-container").innerHTML =
+							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
+							'<h1>' + json.message + '</h1>';
+					};
+				});
 			} else if (getCookie("token")) {
 				getGuildsHTML().then(html => {
 					document.getElementById("guilds-container").innerHTML = html;

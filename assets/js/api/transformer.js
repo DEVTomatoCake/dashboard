@@ -427,7 +427,7 @@ function getTicketsHTML(guild) {
 			.then(json => {
 				if (json.status == 'success') {
 					let text = '<h1 class="greeting">Tickets von <span class="accent">' + encode(json.guild) + '</span></h1>' +
-						'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
+						'<table cellpadding="8" cellspacing="0">' +
 						'<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>';
 
 					json.data.forEach(ticket => {

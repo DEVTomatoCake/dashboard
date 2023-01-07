@@ -34,7 +34,7 @@
 				for (var i = 0; i < cmddiv.length; i++) {
 					var cmd = cmddiv[i];
 
-					if ((cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
+					if (cmd.innerText.toLowerCase().includes(search)) {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 					} else {

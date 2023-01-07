@@ -28,11 +28,11 @@
 
 		<script>
 			function ticketSearch() {
-				search = document.getElementById("ticketSearch").value.toLowerCase();
-				var cmddiv = document.getElementById("root-container").getElementsByClassName("ticket");
+				const search = document.getElementById("ticketSearch").value.toLowerCase();
+				var ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
 
-				for (var i = 0; i < cmddiv.length; i++) {
-					var cmd = cmddiv[i];
+				for (var i = 0; i < ticketdiv.length; i++) {
+					var cmd = ticketdiv[i];
 
 					if (cmd.innerText.toLowerCase().includes(search)) {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");

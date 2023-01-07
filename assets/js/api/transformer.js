@@ -433,7 +433,7 @@ function getTicketsHTML(guild) {
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
 							'<tr class="ticket cmdvisible">' +
-							'<td>' + ticket.id + '</td>' +
+							'<td><a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a></td>' +
 							'<td>' + ticket.owner + '</td>' +
 							'<td>' + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + '</td>' +
 							'<td>' + (ticketStates[ticket.state] || "Unbekannt") + '</td>' +
@@ -441,7 +441,7 @@ function getTicketsHTML(guild) {
 					});
 
 					text += "</tbody></table><br><br>" +
-						'<h1 class="greeting">Ticketkategorien</h1>' +
+						'<h1>Ticketkategorien</h1>' +
 						'<table cellpadding="8" cellspacing="0">' +
 						'<thead><tr><th>Kategorie</th><th>Ticketnachricht</th><th>Ticketembedtitel</th><th>Ticketembedbeschreibung</th><th>Ticketembedfooter</th></tr></thead><tbody>';
 
@@ -449,10 +449,10 @@ function getTicketsHTML(guild) {
 						text +=
 							'<tr class="ticket cmdvisible">' +
 							'<td>' + category.category + '</td>' +
-							'<td>' + (category.ticketmsg || "Keine") + '</td>' +
-							'<td>' + (category.ticketembedtitle || "Kein") + '</td>' +
-							'<td>' + (category.ticketembeddescription || "Keine") + '</td>' +
-							'<td>' + (category.ticketembedfooter || "Kein") + '</td>' +
+							'<td>' + (category.ticketmsg || "") + '</td>' +
+							'<td>' + (category.ticketembedtitle || "") + '</td>' +
+							'<td>' + (category.ticketembeddescription ? "<details><summary>" + category.ticketembeddescription.substring(0, 100) + "...</summary>" + category.ticketembeddescription + "</details>" : "") + '</td>' +
+							'<td>' + (category.ticketembedfooter || "") + '</td>' +
 							'</tr>';
 					});
 

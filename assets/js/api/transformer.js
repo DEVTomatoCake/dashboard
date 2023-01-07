@@ -430,13 +430,29 @@ function getTicketsHTML(guild) {
 						'<table cellpadding="8" cellspacing="0">' +
 						'<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>';
 
-					json.data.forEach(ticket => {
+					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
 							'<tr class="ticket cmdvisible">' +
 							'<td>' + ticket.id + '</td>' +
 							'<td>' + ticket.owner + '</td>' +
 							'<td>' + ticket.users.filter(u => u != ticket.owner).join(", ") + '</td>' +
 							'<td>' + ticketStates[ticket.state] + '</td>' +
+							'</tr>';
+					});
+
+					text += "</tbody></table><br><br>" +
+						'<h1 class="greeting">Ticketkategorien</h1>' +
+						'<table cellpadding="8" cellspacing="0">' +
+						'<thead><tr><th>Kategorie</th><th>Ticketnachricht</th><th>Ticketembedtitel</th><th>Ticketembedbeschreibung</th><th>Ticketembedfooter</th></tr></thead><tbody>';
+
+					json.data.filter(ticket => ticket.category).forEach(category => {
+						text +=
+							'<tr class="ticket cmdvisible">' +
+							'<td>' + category.category + '</td>' +
+							'<td>' + category.ticketmsg + '</td>' +
+							'<td>' + category.ticketembedtitle + '</td>' +
+							'<td>' + category.ticketembeddescription + '</td>' +
+							'<td>' + category.ticketembedfooter + '</td>' +
 							'</tr>';
 					});
 

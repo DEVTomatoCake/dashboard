@@ -435,8 +435,8 @@ function getTicketsHTML(guild) {
 							'<tr class="ticket cmdvisible">' +
 							'<td>' + ticket.id + '</td>' +
 							'<td>' + ticket.owner + '</td>' +
-							'<td>' + ticket.users.filter(u => u != ticket.owner).join(", ") + '</td>' +
-							'<td>' + ticketStates[ticket.state] + '</td>' +
+							'<td>' + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + '</td>' +
+							'<td>' + (ticketStates[ticket.state] || "Unbekannt") + '</td>' +
 							'</tr>';
 					});
 
@@ -449,10 +449,10 @@ function getTicketsHTML(guild) {
 						text +=
 							'<tr class="ticket cmdvisible">' +
 							'<td>' + category.category + '</td>' +
-							'<td>' + category.ticketmsg + '</td>' +
-							'<td>' + category.ticketembedtitle + '</td>' +
-							'<td>' + category.ticketembeddescription + '</td>' +
-							'<td>' + category.ticketembedfooter + '</td>' +
+							'<td>' + (category.ticketmsg || "Keine") + '</td>' +
+							'<td>' + (category.ticketembedtitle || "Kein") + '</td>' +
+							'<td>' + (category.ticketembeddescription || "Keine") + '</td>' +
+							'<td>' + (category.ticketembedfooter || "Kein") + '</td>' +
 							'</tr>';
 					});
 

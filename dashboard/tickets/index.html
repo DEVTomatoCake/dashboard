@@ -160,6 +160,7 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
+					<h1>Die Tickets werden geladen...</h1>
 				</div>
 
 				<p id="author" translation="global.footer"></p>
@@ -172,7 +173,7 @@
 			if (getCookie("token")) {
 				document.getElementById('root-container').innerHTML = '<h1>Die Tickets werden geladen...</h1>';
 				getTicketsHTML(params.get("guild")).then(data => {
-					document.getElementById('root-container').innerHTML = data;
+					document.getElementById('content').innerHTML = data + '<p id="author" translation="global.footer"></p>';
 					reloadText(getLanguage());
 				}).catch(err => {
 					document.getElementById('root-container').innerHTML = '<h1>Die Tickets konnten nicht geladen werden!</h1>';

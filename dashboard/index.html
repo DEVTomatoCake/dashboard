@@ -310,7 +310,7 @@
 			} else if (params.has("guild_id") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
 				location.href = "./?guild=" + params.get("guild_id");
-			} else if (params.has("state") && params.get("state").startsWith("linked-role-")) {
+			} else if (params.has("code") && params.has("state") && params.get("state").startsWith("linked-role-")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Linked Role-Verknüpfung wurde aktualisiert!</h1>';
 
 				login(params.get("code")).then(json => {

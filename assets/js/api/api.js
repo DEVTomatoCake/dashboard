@@ -43,8 +43,9 @@ function getStats(guild) {
 }
 
 function login(code) {
+	const params = new URLSearchParams(window.location.search);
 	return new Promise((resolve, reject) => {
-		get('auth/login?code=' + encodeURIComponent(code) + (getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
+		get('auth/login?code=' + encodeURIComponent(code) + (params.get("state") ? "&dcState=" + params.get("state") : "") + (getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
 			.then(data => {
 				deleteCookie("clientState")
 				resolve(data)

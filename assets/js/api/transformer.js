@@ -447,11 +447,11 @@ function getTicketsHTML(guild) {
 
 					json.data.filter(ticket => ticket.category).forEach(category => {
 						text +=
-							'<tr class="ticket cmdvisible">' +
+							'<tr class="cmdvisible">' +
 							'<td>' + category.category + '</td>' +
 							'<td>' + (category.ticketmsg || "") + '</td>' +
 							'<td>' + (category.ticketembedtitle || "") + '</td>' +
-							'<td>' + (category.ticketembeddescription ? "<details><summary>" + category.ticketembeddescription.substring(0, 70) + "...</summary>" + category.ticketembeddescription.substring(70) + "</details>" : "") + '</td>' +
+							'<td>' + (category.ticketembeddescription ? (category.ticketembeddescription.length > 80 ? "<details><summary>" + category.ticketembeddescription.substring(0, 70) + "...</summary>" + category.ticketembeddescription.substring(70) + "</details>" : category.ticketembeddescription) : "") + '</td>' +
 							'<td>' + (category.ticketembedfooter || "") + '</td>' +
 							'</tr>';
 					});

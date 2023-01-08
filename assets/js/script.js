@@ -25,6 +25,10 @@ function deleteCookie(name) {
 	document.cookie = name + '=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;';
 }
 
+function redirect(url) {
+	window.location = url;
+}
+
 function fadeOut(element) {
 	if (!element) return;
 	if (!element.style.opacity) element.style.opacity = 1;

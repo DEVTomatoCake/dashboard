@@ -1,0 +1,61 @@
+{
+	"short_name": "TomatenKuchen",
+	"name": "TomatenKuchen - Multipurpose Discord bot",
+	"icons": [
+		{
+			"src": "/assets/images/icon.ico",
+			"type": "image/x-icon",
+			"sizes": "128x128",
+			"purpose": "any maskable"
+		},{
+			"src": "/assets/images/apple-icon-152.png",
+			"type": "image/png",
+			"sizes": "152x152",
+			"purpose": "any maskable"
+		},{
+		  	"src": "/assets/images/background.webp",
+		  	"type": "image/webp",
+		  	"sizes": "192x192",
+		  	"purpose": "any maskable"
+		},{
+			"src": "/assets/images/background.webp",
+			"type": "image/webp",
+		  	"sizes": "512x512",
+		  	"purpose": "any maskable"
+		}
+	],
+	"id": "/?source=pwa",
+	"start_url": "/dashboard/?source=pwa",
+	"background_color": "#ED8721",
+	"display_override": ["window-control-overlay", "minimal-ui"],
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#ED8721",
+	"shortcuts": [
+		{
+			"name": "How's weather today?",
+			"short_name": "Today",
+			"description": "View weather information for today",
+			"url": "/today?source=pwa",
+			"icons": [{ "src": "/images/today.png", "sizes": "192x192" }]
+		},{
+			"name": "How's weather tomorrow?",
+			"short_name": "Tomorrow",
+			"description": "View weather information for tomorrow",
+			"url": "/tomorrow?source=pwa",
+			"icons": [{ "src": "/images/tomorrow.png", "sizes": "192x192" }]
+		}
+	],
+	"description": "Multipurpose german/english Discord bot including many features for your Discord server combined with a lot customization options.",
+	"screenshots": [
+		{
+			"src": "/assets/images/stats_dark.png",
+			"type": "image/png",
+			"sizes": "227x260"
+		},{
+			"src": "/assets/images/ticketembed_dark.png",
+			"type": "image/png",
+			"sizes": "362x423"
+		}
+	]
+}

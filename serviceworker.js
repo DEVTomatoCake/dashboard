@@ -17,6 +17,8 @@ self.addEventListener("activate", event => {
 })
 self.addEventListener("fetch", event => {
 	if (event.request.mode == "navigate") {
+		console.log(event.request)
+		console.log("Handling fetch event for", event.request.url)
 		event.respondWith(async () => {
 			try {
 				const preloadResponse = await event.preloadResponse

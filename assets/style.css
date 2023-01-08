@@ -53,6 +53,7 @@
 	--select-background: #FFF;
 	--select-hover: #99b6ff;
 	--select-border: #000;
+	--input-bgcolor: #FFF;
 }
 
 .dark-theme {
@@ -82,6 +83,7 @@
 	--select-background: #08093a;
 	--select-hover: #8a7ff0;
 	--select-border: var(--secondary-text-color);
+	--input-bgcolor: #C1C4DB;
 }
 
 * {
@@ -241,7 +243,7 @@ tr.cmdvisible:nth-child(odd) {
 	border-radius: 4px;
 	padding: 3px;
 	color: var(--primary-text-color);
-	background-color: var(--secondary-table-bgcolor);
+	background-color: var(--input-bgcolor);
 }
 .advancedsetting {
 	margin-left: 30px;

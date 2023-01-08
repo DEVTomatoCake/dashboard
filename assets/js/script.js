@@ -64,7 +64,7 @@ function pageLoad(page = "") {
 		if (page == "commands") {
 			document.getElementById("commands-container").style.paddingLeft = "0";
 			document.getElementById("search-box").style.marginLeft = "10px";
-		}
+		};
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
 		document.getElementById("content").style.paddingLeft = "0";
 		i = 1;
@@ -98,4 +98,6 @@ function pageLoad(page = "") {
 	});
 	if (reloadText) reloadText(getLanguage());
 	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
+
+	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
 };

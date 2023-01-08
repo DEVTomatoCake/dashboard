@@ -11,7 +11,7 @@
 			"src": "/assets/images/apple-icon-152.png",
 			"type": "image/png",
 			"sizes": "152x152",
-			"purpose": "any maskable"
+			"purpose": "maskable"
 		},{
 		  	"src": "/assets/images/background_192.webp",
 		  	"type": "image/webp",
@@ -31,11 +31,15 @@
 	"theme_color": "#ED8721",
 	"shortcuts": [
 		{
-			"name": "How's weather today?",
-			"short_name": "Today",
-			"description": "View weather information for today",
-			"url": "/today?source=pwa",
-			"icons": [{ "src": "/images/today.png", "sizes": "192x192" }]
+			"name": "Einstellungen ändern",
+			"short_name": "Dashboard",
+			"description": "Ändere die Einstellungen für einen Server",
+			"url": "/dashboard/?source=pwa"
+		},{
+			"name": "Befehle anzeigen",
+			"short_name": "Befehle",
+			"description": "Sieh dir die Befehle vom Bot an",
+			"url": "/commands/?source=pwa"
 		}
 	],
 	"description": "Multipurpose german/english Discord bot including many features for your Discord server combined with a lot customization options.",

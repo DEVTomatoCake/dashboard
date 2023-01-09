@@ -17,7 +17,6 @@
 		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
 
 		<link href="./assets/style.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
 
 		<link rel="preconnect" href="https://api.tomatenkuchen.eu/api/stats">
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu/api/stats">
@@ -140,39 +139,22 @@
 			<div class="content" id="content">
 				<h1 id="username-content" class="greeting">Hallo!</h1>
 
-				<div class="row">
-					<div class="data rect">
-						<div class="container session-length">
-							<div class="statsicon"><ion-icon name="server-outline" class="server-icon"></ion-icon></div>
+				<div class="stats-row">
+					<div class="small-container">
+						<div class="data servers">
+							<div class="container">
+								<div class="statsicon"><ion-icon name="server-outline"></ion-icon></div>
+
+								<h3 class="text">SERVERANZAHL</h3>
+
+								<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
+							</div>
 
 							<p id="stats-guilds" class="text">Lade...</p>
-							<p class="text">SERVER INSGESAMT</p>
-
-							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
-
-						<table class="charts-css area multiple session-length">
-							<tbody>
-								<tr class="first">
-									<td style="--start:0.05; --size:0.35;" class="first"></td>
-									<td style="--start:0; --size:0.25;" class="second"></td>
-									<td style="--start:0.1; --size:0.2;" class="third"></td>
-								</tr>
-								<tr>
-									<td style="--start:0.35; --size:0.55;" class="first"></td>
-									<td style="--start:0.25; --size:0.35;" class="second"></td>
-									<td style="--start:0.2; --size:0.25;" class="third"></td>
-								</tr>
-								<tr class="last">
-									<td style="--start:0.55; --size:0.65;" class="first"></td>
-									<td style="--start:0.35; --size:0.5;" class="second"></td>
-									<td style="--start:0.25; --size:0.2;" class="third"></td>
-								</tr>
-							</tbody>
-						</table>
 					</div>
 					<div class="small-container">
-						<div class="data small uptime">
+						<div class="data uptime">
 							<div class="container">
 								<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
 
@@ -184,7 +166,7 @@
 							<p>99,99%</p>
 						</div>
 
-						<div class="data small users">
+						<div class="data users">
 							<div class="container">
 								<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
 

@@ -222,11 +222,10 @@ tr.cmdvisible:nth-child(odd) {
 	padding: 10px 16px;
 }
 
-.guilds-container img:hover {
+.guilds-container:hover img {
 	opacity: .3;
 	border-radius: 25%;
 }
-
 .guilds-container:hover .text {
 	opacity: 1;
 }

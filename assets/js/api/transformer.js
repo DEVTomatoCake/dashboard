@@ -1,15 +1,22 @@
+function handleError(resolve, error) {
+	if (typeof error != "string") console.error(error);
+	resolve("" +
+		"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
+}
+
 function getCommandsHTML() {
 	return new Promise((resolve => {
 		getCommands()
 			.then(json => {
-				if (json.status == 'success') {
+				if (json.status == "success") {
 					let text = "";
 					var categories = [];
 					var categoryData = [];
 
 					json.data.forEach(command => {
-						var temp = '' +
-							'<tr class="command cmdvisible"' + (command.category ? ' data-category="' + command.category + '"' : '') + '>' +
+						var temp = "" +
+							'<tr class="command cmdvisible"' + (command.category ? ' data-category="' + command.category + '"' : "") + '>' +
 							'<td>' + command.name + '</td>' +
 							'<td>' + command.description + '</td>' +
 							'<td>' + command.usage + '</td>' +
@@ -31,18 +38,9 @@ function getCommandsHTML() {
 					});
 
 					resolve(text);
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-						'<h1>' + json.message + '</h1>');
-				}
+				} else handleError(resolve, json.message);
 			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
+			.catch(e => handleError(resolve, e));
 	}));
 }
 
@@ -50,23 +48,14 @@ function getStatsHTML(guild, filter) {
 	return new Promise(resolve => {
 		getStats(guild + (filter.time ? "&time=" + filter.time : "") + (filter.type ? "&type=" + filter.type : ""))
 			.then(json => {
-				if (json.status === 'success') {
+				if (json.status == "success") {
 					resolve({
 						name: json.name,
 						data: json.data
 					});
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-						'<h1>' + json.message + '</h1>');
-				}
+				} else handleError(resolve, json.message);
 			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
+			.catch(e => handleError(resolve, e));
 	});
 }
 
@@ -74,42 +63,32 @@ function getGuildsHTML() {
 	return new Promise(resolve => {
 		getGuilds()
 			.then(json => {
-				if (json.status == 'success') {
-					let text = '';
+				if (json.status == "success") {
+					let text = "";
 					json.data.sort((a, b) => {
 						if (a.activated && b.activated) return 0;
 						if (!a.activated && b.activated) return 1;
 						return -1;
 					})
 					json.data.forEach(guild => {
-						text += '' +
-							'<div class="guilds-container">' +
-							'<a class="guild" href="' + (guild.activated ? '' : '../invite/') + '?guild=' + guild.id + '">' +
-							'<img class="image' + (guild.activated ? '' : ' notactivated') + '" alt="' + guild.id + '" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+						text += '<div class="guilds-container">' +
+							'<a class="guild" href="' + (guild.activated ? "" : '../invite/') + '?guild=' + guild.id + '">' +
+							'<img' + (guild.activated ? "" : ' class="notactivated"') + ' alt="' + guild.id + '" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
 							'<div class="text">' + encode(guild.name) + '</div>' +
 							'</a>' +
 							'</div>';
 					});
 
-					if (text == '') resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
+					if (text == "") resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
 					else resolve(text);
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-						'<h1>' + json.message + '</h1>');
-				}
+				} else handleError(resolve, json.message);
 			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
+			.catch(e => handleError(resolve, e));
 	});
 }
 
 function getSettingsHTML(json) {
-	if (json.status == 'success') {
+	if (json.status == "success") {
 		let text = "";
 		var categories = [];
 		var categoryData = [];
@@ -144,11 +123,11 @@ function getSettingsHTML(json) {
 					Object.keys(possible).forEach(key => {
 						if (key == "") return;
 						setting.value.split(",").forEach(data => {
-							if (data == key.replace('_', '')) selected.push(i);
+							if (data == key.replace("_", "")) selected.push(i);
 						});
 						i++;
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>';
-						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>';
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace("_", "") ? "selected" : "") + '>' + possible[key] + '</option>';
+						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace("_", "") ? "selected" : "") + '>' + possible[key].name + '</option>';
 					});
 					temp += "</select>";
 					setTimeout(() => {
@@ -179,8 +158,8 @@ function getSettingsHTML(json) {
 					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => {
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>'
-						else temp += '<option value="' + key.replace('_', '') + '" ' + (setting.value == key.replace('_', '') ? 'selected' : '') + '>' + possible[key].name + '</option>'
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>'
+						else temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key].name + '</option>'
 					});
 					temp += "</select>";
 				};
@@ -201,8 +180,8 @@ function getSettingsHTML(json) {
 			categories
 		};
 	} else {
-		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
+		return ("" +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -212,7 +191,7 @@ function getCustomcommandsHTML(json) {
 		let text = "";
 
 		json.data.forEach(setting => {
-			text += '' +
+			text += "" +
 				'<p><b>' + setting.name + '</b></p>' +
 				'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
 				'<br>';
@@ -221,8 +200,8 @@ function getCustomcommandsHTML(json) {
 		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
 		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
-		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
+		return ("" +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -237,7 +216,7 @@ function getReactionrolesHTML(json) {
 
 			const possible = setting.possible;
 			text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
-			Object.keys(possible).forEach(key => text += '<option value="' + key.replace('_', '') + '" ' + (setting.role === key.replace('_', '') ? 'selected' : '') + '>' + possible[key] + '</option>');
+			Object.keys(possible).forEach(key => text += '<option value="' + key.replace("_", "") + '" ' + (setting.role === key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>');
 			text += '</select><br><br>';
 		});
 
@@ -246,19 +225,19 @@ function getReactionrolesHTML(json) {
 		document.getElementById("reactionroles-type").innerHTML = typeoptions;
 
 		let channeloptions = "";
-		Object.keys(json.data.channels).forEach(key => channeloptions += '<option value="' + key.replace('_', '') + '">' + json.data.channels[key] + '</option>');
+		Object.keys(json.data.channels).forEach(key => channeloptions += '<option value="' + key.replace("_", "") + '">' + json.data.channels[key] + '</option>');
 		document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
 		let roleoptions = "";
-		Object.keys(json.data.roles).forEach(key => roleoptions += '<option value="' + key.replace('_', '') + '">' + json.data.roles[key] + '</option>');
+		Object.keys(json.data.roles).forEach(key => roleoptions += '<option value="' + key.replace("_", "") + '">' + json.data.roles[key] + '</option>');
 		document.getElementById("reactionroles-role").innerHTML = roleoptions;
 		rolecopy = json.data.roles;
 
 		if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
 		return '<center><h1>Reactionroles von <span class="accent">' + encode(json.name) + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
 	} else {
-		return ('' +
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
+		return ("" +
+			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	};
 }
@@ -267,22 +246,13 @@ function getLeaderboardHTML(guild) {
 	return new Promise(resolve => {
 		getLeaderboard(guild)
 			.then(json => {
-				if (json.status == 'success') {
+				if (json.status == "success") {
 					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + encode(json.guild) + '</span></h1>';
 					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + encode(entry.user) + '" />' + encode(entry.user) + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-						'<h1>' + json.message + '</h1>');
-				}
+				} else handleError(resolve, json.message);
 			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
+			.catch(e => handleError(resolve, e));
 	});
 }
 
@@ -401,18 +371,9 @@ function getDataexportHTML(token) {
 					'</center>';
 
 					resolve(text);
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-						'<h1>' + json.message + '</h1>');
-				}
+				} else handleError(resolve, json.message);
 			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
+			.catch(e => handleError(resolve, e));
 	});
 }
 
@@ -425,23 +386,23 @@ function getTicketsHTML(guild) {
 	return new Promise(resolve => {
 		getTickets(guild)
 			.then(json => {
-				if (json.status == 'success') {
+				if (json.status == "success") {
 					let text = '<h1 class="greeting">Tickets von <span class="accent">' + encode(json.guild) + '</span></h1>' +
 						'<table cellpadding="8" cellspacing="0">' +
-						'<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>';
+						"<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>";
 
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
 							'<tr class="ticket cmdvisible">' +
 							'<td><a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a></td>' +
 							'<td>' + ticket.owner + '</td>' +
-							'<td>' + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + '</td>' +
+							'<td>' + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + "</td>" +
 							'<td>' + (ticketStates[ticket.state] || "Unbekannt") + '</td>' +
 							'</tr>';
 					});
 
 					text += "</tbody></table><br><br>" +
-						'<h1>Ticketkategorien</h1>' +
+						"<h1>Ticketkategorien</h1>" +
 						'<table cellpadding="8" cellspacing="0">' +
 						'<thead><tr><th>Kategorie</th><th>Ticketnachricht</th><th>Embedtitel</th><th>Embedbeschreibung</th><th>Embedfooter</th></tr></thead><tbody>';
 
@@ -457,17 +418,8 @@ function getTicketsHTML(guild) {
 					});
 
 					resolve(text + "</tbody></table>");
-				} else {
-					resolve('' +
-						'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-						'<h1>' + json.message + '</h1>');
-				}
+				} else handleError(resolve, json.message);
 			})
-			.catch(error => {
-				console.error(error);
-				resolve('' +
-					'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-					'<h1>Guck in deine Browserkonsole, um mehr zu erfahren!</h1>');
-			});
+			.catch(e => handleError(resolve, e));
 	});
 }

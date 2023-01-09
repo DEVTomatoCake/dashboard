@@ -197,7 +197,7 @@ tr.cmdvisible:nth-child(odd) {
 	margin: 0 15px;
 }
 
-.guilds-container .image {
+.guilds-container img {
 	opacity: 1;
 	display: block;
 	width: 128px;
@@ -222,7 +222,7 @@ tr.cmdvisible:nth-child(odd) {
 	padding: 10px 16px;
 }
 
-.guilds-container:hover .image {
+.guilds-container img:hover {
 	opacity: .3;
 	border-radius: 25%;
 }

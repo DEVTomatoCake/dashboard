@@ -37,8 +37,8 @@ var reloadText = async language => {
 		var text = resolveValue(json, key);
 
 		if (element.hasAttribute("arguments")) {
-			const arguments = JSON.parse(element.getAttribute("arguments"));
-			Object.keys(arguments).forEach(replaceKey => text = text.replaceAll(replaceKey, arguments[replaceKey]));
+			let args = JSON.parse(element.getAttribute("arguments"));
+			Object.keys(args).forEach(replaceKey => text = text.replaceAll(replaceKey, args[replaceKey]));
 		};
 
 		if (typeof text != "string") return console.warn("Couldn't load lang string " + key + ", got " + typeof text + " instead", text);

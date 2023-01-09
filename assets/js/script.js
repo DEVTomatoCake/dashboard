@@ -82,7 +82,7 @@ function pageLoad(page = "") {
 	if (theme == "light") document.body.classList.replace("dark-theme", "light-theme");
 	else document.getElementById("theme-toggle").checked = true;
 
-	document.getElementById("theme-toggle").addEventListener("change", function() {
+	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {
 			document.body.classList.replace("light-theme", "dark-theme");
 			setCookie("theme", "dark", 60, true);
@@ -92,7 +92,7 @@ function pageLoad(page = "") {
 		};
 	});
 
-	document.getElementById("lang-toggle").addEventListener("change", function() {
+	document.getElementById("lang-toggle").addEventListener("change", () => {
 		if (document.documentElement.lang.includes("en")) reloadText("de");
 		else reloadText("en");
 	});

@@ -1,27 +1,27 @@
 // Varun Dewan 2019
 // https://github.com/varundewan/multiselect/blob/master/js/index.js
 var $ = {
-	get: function(selector) {
+	get: selector => {
 		var ele = document.querySelectorAll(selector)
 		for (var i = 0; i < ele.length; i++) {
 			this.init(ele[i])
 		}
 		return ele
 	},
-	template: function(html) {
+	template: html => {
 		var template = document.createElement("div")
 		template.innerHTML = html.trim()
 		return this.init(template.childNodes[0])
 	},
-	init: function(ele) {
-		ele.on = function(event, func) {
+	init: ele => {
+		ele.on = (event, func) => {
 			this.addEventListener(event, func)
 		}
 		return ele
 	}
 }
 
-var drop = function(info) {
+var drop = info => {
 	var o = {
 		options: info.options,
 		selected: info.selected || [],
@@ -32,7 +32,7 @@ var drop = function(info) {
 			options: $.get(info.selector + " option"),
 			parent: undefined
 		},
-		init: function() {
+		init: () => {
 			//Setup Drop HTML
 			this.html.parent = $.get(info.selector)[0].parentNode
 			this.html.drop = $.template('<div class="drop"></div>')
@@ -48,10 +48,10 @@ var drop = function(info) {
 			this.html.drop.appendChild(this.html.select)
 
 			var that = this
-			this.html.dropDisplay.on('click', function() {
+			this.html.dropDisplay.on("click", () => {
 				that.toggle()
 			})
-			this.html.dropScreen.on('click', function() {
+			this.html.dropScreen.on("click", () => {
 				that.toggle()
 			})
 			//Run Render
@@ -59,10 +59,10 @@ var drop = function(info) {
 			this.preselect()
 			this.render()
 		},
-		toggle: function() {
+		toggle: () => {
 			this.html.drop.classList.toggle("open")
 		},
-		addOption: function(e, element) {
+		addOption: (e, element) => {
 			var index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
@@ -73,11 +73,11 @@ var drop = function(info) {
 			this.options[index].state = "remove"
 			this.render()
 		},
-		removeOption: function(e, element) {
+		removeOption: (e, element) => {
 			e.stopPropagation()
 			this.clearStates()
 			var index = Number(element.dataset.index)
-			this.selected.forEach(function(select) {
+			this.selected.forEach(select => {
 				if (select.index == index && !select.removed) {
 					select.removed = true
 					select.state = "remove"
@@ -86,7 +86,7 @@ var drop = function(info) {
 			this.options[index].state = "add"
 			this.render()
 		},
-		load: function() {
+		load: () => {
 			this.options = []
 			for (var i = 0; i < this.html.options.length; i++) {
 				var option = this.html.options[i]
@@ -106,10 +106,10 @@ var drop = function(info) {
 				}
 			}
 		},
-		preselect: function() {
+		preselect: () => {
 			var that = this
 			this.selected = []
-			this.preselected.forEach(function(pre) {
+			this.preselected.forEach(pre => {
 				that.selected.push({
 					index: pre,
 					state: "add",
@@ -118,18 +118,18 @@ var drop = function(info) {
 				if (that.options[pre]) that.options[pre].state = "remove"
 			})
 		},
-		render: function() {
+		render: () => {
 			this.renderDrop()
 			this.renderOptions()
 		},
-		renderDrop: function() {
+		renderDrop: () => {
 			var that = this
 			var parentHTML = $.template("<div></div>")
-			this.selected.forEach(function(select) {
+			this.selected.forEach(select => {
 				var option = that.options[select.index]
 				var childHTML = $.template('<span class="item ' + select.state + '">' + option.html + '</span>')
 				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + '"></ion-icon></span>')
-				childCloseHTML.on("click", function(e) {
+				childCloseHTML.on("click", e => {
 					that.removeOption(e, this)
 				})
 				childHTML.appendChild(childCloseHTML)
@@ -138,12 +138,12 @@ var drop = function(info) {
 			this.html.dropDisplay.innerHTML = ""
 			this.html.dropDisplay.appendChild(parentHTML)
 		},
-		renderOptions: function() {
+		renderOptions: () => {
 			var that = this
 			var parentHTML = $.template("<div></div>")
-			this.options.forEach(function(option, index) {
+			this.options.forEach((option, index) => {
 				var childHTML = $.template('<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
-				childHTML.on("click", function(e) {
+				childHTML.on("click", e => {
 					that.addOption(e, this)
 				})
 				parentHTML.appendChild(childHTML)
@@ -151,16 +151,16 @@ var drop = function(info) {
 			this.html.dropOptions.innerHTML = ""
 			this.html.dropOptions.appendChild(parentHTML)
 		},
-		clearStates: function() {
+		clearStates: () => {
 			var that = this
-			this.selected.forEach(function(select) {
+			this.selected.forEach(select => {
 				select.state = that.changeState(select.state)
 			})
-			this.options.forEach(function(option) {
+			this.options.forEach(option => {
 				option.state = that.changeState(option.state)
 			})
 		},
-		changeState: function(state) {
+		changeState: state => {
 			switch (state) {
 				case "remove":
 				case "hide":

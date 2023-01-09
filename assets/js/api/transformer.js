@@ -1,6 +1,6 @@
 function handleError(resolve, error) {
 	if (typeof error != "string") console.error(error);
-	resolve("" +
+	resolve(
 		"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
 		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
 }
@@ -15,22 +15,24 @@ function getCommandsHTML() {
 					var categoryData = [];
 
 					json.data.forEach(command => {
-						var temp = "" +
+						var temp =
 							'<tr class="command cmdvisible"' + (command.category ? ' data-category="' + command.category + '"' : "") + '>' +
-							'<td>' + command.name + '</td>' +
-							'<td>' + command.description + '</td>' +
-							'<td>' + command.usage + '</td>' +
-							'</tr>';
+							"<td>" + command.name + "</td>" +
+							"<td>" + command.description + "</td>" +
+							"<td>" + command.usage + "</td>" +
+							"</tr>";
 
 						if (command.category && !categories.includes(command.category)) categories.push(command.category);
 						if (command.category) categoryData.push([command.category, temp]);
 					});
 
 					categories.forEach(category => {
-						text += '<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>' +
-						'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
-						'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
-						'<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
+						text +=
+							'<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>' +
+							'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
+							'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
+							'<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
+
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
 						});
@@ -99,10 +101,10 @@ function getSettingsHTML(json) {
 		json.data.forEach(setting => {
 			let temp = "";
 			if (!setting.possible) {
-				if (json.constant.integer.includes(setting.key)) temp += "" +
+				if (json.constant.integer.includes(setting.key)) temp +=
 					'<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
-				else temp += "" +
+				else temp +=
 					'<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 
@@ -146,7 +148,7 @@ function getSettingsHTML(json) {
 						'<option>' + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + ' hinzufügen...</option>';
 
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
-						temp += '<option value="' + key.replace("_", "") + '"' + '>' + possible[key].name + '</option>';
+						temp += '<option value="' + key.replace("_", "") + '">' + possible[key].name + '</option>';
 					});
 					temp += '</select><div id="' + setting.key + 'list" class="advancedsetting">';
 
@@ -180,7 +182,7 @@ function getSettingsHTML(json) {
 			categories
 		};
 	} else {
-		return ("" +
+		return (
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	};
@@ -191,7 +193,7 @@ function getCustomcommandsHTML(json) {
 		let text = "";
 
 		json.data.forEach(setting => {
-			text += "" +
+			text +=
 				'<p><b>' + setting.name + '</b></p>' +
 				'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
 				'<br>';
@@ -200,7 +202,7 @@ function getCustomcommandsHTML(json) {
 		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
 		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
-		return ("" +
+		return (
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	};
@@ -236,7 +238,7 @@ function getReactionrolesHTML(json) {
 		if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
 		return '<center><h1>Reactionroles von <span class="accent">' + encode(json.name) + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
 	} else {
-		return ("" +
+		return (
 			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
 			'<h1>' + json.message + '</h1>');
 	};
@@ -387,35 +389,41 @@ function getTicketsHTML(guild) {
 		getTickets(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = '<h1 class="greeting">Tickets von <span class="accent">' + encode(json.guild) + '</span></h1>' +
-						'<table cellpadding="8" cellspacing="0">' +
+					let text =
+						'<h1 class="greeting">Tickets von <span class="accent">' + encode(json.guild) + '</span></h1>' +
+						"<table cellpadding='8' cellspacing='0'>" +
 						"<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>";
 
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
 							'<tr class="ticket cmdvisible">' +
 							'<td><a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a></td>' +
-							'<td>' + ticket.owner + '</td>' +
-							'<td>' + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + "</td>" +
-							'<td>' + (ticketStates[ticket.state] || "Unbekannt") + '</td>' +
+							"<td>" + ticket.owner + "</td>" +
+							"<td>" + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + "</td>" +
+							"<td>" + (ticketStates[ticket.state] || "Unbekannt") + "</td>" +
 							'</tr>';
 					});
 
-					text += "</tbody></table><br><br>" +
-						"<h1>Ticketkategorien</h1>" +
-						'<table cellpadding="8" cellspacing="0">' +
-						'<thead><tr><th>Kategorie</th><th>Ticketnachricht</th><th>Embedtitel</th><th>Embedbeschreibung</th><th>Embedfooter</th></tr></thead><tbody>';
+					text +=
+						"</tbody></table><br><br>" +
+						"<h1>Ticketkategorien</h1>";
 
-					json.data.filter(ticket => ticket.category).forEach(category => {
+					if (json.data.filter(ticket => ticket.category).length > 0) {
 						text +=
-							'<tr class="cmdvisible">' +
-							'<td>' + category.category + '</td>' +
-							'<td>' + (category.ticketmsg || "") + '</td>' +
-							'<td>' + (category.ticketembedtitle || "") + '</td>' +
-							'<td>' + (category.ticketembeddescription ? (category.ticketembeddescription.length > 80 ? "<details><summary>" + category.ticketembeddescription.substring(0, 70) + "...</summary>" + category.ticketembeddescription.substring(70) + "</details>" : category.ticketembeddescription) : "") + '</td>' +
-							'<td>' + (category.ticketembedfooter || "") + '</td>' +
-							'</tr>';
-					});
+							"<table cellpadding='8' cellspacing='0'>" +
+							"<thead><tr><th>Kategorie</th><th>Ticketnachricht</th><th>Embedtitel</th><th>Embedbeschreibung</th><th>Embedfooter</th></tr></thead><tbody>";
+
+						json.data.filter(ticket => ticket.category).forEach(category => {
+							text +=
+								'<tr class="cmdvisible">' +
+								"<td>" + category.category + "</td>" +
+								"<td>" + (category.ticketmsg || "") + "</td>" +
+								"<td>" + (category.ticketembedtitle || "") + "</td>" +
+								"<td>" + (category.ticketembeddescription ? (category.ticketembeddescription.length > 80 ? "<details><summary>" + category.ticketembeddescription.substring(0, 70) + "...</summary>" + category.ticketembeddescription.substring(70) + "</details>" : category.ticketembeddescription) : "") + "</td>" +
+								"<td>" + (category.ticketembedfooter || "") + "</td>" +
+								'</tr>';
+						});
+					} else text += "<p>Keine Kategorien vorhanden</p>";
 
 					resolve(text + "</tbody></table>");
 				} else handleError(resolve, json.message);

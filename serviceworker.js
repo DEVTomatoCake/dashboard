@@ -14,10 +14,10 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 	if (event.request.method == "GET" && event.request.mode == "navigate") {
-	  	event.respondWith((async () => {
+		event.respondWith((async () => {
 			try {
 				const preloadResponse = await event.preloadResponse
-       			if (preloadResponse) return preloadResponse
+				if (preloadResponse) return preloadResponse
 
 				const response = await fetch(event.request)
 				cache.put(event.request, response.clone())

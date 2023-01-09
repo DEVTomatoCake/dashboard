@@ -99,7 +99,6 @@
 						<p translation="sidebar.support"></p>
 					</a>
 				</div>
-				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
 				<div style="padding: 15px 0;" class="section bottom">
 					<label class="switch" data-type="lang">
@@ -149,9 +148,6 @@
 				getDataexportHTML().then(data => {
 					document.getElementById('content').innerHTML = data + '<p id="author" translation="global.footer"></p>';
 					reloadText(getLanguage());
-				}).catch(err => {
-					document.getElementById('root-container').innerHTML = '<h1>Deine Daten konnten nicht geladen werden!</h1>';
-					console.log(err);
 				});
 			} else if (params.has("code")) {
 				document.getElementById("root-container").innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';

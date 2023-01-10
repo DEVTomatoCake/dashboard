@@ -16,7 +16,7 @@ function getCommandsHTML() {
 
 					json.data.forEach(command => {
 						var temp =
-							'<tr class="command cmdvisible"' + (command.category ? ' data-category="' + command.category + '"' : "") + '>' +
+							"<tr class='command cmdvisible'" + (command.category ? " data-category='" + command.category + "'" : "") + ">" +
 							"<td>" + command.name + "</td>" +
 							"<td>" + command.description + "</td>" +
 							"<td>" + command.usage + "</td>" +
@@ -28,10 +28,10 @@ function getCommandsHTML() {
 
 					categories.forEach(category => {
 						text +=
-							'<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + '</h2>' +
+							'<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
 							'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
-							'<table cellpadding="8" cellspacing="0" class="category" id="' + category + '">' +
-							'<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>';
+							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
+							"<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>";
 
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
@@ -73,14 +73,14 @@ function getGuildsHTML() {
 					})
 					json.data.forEach(guild => {
 						text += "<div class='guilds-container'>" +
-							'<a class="guild" href="' + (guild.activated ? "" : '../invite/') + '?guild=' + guild.id + '">' +
+							"<a class='guild' href='" + (guild.activated ? "" : "../invite/") + "?guild=" + guild.id + "'>" +
 							"<img" + (guild.activated ? "" : " class='notactivated'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";
 					});
 
-					if (text == "") resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
+					if (text == "") resolve("<h1>Es wurden keine Server von dir gefunden!</h1>");
 					else resolve(text);
 				} else handleError(resolve, json.message);
 			})
@@ -100,12 +100,12 @@ function getSettingsHTML(json) {
 		json.data.forEach(setting => {
 			let temp = "";
 			if (!setting.possible) {
+				temp += "<label for=" + setting.key + ">" + setting.help + "</label><br>";
+
 				if (json.constant.integer.includes(setting.key)) temp +=
-					'<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 				else temp +=
-					'<label for=' + setting.key + '>' + setting.help + '</label><br>' +
-					'<input class="setting" size="' + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
+					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 
 				if (setting.value?.includes("<") || setting.value?.includes(">")) {
 					setTimeout(() => {
@@ -117,8 +117,8 @@ function getSettingsHTML(json) {
 				if (typeof possible == "string") possible = json.constant[possible];
 
 				if (multiselect.includes(setting.key)) {
-					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
-						'<select multiple class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					temp += "<label for=" + setting.key + ">" + setting.help + "</label><br>" +
+						'<select multiple class="setting" id="' + setting.key + '" name="' + setting.key + "'>";
 					var selected = [];
 					var i = 0;
 					Object.keys(possible).forEach(key => {
@@ -127,8 +127,8 @@ function getSettingsHTML(json) {
 							if (data == key.replace("_", "")) selected.push(i);
 						});
 						i++;
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace("_", "") ? "selected" : "") + '>' + possible[key] + '</option>';
-						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + '" ' + (possible[key].color ? ' data-color="' + possible[key].color + '" ' : "") + (setting.value == key.replace("_", "") ? "selected" : "") + '>' + possible[key].name + '</option>';
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + '</option>';
+						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + "' " + (possible[key].color ? ' data-color="' + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + '>' + possible[key].name + '</option>';
 					});
 					temp += "</select>";
 					setTimeout(() => {
@@ -141,7 +141,7 @@ function getSettingsHTML(json) {
 					};
 
 					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
-						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '" ' +
+						'<select class="setting" id="' + setting.key + '" name="' + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
 						'onchange="addRole(\'' + setting.key + '\', this)">' +
 						'<option>' + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + ' hinzufügen...</option>';
@@ -159,8 +159,8 @@ function getSettingsHTML(json) {
 					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
 						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => {
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>'
-						else temp += '<option value="' + key.replace("_", "") + '" ' + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key].name + '</option>'
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>'
+						else temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key].name + '</option>'
 					});
 					temp += "</select>";
 				};
@@ -217,7 +217,7 @@ function getReactionrolesHTML(json) {
 
 			const possible = setting.possible;
 			text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
-			Object.keys(possible).forEach(key => text += '<option value="' + key.replace("_", "") + '" ' + (setting.role === key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>');
+			Object.keys(possible).forEach(key => text += '<option value="' + key.replace("_", "") + "' " + (setting.role === key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>');
 			text += '</select><br><br>';
 		});
 

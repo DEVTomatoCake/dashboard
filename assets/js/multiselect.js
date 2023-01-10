@@ -21,7 +21,7 @@ var $ = {
 	}
 }
 
-var drop = info => {
+var drop = function(info) {
 	var o = {
 		options: info.options,
 		selected: info.selected || [],

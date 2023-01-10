@@ -48,7 +48,7 @@
 
 				if (i % 2 == 0) {
 					setTimeout(() => {
-						document.getElementById("content").style.paddingLeft = "230px";
+						document.getElementById("content").style.paddingLeft = "300px";
 						document.getElementById("sidebar-container").classList.toggle("visible");
 					}, 300);
 				} else {
@@ -140,43 +140,40 @@
 				<h1 id="username-content" class="greeting">Hallo!</h1>
 
 				<div class="stats-row">
-					<div class="small-container">
-						<div class="data servers">
-							<div class="container">
-								<div class="statsicon"><ion-icon name="server-outline"></ion-icon></div>
+					<div class="data servers">
+						<div class="container">
+							<div class="statsicon"><ion-icon name="server-outline"></ion-icon></div>
 
-								<h3 class="text">SERVERANZAHL</h3>
+							<h3 class="text">SERVER</h3>
 
-								<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
-							</div>
-
-							<p id="stats-guilds" class="text">Lade...</p>
+							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
+
+						<p id="stats-guilds">Lade...</p>
 					</div>
-					<div class="small-container">
-						<div class="data uptime">
-							<div class="container">
-								<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
 
-								<h3 class="text">UPTIME</h3>
+					<div class="data uptime">
+						<div class="container">
+							<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
 
-								<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
-							</div>
+							<h3 class="text">UPTIME</h3>
 
-							<p>99,99%</p>
+							<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
 
-						<div class="data users">
-							<div class="container">
-								<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
+						<p>99,99%</p>
+					</div>
 
-								<h3 class="text">NUTZER</h3>
+					<div class="data users">
+						<div class="container">
+							<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
 
-								<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
-							</div>
+							<h3 class="text">NUTZER</h3>
 
-							<p id="stats-users">Lade...</p>
+							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
+
+						<p id="stats-users">Lade...</p>
 					</div>
 				</div>
 

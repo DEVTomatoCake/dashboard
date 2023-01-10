@@ -39,9 +39,7 @@
 	--blue: #4B57C9;
 	--green: #1B5E20;
 	--red: #B71C1C;
-	--yellow-1: #F57F17;
-	--yellow-2: #F9A825;
-	--yellow-3: #FBC02D;
+	--yellow: #D5942B;
 	--purple: #4527A0;
 	--pink: #880E4F;
 	--cyan: #00BCD4;
@@ -69,9 +67,7 @@
 	--blue: #8C9EFF;
 	--green: #B9F6CA;
 	--red: #F44336;
-	--yellow-1: #FF8F00;
-	--yellow-2: #FFD740;
-	--yellow-3: #FFE57F;
+	--yellow: #FFD740;
 	--purple: #B388FF;
 	--pink: #FF80AB;
 	--cyan: #84FFFF;
@@ -591,13 +587,13 @@ input .hidearrows {
 	font-size: 24px;
 }
 
-.sidebar .section .tab {
+.sidebar .section .tab.small {
 	padding: 2px 20px;
 }
-.sidebar .section .tab p {
+.sidebar .section .tab.small p {
 	font-size: 20px;
 }
-.sidebar .section .tab ion-icon {
+.sidebar .section .tab.small ion-icon {
 	font-size: 26px;
 }
 
@@ -732,12 +728,15 @@ input .hidearrows {
 }
 
 .content {
-	margin: 40px 70px 50px 0;
+	margin: 40px 20px 50px 60px;
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;
 	transition: .4s;
 	padding: 100px 0 100px 300px;
+}
+.content .accent {
+	color: var(--accent-color);
 }
 
 h1 {
@@ -748,10 +747,6 @@ h1.greeting {
 	text-align: center;
 	padding-bottom: 50px;
 	margin: 0 auto;
-}
-
-.content .accent {
-	color: var(--accent-color);
 }
 
 .stats-row {
@@ -809,7 +804,7 @@ h1.greeting {
 }
 
 .stats-row .data.servers ion-icon {
-	background: var(--yellow-2);
+	background: var(--yellow);
 }
 .stats-row .data.uptime ion-icon {
 	background: var(--green);
@@ -820,22 +815,6 @@ h1.greeting {
 
 .content h1, h2, label, p {
 	color: var(--primary-text-color);
-}
-
-#stats-guilds {
-	color: var(--primary-text-color);
-	font-size: 25px;
-	font-weight: 700;
-}
-
-.stats-row .data p.text {
-	color: var(--secondary-text-color);
-	font-size: 18px;
-	letter-spacing: 2px;
-}
-
-.stats-row .data .text p {
-	width: 50px;
 }
 
 .stats-row .data {
@@ -852,7 +831,7 @@ h1.greeting {
 }
 
 .stats-row .data.servers p {
-	color: var(--yellow-2);
+	color: var(--yellow);
 }
 .stats-row .data.uptime p {
 	color: var(--green);
@@ -895,6 +874,7 @@ h3, h4, ul li {
 .statsicon {
 	min-width: 50px;
 }
+
 .removeItem {
 	color: var(--select-border);
 }
@@ -1101,14 +1081,6 @@ h3, h4, ul li {
 	.stats-row .data ion-icon {
 		top: 20px;
 		left: -55px;
-	}
-
-	.stats-row .data .text {
-		display: flex;
-		gap: 10px;
-		align-items: center;
-		top: 30px;
-		left: -30px;
 	}
 
 	.stats-row .data ion-icon.open {

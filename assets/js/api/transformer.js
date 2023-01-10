@@ -52,8 +52,7 @@ function getStatsHTML(guild, filter) {
 			.then(json => {
 				if (json.status == "success") {
 					resolve({
-						name: json.name,
-						data: json.data
+						...json
 					});
 				} else handleError(resolve, json.message);
 			})
@@ -73,12 +72,12 @@ function getGuildsHTML() {
 						return -1;
 					})
 					json.data.forEach(guild => {
-						text += '<div class="guilds-container">' +
+						text += "<div class='guilds-container'>" +
 							'<a class="guild" href="' + (guild.activated ? "" : '../invite/') + '?guild=' + guild.id + '">' +
-							'<img' + (guild.activated ? "" : ' class="notactivated"') + ' alt="' + guild.id + '" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
-							'<div class="text">' + encode(guild.name) + '</div>' +
-							'</a>' +
-							'</div>';
+							"<img" + (guild.activated ? "" : " class='notactivated'") + ' alt="' + guild.id + '" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							"<div class='text'>" + encode(guild.name) + "</div>" +
+							"</a>" +
+							"</div>";
 					});
 
 					if (text == "") resolve('<h1>Es wurden keine Server von dir gefunden!</h1>');
@@ -272,105 +271,105 @@ function getDataexportHTML(token) {
 			.then(json => {
 				if (json.status == "success") {
 					if (json.data.userProfiles?.badges?.length > 0)
-						var badges = json.data.userProfiles.badges.map(badge => '<div class="badge">' + tkbadges[badge] + '</div>').join(", ");
+						var badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ");
 
 					if (json.data.economy?.shop?.length > 0)
 						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + (item.used > 0 ? ", " + item.used + " mal genutzt" : "") + '">' + item.name + '</p>').join(", ");
 
 					if (json.data.economy?.cooldowns?.length > 0)
-						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + '">' + cooldown.cmd + '</p>').join(", ");
+						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
 
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
-						var mentions = json.data.userProfiles.afk.mentions.map(mention => '<a href="' + mention.url + '"><p class="badge">' + mention.user + '</p></a><br>').join(", ");
+						var mentions = json.data.userProfiles.afk.mentions.map(mention => '<a href="' + mention.url + '"><p class="badge">' + mention.user + "</p></a><br>").join(", ");
 					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
 
 					if (json.data.remind?.length > 0)
-						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + '">' + encode(reminder.text) + '</p>').join(", ");
+						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
 
 					if (json.data.ticket?.length > 0)
-						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a>').join(", ");
+						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + "'>" + ticket.id + "</a>").join(", ");
 
 					if (json.data.suggest?.length > 0)
-						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + encode(suggest.text) + '">#' + suggest.id + '</p>').join(", ");
+						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + encode(suggest.text) + '">#' + suggest.id + "</p>").join(", ");
 
 					let text =
-					'<center>' +
-					'<h1 class="greeting">Daten von <span class="accent">' + encode(getCookie('user')) + '</span></h1>' +
-					'<div class="userdatagrid">' +
+						"<center>" +
+						'<h1 class="greeting">Daten von <span class="accent">' + encode(getCookie('user')) + '</span></h1>' +
+						'<div class="userdatagrid">' +
 
-					// User
-					'<div class="userData">' +
-					'<h1 translation="user.general"></h1>' +
-					'<p><b>ID:</b> ' + json.data.userProfiles?.id + '</p>' +
-					(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
-					(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
-					'</div>' +
-
-					// Usersettings
-					'<div class="userData">' +
-					'<h1 translation="user.settings"></h1>' +
-					'<p><b>Embed color:</b><p style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></p> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
-					'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350" height="140" alt="Your level background"/></a></p>' +
-					'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
-					'</div>' +
-
-					// Economy
-					(json.data.economy ?
+						// User
 						'<div class="userData">' +
-						'<h1>Economy</h1>' +
-						'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
-						'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
-						'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
-						'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
-						(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
-						(cooldowns ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
-						'</div>'
-					: "") +
+						'<h1 translation="user.general"></h1>' +
+						'<p><b>ID:</b> ' + json.data.userProfiles?.id + '</p>' +
+						(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
+						(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
+						"</div>" +
 
-					// AFK
-					(json.data.userProfiles?.afk?.text != "" ?
+						// Usersettings
 						'<div class="userData">' +
-						'<h1>AFK</h1>' +
-						'<p><b>Reason:</b> ' + encode(json.data.userProfiles.afk.text) + '</p>' +
-						'<p><b>Seit:</b> ' + afkSince + '</p>' +
-						(mentions ? '<p><b>Mentions:</b> ' + mentions + '</p>' : "") +
-						'</div>'
-					: "") +
+						'<h1 translation="user.settings"></h1>' +
+						'<p><b>Embed color:</b><p style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></p> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
+						'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350" height="140" alt="Your level background"/></a></p>' +
+						'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
+						"</div>" +
 
-					// Remind
-					(reminders ?
+						// Economy
+						(json.data.economy ?
+							'<div class="userData">' +
+							'<h1>Economy</h1>' +
+							'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
+							'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
+							'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
+							'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
+							(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
+							(cooldowns ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
+							"</div>"
+						: "") +
+
+						// AFK
+						(json.data.userProfiles?.afk?.text != "" ?
+							"<div class='userData'>" +
+							"<h1>AFK</h1>" +
+							"<p><b>Reason:</b> " + encode(json.data.userProfiles.afk.text) + "</p>" +
+							"<p><b>Seit:</b> " + afkSince + "</p>" +
+							(mentions ? "<p><b>Mentions:</b> " + mentions + "</p>" : "") +
+							"</div>"
+						: "") +
+
+						// Remind
+						(reminders ?
+							"<div class='userData'>" +
+							"<h1 translation='user.reminders'></h1>" +
+							reminders +
+							"</div>"
+						: "") +
+
+						// Tickets
+						(tickets ?
+							"<div class='userData'>" +
+							"<h1>Tickets</h1>" +
+							tickets +
+							"</div>"
+						: "") +
+
+						// Suggest
+						(suggests ?
+							'<div class="userData">' +
+							'<h1 translation="user.suggestions"></h1>' +
+							suggests +
+							"</div>"
+						: "") +
+
+						"</div>" +
+
+						'<div style="overflow: auto;">' +
 						'<div class="userData">' +
-						'<h1 translation="user.reminders"></h1>' +
-						reminders +
-						'</div>'
-					: "") +
+						'<label for="datajson"><h1 translation="user.json"></h1></label>' +
+						'<br><textarea id="datajson" rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+						"</div>" +
+						"</div>" +
 
-					// Tickets
-					(tickets ?
-						'<div class="userData">' +
-						'<h1>Tickets</h1>' +
-						tickets +
-						'</div>'
-					: "") +
-
-					// Suggest
-					(suggests ?
-						'<div class="userData">' +
-						'<h1 translation="user.suggestions"></h1>' +
-						suggests +
-						'</div>'
-					: "") +
-
-					'</div>' +
-
-					'<div style="overflow: auto;">' +
-					'<div class="userData">' +
-					'<label for="datajson"><h1 translation="user.json"></h1></label>' +
-					'<br><textarea id="datajson" rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
-					'</div>' +
-					'</div>' +
-
-					'</center>';
+						"</center>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);
@@ -390,18 +389,18 @@ function getTicketsHTML(guild) {
 			.then(json => {
 				if (json.status == "success") {
 					let text =
-						'<h1 class="greeting">Tickets von <span class="accent">' + encode(json.guild) + '</span></h1>' +
+						"<h1 class='greeting'>Tickets von <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
 						"<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>";
 
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
-							'<tr class="ticket cmdvisible">' +
-							'<td><a href="/ticket/?id=' + ticket.id + '">' + ticket.id + '</a></td>' +
+							"<tr class='ticket cmdvisible'>" +
+							"<td><a href='/ticket/?id=" + ticket.id + "'>" + ticket.id + "</a></td>" +
 							"<td>" + ticket.owner + "</td>" +
 							"<td>" + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + "</td>" +
 							"<td>" + (ticketStates[ticket.state] || "Unbekannt") + "</td>" +
-							'</tr>';
+							"</tr>";
 					});
 
 					text +=
@@ -415,13 +414,13 @@ function getTicketsHTML(guild) {
 
 						json.data.filter(ticket => ticket.category).forEach(category => {
 							text +=
-								'<tr class="cmdvisible">' +
+								"<tr class='cmdvisible'>" +
 								"<td>" + category.category + "</td>" +
 								"<td>" + (category.ticketmsg || "") + "</td>" +
 								"<td>" + (category.ticketembedtitle || "") + "</td>" +
 								"<td>" + (category.ticketembeddescription ? (category.ticketembeddescription.length > 80 ? "<details><summary>" + category.ticketembeddescription.substring(0, 70) + "...</summary>" + category.ticketembeddescription.substring(70) + "</details>" : category.ticketembeddescription) : "") + "</td>" +
 								"<td>" + (category.ticketembedfooter || "") + "</td>" +
-								'</tr>';
+								"</tr>";
 						});
 					} else text += "<p>Keine Kategorien vorhanden</p>";
 

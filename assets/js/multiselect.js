@@ -62,7 +62,7 @@ var drop = info => {
 		toggle: () => {
 			this.html.drop.classList.toggle("open")
 		},
-		addOption: (e, element) => {
+		addOption: element => {
 			var index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
@@ -127,7 +127,7 @@ var drop = info => {
 			var parentHTML = $.template("<div></div>")
 			this.selected.forEach(select => {
 				var option = that.options[select.index]
-				var childHTML = $.template('<span class="item ' + select.state + '">' + option.html + '</span>')
+				var childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
 				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + '"></ion-icon></span>')
 				childCloseHTML.on("click", e => {
 					that.removeOption(e, this)
@@ -142,9 +142,9 @@ var drop = info => {
 			var that = this
 			var parentHTML = $.template("<div></div>")
 			this.options.forEach((option, index) => {
-				var childHTML = $.template('<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
-				childHTML.on("click", e => {
-					that.addOption(e, this)
+				var childHTML = $.template("<a data-index='" + index + "' class='" + option.state + "'>" + option.html + "</a>")
+				childHTML.on("click", () => {
+					that.addOption(this)
 				})
 				parentHTML.appendChild(childHTML)
 			})

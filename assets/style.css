@@ -113,15 +113,12 @@ tr.cmdvisible:nth-child(odd) {
 
 .categorybutton {
 	border: none;
-	width: 130px;
-	height: 35px;
+	padding: 7px 12px;
 	border-radius: 20px;
-	font-size: 19px;
+	font-size: 20px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: auto;
-	margin-right: auto;
 	background: var(--button-accent-color);
 	cursor: pointer;
 	color: var(--light-text-color);

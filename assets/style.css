@@ -143,23 +143,24 @@ tr.cmdvisible:nth-child(odd) {
 	display: grid;
 	grid-template-areas: ". . . . .";
 	overflow: hidden;
+	justify-content: center;
 }
-@media (max-width: 1300px) {
+@media (max-width: 1250px) {
 	.grid {
 		grid-template-areas: ". . . .";
 	}
 }
-@media (max-width: 1150px) {
+@media (max-width: 1050px) {
 	.grid {
 		grid-template-areas: ". . .";
 	}
 }
-@media (max-width: 900px) {
+@media (max-width: 850px) {
 	.grid {
 		grid-template-areas: ". .";
 	}
 }
-@media (max-width: 750px) {
+@media (max-width: 700px) {
 	.grid {
 		grid-template-areas: ".";
 	}
@@ -168,17 +169,8 @@ tr.cmdvisible:nth-child(odd) {
 .guilds-container .guild {
 	width: 100%;
 	height: 26px;
-	margin: 2px;
-	padding: 3px;
-	text-decoration: none;
-	color: #fc3f75;
+	margin: 7px;
 	font-family: sans-serif;
-}
-
-.guilds-container .guild a:hover {
-	background-color: #fff;
-	color: #A67792;
-	text-decoration: #A67792;
 }
 
 .guilds-container {
@@ -188,11 +180,7 @@ tr.cmdvisible:nth-child(odd) {
 
 .guilds-container img {
 	opacity: 1;
-	display: block;
-	width: 128px;
-	height: 128px;
 	transition: .5s ease;
-	backface-visibility: hidden;
 	border-radius: 50%;
 }
 
@@ -206,7 +194,7 @@ tr.cmdvisible:nth-child(odd) {
 	-ms-transform: translate(-50%, -50%);
 	text-align: center;
 	background-color: #4CAF50;
-	color: white;
+	color: #FFF;
 	font-size: 16px;
 	padding: 10px 16px;
 }
@@ -888,7 +876,7 @@ h3, h4, ul li {
 .form-container {
 	max-width: 350px;
 	padding: 10px;
-	background-color: white;
+	background-color: #FFF;
 }
 .form-container h1 {
 	padding-bottom: 15px;
@@ -914,7 +902,7 @@ h3, h4, ul li {
 
 .form-container .btn {
 	background-color: #04AA6D;
-	color: white;
+	color: #FFF;
 	padding: 16px 20px;
 	border: none;
 	cursor: pointer;
@@ -1138,7 +1126,7 @@ h3, h4, ul li {
 
 .credits h3 {
 	font-size: 30px;
-	text-shadow: 3px 4px 5px black;
+	text-shadow: 3px 4px 5px #000;
 }
 
 .creditsUser {
@@ -1164,7 +1152,7 @@ h3, h4, ul li {
 .creditsUser img {
 	width: 140px;
 	height: 140px;
-	box-shadow: 0 0 20px black;
+	box-shadow: 0 0 20px #000;
 	transition: .5s;
 	border-radius: 50%;
 }

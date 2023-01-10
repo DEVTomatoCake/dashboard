@@ -74,7 +74,7 @@ function getGuildsHTML() {
 					json.data.forEach(guild => {
 						text += "<div class='guilds-container'>" +
 							'<a class="guild" href="' + (guild.activated ? "" : '../invite/') + '?guild=' + guild.id + '">' +
-							"<img" + (guild.activated ? "" : " class='notactivated'") + ' alt="' + guild.id + '" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							"<img" + (guild.activated ? "" : " class='notactivated'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";

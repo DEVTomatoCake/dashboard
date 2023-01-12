@@ -439,7 +439,7 @@ function getGiveawayHTML(giveaway) {
 					let text =
 						"<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<h2>" + json.data.prize + "</h2>" +
-						"<p>Giveaway-ID: " + json.data.message + "</p>" +
+						"<p>Giveaway-ID: <code>" + json.data.message + "</code></p>" +
 						"<p>Kanal: " + json.data.channel + "</p>" +
 						"<p>Gestartet: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
 						"<p>Endet: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
@@ -447,9 +447,9 @@ function getGiveawayHTML(giveaway) {
 						"<p>Anzahl der Gewinner: " + json.data.winnerCount + "</p>" +
 						"<p>Aktuelle Nutzer im Giveaway: " + json.data.users.length + "</p>";
 
-					if (json.data.requirements.roles) text += "<p>Alle diese Rollen: " + json.data.requirements.roles.join(", ") + "</p>";
-					if (json.data.requirements.anyRoles) text += "<p>Irgendeine dieser Rollen: " + json.data.requirements.anyRoles.join(", ") + "</p>";
-					if (json.data.requirements.notRoles) text += "<p>Keine dieser Rollen: " + json.data.requirements.notRoles.join(", ") + "</p>";
+					if (json.data.requirements.roles.length > 0) text += "<p>Alle diese Rollen: " + json.data.requirements.roles.join(", ") + "</p>";
+					if (json.data.requirements.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + json.data.requirements.anyRoles.join(", ") + "</p>";
+					if (json.data.requirements.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + json.data.requirements.notRoles.join(", ") + "</p>";
 					if (json.data.requirements.minAge) text += "<p>Mindestaccountalter: " + json.data.requirements.minAge + "</p>";
 					if (json.data.requirements.minMemberAge) text += "<p>Mindestzeit auf dem Server: " + json.data.requirements.minMemberAge + "</p>";
 					if (json.data.requirements.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: " + json.data.requirements.minLeaderboardPoints + "</p>";

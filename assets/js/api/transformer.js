@@ -128,7 +128,7 @@ function getSettingsHTML(json) {
 						});
 						i++;
 						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + '</option>';
-						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + "' " + (possible[key].color ? ' data-color="' + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + '>' + possible[key].name + '</option>';
+						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + "' " + (possible[key].color ? ' data-color="' + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + '</option>';
 					});
 					temp += "</select>";
 					setTimeout(() => {
@@ -140,7 +140,7 @@ function getSettingsHTML(json) {
 						possible
 					};
 
-					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
+					temp += '<label for=' + setting.key + ">" + setting.help + "</label><br>" +
 						'<select class="setting" id="' + setting.key + '" name="' + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
 						'onchange="addRole(\'' + setting.key + '\', this)">' +
@@ -156,11 +156,11 @@ function getSettingsHTML(json) {
 					});
 					temp += "</div>";
 				} else {
-					temp += '<label for=' + setting.key + '>' + setting.help + '</label><br>' +
+					temp += '<label for=' + setting.key + ">" + setting.help + "</label><br>" +
 						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
 					Object.keys(possible).forEach(key => {
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>'
-						else temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? 'selected' : '') + '>' + possible[key].name + '</option>'
+						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + '</option>'
+						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>"
 					});
 					temp += "</select>";
 				};
@@ -177,13 +177,13 @@ function getSettingsHTML(json) {
 		});
 
 		return {
-			html: '<center><h1>Einstellungen von <span class="accent">' + encode(json.name) + '</span></h1></center>' + text,
+			html: "<center><h1>Einstellungen von <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
 			categories
 		};
 	} else {
 		return (
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-			'<h1>' + json.message + '</h1>');
+			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+			"<h1>" + json.message + "</h1>");
 	};
 }
 
@@ -193,17 +193,17 @@ function getCustomcommandsHTML(json) {
 
 		json.data.forEach(setting => {
 			text +=
-				'<p><b>' + setting.name + '</b></p>' +
+				"<p><b>" + setting.name + "</b></p>" +
 				'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
-				'<br>';
+				"<br>";
 		});
 
 		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
 		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
 	} else {
 		return (
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-			'<h1>' + json.message + '</h1>');
+			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+			"<h1>" + json.message + "</h1>");
 	};
 }
 
@@ -217,7 +217,7 @@ function getReactionrolesHTML(json) {
 
 			const possible = setting.possible;
 			text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
-			Object.keys(possible).forEach(key => text += '<option value="' + key.replace("_", "") + "' " + (setting.role === key.replace("_", "") ? 'selected' : '') + '>' + possible[key] + '</option>');
+			Object.keys(possible).forEach(key => text += '<option value="' + key.replace("_", "") + "' " + (setting.role === key.replace("_", "") ? 'selected' : '') + ">" + possible[key] + '</option>');
 			text += '</select><br><br>';
 		});
 
@@ -235,11 +235,11 @@ function getReactionrolesHTML(json) {
 		rolecopy = json.data.roles;
 
 		if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
-		return '<center><h1>Reactionroles von <span class="accent">' + encode(json.name) + '</span></h1></center><button onclick="openForm()">Reactionrole erstellen</button><br><br>' + text;
+		return "<center><h1>Reactionroles von <span class='accent'>" + encode(json.name) + "</span></h1></center><button onclick='openForm()'>Reactionrole erstellen</button><br><br>" + text;
 	} else {
 		return (
-			'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>' +
-			'<h1>' + json.message + '</h1>');
+			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+			"<h1>" + json.message + "</h1>");
 	};
 }
 
@@ -248,7 +248,7 @@ function getLeaderboardHTML(guild) {
 		getLeaderboard(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + encode(json.guild) + '</span></h1>';
+					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + encode(entry.user) + '" />' + encode(entry.user) + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);
 				} else handleError(resolve, json.message);
@@ -294,35 +294,35 @@ function getDataexportHTML(token) {
 
 					let text =
 						"<center>" +
-						'<h1 class="greeting">Daten von <span class="accent">' + encode(getCookie('user')) + '</span></h1>' +
-						'<div class="userdatagrid">' +
+						"<h1 class='greeting'>Daten von <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
+						"<div class='userdatagrid'>" +
 
 						// User
-						'<div class="userData">' +
-						'<h1 translation="user.general"></h1>' +
-						'<p><b>ID:</b> ' + json.data.userProfiles?.id + '</p>' +
-						(json.data.birthday ? '<p><b>Birthday:</b> ' + json.data.birthday.day + '.' + json.data.birthday.month + '.</p>' : "") +
-						(badges ? '<p><b>Badges:</b> ' + badges + '</p>' : "") +
+						"<div class='userData'>" +
+						"<h1 translation='user.general'></h1>" +
+						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
+						(json.data.birthday ? "<p><b>Birthday:</b> " + json.data.birthday.day + "." + json.data.birthday.month + ".</p>" : "") +
+						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
 						"</div>" +
 
 						// Usersettings
-						'<div class="userData">' +
-						'<h1 translation="user.settings"></h1>' +
-						'<p><b>Embed color:</b><p style="background-color: #' + json.data.userProfiles?.settings?.embedcolor + ';"></p> ' + json.data.userProfiles?.settings?.embedcolor + '</p>' +
-						'<p><b>Level background:</b><br><a class="accent" href="' + json.data.userProfiles?.settings?.levelBackground + '"><img src="' + json.data.userProfiles?.settings?.levelBackground + '" loading="lazy" width="350" height="140" alt="Your level background"/></a></p>' +
-						'<p><b>Save avatar and attachments in tickets:</b> ' + json.data.userProfiles?.settings?.saveTicketAttachments + '</p>' +
+						"<div class='userData'>" +
+						"<h1 translation='user.settings'></h1>" +
+						"<p><b>Embed color:</b><p style='background-color: #" + json.data.userProfiles?.settings?.embedcolor + ";'></p> " + json.data.userProfiles?.settings?.embedcolor + "</p>" +
+						"<p><b>Level background:</b><br><a class='accent' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
+						"<p><b>Save avatar and attachments in tickets:</b> " + json.data.userProfiles?.settings?.saveTicketAttachments + "</p>" +
 						"</div>" +
 
 						// Economy
 						(json.data.economy ?
-							'<div class="userData">' +
-							'<h1>Economy</h1>' +
-							'<p><b>Wallet:</b> ' + json.data.economy.wallet.toLocaleString("de-DE") + '🍅</p>' +
-							'<p><b>Bank:</b> ' + json.data.economy.bank.toLocaleString("de-DE") + '🍅</p>' +
-							'<p><b>Skill:</b> ' + json.data.economy.skill.toFixed(1) + '</p>' +
-							'<p><b>School:</b> ' + json.data.economy.school + '</p>' +
-							(economyitems ? '<p><b>Items:</b> ' + economyitems + '</p>' : "") +
-							(cooldowns ? '<p><b>Cooldowns:</b> ' + cooldowns + '</p>' : "") +
+							"<div class='userData'>" +
+							"<h1>Economy</h1>" +
+							"<p><b>Wallet:</b> " + json.data.economy.wallet.toLocaleString("de-DE") + "🍅</p>" +
+							"<p><b>Bank:</b> " + json.data.economy.bank.toLocaleString("de-DE") + "🍅</p>" +
+							"<p><b>Skill:</b> " + json.data.economy.skill.toFixed(1) + "</p>" +
+							"<p><b>School:</b> " + json.data.economy.school + "</p>" +
+							(economyitems ? "<p><b>Items:</b> " + economyitems + "</p>" : "") +
+							(cooldowns ? "<p><b>Cooldowns:</b> " + cooldowns + "</p>" : "") +
 							"</div>"
 						: "") +
 
@@ -354,17 +354,17 @@ function getDataexportHTML(token) {
 
 						// Suggest
 						(suggests ?
-							'<div class="userData">' +
-							'<h1 translation="user.suggestions"></h1>' +
+							"<div class='userData'>" +
+							"<h1 translation='user.suggestions'></h1>" +
 							suggests +
 							"</div>"
 						: "") +
 
 						"</div>" +
 
-						'<div style="overflow: auto;">' +
-						'<div class="userData">' +
-						'<label for="datajson"><h1 translation="user.json"></h1></label>' +
+						"<div style='overflow: auto;'>" +
+						"<div class='userData'>" +
+						"<label for='datajson'><h1 translation='user.json'></h1></label>" +
 						'<br><textarea id="datajson" rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
 						"</div>" +
 						"</div>" +
@@ -438,14 +438,21 @@ function getGiveawayHTML(giveaway) {
 				if (json.status == "success") {
 					let text =
 						"<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						"<h2>" + json.data.prize + "</h2>" +
 						"<p>Giveaway-ID: " + json.data.message + "</p>" +
 						"<p>Kanal: " + json.data.channel + "</p>" +
-						"<p>Preis: " + json.data.prize + "</p>" +
 						"<p>Gestartet: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
-						"<p>Endet am: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
-						"<p>Ersteller: " + json.data.hostedBy + "</p>" +
+						"<p>Endet: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
+						"<p>Erstellt von: " + json.data.hostedBy + "</p>" +
 						"<p>Anzahl der Gewinner: " + json.data.winnerCount + "</p>" +
 						"<p>Aktuelle Nutzer im Giveaway: " + json.data.users.length + "</p>";
+
+					if (json.data.requirements.roles) text += "<p>Alle diese Rollen: " + json.data.requirements.roles.join(", ") + "</p>";
+					if (json.data.requirements.anyRoles) text += "<p>Irgendeine dieser Rollen: " + json.data.requirements.anyRoles.join(", ") + "</p>";
+					if (json.data.requirements.notRoles) text += "<p>Keine dieser Rollen: " + json.data.requirements.notRoles.join(", ") + "</p>";
+					if (json.data.requirements.minAge) text += "<p>Mindestaccountalter: " + json.data.requirements.minAge + "</p>";
+					if (json.data.requirements.minMemberAge) text += "<p>Mindestzeit auf dem Server: " + json.data.requirements.minMemberAge + "</p>";
+					if (json.data.requirements.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: " + json.data.requirements.minLeaderboardPoints + "</p>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);

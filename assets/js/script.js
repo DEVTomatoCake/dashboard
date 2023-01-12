@@ -89,10 +89,10 @@ function pageLoad(page = "") {
 			"<div class='cookie-container' id='cookie-container'>" +
 			"<h2>Cookie-Information</h2>" +
 			"<p translation='cookie.text'>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>" +
-			'<button onclick="setCookie(\'cookie-dismiss\', \'true\', 60, true);fadeOut(document.getElementById(\'cookie-container\'));" translation="cookie.all">Alle akzeptieren</button>' +
-			'<button onclick="fadeOut(document.getElementById(\'cookie-container\'));" translation="cookie.necessary">Nur notwendige</button>' +
+			"<button onclick='setCookie(\"cookie-dismiss\", true, 60, true);fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.all'>Alle akzeptieren</button>" +
+			"<button onclick='fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.necessary'>Nur notwendige</button>" +
 			"</div>";
-		setTimeout(() => fadeIn(document.getElementById('cookie-container')), 1000);
+		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000);
 	};
 
 	if (screen.width <= 800) {
@@ -110,7 +110,7 @@ function pageLoad(page = "") {
 		if (page == "main") document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
 		document.getElementById("username-header").innerText = username;
 		document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout/" translation="global.logout">Abmelden</a><a href="/dashboard/user/" translation="global.viewdataexport">Eigene Daten ansehen</a>';
-		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\'username-avatar\').style = \'display: block;\';this.style.display = \'none\';'>";
+		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style = \"display: block;\";this.style.display = \"none\";'>";
 	} else document.getElementById("username-avatar").style = "display: block;";
 
 	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme");

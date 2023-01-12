@@ -437,7 +437,15 @@ function getGiveawayHTML(giveaway) {
 			.then(json => {
 				if (json.status == "success") {
 					let text =
-						"<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>";
+						"<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						"<p>Giveaway-ID: " + json.data.message + "</p>" +
+						"<p>Kanal: " + json.data.channel + "</p>" +
+						"<p>Preis: " + json.data.prize + "</p>" +
+						"<p>Gestartet: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
+						"<p>Endet am: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
+						"<p>Ersteller: " + json.data.hostedBy + "</p>" +
+						"<p>Anzahl der Gewinner: " + json.data.winnerCount + "</p>" +
+						"<p>Aktuelle Nutzer im Giveaway: " + json.data.users.length + "</p>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);

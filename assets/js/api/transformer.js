@@ -430,3 +430,18 @@ function getTicketsHTML(guild) {
 			.catch(e => handleError(resolve, e));
 	});
 }
+
+function getGiveawayHTML(giveaway) {
+	return new Promise(resolve => {
+		getTickets(giveaway)
+			.then(json => {
+				if (json.status == "success") {
+					let text =
+						"<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>";
+
+					resolve(text);
+				} else handleError(resolve, json.message);
+			})
+			.catch(e => handleError(resolve, e));
+	});
+}

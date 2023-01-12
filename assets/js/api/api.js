@@ -87,3 +87,11 @@ function getTickets(guild) {
 			.catch(error => reject(error))
 	})
 }
+
+function getGiveaway(giveaway) {
+	return new Promise((resolve, reject) => {
+		get("giveaways/" + giveaway, true)
+			.then(data => resolve(data))
+			.catch(error => reject(error))
+	})
+}

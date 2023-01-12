@@ -21,46 +21,6 @@
 		<script src="../assets/js/language.js"></script>
 
 		<script src="https://kit.fontawesome.com/e818a9840c.js" crossorigin="anonymous"></script>
-
-		<script>
-			var i = 0;
-			function sidebar() {
-				i++;
-
-				document.getElementById("lineTop2").style.transform = "rotate(45deg)";
-				document.getElementById("lineTop2").style.top = "5px";
-				document.getElementById("lineBottom2").style.transform = "rotate(-45deg)";
-				document.getElementById("lineBottom2").style.bottom = "5px";
-
-				document.getElementById("lineTop1").style.transform = "rotate(45deg)";
-				document.getElementById("lineTop1").style.top = "5px";
-				document.getElementById("lineBottom1").style.transform = "rotate(-45deg)";
-				document.getElementById("lineBottom1").style.bottom = "5px";
-
-				if (i % 2 == 0) {
-					setTimeout(() => {
-						document.getElementById("content").style.paddingLeft = "300px";
-						document.getElementById("sidebar-container").classList.toggle("visible");
-					}, 300);
-				} else {
-					document.getElementById("content").style.paddingLeft = "0";
-
-					document.getElementById("lineTop2").style.transform = "rotate(0)";
-					document.getElementById("lineTop2").style.top = "0";
-					document.getElementById("lineBottom2").style.transform = "rotate(0)";
-					document.getElementById("lineBottom2").style.bottom = "0";
-
-					document.getElementById("lineTop1").style.transform = "rotate(0)";
-					document.getElementById("lineTop1").style.top = "0";
-					document.getElementById("lineBottom1").style.transform = "rotate(0)";
-					document.getElementById("lineBottom1").style.bottom = "0";
-
-					setTimeout(() => {
-						document.getElementById("sidebar-container").classList.toggle("visible");
-					}, 100);
-				};
-			};
-		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">

@@ -433,7 +433,7 @@ function getTicketsHTML(guild) {
 
 function getGiveawayHTML(giveaway) {
 	return new Promise(resolve => {
-		getTickets(giveaway)
+		getGiveaway(giveaway)
 			.then(json => {
 				if (json.status == "success") {
 					let text =

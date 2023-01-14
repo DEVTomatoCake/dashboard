@@ -118,7 +118,7 @@ function getSettingsHTML(json) {
 
 				if (multiselect.includes(setting.key)) {
 					temp += "<label for=" + setting.key + ">" + setting.help + "</label><br>" +
-						'<select multiple class="setting" id="' + setting.key + '" name="' + setting.key + "'>";
+						"<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					var selected = [];
 					var i = 0;
 					Object.keys(possible).forEach(key => {
@@ -127,8 +127,8 @@ function getSettingsHTML(json) {
 							if (data == key.replace("_", "")) selected.push(i);
 						});
 						i++;
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + '</option>';
-						else temp += '<option value="' + key.replace("_", "") + '" data-type="' + possible[key].type + "' " + (possible[key].color ? ' data-color="' + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + '</option>';
+						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + "</option>";
+						else temp += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (possible[key].color ? " data-color='" + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
 					setTimeout(() => {
@@ -140,10 +140,10 @@ function getSettingsHTML(json) {
 						possible
 					};
 
-					temp += '<label for=' + setting.key + ">" + setting.help + "</label><br>" +
-						'<select class="setting" id="' + setting.key + '" name="' + setting.key + "' " +
+					temp += "<label for='" + setting.key + "'>" + setting.help + "</label><br>" +
+						"<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
-						'onchange="addRole(\'' + setting.key + '\', this)">' +
+						"onchange='addRole(\"" + setting.key + "\", this)'>" +
 						"<option>" + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
 
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
@@ -215,25 +215,25 @@ function getReactionrolesHTML(json) {
 		let text = "";
 
 		json.data.reactionroles.forEach(setting => {
-			if (isNaN(setting.reaction)) text += '<p><b>' + setting.reaction + '</b></p>';
-			else text += '<img src="https://cdn.discordapp.com/emojis/' + setting.reaction + '.webp?size=32" width="32" height="32" loading="lazy" alt="Reactionrole image" /><br>';
+			if (isNaN(setting.reaction)) text += "<p><b>" + setting.reaction + "</b></p>";
+			else text += "<img src='https://cdn.discordapp.com/emojis/" + setting.reaction + ".webp?size=32' width='32' height='32' loading='lazy' alt='Reactionrole image' /><br>";
 
 			const possible = setting.possible;
-			text += '<select class="setting" data-type="' + setting.type + '" data-msg="' + setting.msg + '" data-reaction="' + setting.reaction + '" data-channel="" id="' + setting.msg + '-' + setting.reaction + '" name="' + setting.msg + '">';
-			Object.keys(possible).forEach(key => text += '<option value="' + key.replace("_", "") + "' " + (setting.role === key.replace("_", "") ? 'selected' : '') + ">" + possible[key] + '</option>');
-			text += '</select><br><br>';
+			text += "<select class='setting' data-type='" + setting.type + "' data-msg='" + setting.msg + "' data-reaction='" + setting.reaction + "' data-channel='' id='" + setting.msg + "-" + setting.reaction + "' name='" + setting.msg + "'>";
+			Object.keys(possible).forEach(key => text += "<option value='" + key.replace("_", "") + "'" + (setting.role == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>");
+			text += "</select><br><br>";
 		});
 
 		let typeoptions = "";
-		Object.keys(json.data.types).forEach(key => typeoptions += '<option value="' + key + '">' + json.data.types[key] + '</option>');
+		Object.keys(json.data.types).forEach(key => typeoptions += "<option value='" + key + "'>" + json.data.types[key] + "</option>");
 		document.getElementById("reactionroles-type").innerHTML = typeoptions;
 
 		let channeloptions = "";
-		Object.keys(json.data.channels).forEach(key => channeloptions += '<option value="' + key.replace("_", "") + '">' + json.data.channels[key] + '</option>');
+		Object.keys(json.data.channels).forEach(key => channeloptions += "<option value='" + key.replace("_", "") + "'>" + json.data.channels[key] + "</option>");
 		document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
 		let roleoptions = "";
-		Object.keys(json.data.roles).forEach(key => roleoptions += '<option value="' + key.replace("_", "") + '">' + json.data.roles[key] + '</option>');
+		Object.keys(json.data.roles).forEach(key => roleoptions += "<option value='" + key.replace("_", "") + "'>" + json.data.roles[key] + "</option>");
 		document.getElementById("reactionroles-role").innerHTML = roleoptions;
 		rolecopy = json.data.roles;
 
@@ -251,7 +251,7 @@ function getLeaderboardHTML(guild) {
 		getLeaderboard(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = '<h1 class="greeting">Leaderboard von <span class="accent">' + encode(json.guild) + "</span></h1>";
+					let text = "<h1 class='greeting'>Leaderboard von <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + encode(entry.user) + '" />' + encode(entry.user) + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
 					resolve(text);
 				} else handleError(resolve, json.message);

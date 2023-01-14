@@ -11,12 +11,9 @@ var $ = {
 	template: function(html) {
 		var template = document.createElement("div")
 		template.innerHTML = html.trim()
-		console.log(template.childNodes)
-		if (!template.childNodes[0]) console.warn(template)
 		return this.init(template.childNodes[0])
 	},
 	init: function(ele) {
-		console.log(ele)
 		ele.on = function(event, func) {
 			this.addEventListener(event, func)
 		}
@@ -129,7 +126,6 @@ var drop = function(info) {
 			var that = this
 			var parentHTML = $.template("<div></div>")
 			this.selected.forEach(function(select) {
-				console.warn(state)
 				var option = that.options[select.index]
 				var childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
 				var childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")

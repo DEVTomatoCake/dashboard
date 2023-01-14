@@ -1,4 +1,4 @@
-const types = ['INFO', 'LOADING', 'SUCCESS', 'WARNING', 'ERROR']
+const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
 let toastNotifications = {}
 let autoscroll = true
 var currentId = 0
@@ -10,24 +10,24 @@ function closeAll() {
 }
 
 function createWrapper() {
-	const wrapper = document.createElement('div')
-	const container = document.createElement('div')
+	const wrapper = document.createElement("div")
+	const container = document.createElement("div")
 
-	wrapper.setAttribute('id', 'toast-notification-wrapper')
-	container.setAttribute('class', 'toast-notification-container')
+	wrapper.setAttribute("id", "toast-notification-wrapper")
+	container.setAttribute("class", "toast-notification-container")
 
-	container.addEventListener('scroll', () => {
-		autoscroll = ((wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40)
+	container.addEventListener("scroll", () => {
+		autoscroll = (wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40
 	})
 
 	wrapper.append(container)
-	document.querySelector('body').prepend(wrapper)
+	document.querySelector("body").prepend(wrapper)
 	return container
 }
 
 function toastNotification({timeout = 10, type = "INFO", title = "", description = "", tag = "", percentage = null, closeConditions = {time: true, percentage: false}}) {
-	let element = document.createElement('div')
-	element.setAttribute('class', 'toast-notification')
+	let element = document.createElement("div")
+	element.setAttribute("class", "toast-notification")
 	element.innerHTML = `
 		<div class="type-image-wrapper" data-type="${type}">
 			<div class="type-image"></div>
@@ -52,43 +52,42 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 	let id = currentId++
 	let intervalId
 
-	element.querySelector('.content-wrapper header .close svg').addEventListener('click', () => {
+	element.querySelector(".content-wrapper header .close svg").addEventListener("click", () => {
 		this.close()
 	})
 
 	this.setType = function setType(type) {
 		if (element.classList.contains("closed")) return
-		type = types.includes(type) ? type : "INFO"
-		element.querySelector('.type-image-wrapper').setAttribute("data-type", type)
+		element.querySelector(".type-image-wrapper").setAttribute("data-type", types.includes(type) ? type : "INFO")
 		return this
 	}
 
 	this.setTitle = function setTitle(title) {
 		if (element.classList.contains("closed")) return
 		title = title || ""
-		element.querySelector('.content-wrapper header .title-wrapper .title').innerText = title
+		element.querySelector(".content-wrapper header .title-wrapper .title").innerText = title
 		return this
 	}
 
 	this.setDescription = function setDescription(description) {
 		if (element.classList.contains("closed")) return
 		description = description || ""
-		element.querySelector('.content-wrapper .description').innerHTML = description
+		element.querySelector(".content-wrapper .description").innerHTML = description
 		return this
 	}
 
 	this.setTag = function setTag(tag) {
 		if (element.classList.contains("closed")) return
 		tag = tag || ""
-		element.querySelector('.content-wrapper header .title-wrapper .tag').innerText = tag
+		element.querySelector(".content-wrapper header .title-wrapper .tag").innerText = tag
 		return this
 	}
 
 	this.setPercentage = function setPercentage(percentage) {
-		if (element.classList.contains('closed')) return
+		if (element.classList.contains("closed")) return
 		const p = (percentage == undefined) ? null : Math.floor(percentage)
 		percentage = (p == null) ? null : (p > 100) ? 100 : (p < 0) ? 0 : p
-		const e = element.querySelector('.content-wrapper .percentage')
+		const e = element.querySelector(".content-wrapper .percentage")
 		e.value = percentage
 		if (percentage == null) e.style.display = "none"
 		else e.style.display = "block"
@@ -97,12 +96,12 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 	}
 
 	function createTimeout() {
-		const e = element.querySelector('.content-wrapper header .close .timeout')
+		const e = element.querySelector(".content-wrapper header .close .timeout")
 		e.innerText = (timeout == undefined) ? e.innerText : timeout + "s"
 	}
 
 	this.show = function show() {
-		let container = document.body.querySelector('#toast-notification-wrapper .toast-notification-container')
+		let container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
 		if (container == null) container = createWrapper()
 		else if (container.contains(element)) return
 
@@ -132,7 +131,7 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 		const current = toastNotifications[closeId]
 		clearInterval(current.intervalId)
 
-		const container = document.body.querySelector('#toast-notification-wrapper .toast-notification-container')
+		const container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
 		if (container == null) return
 
 		current.element.classList.add("closed")
@@ -140,7 +139,7 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 		setTimeout(() => {
 			current.element.remove()
 			delete toastNotifications[closeId]
-			if (container.childElementCount == 0) document.body.querySelector('#toast-notification-wrapper').remove()
+			if (container.childElementCount == 0) document.body.querySelector("#toast-notification-wrapper").remove()
 		}, 500)
 	}
 

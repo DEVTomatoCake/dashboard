@@ -249,7 +249,11 @@ function getLeaderboardHTML(guild) {
 			.then(json => {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'>Leaderboard von <span class='accent'>" + encode(json.guild) + "</span></h1>";
-					json.data.forEach(entry => text += '<div class="leaderboard"><p>' + entry.place + '. <img class="user-image" src="' + entry.avatar + '?size=32" loading="lazy" width="32" height="32" alt="Avatar von ' + encode(entry.user) + '" />' + encode(entry.user) + ' <b>' + entry.points + '</b> ' + (entry.points == 1 ? 'Punkt' : 'Punkte') + ' (Level <b>' + entry.level + '</b>)</p></div>');
+					json.data.forEach(entry => {
+						text += "<div class='leaderboard'><p>" + entry.place + ". " +
+							"<img class='user-image' src='" + entry.avatar + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "' />" +
+							encode(entry.user) + " <b>" + entry.points + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + entry.level + "</b>)</p></div>";
+					});
 					resolve(text);
 				} else handleError(resolve, json.message);
 			})
@@ -274,23 +278,23 @@ function getDataexportHTML(token) {
 						var badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ");
 
 					if (json.data.economy?.shop?.length > 0)
-						var economyitems = json.data.economy.shop.map(item => '<p class="badge" title="Erhalten am ' + new Date(item.date).toLocaleString() + (item.used > 0 ? ", " + item.used + " mal genutzt" : "") + '">' + item.name + '</p>').join(", ");
+						var economyitems = json.data.economy.shop.map(item => "<p class='badge' title='Erhalten am " + new Date(item.date).toLocaleString() + (item.used > 0 ? ", " + item.used + " mal genutzt" : "") + "'>" + item.name + "</p>").join(", ");
 
 					if (json.data.economy?.cooldowns?.length > 0)
-						var cooldowns = json.data.economy.cooldowns.map(cooldown => '<p class="badge" title="Bis ' + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
+						var cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Bis " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
 
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
-						var mentions = json.data.userProfiles.afk.mentions.map(mention => '<a href="' + mention.url + '"><p class="badge">' + mention.user + "</p></a><br>").join(", ");
+						var mentions = json.data.userProfiles.afk.mentions.map(mention => "<a href='" + mention.url + "'><p class='badge'>" + mention.user + "</p></a><br>").join(", ");
 					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
 
 					if (json.data.remind?.length > 0)
-						var reminders = json.data.remind.map(reminder => '<p class="badge" title="' + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
+						var reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
 
 					if (json.data.ticket?.length > 0)
-						var tickets = json.data.ticket.map(ticket => '<a href="/ticket/?id=' + ticket.id + "'>" + ticket.id + "</a>").join(", ");
+						var tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + ticket.id + "'>" + ticket.id + "</a>").join(", ");
 
 					if (json.data.suggest?.length > 0)
-						var suggests = json.data.suggest.map(suggest => '<p class="badge" title="' + encode(suggest.text) + '">#' + suggest.id + "</p>").join(", ");
+						var suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + suggest.id + "</p>").join(", ");
 
 					let text =
 						"<center>" +
@@ -364,8 +368,9 @@ function getDataexportHTML(token) {
 
 						"<div style='overflow: auto;'>" +
 						"<div class='userData'>" +
-						"<label for='datajson'><h1 translation='user.json'></h1></label>" +
-						'<br><textarea id="datajson" rows="13" cols="' + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + '" readonly>' + JSON.stringify(json.data, null, 2) + '</textarea>' +
+						"<label for='datajson'><h1 translation='user.json'></h1></label><br>" +
+						"<textarea id='datajson' rows='13' cols='" + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + "' readonly>" +
+						JSON.stringify(json.data, null, 2) + "</textarea>" +
 						"</div>" +
 						"</div>" +
 

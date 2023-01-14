@@ -449,15 +449,17 @@ function getGiveawayHTML(giveaway) {
 						"<p>Gestartet: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
 						"<p>Endet: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
 						"<p>Erstellt von: " + json.data.hostedBy + "</p>" +
-						"<p>Anzahl der Gewinner: " + json.data.winnerCount + "</p>" +
-						"<p>Aktuelle Nutzer im Giveaway: " + json.data.users.length + "</p>";
+						"<p>Anzahl der Gewinner: <b>" + json.data.winnerCount + "</b></p>" +
+						"<p>Aktuelle Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>";
 
-					if (json.data.requirements.roles.length > 0) text += "<p>Alle diese Rollen: " + json.data.requirements.roles.join(", ") + "</p>";
-					if (json.data.requirements.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + json.data.requirements.anyRoles.join(", ") + "</p>";
-					if (json.data.requirements.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + json.data.requirements.notRoles.join(", ") + "</p>";
-					if (json.data.requirements.minAge) text += "<p>Mindestaccountalter: " + json.data.requirements.minAge + "</p>";
-					if (json.data.requirements.minMemberAge) text += "<p>Mindestzeit auf dem Server: " + json.data.requirements.minMemberAge + "</p>";
-					if (json.data.requirements.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: " + json.data.requirements.minLeaderboardPoints + "</p>";
+					const reqs = json.data.requirements;
+					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) text += "<h3>Bedingungen</h3>";
+					if (reqs.roles.length > 0) text += "<p>Alle diese Rollen: " + reqs.roles.join(", ") + "</p>";
+					if (reqs.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + reqs.anyRoles.join(", ") + "</p>";
+					if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
+					if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
+					if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
+					if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints + "</b></p>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);

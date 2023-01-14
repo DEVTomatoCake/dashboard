@@ -34,6 +34,9 @@ var drop = function(info) {
 		},
 		init: function() {
 			//Setup Drop HTML
+			console.warn(info.selector)
+			console.log($.get(info.selector))
+			console.log($.get(info.selector)[0])
 			this.html.parent = $.get(info.selector)[0].parentNode
 			this.html.drop = $.template('<div class="drop"></div>')
 			this.html.dropDisplay = $.template('<div class="drop-display">Display</div>')
@@ -62,7 +65,7 @@ var drop = function(info) {
 		toggle: function() {
 			this.html.drop.classList.toggle("open")
 		},
-		addOption: function(e, element) {
+		addOption: function(element) {
 			var index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
@@ -143,8 +146,8 @@ var drop = function(info) {
 			var parentHTML = $.template("<div></div>")
 			this.options.forEach(function(option, index) {
 				var childHTML = $.template('<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
-				childHTML.on("click", function(e) {
-					that.addOption(e, this)
+				childHTML.on("click", function() {
+					that.addOption(this)
 				})
 				parentHTML.appendChild(childHTML)
 			})

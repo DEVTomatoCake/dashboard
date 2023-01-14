@@ -39,10 +39,7 @@
 	--blue: #4B57C9;
 	--green: #1B5E20;
 	--red: #B71C1C;
-	--yellow: #D5942B;
-	--purple: #4527A0;
-	--pink: #880E4F;
-	--cyan: #00BCD4;
+	--purple: #7D2A97;
 	--primary-table-bgcolor: #E5E7F1;
 	--secondary-table-bgcolor: #C1C4DB;
 	--textarea-color: #000;
@@ -67,10 +64,7 @@
 	--blue: #8C9EFF;
 	--green: #B9F6CA;
 	--red: #F44336;
-	--yellow: #FFD740;
 	--purple: #B388FF;
-	--pink: #FF80AB;
-	--cyan: #84FFFF;
 	--primary-table-bgcolor: #25273A;
 	--secondary-table-bgcolor: #363952;
 	--textarea-color: #FFF;
@@ -790,7 +784,7 @@ h1.greeting {
 }
 
 .stats-row .data.servers ion-icon {
-	background: var(--yellow);
+	background: var(--purple);
 }
 .stats-row .data.uptime ion-icon {
 	background: var(--green);
@@ -817,7 +811,7 @@ h1.greeting {
 }
 
 .stats-row .data.servers p {
-	color: var(--yellow);
+	color: var(--purple);
 }
 .stats-row .data.uptime p {
 	color: var(--green);

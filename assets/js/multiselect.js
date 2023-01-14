@@ -35,13 +35,12 @@ var drop = function(info) {
 		init: function() {
 			//Setup Drop HTML
 			console.warn(info.selector)
-			console.log($.get(info.selector))
 			console.log($.get(info.selector)[0])
 			this.html.parent = $.get(info.selector)[0].parentNode
-			this.html.drop = $.template('<div class="drop"></div>')
-			this.html.dropDisplay = $.template('<div class="drop-display">Display</div>')
-			this.html.dropOptions = $.template('<div class="drop-options">Options</div>')
-			this.html.dropScreen = $.template('<div class="drop-screen"></div>')
+			this.html.drop = $.template("<div class='drop'></div>")
+			this.html.dropDisplay = $.template("<div class='drop-display'>Display</div>")
+			this.html.dropOptions = $.template("<div class='drop-options'>Options</div>")
+			this.html.dropScreen = $.template("<div class='drop-screen'></div>")
 
 			this.html.parent.insertBefore(this.html.drop, this.html.select)
 			this.html.drop.appendChild(this.html.dropDisplay)
@@ -51,10 +50,10 @@ var drop = function(info) {
 			this.html.drop.appendChild(this.html.select)
 
 			var that = this
-			this.html.dropDisplay.on('click', function() {
+			this.html.dropDisplay.on("click", function() {
 				that.toggle()
 			})
-			this.html.dropScreen.on('click', function() {
+			this.html.dropScreen.on("click", function() {
 				that.toggle()
 			})
 			//Run Render
@@ -130,8 +129,8 @@ var drop = function(info) {
 			var parentHTML = $.template("<div></div>")
 			this.selected.forEach(function(select) {
 				var option = that.options[select.index]
-				var childHTML = $.template('<span class="item ' + select.state + '">' + option.html + '</span>')
-				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + '"></ion-icon></span>')
+				var childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
+				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + "'></ion-icon></span>")
 				childCloseHTML.on("click", function(e) {
 					that.removeOption(e, this)
 				})
@@ -145,7 +144,7 @@ var drop = function(info) {
 			var that = this
 			var parentHTML = $.template("<div></div>")
 			this.options.forEach(function(option, index) {
-				var childHTML = $.template('<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
+				var childHTML = $.template("<a data-index='" + index + "' class='" + option.state + "'>" + option.html + "</a>")
 				childHTML.on("click", function() {
 					that.addOption(this)
 				})

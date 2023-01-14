@@ -144,22 +144,25 @@ function getSettingsHTML(json) {
 						'<select class="setting" id="' + setting.key + '" name="' + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
 						'onchange="addRole(\'' + setting.key + '\', this)">' +
-						'<option>' + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + ' hinzufügen...</option>';
+						"<option>" + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
 
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
-						temp += '<option value="' + key.replace("_", "") + '">' + possible[key].name + '</option>';
+						temp += "<option value='" + key.replace("_", "") + "'>" + possible[key].name + "</option>";
 					});
-					temp += '</select><div id="' + setting.key + 'list" class="advancedsetting">';
+					temp += "</select><div id='" + setting.key + "list' class='advancedsetting'>";
 
 					if (setting.value.trim() != "") setting.value.split(",").forEach(r => {
-						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + '</p><input type="' + (setting.key == "levelMultipliers" ? 'number" min="0.1" max="3" step="0.1"' : 'text" size="' + (screen.width > 500 ? 30 : 20) + '"') + ' id="an_' + setting.key + "_" + r.split(":")[0] + 'value" class="settingcopy" value="' + r.split(":")[1] + '"><ion-icon name="close-outline" class="removeItem" onclick="removeRole(\'' + setting.key + '\', this, \'' + r.split(":")[0] + '\')"></ion-icon></div>';
+						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + "</p>" +
+							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
+							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":")[1] + "'>" +
+							"<ion-icon name='close-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
 					});
 					temp += "</div>";
 				} else {
-					temp += '<label for=' + setting.key + ">" + setting.help + "</label><br>" +
-						'<select class="setting" id="' + setting.key + '" name="' + setting.key + '">';
+					temp += "<label for='" + setting.key + "'>" + setting.help + "</label><br>" +
+						"<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
-						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + '</option>'
+						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>"
 					});
 					temp += "</select>";

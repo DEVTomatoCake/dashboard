@@ -1,12 +1,10 @@
 const url = "https://api.tomatenkuchen.eu/api/"
 async function get(component, auth) {
-	const response = await fetch(url + component + ((auth && getCookie("token")) ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""))
+	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""))
 
-	if (response.status != 429) {
-		const json = await response.json()
-		console.log("Response for \"" + url + component + "\": " + JSON.stringify(json))
-		return json
-	}
+	const json = await res.json()
+	console.log("Response for \"" + url + component + "\": " + JSON.stringify(json))
+	return json
 }
 
 function getCommands() {

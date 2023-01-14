@@ -98,10 +98,9 @@ function getSettingsHTML(json) {
 		advancedsetting = json.constant.advancedsetting;
 
 		json.data.forEach(setting => {
-			let temp = "";
-			if (!setting.possible) {
-				temp += "<label for=" + setting.key + ">" + setting.help + "</label><br>";
+			let temp = "<label for='" + setting.key + "'>" + setting.help + "</label><br>";
 
+			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp +=
 					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
 				else temp +=
@@ -117,8 +116,7 @@ function getSettingsHTML(json) {
 				if (typeof possible == "string") possible = json.constant[possible];
 
 				if (multiselect.includes(setting.key)) {
-					temp += "<label for=" + setting.key + ">" + setting.help + "</label><br>" +
-						"<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
+					temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					var selected = [];
 					var i = 0;
 					Object.keys(possible).forEach(key => {
@@ -140,8 +138,7 @@ function getSettingsHTML(json) {
 						possible
 					};
 
-					temp += "<label for='" + setting.key + "'>" + setting.help + "</label><br>" +
-						"<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
+					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
 						"onchange='addRole(\"" + setting.key + "\", this)'>" +
 						"<option>" + (setting.key == "voiceNotifyMessage" || setting.key == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
@@ -159,8 +156,7 @@ function getSettingsHTML(json) {
 					});
 					temp += "</div>";
 				} else {
-					temp += "<label for='" + setting.key + "'>" + setting.help + "</label><br>" +
-						"<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
+					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
 						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>"
@@ -173,7 +169,7 @@ function getSettingsHTML(json) {
 		});
 
 		categories.forEach(category => {
-			text += '<h2 id="' + category + '">' + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
+			text += "<h2 id='" + category + "'>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1];
 			});
@@ -197,7 +193,7 @@ function getCustomcommandsHTML(json) {
 		json.data.forEach(setting => {
 			text +=
 				"<p><b>" + setting.name + "</b></p>" +
-				'<textarea class="setting" rows="' + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + setting.name + '" maxlength="2000" name="' + setting.name + '">' + setting.value + '</textarea>' +
+				"<textarea class='setting' rows='" + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
 				"<br>";
 		});
 

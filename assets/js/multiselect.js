@@ -11,9 +11,12 @@ var $ = {
 	template: function(html) {
 		var template = document.createElement("div")
 		template.innerHTML = html.trim()
+		console.log(template.childNodes)
+		console.log(template.childNodes[0])
 		return this.init(template.childNodes[0])
 	},
 	init: function(ele) {
+		console.log(ele)
 		ele.on = function(event, func) {
 			this.addEventListener(event, func)
 		}
@@ -34,8 +37,7 @@ var drop = function(info) {
 		},
 		init: function() {
 			//Setup Drop HTML
-			console.warn(info.selector)
-			console.log($.get(info.selector)[0])
+			console.log(info.selector)
 			this.html.parent = $.get(info.selector)[0].parentNode
 			this.html.drop = $.template("<div class='drop'></div>")
 			this.html.dropDisplay = $.template("<div class='drop-display'>Display</div>")

@@ -12,7 +12,7 @@ var $ = {
 		var template = document.createElement("div")
 		template.innerHTML = html.trim()
 		console.log(template.childNodes)
-		console.log(template.childNodes[0])
+		if (!template.childNodes[0]) console.warn(template)
 		return this.init(template.childNodes[0])
 	},
 	init: function(ele) {
@@ -37,7 +37,6 @@ var drop = function(info) {
 		},
 		init: function() {
 			//Setup Drop HTML
-			console.log(info.selector)
 			this.html.parent = $.get(info.selector)[0].parentNode
 			this.html.drop = $.template("<div class='drop'></div>")
 			this.html.dropDisplay = $.template("<div class='drop-display'>Display</div>")
@@ -96,10 +95,10 @@ var drop = function(info) {
 				var option = this.html.options[i]
 
 				var prefix = ""
-				if (option.dataset.type == "text") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013330953038475355.png" width="25" height="25" alt="Text channel icon" />'
-				else if (option.dataset.type == "voice") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013333740187033671.png" width="25" height="25" alt="Voice channel icon" />'
-				else if (option.dataset.type == "category") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013339254593687592.png" width="25" height="25" alt="Category icon" />'
-				else if (option.dataset.type == "role") prefix = '<img style="vertical-align: middle; padding-right: 2px;" src="https://cdn.discordapp.com/emojis/1013338522830250014.png" width="25" height="25" alt="Role icon" />'
+				if (option.dataset.type == "text") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt='' />"
+				else if (option.dataset.type == "voice") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt='' />"
+				else if (option.dataset.type == "category") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt='' />"
+				else if (option.dataset.type == "role") prefix = "<img style='vertical-align: middle; padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt='' />"
 				//else if (option.dataset.type == "role" && option.dataset.color) prefix = "<span style='color: " + option.dataset.color + ";'>"
 
 				this.options[i] = {
@@ -130,9 +129,10 @@ var drop = function(info) {
 			var that = this
 			var parentHTML = $.template("<div></div>")
 			this.selected.forEach(function(select) {
+				console.warn(state)
 				var option = that.options[select.index]
 				var childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
-				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + "'></ion-icon></span>")
+				var childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")
 				childCloseHTML.on("click", function(e) {
 					that.removeOption(e, this)
 				})

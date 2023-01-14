@@ -125,7 +125,7 @@ function getSettingsHTML(json) {
 							if (data == key.replace("_", "")) selected.push(i);
 						});
 						i++;
-						if (typeof possible[key] == "string") temp += '<option value="' + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + "</option>";
+						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + "</option>";
 						else temp += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (possible[key].color ? " data-color='" + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
@@ -159,7 +159,7 @@ function getSettingsHTML(json) {
 					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
 						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
-						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>"
+						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
 				};
@@ -198,7 +198,8 @@ function getCustomcommandsHTML(json) {
 		});
 
 		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
-		return '<center><h1>Customcommands von <span class="accent">' + encode(json.name) + '</span></h1></center><p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick="openForm()">Customcommand erstellen</button><br><br>' + text;
+		return "<center><h1>Customcommands von <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+			"<p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick='openForm()'>Customcommand erstellen</button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +

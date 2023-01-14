@@ -441,8 +441,12 @@ function getGiveawayHTML(giveaway) {
 		getGiveaway(giveaway)
 			.then(json => {
 				if (json.status == "success") {
-					let text =
-						"<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+					let text = "<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>";
+
+					if (json.data.ended)
+						text += "<div class='creditsUser'><h2>Giveaway beendet</h2><p>" + (json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
+
+					text +=
 						"<h2>" + json.data.prize + "</h2>" +
 						"<p>Giveaway-ID: <code>" + json.data.message + "</code></p>" +
 						"<p>Kanal: " + json.data.channel + "</p>" +
@@ -453,13 +457,15 @@ function getGiveawayHTML(giveaway) {
 						"<p>Aktuelle Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>";
 
 					const reqs = json.data.requirements;
-					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) text += "<h3>Bedingungen</h3>";
-					if (reqs.roles.length > 0) text += "<p>Alle diese Rollen: " + reqs.roles.join(", ") + "</p>";
-					if (reqs.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + reqs.anyRoles.join(", ") + "</p>";
-					if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
-					if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
-					if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
-					if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints + "</b></p>";
+					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
+						text += "<br><h3>Bedingungen</h3>";
+						if (reqs.roles.length > 0) text += "<p>Alle diese Rollen: " + reqs.roles.join(", ") + "</p>";
+						if (reqs.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + reqs.anyRoles.join(", ") + "</p>";
+						if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
+						if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
+						if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
+						if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints + "</b></p>";
+					};
 
 					resolve(text);
 				} else handleError(resolve, json.message);

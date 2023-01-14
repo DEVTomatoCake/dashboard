@@ -28,15 +28,15 @@ function getCommandsHTML() {
 
 					categories.forEach(category => {
 						text +=
-							'<center><h2 id="' + category + 'title">' + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
-							'<button class="categorybutton" id="' + category + 'tb" onclick="toggleCategory(\'' + category + '\');">Verstecken</button>' +
+							"<center><h2 id='" + category + "title'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
+							"<button class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");'>Verstecken</button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
 							"<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>";
 
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
 						});
-						text += '</tbody></table></center><br id="' + category + 'br">';
+						text += "</tbody></table></center><br id='" + category + "br'>";
 					});
 
 					resolve(text);
@@ -102,9 +102,9 @@ function getSettingsHTML(json) {
 
 			if (!setting.possible) {
 				if (json.constant.integer.includes(setting.key)) temp +=
-					'<input type="number" min="0" max="9999" class="setting" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
+					"<input type='number' min='0' max='9999' class='setting' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
 				else temp +=
-					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + '" id="' + setting.key + '" name="' + setting.key + '" value="' + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + '">';
+					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
 
 				if (setting.value?.includes("<") || setting.value?.includes(">")) {
 					setTimeout(() => {

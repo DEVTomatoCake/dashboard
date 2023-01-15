@@ -35,10 +35,10 @@ var drop = function(info) {
 		init: function() {
 			//Setup Drop HTML
 			this.html.parent = $.get(info.selector)[0].parentNode
-			this.html.drop = $.template('<div class="drop"></div>')
-			this.html.dropDisplay = $.template('<div class="drop-display">Display</div>')
-			this.html.dropOptions = $.template('<div class="drop-options">Options</div>')
-			this.html.dropScreen = $.template('<div class="drop-screen"></div>')
+			this.html.drop = $.template("<div class='drop'></div>")
+			this.html.dropDisplay = $.template("<div class='drop-display'>Display</div>")
+			this.html.dropOptions = $.template("<div class='drop-options'>Options</div>")
+			this.html.dropScreen = $.template("<div class='drop-screen'></div>")
 
 			this.html.parent.insertBefore(this.html.drop, this.html.select)
 			this.html.drop.appendChild(this.html.dropDisplay)
@@ -48,10 +48,10 @@ var drop = function(info) {
 			this.html.drop.appendChild(this.html.select)
 
 			var that = this
-			this.html.dropDisplay.on('click', function() {
+			this.html.dropDisplay.on("click", function() {
 				that.toggle()
 			})
-			this.html.dropScreen.on('click', function() {
+			this.html.dropScreen.on("click", function() {
 				that.toggle()
 			})
 			//Run Render
@@ -62,7 +62,7 @@ var drop = function(info) {
 		toggle: function() {
 			this.html.drop.classList.toggle("open")
 		},
-		addOption: function(e, element) {
+		addOption: function(element) {
 			var index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
@@ -92,10 +92,10 @@ var drop = function(info) {
 				var option = this.html.options[i]
 
 				var prefix = ""
-				if (option.dataset.type == "text") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013330953038475355.png" width="25" height="25" alt="Text channel icon" />'
-				else if (option.dataset.type == "voice") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013333740187033671.png" width="25" height="25" alt="Voice channel icon" />'
-				else if (option.dataset.type == "category") prefix = '<img style="vertical-align: middle;" src="https://cdn.discordapp.com/emojis/1013339254593687592.png" width="25" height="25" alt="Category icon" />'
-				else if (option.dataset.type == "role") prefix = '<img style="vertical-align: middle; padding-right: 2px;" src="https://cdn.discordapp.com/emojis/1013338522830250014.png" width="25" height="25" alt="Role icon" />'
+				if (option.dataset.type == "text") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt='' />"
+				else if (option.dataset.type == "voice") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt='' />"
+				else if (option.dataset.type == "category") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt='' />"
+				else if (option.dataset.type == "role") prefix = "<img style='vertical-align: middle; padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt='' />"
 				//else if (option.dataset.type == "role" && option.dataset.color) prefix = "<span style='color: " + option.dataset.color + ";'>"
 
 				this.options[i] = {
@@ -127,8 +127,8 @@ var drop = function(info) {
 			var parentHTML = $.template("<div></div>")
 			this.selected.forEach(function(select) {
 				var option = that.options[select.index]
-				var childHTML = $.template('<span class="item ' + select.state + '">' + option.html + '</span>')
-				var childCloseHTML = $.template('<ion-icon style="margin-top: 5px; font-size: 20px;" name="close-circle-outline" data-index="' + select.index + '"></ion-icon></span>')
+				var childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
+				var childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")
 				childCloseHTML.on("click", function(e) {
 					that.removeOption(e, this)
 				})
@@ -142,9 +142,9 @@ var drop = function(info) {
 			var that = this
 			var parentHTML = $.template("<div></div>")
 			this.options.forEach(function(option, index) {
-				var childHTML = $.template('<a data-index="' + index + '" class="' + option.state + '">' + option.html + '</a>')
-				childHTML.on("click", function(e) {
-					that.addOption(e, this)
+				var childHTML = $.template("<a data-index='" + index + "' class='" + option.state + "'>" + option.html + "</a>")
+				childHTML.on("click", function() {
+					that.addOption(this)
 				})
 				parentHTML.appendChild(childHTML)
 			})

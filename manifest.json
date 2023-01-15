@@ -1,0 +1,57 @@
+{
+	"short_name": "TomatenKuchen",
+	"name": "TomatenKuchen - Multipurpose Discord bot",
+	"icons": [
+		{
+			"src": "/assets/images/icon.ico",
+			"type": "image/x-icon",
+			"sizes": "128x128",
+			"purpose": "maskable"
+		},{
+			"src": "/assets/images/apple-icon-152.png",
+			"type": "image/png",
+			"sizes": "152x152",
+			"purpose": "maskable"
+		},{
+		  	"src": "/assets/images/background_192.webp",
+		  	"type": "image/webp",
+		  	"sizes": "192x192"
+		},{
+			"src": "/assets/images/background_512.webp",
+			"type": "image/webp",
+		  	"sizes": "512x512"
+		},{
+			"src": "/assets/images/background_1024.png",
+			"type": "image/png",
+		  	"sizes": "1024x1024"
+		}
+	],
+	"id": "/?source=pwa",
+	"start_url": "/dashboard/?source=pwa",
+	"background_color": "#ED8721",
+	"display_override": ["window-control-overlay", "minimal-ui"],
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#ED8721",
+	"shortcuts": [
+		{
+			"name": "Einstellungen ändern",
+			"short_name": "Dashboard",
+			"description": "Ändere die Einstellungen für einen Server",
+			"url": "/dashboard/?source=pwa"
+		},{
+			"name": "Befehle anzeigen",
+			"short_name": "Befehle",
+			"description": "Sieh dir die Befehle vom Bot an",
+			"url": "/commands/?source=pwa"
+		}
+	],
+	"description": "Multipurpose german/english Discord bot including many features for your Discord server combined with a lot customization options.",
+	"screenshots": [
+		{
+			"src": "/assets/images/ticketembed_dark.png",
+			"type": "image/png",
+			"sizes": "362x423"
+		}
+	]
+}

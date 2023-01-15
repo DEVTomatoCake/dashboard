@@ -39,44 +39,6 @@
 				document.getElementById("reactionrolesForm").style.display = "none";
 			};
 
-			var i = 0;
-			function sidebar() {
-				i++;
-
-				document.getElementById("lineTop2").style.transform = "rotate(45deg)";
-				document.getElementById("lineTop2").style.top = "5px";
-				document.getElementById("lineBottom2").style.transform = "rotate(-45deg)";
-				document.getElementById("lineBottom2").style.bottom = "5px";
-
-				document.getElementById("lineTop1").style.transform = "rotate(45deg)";
-				document.getElementById("lineTop1").style.top = "5px";
-				document.getElementById("lineBottom1").style.transform = "rotate(-45deg)";
-				document.getElementById("lineBottom1").style.bottom = "5px";
-
-				if (i % 2 == 0) {
-					setTimeout(() => {
-						document.getElementById("content").style.paddingLeft = "230px";
-						document.getElementById("sidebar-container").classList.toggle("visible");
-					}, 300);
-				} else {
-					document.getElementById("content").style.paddingLeft = "0";
-
-					document.getElementById("lineTop2").style.transform = "rotate(0)";
-					document.getElementById("lineTop2").style.top = "0";
-					document.getElementById("lineBottom2").style.transform = "rotate(0)";
-					document.getElementById("lineBottom2").style.bottom = "0";
-
-					document.getElementById("lineTop1").style.transform = "rotate(0)";
-					document.getElementById("lineTop1").style.top = "0";
-					document.getElementById("lineBottom1").style.transform = "rotate(0)";
-					document.getElementById("lineBottom1").style.bottom = "0";
-
-					setTimeout(() => {
-						document.getElementById("sidebar-container").classList.toggle("visible");
-					}, 100);
-				};
-			};
-
 			var socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -120,10 +82,11 @@
 							document.getElementById("linksidebar").innerHTML =
 								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
 								"<br><button onclick='saveReactionroles();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
-								"<br><hr><div class='tab' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.75em;'>Customcommands</p></div>" +
-								"<div class='tab active'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.75em;'>Reactionroles</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.75em;'>Leaderboard</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.75em;'>Statistiken</p></div>" +
+								"<br><hr><div class='tab' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
+								"<div class='tab active'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
+								"<div class='tab' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
+								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
 								"<hr><div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../?guild=" + guild + "\")'>Andere Einstellungen</p></div>" +
 								"</div>";
 
@@ -134,10 +97,6 @@
 						};
 					}
 				});
-			};
-
-			function redirect(url) {
-				window.location = url;
 			};
 		</script>
 	</head>
@@ -150,7 +109,7 @@
 					<div class="line" id="lineBottom2"></div>
 				</div>
 
-				<button onclick="redirect('/invite')" translation="sidebar.invite"></button>
+				<button onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
 					<a href="/" class="tab">
@@ -176,7 +135,7 @@
 				</div>
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
-				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
+				<div style="padding: 15px 0;" class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -233,11 +192,6 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
-					<section id="guilds">
-						<div id="guilds-container">
-							<h1>Die Server werden geladen...</h1>
-						</div>
-					</section>
 				</div>
 
 				<p id="author" translation="global.footer"></p>

@@ -8,6 +8,7 @@
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/" />
 		<link rel="canonical" href="https://tomatenkuchen.eu/">
+		<link rel="manifest" href="./manifest.json">
 
 		<title>TomatenKuchen - Multipurpose Discord bot - Home</title>
 		<link href="./assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
@@ -16,7 +17,6 @@
 		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
 
 		<link href="./assets/style.css" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/charts.css/dist/charts.min.css">
 
 		<link rel="preconnect" href="https://api.tomatenkuchen.eu/api/stats">
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu/api/stats">
@@ -31,48 +31,6 @@
 				document.getElementById("stats-guilds").innerText = json.guilds;
 				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
 			});
-
-			var i = 0;
-			function sidebar() {
-				i++;
-
-				document.getElementById("lineTop2").style.transform = "rotate(45deg)";
-				document.getElementById("lineTop2").style.top = "5px";
-				document.getElementById("lineBottom2").style.transform = "rotate(-45deg)";
-				document.getElementById("lineBottom2").style.bottom = "5px";
-
-				document.getElementById("lineTop1").style.transform = "rotate(45deg)";
-				document.getElementById("lineTop1").style.top = "5px";
-				document.getElementById("lineBottom1").style.transform = "rotate(-45deg)";
-				document.getElementById("lineBottom1").style.bottom = "5px";
-
-				if (i % 2 == 0) {
-					setTimeout(() => {
-						document.getElementById("content").style.paddingLeft = "230px";
-						document.getElementById("sidebar-container").classList.toggle("visible");
-					}, 300);
-				} else {
-					document.getElementById("content").style.paddingLeft = "0";
-
-					document.getElementById("lineTop2").style.transform = "rotate(0)";
-					document.getElementById("lineTop2").style.top = "0";
-					document.getElementById("lineBottom2").style.transform = "rotate(0)";
-					document.getElementById("lineBottom2").style.bottom = "0";
-
-					document.getElementById("lineTop1").style.transform = "rotate(0)";
-					document.getElementById("lineTop1").style.top = "0";
-					document.getElementById("lineBottom1").style.transform = "rotate(0)";
-					document.getElementById("lineBottom1").style.bottom = "0";
-
-					setTimeout(() => {
-						document.getElementById("sidebar-container").classList.toggle("visible");
-					}, 100);
-				}
-			}
-
-			function redirect(url) {
-				window.location = url;
-			}
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad('main')">
@@ -84,7 +42,7 @@
 					<div class="line" id="lineBottom2"></div>
 				</div>
 
-				<button onclick="redirect('/invite')" translation="sidebar.invite"></button>
+				<button onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
 					<a href="/" class="tab active">
@@ -109,7 +67,7 @@
 					</a>
 				</div>
 
-				<div style="padding-top: 15px; padding-bottom: 15px;" class="section bottom">
+				<div style="padding: 15px 0;" class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -143,66 +101,46 @@
 			<div class="content" id="content">
 				<h1 id="username-content" class="greeting">Hallo!</h1>
 
-				<div class="row">
-					<div class="data rect">
-						<div class="container session-length">
-							<div class="statsicon"><ion-icon name="server-outline" class="server-icon"></ion-icon></div>
+				<div class="stats-row">
+					<div class="data servers">
+						<div class="container">
+							<div class="statsicon"><ion-icon name="server-outline"></ion-icon></div>
 
-							<p id="stats-guilds" class="text">Lade...</p>
-							<p class="text">SERVER INSGESAMT</p>
+							<h3 class="text">SERVER</h3>
 
-							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" style="padding-left: 180px;" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
+							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
 
-						<table class="charts-css area multiple session-length">
-							<tbody>
-								<tr class="first">
-									<td style="--start:0.05; --size:0.35;" class="first"></td>
-									<td style="--start:0; --size:0.25;" class="second"></td>
-									<td style="--start:0.1; --size:0.2;" class="third"></td>
-								</tr>
-								<tr>
-									<td style="--start:0.35; --size:0.55;" class="first"></td>
-									<td style="--start:0.25; --size:0.35;" class="second"></td>
-									<td style="--start:0.2; --size:0.25;" class="third"></td>
-								</tr>
-								<tr class="last">
-									<td style="--start:0.55; --size:0.65;" class="first"></td>
-									<td style="--start:0.35; --size:0.5;" class="second"></td>
-									<td style="--start:0.25; --size:0.2;" class="third"></td>
-								</tr>
-							</tbody>
-						</table>
+						<p id="stats-guilds">Lade...</p>
 					</div>
-					<div class="small-container">
-						<div class="data small uptime">
-							<div class="container">
-								<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
 
-								<h3 class="text">UPTIME</h3>
+					<div class="data uptime">
+						<div class="container">
+							<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
 
-								<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
-							</div>
+							<h3 class="text">UPTIME</h3>
 
-							<p>99,99%</p>
+							<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
 
-						<div class="data small users">
-							<div class="container">
-								<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
+						<p>99,99%</p>
+					</div>
 
-								<h3 class="text">NUTZER</h3>
+					<div class="data users">
+						<div class="container">
+							<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
 
-								<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
-							</div>
+							<h3 class="text">NUTZER</h3>
 
-							<p id="stats-users">Lade...</p>
+							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
+
+						<p id="stats-users">Lade...</p>
 					</div>
 				</div>
 
 				<div class="featurelist">
-					<h1>Features</h1>
+					<h2>Features</h2>
 					<div class="feature">
 						<img src="./assets/images/tomato_ban.webp" width="170" height="170" alt="Tomato holding a ban sign" />
 						<div>

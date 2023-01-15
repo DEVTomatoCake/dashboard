@@ -3,13 +3,13 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. View your user data here." />
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server, like a customizable and feature rich ticket system." />
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/user/" />
-		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/user/">
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/tickets/" />
+		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/tickets/">
 
-		<title>TomatenKuchen - User data and settings - Dashboard</title>
+		<title>TomatenKuchen - Tickets - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
 		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
 		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
@@ -25,6 +25,25 @@
 
 		<script src="../../assets/js/api/api.js"></script>
 		<script src="../../assets/js/api/transformer.js"></script>
+
+		<script>
+			function ticketSearch() {
+				const search = document.getElementById("ticketSearch").value.toLowerCase();
+				var ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
+
+				for (var i = 0; i < ticketdiv.length; i++) {
+					var cmd = ticketdiv[i];
+
+					if (cmd.innerText.toLowerCase().includes(search)) {
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "";
+					} else {
+						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "none";
+					};
+				};
+			};
+		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
@@ -59,6 +78,7 @@
 						<p translation="sidebar.support"></p>
 					</a>
 				</div>
+				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
 				<div style="padding: 15px 0;" class="section bottom">
 					<label class="switch" data-type="lang">
@@ -80,6 +100,11 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
+				<div id="search-box" class="search-box">
+					<input type="text" id="ticketSearch" onkeyup="ticketSearch()" placeholder="Tickets durchsuchen...">
+					<ion-icon name="search"></ion-icon>
+				</div>
+
 				<div class="accdropdown">
 					<div class="account">
 						<p id="username-header">Account</p>
@@ -93,7 +118,7 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
-					<h1>Deine Daten werden geladen...</h1>
+					<h1>Die Tickets werden geladen...</h1>
 				</div>
 
 				<p id="author" translation="global.footer"></p>
@@ -104,8 +129,18 @@
 			const params = new URLSearchParams(window.location.search);
 
 			if (getCookie("token")) {
-				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen...</h1>';
-				getDataexportHTML().then(data => {
+				document.getElementById('root-container').innerHTML = '<h1>Die Tickets werden geladen...</h1>';
+				getTicketsHTML(params.get("guild")).then(data => {
+					document.getElementById("linksidebar").innerHTML =
+						'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
+						"<br><hr><div class='tab' onclick='redirect(\"../customcommands/?guild=" + params.get("guild") + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
+						"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + params.get("guild") + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
+						"<div class='tab active'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
+						"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + params.get("guild") + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
+						"<div class='tab' onclick='redirect(\"../../stats/?guild=" + params.get("guild") + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
+						"<hr><div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../?guild=" + params.get("guild") + "\")'>Andere Einstellungen</p></div>" +
+						"</div>";
+
 					document.getElementById('content').innerHTML = data + '<p id="author" translation="global.footer"></p>';
 					reloadText(getLanguage());
 				});
@@ -118,7 +153,7 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						location.href = "https://" + location.host + "/dashboard/user";
+						location.href = "https://" + location.host + "/dashboard/tickets" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
 							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +

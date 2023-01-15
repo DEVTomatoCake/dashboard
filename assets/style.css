@@ -44,11 +44,10 @@
 	--secondary-table-bgcolor: #C1C4DB;
 	--textarea-color: #000;
 	--textarea-background: #FFF;
-	--textarea-background-focus: #f6f6f6;
+	--textarea-background-focus: #F6F6F6;
 	--select-background: #FFF;
-	--select-hover: #99b6ff;
+	--select-hover: #99B6FF;
 	--select-border: #000;
-	--input-bgcolor: #FFF;
 }
 
 .dark-theme {
@@ -70,10 +69,9 @@
 	--textarea-color: #FFF;
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
-	--select-background: #08093a;
-	--select-hover: #8a7ff0;
+	--select-background: #24265A;
+	--select-hover: #8A7ff0;
 	--select-border: var(--secondary-text-color);
-	--input-bgcolor: #C1C4DB;
 }
 
 * {
@@ -214,7 +212,7 @@ tr.cmdvisible:nth-child(odd) {
 	border-radius: 4px;
 	padding: 3px;
 	color: var(--primary-text-color);
-	background-color: var(--input-bgcolor);
+	background-color: var(--select-background);
 }
 .advancedsetting {
 	margin-left: 30px;

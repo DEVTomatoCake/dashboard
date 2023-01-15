@@ -29,6 +29,7 @@
 		<script>
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
+				document.getElementById("stats-uptime").innerText = json.uptime_ratio.toFixed(2) + "%";
 				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
 			});
 		</script>
@@ -123,7 +124,7 @@
 							<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
 						</div>
 
-						<p>99,99%</p>
+						<p id="stats-uptime">Lade...</p>
 					</div>
 
 					<div class="data users">

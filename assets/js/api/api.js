@@ -17,7 +17,7 @@ function getCommands() {
 
 function getBotstats() {
 	return new Promise((resolve, reject) => {
-		get("stats", false)
+		get("stats?uptime_ratio=1", false)
 			.then(data => resolve(data))
 			.catch(error => reject(error))
 	})

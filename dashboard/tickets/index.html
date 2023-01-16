@@ -100,11 +100,6 @@
 					<div class="line" id="lineBottom1"></div>
 				</div>
 
-				<div id="search-box" class="search-box">
-					<input type="text" id="ticketSearch" onkeyup="ticketSearch()" placeholder="Tickets durchsuchen...">
-					<ion-icon name="search"></ion-icon>
-				</div>
-
 				<div class="accdropdown">
 					<div class="account">
 						<p id="username-header">Account</p>
@@ -118,14 +113,23 @@
 
 			<div class="content" id="content">
 				<div class="ticketsearch-container">
-					<label for="ts-id">Ticket ID</label>
+					<h2>Filter tickets...</h2>
+
+					<label for="ts-id" translation="tickets.ticketid"></label>
 					<input id="ts-id" />
 
 					<label for="ts-username" translation="tickets.username"></label>
 					<input id="ts-username" />
 
-					<label for="ts-userid">User ID</label>
-					<input id="ts-userid" />
+					<div>
+						<label for="ts-userid" translation="tickets.userid"></label>
+						<input id="ts-userid" />
+					</div>
+
+					<div>
+						<label for="ts-created" translation="tickets.created"></label>
+						<input type="datetime-local" id="ts-created" />
+					</div>
 
 					<label for="ts-state" translation="tickets.state"></label>
 					<select id="ts-state">

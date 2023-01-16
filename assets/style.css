@@ -727,12 +727,52 @@ h1.greeting {
 	margin: 0 auto;
 }
 
-.stats-row {
+.ticketsearch-container {
+	background-color: var(--secondary-table-bgcolor);
+	border-radius: 20px;
+	padding: 20px;
+	margin: 0 auto;
 	display: flex;
-	justify-content: center;
-	align-items: center;
-	gap: 30px;
 	width: 100%;
+}
+.ticketsearch-container label {
+	color: var(--secondary-text-color);
+	font-size: 18px;
+	text-transform: uppercase;
+}
+.ticketsearch-container input {
+	border-radius: 20px;
+	outline: none;
+	padding: 15px;
+	font-size: 20px;
+	min-width: 150px;
+	transition: var(--transition-buttons);
+	background: var(--primary-color);
+}
+.ticketsearch-container input:focus {
+	box-shadow: 0 0 6px 2px var(--primary-color);
+}
+
+.stats-row {
+	display: grid;
+	grid-template-areas: ".";
+	gap: 20px;
+	width: 100%;
+}
+@media screen and (min-width: 768px) {
+	.stats-row {
+		grid-template-areas: ". .";
+	}
+}
+@media screen and (min-width: 1024px) {
+	.stats-row {
+		grid-template-areas: ". . .";
+	}
+}
+@media screen and (min-width: 1280px) {
+	.stats-row {
+		grid-template-areas: ". . . .";
+	}
 }
 
 .stats-row .data {
@@ -743,9 +783,11 @@ h1.greeting {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+	width: 235px;
+	height: 190px;
 }
 
-.stats-row .data .container {
+.stats-row .container {
 	display: flex;
 	align-items: center;
 	gap: 10px;
@@ -753,14 +795,14 @@ h1.greeting {
 	margin: 20px auto auto 15px;
 }
 
-.stats-row .data ion-icon {
+.stats-row ion-icon {
 	font-size: 32px;
 	color: var(--primary-color);
 	padding: 10px;
 	border-radius: 50%;
 }
 
-.stats-row .data ion-icon.open {
+.stats-row ion-icon.open {
 	color: var(--secondary-text-color) !important;
 	background: transparent !important;
 	cursor: pointer;
@@ -773,52 +815,44 @@ h1.greeting {
 	top: 0;
 	font-size: 24px;
 }
-
-.stats-row .data ion-icon.open:hover {
+.stats-row ion-icon.open:hover {
 	background-color: var(--tertiary-color) !important;
 	color: var(--primary-text-color) !important;
 	top: -2px;
 	right: -2px;
 }
 
-.stats-row .data.servers ion-icon {
+.stats-row h3 {
+	text-transform: uppercase;
+}
+
+.stats-row .servers ion-icon {
 	background: var(--purple);
 }
-.stats-row .data.uptime ion-icon {
+.stats-row .uptime ion-icon {
 	background: var(--green);
 }
-.stats-row .data.users ion-icon {
+.stats-row .users ion-icon, .stats-row .tickets ion-icon {
 	background: var(--blue);
 }
-
-.content h1, h2, label, p {
-	color: var(--primary-text-color);
+.stats-row .servers p {
+	color: var(--purple);
+}
+.stats-row .uptime p {
+	color: var(--green);
+}
+.stats-row .users p, .stats-row .tickets p {
+	color: var(--blue);
 }
 
-.stats-row .data {
-	width: 235px;
-	height: 235px;
-	gap: 75px;
-}
-
-.stats-row .data p {
+.stats-row p {
 	font-weight: 600;
 	font-size: 50px;
 	position: relative;
 	top: -50px;
 }
 
-.stats-row .data.servers p {
-	color: var(--purple);
-}
-.stats-row .data.uptime p {
-	color: var(--green);
-}
-.stats-row .data.users p {
-	color: var(--blue);
-}
-
-h3, h4, ul li {
+h1, h2, h3, h4, p, label, ul li {
 	color: var(--primary-text-color);
 }
 
@@ -831,9 +865,6 @@ h3, h4, ul li {
 	opacity: 0;
 }
 
-.cookie-container h2 {
-	color: var(--primary-text-color);
-}
 .cookie-container button {
 	border: none;
 	padding: 10px;

@@ -6,7 +6,7 @@
 		"browser": true,
 		"es6": true
 	},
-	"ignorePatterns": [],
+	"plugins": ["html"],
 	"rules": {
 		"prefer-arrow-callback": 1,
 		"no-useless-concat": 2,

@@ -30,6 +30,7 @@
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
 				document.getElementById("stats-uptime").innerText = json.uptime_ratio.toFixed(2) + "%";
+				//document.getElementById("stats-tickets").innerText = json.tickets;
 				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
 			});
 		</script>
@@ -106,7 +107,6 @@
 					<div class="data servers">
 						<div class="container">
 							<div class="statsicon"><ion-icon name="server-outline"></ion-icon></div>
-
 							<h3 class="text">SERVER</h3>
 
 							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
@@ -118,7 +118,6 @@
 					<div class="data uptime">
 						<div class="container">
 							<div class="statsicon"><ion-icon name="game-controller-outline"></ion-icon></div>
-
 							<h3 class="text">UPTIME</h3>
 
 							<a class="linkicon" href="https://vanillaminigames.instatus.com/" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>
@@ -130,7 +129,6 @@
 					<div class="data users">
 						<div class="container">
 							<div class="statsicon"><ion-icon name="people-outline"></ion-icon></div>
-
 							<h3 class="text">NUTZER</h3>
 
 							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" target="_blank" rel="noopener"><ion-icon name="open-outline" class="open"></ion-icon></a>

@@ -16,5 +16,8 @@ jobs:
         with:
           node-version: 18
 
+      - name: "🛸 install eslint html plugin"
+        run: npm i eslint-plugin-html
+
       - name: "🔍 lint code"
         run: npx eslint . --report-unused-disable-directives

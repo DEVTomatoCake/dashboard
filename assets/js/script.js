@@ -26,7 +26,7 @@ function deleteCookie(name) {
 }
 
 const redirect = url => window.location = url;
-const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
 var sideState = 0;
 function sidebar() {

@@ -11,14 +11,13 @@
 		{
 			"files": ["*.html"],
 			"parser": "@html-eslint/parser",
-			"extends": ["plugin:@html-eslint/all"]
+			"extends": ["plugin:@html-eslint/recommended"]
 		}
 	],
 	"settings": {
 		"html/html-extensions": [".html"]
 	},
 	"rules": {
-		"prefer-arrow-callback": 1,
 		"no-useless-concat": 2,
 		"no-shadow-restricted-names": 2,
 		"no-const-assign": 2,
@@ -58,6 +57,24 @@
 		"no-debugger": 2,
 		"func-name-matching": 2,
 		"no-extra-label": 2,
-		"no-div-regex": 2
+		"no-div-regex": 2,
+
+		"@html-eslint/require-meta-charset": 2,
+		"@html-eslint/no-target-blank": 2,
+		"@html-eslint/require-button-type": 2,
+		"@html-eslint/no-restricted-attrs": 2,
+		"@html-eslint/require-meta-description": 2,
+		"@html-eslint/no-skip-heading-levels": 2,
+		"@html-eslint/require-frame-title": 2,
+		"@html-eslint/no-non-scalable-viewport": 2,
+		"@html-eslint/no-positive-tabindex": 2,
+		"@html-eslint/require-meta-viewport": 2,
+		"@html-eslint/no-abstract-roles": 2,
+		"@html-eslint/no-aria-hidden-body": 2,
+		"@html-eslint/no-accesskey-attrs": 2,
+		"@html-eslint/id-naming-convention": 2,
+		"@html-eslint/no-multiple-empty-lines": 2,
+		"@html-eslint/no-trailing-spaces": 2,
+		"@html-eslint/indent": [2, "tab"]
 	}
 }

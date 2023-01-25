@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. View your user data here." />
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. View your user data here.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/user/">
@@ -30,12 +30,12 @@
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">
-				<div class="hamburger" id="hamburger" onclick="sidebar()">
+				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
 				</div>
 
-				<button onclick="redirect('/invite/')" translation="sidebar.invite"></button>
+				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
 					<a href="/" class="tab">
@@ -75,7 +75,7 @@
 
 		<section class="main" id="main">
 			<div class="top">
-				<div class="hamburger" id="hamburger" onclick="sidebar()">
+				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
 				</div>
@@ -104,13 +104,13 @@
 			const params = new URLSearchParams(window.location.search);
 
 			if (getCookie("token")) {
-				document.getElementById('root-container').innerHTML = '<h1>Deine Daten werden geladen...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Deine Daten werden geladen...</h1>";
 				getDataexportHTML().then(data => {
-					document.getElementById('content').innerHTML = data + '<p id="author" translation="global.footer"></p>';
+					document.getElementById("content").innerHTML = data + "<p id='author' translation='global.footer'></p>";
 					reloadText(getLanguage());
 				});
 			} else if (params.has("code")) {
-				document.getElementById("root-container").innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Die Anmeldung erfolgt, bitte warten...</h1>";
 
 				login(params.get("code")).then(json => {
 					if (json.status == "success") {
@@ -118,15 +118,15 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						location.href = "https://" + location.host + "/dashboard/user";
+						location.href = "https://" + location.host + "/dashboard/user/";
 					} else {
 						document.getElementById("root-container").innerHTML =
-							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-							'<h1>' + json.message + '</h1>';
+							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
+							"<h1>" + json.message + "</h1>";
 					};
 				});
 			} else {
-				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
 				location.href = "../../login";
 			};
 		</script>

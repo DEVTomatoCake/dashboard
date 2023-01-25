@@ -11,7 +11,10 @@
 		{
 			"files": ["*.html"],
 			"parser": "@html-eslint/parser",
-			"extends": ["plugin:@html-eslint/recommended"]
+			"extends": ["plugin:@html-eslint/recommended"],
+			"rules": {
+				"@html-eslint/element-newline": 1
+			}
 		}
 	],
 	"settings": {
@@ -31,9 +34,9 @@
 		"no-multiple-empty-lines": 2,
 		"no-useless-rename": 2,
 		"no-useless-escape": 2,
-        "no-unused-expressions": [ 2, { "allowShortCircuit": true } ],
-        "no-redeclare": 1,
-        "quotes": [2, "double", { "allowTemplateLiterals": false, "avoidEscape": true }],
+		"no-unused-expressions": [ 2, { "allowShortCircuit": true } ],
+		"no-redeclare": 1,
+		"quotes": [2, "double", { "allowTemplateLiterals": false, "avoidEscape": true }],
 		"no-empty-pattern": 2,
 		"no-duplicate-imports": 2,
 		"no-fallthrough": 2,
@@ -60,7 +63,6 @@
 		"no-div-regex": 2,
 
 		"@html-eslint/require-meta-charset": 2,
-		"@html-eslint/no-target-blank": 2,
 		"@html-eslint/require-button-type": 2,
 		"@html-eslint/no-restricted-attrs": 2,
 		"@html-eslint/require-meta-description": 2,
@@ -72,7 +74,6 @@
 		"@html-eslint/no-abstract-roles": 2,
 		"@html-eslint/no-aria-hidden-body": 2,
 		"@html-eslint/no-accesskey-attrs": 2,
-		"@html-eslint/id-naming-convention": 2,
 		"@html-eslint/no-multiple-empty-lines": 2,
 		"@html-eslint/no-trailing-spaces": 2,
 		"@html-eslint/indent": [2, "tab"]

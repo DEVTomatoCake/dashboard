@@ -210,7 +210,7 @@ function getReactionrolesHTML(json) {
 
 		json.data.reactionroles.forEach(setting => {
 			if (isNaN(setting.reaction)) text += "<p><b>" + setting.reaction + "</b></p>";
-			else text += "<img src='https://cdn.discordapp.com/emojis/" + setting.reaction + ".webp?size=32' width='32' height='32' loading='lazy' alt='Reactionrole image' /><br>";
+			else text += "<img src='https://cdn.discordapp.com/emojis/" + setting.reaction + ".webp?size=32' width='32' height='32' loading='lazy' alt='Reactionrole image'><br>";
 
 			const possible = setting.possible;
 			text += "<select class='setting' data-type='" + setting.type + "' data-msg='" + setting.msg + "' data-reaction='" + setting.reaction + "' data-channel='' id='" + setting.msg + "-" + setting.reaction + "' name='" + setting.msg + "'>";
@@ -248,7 +248,7 @@ function getLeaderboardHTML(guild) {
 					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => {
 						text += "<div class='leaderboard'><p>" + entry.place + ". " +
-							"<img class='user-image' src='" + entry.avatar + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "' />" +
+							"<img class='user-image' src='" + entry.avatar + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
 							encode(entry.user) + " <b>" + entry.points + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + entry.level + "</b>)</p></div>";
 					});
 					resolve(text);
@@ -259,12 +259,12 @@ function getLeaderboardHTML(guild) {
 }
 
 const tkbadges = {
-	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Entwickler",
-	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Team",
-	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Denkääär",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy'> Entwickler",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy'> Team",
+	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' width='24' height='24' alt='' loading='lazy'> Denkääär",
 	translator: "🏴‍☠️ Übersetzer",
-	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy' /> Kek",
-	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy' /> Altes Economysystem"
+	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy'> Kek",
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy'> Altes Economysystem"
 }
 function getDataexportHTML(token) {
 	return new Promise(resolve => {

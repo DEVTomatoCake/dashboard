@@ -730,6 +730,9 @@ h1.greeting {
 	padding-bottom: 50px;
 	margin: 0 auto;
 }
+.center {
+	text-align: center;
+}
 
 .ticketsearch-container {
 	background-color: var(--secondary-table-bgcolor);

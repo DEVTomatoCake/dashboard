@@ -6,7 +6,17 @@
 		"browser": true,
 		"es6": true
 	},
-	"plugins": ["html"],
+	"plugins": ["html", "@html-eslint"],
+	"overrides": [
+		{
+			"files": ["*.html"],
+			"parser": "@html-eslint/parser",
+			"extends": ["plugin:@html-eslint/all"]
+		}
+	],
+	"settings": {
+		"html/html-extensions": [".html"]
+	},
 	"rules": {
 		"prefer-arrow-callback": 1,
 		"no-useless-concat": 2,

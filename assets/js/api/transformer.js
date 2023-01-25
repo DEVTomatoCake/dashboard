@@ -29,9 +29,9 @@ function getCommandsHTML() {
 					categories.forEach(category => {
 						text +=
 							"<center><h2 id='" + category + "title'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
-							"<button class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");'>Verstecken</button>" +
+							"<button class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");' translation='commands.hide'></button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
-							"<thead><tr><th>Name</th><th>Beschreibung</th><th>Verwendung</th></tr></thead><tbody>";
+							"<thead><tr><th>Name</th><th translation='commands.description'></th><th translation='commands.usage'></th></tr></thead><tbody>";
 
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
@@ -50,11 +50,8 @@ function getStatsHTML(guild, filter) {
 	return new Promise(resolve => {
 		getStats(guild + (filter.time ? "&time=" + filter.time : "") + (filter.type ? "&type=" + filter.type : ""))
 			.then(json => {
-				if (json.status == "success") {
-					resolve({
-						...json
-					});
-				} else handleError(resolve, json.message);
+				if (json.status == "success") resolve(json);
+				else handleError(resolve, json.message);
 			})
 			.catch(e => handleError(resolve, e));
 	});
@@ -80,7 +77,7 @@ function getGuildsHTML() {
 							"</div>";
 					});
 
-					if (text == "") resolve("<h1>Es wurden keine Server von dir gefunden!</h1>");
+					if (text == "") resolve("<h1 translation='dashboard.noservers'></h1>");
 					else resolve(text);
 				} else handleError(resolve, json.message);
 			})
@@ -176,7 +173,7 @@ function getSettingsHTML(json) {
 		});
 
 		return {
-			html: "<center><h1>Einstellungen von <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
+			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
 			categories
 		};
 	} else {
@@ -197,9 +194,9 @@ function getCustomcommandsHTML(json) {
 				"<br>";
 		});
 
-		if (text == "") text = "<span id='no-cc'><b>Es sind keine Customcommands vorhanden!</b></span>"
-		return "<center><h1>Customcommands von <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
-			"<p>Wenn du ein Feld leer lässt wird der Customcommand gelöscht.</p><button onclick='openForm()'>Customcommand erstellen</button><br><br>" + text;
+		if (text == "") text = "<span id='no-cc'><b translation='dashboard.cc.nocc'></b></span>"
+		return "<center><h1><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+			"<p translation='dashboard.cc.delete'></p><button onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
@@ -234,8 +231,8 @@ function getReactionrolesHTML(json) {
 		document.getElementById("reactionroles-role").innerHTML = roleoptions;
 		rolecopy = json.data.roles;
 
-		if (text == "") text = "<span id='no-rr'><b>Es sind keine Reactionroles vorhanden!</b></span>"
-		return "<center><h1>Reactionroles von <span class='accent'>" + encode(json.name) + "</span></h1></center><button onclick='openForm()'>Reactionrole erstellen</button><br><br>" + text;
+		if (text == "") text = "<span id='no-rr'><b translation='dashboard.rr.norr'></b></span>"
+		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center><button onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
@@ -248,7 +245,7 @@ function getLeaderboardHTML(guild) {
 		getLeaderboard(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = "<h1 class='greeting'>Leaderboard von <span class='accent'>" + encode(json.guild) + "</span></h1>";
+					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => {
 						text += "<div class='leaderboard'><p>" + entry.place + ". " +
 							"<img class='user-image' src='" + entry.avatar + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "' />" +
@@ -298,7 +295,7 @@ function getDataexportHTML(token) {
 
 					let text =
 						"<center>" +
-						"<h1 class='greeting'>Daten von <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
+						"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
 						"<div class='userdatagrid'>" +
 
 						// User
@@ -311,10 +308,10 @@ function getDataexportHTML(token) {
 
 						// Usersettings
 						"<div class='userData'>" +
-						"<h1 translation='user.settings'></h1>" +
+						"<h1 translation='dashboard.settings'></h1>" +
 						"<p><b>Embed color:</b><p style='background-color: #" + json.data.userProfiles?.settings?.embedcolor + ";'></p> " + json.data.userProfiles?.settings?.embedcolor + "</p>" +
-						"<p><b>Level background:</b><br><a class='accent' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
-						"<p><b>Save avatar and attachments in tickets:</b> " + json.data.userProfiles?.settings?.saveTicketAttachments + "</p>" +
+						"<p><b translation='user.levelbg'></b><br><a class='accent' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
+						"<p><b translation='user.saveticketatt'></b> " + json.data.userProfiles?.settings?.saveTicketAttachments + "</p>" +
 						"</div>" +
 
 						// Economy
@@ -334,8 +331,8 @@ function getDataexportHTML(token) {
 						(json.data.userProfiles?.afk?.text != "" ?
 							"<div class='userData'>" +
 							"<h1>AFK</h1>" +
-							"<p><b>Reason:</b> " + encode(json.data.userProfiles.afk.text) + "</p>" +
-							"<p><b>Seit:</b> " + afkSince + "</p>" +
+							"<p><b translation='user.reason'></b> " + encode(json.data.userProfiles.afk.text) + "</p>" +
+							"<p><b translation='user.since'></b> " + afkSince + "</p>" +
 							(mentions ? "<p><b>Mentions:</b> " + mentions + "</p>" : "") +
 							"</div>"
 						: "") +
@@ -394,9 +391,9 @@ function getTicketsHTML(guild) {
 			.then(json => {
 				if (json.status == "success") {
 					let text =
-						"<h1 class='greeting'>Tickets von <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID</th><th>Ersteller</th><th>Weitere Nutzer</th><th>Status</th></tr></thead><tbody>";
+						"<thead><tr><th>ID</th><th translation='tickets.table.user'></th><th>Weitere Nutzer</th><th translation='tickets.table.state'></th></tr></thead><tbody>";
 
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
@@ -410,12 +407,12 @@ function getTicketsHTML(guild) {
 
 					text +=
 						"</tbody></table><br><br>" +
-						"<h1>Ticketkategorien</h1>";
+						"<h1 translation='tickets.categories'></h1>";
 
 					if (json.data.filter(ticket => ticket.category).length > 0) {
 						text +=
 							"<table cellpadding='8' cellspacing='0'>" +
-							"<thead><tr><th>Kategorie</th><th>Ticketnachricht</th><th>Embedtitel</th><th>Embedbeschreibung</th><th>Embedfooter</th></tr></thead><tbody>";
+							"<thead><tr><th translation='tickets.category'></th><th translation='tickets.message'></th><th>Embedtitel</th><th>Embedbeschreibung</th><th>Embedfooter</th></tr></thead><tbody>";
 
 						json.data.filter(ticket => ticket.category).forEach(category => {
 							text +=
@@ -427,9 +424,10 @@ function getTicketsHTML(guild) {
 								"<td>" + (category.ticketembedfooter || "") + "</td>" +
 								"</tr>";
 						});
-					} else text += "<p>Keine Kategorien vorhanden</p>";
+						text += + "</tbody></table>";
+					} else text += "<p translation='tickets.nocategories'></p>";
 
-					resolve(text + "</tbody></table>");
+					resolve(text);
 				} else handleError(resolve, json.message);
 			})
 			.catch(e => handleError(resolve, e));

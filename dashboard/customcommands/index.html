@@ -81,8 +81,8 @@
 
 						if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML =
-								"<div class='section middle'><p class='title'>EINSTELLUNGEN</p>" +
-								"<br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
+								"<br><button onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
 								"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
 								"<div class='tab' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
@@ -92,6 +92,7 @@
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
+							reloadText(getLanguage());
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;

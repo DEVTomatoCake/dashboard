@@ -82,9 +82,9 @@
 						if (json.action == "RECEIVE_settings") {
 							const rendered = getSettingsHTML(json);
 
-							var sidebarHTML = "" +
-								"<div class='section middle'><p class='title'>EINSTELLUNGEN</p>" +
-								"<br><button onclick='saveSettings();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+							var sidebarHTML =
+								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
+								"<br><button onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 								"<br><hr><div class='tab' onclick='redirect(\"./customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
 								"<div class='tab' onclick='redirect(\"./reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
 								"<div class='tab' onclick='redirect(\"./tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
@@ -98,6 +98,7 @@
 
 							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
+							reloadText(getLanguage());
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;

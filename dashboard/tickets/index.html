@@ -43,7 +43,7 @@
 					let hidden = false;
 					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
 					if (ticuserid != "" && !rows[1].innerText.toLowerCase().includes(ticuserid.toLowerCase())) hidden = true;
-					if (ticstate != "" && !rows[3].innerText.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
+					if (ticstate != "all" && !rows[3].innerText.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
 
 					if (!hidden) {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
@@ -141,9 +141,9 @@
 					<label for="ts-state" translation="tickets.state"></label>
 					<select id="ts-state" onchange="ticketSearch()">
 						<option value="all" selected translation="tickets.all"></option>
-						<option value="open" translation="tickets.open"></option>
-						<option value="closed" translation="tickets.closed"></option>
-						<option value="deleted" translation="tickets.deleted"></option>
+						<option value="Offen" translation="tickets.open"></option>
+						<option value="Geschlossen" translation="tickets.closed"></option>
+						<option value="Gelöscht" translation="tickets.deleted"></option>
 					</select>
 				</div>
 
@@ -171,7 +171,7 @@
 						"<hr><div class='tab' onclick='redirect(\"../?guild=" + params.get("guild") + "\")'><ion-icon name='settings-outline'></ion-icon><p>Andere Einstellungen</p></div>" +
 						"</div>";
 
-					document.getElementById("root-container").innerHTML = data + "<p id='author' translation='global.footer'></p>";
+					document.getElementById("root-container").innerHTML = data;
 					reloadText(getLanguage());
 				});
 			} else if (params.has("code")) {

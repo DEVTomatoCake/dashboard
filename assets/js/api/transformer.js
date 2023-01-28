@@ -424,7 +424,7 @@ function getTicketsHTML(guild) {
 								"<td>" + (category.ticketembedfooter || "") + "</td>" +
 								"</tr>";
 						});
-						text += + "</tbody></table>";
+						text += "</tbody></table>";
 					} else text += "<p translation='tickets.nocategories'></p>";
 
 					resolve(text);

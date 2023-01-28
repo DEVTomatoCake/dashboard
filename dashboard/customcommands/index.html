@@ -3,17 +3,17 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server, like unlimited and feature rich customcommands." />
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server, like unlimited and feature rich customcommands.">
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/customcommands/" />
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/customcommands/">
 		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/customcommands/">
 
 		<title>TomatenKuchen - Customcommands settings - Dashboard</title>
-		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon"/>
-		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon"/>
-		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120" />
-		<link href="../../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152" />
+		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="../../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
 		<link href="../../assets/style.css" rel="stylesheet" type="text/css">
 
@@ -81,17 +81,18 @@
 
 						if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML =
-								'<div class="section middle"><p class="title">EINSTELLUNGEN</p>' +
-								"<br><button onclick='saveCustomcommands();' class='save'><ion-icon name='save-outline'></ion-icon> SPEICHERN</button>" +
+								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
+								"<br><button onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
 								"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
 								"<div class='tab' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
 								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
 								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
-								"<hr><div class='tab'><ion-icon name='settings-outline'></ion-icon><p onclick='redirect(\"../?guild=" + guild + "\")'>Andere Einstellungen</p></div>" +
+								"<hr><div class='tab' onclick='redirect(\"../?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p>Andere Einstellungen</p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
+							reloadText(getLanguage());
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
@@ -105,12 +106,12 @@
 		<div class="sidebar-container visible" id="sidebar-container">
 
 			<div class="sidebar" id="sidebar">
-				<div class="hamburger" id="hamburger" onclick="sidebar()">
+				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
 				</div>
 
-				<button onclick="redirect('/invite/')" translation="sidebar.invite"></button>
+				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
 					<a href="/" class="tab">
@@ -160,13 +161,16 @@
 					<label for="customcommand-text"><b translation="dashboard.content"></b></label>
 					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="6" required></textarea>
 
+					<label for="customcommand-desc"><b>Beschreibung</b></label>
+					<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
+
 					<button type="submit" class="btn" translation="dashboard.cc.create"></button>
 					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
 				</form>
 			</div>
 
 			<div class="top">
-				<div class="hamburger" id="hamburger" onclick="sidebar()">
+				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
 				</div>
@@ -199,10 +203,11 @@
 				const formData = new FormData(formElem);
 				const name = encode(formData.get("customcommand-name"));
 				const value = encode(document.getElementById("customcommand-text").value);
+				const desc = encode(formData.get("customcommand-desc"));
 
 				var div = document.createElement("div");
-				div.innerHTML = '<p><b>' + name + '</b></p><textarea class="setting" rows="' + Math.round(value.split("").filter(i => i == "\n").length * 1.3) + '" cols="65" id="' + name + '" maxlength="2000" name="' + name + '">' + value + '</textarea><br>';
-				document.getElementsByClassName('settingsContent')[0].appendChild(div);
+				div.innerHTML = "<p><b>" + name + "</b></p><textarea class='setting' rows='" + Math.round(value.split("").filter(i => i == "\n").length * 1.3) + "' cols='65' id='" + name + "' maxlength='2000' name='" + name + "'>" + value + "</textarea><br>";
+				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 			});
 
 			const params = new URLSearchParams(window.location.search);
@@ -211,11 +216,11 @@
 			var errorToast;
 
 			function saveCustomcommands() {
-				if (!params.has('guild')) return;
+				if (!params.has("guild")) return;
 				if (saving) return;
 
 				saving = true;
-				const settings = document.getElementsByClassName('setting');
+				const settings = document.getElementsByClassName("setting");
 
 				let items = {};
 				for (let i = 0; i < settings.length; i++) {
@@ -235,16 +240,16 @@
 			};
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById('root-container').innerHTML = '<h1>Die Customcommands werden geladen...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Die Customcommands werden geladen...</h1>";
 				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = '<h1>Die Einstellungen werden geladen...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Die Customcommands werden geladen...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
-				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Serverauswahl weitergeleitet...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Serverauswahl weitergeleitet...</h1>";
 				location.href = "../";
 			} else if (params.has("code")) {
-				document.getElementById("root-container").innerHTML = '<h1>Die Anmeldung erfolgt, bitte warten...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Die Anmeldung erfolgt, bitte warten...</h1>";
 
 				login(params.get("code")).then(json => {
 					if (json.status == "success") {
@@ -252,15 +257,15 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						location.href = "https://" + location.host + "/dashboard/customcommands" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
+						location.href = "https://" + location.host + "/dashboard/customcommands/" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
-							'<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>' +
-							'<h1>' + json.message + '</h1>';
+							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
+							"<h1>" + json.message + "</h1>";
 					};
 				});
 			} else {
-				document.getElementById("root-container").innerHTML = '<h1>Es wird zur Anmeldung weitergeleitet...</h1>';
+				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
 				location.href = "../../login";
 			};
 		</script>

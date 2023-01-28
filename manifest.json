@@ -13,17 +13,17 @@
 			"sizes": "152x152",
 			"purpose": "maskable"
 		},{
-		  	"src": "/assets/images/background_192.webp",
-		  	"type": "image/webp",
-		  	"sizes": "192x192"
+			"src": "/assets/images/background_192.webp",
+			"type": "image/webp",
+			"sizes": "192x192"
 		},{
 			"src": "/assets/images/background_512.webp",
 			"type": "image/webp",
-		  	"sizes": "512x512"
+			"sizes": "512x512"
 		},{
 			"src": "/assets/images/background_1024.png",
 			"type": "image/png",
-		  	"sizes": "1024x1024"
+			"sizes": "1024x1024"
 		}
 	],
 	"id": "/?source=pwa",

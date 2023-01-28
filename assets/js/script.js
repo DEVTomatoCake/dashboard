@@ -26,7 +26,7 @@ function deleteCookie(name) {
 }
 
 const redirect = url => window.location = url;
-const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
 var sideState = 0;
 function sidebar() {
@@ -89,8 +89,8 @@ function pageLoad(page = "") {
 			"<div class='cookie-container' id='cookie-container'>" +
 			"<h2>Cookie-Information</h2>" +
 			"<p translation='cookie.text'>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>" +
-			"<button onclick='setCookie(\"cookie-dismiss\", true, 60, true);fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.all'>Alle akzeptieren</button>" +
-			"<button onclick='fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.necessary'>Nur notwendige</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", true, 60, true);fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.all'>Alle akzeptieren</button>" +
+			"<button type='button' onclick='fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.necessary'>Nur notwendige</button>" +
 			"</div>";
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000);
 	};

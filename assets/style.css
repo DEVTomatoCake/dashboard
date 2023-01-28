@@ -752,11 +752,12 @@ h1.greeting {
 .ticketsearch-container input {
 	border-radius: 20px;
 	outline: none;
-	padding: 15px;
+	padding: 10px;
 	font-size: 20px;
 	min-width: 150px;
 	transition: var(--transition-buttons);
 	background: var(--primary-color);
+	color: var(--primary-text-color);
 }
 .ticketsearch-container input:focus {
 	box-shadow: 0 0 6px 2px var(--primary-color);

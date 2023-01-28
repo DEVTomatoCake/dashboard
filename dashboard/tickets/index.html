@@ -27,13 +27,25 @@
 		<script src="../../assets/js/api/transformer.js"></script>
 
 		<script>
-			function ticketSearch(search, type) {
+			function ticketSearch() {
+				var ticid = document.getElementById("ts-id").value;
+				var ticusername = document.getElementById("ts-username").value;
+				var ticuserid = document.getElementById("ts-userid").value;
+				var ticcreated = document.getElementById("ts-created").value;
+				var ticstate = document.getElementById("ts-state").value;
+
 				var ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
 
 				for (var i = 0; i < ticketdiv.length; i++) {
 					var cmd = ticketdiv[i];
+					let rows = cmd.getElementsByTagName("td");
 
-					if (cmd.innerText.toLowerCase().includes(search)) {
+					let hidden = false;
+					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
+					if (ticuserid != "" && !rows[1].innerText.toLowerCase().includes(ticuserid.toLowerCase())) hidden = true;
+					if (ticstate != "" && !rows[3].innerText.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
+
+					if (!hidden) {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 					} else {
@@ -115,23 +127,19 @@
 					<h2>Filter tickets...</h2>
 
 					<label for="ts-id" translation="tickets.ticketid"></label>
-					<input id="ts-id" onchange="ticketSearch(this.value, 'id')">
+					<input id="ts-id" onkeyup="ticketSearch()">
 
 					<label for="ts-username" translation="tickets.username"></label>
-					<input id="ts-username" onchange="ticketSearch(this.value, 'username')">
+					<input id="ts-username" onkeyup="ticketSearch()">
 
-					<div>
-						<label for="ts-userid" translation="tickets.userid"></label>
-						<input id="ts-userid" onchange="ticketSearch(this.value, 'userid')">
-					</div>
+					<label for="ts-userid" translation="tickets.userid"></label>
+					<input id="ts-userid" onkeyup="ticketSearch()">
 
-					<div>
-						<label for="ts-created" translation="tickets.created"></label>
-						<input type="datetime-local" id="ts-created" onchange="ticketSearch(this.value, 'date')">
-					</div>
+					<label for="ts-created" translation="tickets.created"></label>
+					<input type="datetime-local" id="ts-created" onchange="ticketSearch()">
 
 					<label for="ts-state" translation="tickets.state"></label>
-					<select id="ts-state" onchange="ticketSearch(this.value, 'state')">
+					<select id="ts-state" onchange="ticketSearch()">
 						<option value="all" selected translation="tickets.all"></option>
 						<option value="open" translation="tickets.open"></option>
 						<option value="closed" translation="tickets.closed"></option>

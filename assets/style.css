@@ -738,14 +738,16 @@ h1.greeting {
 	background-color: var(--secondary-table-bgcolor);
 	border-radius: 20px;
 	padding: 20px;
-	margin: 0 auto;
+	margin: 0 0 40px;
 	display: flex;
-	width: 100%;
+	align-items: baseline;
+	flex-direction: column;
 }
 .ticketsearch-container label {
 	color: var(--secondary-text-color);
 	font-size: 18px;
 	text-transform: uppercase;
+	margin-top: 20px;
 }
 .ticketsearch-container input {
 	border-radius: 20px;
@@ -898,16 +900,16 @@ h1, h2, h3, h4, p, label, ul li {
 .form-popup {
 	display: none;
 	position: fixed;
-	top: 10px;
+	top: 15px;
 	left: 50%;
-	border: 3px solid #f1f1f1;
+	border: 5px solid var(--primary-table-bgcolor);
 	z-index: 9;
 }
 
 .form-container {
 	max-width: 350px;
 	padding: 10px;
-	background-color: #FFF;
+	background-color: var(--secondary-table-bgcolor);
 }
 .form-container h1 {
 	padding-bottom: 15px;

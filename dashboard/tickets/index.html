@@ -27,8 +27,7 @@
 		<script src="../../assets/js/api/transformer.js"></script>
 
 		<script>
-			function ticketSearch() {
-				const search = document.getElementById("ticketSearch").value.toLowerCase();
+			function ticketSearch(search, type) {
 				var ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
 
 				for (var i = 0; i < ticketdiv.length; i++) {
@@ -116,23 +115,23 @@
 					<h2>Filter tickets...</h2>
 
 					<label for="ts-id" translation="tickets.ticketid"></label>
-					<input id="ts-id">
+					<input id="ts-id" onchange="ticketSearch(this.value, 'id')">
 
 					<label for="ts-username" translation="tickets.username"></label>
-					<input id="ts-username">
+					<input id="ts-username" onchange="ticketSearch(this.value, 'username')">
 
 					<div>
 						<label for="ts-userid" translation="tickets.userid"></label>
-						<input id="ts-userid">
+						<input id="ts-userid" onchange="ticketSearch(this.value, 'userid')">
 					</div>
 
 					<div>
 						<label for="ts-created" translation="tickets.created"></label>
-						<input type="datetime-local" id="ts-created">
+						<input type="datetime-local" id="ts-created" onchange="ticketSearch(this.value, 'date')">
 					</div>
 
 					<label for="ts-state" translation="tickets.state"></label>
-					<select id="ts-state">
+					<select id="ts-state" onchange="ticketSearch(this.value, 'state')">
 						<option value="all" selected translation="tickets.all"></option>
 						<option value="open" translation="tickets.open"></option>
 						<option value="closed" translation="tickets.closed"></option>

@@ -48,6 +48,8 @@
 	--select-background: #FFF;
 	--select-hover: #99B6FF;
 	--select-border: #000;
+	--link: #00E;
+	--link-visited: #551A8B;
 }
 
 .dark-theme {
@@ -57,7 +59,7 @@
 	--tertiary-color: #525569;
 	--accent-color: #7B4CD9;
 	--accent-color-hover: #5B2ABD;
-	--button-accent-color: #41298b;
+	--button-accent-color: #41298B;
 	--primary-text-color: #E6E7F1;
 	--secondary-text-color: #C1C4DB;
 	--blue: #8C9EFF;
@@ -70,8 +72,10 @@
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
 	--select-background: #24265A;
-	--select-hover: #8A7ff0;
+	--select-hover: #8A7FF0;
 	--select-border: var(--secondary-text-color);
+	--link: #4848C9;
+	--link-visited: #7B45AD;
 }
 
 * {
@@ -89,6 +93,13 @@ html, body {
 
 .main {
 	height: auto;
+}
+
+a {
+	color: var(--link);
+}
+a:visited {
+	color: var(--link-visited);
 }
 
 .category {
@@ -734,6 +745,10 @@ h1.greeting {
 	text-align: center;
 }
 
+.privacy h3, .privacy h4 {
+	padding-top: 20px;
+}
+
 .ticketsearch-container {
 	background-color: var(--secondary-table-bgcolor);
 	border-radius: 20px;
@@ -862,7 +877,7 @@ h1.greeting {
 	top: -50px;
 }
 
-h1, h2, h3, h4, p, label, ul li {
+h1, h2, h3, h4, p, small, label, ul li {
 	color: var(--primary-text-color);
 }
 

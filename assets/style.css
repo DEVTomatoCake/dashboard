@@ -758,7 +758,7 @@ h1.greeting {
 	align-items: baseline;
 	flex-direction: column;
 }
-.ticketsearch-container label {
+.ticketsearch-container label, .form-container label {
 	color: var(--secondary-text-color);
 	font-size: 18px;
 	text-transform: uppercase;
@@ -890,7 +890,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	opacity: 0;
 }
 
-.cookie-container button {
+.cookie-container button, button.createForm {
 	border: none;
 	padding: 10px;
 	margin: 10px 10px 0 0;
@@ -903,10 +903,6 @@ h1, h2, h3, h4, p, small, label, ul li {
 }
 .cookie-container button:hover {
 	background-color: var(--accent-color);
-}
-
-.statsicon {
-	min-width: 50px;
 }
 
 .removeItem {
@@ -932,14 +928,14 @@ h1, h2, h3, h4, p, small, label, ul li {
 }
 
 .form-container input[type=text], .form-container textarea {
-	width: 100%;
 	padding: 15px;
-	margin: 5px 0 22px 0;
+	margin: 5px 0 22px;
 	border: none;
 	background: #f1f1f1;
 	min-width: 300px;
 	max-width: 350px;
 	box-sizing: border-box;
+	border-radius: 5px;
 }
 .form-container input[type=text]:focus, .form-container textarea:focus {
 	background-color: #ddd;
@@ -959,6 +955,13 @@ h1, h2, h3, h4, p, small, label, ul li {
 	margin-bottom: 10px;
 	opacity: .7s;
 	transition: .3s;
+}
+.form-container .btn:hover {
+	opacity: 1;
+}
+
+.form-container .cancel {
+	background-color: red;
 }
 
 .featurelist {
@@ -985,13 +988,6 @@ h1, h2, h3, h4, p, small, label, ul li {
 .feature a {
 	color: var(--blue);
 	text-decoration: none;
-}
-
-.form-container .cancel {
-	background-color: red;
-}
-.form-container .btn:hover {
-	opacity: 1;
 }
 
 @media only screen and (max-width: 1300px) {
@@ -1059,10 +1055,6 @@ h1, h2, h3, h4, p, small, label, ul li {
 }
 
 @media only screen and (max-width: 400px) {
-	.statsicon {
-		display: none;
-	}
-
 	.top .account {
 		margin-right: 20px;
 	}

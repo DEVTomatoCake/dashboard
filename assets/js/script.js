@@ -114,15 +114,18 @@ function pageLoad(page = "") {
 	} else document.getElementById("username-avatar").style = "display: block;";
 
 	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme");
-	else document.getElementById("theme-toggle").checked = true;
+	else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+		document.body.classList.replace("dark-theme", "light-theme");
+		setCookie("theme", "light", 365, true);
+	} else document.getElementById("theme-toggle").checked = true;
 
 	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {
 			document.body.classList.replace("light-theme", "dark-theme");
-			setCookie("theme", "dark", 60, true);
+			setCookie("theme", "dark", 365, true);
 		} else {
 			document.body.classList.replace("dark-theme", "light-theme");
-			setCookie("theme", "light", 60, true);
+			setCookie("theme", "light", 365, true);
 		};
 	});
 

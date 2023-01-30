@@ -194,9 +194,10 @@ function getCustomcommandsHTML(json) {
 				"<br>";
 		});
 
-		if (text == "") text = "<span id='no-cc'><b translation='dashboard.cc.nocc'></b></span>"
+		if (text == "") text = "<p id='no-cc'><b translation='dashboard.cc.nocc'></b></p>";
 		return "<center><h1><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
-			"<p translation='dashboard.cc.delete'></p><button onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
+			"<p translation='dashboard.cc.delete'></p>" +
+			"<button onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
@@ -231,8 +232,9 @@ function getReactionrolesHTML(json) {
 		document.getElementById("reactionroles-role").innerHTML = roleoptions;
 		rolecopy = json.data.roles;
 
-		if (text == "") text = "<span id='no-rr'><b translation='dashboard.rr.norr'></b></span>"
-		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center><button onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
+		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";
+		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+			"<button class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +

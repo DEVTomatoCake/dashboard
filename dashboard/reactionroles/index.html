@@ -154,21 +154,23 @@
 				<form class="form-container" id="rrForm">
 					<h1 translation="dashboard.rr.create"></h1>
 
-					<label for="reactionroles-type"><b translation="dashboard.type">Typ</b></label><br>
-					<select name="reactionroles-type" id="reactionroles-type"></select><br><br>
+					<label for="reactionroles-type" translation="dashboard.type"></label>
+					<select name="reactionroles-type" id="reactionroles-type"></select>
 
-					<label for="reactionroles-reaction"><b translation="dashboard.reaction"></b></label>
+					<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
 					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
 
-					<label for="reactionroles-channel"><b translation="dashboard.channel"></b></label><br>
-					<select name="reactionroles-channel" id="reactionroles-channel"></select><br><br>
+					<label for="reactionroles-channel" translation="dashboard.channel"></label>
+					<select name="reactionroles-channel" id="reactionroles-channel"></select>
 
-					<label for="reactionroles-msg"><b>Nachrichten-ID</b></label><br>
-					<input type="number" min="10000000000000000" max="9999999999999999999" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required><br><br>
+					<label for="reactionroles-msg">Nachrichten-ID</label>
+					<input type="number" min="10000000000000000" max="9999999999999999999" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 
-					<label for="reactionroles-role"><b translation="dashboard.role"></b></label><br>
-					<select name="reactionroles-role" id="reactionroles-role"></select><br><br>
+					<br><br>
+					<label for="reactionroles-role" translation="dashboard.role"></label>
+					<select name="reactionroles-role" id="reactionroles-role"></select>
 
+					<br><br>
 					<button type="submit" class="btn" translation="dashboard.rr.create"></button>
 					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
 				</form>
@@ -192,8 +194,7 @@
 			</div>
 
 			<div class="content" id="content">
-				<div id="root-container" class="row">
-				</div>
+				<div id="root-container" class="row"></div>
 
 				<p id="author" translation="global.footer"></p>
 			</div>

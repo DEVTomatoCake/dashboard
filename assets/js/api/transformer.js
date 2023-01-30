@@ -69,7 +69,8 @@ function getGuildsHTML() {
 						return -1;
 					})
 					json.data.forEach(guild => {
-						text += "<div class='guilds-container'>" +
+						text +=
+							"<div class='guilds-container'>" +
 							"<a class='guild' href='" + (guild.activated ? "" : "../invite/") + "?guild=" + guild.id + "'>" +
 							"<img" + (guild.activated ? "" : " class='notactivated'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
@@ -190,7 +191,7 @@ function getCustomcommandsHTML(json) {
 		json.data.forEach(setting => {
 			text +=
 				"<p><b>" + setting.name + "</b></p>" +
-				"<textarea class='setting' rows='" + Math.round(setting.value.split("").filter(i => i == "\n").length * 1.3) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
+				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
 				"<br>";
 		});
 

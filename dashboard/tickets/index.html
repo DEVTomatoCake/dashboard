@@ -163,7 +163,7 @@
 				getTicketsHTML(params.get("guild")).then(data => {
 					document.getElementById("linksidebar").innerHTML =
 						"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-						"<br><hr><div class='tab' onclick='redirect(\"../customcommands/?guild=" + params.get("guild") + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
+						"<div class='tab' onclick='redirect(\"../customcommands/?guild=" + params.get("guild") + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
 						"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + params.get("guild") + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
 						"<div class='tab active'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
 						"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + params.get("guild") + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +

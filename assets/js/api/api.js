@@ -93,3 +93,11 @@ function getGiveaway(giveaway) {
 			.catch(error => reject(error))
 	})
 }
+
+function getLogs(guild) {
+	return new Promise((resolve, reject) => {
+		get("logs/" + guild, true)
+			.then(data => resolve(data))
+			.catch(error => reject(error))
+	})
+}

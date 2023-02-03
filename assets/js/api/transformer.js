@@ -474,3 +474,29 @@ function getGiveawayHTML(giveaway) {
 			.catch(e => handleError(resolve, e));
 	});
 }
+
+function getLogsHTML(guild) {
+	return new Promise(resolve => {
+		getLogs(guild)
+			.then(json => {
+				if (json.status == "success") {
+					let text =
+						"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						"<table cellpadding='8' cellspacing='0'>" +
+						"<thead><tr><th>ID</th><th>Type</th><th>Lognachricht</th></tr></thead><tbody>";
+
+					json.data.forEach(log => {
+						text +=
+							"<tr class='ticket cmdvisible'>" +
+							"<td>" + log.id + "</td>" +
+							"<td>" + log.type + "</td>" +
+							"<td>" + log.message + "</td>" +
+							"</tr>";
+					});
+
+					resolve(text + "</tbody></table>");
+				} else handleError(resolve, json.message);
+			})
+			.catch(e => handleError(resolve, e));
+	});
+}

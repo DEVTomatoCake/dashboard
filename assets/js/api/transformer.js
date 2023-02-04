@@ -483,7 +483,7 @@ function getLogsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID</th><th>Type</th><th>Lognachricht</th></tr></thead><tbody>";
+						"<thead><tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th></tr></thead><tbody>";
 
 					json.data.forEach(log => {
 						text +=
@@ -491,6 +491,7 @@ function getLogsHTML(guild) {
 							"<td>" + log.id + "</td>" +
 							"<td>" + log.type + "</td>" +
 							"<td>" + log.message + "</td>" +
+							"<td>" + log.count + "</td>" +
 							"</tr>";
 					});
 

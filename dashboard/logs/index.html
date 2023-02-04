@@ -55,7 +55,7 @@
 			};
 
 			function info(id) {
-				var log = logs[id];
+				var log = logs.find(log => log.id == id);
 				openDialog(document.getElementById("infoDialog"));
 
 				document.getElementById("infoDialogText").innerHTML =
@@ -168,7 +168,7 @@
 		</section>
 
 		<script>
-			var logs = {};
+			var logs = [];
 			document.getElementById("ts-created").max = new Date().toISOString().slice(0, -8);
 
 			const params = new URLSearchParams(window.location.search);

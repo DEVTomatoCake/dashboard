@@ -1212,7 +1212,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 .dialog {
 	position: fixed;
 	display: none;
-	z-index: 1;
+	z-index: 10;
 	left: 0;
 	top: 0;
 	padding-top: 100px;
@@ -1237,5 +1237,5 @@ h1, h2, h3, h4, p, small, label, ul li {
 
 @keyframes animateDialog {
 	from {width: 0; opacity: 0}
-	to {width: 70%; opacity: 1}
+	to {width: 65%; opacity: 1}
 }

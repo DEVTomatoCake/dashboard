@@ -62,6 +62,7 @@
 					"<b><span translation='logs.logid'></span>:</b> " + log.id + "<br>" +
 					"<b><span translation='logs.logtype'></span>:</b> " + log.type + "<br>" +
 					"<b><span translation='logs.logmessage'></span>:</b> " + log.message + "<br>" +
+					"<b><span translation='logs.amount'></span>:</b> " + log.count + "<br>" +
 					"<b>Log created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
 					(log.lastDate ? "<b>Last occured:</b> " + new Date(log.lastDate).toLocaleString() + "<br>" : "") +
 					"<b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>";
@@ -158,7 +159,7 @@
 				<div id="infoDialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1>Information about this log</h1>
+						<h3 style="font-size: 30px;">Information about this log</h3>
 						<div id="infoDialogText"></div>
 					</div>
 				</div>

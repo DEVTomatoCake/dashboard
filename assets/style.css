@@ -860,8 +860,9 @@ pre {
 	right: -2px;
 }
 
-.stats-row h3 {
+.stats-row p {
 	text-transform: uppercase;
+	font-size: 24px;
 }
 
 .stats-row .servers ion-icon {

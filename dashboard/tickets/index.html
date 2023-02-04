@@ -156,9 +156,7 @@
 		</section>
 
 		<script>
-			var date = new Date();
-			date.setDate(date.getDate() + 1);
-			document.getElementById("ts-created").max = date.toISOString().slice(0, -8);
+			document.getElementById("ts-created").max = new Date().toISOString().slice(0, -8);
 
 			const params = new URLSearchParams(window.location.search);
 

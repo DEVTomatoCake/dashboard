@@ -53,6 +53,19 @@
 					};
 				};
 			};
+
+			function info(id) {
+				var log = logs[id];
+				openDialog(document.getElementById("infoDialog"));
+
+				document.getElementById("infoDialogText").innerHTML =
+					"<b>Log ID:</b> " + log.id + "<br>" +
+					"<b>Log Type:</b> " + log.type + "<br>" +
+					"<b>Log Message:</b> " + log.message + "<br>" +
+					"<b>Log Created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
+					(log.lastDate ? "<b>Last occured:</b> " + new Date(log.lastDate).toLocaleString() + "<br>" : "") +
+					"<b>Log Data:</b><pre>" + encode(JSON.stringify(JSON.parse(log.data), null, 4)) + "</pre>";
+			};
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
@@ -142,14 +155,21 @@
 					<h1>Die Logs werden geladen...</h1>
 				</div>
 
+				<div id="infoDialog" class="dialog">
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1>Information about this log</h1>
+						<div id="infoDialogText"></div>
+					</div>
+				</div>
+
 				<p id="author" translation="global.footer"></p>
 			</div>
 		</section>
 
 		<script>
-			var date = new Date();
-			date.setDate(date.getDate() + 1);
-			document.getElementById("ts-created").max = date.toISOString().slice(0, -8);
+			var logs = {};
+			document.getElementById("ts-created").max = new Date().toISOString().slice(0, -8);
 
 			const params = new URLSearchParams(window.location.search);
 

@@ -82,6 +82,16 @@ function fadeIn(element) {
 	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
 }
 
+function openDialog(dialog) {
+	dialog.style.display = "block";
+	dialog.getElementsByClassName("close")[0].onclick = function() {
+		dialog.style.display = "none";
+	};
+	window.onclick = function(event) {
+		if (event.target == dialog) dialog.style.display = "none";
+	};
+}
+
 var reloadText;
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {

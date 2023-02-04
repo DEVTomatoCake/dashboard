@@ -491,9 +491,9 @@ function getLogsHTML(guild) {
 							"<tr class='ticket cmdvisible'>" +
 							"<td>" + log.id + "</td>" +
 							"<td>" + log.type + "</td>" +
-							"<td>" + log.message + "</td>" +
+							"<td class='overflow'>" + log.message + "</td>" +
 							"<td>" + log.count + "</td>" +
-							"<td><button onclick='info(\"" + log.id + "\")'>Mehr Informationen</button></td>" +
+							"<td><button class='categorybutton' onclick='info(\"" + log.id + "\")'>Mehr Informationen</button></td>" +
 							"</tr>";
 					});
 

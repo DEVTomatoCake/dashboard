@@ -782,7 +782,7 @@ h1.greeting {
 	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 
-td {
+td.overflow {
 	overflow-wrap: anywhere;
 }
 
@@ -1238,4 +1238,16 @@ h1, h2, h3, h4, p, small, label, ul li {
 @keyframes animateDialog {
 	from {width: 0; opacity: 0}
 	to {width: 65%; opacity: 1}
+}
+
+.close {
+	color: #AAA;
+	float: right;
+	font-size: 28px;
+	font-weight: bold;
+	transition: .2s;
+}
+.close:hover, .close:focus {
+	color: black;
+	cursor: pointer;
 }

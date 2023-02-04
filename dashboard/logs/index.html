@@ -64,7 +64,7 @@
 					"<b>Log Message:</b> " + log.message + "<br>" +
 					"<b>Log Created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
 					(log.lastDate ? "<b>Last occured:</b> " + new Date(log.lastDate).toLocaleString() + "<br>" : "") +
-					"<b>Log Data:</b><pre>" + encode(JSON.stringify(JSON.parse(log.data), null, 4)) + "</pre>";
+					"<b>Log Data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>";
 			};
 		</script>
 	</head>

@@ -166,7 +166,7 @@
 
 			<div class="content" id="content">
 				<div id="create-dialog" class="dialog">
-					<form class="dialog-content">
+					<form id="create-form" class="dialog-content">
 						<h1 translation="dashboard.rr.create"></h1>
 
 						<label for="reactionroles-type" translation="dashboard.type"></label>
@@ -201,13 +201,12 @@
 
 		<script>
 			var rolecopy = {};
-			const formElem = document.getElementById("rrForm");
+			const formElem = document.getElementById("create-form");
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
-				const formData = new FormData(formElem);
-				const reaction = encode(formData.get("reactionroles-reaction"));
+				const reaction = encode(document.getElementById("reactionroles-reaction").value);
 				const msg = encode(document.getElementById("reactionroles-msg").value);
 
 				var div = document.createElement("div");

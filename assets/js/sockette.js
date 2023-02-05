@@ -1,8 +1,7 @@
-// Took from https://raw.githubusercontent.com/lukeed/sockette/66bf604bd51f914680a69600099ba7060bc10c09/src/index.js
-// Modified by booky10
+// Modified by booky10 from https://raw.githubusercontent.com/lukeed/sockette/66bf604bd51f914680a69600099ba7060bc10c09/src/index.js
 
 const sockette = (url, opts = {}) => {
-	const reconnectMaxAttempts = opts.maxAttempts || 7;
+	const reconnectMaxAttempts = 7;
 	let reconnectAttempts = 0;
 	let reconnectTimer = 1;
 
@@ -26,17 +25,18 @@ const sockette = (url, opts = {}) => {
 
 		websocket.onerror = event => {
 			if (event && event.code == "ECONNREFUSED") object.reconnect(event);
-			if (opts.onError) opts.onError(event);
+			if (opts.onError) opts.onError(event)
+			else console.error("[WS] Error", event);
 		};
 	};
 
 	object.reconnect = event => {
 		if (reconnectTimer && reconnectAttempts++ < reconnectMaxAttempts) {
 			reconnectTimer = setTimeout(() => {
-				if (opts.onReconnect) opts.onReconnect(event);
+				console.log("Reconnecting...", event);
 				object.open();
-			}, opts.timeout || 1000);
-		} else if (opts.onMaxTries) opts.onMaxTries(event);
+			}, 3500);
+		} else console.warn("[WS] Stopped reconnection attempts", event);
 	};
 
 	object.send = string => {

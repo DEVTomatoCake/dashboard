@@ -40,24 +40,32 @@
 					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 						tab.classList.remove("active");
 						document.getElementById(tab.getAttribute("name")).style.display = "none";
-						if (document.getElementById(tab.getAttribute("name")).required) document.getElementById(tab.getAttribute("name")).required = false;
+
+						for (input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
+							if (input.required) {
+								input.required = false;
+								input.dataset.required = true;
+							};
+						};
 					};
 				};
 				elem.classList.add("active");
 
 				document.getElementById(elem.getAttribute("name")).style.display = "block";
-				if (document.getElementById(elem.getAttribute("name")).required) document.getElementById(elem.getAttribute("name")).required = true;
+				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input")) {
+					if (input.getAttribute("data-required")) input.required = true;
+				};
 			};
 
 			function addRR() {
 				document.getElementById("rr-currentmsg").createElement("div", {
 					class: "reactionrole",
 					innerHTML:
-						"<select class='setting' data-type='" + setting.type + "' data-msg='" + document.getElementById("reactionroles-msg").value +
-						"' data-reaction='" + document.getElementById("reactionroles-reaction").value + "' data-channel='' id='" +
-						document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' name='" + setting.msg + "'>" +
-						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (setting.role == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>") +
-						"</select><div class='reactionrole-remove' onclick='removeRR(this)'></div><br><br>"
+						"<select class='setting' data-type='" + document.querySelector("span[data-radio='rrtype'].active").getAttribute("name") + "' data-msg='" + document.getElementById("reactionroles-msg").value +
+						"' data-reaction='" + document.getElementById("reactionroles-reaction").value + "' data-channel='" + document.getElementById("reactionroles-channel").value + "' id='" +
+						document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' name='" + document.getElementById("reactionroles-msg").value + "'>" +
+						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>") +
+						"</select><div class='reactionrole-remove' onclick='removeRR(this)'><ion-icon name='trash-outline'></ion-icon></div><br><br>"
 				});
 			};
 			function removeRR(elem) {
@@ -220,8 +228,6 @@
 						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Selectrole</span>
 
 						<div id="rr-currentmsg">
-							<button onclick="addRR()">Rolle hinzufügen</button>
-
 							<label for="reactionroles-role" translation="dashboard.rr.role"></label>
 							<select name="reactionroles-role" id="reactionroles-role"></select>
 
@@ -238,19 +244,15 @@
 									<option value="danger">Danger</option>
 								</select>
 
-								<label>
-									Button-Text
-									<input type="text" id="reactionroles-buttonlabel" autocomplete="off" required>
-								</label>
+								<label for="reactionroles-buttonlabel">Button-Text</label>
+								<input type="text" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" required>
 
 								<label for="reactionroles-emoji">Button-Emoji</label>
 								<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
 							</div>
 							<div id="select" class="tabs" style="display: none;">
-								<label>
-									Select-Text
-									<input type="text" id="reactionroles-selectlabel" autocomplete="off" required>
-								</label>
+								<label for="reactionroles-selectlabel">Select-Text</label>
+								<input type="text" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" required>
 
 								<label for="reactionroles-desc">Select-Beschreibung</label>
 								<input type="text" name="reactionroles-desc" id="reactionroles-desc" autocomplete="off">
@@ -258,8 +260,11 @@
 								<label for="reactionroles-emoji">Select-Emoji</label>
 								<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
 							</div>
+
+							<button type="button" onclick="addRR()">Rolle übernehmen</button>
 						</div>
 
+						<br>
 						<button type="submit" translation="dashboard.rr.create"></button>
 						<button type="reset">Felder leeren</button>
 					</form>

@@ -42,10 +42,7 @@
 						document.getElementById(tab.getAttribute("name")).style.display = "none";
 
 						for (input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
-							if (input.required) {
-								input.required = false;
-								input.dataset.required = true;
-							};
+							if (input.required) input.required = false;
 						};
 					};
 				};
@@ -57,34 +54,36 @@
 				};
 			};
 
-			function addRR() {
+			function addRR(e) {
+				e.preventDefault();
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
+				let reaction = document.getElementById("reactionroles-reaction").value;
 
 				let newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
 				newelem.innerHTML =
-					"<p>" + document.getElementById("reactionroles-msg").value + " - " + document.getElementById("reactionroles-reaction").value + "</p>" +
+					"<br><p>" + document.getElementById("reactionroles-msg").value + " - " + reaction + "</p>" +
+					(isNaN(reaction) ? "<p><b>" + reaction + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + reaction + ".webp?size=32'><br>") +
 					"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value + "' " +
 					"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
-					(type == "reaction" ? "data-reaction='" + document.getElementById("reactionroles-reaction").value + "' " : "") +
+					(type == "reaction" ? "data-reaction='" +  + "' " : "") +
 					(type == "button" || type == "select" ? "data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " : "") +
 					(type == "button" || type == "select" ? "data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' " : "") +
 					(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
-					"id='" + document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' " +
+					"id='" + document.getElementById("reactionroles-msg").value + "-" + reaction + "' " +
 					"name='" + document.getElementById("reactionroles-msg").value + "'>" +
 					Object.keys(rolecopy).map(key =>
 						"<option value='" + key.replace("_", "") + "'" +
 						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
 					) +
-					"</select><div class='reactionrole-remove' onclick='removeRR(this)'><ion-icon name='trash-outline'></ion-icon></div><br><br>";
+					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br>";
 
 				document.getElementById("rr-currentmsg").appendChild(newelem);
 				clearInputs();
 			};
-			function removeRR(elem) {
-				elem.parentElement.remove();
-			};
-			function clearInputs() {
+			function clearInputs(e) {
+				if (e) e.preventDefault();
+
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-buttonlabel").value = "";
 				document.getElementById("reactionroles-buttonemoji").value = "";
@@ -240,7 +239,7 @@
 						</div>
 						<div id="newmsg" class="tabs" style="display: none;">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
-							<textarea name="reactionroles-content" id="reactionroles-content" maxlength="2000" rows="5" placeholder="Gib den Inhalt der Nachricht ein" required></textarea>
+							<textarea name="reactionroles-content" id="reactionroles-content" maxlength="2000" rows="5" placeholder="Gib den Inhalt der Nachricht ein" data-required="true"></textarea>
 						</div>
 
 						<br>
@@ -266,14 +265,14 @@
 								</select>
 
 								<label for="reactionroles-buttonlabel">Button-Text</label>
-								<input type="text" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" required>
+								<input type="text" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-buttonemoji">Button-Emoji</label>
 								<input type="text" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" autocomplete="off">
 							</div>
 							<div id="select" class="tabs" style="display: none;">
 								<label for="reactionroles-selectlabel">Select-Text</label>
-								<input type="text" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" required>
+								<input type="text" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-selectdesc">Select-Beschreibung</label>
 								<input type="text" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
@@ -282,12 +281,13 @@
 								<input type="text" name="reactionroles-selectemoji" id="reactionroles-selectemoji" autocomplete="off">
 							</div>
 
-							<button type="button" onclick="addRR()">Rolle übernehmen</button>
+							<button type="submit" onclick="addRR(event)">Rolle übernehmen</button>
+							<br>
 						</div>
 
 						<br>
 						<button type="submit" translation="dashboard.rr.create"></button>
-						<button type="reset" onclick="clearInputs()">Felder leeren</button>
+						<button type="reset" onclick="clearInputs(event)">Felder leeren</button>
 					</form>
 				</div>
 
@@ -299,29 +299,23 @@
 
 		<script>
 			var rolecopy = {};
-			const formElem = document.getElementById("create-form");
-			formElem.addEventListener("submit", e => {
+			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
 				const reaction = encode(document.getElementById("reactionroles-reaction").value);
-				const msg = encode(document.getElementById("reactionroles-msg").value);
 
 				var div = document.createElement("div");
 				var html = "";
-				if (isNaN(reaction)) html += "<p><b>" + reaction + "</b></p>";
-				else html += "<img src='https://cdn.discordapp.com/emojis/" + reaction + ".webp?size=32'><br>";
 
-				html +=
-					"<select class='setting' data-type='" + encode(document.getElementById("reactionroles-type").value) +
-					"' data-msg='" + msg + "' data-reaction='" + reaction + "' data-channel='" + encode(document.getElementById("reactionroles-channel").value) +
-					"' id='" + msg + "-" + reaction + "' name='" + msg + "'>";
+				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 
-				Object.keys(rolecopy).forEach(key => {
-					html += "<option value='" + key.replace("_", "") + "'" + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>";
-				});
-				div.innerHTML = html + "</select><br><br>";
+				html += document.getElementsByClassName("reactionrole").map(rr => rr + "<br><br>").join("");
+
+				div.innerHTML = html;
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
+
+				//saveReactionroles();
 			});
 
 			const params = new URLSearchParams(window.location.search);
@@ -330,8 +324,7 @@
 			var errorToast;
 
 			function saveReactionroles() {
-				if (!params.has("guild")) return;
-				if (saving) return;
+				if (!params.has("guild") || saving) return;
 
 				saving = true;
 				const settings = document.getElementsByClassName("setting");

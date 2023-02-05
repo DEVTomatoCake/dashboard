@@ -118,7 +118,6 @@
 				<div class="stats-row">
 					<emoji-picker></emoji-picker>
 					<textarea></textarea>
-					<input></input>
 					<script>
 						document.querySelector("emoji-picker").customEmoji = [
 							{
@@ -136,20 +135,22 @@
 							{
 								name: 'Biene sus',
 								shortcodes: ['sus'],
-								url: 'https://cdn.discordapp.com/emojis/877825883136733225.png',
+								url: 'https://cdn.discordapp.com/emojis/877825883136733225.webp',
 								category: 'TomatenKuchen'
 							}
 						]
 					</script>
 					<script type="module">
 					  	import insertText from "https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js"
+						import de from "https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/i18n/de.js"
+						document.querySelector("emoji-picker").i18n = de
 
 						var validActiveElement
-						document.addEventListener("click", e => {
+						document.addEventListener("focus", e => {
 							if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target
 						})
 					  	document.querySelector("emoji-picker").addEventListener("emoji-click", e => {
-							insertText(validActiveElement, e.detail.unicode)
+							insertText(validActiveElement, e.detail.unicode || "<:" + e.detail.emoji.name + ":" + e.detail.emoji.url.replace(/[^0-9]/g, "") + ">")
 					  	})
 					</script>
 

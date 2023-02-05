@@ -146,7 +146,7 @@
 						document.querySelector("emoji-picker").i18n = de
 
 						var validActiveElement
-						document.addEventListener("focus", e => {
+						document.addEventListener("input", e => {
 							if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target
 						})
 					  	document.querySelector("emoji-picker").addEventListener("emoji-click", e => {

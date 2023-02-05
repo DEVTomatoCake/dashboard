@@ -1253,6 +1253,8 @@ h1, h2, h3, h4, p, small, label, ul li {
 	animation-duration: 0.4s;
 	background-color: var(--dialog-bg);
 	border-radius: 5px;
+
+	margin-bottom: 100px; /* TODO: Find a better solution - only fix I found to prevent clipped content */
 }
 
 @keyframes animateDialog {

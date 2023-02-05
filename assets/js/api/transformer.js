@@ -222,27 +222,28 @@ function getReactionrolesHTML(json) {
 			let type = setting.type;
 			let emoji = setting.reaction || setting.emoji;
 
-			(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") : "") +
-			(type == "button" || type == "select" ? "<p><b>" + setting.label + "</b></p>" : "") +
-			"<select class='setting' data-type='" + type + "' data-msg='" + setting.msg + "' " +
-			"data-channel='' " +
-			(type == "reaction" ? "data-reaction='" + setting.reaction + "' " : "") +
-			(type == "button" || type == "select" ?
-				"data-label='" + setting.label + "' " +
-				"data-emoji='" + setting.emoji + "' "
-			: "") +
-			(type == "button" ? "data-buttonstyle='" + setting.buttonstyle + "' " : "") +
-			(type == "select" ? "data-selectdesc='" + setting.selectdesc + "' " : "") +
-			(setting.content ? "data-content='" + setting.content + "' " : "") +
-			"id='" + setting.msg + "-" + (setting.reaction || setting.label) + "' " +
-			"name='" + setting.msg + "'>" +
+			text +=
+				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") : "") +
+				(type == "button" || type == "select" ? "<p><b>" + setting.label + "</b></p>" : "") +
+				"<select class='setting' data-type='" + type + "' data-msg='" + setting.msg + "' " +
+				"data-channel='' " +
+				(type == "reaction" ? "data-reaction='" + setting.reaction + "' " : "") +
+				(type == "button" || type == "select" ?
+					"data-label='" + setting.label + "' " +
+					"data-emoji='" + setting.emoji + "' "
+				: "") +
+				(type == "button" ? "data-buttonstyle='" + setting.buttonstyle + "' " : "") +
+				(type == "select" ? "data-selectdesc='" + setting.selectdesc + "' " : "") +
+				(setting.content ? "data-content='" + setting.content + "' " : "") +
+				"id='" + setting.msg + "-" + (setting.reaction || setting.label) + "' " +
+				"name='" + setting.msg + "'>" +
 
-			" disabled" +
-			/*Object.keys(rolecopy).map(key =>
-				"<option value='" + key.replace("_", "") + "'" +
-				(setting.role == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
-			) +*/
-			"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
+				" disabled" +
+				/*Object.keys(rolecopy).map(key =>
+					"<option value='" + key.replace("_", "") + "'" +
+					(setting.role == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
+				) +*/
+				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 		});
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";

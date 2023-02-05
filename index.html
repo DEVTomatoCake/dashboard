@@ -26,6 +26,18 @@
 		<script src="./assets/js/api/api.js"></script>
 		<script src="./assets/js/api/transformer.js"></script>
 
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<style>
+			@font-face {
+				font-family: "MozillaTwemojiColr";
+				src: url("https://cdn.jsdelivr.net/npm/twemoji-colr-font@^14/twemoji.woff2") format("woff2");
+			}
+
+			emoji-picker {
+				--emoji-font-family: MozillaTwemojiColr;
+			}
+		</style>
+
 		<script>
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
@@ -116,6 +128,16 @@
 
 						<p id="stats-guilds" class="value">Lade...</p>
 					</div>
+
+					<emoji-picker></emoji-picker>
+					<input></input>
+					<script type="module">
+					  	import insertText from 'https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js'
+
+					  	document.querySelector('emoji-picker').addEventListener('emoji-click', e => {
+							insertText(document.querySelector('input'), e.detail.unicode)
+					  	})
+					</script>
 
 					<div class="data uptime">
 						<div class="container">

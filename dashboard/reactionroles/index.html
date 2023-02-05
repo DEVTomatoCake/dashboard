@@ -31,12 +31,9 @@
 
 		<script>
 			function openForm() {
-				document.getElementById("reactionrolesForm").style.display = "block";
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-msg").value = "";
-			};
-			function closeForm() {
-				document.getElementById("reactionrolesForm").style.display = "none";
+				openDialog(document.getElementById("create-dialog"));
 			};
 
 			var socket;
@@ -150,34 +147,6 @@
 		</div>
 
 		<section class="main" id="main">
-			<div class="form-popup" id="reactionrolesForm">
-				<form class="form-container" id="rrForm">
-					<h1 translation="dashboard.rr.create"></h1>
-
-					<label for="reactionroles-type" translation="dashboard.type"></label>
-					<select name="reactionroles-type" id="reactionroles-type"></select>
-
-					<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
-					<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
-
-					<label for="reactionroles-channel" translation="dashboard.channel"></label>
-					<select name="reactionroles-channel" id="reactionroles-channel"></select>
-
-					<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-					<input type="number" min="10000000000000000" max="9999999999999999999" class="hidearrows" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
-
-					<br>
-					<br>
-					<label for="reactionroles-role" translation="dashboard.rr.role"></label>
-					<select name="reactionroles-role" id="reactionroles-role"></select>
-
-					<br>
-					<br>
-					<button type="submit" class="btn" translation="dashboard.rr.create"></button>
-					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
-				</form>
-			</div>
-
 			<div class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
@@ -196,6 +165,34 @@
 			</div>
 
 			<div class="content" id="content">
+				<div id="create-dialog" class="dialog">
+					<form class="dialog-content">
+						<h1 translation="dashboard.rr.create"></h1>
+
+						<label for="reactionroles-type" translation="dashboard.type"></label>
+						<select name="reactionroles-type" id="reactionroles-type">
+							<option value="reaction">Reactionrole</option>
+							<option value="button">Buttonrole</option>
+							<option value="select">Selectrole</option>
+						</select>
+
+						<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
+						<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
+
+						<label for="reactionroles-channel" translation="dashboard.channel"></label>
+						<select name="reactionroles-channel" id="reactionroles-channel"></select>
+
+						<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
+						<input type="number" min="10000000000000000" max="9999999999999999999" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+
+						<label for="reactionroles-role" translation="dashboard.rr.role"></label>
+						<select name="reactionroles-role" id="reactionroles-role"></select>
+
+						<button type="submit" class="btn" translation="dashboard.rr.create"></button>
+						<button type="reset" class="btn cancel">Felder leeren</button>
+					</form>
+				</div>
+
 				<div id="root-container" class="row"></div>
 
 				<p id="author" translation="global.footer"></p>
@@ -207,7 +204,7 @@
 			const formElem = document.getElementById("rrForm");
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
-				closeForm();
+				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
 				const formData = new FormData(formElem);
 				const reaction = encode(formData.get("reactionroles-reaction"));

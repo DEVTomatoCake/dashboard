@@ -61,7 +61,7 @@
 	--tertiary-color: #525569;
 	--accent-color: #7B4CD9;
 	--accent-color-hover: #5B2ABD;
-	--button-accent-color: #41298B;
+	--button-accent-color: #343692;
 	--primary-text-color: #E6E7F1;
 	--secondary-text-color: #C1C4DB;
 	--blue: #8C9EFF;
@@ -240,12 +240,6 @@ textarea {
 textarea:focus {
 	background-color: var(--textarea-background-focus);
 	outline: none;
-}
-
-input .hidearrows {
-	-moz-appearance: none;
-	-webkit-appearance: none;
-	appearance: none;
 }
 
 .badge {
@@ -762,13 +756,14 @@ h1.greeting {
 	align-items: baseline;
 	flex-direction: column;
 }
-.ticketsearch-container label, .form-container label {
+.ticketsearch-container label, .form-container label, .dialog label {
+	display: block;
 	color: var(--secondary-text-color);
 	font-size: 18px;
 	text-transform: uppercase;
 	margin-top: 20px;
 }
-.ticketsearch-container input {
+.ticketsearch-container input, .dialog input {
 	border-radius: 10px;
 	outline: none;
 	padding: 8px;
@@ -778,7 +773,7 @@ h1.greeting {
 	background: var(--primary-color);
 	color: var(--primary-text-color);
 }
-.ticketsearch-container input:focus {
+.ticketsearch-container input:focus, .dialog input:focus {
 	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 
@@ -941,7 +936,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	padding-bottom: 15px;
 }
 
-.form-container input[type=text], .form-container textarea {
+.form-container input[type=text], .form-container textarea, .dialog input {
 	padding: 15px;
 	margin: 5px 0 22px;
 	border: none;
@@ -951,7 +946,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	box-sizing: border-box;
 	border-radius: 5px;
 }
-.form-container input[type=text]:focus, .form-container textarea:focus {
+.form-container input[type=text]:focus, .form-container textarea:focus, .dialog input:focus {
 	background-color: #ddd;
 	outline: none;
 }

@@ -284,6 +284,15 @@ textarea:focus {
 	border-bottom: #d14ff8 2px solid;
 }
 
+.create-form textarea {
+	padding: 10px;
+	border: none;
+	box-sizing: border-box;
+	border-radius: 5px;
+	width: 100%;
+	font-family: "Be Vietnam Pro", sans-serif;
+}
+
 .sidebar-container {
 	width: 0;
 	position: fixed;

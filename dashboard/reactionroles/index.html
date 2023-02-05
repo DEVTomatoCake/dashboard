@@ -244,7 +244,7 @@
 
 						<div id="existingmsg" class="tabs">
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-							<input type="text" pattern="[0-9]{17,20}" title="Gib die ID einer Nachricht vom Bot ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+							<input type="text" pattern="[0-9]{17,20}" maxlength="20" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 						</div>
 						<div id="newmsg" class="tabs" style="display: none;">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
@@ -262,7 +262,7 @@
 
 							<div id="reaction" class="tabs">
 								<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
-								<input type="text" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
+								<input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
 							</div>
 							<div id="button" class="tabs" style="display: none;">
 								<label for="reactionroles-buttonstyle">Button-Design</label>
@@ -274,20 +274,20 @@
 								</select>
 
 								<label for="reactionroles-buttonlabel">Button-Text</label>
-								<input type="text" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
+								<input type="text" maxlength="80" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-buttonemoji">Button-Emoji</label>
-								<input type="text" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" autocomplete="off">
+								<input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" autocomplete="off">
 							</div>
 							<div id="select" class="tabs" style="display: none;">
 								<label for="reactionroles-selectlabel">Select-Text</label>
-								<input type="text" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
+								<input type="text" maxlength="100" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-selectdesc">Select-Beschreibung</label>
-								<input type="text" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
+								<input type="text" maxlength="100" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
 
 								<label for="reactionroles-selectemoji">Select-Emoji</label>
-								<input type="text" name="reactionroles-selectemoji" id="reactionroles-selectemoji" autocomplete="off">
+								<input type="text" maxlength="50" name="reactionroles-selectemoji" id="reactionroles-selectemoji" autocomplete="off">
 							</div>
 
 							<button type="submit" onclick="addRR(event)">Rolle übernehmen</button>
@@ -308,6 +308,7 @@
 
 		<script>
 			var rolecopy = {};
+			var amountnew = 0;
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
 				document.getElementById("create-dialog").style.display = "none";
@@ -315,12 +316,14 @@
 
 				const reaction = encode(document.getElementById("reactionroles-reaction").value);
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
+				let newmsg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg";
+				if (newmsg) amountnew++;
 
 				var div = document.createElement("div");
 				var html = "";
 
 				for (elem of document.getElementsByClassName("reactionrole")) {
-					html += elem.innerHTML;
+					html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
 				};
 
 				div.innerHTML = html;
@@ -347,6 +350,7 @@
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						role: item.value,
+						content: item.getAttribute("data-content") || null,
 						reaction: type == "reaction" ? item.getAttribute("data-reaction") : null,
 						label: type == "button" || type == "select" ? item.getAttribute("data-label") : null,
 						emoji: type == "button" || type == "select" ? item.getAttribute("data-emoji") : null,

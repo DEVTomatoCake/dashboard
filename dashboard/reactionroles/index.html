@@ -69,7 +69,6 @@
 				let newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
 				newelem.innerHTML =
-					"<br>" +
 					(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") : "") +
 					(type == "button" || type == "select" ? "<p><b>" + document.getElementById("reactionroles-" + type + "label").value + "</b></p>" : "") +
 					"<select class='setting' data-type='" + type + "' data-msg='" + msg + "' " +
@@ -88,7 +87,7 @@
 						"<option value='" + key.replace("_", "") + "'" +
 						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
 					) +
-					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br>";
+					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 
 				document.getElementById("rr-currentmsg").appendChild(newelem);
 				clearInputs();

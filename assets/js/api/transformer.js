@@ -150,7 +150,7 @@ function getSettingsHTML(json) {
 						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + "</p>" +
 							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
 							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":")[1] + "'>" +
-							"<ion-icon name='close-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
+							"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
 					});
 					temp += "</div>";
 				} else {
@@ -208,18 +208,6 @@ function getCustomcommandsHTML(json) {
 
 function getReactionrolesHTML(json) {
 	if (json.status == "success") {
-		let text = "";
-
-		json.data.reactionroles.forEach(setting => {
-			if (isNaN(setting.reaction)) text += "<p><b>" + setting.reaction + "</b></p>";
-			else text += "<img src='https://cdn.discordapp.com/emojis/" + setting.reaction + ".webp?size=32' width='32' height='32' loading='lazy' alt='Reactionrole image'><br>";
-
-			const possible = setting.possible;
-			text += "<select class='setting' data-type='" + setting.type + "' data-msg='" + setting.msg + "' data-reaction='" + setting.reaction + "' data-channel='' id='" + setting.msg + "-" + setting.reaction + "' name='" + setting.msg + "'>";
-			Object.keys(possible).forEach(key => text += "<option value='" + key.replace("_", "") + "'" + (setting.role == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>");
-			text += "</select><br><br>";
-		});
-
 		let channeloptions = "";
 		Object.keys(json.data.channels).forEach(key => channeloptions += "<option value='" + key.replace("_", "") + "'>" + json.data.channels[key] + "</option>");
 		document.getElementById("reactionroles-channel").innerHTML = channeloptions;
@@ -228,6 +216,34 @@ function getReactionrolesHTML(json) {
 		Object.keys(json.data.roles).forEach(key => roleoptions += "<option value='" + key.replace("_", "") + "'>" + json.data.roles[key] + "</option>");
 		document.getElementById("reactionroles-role").innerHTML = roleoptions;
 		rolecopy = json.data.roles;
+
+		let text = "";
+		json.data.reactionroles.forEach(setting => {
+			let type = setting.type;
+			let emoji = setting.reaction || setting.emoji;
+
+			(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") : "") +
+			(type == "button" || type == "select" ? "<p><b>" + setting.label + "</b></p>" : "") +
+			"<select class='setting' data-type='" + type + "' data-msg='" + setting.msg + "' " +
+			"data-channel='' " +
+			(type == "reaction" ? "data-reaction='" + setting.reaction + "' " : "") +
+			(type == "button" || type == "select" ?
+				"data-label='" + setting.label + "' " +
+				"data-emoji='" + setting.emoji + "' "
+			: "") +
+			(type == "button" ? "data-buttonstyle='" + setting.buttonstyle + "' " : "") +
+			(type == "select" ? "data-selectdesc='" + setting.selectdesc + "' " : "") +
+			(setting.content ? "data-content='" + setting.content + "' " : "") +
+			"id='" + setting.msg + "-" + (setting.reaction || setting.label) + "' " +
+			"name='" + setting.msg + "'>" +
+
+			" disabled" +
+			/*Object.keys(rolecopy).map(key =>
+				"<option value='" + key.replace("_", "") + "'" +
+				(setting.role == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
+			) +*/
+			"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
+		});
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";
 		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +

@@ -62,7 +62,7 @@
 				let newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
 				newelem.innerHTML =
-					"<br><p>" + document.getElementById("reactionroles-msg").value + " - " + reaction + "</p>" +
+					"<br>" +
 					(isNaN(reaction) ? "<p><b>" + reaction + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + reaction + ".webp?size=32'><br>") +
 					"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value + "' " +
 					"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
@@ -303,14 +303,16 @@
 				e.preventDefault();
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
+
 				const reaction = encode(document.getElementById("reactionroles-reaction").value);
+				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 
 				var div = document.createElement("div");
 				var html = "";
 
-				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
-
-				html += document.getElementsByClassName("reactionrole").map(rr => rr + "<br><br>").join("");
+				for (elem of document.getElementsByClassName("reactionrole")) {
+					html += elem.innerHTML + "<br><br>";
+				};
 
 				div.innerHTML = html;
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);

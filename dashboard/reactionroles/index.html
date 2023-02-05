@@ -52,6 +52,9 @@
 				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input")) {
 					if (input.getAttribute("data-required")) input.required = true;
 				};
+
+				if (elem.getAttribute("data-radio") == "rrtype") for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
+					elem.remove();
 			};
 
 			function addRR(e) {
@@ -67,8 +70,10 @@
 					"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value + "' " +
 					"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
 					(type == "reaction" ? "data-reaction='" + reaction + "' " : "") +
-					(type == "button" || type == "select" ? "data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " : "") +
-					(type == "button" || type == "select" ? "data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' " : "") +
+					(type == "button" || type == "select" ?
+						"data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " +
+						"data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' "
+					: "") +
 					(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
 					"id='" + document.getElementById("reactionroles-msg").value + "-" + reaction + "' " +
 					"name='" + document.getElementById("reactionroles-msg").value + "'>" +
@@ -90,6 +95,8 @@
 				document.getElementById("reactionroles-selectlabel").value = "";
 				document.getElementById("reactionroles-selectdesc").value = "";
 				document.getElementById("reactionroles-selectemoji").value = "";
+				for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
+					elem.remove();
 			};
 
 			var socket;
@@ -317,7 +324,7 @@
 				div.innerHTML = html;
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 
-				//saveReactionroles();
+				saveReactionroles();
 			});
 
 			const params = new URLSearchParams(window.location.search);
@@ -332,13 +339,16 @@
 				let items = {};
 				for (item of document.querySelectorAll(".settingsContent .setting")) {
 					if (!items[item.name]) items[item.name] = []
-					items[item.name].push(JSON.stringify({
-						role: item.value,
+					items[item.name].push({
+						type: item.getAttribute("data-type"),
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
-						reaction: item.getAttribute("data-reaction"),
-						type: item.getAttribute("data-type")
-					}));
+						role: item.value,
+						reaction: type == "reaction" ? item.getAttribute("data-reaction") : null,
+						label: type == "button" || type == "select" ? item.getAttribute("data-" + type + "label") : null,
+						emoji: type == "button" || type == "select" ? item.getAttribute("data-" + type + "emoji") : null,
+						selectdesc: type == "select" ? item.getAttribute("data-selectdesc") : null
+					});
 				};
 
 				socket.send(JSON.stringify({

@@ -61,13 +61,14 @@
 				e.preventDefault();
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 				let emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value;
+				let msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? Math.random().toString(36) : document.getElementById("reactionroles-msg").value;
 
 				let newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
 				newelem.innerHTML =
 					"<br>" +
-					(isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") +
-					"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value + "' " +
+					(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") : "") +
+					"<select class='setting' data-type='" + type + "' data-msg='" + msg + "' " +
 					"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
 					(type == "reaction" ? "data-reaction='" + document.getElementById("reactionroles-reaction").value + "' " : "") +
 					(type == "button" || type == "select" ?
@@ -75,8 +76,9 @@
 						"data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' "
 					: "") +
 					(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
-					"id='" + document.getElementById("reactionroles-msg").value + "-" + (document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonlabel").value || document.getElementById("reactionroles-selectlabel").value) + "' " +
-					"name='" + document.getElementById("reactionroles-msg").value + "'>" +
+					(document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "data-content='" + document.getElementById("reactionroles-content").value + "' " : "") +
+					"id='" + msg + "-" + (document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonlabel").value || document.getElementById("reactionroles-selectlabel").value) + "' " +
+					"name='" + msg + "'>" +
 					Object.keys(rolecopy).map(key =>
 						"<option value='" + key.replace("_", "") + "'" +
 						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"

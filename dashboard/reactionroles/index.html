@@ -36,14 +36,18 @@
 				openDialog(document.getElementById("create-dialog"));
 			};
 			function changeTab(elem) {
-				for (tab of document.getElementsByClassName("active")) {
-					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) tab.classList.remove("active");
+				for (tab of document.getElementsByClassName("tabs")) {
+					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
+						tab.classList.remove("active");
+						tab.style.display = "none";
+						if (tab.required) tab.required = false;
+					};
 				};
 				elem.classList.add("active");
-				for (tab of document.getElementsByClassName("tabs")) {
-					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) tab.style.display = "none";
-				};
-				document.getElementById(elem.name).style.display = "block";
+
+				const foundtab = document.getElementById(elem.getAttribute("name"))
+				foundtab.style.display = "block";
+				if (foundtab.required) foundtab.required = true;
 			};
 
 			var socket;
@@ -189,7 +193,7 @@
 
 						<div id="existingmsg" class="tabs">
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-							<input type="number" pattern=/^[0-9]{17,20}$/ placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+							<input type="text" pattern="[0-9]{17,20}" title="Gib die ID einer Nachricht vom Bot ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 						</div>
 						<div id="newmsg" class="tabs" style="display: none;">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
@@ -214,8 +218,10 @@
 								<option value="danger">Danger</option>
 							</select>
 
-							<label for="reactionroles-label">Button-Text</label>
-							<input type="text" name="reactionroles-label" id="reactionroles-label" autocomplete="off" required>
+							<label>
+								Button-Text
+								<input type="text" name="reactionroles-label" id="reactionroles-label" autocomplete="off" required>
+							</label>
 						</div>
 						<div id="select" class="tabs" style="display: none;">
 							<label for="reactionroles-label">Select-Text</label>

@@ -56,9 +56,9 @@
 
 			function info(id) {
 				var log = logs.find(log => log.id == id);
-				openDialog(document.getElementById("infoDialog"));
+				openDialog(document.getElementById("info-dialog"));
 
-				document.getElementById("infoDialogText").innerHTML =
+				document.getElementById("info-dialogText").innerHTML =
 					"<b><span translation='logs.logid'></span>:</b> " + log.id + "<br>" +
 					"<b><span translation='logs.logtype'></span>:</b> " + log.type + "<br>" +
 					"<b><span translation='logs.logmessage'></span>:</b> " + log.message + "<br>" +
@@ -156,11 +156,11 @@
 					<h1>Die Logs werden geladen...</h1>
 				</div>
 
-				<div id="infoDialog" class="dialog">
+				<div id="info-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h3 style="font-size: 30px;">Information about this log</h3>
-						<div id="infoDialogText"></div>
+						<h2 style="font-size: 30px;">Information about this log</h2>
+						<div id="info-dialogText"></div>
 					</div>
 				</div>
 

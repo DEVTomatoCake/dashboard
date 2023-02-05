@@ -66,7 +66,7 @@
 					(isNaN(reaction) ? "<p><b>" + reaction + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + reaction + ".webp?size=32'><br>") +
 					"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value + "' " +
 					"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
-					(type == "reaction" ? "data-reaction='" +  + "' " : "") +
+					(type == "reaction" ? "data-reaction='" + reaction + "' " : "") +
 					(type == "button" || type == "select" ? "data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " : "") +
 					(type == "button" || type == "select" ? "data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' " : "") +
 					(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
@@ -311,7 +311,7 @@
 				var html = "";
 
 				for (elem of document.getElementsByClassName("reactionrole")) {
-					html += elem.innerHTML + "<br><br>";
+					html += elem.innerHTML;
 				};
 
 				div.innerHTML = html;
@@ -327,13 +327,10 @@
 
 			function saveReactionroles() {
 				if (!params.has("guild") || saving) return;
-
 				saving = true;
-				const settings = document.getElementsByClassName("setting");
 
 				let items = {};
-				for (let i = 0; i < settings.length; i++) {
-					const item = settings.item(i);
+				for (item of document.querySelectorAll(".settingsContent .setting")) {
 					if (!items[item.name]) items[item.name] = []
 					items[item.name].push(JSON.stringify({
 						role: item.value,

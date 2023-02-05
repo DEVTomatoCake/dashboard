@@ -35,6 +35,14 @@
 				document.getElementById("reactionroles-msg").value = "";
 				openDialog(document.getElementById("create-dialog"));
 			};
+			function changeTab(elem) {
+				document.getElementsByClassName("active")[0].classList.remove("active");
+				elem.classList.add("active");
+				document.getElementsByClassName("tabs").forEach(tab => {
+					tab.style.display = "none";
+				});
+				document.getElementById(elem.name).style.display = "block";
+			};
 
 			var socket;
 			function connectWS(guild) {
@@ -167,7 +175,20 @@
 			<div class="content" id="content">
 				<div id="create-dialog" class="dialog">
 					<form id="create-form" class="dialog-content">
+						<span class="close">&times;</span>
 						<h1 translation="dashboard.rr.create"></h1>
+
+						<span class="dialog-tab active" name="existingmsg" onclick="changeTab(this)">Zu bestehender Nachricht hinzufügen</span>
+						<span class="dialog-tab" name="newmsg" onclick="changeTab(this)">Neue Nachricht senden</span>
+
+						<div id="existingmsg" class="tabs">
+							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
+							<input type="number" min="10000000000000000" max="9999999999999999999" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+						</div>
+						<div id="newmsg" class="tabs" style="display: none">
+							<label for="reactionroles-content">Inhalt der Nachricht</label>
+							<textarea name="reactionroles-content" id="reactionroles-content" placeholder="Gib den Inhalt der Nachricht ein" required></textarea>
+						</div>
 
 						<label for="reactionroles-type" translation="dashboard.type"></label>
 						<select name="reactionroles-type" id="reactionroles-type">
@@ -182,14 +203,11 @@
 						<label for="reactionroles-channel" translation="dashboard.channel"></label>
 						<select name="reactionroles-channel" id="reactionroles-channel"></select>
 
-						<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-						<input type="number" min="10000000000000000" max="9999999999999999999" placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
-
 						<label for="reactionroles-role" translation="dashboard.rr.role"></label>
 						<select name="reactionroles-role" id="reactionroles-role"></select>
 
-						<button type="submit" class="btn" translation="dashboard.rr.create"></button>
-						<button type="reset" class="btn cancel">Felder leeren</button>
+						<button type="submit" translation="dashboard.rr.create"></button>
+						<button type="reset">Felder leeren</button>
 					</form>
 				</div>
 

@@ -275,6 +275,16 @@ textarea:focus {
 	}
 }
 
+.dialog-tab {
+	border-bottom: var(--tertiary-color) 2px solid;
+	padding: 10px;
+	cursor: pointer;
+	transition: .3s;
+}
+.dialog-tab.active {
+	border-bottom: #d14ff8 2px solid;
+}
+
 .sidebar-container {
 	width: 0;
 	position: fixed;

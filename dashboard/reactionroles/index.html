@@ -60,16 +60,22 @@
 			function addRR() {
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 
-				document.getElementById("rr-currentmsg").createElement("div", {
+				let newelem = document.body.createElement("div", {
 					class: "reactionrole",
 					innerHTML:
 						"<p>" + document.getElementById("reactionroles-msg").value + " - " + document.getElementById("reactionroles-reaction").value + "</p>" +
-						"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value +
-						"' data-reaction='" + document.getElementById("reactionroles-reaction").value + "' data-channel='" + document.getElementById("reactionroles-channel").value + "' id='" +
-						document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' name='" + document.getElementById("reactionroles-msg").value + "'>" +
+						"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value + "' " +
+						"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
+						(type == "reaction" ? "data-reaction='" + document.getElementById("reactionroles-reaction").value + "' " : "") +
+						(type == "button" || type == "select" ? "data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " : "") +
+						(type == "button" || type == "select" ? "data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' " : "") +
+						(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
+						"id='" + document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' " +
+						"name='" + document.getElementById("reactionroles-msg").value + "'>" +
 						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>") +
 						"</select><div class='reactionrole-remove' onclick='removeRR(this)'><ion-icon name='trash-outline'></ion-icon></div><br><br>"
 				});
+				document.getElementById("rr-currentmsg").appendChild(newelem);
 
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-buttonlabel").value = "";

@@ -277,14 +277,15 @@ textarea:focus {
 
 .dialog-tab {
 	display: inline-block;
-	padding: 30px 15px 3px;
+	padding: 20px 15px 3px;
 	cursor: pointer;
+	font-size: 22px;
 }
 .dialog-tab.active {
 	border-bottom: #d14ff8 2px solid;
 }
 
-.create-form textarea {
+#newmsg textarea {
 	padding: 10px;
 	border: none;
 	box-sizing: border-box;

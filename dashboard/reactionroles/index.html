@@ -42,7 +42,10 @@
 						document.getElementById(tab.getAttribute("name")).style.display = "none";
 
 						for (input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
-							if (input.required) input.required = false;
+							if (input.required) {
+								input.required = false;
+								input.dataset.required = true;
+							}
 						};
 					};
 				};
@@ -50,7 +53,7 @@
 
 				document.getElementById(elem.getAttribute("name")).style.display = "block";
 				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input")) {
-					if (input.getAttribute("data-required")) input.required = true;
+					if (input.hasAttribute("data-required")) input.required = true;
 				};
 
 				if (elem.getAttribute("data-radio") == "rrtype") for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))

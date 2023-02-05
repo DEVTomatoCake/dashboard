@@ -123,7 +123,7 @@
 					  	import insertText from "https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js"
 
 						var validActiveElement
-						document.on("click", e => {
+						document.addEventListener("click", e => {
 							if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target
 						})
 					  	document.querySelector("emoji-picker").addEventListener("emoji-click", e => {

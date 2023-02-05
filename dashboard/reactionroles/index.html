@@ -378,25 +378,9 @@
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Serverauswahl weitergeleitet...</h1>";
 				location.href = "../";
-			} else if (params.has("code")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Anmeldung erfolgt, bitte warten...</h1>";
-
-				login(params.get("code")).then(json => {
-					if (json.status == "success") {
-						setCookie("token", json.token, 4);
-						setCookie("user", json.user, 4);
-						setCookie("avatar", json.avatar, 4);
-
-						location.href = "https://" + location.host + "/dashboard/reactionroles/" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
-					} else {
-						document.getElementById("root-container").innerHTML =
-							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
-							"<h1>" + json.message + "</h1>";
-					};
-				});
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
-				location.href = "../../login";
+				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
 			};
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>

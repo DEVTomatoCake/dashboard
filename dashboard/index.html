@@ -292,7 +292,8 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						location.href = "https://" + location.host + "/dashboard" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
+						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = localStorage.getItem("next");
+						else location.href = "https://" + location.host + "/dashboard/" + (params.has("guild") ? "?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
 							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
@@ -301,7 +302,7 @@
 				});
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
-				location.href = "../login";
+				location.href = "../login/?next=" + encodeURIComponent(location.pathname + location.search);
 			};
 		</script>
 		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>

@@ -236,9 +236,7 @@ function getReactionrolesHTML(json) {
 				(type == "select" && setting.selectdesc ? "data-selectdesc='" + encode(setting.selectdesc) + "' " : "") +
 				(setting.content ? "data-content='" + encode(setting.content) + "' " : "") +
 				"id='" + encode(setting.msg + "-" + (setting.reaction || setting.label)) + "' " +
-				"name='" + encode(setting.msg) + "'>" +
-
-				" disabled" +
+				"name='" + encode(setting.msg) + "' disabled>" +
 				Object.keys(rolecopy).map(key =>
 					setting.role == key.replace("_", "") ? "<option value='" + key.replace("_", "") + "' selected>" + rolecopy[key] + "</option>" : ""
 				) +

@@ -339,9 +339,10 @@
 
 				let items = {};
 				for (item of document.querySelectorAll(".settingsContent .setting")) {
-					if (!items[item.name]) items[item.name] = []
+					let type = item.getAttribute("data-type");
+					if (!items[item.name]) items[item.name] = [];
 					items[item.name].push({
-						type: item.getAttribute("data-type"),
+						type,
 						channel: item.getAttribute("data-channel"),
 						msg: item.getAttribute("data-msg"),
 						role: item.value,

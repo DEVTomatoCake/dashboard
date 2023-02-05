@@ -58,15 +58,25 @@
 			};
 
 			function addRR() {
+				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
+
 				document.getElementById("rr-currentmsg").createElement("div", {
 					class: "reactionrole",
 					innerHTML:
-						"<select class='setting' data-type='" + document.querySelector("span[data-radio='rrtype'].active").getAttribute("name") + "' data-msg='" + document.getElementById("reactionroles-msg").value +
+						"<p>" + document.getElementById("reactionroles-msg").value + " - " + document.getElementById("reactionroles-reaction").value + "</p>" +
+						"<select class='setting' data-type='" + type + "' data-msg='" + document.getElementById("reactionroles-msg").value +
 						"' data-reaction='" + document.getElementById("reactionroles-reaction").value + "' data-channel='" + document.getElementById("reactionroles-channel").value + "' id='" +
 						document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' name='" + document.getElementById("reactionroles-msg").value + "'>" +
-						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>") +
+						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>") +
 						"</select><div class='reactionrole-remove' onclick='removeRR(this)'><ion-icon name='trash-outline'></ion-icon></div><br><br>"
 				});
+
+				document.getElementById("reactionroles-reaction").value = "";
+				document.getElementById("reactionroles-buttonlabel").value = "";
+				document.getElementById("reactionroles-buttonemoji").value = "";
+				document.getElementById("reactionroles-selectlabel").value = "";
+				document.getElementById("reactionroles-selectdesc").value = "";
+				document.getElementById("reactionroles-selectemoji").value = "";
 			};
 			function removeRR(elem) {
 				elem.parentElement.remove();
@@ -247,18 +257,18 @@
 								<label for="reactionroles-buttonlabel">Button-Text</label>
 								<input type="text" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" required>
 
-								<label for="reactionroles-emoji">Button-Emoji</label>
-								<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
+								<label for="reactionroles-buttonemoji">Button-Emoji</label>
+								<input type="text" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" autocomplete="off">
 							</div>
 							<div id="select" class="tabs" style="display: none;">
 								<label for="reactionroles-selectlabel">Select-Text</label>
 								<input type="text" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" required>
 
-								<label for="reactionroles-desc">Select-Beschreibung</label>
-								<input type="text" name="reactionroles-desc" id="reactionroles-desc" autocomplete="off">
+								<label for="reactionroles-selectdesc">Select-Beschreibung</label>
+								<input type="text" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
 
-								<label for="reactionroles-emoji">Select-Emoji</label>
-								<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
+								<label for="reactionroles-selectemoji">Select-Emoji</label>
+								<input type="text" name="reactionroles-selectemoji" id="reactionroles-selectemoji" autocomplete="off">
 							</div>
 
 							<button type="button" onclick="addRR()">Rolle übernehmen</button>

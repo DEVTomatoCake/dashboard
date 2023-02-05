@@ -916,6 +916,9 @@ h1, h2, h3, h4, p, small, label, ul li {
 	background-color: var(--secondary-color);
 	padding: 15px;
 	opacity: 0;
+	z-index: 3;
+	border-radius: 20px;
+	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
 
 .cookie-container button, button.createForm, .create-form button {

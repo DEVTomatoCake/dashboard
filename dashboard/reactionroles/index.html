@@ -61,8 +61,7 @@
 				e.preventDefault();
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 				let emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value;
-				let msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? Math.random().toString(36) : document.getElementById("reactionroles-msg").value;
-				console.log(type, emoji, msg)
+				let msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? Math.random().toString(36).slice(2) : document.getElementById("reactionroles-msg").value;
 
 				let newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
@@ -86,20 +85,18 @@
 					) +
 					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br>";
 
-					console.log(newelem)
 				document.getElementById("rr-currentmsg").appendChild(newelem);
 				clearInputs();
 			};
-			function clearInputs(e) {
-				if (e) e.preventDefault();
-
+			function clearInputs(clearTabs = false) {
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-buttonlabel").value = "";
 				document.getElementById("reactionroles-buttonemoji").value = "";
 				document.getElementById("reactionroles-selectlabel").value = "";
 				document.getElementById("reactionroles-selectdesc").value = "";
 				document.getElementById("reactionroles-selectemoji").value = "";
-				for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
+
+				if (clearTabs) for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
 					elem.remove();
 			};
 
@@ -298,7 +295,7 @@
 
 						<br>
 						<button type="submit" translation="dashboard.rr.create"></button>
-						<button type="reset" onclick="clearInputs(event)">Felder leeren</button>
+						<button type="reset" onclick="clearInputs(true)">Felder leeren</button>
 					</form>
 				</div>
 

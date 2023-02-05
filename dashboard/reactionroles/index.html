@@ -79,6 +79,7 @@
 						"data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " +
 						"data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' "
 					: "") +
+					(type == "button" ? "data-buttonlabel='" + document.getElementById("reactionroles-buttonlabel").value + "' " : "") +
 					(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
 					(document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "data-content='" + document.getElementById("reactionroles-content").value + "' " : "") +
 					"id='" + msg + "-" + (document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonlabel").value || document.getElementById("reactionroles-selectlabel").value) + "' " +
@@ -353,6 +354,7 @@
 						reaction: type == "reaction" ? item.getAttribute("data-reaction") : null,
 						label: type == "button" || type == "select" ? item.getAttribute("data-label") : null,
 						emoji: type == "button" || type == "select" ? item.getAttribute("data-emoji") : null,
+						buttonstyle: type == "button" ? item.getAttribute("data-buttonstyle") : null,
 						selectdesc: type == "select" ? item.getAttribute("data-selectdesc") : null
 					});
 				};

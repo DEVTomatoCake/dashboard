@@ -38,10 +38,10 @@
 			function changeTab(elem) {
 				for (tab of document.getElementsByClassName("active")) {
 					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) tab.classList.remove("active");
-				}
+				};
 				elem.classList.add("active");
 				for (tab of document.getElementsByClassName("tabs")) {
-					tab.style.display = "none";
+					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) tab.style.display = "none";
 				};
 				document.getElementById(elem.name).style.display = "block";
 			};
@@ -183,6 +183,7 @@
 						<label for="reactionroles-channel" translation="dashboard.channel"></label>
 						<select name="reactionroles-channel" id="reactionroles-channel"></select>
 
+						<br>
 						<span class="dialog-tab active" name="existingmsg" data-radio="existingornew" onclick="changeTab(this)">Zu bestehender Nachricht hinzufügen</span>
 						<span class="dialog-tab" name="newmsg" data-radio="existingornew" onclick="changeTab(this)">Neue Nachricht senden</span>
 
@@ -190,21 +191,21 @@
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
 							<input type="number" pattern=/^[0-9]{17,20}$/ placeholder="Gib die Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 						</div>
-						<div id="newmsg" class="tabs" style="display: none">
+						<div id="newmsg" class="tabs" style="display: none;">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
 							<textarea name="reactionroles-content" id="reactionroles-content" maxlength="2000" rows="5" placeholder="Gib den Inhalt der Nachricht ein" required></textarea>
 						</div>
 
+						<br>
 						<span class="dialog-tab active" name="reaction" data-radio="rrtype" onclick="changeTab(this)">Reactionrole</span>
 						<span class="dialog-tab" name="button" data-radio="rrtype" onclick="changeTab(this)">Buttonrole</span>
 						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Selectrole</span>
 
-						<div id="reaction">
+						<div id="reaction" class="tabs">
 							<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
-							<input type="text" placeholder="Gib die Reaktion ein" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
+							<input type="text" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
 						</div>
-
-						<div id="button">
+						<div id="button" class="tabs" style="display: none;">
 							<label for="reactionroles-buttonstyle">Button-Design</label>
 							<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
 								<option value="primary">Primary</option>
@@ -212,6 +213,19 @@
 								<option value="success">Success</option>
 								<option value="danger">Danger</option>
 							</select>
+
+							<label for="reactionroles-label">Button-Text</label>
+							<input type="text" name="reactionroles-label" id="reactionroles-label" autocomplete="off" required>
+						</div>
+						<div id="select" class="tabs" style="display: none;">
+							<label for="reactionroles-label">Select-Text</label>
+							<input type="text" name="reactionroles-label" id="reactionroles-label" autocomplete="off" required>
+
+							<label for="reactionroles-desc">Select-Beschreibung</label>
+							<input type="text" name="reactionroles-desc" id="reactionroles-desc" autocomplete="off">
+
+							<label for="reactionroles-emoji">Select-Emoji</label>
+							<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
 						</div>
 
 						<label for="reactionroles-role" translation="dashboard.rr.role"></label>

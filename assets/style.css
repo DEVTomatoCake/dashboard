@@ -279,7 +279,6 @@ textarea:focus {
 	display: inline-block;
 	padding: 30px 15px 3px;
 	cursor: pointer;
-	transition: .3s;
 }
 .dialog-tab.active {
 	border-bottom: #d14ff8 2px solid;
@@ -909,7 +908,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	opacity: 0;
 }
 
-.cookie-container button, button.createForm {
+.cookie-container button, button.createForm, .create-form button {
 	border: none;
 	padding: 10px;
 	margin: 10px 10px 0 0;
@@ -920,7 +919,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	cursor: pointer;
 	transition: var(--transition-buttons);
 }
-.cookie-container button:hover {
+.cookie-container button:hover, .create-form button:hover {
 	background-color: var(--accent-color);
 }
 
@@ -964,7 +963,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	outline: none;
 }
 
-.form-container .btn, .create-dialog button {
+.form-container .btn {
 	background-color: #04AA6D;
 	color: #FFF;
 	padding: 16px 20px;
@@ -975,7 +974,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	opacity: .7s;
 	transition: .3s;
 }
-.form-container .btn:hover, .create-dialog button:hover {
+.form-container .btn:hover {
 	opacity: 1;
 }
 

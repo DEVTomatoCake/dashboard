@@ -142,16 +142,19 @@
 					</script>
 					<script type="module">
 					  	import insertText from "https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js"
-						import de from "https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/i18n/de.js"
-						document.querySelector("emoji-picker").i18n = de
 
 						var validActiveElement
-						document.addEventListener("input", e => {
+						document.addEventListener("click", e => {
 							if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target
 						})
 					  	document.querySelector("emoji-picker").addEventListener("emoji-click", e => {
+							console.log(e.detail.emoji)
 							insertText(validActiveElement, e.detail.unicode || "<:" + e.detail.emoji.name + ":" + e.detail.emoji.url.replace(/[^0-9]/g, "") + ">")
 					  	})
+					</script>
+					<script type="module">
+						import de from "https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/i18n/de.js"
+						document.querySelector("emoji-picker").i18n = de
 					</script>
 
 					<div class="data servers">

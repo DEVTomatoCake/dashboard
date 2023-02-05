@@ -62,6 +62,7 @@
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 				let emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value;
 				let msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? Math.random().toString(36) : document.getElementById("reactionroles-msg").value;
+				console.log(type, emoji, msg)
 
 				let newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
@@ -85,6 +86,7 @@
 					) +
 					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br>";
 
+					console.log(newelem)
 				document.getElementById("rr-currentmsg").appendChild(newelem);
 				clearInputs();
 			};

@@ -219,30 +219,29 @@ function getReactionrolesHTML(json) {
 
 		let text = "";
 		json.data.reactionroles.forEach(setting => {
-			let type = setting.type;
-			let emoji = setting.reaction || setting.emoji;
+			let type = encode(setting.type);
+			let emoji = encode(setting.reaction || setting.emoji);
 
 			text +=
-				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32'><br>") : "") +
-				(type == "button" || type == "select" ? "<p><b>" + setting.label + "</b></p>" : "") +
-				"<select class='setting' data-type='" + type + "' data-msg='" + setting.msg + "' " +
+				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Reactionrole Image'><br>") : "") +
+				(type == "button" || type == "select" ? "<p><b>" + encode(setting.label) + "</b></p>" : "") +
+				"<select class='setting' data-type='" + type + "' data-msg='" + encode(setting.msg) + "' " +
 				"data-channel='' " +
-				(type == "reaction" ? "data-reaction='" + setting.reaction + "' " : "") +
+				(type == "reaction" ? "data-reaction='" + encode(setting.reaction) + "' " : "") +
 				(type == "button" || type == "select" ?
-					"data-label='" + setting.label + "' " +
-					"data-emoji='" + setting.emoji + "' "
+					"data-label='" + encode(setting.label) + "' " +
+					"data-emoji='" + encode(setting.emoji) + "' "
 				: "") +
-				(type == "button" ? "data-buttonstyle='" + setting.buttonstyle + "' " : "") +
-				(type == "select" ? "data-selectdesc='" + setting.selectdesc + "' " : "") +
-				(setting.content ? "data-content='" + setting.content + "' " : "") +
-				"id='" + setting.msg + "-" + (setting.reaction || setting.label) + "' " +
-				"name='" + setting.msg + "'>" +
+				(type == "button" && setting.buttonstyle ? "data-buttonstyle='" + encode(setting.buttonstyle) + "' " : "") +
+				(type == "select" && setting.selectdesc ? "data-selectdesc='" + encode(setting.selectdesc) + "' " : "") +
+				(setting.content ? "data-content='" + encode(setting.content) + "' " : "") +
+				"id='" + encode(setting.msg + "-" + (setting.reaction || setting.label)) + "' " +
+				"name='" + encode(setting.msg) + "'>" +
 
 				" disabled" +
-				/*Object.keys(rolecopy).map(key =>
-					"<option value='" + key.replace("_", "") + "'" +
-					(setting.role == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
-				) +*/
+				Object.keys(rolecopy).map(key =>
+					setting.role == key.replace("_", "") ? "<option value='" + key.replace("_", "") + "' selected>" + rolecopy[key] + "</option>" : ""
+				) +
 				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 		});
 

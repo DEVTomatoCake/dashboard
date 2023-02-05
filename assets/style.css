@@ -276,8 +276,8 @@ textarea:focus {
 }
 
 .dialog-tab {
-	border-bottom: var(--tertiary-color) 2px solid;
-	padding: 10px;
+	display: inline-block;
+	padding: 30px 15px 3px;
 	cursor: pointer;
 	transition: .3s;
 }
@@ -946,7 +946,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	padding-bottom: 15px;
 }
 
-.form-container input[type=text], .form-container textarea, .dialog input {
+.form-container input[type=text], .form-container textarea {
 	padding: 15px;
 	margin: 5px 0 22px;
 	border: none;
@@ -956,7 +956,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	box-sizing: border-box;
 	border-radius: 5px;
 }
-.form-container input[type=text]:focus, .form-container textarea:focus, .dialog input:focus {
+.form-container input[type=text]:focus, .form-container textarea:focus {
 	background-color: #ddd;
 	outline: none;
 }
@@ -964,7 +964,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	outline: none;
 }
 
-.form-container .btn {
+.form-container .btn, .create-dialog button {
 	background-color: #04AA6D;
 	color: #FFF;
 	padding: 16px 20px;
@@ -975,7 +975,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	opacity: .7s;
 	transition: .3s;
 }
-.form-container .btn:hover {
+.form-container .btn:hover, .create-dialog button:hover {
 	opacity: 1;
 }
 

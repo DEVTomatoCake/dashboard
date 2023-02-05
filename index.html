@@ -116,6 +116,21 @@
 				<h1 id="username-content" class="greeting">Hallo!</h1>
 
 				<div class="stats-row">
+					<emoji-picker></emoji-picker>
+					<textarea></textarea>
+					<input></input>
+					<script type="module">
+					  	import insertText from "https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js"
+
+						var validActiveElement
+						document.on("click", e => {
+							if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target
+						})
+					  	document.querySelector("emoji-picker").addEventListener("emoji-click", e => {
+							insertText(validActiveElement, e.detail.unicode)
+					  	})
+					</script>
+
 					<div class="data servers">
 						<div class="container">
 							<ion-icon name="server-outline"></ion-icon>
@@ -128,16 +143,6 @@
 
 						<p id="stats-guilds" class="value">Lade...</p>
 					</div>
-
-					<emoji-picker></emoji-picker>
-					<input></input>
-					<script type="module">
-					  	import insertText from 'https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js'
-
-					  	document.querySelector('emoji-picker').addEventListener('emoji-click', e => {
-							insertText(document.querySelector('input'), e.detail.unicode)
-					  	})
-					</script>
 
 					<div class="data uptime">
 						<div class="container">

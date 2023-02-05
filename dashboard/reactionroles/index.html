@@ -60,7 +60,7 @@
 			function addRR() {
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
 
-				let newelem = document.body.createElement("div", {
+				let newelem = document.createElement("div", {
 					class: "reactionrole",
 					innerHTML:
 						"<p>" + document.getElementById("reactionroles-msg").value + " - " + document.getElementById("reactionroles-reaction").value + "</p>" +
@@ -72,20 +72,25 @@
 						(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
 						"id='" + document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' " +
 						"name='" + document.getElementById("reactionroles-msg").value + "'>" +
-						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>") +
+						Object.keys(rolecopy).map(key =>
+							"<option value='" + key.replace("_", "") + "'" +
+							(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
+						) +
 						"</select><div class='reactionrole-remove' onclick='removeRR(this)'><ion-icon name='trash-outline'></ion-icon></div><br><br>"
 				});
 				document.getElementById("rr-currentmsg").appendChild(newelem);
-
+				clearInputs();
+			};
+			function removeRR(elem) {
+				elem.parentElement.remove();
+			};
+			function clearInputs() {
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-buttonlabel").value = "";
 				document.getElementById("reactionroles-buttonemoji").value = "";
 				document.getElementById("reactionroles-selectlabel").value = "";
 				document.getElementById("reactionroles-selectdesc").value = "";
 				document.getElementById("reactionroles-selectemoji").value = "";
-			};
-			function removeRR(elem) {
-				elem.parentElement.remove();
 			};
 
 			var socket;
@@ -282,7 +287,7 @@
 
 						<br>
 						<button type="submit" translation="dashboard.rr.create"></button>
-						<button type="reset">Felder leeren</button>
+						<button type="reset" onclick="clearInputs()">Felder leeren</button>
 					</form>
 				</div>
 

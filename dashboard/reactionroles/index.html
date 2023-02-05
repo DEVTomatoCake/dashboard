@@ -36,18 +36,32 @@
 				openDialog(document.getElementById("create-dialog"));
 			};
 			function changeTab(elem) {
-				for (tab of document.getElementsByClassName("tabs")) {
+				for (tab of document.getElementsByClassName("dialog-tab")) {
 					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 						tab.classList.remove("active");
-						tab.style.display = "none";
-						if (tab.required) tab.required = false;
+						document.getElementById(tab.getAttribute("name")).style.display = "none";
+						if (document.getElementById(tab.getAttribute("name")).required) document.getElementById(tab.getAttribute("name")).required = false;
 					};
 				};
 				elem.classList.add("active");
 
-				const foundtab = document.getElementById(elem.getAttribute("name"))
-				foundtab.style.display = "block";
-				if (foundtab.required) foundtab.required = true;
+				document.getElementById(elem.getAttribute("name")).style.display = "block";
+				if (document.getElementById(elem.getAttribute("name")).required) document.getElementById(elem.getAttribute("name")).required = true;
+			};
+
+			function addRR() {
+				document.getElementById("rr-currentmsg").createElement("div", {
+					class: "reactionrole",
+					innerHTML:
+						"<select class='setting' data-type='" + setting.type + "' data-msg='" + document.getElementById("reactionroles-msg").value +
+						"' data-reaction='" + document.getElementById("reactionroles-reaction").value + "' data-channel='' id='" +
+						document.getElementById("reactionroles-msg").value + "-" + document.getElementById("reactionroles-reaction").value + "' name='" + setting.msg + "'>" +
+						Object.keys(rolecopy).map(key => "<option value='" + key.replace("_", "") + "'" + (setting.role == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>") +
+						"</select><div class='reactionrole-remove' onclick='removeRR(this)'></div><br><br>"
+				});
+			};
+			function removeRR(elem) {
+				elem.parentElement.remove();
 			};
 
 			var socket;
@@ -205,37 +219,46 @@
 						<span class="dialog-tab" name="button" data-radio="rrtype" onclick="changeTab(this)">Buttonrole</span>
 						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Selectrole</span>
 
-						<div id="reaction" class="tabs">
-							<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
-							<input type="text" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
+						<div id="rr-currentmsg">
+							<button onclick="addRR()">Rolle hinzufügen</button>
+
+							<label for="reactionroles-role" translation="dashboard.rr.role"></label>
+							<select name="reactionroles-role" id="reactionroles-role"></select>
+
+							<div id="reaction" class="tabs">
+								<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
+								<input type="text" name="reactionroles-reaction" id="reactionroles-reaction" autocomplete="off" required>
+							</div>
+							<div id="button" class="tabs" style="display: none;">
+								<label for="reactionroles-buttonstyle">Button-Design</label>
+								<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
+									<option value="primary">Primary</option>
+									<option value="secondary">Secondary</option>
+									<option value="success">Success</option>
+									<option value="danger">Danger</option>
+								</select>
+
+								<label>
+									Button-Text
+									<input type="text" id="reactionroles-buttonlabel" autocomplete="off" required>
+								</label>
+
+								<label for="reactionroles-emoji">Button-Emoji</label>
+								<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
+							</div>
+							<div id="select" class="tabs" style="display: none;">
+								<label>
+									Select-Text
+									<input type="text" id="reactionroles-selectlabel" autocomplete="off" required>
+								</label>
+
+								<label for="reactionroles-desc">Select-Beschreibung</label>
+								<input type="text" name="reactionroles-desc" id="reactionroles-desc" autocomplete="off">
+
+								<label for="reactionroles-emoji">Select-Emoji</label>
+								<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
+							</div>
 						</div>
-						<div id="button" class="tabs" style="display: none;">
-							<label for="reactionroles-buttonstyle">Button-Design</label>
-							<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
-								<option value="primary">Primary</option>
-								<option value="secondary">Secondary</option>
-								<option value="success">Success</option>
-								<option value="danger">Danger</option>
-							</select>
-
-							<label>
-								Button-Text
-								<input type="text" name="reactionroles-label" id="reactionroles-label" autocomplete="off" required>
-							</label>
-						</div>
-						<div id="select" class="tabs" style="display: none;">
-							<label for="reactionroles-label">Select-Text</label>
-							<input type="text" name="reactionroles-label" id="reactionroles-label" autocomplete="off" required>
-
-							<label for="reactionroles-desc">Select-Beschreibung</label>
-							<input type="text" name="reactionroles-desc" id="reactionroles-desc" autocomplete="off">
-
-							<label for="reactionroles-emoji">Select-Emoji</label>
-							<input type="text" name="reactionroles-emoji" id="reactionroles-emoji" autocomplete="off">
-						</div>
-
-						<label for="reactionroles-role" translation="dashboard.rr.role"></label>
-						<select name="reactionroles-role" id="reactionroles-role"></select>
 
 						<button type="submit" translation="dashboard.rr.create"></button>
 						<button type="reset">Felder leeren</button>

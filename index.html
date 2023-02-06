@@ -26,6 +26,7 @@
 		<script src="./assets/js/api/api.js"></script>
 		<script src="./assets/js/api/transformer.js"></script>
 
+		<script src="./assets/js/emoji-picker.js"></script>
 		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
 		<style>
 			@font-face {
@@ -35,6 +36,43 @@
 
 			emoji-picker {
 				--emoji-font-family: MozillaTwemojiColr;
+
+				--background: #2F3136;
+				--border-color: #333;
+				--border-size: 0;
+				--button-active-background: #4F545C;
+				--button-hover-background: #4F545C;
+				--category-font-color: #B9BBBE;
+				--category-font-size: 1rem;
+				--emoji-padding: 4px;
+				--emoji-size: 40px;
+				--category-emoji-size: 32px;
+				--indicator-color: #5373ec;
+				--indicator-height: 3px;
+				--input-border-color: #212326;
+				--input-border-radius: 4px;
+				--input-border-size: 1px;
+				--input-font-color: #dddedf;
+				--input-font-size: 16px;
+				--input-line-height: 1.5;
+				--input-padding: 4px 8px;
+				--input-placeholder-color: #dddedf;
+				--num-columns: 9;
+				--outline-color: #fff;
+				--outline-size: 1px;
+				--skintone-border-radius: 1rem;
+			}
+			emoji-picker.light {
+				--background: #F2F3F5;
+				--border-color: #e0e0e0;
+				--button-active-background: #FFF;
+				--button-hover-background: #FFF;
+				--category-font-color: #111;
+				--indicator-color: #385ac1;
+				--input-border-color: #e3e5e8;
+				--input-font-color: #2e3338;
+				--input-placeholder-color: #2e3338;
+				--outline-color: #e3e5e8;
 			}
 		</style>
 
@@ -116,47 +154,6 @@
 				<h1 id="username-content" class="greeting">Hallo!</h1>
 
 				<div class="stats-row">
-					<emoji-picker></emoji-picker>
-					<textarea></textarea>
-					<script>
-						document.querySelector("emoji-picker").customEmoji = [
-							{
-								name: 'PepegaCard',
-								shortcodes: ['pepega'],
-								url: 'https://cdn.discordapp.com/emojis/966744540700610610.gif',
-								category: 'TomatenKuchen'
-							},
-							{
-								name: 'Ping',
-								shortcodes: ['ping'],
-								url: 'https://cdn.discordapp.com/emojis/770734168408588289.webp',
-								category: 'TomatenKuchen'
-							},
-							{
-								name: 'Biene sus',
-								shortcodes: ['sus'],
-								url: 'https://cdn.discordapp.com/emojis/877825883136733225.webp',
-								category: 'TomatenKuchen'
-							}
-						]
-					</script>
-					<script type="module">
-					  	import insertText from "https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.min.js"
-
-						var validActiveElement
-						document.addEventListener("click", e => {
-							if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target
-						})
-					  	document.querySelector("emoji-picker").addEventListener("emoji-click", e => {
-							console.log(e.detail.emoji)
-							insertText(validActiveElement, e.detail.unicode || "<:" + e.detail.emoji.name + ":" + e.detail.emoji.url.replace(/[^0-9]/g, "") + ">")
-					  	})
-					</script>
-					<script type="module">
-						import de from "https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/i18n/de.js"
-						document.querySelector("emoji-picker").i18n = de
-					</script>
-
 					<div class="data servers">
 						<div class="container">
 							<ion-icon name="server-outline"></ion-icon>

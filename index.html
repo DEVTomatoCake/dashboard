@@ -26,56 +26,6 @@
 		<script src="./assets/js/api/api.js"></script>
 		<script src="./assets/js/api/transformer.js"></script>
 
-		<script src="./assets/js/emoji-picker.js"></script>
-		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
-		<style>
-			@font-face {
-				font-family: "MozillaTwemojiColr";
-				src: url("https://cdn.jsdelivr.net/npm/twemoji-colr-font@^14/twemoji.woff2") format("woff2");
-			}
-
-			emoji-picker {
-				--emoji-font-family: MozillaTwemojiColr;
-
-				--background: #2F3136;
-				--border-color: #333;
-				--border-size: 0;
-				--button-active-background: #4F545C;
-				--button-hover-background: #4F545C;
-				--category-font-color: #B9BBBE;
-				--category-font-size: 1rem;
-				--emoji-padding: 4px;
-				--emoji-size: 40px;
-				--category-emoji-size: 32px;
-				--indicator-color: #5373ec;
-				--indicator-height: 3px;
-				--input-border-color: #212326;
-				--input-border-radius: 4px;
-				--input-border-size: 1px;
-				--input-font-color: #dddedf;
-				--input-font-size: 16px;
-				--input-line-height: 1.5;
-				--input-padding: 4px 8px;
-				--input-placeholder-color: #dddedf;
-				--num-columns: 9;
-				--outline-color: #fff;
-				--outline-size: 1px;
-				--skintone-border-radius: 1rem;
-			}
-			emoji-picker.light {
-				--background: #F2F3F5;
-				--border-color: #e0e0e0;
-				--button-active-background: #FFF;
-				--button-hover-background: #FFF;
-				--category-font-color: #111;
-				--indicator-color: #385ac1;
-				--input-border-color: #e3e5e8;
-				--input-font-color: #2e3338;
-				--input-placeholder-color: #2e3338;
-				--outline-color: #e3e5e8;
-			}
-		</style>
-
 		<script>
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;

@@ -43,9 +43,10 @@ emoji-picker.light {
 }
 
 .emoji-container ion-icon {
+	color: var(--secondary-text-color);
+	font-size: 27px;
+	cursor: pointer;
 	position: relative;
 	left: -30px;
 	top: -5px;
-	font-size: 25px;
-	color: var(--secondary-text-color);
 }

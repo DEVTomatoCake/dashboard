@@ -124,7 +124,7 @@ function pageLoad(page = "") {
 	} else document.getElementById("username-avatar").style = "display: block;";
 
 	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme");
-	else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
 		document.body.classList.replace("dark-theme", "light-theme");
 		setCookie("theme", "light", 365, true);
 	} else document.getElementById("theme-toggle").checked = true;

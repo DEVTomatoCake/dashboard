@@ -99,12 +99,11 @@
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
 							reloadText(getLanguage());
+							guildName = json.guild;
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
-						} else if (json.action == "RECEIVE_emojis") {
-							customEmojiGlobal = json.data;
-						};
+						} else if (json.action == "RECEIVE_emojis") customEmojiGlobal = json.data;
 					}
 				});
 			};
@@ -214,7 +213,13 @@
 				const desc = encode(formData.get("customcommand-desc"));
 
 				var div = document.createElement("div");
-				div.innerHTML = "<p><b>" + name + "</b></p><textarea class='setting' rows='" + Math.round(value.split("").filter(i => i == "\n").length * 1.3) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea><br>";
+				div.innerHTML =
+					"<p><b>" + name + "</b></p>" +
+					"<div class='emoji-container'>" +
+					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
+					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmojiGlobal)'></ion-icon>" +
+					"</div>" +
+					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 			});
 
@@ -223,6 +228,7 @@
 			var savingToast;
 			var errorToast;
 			var customEmojiGlobal = [];
+			var guildName = "";
 
 			function saveCustomcommands() {
 				if (!params.has("guild") || saving) return;

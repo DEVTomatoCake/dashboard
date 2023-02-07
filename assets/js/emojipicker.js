@@ -33,8 +33,8 @@ async function emojiPicker(parent = document.body, customEmoji = []) {
 	picker.customEmoji = customEmoji.map(emoji => {
 		return {
 			name: emoji.name,
-			shortCodes: [emoji.name, emoji.url.replace(/[^0-9]/g, "")],
-			url: emoji.url,
+			shortCodes: [emoji.name, emoji.id],
+			url: "https://cdn.discordapp.com/emojis/" + emoji.url + ".webp?size=64",
 			category: "TomatenKuchen"
 		};
 	});

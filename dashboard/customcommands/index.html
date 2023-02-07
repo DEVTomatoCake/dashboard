@@ -60,7 +60,13 @@
 						socket.send({
 							status: "success",
 							action: "GET_customcommands",
-							guild: guild,
+							guild,
+							token: getCookie("token")
+						});
+						socket.send({
+							status: "success",
+							action: "GET_emojis",
+							guild,
 							token: getCookie("token")
 						});
 					},
@@ -96,6 +102,8 @@
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
+						} else if (json.action == "RECEIVE_emojis") {
+							customEmojiGlobal = json.data;
 						};
 					}
 				});
@@ -214,6 +222,7 @@
 			var saving = false;
 			var savingToast;
 			var errorToast;
+			var customEmojiGlobal;
 
 			function saveCustomcommands() {
 				if (!params.has("guild") || saving) return;

@@ -41,3 +41,9 @@ emoji-picker.light {
 	--input-placeholder-color: #2e3338;
 	--outline-color: #e3e5e8;
 }
+
+.emoji-container ion-icon {
+	position: relative;
+	left: -30px;
+	top: -5px;
+}

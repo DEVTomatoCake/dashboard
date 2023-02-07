@@ -137,6 +137,9 @@ function pageLoad(page = "") {
 			document.body.classList.replace("dark-theme", "light-theme");
 			setCookie("theme", "light", 365, true);
 		};
+		document.querySelectorAll("emoji-picker").forEach(picker => {
+			picker.classList.toggle("light");
+		});
 	});
 
 	document.getElementById("lang-toggle").addEventListener("change", () => {

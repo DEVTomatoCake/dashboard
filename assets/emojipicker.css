@@ -47,4 +47,5 @@ emoji-picker.light {
 	left: -30px;
 	top: -5px;
 	font-size: 25px;
+	color: var(--secondary-text-color);
 }

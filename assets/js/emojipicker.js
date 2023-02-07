@@ -1,4 +1,7 @@
 async function emojiPicker(parent = document.body) {
+	const pickerExisting = parent.querySelector("emoji-picker");
+	if (pickerExisting) return pickerExisting.remove();
+
 	const picker = document.createElement("emoji-picker");
 	if (getCookie("theme") == "light") picker.classList.add("light");
 	else picker.classList.add("dark");

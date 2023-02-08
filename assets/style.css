@@ -278,7 +278,7 @@ textarea:focus {
 
 .dialog-tab {
 	display: inline-block;
-	padding: 20px 15px 3px;
+	padding: 30px 15px 3px;
 	cursor: pointer;
 	font-size: 22px;
 }
@@ -661,12 +661,7 @@ textarea:focus {
 	font-size: 18px;
 	transition: var(--transition-buttons);
 	background: var(--primary-color);
-	color: var(--primary-text-color);
 	font-family: "Be Vietnam Pro", sans-serif;
-}
-
-.top .search-box input:focus {
-	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 .top .search-box input::placeholder {
 	color: var(--secondary-text-color);
@@ -750,9 +745,6 @@ textarea:focus {
 	color: var(--accent-color);
 }
 
-h1 {
-	color: var(--primary-text-color);
-}
 h1.greeting {
 	font-size: 55px;
 	text-align: center;
@@ -791,9 +783,8 @@ h1.greeting {
 	min-width: 150px;
 	transition: var(--transition-buttons);
 	background: var(--primary-color);
-	color: var(--primary-text-color);
 }
-.ticketsearch-container input:focus, .dialog input:focus {
+.ticketsearch-container input:focus, .top .search-box input:focus, .dialog input:focus {
 	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 
@@ -908,7 +899,7 @@ pre {
 	top: -50px;
 }
 
-h1, h2, h3, h4, p, small, label, ul li {
+h1, h2, h3, h4, p, small, label, input, ul li {
 	color: var(--primary-text-color);
 }
 
@@ -941,6 +932,10 @@ h1, h2, h3, h4, p, small, label, ul li {
 
 .removeItem {
 	color: var(--select-border);
+}
+
+input:invalid, input:out-of-range {
+	border: red solid 2px;
 }
 
 .form-popup {

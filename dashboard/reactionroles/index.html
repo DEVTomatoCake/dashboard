@@ -8,6 +8,7 @@
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/reactionroles/">
 		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/reactionroles/">
+		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - Reactionroles settings - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
@@ -108,7 +109,6 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 					},
 					onOpen: event => {
@@ -120,13 +120,11 @@
 						socket.send({
 							status: "success",
 							action: "GET_reactionroles",
-							guild: guild,
+							guild,
 							token: getCookie("token")
 						});
 					},
 					onMessage: event => {
-						console.log("Received message: " + event.data);
-
 						try {
 							var json = JSON.parse(event.data);
 						} catch (e) {
@@ -250,7 +248,6 @@
 							<textarea name="reactionroles-content" id="reactionroles-content" maxlength="2000" rows="5" placeholder="Gib den Inhalt der Nachricht ein" data-required="true"></textarea>
 						</div>
 
-						<br>
 						<span class="dialog-tab active" name="reaction" data-radio="rrtype" onclick="changeTab(this)">Reactionrole</span>
 						<span class="dialog-tab" name="button" data-radio="rrtype" onclick="changeTab(this)">Buttonrole</span>
 						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Selectrole</span>
@@ -311,7 +308,7 @@
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
 				document.getElementById("create-dialog").style.display = "none";
-				if (document.getElementById("no-rr")) document.getElementById("no-rr").innerHTML = "";
+				if (document.getElementById("no-rr")) document.getElementById("no-rr").remove();
 
 				const reaction = encode(document.getElementById("reactionroles-reaction").value);
 				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");

@@ -8,6 +8,7 @@
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/customcommands/">
 		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/customcommands/">
+		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - Customcommands settings - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
@@ -40,15 +41,11 @@
 				document.getElementById("customcommand-name").value = "";
 				document.getElementById("customcommand-text").value = "";
 			};
-			function closeForm() {
-				document.getElementById("customcommandForm").style.display = "none";
-			};
 
 			var socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 					},
 					onOpen: event => {
@@ -71,8 +68,6 @@
 						});
 					},
 					onMessage: event => {
-						console.log("Received message: " + event.data);
-
 						try {
 							var json = JSON.parse(event.data);
 						} catch (e) {
@@ -172,7 +167,7 @@
 					<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
 
 					<button type="submit" class="btn" translation="dashboard.cc.create"></button>
-					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
+					<button type="button" class="btn cancel" onclick="document.getElementById('customcommandForm').style.display = 'none';" translation="dashboard.cancel"></button>
 				</form>
 			</div>
 
@@ -205,8 +200,9 @@
 			const formElem = document.getElementById("ccForm");
 			formElem.addEventListener("submit", e => {
 				e.preventDefault();
-				closeForm();
-				if (document.getElementById("no-cc")) document.getElementById("no-cc").innerHTML = "";
+				document.getElementById("customcommandForm").style.display = "none";
+				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
+
 				const formData = new FormData(formElem);
 				const name = encode(formData.get("customcommand-name"));
 				const value = encode(document.getElementById("customcommand-text").value);

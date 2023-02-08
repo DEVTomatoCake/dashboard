@@ -38,13 +38,10 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 						drops = [];
 						var olddrops = document.getElementsByClassName("drop");
-						for (let drop of olddrops) {
-							drop.remove();
-						};
+						for (let drop of olddrops) drop.remove();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -55,14 +52,12 @@
 						socket.send({
 							status: "success",
 							action: "GET_settings",
-							guild: guild,
+							guild,
 							lang: getLanguage(),
 							token: getCookie("token")
 						});
 					},
 					onMessage: event => {
-						console.log("Received message: " + event.data);
-
 						try {
 							var json = JSON.parse(event.data);
 						} catch (e) {
@@ -111,7 +106,7 @@
 				document.getElementById(setting + "list").appendChild(roleelement);
 
 				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
-				select.value = (setting == "voiceNotifyMessage" || setting == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...";
+				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
 			};
 			function removeRole(setting, item, role) {
@@ -121,7 +116,7 @@
 
 				const select = document.getElementById(setting);
 				select.innerHTML += "<option value='" + role + "'>" + possible["_" + role].name + "</option>";
-				select.value = (setting == "voiceNotifyMessage" || setting == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...";
+				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
 			};
 		</script>

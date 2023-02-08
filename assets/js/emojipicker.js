@@ -29,7 +29,7 @@ async function emojiPicker(parent = document.body) {
 		if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target;
 	});
 	picker.addEventListener("emoji-click", e => {
-		insertText(validActiveElement, e.detail.unicode || "<:" + e.detail.emoji.name + ":" + e.detail.emoji.url.replace(/[^0-9]/g, "") + ">");
+		insertText(validActiveElement, e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
 	});
 
 	picker.i18n = emojiPickerLang;
@@ -37,7 +37,7 @@ async function emojiPicker(parent = document.body) {
 		return {
 			name: emoji.name,
 			shortCodes: [emoji.name, emoji.id],
-			url: "https://cdn.discordapp.com/emojis/" + emoji.id + ".webp?size=64",
+			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
 			category: guildName || "TomatenKuchen"
 		};
 	});

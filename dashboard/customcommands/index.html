@@ -180,14 +180,15 @@
 						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
 
 						<label for="customcommand-text" translation="dashboard.content"></label>
-						<div class="emoji-container">
-							<textarea form="create-form" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="6" required></textarea>
+						<div class="emoji-container" id="newmsg">
+							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
 							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmojiGlobal)"></ion-icon>
 						</div>
 
 						<label for="customcommand-desc" translation="commands.description"></label>
 						<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
 
+						<br>
 						<button type="submit" translation="dashboard.cc.create"></button>
 					</form>
 				</div>

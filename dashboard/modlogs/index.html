@@ -56,7 +56,8 @@
 			};
 
 			function info(id) {
-				var log = logs.find(log => log.id == id);
+				const splitted = id.split("-");
+				var log = logs.find(log => log.user == splitted[0] && log.date == parseInt(splitted[1]));
 				openDialog(document.getElementById("info-dialog"));
 
 				document.getElementById("info-dialogText").innerHTML =

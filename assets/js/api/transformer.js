@@ -516,3 +516,32 @@ function getLogsHTML(guild) {
 			.catch(e => handleError(resolve, e));
 	});
 }
+
+function getModlogsHTML(guild) {
+	return new Promise(resolve => {
+		getModlogs(guild)
+			.then(json => {
+				if (json.status == "success") {
+					logs = json.data;
+					let text =
+						"<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						"<table cellpadding='8' cellspacing='0'>" +
+						"<thead><tr><th translation='logs.logtype'></th><th>Nutzer</th><th>Moderator</th><th>Grund</th><th translation='logs.amount'></th><th>Mehr Informationen</th></tr></thead><tbody>";
+
+					json.data.forEach(log => {
+						text +=
+							"<tr class='ticket cmdvisible'>" +
+							"<td>" + log.type + "</td>" +
+							"<td>" + log.user + "</td>" +
+							"<td>" + log.moderator + "</td>" +
+							"<td class='overflow'>" + log.reason + "</td>" +
+							"<td><button class='categorybutton' onclick='info(\"" + log.user + "-" + log.date + "\")'>Mehr Informationen</button></td>" +
+							"</tr>";
+					});
+
+					resolve(text + "</tbody></table>");
+				} else handleError(resolve, json.message);
+			})
+			.catch(e => handleError(resolve, e));
+	});
+}

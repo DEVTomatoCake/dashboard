@@ -81,3 +81,9 @@ const getLogs = guild => new Promise((resolve, reject) => {
 		.then(d => resolve(d))
 		.catch(e => reject(e))
 })
+
+const getModlogs = guild => new Promise((resolve, reject) => {
+	get("modlogs/" + guild, true)
+		.then(d => resolve(d))
+		.catch(e => reject(e))
+})

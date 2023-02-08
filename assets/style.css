@@ -768,7 +768,7 @@ h1.greeting {
 	align-items: baseline;
 	flex-direction: column;
 }
-.ticketsearch-container label, .form-container label, .dialog label {
+.ticketsearch-container label, .dialog label {
 	display: block;
 	color: var(--secondary-text-color);
 	font-size: 18px;
@@ -936,61 +936,6 @@ h1, h2, h3, h4, p, small, label, input, ul li {
 
 input:invalid, input:out-of-range {
 	border: red solid 2px;
-}
-
-.form-popup {
-	display: none;
-	position: fixed;
-	top: 15px;
-	left: 50%;
-	border: 5px solid var(--primary-table-bgcolor);
-	z-index: 9;
-}
-
-.form-container {
-	max-width: 350px;
-	padding: 10px;
-	background-color: var(--secondary-table-bgcolor);
-}
-.form-container h1 {
-	padding-bottom: 15px;
-}
-
-.form-container input[type=text], .form-container textarea {
-	padding: 15px;
-	margin: 5px 0 22px;
-	border: none;
-	background: #f1f1f1;
-	min-width: 300px;
-	max-width: 350px;
-	box-sizing: border-box;
-	border-radius: 5px;
-}
-.form-container input[type=text]:focus, .form-container textarea:focus {
-	background-color: #ddd;
-	outline: none;
-}
-.form-container select:focus {
-	outline: none;
-}
-
-.form-container .btn {
-	background-color: #04AA6D;
-	color: #FFF;
-	padding: 16px 20px;
-	border: none;
-	cursor: pointer;
-	width: 100%;
-	margin-bottom: 10px;
-	opacity: .7s;
-	transition: .3s;
-}
-.form-container .btn:hover {
-	opacity: 1;
-}
-
-.form-container .cancel {
-	background-color: red;
 }
 
 .featurelist {

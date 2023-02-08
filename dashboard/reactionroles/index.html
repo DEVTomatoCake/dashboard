@@ -318,13 +318,11 @@
 				var div = document.createElement("div");
 				var html = "";
 
-				for (elem of document.getElementsByClassName("reactionrole")) {
+				for (elem of document.getElementsByClassName("reactionrole"))
 					html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
-				};
 
 				div.innerHTML = html;
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
-
 				saveReactionroles();
 			});
 

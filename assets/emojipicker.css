@@ -15,31 +15,31 @@ emoji-picker {
 	--emoji-padding: 4px;
 	--emoji-size: 40px;
 	--category-emoji-size: 32px;
-	--indicator-color: #5373ec;
+	--indicator-color: #5373EC;
 	--indicator-height: 3px;
 	--input-border-color: #212326;
 	--input-border-radius: 4px;
 	--input-border-size: 1px;
-	--input-font-color: #dddedf;
+	--input-font-color: #DDDEDF;
 	--input-font-size: 16px;
 	--input-line-height: 1.5;
 	--input-padding: 4px 8px;
-	--input-placeholder-color: #dddedf;
+	--input-placeholder-color: #DDDEDF;
 	--num-columns: 9;
-	--outline-color: #fff;
+	--outline-color: #FFF;
 	--outline-size: 1px;
 	--skintone-border-radius: 1rem;
 }
 emoji-picker.light {
-	--background: #F2F3F5;
+	--background: #E1E5EF;
 	--button-active-background: #FFF;
 	--button-hover-background: #FFF;
 	--category-font-color: #111;
-	--indicator-color: #385ac1;
-	--input-border-color: #e3e5e8;
-	--input-font-color: #2e3338;
-	--input-placeholder-color: #2e3338;
-	--outline-color: #e3e5e8;
+	--indicator-color: #385AC1;
+	--input-border-color: #E3E5E8;
+	--input-font-color: #2E3338;
+	--input-placeholder-color: #2E3338;
+	--outline-color: #E3E5E8;
 }
 
 .emoji-container ion-icon {

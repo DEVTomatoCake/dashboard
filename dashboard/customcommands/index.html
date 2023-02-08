@@ -37,9 +37,9 @@
 
 		<script>
 			function openForm() {
-				document.getElementById("customcommandForm").style.display = "block";
 				document.getElementById("customcommand-name").value = "";
 				document.getElementById("customcommand-text").value = "";
+				openDialog(document.getElementById("create-dialog"));
 			};
 
 			var socket;
@@ -153,24 +153,6 @@
 		</div>
 
 		<section class="main" id="main">
-			<div class="form-popup" id="customcommandForm">
-				<form class="form-container" id="ccForm">
-					<h1 translation="dashboard.cc.create"></h1>
-
-					<label for="customcommand-name">Name</label>
-					<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
-
-					<label for="customcommand-text" translation="dashboard.content"></label>
-					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="6" required></textarea>
-
-					<label for="customcommand-desc" translation="commands.description"></label>
-					<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
-
-					<button type="submit" class="btn" translation="dashboard.cc.create"></button>
-					<button type="button" class="btn cancel" onclick="document.getElementById('customcommandForm').style.display = 'none';" translation="dashboard.cancel"></button>
-				</form>
-			</div>
-
 			<div class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
@@ -189,24 +171,42 @@
 			</div>
 
 			<div class="content" id="content">
-				<div id="root-container" class="row">
+				<div id="create-dialog" class="dialog">
+					<form id="create-form" class="dialog-content">
+						<span class="close">&times;</span>
+						<h1 translation="dashboard.cc.create"></h1>
+
+						<label for="customcommand-name">Name</label>
+						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
+
+						<label for="customcommand-text" translation="dashboard.content"></label>
+						<div class="emoji-container">
+							<textarea form="create-form" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="6" required></textarea>
+							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmojiGlobal)"></ion-icon>
+						</div>
+
+						<label for="customcommand-desc" translation="commands.description"></label>
+						<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
+
+						<button type="submit" translation="dashboard.cc.create"></button>
+					</form>
 				</div>
+
+				<div id="root-container" class="row"></div>
 
 				<p id="author" translation="global.footer"></p>
 			</div>
 		</section>
 
 		<script>
-			const formElem = document.getElementById("ccForm");
-			formElem.addEventListener("submit", e => {
+			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
-				document.getElementById("customcommandForm").style.display = "none";
+				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
 
-				const formData = new FormData(formElem);
-				const name = encode(formData.get("customcommand-name"));
+				const name = encode(document.getElementById("customcommand-name").value);
 				const value = encode(document.getElementById("customcommand-text").value);
-				const desc = encode(formData.get("customcommand-desc"));
+				const desc = encode(document.getElementById("customcommand-desc").value);
 
 				var div = document.createElement("div");
 				div.innerHTML =
@@ -217,6 +217,7 @@
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
+				//saveCustomcommands();
 			});
 
 			const params = new URLSearchParams(window.location.search);

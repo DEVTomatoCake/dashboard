@@ -61,13 +61,11 @@
 				openDialog(document.getElementById("info-dialog"));
 
 				document.getElementById("info-dialogText").innerHTML =
-					"<b><span translation='logs.logid'></span>:</b> " + log.id + "<br>" +
 					"<b><span translation='logs.logtype'></span>:</b> " + log.type + "<br>" +
-					"<b><span translation='logs.logmessage'></span>:</b> " + log.message + "<br>" +
-					"<b><span translation='logs.amount'></span>:</b> " + log.count + "<br>" +
-					"<b>Log created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
-					(log.lastDate ? "<b>Last occured:</b> " + new Date(log.lastDate).toLocaleString() + "<br>" : "") +
-					"<b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>";
+					"<b><span translation='modlogs.user'></span>:</b> " + log.user + "<br>" +
+					"<b><span translation='modlogs.mod'></span>:</b> " + log.moderator + "<br>" +
+					"<b><span translation='modlogs.reason'></span>:</b> " + log.reason + "<br>" +
+					"<b>Log created:</b> " + new Date(log.date).toLocaleString() + "<br>";
 			};
 		</script>
 	</head>
@@ -119,7 +117,7 @@
 			</div>
 		</div>
 
-		<section class="main" id="main">
+		<main class="main" id="main">
 			<div class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
@@ -168,7 +166,7 @@
 
 				<p id="author" translation="global.footer"></p>
 			</div>
-		</section>
+		</main>
 
 		<script>
 			var logs = [];

@@ -31,7 +31,7 @@ function getCommandsHTML() {
 							"<center><h2 id='" + category + "title'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
 							"<button class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");' translation='commands.hide'></button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
-							"<thead><tr><th>Name</th><th translation='commands.description'></th><th translation='commands.usage'></th></tr></thead><tbody>";
+							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th><th translation='commands.usage'></th></tr></thead><tbody>";
 
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
@@ -147,7 +147,9 @@ function getSettingsHTML(json) {
 					temp += "</select><div id='" + setting.key + "list' class='advancedsetting'>";
 
 					if (setting.value.trim() != "") setting.value.split(",").forEach(r => {
-						temp += "<div><br><p>" + possible["_" + r.split(":")[0]].name + "</p>" +
+						temp +=
+							"<div><br>" +
+							"<label for='an_" + setting.key + "_" + r.split(":")[0] + "value'>" + possible["_" + r.split(":")[0]].name + "</label><br>" +
 							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
 							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":")[1] + "'>" +
 							"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
@@ -330,7 +332,6 @@ function getDataexportHTML(token) {
 						"<p><b translation='user.saveticketatt'></b> " + json.data.userProfiles?.settings?.saveTicketAttachments + "</p>" +
 						"</div>" +
 
-						// Economy
 						(json.data.economy ?
 							"<div class='userData'>" +
 							"<h1>Economy</h1>" +
@@ -343,7 +344,6 @@ function getDataexportHTML(token) {
 							"</div>"
 						: "") +
 
-						// AFK
 						(json.data.userProfiles?.afk?.text != "" ?
 							"<div class='userData'>" +
 							"<h1>AFK</h1>" +
@@ -353,7 +353,6 @@ function getDataexportHTML(token) {
 							"</div>"
 						: "") +
 
-						// Remind
 						(reminders ?
 							"<div class='userData'>" +
 							"<h1 translation='user.reminders'></h1>" +
@@ -361,7 +360,6 @@ function getDataexportHTML(token) {
 							"</div>"
 						: "") +
 
-						// Tickets
 						(tickets ?
 							"<div class='userData'>" +
 							"<h1>Tickets</h1>" +
@@ -369,7 +367,6 @@ function getDataexportHTML(token) {
 							"</div>"
 						: "") +
 
-						// Suggest
 						(suggests ?
 							"<div class='userData'>" +
 							"<h1 translation='user.suggestions'></h1>" +
@@ -455,10 +452,10 @@ function getGiveawayHTML(giveaway) {
 		getGiveaway(giveaway)
 			.then(json => {
 				if (json.status == "success") {
-					let text = "<h1 class='greeting'>Giveaway von <span class='accent'>" + encode(json.guild) + "</span></h1>";
+					let text = "<h1 class='greeting'><span translation='giveaway.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 
 					if (json.data.ended)
-						text += "<div class='creditsUser'><h2>Giveaway beendet</h2><p>" + (json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
+						text += "<div class='creditsUser'><h2 translation='giveaway.ended'></h2><p>" + (json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
 
 					text +=
 						"<h2>" + json.data.prize + "</h2>" +
@@ -472,7 +469,7 @@ function getGiveawayHTML(giveaway) {
 
 					const reqs = json.data.requirements;
 					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
-						text += "<br><h3>Bedingungen</h3>";
+						text += "<br><h3 translate='giveaway.requirements'>Bedingungen</h3>";
 						if (reqs.roles.length > 0) text += "<p>Alle diese Rollen: " + reqs.roles.join(", ") + "</p>";
 						if (reqs.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + reqs.anyRoles.join(", ") + "</p>";
 						if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
@@ -506,7 +503,7 @@ function getLogsHTML(guild) {
 							"<td>" + log.type + "</td>" +
 							"<td class='overflow'>" + log.message + "</td>" +
 							"<td>" + log.count + "</td>" +
-							"<td><button class='categorybutton' onclick='info(\"" + log.id + "\")'>Mehr Informationen</button></td>" +
+							"<td><button class='categorybutton' onclick='info(\"" + log.id + "\")' translation='logs.moreinfo'>Mehr Informationen</button></td>" +
 							"</tr>";
 					});
 
@@ -526,7 +523,7 @@ function getModlogsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th translation='logs.logtype'></th><th>Nutzer</th><th>Moderator</th><th>Grund</th><th translation='logs.amount'></th><th>Mehr Informationen</th></tr></thead><tbody>";
+						"<thead><tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th><th translation='logs.amount'></th><th>Mehr Informationen</th></tr></thead><tbody>";
 
 					json.data.forEach(log => {
 						text +=
@@ -535,7 +532,7 @@ function getModlogsHTML(guild) {
 							"<td>" + log.user + "</td>" +
 							"<td>" + log.moderator + "</td>" +
 							"<td class='overflow'>" + log.reason + "</td>" +
-							"<td><button class='categorybutton' onclick='info(\"" + log.user + "-" + log.date + "\")'>Mehr Informationen</button></td>" +
+							"<td><button class='categorybutton' onclick='info(\"" + log.user + "-" + log.date + "\")' translation='logs.moreinfo'></button></td>" +
 							"</tr>";
 					});
 

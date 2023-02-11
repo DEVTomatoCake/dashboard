@@ -57,7 +57,7 @@
 
 			function info(id) {
 				const splitted = id.split("-");
-				var log = logs.find(log => log.user == splitted[0] && log.cases.find(c => c.date == parseInt(splitted[1])));
+				var log = logs.find(log => log.user == splitted[0] && log.cases.find(c => c.date == parseInt(splitted[1]))).cases?.find(c => c.date == parseInt(splitted[1]));
 				openDialog(document.getElementById("info-dialog"));
 
 				var type = log.type;
@@ -146,7 +146,7 @@
 			</div>
 
 			<div class="content" id="content">
-				<div class="ticketsearch-container">
+				<div class="ticketsearch-container" role="search">
 					<h2>Filter modlogs...</h2>
 
 					<label for="ts-id" translation="logs.logid"></label>

@@ -29,7 +29,7 @@ function getCommandsHTML() {
 					categories.forEach(category => {
 						text +=
 							"<center><h2 id='" + category + "title'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
-							"<button class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");' translation='commands.hide'></button>" +
+							"<button type='button' class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");' translation='commands.hide'></button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
 							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th><th translation='commands.usage'></th></tr></thead><tbody>";
 
@@ -203,7 +203,7 @@ function getCustomcommandsHTML(json) {
 		if (text == "") text = "<p id='no-cc'><b translation='dashboard.cc.nocc'></b></p>";
 		return "<center><h1><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
 			"<p translation='dashboard.cc.delete'></p>" +
-			"<button onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
+			"<button type='button' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
@@ -250,7 +250,7 @@ function getReactionrolesHTML(json) {
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";
 		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
-			"<button class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
+			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
@@ -503,7 +503,7 @@ function getLogsHTML(guild) {
 							"<td>" + log.type + "</td>" +
 							"<td class='overflow'>" + log.message + "</td>" +
 							"<td>" + log.count + "</td>" +
-							"<td><button class='categorybutton' onclick='info(\"" + log.id + "\")' translation='logs.moreinfo'>Mehr Informationen</button></td>" +
+							"<td><button type='button' class='categorybutton' onclick='info(\"" + log.id + "\")' translation='logs.moreinfo'>Mehr Informationen</button></td>" +
 							"</tr>";
 					});
 
@@ -541,7 +541,7 @@ function getModlogsHTML(guild) {
 								"<td>" + log.user + "</td>" +
 								"<td>" + i.moderator + "</td>" +
 								"<td class='overflow'>" + i.reason + "</td>" +
-								"<td><button class='categorybutton' onclick='info(\"" + log.user + "-" + i.date + "\")' translation='logs.moreinfo'></button></td>" +
+								"<td><button type='button' class='categorybutton' onclick='info(\"" + log.user + "-" + i.date + "\")' translation='logs.moreinfo'></button></td>" +
 								"</tr>";
 						});
 					});

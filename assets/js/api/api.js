@@ -1,5 +1,5 @@
 const url = "https://api.tomatenkuchen.eu/api/"
-async function get(component, auth) {
+async function get(component, auth = true) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""))
 
 	const json = await res.json()
@@ -8,27 +8,23 @@ async function get(component, auth) {
 }
 
 const getCommands = () => new Promise((resolve, reject) => {
-	get("commands/?lang=" + getLanguage(), false)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("commands?lang=" + getLanguage(), false)
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getBotstats = () => new Promise((resolve, reject) => {
 	get("stats?uptime_ratio=1", false)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getGuilds = () => new Promise((resolve, reject) => {
-	get("guilds", true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("guilds")
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getStats = guild => new Promise((resolve, reject) => {
-	get("stats/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("stats/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const login = code => {
@@ -47,43 +43,36 @@ const login = code => {
 }
 
 const logout = () => new Promise((resolve, reject) => {
-	get("auth/logout", true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("auth/logout")
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getLeaderboard = guild => new Promise((resolve, reject) => {
-	get("leaderboard/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("leaderboard/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
-const getDataexport = guild => new Promise((resolve, reject) => {
-	get("users/dataexport/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+const getDataexport = () => new Promise((resolve, reject) => {
+	get("users/dataexport")
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getTickets = guild => new Promise((resolve, reject) => {
-	get("tickets/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("tickets/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getGiveaway = guild => new Promise((resolve, reject) => {
-	get("giveaways/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("giveaways/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getLogs = guild => new Promise((resolve, reject) => {
-	get("logs/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("logs/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
 })
 
 const getModlogs = guild => new Promise((resolve, reject) => {
-	get("modlogs/" + guild, true)
-		.then(d => resolve(d))
-		.catch(e => reject(e))
+	get("modlogs/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
 })

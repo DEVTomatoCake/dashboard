@@ -33,7 +33,6 @@ var drop = function(info) {
 			parent: undefined
 		},
 		init: function() {
-			//Setup Drop HTML
 			this.html.parent = $.get(info.selector)[0].parentNode
 			this.html.drop = $.template("<div class='drop'></div>")
 			this.html.dropDisplay = $.template("<div class='drop-display'>Display</div>")
@@ -54,7 +53,7 @@ var drop = function(info) {
 			this.html.dropScreen.on("click", function() {
 				that.toggle()
 			})
-			//Run Render
+
 			this.load()
 			this.preselect()
 			this.render()

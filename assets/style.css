@@ -10,8 +10,6 @@
 	src: url(./fonts/gfonts_bevietmanpro_latin.woff2) format('woff2');
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
-/* latin */
 @font-face {
 	font-family: "Roboto Condensed";
 	font-style: normal;
@@ -378,8 +376,8 @@ textarea:focus {
 }
 
 @keyframes spin {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(180deg); }
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(180deg);}
 }
 
 .top .hamburger:hover {
@@ -387,9 +385,9 @@ textarea:focus {
 }
 
 @keyframes wide {
-	0% { gap: 5px;}
-	50% { gap: 10px;}
-	100% { gap: 5px;}
+	0% {gap: 5px;}
+	50% {gap: 10px;}
+	100% {gap: 5px;}
 }
 
 .hamburger .line {
@@ -1203,12 +1201,12 @@ input:invalid, input:out-of-range {
 
 	max-height: -webkit-fill-available;
 	overflow: scroll;
-	margin-bottom: 100px; /* TODO: Find a better solution - only fix I found to prevent clipped content */
+	margin-bottom: 100px;
 }
 
 @keyframes animateDialog {
-	from {width: 0; opacity: 0}
-	to {width: 70%; opacity: 1}
+	from {width: 0; opacity: 0;}
+	to {width: 70%; opacity: 1;}
 }
 
 .close {

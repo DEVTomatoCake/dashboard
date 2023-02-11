@@ -3,12 +3,6 @@ let toastNotifications = {}
 let autoscroll = true
 var currentId = 0
 
-function closeAll() {
-	Object.values(toastNotifications).forEach(toastNotification => {
-		toastNotification.close()
-	})
-}
-
 function createWrapper() {
 	const wrapper = document.createElement("div")
 	const container = document.createElement("div")
@@ -25,7 +19,7 @@ function createWrapper() {
 	return container
 }
 
-function toastNotification({timeout = 10, type = "INFO", title = "", description = "", tag = "", percentage = null, closeConditions = {time: true, percentage: false}}) {
+function toastNotification({timeout = 10, type = "INFO", title = ""}) {
 	let element = document.createElement("div")
 	element.setAttribute("class", "toast-notification")
 	element.innerHTML = `
@@ -36,7 +30,6 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 			<header>
 				<div class="title-wrapper">
 					<span class="title">${title}</span>
-					<span class="tag">${tag}</span>
 				</div>
 				<div class="close">
 					<span class="timeout"></span>
@@ -45,8 +38,6 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 					</svg>
 				</div>
 			</header>
-			<div class="description">${description}</div>
-			<progress class="percentage" value="${percentage}" max="100"></progress>
 		</div>
 	`
 	let id = currentId++
@@ -69,32 +60,6 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 		return this
 	}
 
-	this.setDescription = function setDescription(description) {
-		if (element.classList.contains("closed")) return
-		description = description || ""
-		element.querySelector(".content-wrapper .description").innerHTML = description
-		return this
-	}
-
-	this.setTag = function setTag(tag) {
-		if (element.classList.contains("closed")) return
-		tag = tag || ""
-		element.querySelector(".content-wrapper header .title-wrapper .tag").innerText = tag
-		return this
-	}
-
-	this.setPercentage = function setPercentage(percentage) {
-		if (element.classList.contains("closed")) return
-		const p = (percentage == undefined) ? null : Math.floor(percentage)
-		percentage = (p == null) ? null : (p > 100) ? 100 : (p < 0) ? 0 : p
-		const e = element.querySelector(".content-wrapper .percentage")
-		e.value = percentage
-		if (percentage == null) e.style.display = "none"
-		else e.style.display = "block"
-		if ((!closeConditions.time && closeConditions.percentage && percentage >= 100) || (closeConditions.time && timeout <= 0 && closeConditions.percentage && percentage >= 100)) close()
-		return this
-	}
-
 	function createTimeout() {
 		const e = element.querySelector(".content-wrapper header .close .timeout")
 		e.innerText = (timeout == undefined) ? e.innerText : timeout + "s"
@@ -111,18 +76,14 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 		container.append(element)
 		toastNotifications[id] = this.get()
 
-		if (closeConditions.time) {
+		createTimeout()
+		intervalId = setInterval(() => {
+			toastNotifications[id].intervalId = intervalId
+			timeout--
 			createTimeout()
-			intervalId = setInterval(() => {
-				toastNotifications[id].intervalId = intervalId
-				timeout--
-				createTimeout()
 
-				if (timeout <= 0) {
-					if (!closeConditions.percentage || (closeConditions.percentage && percentage >= 100)) this.close(id)
-				}
-			}, 1000)
-		}
+			if (timeout <= 0) this.close(id)
+		}, 1000)
 		return this
 	}
 
@@ -149,9 +110,6 @@ function toastNotification({timeout = 10, type = "INFO", title = "", description
 			intervalId,
 			type,
 			title,
-			description,
-			tag,
-			percentage,
 			timeout,
 			element
 		}

@@ -192,7 +192,7 @@ function getCustomcommandsHTML(json) {
 
 		json.data.forEach(setting => {
 			text +=
-				"<p><b>" + setting.name + "</b></p>" +
+				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
 				"<div class='emoji-container'>" +
 				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
 				"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmojiGlobal)'></ion-icon>" +

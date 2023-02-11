@@ -1,19 +1,16 @@
 :root {
 	--divider-color: rgba(0, 0, 0, 0.2);
-
 	--scroll-thumb-color: rgba(0, 0, 0, 0.4);
+	--shadow-color: rgba(0, 0, 0, 0.3);
 
 	--toast-notification-background-color: var(--secondary-color);
 	--toast-notification-close-color: var(--primary-text-color);
-	--toast-notification-tag-color: #76767a;
 
 	--toast-notification-success-color: #56ee59;
 	--toast-notification-loading-color: #cc6ef1;
 	--toast-notification-info-color: #60bbec;
 	--toast-notification-warning-color: #efb849;
 	--toast-notification-error-color: #e34e4e;
-
-	--shadow-color: rgba(0, 0, 0, 0.3);
 }
 
 #toast-notification-wrapper {
@@ -153,10 +150,6 @@
 	font-weight: bold;
 }
 
-#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .title-wrapper .tag {
-	color: var(--toast-notification-tag-color);
-}
-
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close {
 	display: flex;
 	align-items: center;
@@ -182,17 +175,6 @@
 	color: var(--toast-notification-close-color);
 }
 
-#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .description {
-	padding-top: 2px;
-	font-size: 13px;
-	border-top: 1px solid var(--divider-color);
-	color: var(--secondary-text-color);
-}
-
-#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .description:empty {
-	display: none;
-}
-
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage {
 	position: relative;
 	margin: 4px 0;
@@ -203,22 +185,4 @@
 }
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage[value='null'] {
 	display: none;
-}
-
-#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage::after {
-	content: attr(value) '%';
-	position: absolute;
-	top: -5px;
-	right: 5px;
-	font-size: 9px;
-	color: var(--primary-text-color);
-}
-#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage::-webkit-progress-bar {
-	border-radius: 5px;
-	background-color: var(--toast-notification-background-color);
-}
-#toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .percentage::-webkit-progress-value {
-	border-radius: 5px;
-	background-color: var(--secondary-color);
-	transition: width 0.2s ease-in-out;
 }

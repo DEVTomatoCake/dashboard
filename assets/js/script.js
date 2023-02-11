@@ -30,7 +30,6 @@ const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
 
 var sideState = 0;
 function sidebar() {
-	helium.init();
 	sideState++;
 
 	document.getElementById("lineTop2").style.transform = "rotate(45deg)";

@@ -69,10 +69,10 @@
 				else if (log.type == "tempban") type = "Tempban";
 
 				document.getElementById("info-dialogText").innerHTML =
-					"<b><span translation='logs.logtype'></span>:</b> " + type + "<br>" +
-					"<b><span translation='modlogs.user'></span>:</b> " + splitted[0] + "<br>" +
-					"<b><span translation='modlogs.mod'></span>:</b> " + log.moderator + "<br>" +
-					"<b><span translation='modlogs.reason'></span>:</b> " + log.reason + "<br>" +
+					"<b><span translation='logs.logtype'></span>:</b> " + encode(type) + "<br>" +
+					"<b><span translation='modlogs.user'></span>:</b> " + encode(splitted[0]) + "<br>" +
+					"<b><span translation='modlogs.mod'></span>:</b> " + encode(log.moderator) + "<br>" +
+					"<b><span translation='modlogs.reason'></span>:</b> " + encode(log.reason) + "<br>" +
 					"<b>Modlog created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
 					(log.until ? "<b>Bis:</b> " + new Date(log.until).toLocaleString() + "<br>" : "");
 				reloadText(getLanguage());
@@ -81,8 +81,7 @@
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-
-			<div class="sidebar" id="sidebar">
+			<nav class="sidebar" id="sidebar">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
@@ -107,7 +106,7 @@
 						<ion-icon name="document-text-outline"></ion-icon>
 						<p translation="sidebar.docs"></p>
 					</a>
-					<a href="/discord/" class="tab">
+					<a href="/discord/" class="tab" target="_blank" rel="noopener">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 						<p translation="sidebar.support"></p>
 					</a>
@@ -124,7 +123,7 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-			</div>
+			</nav>
 		</div>
 
 		<main class="main" id="main">

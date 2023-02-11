@@ -265,9 +265,9 @@ function getLeaderboardHTML(guild) {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => {
-						text += "<div class='leaderboard'><p>" + entry.place + ". " +
-							"<img class='user-image' src='" + entry.avatar + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
-							encode(entry.user) + " <b>" + entry.points + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + entry.level + "</b>)</p></div>";
+						text += "<div class='leaderboard'><p>" + encode(entry.place) + ". " +
+							"<img class='user-image' src='" + encode(entry.avatar) + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
+							encode(entry.user) + " <b>" + encode(entry.points) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + encode(entry.level) + "</b>)</p></div>";
 					});
 					resolve(text);
 				} else handleError(resolve, json.message);
@@ -306,10 +306,10 @@ function getDataexportHTML(token) {
 						var reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
 
 					if (json.data.ticket?.length > 0)
-						var tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + ticket.id + "'>" + ticket.id + "</a>").join(", ");
+						var tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ");
 
 					if (json.data.suggest?.length > 0)
-						var suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + suggest.id + "</p>").join(", ");
+						var suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id) + "</p>").join(", ");
 
 					let text =
 						"<center>" +
@@ -320,7 +320,7 @@ function getDataexportHTML(token) {
 						"<div class='userData'>" +
 						"<h1 translation='user.general'></h1>" +
 						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
-						(json.data.birthday ? "<p><b>Birthday:</b> " + json.data.birthday.day + "." + json.data.birthday.month + ".</p>" : "") +
+						(json.data.birthday ? "<p><b>Birthday:</b> " + encode(json.data.birthday.day) + "." + encode(json.data.birthday.month) + ".</p>" : "") +
 						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
 						"</div>" +
 
@@ -499,11 +499,11 @@ function getLogsHTML(guild) {
 					json.data.forEach(log => {
 						text +=
 							"<tr class='ticket cmdvisible'>" +
-							"<td>" + log.id + "</td>" +
-							"<td>" + log.type + "</td>" +
-							"<td class='overflow'>" + log.message + "</td>" +
-							"<td>" + log.count + "</td>" +
-							"<td><button type='button' class='categorybutton' onclick='info(\"" + log.id + "\")' translation='logs.moreinfo'>Mehr Informationen</button></td>" +
+							"<td>" + encode(log.id) + "</td>" +
+							"<td>" + encode(log.type) + "</td>" +
+							"<td class='overflow'>" + encode(log.message) + "</td>" +
+							"<td>" + encode(log.count) + "</td>" +
+							"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button></td>" +
 							"</tr>";
 					});
 
@@ -537,11 +537,11 @@ function getModlogsHTML(guild) {
 
 							text +=
 								"<tr class='ticket cmdvisible'>" +
-								"<td>" + type + "</td>" +
-								"<td>" + log.user + "</td>" +
-								"<td>" + i.moderator + "</td>" +
-								"<td class='overflow'>" + i.reason + "</td>" +
-								"<td><button type='button' class='categorybutton' onclick='info(\"" + log.user + "-" + i.date + "\")' translation='logs.moreinfo'></button></td>" +
+								"<td>" + encode(type) + "</td>" +
+								"<td>" + encode(log.user) + "</td>" +
+								"<td>" + encode(i.moderator) + "</td>" +
+								"<td class='overflow'>" + encode(i.reason) + "</td>" +
+								"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.user + "-" + i.date) + "\")' translation='logs.moreinfo'></button></td>" +
 								"</tr>";
 						});
 					});

@@ -75,6 +75,7 @@
 					"<b><span translation='modlogs.reason'></span>:</b> " + log.reason + "<br>" +
 					"<b>Modlog created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
 					(log.until ? "<b>Bis:</b> " + new Date(log.until).toLocaleString() + "<br>" : "");
+				reloadText(getLanguage());
 			};
 		</script>
 	</head>

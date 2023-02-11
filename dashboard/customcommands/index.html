@@ -84,11 +84,11 @@
 							document.getElementById("linksidebar").innerHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<br><button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
-								"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
-								"<div class='tab' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
+								"<br><hr><div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p>Statistiken</p></div>" +
 								"<hr><div class='tab' onclick='redirect(\"../?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p>Andere Einstellungen</p></div>" +
 								"</div>";
 
@@ -138,7 +138,7 @@
 				</div>
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
-				<div style="padding: 15px 0;" class="section bottom">
+				<div class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -161,7 +161,7 @@
 				<div class="accdropdown">
 					<div class="account" onclick="redirect('/login/')">
 						<p id="username-header">Account</p>
-						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
 						<a href="/login/" translation="global.login"></a>

@@ -36,7 +36,6 @@
 	--secondary-text-color: #3D404E;
 	--blue: #4B57C9;
 	--green: #1B5E20;
-	--red: #B71C1C;
 	--purple: #7D2A97;
 	--primary-table-bgcolor: #E5E7F1;
 	--secondary-table-bgcolor: #C1C4DB;
@@ -64,7 +63,6 @@
 	--secondary-text-color: #C1C4DB;
 	--blue: #8C9EFF;
 	--green: #B9F6CA;
-	--red: #F44336;
 	--purple: #B388FF;
 	--primary-table-bgcolor: #25273A;
 	--secondary-table-bgcolor: #363952;
@@ -92,6 +90,10 @@ html, body {
 	background: var(--primary-color);
 	transition: .5s;
 	font-family: "Be Vietnam Pro", sans-serif;
+}
+
+h1, h2, h3, h4, p, small, label, input, ul li {
+	color: var(--primary-text-color);
 }
 
 .main {
@@ -173,13 +175,6 @@ tr.cmdvisible:nth-child(odd) {
 	}
 }
 
-.guilds-container .guild {
-	width: 100%;
-	height: 26px;
-	margin: 7px;
-	font-family: sans-serif;
-}
-
 .guilds-container {
 	position: relative;
 	margin: 0 15px;
@@ -189,6 +184,13 @@ tr.cmdvisible:nth-child(odd) {
 	opacity: 1;
 	transition: .5s ease;
 	border-radius: 50%;
+}
+
+.guilds-container .guild {
+	width: 100%;
+	height: 26px;
+	margin: 7px;
+	font-family: sans-serif;
 }
 
 .guilds-container .text {
@@ -256,6 +258,10 @@ textarea:focus {
 	margin: 20px;
 }
 
+#username-avatar {
+	display: none;
+}
+
 .userdatagrid {
 	width: auto;
 	display: grid;
@@ -294,19 +300,18 @@ textarea:focus {
 }
 
 .sidebar-container {
-	width: 0;
 	position: fixed;
+	width: 0;
+	height: 100%;
 	left: 0;
 	top: 0;
 	background: var(--secondary-color);
 	transition: var(--transition-buttons);
-	height: 100%;
 }
 
 .sidebar {
 	width: 0;
 	height: 100%;
-	background: inherit;
 	transition: var(--transition-buttons);
 	overflow-y: auto;
 }
@@ -322,28 +327,25 @@ textarea:focus {
 }
 
 .sidebar-container.visible .sidebar {
-	display: block;
 	width: 300px;
-}
-
-.sidebar-container.visible #lineTop2 {
-	transform: rotate(45deg);
-	top: 5px;
-}
-
-.sidebar-container.visible #lineBottom2 {
-	transform: rotate(-45deg);
-	bottom: 5px;
 }
 
 #lineTop1 {
 	transform: rotate(0);
 	top: 0;
 }
-
 #lineBottom1 {
 	transform: rotate(0);
 	bottom: 0;
+}
+
+.sidebar-container.visible #lineTop2 {
+	transform: rotate(45deg);
+	top: 5px;
+}
+.sidebar-container.visible #lineBottom2 {
+	transform: rotate(-45deg);
+	bottom: 5px;
 }
 
 .sidebar a {
@@ -353,6 +355,15 @@ textarea:focus {
 .sidebar .hamburger {
 	margin: 20px;
 	transition-duration: .5s;
+}
+.sidebar .hamburger:hover {
+	background: var(--tertiary-color);
+	animation: spin 1s;
+}
+
+@keyframes spin {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(180deg);}
 }
 
 .hamburger {
@@ -368,16 +379,6 @@ textarea:focus {
 	border-radius: 50%;
 	justify-content: center;
 	height: 30px;
-}
-
-.sidebar .hamburger:hover {
-	background: var(--tertiary-color);
-	animation: spin 1s;
-}
-
-@keyframes spin {
-	0% {transform: rotate(0deg);}
-	100% {transform: rotate(180deg);}
 }
 
 .top .hamburger:hover {
@@ -417,11 +418,8 @@ textarea:focus {
 	letter-spacing: 2px;
 }
 
-.sidebar button:hover {
+.sidebar button:hover, .sidebar button:focus {
 	background: var(--accent-color-hover);
-}
-
-.sidebar button:focus {
 	box-shadow: 0 0 8px 2px var(--accent-color);
 }
 
@@ -430,14 +428,9 @@ textarea:focus {
 	margin-right: 7px;
 }
 
-
 .sidebar .section {
 	margin-top: 30px;
 	overflow-y: auto;
-}
-
-.sidebar .section .tab {
-	color: var(--primary-text-color);
 }
 
 .sidebar .section.middle {
@@ -451,8 +444,7 @@ textarea:focus {
 	background: var(--primary-color);
 	display: flex;
 	align-items: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 12px 0;
 }
 
 .sidebar .section.bottom .tab {
@@ -461,7 +453,7 @@ textarea:focus {
 }
 
 #author {
-	font-size: 75%;
+	font-size: 15px;
 	padding-top: 50px;
 	color: var(--primary-text-color);
 	text-align: center;
@@ -605,6 +597,9 @@ textarea:focus {
 	font-size: 26px;
 }
 
+.sidebar .section .tab.otherlinks p {
+	font-size: 18px;
+}
 
 .sidebar .section.bottom .tab {
 	background: transparent;
@@ -650,8 +645,8 @@ textarea:focus {
 .top .search-box input {
 	border-radius: 22px;
 	width: 100%;
-	border: none;
 	height: 45px;
+	border: none;
 	outline: none;
 	padding-left: 15px;
 	padding-right: 50px;
@@ -738,7 +733,7 @@ textarea:focus {
 	transition: .4s;
 	padding: 100px 0 100px 300px;
 }
-.content .accent {
+.accent {
 	color: var(--accent-color);
 }
 
@@ -863,15 +858,14 @@ pre {
 	right: -2px;
 }
 
-
 .stats-row .servers ion-icon {
-	background: var(--purple);
+	background-color: var(--purple);
 }
 .stats-row .uptime ion-icon {
-	background: var(--green);
+	background-color: var(--green);
 }
 .stats-row .users ion-icon, .stats-row .tickets ion-icon {
-	background: var(--blue);
+	background-color: var(--blue);
 }
 .stats-row .servers p {
 	color: var(--purple);
@@ -891,13 +885,9 @@ pre {
 	font-size: 24px;
 }
 .stats-row p.value {
-	font-size: 50px;
 	position: relative;
+	font-size: 50px;
 	top: -50px;
-}
-
-h1, h2, h3, h4, p, small, label, input, ul li {
-	color: var(--primary-text-color);
 }
 
 .cookie-container {
@@ -952,10 +942,10 @@ input:invalid, input:out-of-range {
 	vertical-align: middle;
 }
 .feature strong {
-	font-size: 1.2em;
+	font-size: 27px;
 }
 .feature p {
-	font-size: 1.1em;
+	font-size: 21px;
 }
 .feature a {
 	color: var(--blue);
@@ -1053,10 +1043,6 @@ input:invalid, input:out-of-range {
 		margin-right: 20px;
 	}
 
-	.charts-css.column.sales tbody {
-		gap: 15px;
-	}
-
 	.content {
 		margin-left: 15px;
 	}
@@ -1089,12 +1075,10 @@ input:invalid, input:out-of-range {
 ::-webkit-scrollbar {
 	width: 8px;
 }
-
 ::-webkit-scrollbar-thumb {
 	background: var(--accent-color);
 	border-radius: 20px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
 	background: var(--accent-color-hover);
 }
@@ -1108,28 +1092,25 @@ input:invalid, input:out-of-range {
 .creditsContainer {
 	text-align: center;
 }
-
-.credits h1, .credits h2, .credits h3 {
-	color: var(--primary-text-color);
-	text-align: center;
-}
-
 .creditsContainer a {
 	cursor: pointer;
 	text-decoration: none;
 	color: var(--primary-text-color);
 }
 
+.credits h1, .credits h2, .credits h3 {
+	color: var(--primary-text-color);
+	text-align: center;
+}
+
 .credits h1 {
 	font-size: 60px;
 	text-transform: uppercase;
 }
-
 .credits h2 {
 	font-size: 40px;
 	text-transform: uppercase;
 }
-
 .credits h3 {
 	font-size: 30px;
 	text-shadow: 3px 4px 5px #000;
@@ -1217,6 +1198,6 @@ input:invalid, input:out-of-range {
 	transition: .2s;
 }
 .close:hover, .close:focus {
-	color: black;
+	color: #000;
 	cursor: pointer;
 }

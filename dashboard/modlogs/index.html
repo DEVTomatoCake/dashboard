@@ -57,15 +57,24 @@
 
 			function info(id) {
 				const splitted = id.split("-");
-				var log = logs.find(log => log.user == splitted[0] && log.date == parseInt(splitted[1]));
+				var log = logs.find(log => log.user == splitted[0] && log.cases.find(c => c.date == parseInt(splitted[1])));
 				openDialog(document.getElementById("info-dialog"));
 
+				var type = log.type;
+				if (log.type == "warning") type = "Warn";
+				else if (log.type == "mute") type = "Mute";
+				else if (log.type == "unmute") type = "Unmute";
+				else if (log.type == "ban") type = "Ban";
+				else if (log.type == "kick") type = "Kick";
+				else if (log.type == "tempban") type = "Tempban";
+
 				document.getElementById("info-dialogText").innerHTML =
-					"<b><span translation='logs.logtype'></span>:</b> " + log.type + "<br>" +
-					"<b><span translation='modlogs.user'></span>:</b> " + log.user + "<br>" +
+					"<b><span translation='logs.logtype'></span>:</b> " + type + "<br>" +
+					"<b><span translation='modlogs.user'></span>:</b> " + splitted[0] + "<br>" +
 					"<b><span translation='modlogs.mod'></span>:</b> " + log.moderator + "<br>" +
 					"<b><span translation='modlogs.reason'></span>:</b> " + log.reason + "<br>" +
-					"<b>Log created:</b> " + new Date(log.date).toLocaleString() + "<br>";
+					"<b>Modlog created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
+					(log.until ? "<b>Bis:</b> " + new Date(log.until).toLocaleString() + "<br>" : "");
 			};
 		</script>
 	</head>

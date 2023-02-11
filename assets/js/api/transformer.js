@@ -523,17 +523,27 @@ function getModlogsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th><th translation='logs.amount'></th><th>Mehr Informationen</th></tr></thead><tbody>";
+						"<thead><tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th><th>Mehr Informationen</th></tr></thead><tbody>";
 
 					json.data.forEach(log => {
-						text +=
-							"<tr class='ticket cmdvisible'>" +
-							"<td>" + log.type + "</td>" +
-							"<td>" + log.user + "</td>" +
-							"<td>" + log.moderator + "</td>" +
-							"<td class='overflow'>" + log.reason + "</td>" +
-							"<td><button class='categorybutton' onclick='info(\"" + log.user + "-" + log.date + "\")' translation='logs.moreinfo'></button></td>" +
-							"</tr>";
+						log.cases?.forEach(i => {
+							var type = i.type
+							if (i.type == "warning") type = "Warn"
+							else if (i.type == "mute") type = "Mute"
+							else if (i.type == "unmute") type = "Unmute"
+							else if (i.type == "ban") type = "Ban"
+							else if (i.type == "kick") type = "Kick"
+							else if (i.type == "tempban") type = "Tempban"
+
+							text +=
+								"<tr class='ticket cmdvisible'>" +
+								"<td>" + type + "</td>" +
+								"<td>" + i.user + "</td>" +
+								"<td>" + i.moderator + "</td>" +
+								"<td class='overflow'>" + i.reason + "</td>" +
+								"<td><button class='categorybutton' onclick='info(\"" + log.user + "-" + i.date + "\")' translation='logs.moreinfo'></button></td>" +
+								"</tr>";
+						})
 					});
 
 					resolve(text + "</tbody></table>");

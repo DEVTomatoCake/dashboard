@@ -171,11 +171,11 @@
 				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
-					<a href="/" class="tab">
+					<a href="/" title="Home" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p translation="sidebar.home"></p>
 					</a>
-					<a href="/commands/" class="tab">
+					<a href="/commands/" title="Bot commands" class="tab">
 						<ion-icon name="terminal-outline"></ion-icon>
 						<p translation="sidebar.commands"></p>
 					</a>
@@ -183,11 +183,11 @@
 						<ion-icon name="settings-outline"></ion-icon>
 						<p translation="sidebar.dashboard"></p>
 					</a>
-					<a href="/docs/" class="tab">
+					<a href="/docs/" title="Documention of the bot" class="tab">
 						<ion-icon name="document-text-outline"></ion-icon>
 						<p translation="sidebar.docs"></p>
 					</a>
-					<a href="/discord/" class="tab" target="_blank" rel="noopener">
+					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 						<p translation="sidebar.support"></p>
 					</a>
@@ -208,7 +208,7 @@
 		</div>
 
 		<main class="main" id="main">
-			<div class="top">
+			<header class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
@@ -223,7 +223,7 @@
 						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
-			</div>
+			</header>
 
 			<div class="content" id="content">
 				<div id="create-dialog" class="dialog">

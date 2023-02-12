@@ -951,6 +951,10 @@ input:invalid, input:out-of-range {
 	color: var(--blue);
 	text-decoration: none;
 }
+.feature img {
+	width: 150px;
+	height: 150px;
+}
 
 @media only screen and (max-width: 1300px) {
 	.sidebar-container.visible + .stats-row {
@@ -1021,13 +1025,13 @@ input:invalid, input:out-of-range {
 	.top .account {
 		margin-right: 20px;
 	}
-
 	.top .account p {
 		display: none;
 	}
 
 	.top .search-box {
 		margin-left: 10px;
+		margin-right: 20px;
 	}
 
 	.hamburger {
@@ -1039,10 +1043,6 @@ input:invalid, input:out-of-range {
 		margin-top: 13px;
 	}
 
-	.top .search-box {
-		margin-right: 20px;
-	}
-
 	.content {
 		margin-left: 15px;
 	}
@@ -1050,7 +1050,6 @@ input:invalid, input:out-of-range {
 	.stats-row .data .container {
 		flex-direction: column;
 	}
-
 	.stats-row .data .container > * {
 		position: relative;
 	}
@@ -1059,7 +1058,6 @@ input:invalid, input:out-of-range {
 		top: 20px;
 		left: -55px;
 	}
-
 	.stats-row .data ion-icon.open {
 		top: -65px;
 		left: 5px;

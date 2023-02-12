@@ -737,7 +737,7 @@ textarea:focus {
 	color: var(--accent-color);
 }
 
-h1.greeting {
+h1.greeting, h2.greeting {
 	font-size: 55px;
 	text-align: center;
 	padding-bottom: 40px;

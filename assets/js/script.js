@@ -106,12 +106,11 @@ function pageLoad(page = "") {
 
 	if (screen.width <= 800) {
 		if (page == "commands") {
-			document.getElementById("commands-container").style.paddingLeft = "0";
 			document.getElementById("search-box").style.marginLeft = "10px";
 		};
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
 		document.getElementById("content").style.paddingLeft = "0";
-		i = 1;
+		sideState = 1;
 	};
 
 	const username = getCookie("user");

@@ -820,7 +820,7 @@ pre {
 	justify-content: center;
 	align-items: center;
 	width: 235px;
-	height: 190px;
+	height: 160px;
 }
 
 .stats-row .container {
@@ -887,7 +887,7 @@ pre {
 .stats-row p.value {
 	position: relative;
 	font-size: 50px;
-	top: -50px;
+	top: -25px;
 }
 
 .cookie-container {
@@ -946,6 +946,7 @@ input:invalid, input:out-of-range {
 }
 .feature p {
 	font-size: 21px;
+	word-break: break-word;
 }
 .feature a {
 	color: var(--blue);
@@ -1045,13 +1046,6 @@ input:invalid, input:out-of-range {
 
 	.content {
 		margin-left: 15px;
-	}
-
-	.stats-row .data .container {
-		flex-direction: column;
-	}
-	.stats-row .data .container > * {
-		position: relative;
 	}
 
 	.stats-row .data ion-icon {

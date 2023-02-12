@@ -3,12 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server combined with a lot customization options.">
+		<meta name="description" content="TomatenKuchen is a multipurpose Discord bot with many common but also many innovative features for your server. It features multiple language support, custom commands, reaction roles and much more.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/">
 		<link rel="canonical" href="https://tomatenkuchen.eu/">
-		<link rel="manifest" href="./manifest.json">
 
 		<title>TomatenKuchen - Multipurpose Discord bot - Home</title>
 		<link href="./assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
@@ -30,7 +29,7 @@
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
 				document.getElementById("stats-uptime").innerText = json.uptime_ratio.toFixed(2) + "%";
-				document.getElementById("stats-tickets").innerText = json.tickets;
+				document.getElementById("stats-tickets").innerText = json.tickets.toLocaleString();
 				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
 			});
 		</script>
@@ -100,20 +99,21 @@
 			</div>
 
 			<div class="content" id="content">
-				<h1 id="username-content" class="greeting">Hallo!</h1>
+				<h1 id="username-content" class="greeting">Hey!</h1>
+				<h1 class="center">TomatenKuchen is your all-in-one solution for your Discord Server!</h1><br>
 
 				<div class="stats-row">
 					<div class="data servers">
 						<div class="container">
 							<ion-icon name="server-outline"></ion-icon>
-							<p class="title">Server</p>
+							<p class="title" translation="main.servers">Servers</p>
 
 							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" title="Statcord bot statistics" target="_blank" rel="noopener">
 								<ion-icon name="open-outline" class="open"></ion-icon>
 							</a>
 						</div>
 
-						<p id="stats-guilds" class="value">Lade...</p>
+						<p id="stats-guilds" class="value">Loading...</p>
 					</div>
 
 					<div class="data uptime">
@@ -126,7 +126,7 @@
 							</a>
 						</div>
 
-						<p id="stats-uptime" class="value">Lade...</p>
+						<p id="stats-uptime" class="value">Loading...</p>
 					</div>
 
 					<div class="data tickets">
@@ -135,7 +135,7 @@
 							<p class="title">Tickets</p>
 						</div>
 
-						<p id="stats-tickets" class="value">Lade...</p>
+						<p id="stats-tickets" class="value">Loading...</p>
 					</div>
 
 					<div class="data users">
@@ -148,7 +148,7 @@
 							</a>
 						</div>
 
-						<p id="stats-users" class="value">Lade...</p>
+						<p id="stats-users" class="value">Loading...</p>
 					</div>
 				</div>
 

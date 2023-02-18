@@ -8,13 +8,9 @@ const getLanguage = () => {
 	return userLang ? (userLang.split("-")[0] == "de" ? "de" : "en") : "en";
 };
 
-const resolveValue = (obj, key) => {
-	return resolveValue0(obj, key.split("."));
-};
-
-const resolveValue0 = (obj, keySplit) => {
+const resolveValue = (obj, keySplit) => {
 	if (keySplit.length == 1) return obj[keySplit[0]];
-	return resolveValue0(obj[keySplit[0]], keySplit.slice(1));
+	return resolveValue(obj[keySplit[0]], keySplit.slice(1));
 };
 
 var reloadText = async language => {
@@ -34,7 +30,7 @@ var reloadText = async language => {
 			element.innerHTML = getCookie("user");
 			continue;
 		};
-		var text = resolveValue(json, key);
+		var text = resolveValue(json, key.split("."));
 
 		if (element.hasAttribute("arguments")) {
 			let args = JSON.parse(element.getAttribute("arguments"));
@@ -55,9 +51,6 @@ const loadLangFile = async language => {
 	if (resgh?.ok) {
 		const json = await resgh.json();
 		langCache[language] = json;
-		setTimeout(() => {
-			delete langCache[language];
-		}, 30 * 60 * 1000);
 		return json;
 	};
 	console.warn("Couldn't load lang file from github");

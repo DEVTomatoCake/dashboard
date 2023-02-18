@@ -1,5 +1,5 @@
 function setCookie(name, value, days, global) {
-	if (!getCookie("cookie-dismiss") && name != "token" && name != "user" && name != "cookie-dismiss") return console.warn("Skipping cookie " + name);
+	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return;
 	let cookie = name + "=" + (value || "") + ";path=/;";
 	if (days) {
 		const date = new Date();
@@ -15,7 +15,6 @@ function getCookie(name) {
 
 	for (let i = 0; i < cookies.length; i++) {
 		let cookie = cookies[i].trim();
-
 		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length);
 	}
 	return undefined;
@@ -97,22 +96,21 @@ function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=
 			"<div class='cookie-container' id='cookie-container'>" +
-			"<h2>Cookie-Information</h2>" +
+			"<h2 translation='cookie.title'>Cookie information</h2>" +
 			"<p translation='cookie.text'>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", true, 60, true);fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.all'>Alle akzeptieren</button>" +
-			"<button type='button' onclick='fadeOut(document.getElementById(\"cookie-container\"));' translation='cookie.necessary'>Nur notwendige</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement);' translation='cookie.all'>Accept all</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement);' translation='cookie.necessary'>Only essential</button>" +
 			"</div>";
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000);
 	};
 
 	if (screen.width <= 800) {
 		if (page == "commands") {
-			document.getElementById("commands-container").style.paddingLeft = "0";
 			document.getElementById("search-box").style.marginLeft = "10px";
 		};
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
 		document.getElementById("content").style.paddingLeft = "0";
-		i = 1;
+		sideState = 1;
 	};
 
 	const username = getCookie("user");
@@ -124,7 +122,7 @@ function pageLoad(page = "") {
 	} else document.getElementById("username-avatar").style = "display: block;";
 
 	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme");
-	else if (window.matchMedia("(prefers-color-scheme: light)").matches) {
+	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
 		document.body.classList.replace("dark-theme", "light-theme");
 		setCookie("theme", "light", 365, true);
 	} else document.getElementById("theme-toggle").checked = true;
@@ -137,6 +135,9 @@ function pageLoad(page = "") {
 			document.body.classList.replace("dark-theme", "light-theme");
 			setCookie("theme", "light", 365, true);
 		};
+		document.querySelectorAll("emoji-picker").forEach(picker => {
+			picker.classList.toggle("light");
+		});
 	});
 
 	document.getElementById("lang-toggle").addEventListener("change", () => {

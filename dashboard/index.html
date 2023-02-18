@@ -38,13 +38,10 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 						drops = [];
 						var olddrops = document.getElementsByClassName("drop");
-						for (let drop of olddrops) {
-							drop.remove();
-						};
+						for (let drop of olddrops) drop.remove();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -55,14 +52,12 @@
 						socket.send({
 							status: "success",
 							action: "GET_settings",
-							guild: guild,
+							guild,
 							lang: getLanguage(),
 							token: getCookie("token")
 						});
 					},
 					onMessage: event => {
-						console.log("Received message: " + event.data);
-
 						try {
 							var json = JSON.parse(event.data);
 						} catch (e) {
@@ -80,12 +75,12 @@
 
 							var sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<br><button onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab' onclick='redirect(\"./customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
-								"<div class='tab' onclick='redirect(\"./reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
-								"<div class='tab' onclick='redirect(\"./tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
-								"<div class='tab' onclick='redirect(\"../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
-								"<div class='tab' onclick='redirect(\"../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
+								"<br><button type='button' onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
+								"<br><hr><div class='tab otherlinks' onclick='redirect(\"./customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"./reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"./tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p>Statistiken</p></div>" +
 								"<hr>";
 
 							rendered.categories.forEach(category => {
@@ -107,11 +102,15 @@
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " ";
 				var roleelement = document.createElement("div");
-				roleelement.innerHTML = "<br><p>" + possible["_" + select.value].name + "</p><input type='" + (setting == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1' value='1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") + " id='an_" + setting + "_" + select.value + "value' class='settingcopy'><ion-icon name='close-outline' class='removeItem' onclick='removeRole(\"" + setting + "\", this, \"" + select.value + "\")'></ion-icon>";
+				roleelement.innerHTML =
+					"<br><label for='an_" + setting + "_" + select.value + "value'>" + possible["_" + select.value].name + "</label>" +
+					"<input type='" + (setting == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1' value='1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
+					" id='an_" + setting + "_" + select.value + "value' class='settingcopy'>" +
+					"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting + "\", this, \"" + select.value + "\")'></ion-icon>";
 				document.getElementById(setting + "list").appendChild(roleelement);
 
 				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
-				select.value = (setting == "voiceNotifyMessage" || setting == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...";
+				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
 			};
 			function removeRole(setting, item, role) {
@@ -121,14 +120,14 @@
 
 				const select = document.getElementById(setting);
 				select.innerHTML += "<option value='" + role + "'>" + possible["_" + role].name + "</option>";
-				select.value = (setting == "voiceNotifyMessage" || setting == "levelMultipliers" ? "Kanal" : "Rolle") + " hinzufügen...";
+				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
 			};
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-			<div class="sidebar" id="sidebar">
+			<nav class="sidebar" id="sidebar">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
@@ -137,11 +136,11 @@
 				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
-					<a href="/" class="tab">
+					<a href="/" title="Home" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p translation="sidebar.home"></p>
 					</a>
-					<a href="/commands/" class="tab">
+					<a href="/commands/" title="Bot commands" class="tab">
 						<ion-icon name="terminal-outline"></ion-icon>
 						<p translation="sidebar.commands"></p>
 					</a>
@@ -149,18 +148,18 @@
 						<ion-icon name="settings-outline"></ion-icon>
 						<p translation="sidebar.dashboard"></p>
 					</a>
-					<a href="/docs/" class="tab">
+					<a href="/docs/" title="Documention of the bot" class="tab">
 						<ion-icon name="document-text-outline"></ion-icon>
 						<p translation="sidebar.docs"></p>
 					</a>
-					<a href="/discord/" class="tab">
+					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 						<p translation="sidebar.support"></p>
 					</a>
 				</div>
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
-				<div style="padding: 15px 0;" class="section bottom">
+				<div class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -170,11 +169,11 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-			</div>
+			</nav>
 		</div>
 
-		<section class="main" id="main">
-			<div class="top">
+		<main class="main" id="main">
+			<header class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
@@ -183,13 +182,13 @@
 				<div class="accdropdown">
 					<div class="account" onclick="redirect('/login/')">
 						<p id="username-header">Account</p>
-						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
 						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
-			</div>
+			</header>
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
@@ -202,7 +201,7 @@
 
 				<p id="author" translation="global.footer"></p>
 			</div>
-		</section>
+		</main>
 
 		<script>
 			var friendlyCat = {

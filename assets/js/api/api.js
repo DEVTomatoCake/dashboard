@@ -1,5 +1,5 @@
 const url = "https://api.tomatenkuchen.eu/api/"
-async function get(component, auth) {
+async function get(component, auth = true) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""))
 
 	const json = await res.json()
@@ -7,97 +7,72 @@ async function get(component, auth) {
 	return json
 }
 
-function getCommands() {
-	return new Promise((resolve, reject) => {
-		get("commands/?lang=" + getLanguage(), false)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getCommands = () => new Promise((resolve, reject) => {
+	get("commands?lang=" + getLanguage(), false)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getBotstats() {
-	return new Promise((resolve, reject) => {
-		get("stats?uptime_ratio=1", false)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getBotstats = () => new Promise((resolve, reject) => {
+	get("stats?uptime_ratio=1", false)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getGuilds() {
-	return new Promise((resolve, reject) => {
-		get("guilds", true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getGuilds = () => new Promise((resolve, reject) => {
+	get("guilds")
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getStats(guild) {
-	return new Promise((resolve, reject) => {
-		get("stats/" + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getStats = guild => new Promise((resolve, reject) => {
+	get("stats/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function login(code) {
+const login = code => {
 	const params = new URLSearchParams(window.location.search)
 	return new Promise((resolve, reject) => {
 		get("auth/login?code=" + encodeURIComponent(code) + (params.get("state") ? "&dcState=" + params.get("state") : "") + (getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
-			.then(data => {
+			.then(d => {
 				deleteCookie("clientState")
-				resolve(data)
+				resolve(d)
 			})
-			.catch(error => {
+			.catch(e => {
 				deleteCookie("clientState")
-				reject(error)
+				reject(e)
 			})
 	})
 }
 
-function logout() {
-	return new Promise((resolve, reject) => {
-		get("auth/logout", true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const logout = () => new Promise((resolve, reject) => {
+	get("auth/logout")
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getLeaderboard(guild) {
-	return new Promise((resolve, reject) => {
-		get("leaderboard/" + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getLeaderboard = guild => new Promise((resolve, reject) => {
+	get("leaderboard/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getDataexport() {
-	return new Promise((resolve, reject) => {
-		get("users/dataexport", true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getDataexport = () => new Promise((resolve, reject) => {
+	get("users/dataexport")
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getTickets(guild) {
-	return new Promise((resolve, reject) => {
-		get("tickets/" + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getTickets = guild => new Promise((resolve, reject) => {
+	get("tickets/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getGiveaway(giveaway) {
-	return new Promise((resolve, reject) => {
-		get("giveaways/" + giveaway, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getGiveaway = guild => new Promise((resolve, reject) => {
+	get("giveaways/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
-function getLogs(guild) {
-	return new Promise((resolve, reject) => {
-		get("logs/" + guild, true)
-			.then(data => resolve(data))
-			.catch(error => reject(error))
-	})
-}
+const getLogs = guild => new Promise((resolve, reject) => {
+	get("logs/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
+
+const getModlogs = guild => new Promise((resolve, reject) => {
+	get("modlogs/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})

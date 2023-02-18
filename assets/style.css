@@ -10,8 +10,6 @@
 	src: url(./fonts/gfonts_bevietmanpro_latin.woff2) format('woff2');
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-
-/* latin */
 @font-face {
 	font-family: "Roboto Condensed";
 	font-style: normal;
@@ -38,7 +36,6 @@
 	--secondary-text-color: #3D404E;
 	--blue: #4B57C9;
 	--green: #1B5E20;
-	--red: #B71C1C;
 	--purple: #7D2A97;
 	--primary-table-bgcolor: #E5E7F1;
 	--secondary-table-bgcolor: #C1C4DB;
@@ -66,7 +63,6 @@
 	--secondary-text-color: #C1C4DB;
 	--blue: #8C9EFF;
 	--green: #B9F6CA;
-	--red: #F44336;
 	--purple: #B388FF;
 	--primary-table-bgcolor: #25273A;
 	--secondary-table-bgcolor: #363952;
@@ -94,6 +90,10 @@ html, body {
 	background: var(--primary-color);
 	transition: .5s;
 	font-family: "Be Vietnam Pro", sans-serif;
+}
+
+h1, h2, h3, h4, p, small, label, input, ul li {
+	color: var(--primary-text-color);
 }
 
 .main {
@@ -175,13 +175,6 @@ tr.cmdvisible:nth-child(odd) {
 	}
 }
 
-.guilds-container .guild {
-	width: 100%;
-	height: 26px;
-	margin: 7px;
-	font-family: sans-serif;
-}
-
 .guilds-container {
 	position: relative;
 	margin: 0 15px;
@@ -193,14 +186,21 @@ tr.cmdvisible:nth-child(odd) {
 	border-radius: 50%;
 }
 
+.guilds-container .guild {
+	width: 100%;
+	height: 26px;
+	margin: 7px;
+	font-family: sans-serif;
+}
+
 .guilds-container .text {
 	transition: .5s ease;
 	opacity: 0;
 	position: absolute;
 	top: 50%;
 	left: 50%;
-	transform: translate(-50%, -50%);
 	-ms-transform: translate(-50%, -50%);
+	transform: translate(-50%, -50%);
 	text-align: center;
 	background-color: #4CAF50;
 	color: #FFF;
@@ -258,6 +258,10 @@ textarea:focus {
 	margin: 20px;
 }
 
+#username-avatar {
+	display: none;
+}
+
 .userdatagrid {
 	width: auto;
 	display: grid;
@@ -278,7 +282,7 @@ textarea:focus {
 
 .dialog-tab {
 	display: inline-block;
-	padding: 20px 15px 3px;
+	padding: 30px 15px 3px;
 	cursor: pointer;
 	font-size: 22px;
 }
@@ -296,19 +300,18 @@ textarea:focus {
 }
 
 .sidebar-container {
-	width: 0;
 	position: fixed;
+	width: 0;
+	height: 100%;
 	left: 0;
 	top: 0;
 	background: var(--secondary-color);
 	transition: var(--transition-buttons);
-	height: 100%;
 }
 
 .sidebar {
 	width: 0;
 	height: 100%;
-	background: inherit;
 	transition: var(--transition-buttons);
 	overflow-y: auto;
 }
@@ -324,28 +327,25 @@ textarea:focus {
 }
 
 .sidebar-container.visible .sidebar {
-	display: block;
 	width: 300px;
-}
-
-.sidebar-container.visible #lineTop2 {
-	transform: rotate(45deg);
-	top: 5px;
-}
-
-.sidebar-container.visible #lineBottom2 {
-	transform: rotate(-45deg);
-	bottom: 5px;
 }
 
 #lineTop1 {
 	transform: rotate(0);
 	top: 0;
 }
-
 #lineBottom1 {
 	transform: rotate(0);
 	bottom: 0;
+}
+
+.sidebar-container.visible #lineTop2 {
+	transform: rotate(45deg);
+	top: 5px;
+}
+.sidebar-container.visible #lineBottom2 {
+	transform: rotate(-45deg);
+	bottom: 5px;
 }
 
 .sidebar a {
@@ -355,6 +355,15 @@ textarea:focus {
 .sidebar .hamburger {
 	margin: 20px;
 	transition-duration: .5s;
+}
+.sidebar .hamburger:hover {
+	background: var(--tertiary-color);
+	animation: spin 1s;
+}
+
+@keyframes spin {
+	0% {transform: rotate(0deg);}
+	100% {transform: rotate(180deg);}
 }
 
 .hamburger {
@@ -372,24 +381,14 @@ textarea:focus {
 	height: 30px;
 }
 
-.sidebar .hamburger:hover {
-	background: var(--tertiary-color);
-	animation: spin 1s;
-}
-
-@keyframes spin {
-	0% { transform: rotate(0deg); }
-	100% { transform: rotate(180deg); }
-}
-
 .top .hamburger:hover {
 	animation: wide 0.3s;
 }
 
 @keyframes wide {
-	0% { gap: 5px;}
-	50% { gap: 10px;}
-	100% { gap: 5px;}
+	0% {gap: 5px;}
+	50% {gap: 10px;}
+	100% {gap: 5px;}
 }
 
 .hamburger .line {
@@ -419,11 +418,8 @@ textarea:focus {
 	letter-spacing: 2px;
 }
 
-.sidebar button:hover {
+.sidebar button:hover, .sidebar button:focus {
 	background: var(--accent-color-hover);
-}
-
-.sidebar button:focus {
 	box-shadow: 0 0 8px 2px var(--accent-color);
 }
 
@@ -432,14 +428,9 @@ textarea:focus {
 	margin-right: 7px;
 }
 
-
 .sidebar .section {
-	margin-top: 50px;
+	margin-top: 30px;
 	overflow-y: auto;
-}
-
-.sidebar .section .tab {
-	color: var(--primary-text-color);
 }
 
 .sidebar .section.middle {
@@ -453,8 +444,7 @@ textarea:focus {
 	background: var(--primary-color);
 	display: flex;
 	align-items: center;
-	padding-top: 5px;
-	padding-bottom: 5px;
+	padding: 12px 0;
 }
 
 .sidebar .section.bottom .tab {
@@ -463,7 +453,7 @@ textarea:focus {
 }
 
 #author {
-	font-size: 75%;
+	font-size: 15px;
 	padding-top: 50px;
 	color: var(--primary-text-color);
 	text-align: center;
@@ -551,9 +541,8 @@ textarea:focus {
 
 .sidebar .section p.title {
 	font-size: 13px;
-	margin-left: 15px;
+	margin: 10px 15px;
 	color: var(--secondary-text-color);
-	font-family: "Roboto Condensed", sans-serif;
 	letter-spacing: 2px;
 	text-transform: uppercase;
 }
@@ -608,6 +597,9 @@ textarea:focus {
 	font-size: 26px;
 }
 
+.sidebar .section .tab.otherlinks p {
+	font-size: 18px;
+}
 
 .sidebar .section.bottom .tab {
 	background: transparent;
@@ -653,20 +645,15 @@ textarea:focus {
 .top .search-box input {
 	border-radius: 22px;
 	width: 100%;
-	border: none;
 	height: 45px;
+	border: none;
 	outline: none;
 	padding-left: 15px;
 	padding-right: 50px;
 	font-size: 18px;
 	transition: var(--transition-buttons);
 	background: var(--primary-color);
-	color: var(--primary-text-color);
 	font-family: "Be Vietnam Pro", sans-serif;
-}
-
-.top .search-box input:focus {
-	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 .top .search-box input::placeholder {
 	color: var(--secondary-text-color);
@@ -746,17 +733,14 @@ textarea:focus {
 	transition: .4s;
 	padding: 100px 0 100px 300px;
 }
-.content .accent {
+.accent {
 	color: var(--accent-color);
 }
 
-h1 {
-	color: var(--primary-text-color);
-}
-h1.greeting {
+h1.greeting, h2.greeting {
 	font-size: 55px;
 	text-align: center;
-	padding-bottom: 50px;
+	padding-bottom: 40px;
 	margin: 0 auto;
 }
 .center {
@@ -776,7 +760,7 @@ h1.greeting {
 	align-items: baseline;
 	flex-direction: column;
 }
-.ticketsearch-container label, .form-container label, .dialog label {
+.ticketsearch-container label, .dialog label {
 	display: block;
 	color: var(--secondary-text-color);
 	font-size: 18px;
@@ -791,9 +775,8 @@ h1.greeting {
 	min-width: 150px;
 	transition: var(--transition-buttons);
 	background: var(--primary-color);
-	color: var(--primary-text-color);
 }
-.ticketsearch-container input:focus, .dialog input:focus {
+.ticketsearch-container input:focus, .top .search-box input:focus, .dialog input:focus {
 	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 
@@ -837,7 +820,7 @@ pre {
 	justify-content: center;
 	align-items: center;
 	width: 235px;
-	height: 190px;
+	height: 160px;
 }
 
 .stats-row .container {
@@ -875,15 +858,14 @@ pre {
 	right: -2px;
 }
 
-
 .stats-row .servers ion-icon {
-	background: var(--purple);
+	background-color: var(--purple);
 }
 .stats-row .uptime ion-icon {
-	background: var(--green);
+	background-color: var(--green);
 }
 .stats-row .users ion-icon, .stats-row .tickets ion-icon {
-	background: var(--blue);
+	background-color: var(--blue);
 }
 .stats-row .servers p {
 	color: var(--purple);
@@ -903,13 +885,9 @@ pre {
 	font-size: 24px;
 }
 .stats-row p.value {
-	font-size: 50px;
 	position: relative;
-	top: -50px;
-}
-
-h1, h2, h3, h4, p, small, label, ul li {
-	color: var(--primary-text-color);
+	font-size: 50px;
+	top: -25px;
 }
 
 .cookie-container {
@@ -941,61 +919,11 @@ h1, h2, h3, h4, p, small, label, ul li {
 
 .removeItem {
 	color: var(--select-border);
-}
-
-.form-popup {
-	display: none;
-	position: fixed;
-	top: 15px;
-	left: 50%;
-	border: 5px solid var(--primary-table-bgcolor);
-	z-index: 9;
-}
-
-.form-container {
-	max-width: 350px;
-	padding: 10px;
-	background-color: var(--secondary-table-bgcolor);
-}
-.form-container h1 {
-	padding-bottom: 15px;
-}
-
-.form-container input[type=text], .form-container textarea {
-	padding: 15px;
-	margin: 5px 0 22px;
-	border: none;
-	background: #f1f1f1;
-	min-width: 300px;
-	max-width: 350px;
-	box-sizing: border-box;
-	border-radius: 5px;
-}
-.form-container input[type=text]:focus, .form-container textarea:focus {
-	background-color: #ddd;
-	outline: none;
-}
-.form-container select:focus {
-	outline: none;
-}
-
-.form-container .btn {
-	background-color: #04AA6D;
-	color: #FFF;
-	padding: 16px 20px;
-	border: none;
 	cursor: pointer;
-	width: 100%;
-	margin-bottom: 10px;
-	opacity: .7s;
-	transition: .3s;
-}
-.form-container .btn:hover {
-	opacity: 1;
 }
 
-.form-container .cancel {
-	background-color: red;
+input:invalid, input:out-of-range {
+	border: red solid 2px;
 }
 
 .featurelist {
@@ -1014,14 +942,19 @@ h1, h2, h3, h4, p, small, label, ul li {
 	vertical-align: middle;
 }
 .feature strong {
-	font-size: 1.2em;
+	font-size: 27px;
 }
 .feature p {
-	font-size: 1.1em;
+	font-size: 21px;
+	word-break: break-word;
 }
 .feature a {
 	color: var(--blue);
 	text-decoration: none;
+}
+.feature img {
+	width: 150px;
+	height: 150px;
 }
 
 @media only screen and (max-width: 1300px) {
@@ -1058,6 +991,7 @@ h1, h2, h3, h4, p, small, label, ul li {
 	.cookie-container {
 		right: 0;
 		bottom: 0;
+		border-radius: 0;
 	}
 }
 
@@ -1092,13 +1026,13 @@ h1, h2, h3, h4, p, small, label, ul li {
 	.top .account {
 		margin-right: 20px;
 	}
-
 	.top .account p {
 		display: none;
 	}
 
 	.top .search-box {
 		margin-left: 10px;
+		margin-right: 20px;
 	}
 
 	.hamburger {
@@ -1110,31 +1044,14 @@ h1, h2, h3, h4, p, small, label, ul li {
 		margin-top: 13px;
 	}
 
-	.top .search-box {
-		margin-right: 20px;
-	}
-
-	.charts-css.column.sales tbody {
-		gap: 15px;
-	}
-
 	.content {
 		margin-left: 15px;
-	}
-
-	.stats-row .data .container {
-		flex-direction: column;
-	}
-
-	.stats-row .data .container > * {
-		position: relative;
 	}
 
 	.stats-row .data ion-icon {
 		top: 20px;
 		left: -55px;
 	}
-
 	.stats-row .data ion-icon.open {
 		top: -65px;
 		left: 5px;
@@ -1150,12 +1067,10 @@ h1, h2, h3, h4, p, small, label, ul li {
 ::-webkit-scrollbar {
 	width: 8px;
 }
-
 ::-webkit-scrollbar-thumb {
 	background: var(--accent-color);
 	border-radius: 20px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
 	background: var(--accent-color-hover);
 }
@@ -1169,28 +1084,25 @@ h1, h2, h3, h4, p, small, label, ul li {
 .creditsContainer {
 	text-align: center;
 }
-
-.credits h1, .credits h2, .credits h3 {
-	color: var(--primary-text-color);
-	text-align: center;
-}
-
 .creditsContainer a {
 	cursor: pointer;
 	text-decoration: none;
 	color: var(--primary-text-color);
 }
 
+.credits h1, .credits h2, .credits h3 {
+	color: var(--primary-text-color);
+	text-align: center;
+}
+
 .credits h1 {
 	font-size: 60px;
 	text-transform: uppercase;
 }
-
 .credits h2 {
 	font-size: 40px;
 	text-transform: uppercase;
 }
-
 .credits h3 {
 	font-size: 30px;
 	text-shadow: 3px 4px 5px #000;
@@ -1262,12 +1174,12 @@ h1, h2, h3, h4, p, small, label, ul li {
 
 	max-height: -webkit-fill-available;
 	overflow: scroll;
-	margin-bottom: 100px; /* TODO: Find a better solution - only fix I found to prevent clipped content */
+	margin-bottom: 100px;
 }
 
 @keyframes animateDialog {
-	from {width: 0; opacity: 0}
-	to {width: 70%; opacity: 1}
+	from {width: 0; opacity: 0;}
+	to {width: 70%; opacity: 1;}
 }
 
 .close {
@@ -1278,6 +1190,6 @@ h1, h2, h3, h4, p, small, label, ul li {
 	transition: .2s;
 }
 .close:hover, .close:focus {
-	color: black;
+	color: #000;
 	cursor: pointer;
 }

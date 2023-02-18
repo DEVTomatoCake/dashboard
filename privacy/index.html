@@ -22,8 +22,7 @@
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-
-			<div class="sidebar" id="sidebar">
+			<nav class="sidebar" id="sidebar">
 				<div class="hamburger" onclick="sidebar();">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
@@ -32,11 +31,11 @@
 				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
-					<a href="/" class="tab">
+					<a href="/" title="Home" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p translation="sidebar.home"></p>
 					</a>
-					<a href="/commands/" class="tab">
+					<a href="/commands/" title="Bot commands" class="tab">
 						<ion-icon name="terminal-outline"></ion-icon>
 						<p translation="sidebar.commands"></p>
 					</a>
@@ -44,17 +43,17 @@
 						<ion-icon name="settings-outline"></ion-icon>
 						<p translation="sidebar.dashboard"></p>
 					</a>
-					<a href="/docs/" class="tab">
+					<a href="/docs/" title="Documention of the bot" class="tab">
 						<ion-icon name="document-text-outline"></ion-icon>
 						<p translation="sidebar.docs"></p>
 					</a>
-					<a href="/discord/" class="tab">
+					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 						<p translation="sidebar.support"></p>
 					</a>
 				</div>
 
-				<div style="padding: 15px 0;" class="section bottom">
+				<div class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -64,11 +63,11 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-			</div>
+			</nav>
 		</div>
 
-		<section class="main" id="main">
-			<div class="top">
+		<main class="main" id="main">
+			<header class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
@@ -77,13 +76,13 @@
 				<div class="accdropdown">
 					<div class="account" onclick="redirect('/login/')">
 						<p id="username-header">Account</p>
-						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
 						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
-			</div>
+			</header>
 
 			<div class="content privacy" id="content">
 				<div id="root-container" style="padding: 0 60px;">
@@ -166,7 +165,7 @@
 
 				<p id="author" translation="global.footer"></p>
 			</div>
-		</section>
+		</main>
 		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
 	</body>

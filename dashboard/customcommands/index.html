@@ -8,6 +8,7 @@
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/customcommands/">
 		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/customcommands/">
+		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - Customcommands settings - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
@@ -30,21 +31,21 @@
 		<script src="../../assets/js/api/api.js"></script>
 		<script src="../../assets/js/api/transformer.js"></script>
 
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<script src="../../assets/js/emojipicker.js"></script>
+		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
+
 		<script>
 			function openForm() {
-				document.getElementById("customcommandForm").style.display = "block";
 				document.getElementById("customcommand-name").value = "";
 				document.getElementById("customcommand-text").value = "";
-			};
-			function closeForm() {
-				document.getElementById("customcommandForm").style.display = "none";
+				openDialog(document.getElementById("create-dialog"));
 			};
 
 			var socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						console.log("Closed", event);
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 					},
 					onOpen: event => {
@@ -56,13 +57,17 @@
 						socket.send({
 							status: "success",
 							action: "GET_customcommands",
-							guild: guild,
+							guild,
+							token: getCookie("token")
+						});
+						socket.send({
+							status: "success",
+							action: "GET_emojis",
+							guild,
 							token: getCookie("token")
 						});
 					},
 					onMessage: event => {
-						console.log("Received message: " + event.data);
-
 						try {
 							var json = JSON.parse(event.data);
 						} catch (e) {
@@ -78,21 +83,22 @@
 						if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<br><button onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab active'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
-								"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
-								"<div class='tab' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
-								"<div class='tab' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
+								"<br><button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
+								"<br><hr><div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p>Statistiken</p></div>" +
 								"<hr><div class='tab' onclick='redirect(\"../?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p>Andere Einstellungen</p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
 							reloadText(getLanguage());
+							guildName = json.guild;
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
-						};
+						} else if (json.action == "RECEIVE_emojis") customEmojiGlobal = json.data;
 					}
 				});
 			};
@@ -100,8 +106,7 @@
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-
-			<div class="sidebar" id="sidebar">
+			<nav class="sidebar" id="sidebar">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
@@ -110,11 +115,11 @@
 				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
-					<a href="/" class="tab">
+					<a href="/" title="Home" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p translation="sidebar.home"></p>
 					</a>
-					<a href="/commands/" class="tab">
+					<a href="/commands/" title="Bot commands" class="tab">
 						<ion-icon name="terminal-outline"></ion-icon>
 						<p translation="sidebar.commands"></p>
 					</a>
@@ -122,18 +127,18 @@
 						<ion-icon name="settings-outline"></ion-icon>
 						<p translation="sidebar.dashboard"></p>
 					</a>
-					<a href="/docs/" class="tab">
+					<a href="/docs/" title="Documention of the bot" class="tab">
 						<ion-icon name="document-text-outline"></ion-icon>
 						<p translation="sidebar.docs"></p>
 					</a>
-					<a href="/discord/" class="tab">
+					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 						<p translation="sidebar.support"></p>
 					</a>
 				</div>
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
-				<div style="padding: 15px 0;" class="section bottom">
+				<div class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -143,29 +148,11 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-			</div>
+			</nav>
 		</div>
 
-		<section class="main" id="main">
-			<div class="form-popup" id="customcommandForm">
-				<form class="form-container" id="ccForm">
-					<h1 translation="dashboard.cc.create"></h1>
-
-					<label for="customcommand-name">Name</label>
-					<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
-
-					<label for="customcommand-text" translation="dashboard.content"></label>
-					<textarea form="customcommandForm" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="6" required></textarea>
-
-					<label for="customcommand-desc" translation="commands.description"></label>
-					<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
-
-					<button type="submit" class="btn" translation="dashboard.cc.create"></button>
-					<button type="button" class="btn cancel" onclick="closeForm()" translation="dashboard.cancel"></button>
-				</form>
-			</div>
-
-			<div class="top">
+		<main class="main" id="main">
+			<header class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
@@ -174,42 +161,71 @@
 				<div class="accdropdown">
 					<div class="account" onclick="redirect('/login/')">
 						<p id="username-header">Account</p>
-						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
 						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
-			</div>
+			</header>
 
 			<div class="content" id="content">
-				<div id="root-container" class="row">
+				<div id="create-dialog" class="dialog">
+					<form id="create-form" class="dialog-content">
+						<span class="close">&times;</span>
+						<h1 translation="dashboard.cc.create"></h1>
+
+						<label for="customcommand-name">Name</label>
+						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
+
+						<label for="customcommand-text" translation="dashboard.content"></label>
+						<div class="emoji-container" id="newmsg">
+							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
+							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmojiGlobal)"></ion-icon>
+						</div>
+
+						<label for="customcommand-desc" translation="commands.description"></label>
+						<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
+
+						<br>
+						<button type="submit" translation="dashboard.cc.create"></button>
+					</form>
 				</div>
+
+				<div id="root-container" class="row"></div>
 
 				<p id="author" translation="global.footer"></p>
 			</div>
-		</section>
+		</main>
 
 		<script>
-			const formElem = document.getElementById("ccForm");
-			formElem.addEventListener("submit", e => {
+			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
-				closeForm();
-				if (document.getElementById("no-cc")) document.getElementById("no-cc").innerHTML = "";
-				const formData = new FormData(formElem);
-				const name = encode(formData.get("customcommand-name"));
+				document.getElementById("create-dialog").style.display = "none";
+				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
+
+				const name = encode(document.getElementById("customcommand-name").value);
 				const value = encode(document.getElementById("customcommand-text").value);
-				const desc = encode(formData.get("customcommand-desc"));
+				const desc = encode(document.getElementById("customcommand-desc").value);
 
 				var div = document.createElement("div");
-				div.innerHTML = "<p><b>" + name + "</b></p><textarea class='setting' rows='" + Math.round(value.split("").filter(i => i == "\n").length * 1.3) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea><br>";
+				div.innerHTML =
+					"<label><b for='" + name + "'>" + name + "</b></label>" +
+					"<div class='emoji-container'>" +
+					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
+					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmojiGlobal)'></ion-icon>" +
+					"</div>" +
+					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
+				saveCustomcommands();
 			});
 
 			const params = new URLSearchParams(window.location.search);
 			var saving = false;
 			var savingToast;
 			var errorToast;
+			var customEmojiGlobal = [];
+			var guildName = "";
 
 			function saveCustomcommands() {
 				if (!params.has("guild") || saving) return;

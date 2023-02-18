@@ -11,7 +11,11 @@ const sockette = (url, opts = {}) => {
 	object.open = () => {
 		websocket = new WebSocket(url, []);
 
-		if (opts.onMessage) websocket.onmessage = opts.onMessage;
+		websocket.onmessage = event => {
+			console.log("Received message: " + event.data);
+
+			if (opts.onMessage) opts.onMessage(event);
+		};
 
 		websocket.onopen = event => {
 			reconnectAttempts = 0;
@@ -19,6 +23,8 @@ const sockette = (url, opts = {}) => {
 		};
 
 		websocket.onclose = event => {
+			console.log("Closed", event);
+
 			if (event.code !== 1000 && event.code !== 1001 && event.code !== 1005) object.reconnect(event);
 			if (opts.onClose) opts.onClose(event);
 		};

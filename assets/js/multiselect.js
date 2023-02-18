@@ -33,7 +33,6 @@ var drop = function(info) {
 			parent: undefined
 		},
 		init: function() {
-			//Setup Drop HTML
 			this.html.parent = $.get(info.selector)[0].parentNode
 			this.html.drop = $.template("<div class='drop'></div>")
 			this.html.dropDisplay = $.template("<div class='drop-display'>Display</div>")
@@ -54,7 +53,7 @@ var drop = function(info) {
 			this.html.dropScreen.on("click", function() {
 				that.toggle()
 			})
-			//Run Render
+
 			this.load()
 			this.preselect()
 			this.render()
@@ -92,10 +91,10 @@ var drop = function(info) {
 				var option = this.html.options[i]
 
 				var prefix = ""
-				if (option.dataset.type == "text") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>"
-				else if (option.dataset.type == "voice") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>"
-				else if (option.dataset.type == "category") prefix = "<img style='vertical-align: middle;' src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>"
-				else if (option.dataset.type == "role") prefix = "<img style='vertical-align: middle; padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>"
+				if (option.dataset.type == "text") prefix = "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>"
+				else if (option.dataset.type == "voice") prefix = "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>"
+				else if (option.dataset.type == "category") prefix = "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>"
+				else if (option.dataset.type == "role") prefix = "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>"
 				//else if (option.dataset.type == "role" && option.dataset.color) prefix = "<span style='color: " + option.dataset.color + ";'>"
 
 				this.options[i] = {

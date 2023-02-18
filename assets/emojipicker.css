@@ -1,0 +1,52 @@
+@font-face {
+	font-family: "MozillaTwemojiColr";
+	src: url("https://cdn.jsdelivr.net/npm/twemoji-colr-font@^14/twemoji.woff2") format("woff2");
+}
+
+emoji-picker {
+	--emoji-font-family: MozillaTwemojiColr;
+
+	--background: #2F3136;
+	--border-size: 0;
+	--button-active-background: #4F545C;
+	--button-hover-background: #4F545C;
+	--category-font-color: #B9BBBE;
+	--category-font-size: 1rem;
+	--emoji-padding: 4px;
+	--emoji-size: 40px;
+	--category-emoji-size: 32px;
+	--indicator-color: #5373EC;
+	--indicator-height: 3px;
+	--input-border-color: #212326;
+	--input-border-radius: 4px;
+	--input-border-size: 1px;
+	--input-font-color: #DDDEDF;
+	--input-font-size: 16px;
+	--input-line-height: 1.5;
+	--input-padding: 4px 8px;
+	--input-placeholder-color: #DDDEDF;
+	--num-columns: 9;
+	--outline-color: #FFF;
+	--outline-size: 1px;
+	--skintone-border-radius: 1rem;
+}
+emoji-picker.light {
+	--background: #E1E5EF;
+	--button-active-background: #FFF;
+	--button-hover-background: #FFF;
+	--category-font-color: #111;
+	--indicator-color: #385AC1;
+	--input-border-color: #E3E5E8;
+	--input-font-color: #2E3338;
+	--input-placeholder-color: #2E3338;
+	--outline-color: #E3E5E8;
+}
+
+.emoji-container ion-icon {
+	color: var(--secondary-text-color);
+	font-size: 27px;
+	cursor: pointer;
+	position: relative;
+	left: -30px;
+	top: -5px;
+}

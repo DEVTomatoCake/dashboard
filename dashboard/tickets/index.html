@@ -8,6 +8,7 @@
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/tickets/">
 		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/tickets/">
+		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - Tickets - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
@@ -58,8 +59,7 @@
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
-
-			<div class="sidebar" id="sidebar">
+			<nav class="sidebar" id="sidebar">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop2"></div>
 					<div class="line" id="lineBottom2"></div>
@@ -68,11 +68,11 @@
 				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
 
 				<div class="section">
-					<a href="/" class="tab">
+					<a href="/" title="Home" class="tab">
 						<ion-icon name="home-outline"></ion-icon>
 						<p translation="sidebar.home"></p>
 					</a>
-					<a href="/commands/" class="tab">
+					<a href="/commands/" title="Bot commands" class="tab">
 						<ion-icon name="terminal-outline"></ion-icon>
 						<p translation="sidebar.commands"></p>
 					</a>
@@ -80,18 +80,18 @@
 						<ion-icon name="settings-outline"></ion-icon>
 						<p translation="sidebar.dashboard"></p>
 					</a>
-					<a href="/docs/" class="tab">
+					<a href="/docs/" title="Documention of the bot" class="tab">
 						<ion-icon name="document-text-outline"></ion-icon>
 						<p translation="sidebar.docs"></p>
 					</a>
-					<a href="/discord/" class="tab">
+					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
 						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
 						<p translation="sidebar.support"></p>
 					</a>
 				</div>
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
-				<div style="padding: 15px 0;" class="section bottom">
+				<div class="section bottom">
 					<label class="switch" data-type="lang">
 						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
 						<span class="slider round"></span>
@@ -101,11 +101,11 @@
 						<span class="slider round"></span>
 					</label>
 				</div>
-			</div>
+			</nav>
 		</div>
 
-		<section class="main" id="main">
-			<div class="top">
+		<main class="main" id="main">
+			<header class="top">
 				<div class="hamburger" onclick="sidebar()">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
@@ -114,16 +114,16 @@
 				<div class="accdropdown">
 					<div class="account" onclick="redirect('/login/')">
 						<p id="username-header">Account</p>
-						<ion-icon id="username-avatar" style="display: none;" name="person-circle-outline"></ion-icon>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="accdropdown-content">
 						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
-			</div>
+			</header>
 
 			<div class="content" id="content">
-				<div class="ticketsearch-container">
+				<div class="ticketsearch-container" role="search">
 					<h2>Filter tickets...</h2>
 
 					<label for="ts-id" translation="tickets.ticketid"></label>
@@ -153,7 +153,7 @@
 
 				<p id="author" translation="global.footer"></p>
 			</div>
-		</section>
+		</main>
 
 		<script>
 			document.getElementById("ts-created").max = new Date().toISOString().slice(0, -8);
@@ -166,11 +166,11 @@
 					let encodedGuild = encode(params.get("guild"));
 					document.getElementById("linksidebar").innerHTML =
 						"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-						"<div class='tab' onclick='redirect(\"../customcommands/?guild=" + encodedGuild + "\")'><ion-icon name='terminal-outline'></ion-icon><p style='font-size: 0.85em;'>Customcommands</p></div>" +
-						"<div class='tab' onclick='redirect(\"../reactionroles/?guild=" + encodedGuild + "\")'><ion-icon name='happy-outline'></ion-icon><p style='font-size: 0.85em;'>Reactionroles</p></div>" +
-						"<div class='tab active'><ion-icon name='ticket-outline'></ion-icon><p style='font-size: 0.85em;'>Tickets</p></div>" +
-						"<div class='tab' onclick='redirect(\"../../leaderboard/?guild=" + encodedGuild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p style='font-size: 0.85em;'>Leaderboard</p></div>" +
-						"<div class='tab' onclick='redirect(\"../../stats/?guild=" + encodedGuild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p style='font-size: 0.85em;'>Statistiken</p></div>" +
+						"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + encodedGuild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+						"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + encodedGuild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
+						"<div class='tab otherlinks active'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
+						"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + encodedGuild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
+						"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + encodedGuild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p>Statistiken</p></div>" +
 						"<hr><div class='tab' onclick='redirect(\"../?guild=" + encodedGuild + "\")'><ion-icon name='settings-outline'></ion-icon><p>Andere Einstellungen</p></div>" +
 						"</div>";
 

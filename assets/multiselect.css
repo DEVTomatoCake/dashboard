@@ -125,6 +125,10 @@
 	display: none;
 }
 
+.drop .drop-options img {
+	vertical-align: middle;
+}
+
 @-webkit-keyframes pop {
 	from {
 		-webkit-transform: scale(0);

@@ -1,7 +1,7 @@
 // Varun Dewan 2019
 // https://github.com/varundewan/multiselect/blob/master/js/index.js
-var $ = {
 	get: function(selector) {
+const $ = {
 		const ele = document.querySelectorAll(selector)
 		for (let i = 0; i < ele.length; i++) {
 			this.init(ele[i])
@@ -9,7 +9,7 @@ var $ = {
 		return ele
 	},
 	template: function(html) {
-		var template = document.createElement("div")
+		const template = document.createElement("div")
 		template.innerHTML = html.trim()
 		return this.init(template.childNodes[0])
 	},
@@ -21,8 +21,8 @@ var $ = {
 	}
 }
 
-	var o = {
 const Drop = function(info) {
+	const o = {
 		options: info.options,
 		selected: info.selected || [],
 		preselected: info.preselected || [],
@@ -46,8 +46,8 @@ const Drop = function(info) {
 			//Hide old select
 			this.html.drop.appendChild(this.html.select)
 
-			var that = this
 			this.html.dropDisplay.on("click", function() {
+			const that = this
 				that.toggle()
 			})
 			this.html.dropScreen.on("click", function() {

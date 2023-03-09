@@ -222,11 +222,12 @@
 			});
 
 			const params = new URLSearchParams(window.location.search);
-			var customEmojiGlobal = [];
-			var guildName = "";
 			let saving = false;
 			let savingToast;
 			let errorToast;
+			// eslint no-var: 0, prefer-const: 0
+			var customEmojiGlobal = [];
+			var guildName = "";
 
 			function saveCustomcommands() {
 				if (!params.has("guild") || saving) return;

@@ -29,34 +29,34 @@
 
 		<script>
 			function ticketSearch() {
-				var ticid = document.getElementById("ts-id").value;
-				var tictype = document.getElementById("ts-type").value;
-				var ticmessage = document.getElementById("ts-message").value;
-				var ticcreated = document.getElementById("ts-created").value;
+				const ticid = document.getElementById("ts-id").value;
+				const tictype = document.getElementById("ts-type").value;
+				const ticmessage = document.getElementById("ts-message").value;
+				const ticcreated = document.getElementById("ts-created").value;
 
-				var ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
+				const ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
 
-				for (var i = 0; i < ticketdiv.length; i++) {
-					var cmd = ticketdiv[i];
-					let rows = cmd.getElementsByTagName("td");
+				for (let i = 0; i < ticketdiv.length; i++) {
+					const cmd = ticketdiv[i];
+					const rows = cmd.getElementsByTagName("td");
 
 					let hidden = false;
 					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
 					if (tictype != "" && !rows[1].innerText.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
 					if (ticmessage != "" && !rows[2].innerText.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
 
-					if (!hidden) {
-						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "";
-					} else {
+					if (hidden) {
 						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "none";
-					};
-				};
-			};
+					} else {
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "";
+					}
+				}
+			}
 
 			function info(id) {
-				var log = logs.find(log => log.id == id);
+				const log = logs.find(log => log.id == id);
 				openDialog(document.getElementById("info-dialog"));
 
 				document.getElementById("info-dialogText").innerHTML =
@@ -68,6 +68,7 @@
 					(log.lastDate ? "<b>Last occured:</b> " + new Date(log.lastDate).toLocaleString() + "<br>" : "") +
 					"<b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>";
 			};
+			}
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">

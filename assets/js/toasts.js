@@ -1,7 +1,7 @@
 const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
 let toastNotifications = {}
 let autoscroll = true
-var currentId = 0
+let currentId = 0
 
 function createWrapper() {
 	const wrapper = document.createElement("div")
@@ -20,7 +20,7 @@ function createWrapper() {
 }
 
 function toastNotification({timeout = 10, type = "INFO", title = ""}) {
-	let element = document.createElement("div")
+	const element = document.createElement("div")
 	element.setAttribute("class", "toast-notification")
 	element.innerHTML = `
 		<div class="type-image-wrapper" data-type="${type}">
@@ -40,34 +40,33 @@ function toastNotification({timeout = 10, type = "INFO", title = ""}) {
 			</header>
 		</div>
 	`
-	let id = currentId++
+	const id = currentId++
 	let intervalId
 
 	element.querySelector(".content-wrapper header .close svg").addEventListener("click", () => {
 		this.close()
 	})
 
-	this.setType = function setType(type) {
+	this.setType = function setType(newType) {
 		if (element.classList.contains("closed")) return
-		element.querySelector(".type-image-wrapper").setAttribute("data-type", types.includes(type) ? type : "INFO")
+		element.querySelector(".type-image-wrapper").setAttribute("data-type", types.includes(newType) ? newType : "INFO")
 		return this
 	}
 
-	this.setTitle = function setTitle(title) {
+	this.setTitle = function setTitle(newTitle) {
 		if (element.classList.contains("closed")) return
-		title = title || ""
-		element.querySelector(".content-wrapper header .title-wrapper .title").innerText = title
+		element.querySelector(".content-wrapper header .title-wrapper .title").innerText = newTitle || ""
 		return this
 	}
 
 	function createTimeout() {
 		const e = element.querySelector(".content-wrapper header .close .timeout")
-		e.innerText = (timeout == undefined) ? e.innerText : timeout + "s"
+		e.innerText = timeout ? timeout + "s" : e.innerText
 	}
 
 	this.show = function show() {
 		let container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (container == null) container = createWrapper()
+		if (!container) container = createWrapper()
 		else if (container.contains(element)) return
 
 		autoscroll = ((container.scrollHeight - container.scrollTop - container.clientHeight) <= 40)
@@ -93,7 +92,7 @@ function toastNotification({timeout = 10, type = "INFO", title = ""}) {
 		clearInterval(current.intervalId)
 
 		const container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (container == null) return
+		if (!container) return
 
 		current.element.classList.add("closed")
 

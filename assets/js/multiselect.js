@@ -2,8 +2,8 @@
 // https://github.com/varundewan/multiselect/blob/master/js/index.js
 var $ = {
 	get: function(selector) {
-		var ele = document.querySelectorAll(selector)
-		for (var i = 0; i < ele.length; i++) {
+		const ele = document.querySelectorAll(selector)
+		for (let i = 0; i < ele.length; i++) {
 			this.init(ele[i])
 		}
 		return ele
@@ -30,7 +30,7 @@ var drop = function(info) {
 		html: {
 			select: $.get(info.selector)[0],
 			options: $.get(info.selector + " option"),
-			parent: undefined
+			parent: void 0
 		},
 		init: function() {
 			this.html.parent = $.get(info.selector)[0].parentNode
@@ -90,7 +90,7 @@ var drop = function(info) {
 			for (var i = 0; i < this.html.options.length; i++) {
 				var option = this.html.options[i]
 
-				var prefix = ""
+				let prefix = ""
 				if (option.dataset.type == "text") prefix = "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>"
 				else if (option.dataset.type == "voice") prefix = "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>"
 				else if (option.dataset.type == "category") prefix = "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>"
@@ -106,7 +106,7 @@ var drop = function(info) {
 			}
 		},
 		preselect: function() {
-			var that = this
+			const that = this
 			this.selected = []
 			this.preselected.forEach(function(pre) {
 				that.selected.push({
@@ -122,12 +122,12 @@ var drop = function(info) {
 			this.renderOptions()
 		},
 		renderDrop: function() {
-			var that = this
-			var parentHTML = $.template("<div></div>")
 			this.selected.forEach(function(select) {
-				var option = that.options[select.index]
-				var childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
-				var childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")
+			const that = this
+			const parentHTML = $.template("<div></div>")
+				const option = that.options[select.index]
+				const childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
+				const childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")
 				childCloseHTML.on("click", function(e) {
 					that.removeOption(e, this)
 				})
@@ -138,10 +138,10 @@ var drop = function(info) {
 			this.html.dropDisplay.appendChild(parentHTML)
 		},
 		renderOptions: function() {
-			var that = this
-			var parentHTML = $.template("<div></div>")
 			this.options.forEach(function(option, index) {
-				var childHTML = $.template("<a data-index='" + index + "' class='" + option.state + "'>" + option.html + "</a>")
+			const that = this
+			const parentHTML = $.template("<div></div>")
+				const childHTML = $.template("<a data-index='" + index + "' class='" + option.state + "'>" + option.html + "</a>")
 				childHTML.on("click", function() {
 					that.addOption(this)
 				})
@@ -151,8 +151,8 @@ var drop = function(info) {
 			this.html.dropOptions.appendChild(parentHTML)
 		},
 		clearStates: function() {
-			var that = this
 			this.selected.forEach(function(select) {
+			const that = this
 				select.state = that.changeState(select.state)
 			})
 			this.options.forEach(function(option) {

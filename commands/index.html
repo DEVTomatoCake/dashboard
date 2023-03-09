@@ -47,12 +47,12 @@
 			function cmdSearch(search = "") {
 				if (search) document.getElementById("cmd-search").value = "";
 				else search = document.getElementById("cmd-search").value.toLowerCase();
-				var cmddiv = document.getElementById("commands-container").getElementsByClassName("command");
-				var categorydiv = document.getElementById("commands-container").getElementsByClassName("category");
+				const cmddiv = document.getElementById("commands-container").getElementsByClassName("command");
+				const categorydiv = document.getElementById("commands-container").getElementsByClassName("category");
 
-				var categories = {};
-				for (var i = 0; i < cmddiv.length; i++) {
-					var cmd = cmddiv[i];
+				const categories = {};
+				for (let i = 0; i < cmddiv.length; i++) {
+					const cmd = cmddiv[i];
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
 					if ((cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
@@ -62,10 +62,10 @@
 					} else {
 						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "none";
-					};
-				};
-				for (var j = 0; j < categorydiv.length; j++) {
-					var category = categorydiv[j];
+					}
+				}
+				for (let j = 0; j < categorydiv.length; j++) {
+					const category = categorydiv[j];
 
 					if (categories[category.id] > 0) {
 						category.style.display = "";
@@ -77,12 +77,12 @@
 						document.getElementById(category.id + "tb").style.display = "none";
 						document.getElementById(category.id + "title").style.display = "none";
 						document.getElementById(category.id + "br").style.display = "none";
-					};
-				};
-			};
+					}
+				}
+			}
 
 			function toggleCategory(category) {
-				var toModify = document.getElementById(category);
+				const toModify = document.getElementById(category);
 
 				if (toModify.style.display == "none") {
 					toModify.style.display = "block";
@@ -90,8 +90,8 @@
 				} else {
 					toModify.style.display = "none";
 					document.getElementById(category + "tb").innerText = "Zeigen";
-				};
-			};
+				}
+			}
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad('commands')">

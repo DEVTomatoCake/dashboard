@@ -34,21 +34,21 @@
 		<script src="../assets/js/api/transformer.js"></script>
 
 		<script>
-			var socket;
+			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 						drops = [];
-						var olddrops = document.getElementsByClassName("drop");
-						for (let drop of olddrops) drop.remove();
+						const olddrops = document.getElementsByClassName("drop");
+						for (const drop of olddrops) drop.remove();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
 						if (errorToast) {
 							errorToast.setType("SUCCESS");
 							setTimeout(errorToast.close, 1000);
-						};
+						}
 						socket.send({
 							status: "success",
 							action: "GET_settings",
@@ -58,8 +58,9 @@
 						});
 					},
 					onMessage: event => {
+						let json;
 						try {
-							var json = JSON.parse(event.data);
+							json = JSON.parse(event.data);
 						} catch (e) {
 							console.warn(e, event);
 							return socket.send({
@@ -67,13 +68,13 @@
 								message: "Invalid json",
 								debug: event.data
 							});
-						};
+						}
 						console.log(json);
 
 						if (json.action == "RECEIVE_settings") {
 							const rendered = getSettingsHTML(json);
 
-							var sidebarHTML =
+							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<br><button type='button' onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 								"<br><hr><div class='tab otherlinks' onclick='redirect(\"./customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
@@ -93,15 +94,15 @@
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
-						};
+						}
 					}
 				});
-			};
+			}
 
 			function addRole(setting, select) {
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value += select.value + " ";
-				var roleelement = document.createElement("div");
+				const roleelement = document.createElement("div");
 				roleelement.innerHTML =
 					"<br><label for='an_" + setting + "_" + select.value + "value'>" + possible["_" + select.value].name + "</label>" +
 					"<input type='" + (setting == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1' value='1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
@@ -112,8 +113,8 @@
 				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
 				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
-			};
 			function removeRole(setting, item, role) {
+			}
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
 				item.parentElement.remove();
@@ -122,7 +123,7 @@
 				select.innerHTML += "<option value='" + role + "'>" + possible["_" + role].name + "</option>";
 				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
-			};
+			}
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
@@ -204,7 +205,7 @@
 		</main>
 
 		<script>
-			var friendlyCat = {
+			const friendlyCat = {
 				starconfig: "Starboard"
 			};
 
@@ -214,9 +215,9 @@
 			var currentlySelected = {};
 
 			const params = new URLSearchParams(window.location.search);
-			var saving = false;
-			var savingToast;
-			var errorToast;
+			let saving = false;
+			let savingToast;
+			let errorToast;
 
 			function saveSettings() {
 				if (!params.has("guild") || saving) return;
@@ -224,11 +225,11 @@
 				saving = true;
 				const settings = document.getElementsByClassName("setting");
 
-				let items = {};
+				const items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
 
-					var entry = "";
+					let entry = "";
 					if (multiselect.includes(item.name)) {
 						drops.forEach(drop => {
 							if (drop.key != item.name) return
@@ -239,14 +240,14 @@
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 					} else if (advancedsetting.includes(item.name)) {
 						if (currentlySelected[item.name].value.trim().length > 0) currentlySelected[item.name].value.trim().split(" ").forEach(r => {
-							let value = document.getElementById("an_" + item.name + "_" + r + "value").value;
+							const value = document.getElementById("an_" + item.name + "_" + r + "value").value;
 							if (value.trim() != "") entry += r + ":" + value.replace(/,/g, ";") + ","; // TODO: Handle commas in values
 						});
 						if (entry.endsWith(",")) entry = entry.slice(0, -1);
 					} else entry = item.value;
 
 					items[item.name] = entry;
-				};
+				}
 
 				socket.send(JSON.stringify({
 					status: "success",
@@ -257,7 +258,7 @@
 				}));
 
 				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();
-			};
+			}
 
 			if (params.has("guild") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Einstellungen werden geladen...</h1>";
@@ -276,7 +277,7 @@
 						document.getElementById("root-container").innerHTML =
 							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
 							"<h1>" + json.message + "</h1>";
-					};
+					}
 				});
 			} else if (getCookie("token")) {
 				getGuildsHTML().then(html => {
@@ -297,12 +298,12 @@
 						document.getElementById("root-container").innerHTML =
 							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
 							"<h1>" + json.message + "</h1>";
-					};
+					}
 				});
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
 				location.href = "../login/?next=" + encodeURIComponent(location.pathname + location.search);
-			};
+			}
 		</script>
 		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>

@@ -14,10 +14,10 @@ function getCookie(name) {
 	const cookies = document.cookie.split(";");
 
 	for (let i = 0; i < cookies.length; i++) {
-		let cookie = cookies[i].trim();
+		const cookie = cookies[i].trim();
 		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length);
 	}
-	return undefined;
+	return void 0;
 }
 function deleteCookie(name) {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;";
@@ -27,7 +27,7 @@ function deleteCookie(name) {
 const redirect = url => window.location = url;
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
-var sideState = 0;
+let sideState = 0;
 function sidebar() {
 	sideState++;
 

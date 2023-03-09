@@ -128,7 +128,7 @@ function getSettingsHTML(json) {
 					});
 					temp += "</select>";
 					setTimeout(() => {
-						drops.push({key: setting.key, data: new drop({selector: "#" + setting.key, preselected: selected})});
+						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
 					}, 2000);
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
@@ -183,7 +183,7 @@ function getSettingsHTML(json) {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
 			"<h1>" + json.message + "</h1>");
-	};
+	}
 }
 
 function getCustomcommandsHTML(json) {
@@ -208,7 +208,7 @@ function getCustomcommandsHTML(json) {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
 			"<h1>" + json.message + "</h1>");
-	};
+	}
 }
 
 function getReactionrolesHTML(json) {
@@ -255,7 +255,7 @@ function getReactionrolesHTML(json) {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
 			"<h1>" + json.message + "</h1>");
-	};
+	}
 }
 
 function getLeaderboardHTML(guild) {
@@ -304,7 +304,7 @@ function getDataexportHTML(token) {
 					let mentions = "";
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
 						mentions = json.data.userProfiles.afk.mentions.map(mention => "<a href='" + mention.url + "'><p class='badge'>" + mention.user + "</p></a><br>").join(", ");
-					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
+					const afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
 
 					let reminders = "";
 					if (json.data.remind?.length > 0)
@@ -316,7 +316,7 @@ function getDataexportHTML(token) {
 					let suggests = "";
 					if (json.data.suggest?.length > 0) suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id) + "</p>").join(", ");
 
-					let text =
+					const text =
 						"<center>" +
 						"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
 						"<div class='userdatagrid'>" +
@@ -349,14 +349,14 @@ function getDataexportHTML(token) {
 							"</div>"
 						: "") +
 
-						(json.data.userProfiles?.afk?.text != "" ?
+						(json.data.userProfiles?.afk?.text == "" ? "" :
 							"<div class='userData'>" +
 							"<h1>AFK</h1>" +
 							"<p><b translation='user.reason'></b> " + encode(json.data.userProfiles.afk.text) + "</p>" +
 							"<p><b translation='user.since'></b> " + afkSince + "</p>" +
 							(mentions ? "<p><b>Mentions:</b> " + mentions + "</p>" : "") +
 							"</div>"
-						: "") +
+						) +
 
 						(reminders ?
 							"<div class='userData'>" +
@@ -481,7 +481,7 @@ function getGiveawayHTML(giveaway) {
 						if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
 						if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
 						if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints + "</b></p>";
-					};
+					}
 
 					resolve(text);
 				} else handleError(resolve, json.message);

@@ -35,7 +35,7 @@
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-msg").value = "";
 				openDialog(document.getElementById("create-dialog"));
-			};
+			}
 			function changeTab(elem) {
 				for (tab of document.getElementsByClassName("dialog-tab")) {
 					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
@@ -46,20 +46,20 @@
 							if (input.required) {
 								input.required = false;
 								input.dataset.required = true;
-							};
-						};
-					};
-				};
+							}
+						}
+					}
+				}
 				elem.classList.add("active");
 
 				document.getElementById(elem.getAttribute("name")).style.display = "block";
 				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input")) {
 					if (input.hasAttribute("data-required")) input.required = true;
-				};
+				}
 
 				if (elem.getAttribute("data-radio") == "rrtype") for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
 					elem.remove();
-			};
+			}
 
 			function addRR(e) {
 				e.preventDefault();
@@ -100,7 +100,7 @@
 
 				document.getElementById("rr-currentmsg").appendChild(newelem);
 				clearInputs();
-			};
+			}
 			function clearInputs(clearTabs = false) {
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-buttonlabel").value = "";
@@ -111,9 +111,9 @@
 
 				if (clearTabs)
 					for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove();
-			};
+			}
 
-			var socket;
+			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
@@ -124,7 +124,7 @@
 						if (errorToast) {
 							errorToast.setType("SUCCESS");
 							setTimeout(errorToast.close, 1000);
-						};
+						}
 						socket.send({
 							status: "success",
 							action: "GET_reactionroles",
@@ -133,8 +133,9 @@
 						});
 					},
 					onMessage: event => {
+						let json;
 						try {
-							var json = JSON.parse(event.data);
+							json = JSON.parse(event.data);
 						} catch (e) {
 							console.warn(e, event);
 							return socket.send({
@@ -142,7 +143,7 @@
 								message: "Invalid json",
 								debug: event.data
 							});
-						};
+						}
 						console.log(json);
 
 						if (json.action == "RECEIVE_reactionroles") {
@@ -162,10 +163,9 @@
 						} else if (json.action == "SAVED_reactionroles") {
 							savingToast.setType("SUCCESS").setTitle("Reactionroles wurden gespeichert!");
 							saving = false;
-						};
 					}
 				});
-			};
+			}
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
@@ -311,19 +311,19 @@
 
 		<script>
 			var rolecopy = {};
-			var amountnew = 0;
+			let amountnew = 0;
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").remove();
 
 				const reaction = encode(document.getElementById("reactionroles-reaction").value);
-				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
-				let newmsg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg";
+				const type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
+				const newmsg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg";
 				if (newmsg) amountnew++;
 
-				var div = document.createElement("div");
-				var html = "";
+				const div = document.createElement("div");
+				let html = "";
 
 				for (elem of document.getElementsByClassName("reactionrole"))
 					html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
@@ -334,17 +334,17 @@
 			});
 
 			const params = new URLSearchParams(window.location.search);
-			var saving = false;
-			var savingToast;
-			var errorToast;
+			let saving = false;
+			let savingToast;
+			let errorToast;
 
 			function saveReactionroles() {
 				if (!params.has("guild") || saving) return;
 				saving = true;
 
-				let items = {};
+				const items = {};
 				for (item of document.querySelectorAll(".settingsContent .setting")) {
-					let type = item.getAttribute("data-type");
+					const type = item.getAttribute("data-type");
 					if (!items[item.name]) items[item.name] = [];
 					items[item.name].push({
 						type,
@@ -358,7 +358,7 @@
 						buttonstyle: type == "button" ? item.getAttribute("data-buttonstyle") : null,
 						selectdesc: type == "select" ? item.getAttribute("data-selectdesc") : null
 					});
-				};
+				}
 
 				socket.send(JSON.stringify({
 					status: "success",
@@ -369,7 +369,7 @@
 				}));
 
 				savingToast = toastNotification({type: "LOADING", title: "Reactionroles werden gespeichert...", timeout: 5}).show();
-			};
+			}
 
 			if (params.has("guild") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Reactionroles werden geladen...</h1>";
@@ -383,7 +383,7 @@
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
 				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
-			};
+			}
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
 	</body>

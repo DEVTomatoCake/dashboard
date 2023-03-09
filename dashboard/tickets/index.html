@@ -29,17 +29,17 @@
 
 		<script>
 			function ticketSearch() {
-				var ticid = document.getElementById("ts-id").value;
-				var ticusername = document.getElementById("ts-username").value;
-				var ticuserid = document.getElementById("ts-userid").value;
-				var ticcreated = document.getElementById("ts-created").value;
-				var ticstate = document.getElementById("ts-state").value;
+				const ticid = document.getElementById("ts-id").value;
+				const ticusername = document.getElementById("ts-username").value;
+				const ticuserid = document.getElementById("ts-userid").value;
+				const ticcreated = document.getElementById("ts-created").value;
+				const ticstate = document.getElementById("ts-state").value;
 
-				var ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
+				const ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
 
-				for (var i = 0; i < ticketdiv.length; i++) {
-					var cmd = ticketdiv[i];
-					let rows = cmd.getElementsByTagName("td");
+				for (let i = 0; i < ticketdiv.length; i++) {
+					const cmd = ticketdiv[i];
+					const rows = cmd.getElementsByTagName("td");
 
 					let hidden = false;
 					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
@@ -159,11 +159,10 @@
 			document.getElementById("ts-created").max = new Date().toISOString().slice(0, -8);
 
 			const params = new URLSearchParams(window.location.search);
-
 			if (params.has("guild") && getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Tickets werden geladen...</h1>";
 				getTicketsHTML(params.get("guild")).then(data => {
-					let encodedGuild = encode(params.get("guild"));
+					const encodedGuild = encode(params.get("guild"));
 					document.getElementById("linksidebar").innerHTML =
 						"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 						"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + encodedGuild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
@@ -186,7 +185,7 @@
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
 				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
-			};
+			}
 		</script>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
 	</body>

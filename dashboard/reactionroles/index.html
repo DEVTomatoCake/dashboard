@@ -81,10 +81,17 @@
 					: "") +
 					(type == "button" ? "data-buttonstyle='" + encode(document.getElementById("reactionroles-buttonstyle").value) + "' " : "") +
 					(type == "select" ? "data-selectdesc='" + encode(document.getElementById("reactionroles-selectdesc").value) + "' " : "") +
-					(document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "data-content='" + encode(document.getElementById("reactionroles-content").value) + "' " : "") +
+					(
+						document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ?
+						"data-content='" + encode(document.getElementById("reactionroles-content").value) + "' " : ""
+					) +
 					"id='" + encode(msg) + "-" +
-					(document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonlabel").value || document.getElementById("reactionroles-selectlabel").value) + "' " +
-					"name='" + encode(msg) + "'>" +
+					encode(
+						document.getElementById("reactionroles-reaction").value ||
+						document.getElementById("reactionroles-buttonlabel").value ||
+						document.getElementById("reactionroles-selectlabel").value
+					) +
+					"' name='" + encode(msg) + "'>" +
 					Object.keys(rolecopy).map(key =>
 						"<option value='" + encode(key.replace("_", "")) + "'" +
 						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + encode(rolecopy[key]) + "</option>"

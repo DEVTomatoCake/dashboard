@@ -62,7 +62,7 @@ function sidebar() {
 		setTimeout(() => {
 			document.getElementById("sidebar-container").classList.toggle("visible");
 		}, 100);
-	};
+	}
 }
 
 function fadeOut(element) {
@@ -102,16 +102,14 @@ function pageLoad(page = "") {
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement);' translation='cookie.necessary'>Only essential</button>" +
 			"</div>";
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000);
-	};
+	}
 
 	if (screen.width <= 800) {
-		if (page == "commands") {
-			document.getElementById("search-box").style.marginLeft = "10px";
-		};
+		if (page == "commands") document.getElementById("search-box").style.marginLeft = "10px";
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
 		document.getElementById("content").style.paddingLeft = "0";
 		sideState = 1;
-	};
+	}
 
 	const username = getCookie("user");
 	if (username) {
@@ -134,7 +132,7 @@ function pageLoad(page = "") {
 		} else {
 			document.body.classList.replace("dark-theme", "light-theme");
 			setCookie("theme", "light", 365, true);
-		};
+		}
 		document.querySelectorAll("emoji-picker").forEach(picker => {
 			picker.classList.toggle("light");
 		});
@@ -148,4 +146,4 @@ function pageLoad(page = "") {
 	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
 
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
-};
+}

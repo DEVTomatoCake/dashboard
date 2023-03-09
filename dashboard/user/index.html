@@ -101,8 +101,6 @@
 		</main>
 
 		<script>
-			const params = new URLSearchParams(window.location.search);
-
 			if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Deine Daten werden geladen...</h1>";
 				getDataexportHTML().then(data => {

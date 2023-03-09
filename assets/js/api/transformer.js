@@ -11,11 +11,11 @@ function getCommandsHTML() {
 			.then(json => {
 				if (json.status == "success") {
 					let text = "";
-					var categories = [];
-					var categoryData = [];
+					const categories = [];
+					const categoryData = [];
 
 					json.data.forEach(command => {
-						var temp =
+						const temp =
 							"<tr class='command cmdvisible'" + (command.category ? " data-category='" + command.category + "'" : "") + ">" +
 							"<td>" + command.name + "</td>" +
 							"<td>" + command.description + "</td>" +
@@ -89,8 +89,8 @@ function getGuildsHTML() {
 function getSettingsHTML(json) {
 	if (json.status == "success") {
 		let text = "";
-		var categories = [];
-		var categoryData = [];
+		const categories = [];
+		const categoryData = [];
 
 		multiselect = json.constant.multiselect;
 		advancedsetting = json.constant.advancedsetting;
@@ -110,13 +110,13 @@ function getSettingsHTML(json) {
 					}, 2000);
 				};
 			} else {
-				var possible = setting.possible;
+				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 
 				if (multiselect.includes(setting.key)) {
 					temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
-					var selected = [];
-					var i = 0;
+					const selected = [];
+					let i = 0;
 					Object.keys(possible).forEach(key => {
 						if (key == "") return;
 						setting.value.split(",").forEach(data => {
@@ -224,8 +224,8 @@ function getReactionrolesHTML(json) {
 
 		let text = "";
 		json.data.reactionroles.forEach(setting => {
-			let type = encode(setting.type);
-			let emoji = encode(setting.reaction || setting.emoji);
+			const type = encode(setting.type);
+			const emoji = encode(setting.reaction || setting.emoji);
 
 			text +=
 				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Reactionrole Image'><br>") : "") +
@@ -243,7 +243,7 @@ function getReactionrolesHTML(json) {
 				"id='" + encode(setting.msg + "-" + (setting.reaction || setting.label)) + "' " +
 				"name='" + encode(setting.msg) + "' disabled>" +
 				Object.keys(rolecopy).map(key =>
-					setting.role == key.replace("_", "") ? "<option value='" + key.replace("_", "") + "' selected>" + rolecopy[key] + "</option>" : ""
+					setting.role == key.replace("_", "") ? "<option value='" + key.replace("_", "") + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
 				) +
 				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 		});
@@ -289,27 +289,32 @@ function getDataexportHTML(token) {
 		getDataexport(token)
 			.then(json => {
 				if (json.status == "success") {
-					if (json.data.userProfiles?.badges?.length > 0)
-						var badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ");
+					let badges = "";
+					if (json.data.userProfiles?.badges?.length > 0) badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ");
 
+					let economyitems = "";
 					if (json.data.economy?.shop?.length > 0)
-						var economyitems = json.data.economy.shop.map(item => "<p class='badge' title='Erhalten am " + new Date(item.date).toLocaleString() + (item.used > 0 ? ", " + item.used + " mal genutzt" : "") + "'>" + item.name + "</p>").join(", ");
+						economyitems = json.data.economy.shop.map(item => "<p class='badge' title='Erhalten am " + new Date(item.date).toLocaleString() +
+							(item.used > 0 ? ", " + item.used + " mal genutzt" : "") + "'>" + item.name + "</p>").join(", ");
 
+					let cooldowns = "";
 					if (json.data.economy?.cooldowns?.length > 0)
-						var cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Bis " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
+						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Bis " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
 
+					let mentions = "";
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
-						var mentions = json.data.userProfiles.afk.mentions.map(mention => "<a href='" + mention.url + "'><p class='badge'>" + mention.user + "</p></a><br>").join(", ");
+						mentions = json.data.userProfiles.afk.mentions.map(mention => "<a href='" + mention.url + "'><p class='badge'>" + mention.user + "</p></a><br>").join(", ");
 					let afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
 
+					let reminders = "";
 					if (json.data.remind?.length > 0)
-						var reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
+						reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
 
-					if (json.data.ticket?.length > 0)
-						var tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ");
+					let tickets = "";
+					if (json.data.ticket?.length > 0) tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ");
 
-					if (json.data.suggest?.length > 0)
-						var suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id) + "</p>").join(", ");
+					let suggests = "";
+					if (json.data.suggest?.length > 0) suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id) + "</p>").join(", ");
 
 					let text =
 						"<center>" +
@@ -527,7 +532,7 @@ function getModlogsHTML(guild) {
 
 					json.data.forEach(log => {
 						log.cases?.forEach(i => {
-							var type = i.type;
+							let type = i.type;
 							if (i.type == "warning") type = "Warn";
 							else if (i.type == "mute") type = "Mute";
 							else if (i.type == "unmute") type = "Unmute";

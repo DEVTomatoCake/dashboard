@@ -26,8 +26,8 @@ self.addEventListener("fetch", event => {
 				console.warn("Cannot fetch, serving from cache", e)
 
 				const cache = await caches.open("offline")
-				var cachedResponse = await cache.match(event.request.url)
-				if (!cachedResponse) return cachedResponse = await caches.match("/offline")
+				const cachedResponse = await cache.match(event.request.url)
+				if (!cachedResponse) return await caches.match("/offline")
 				return cachedResponse
 			}
 		})())

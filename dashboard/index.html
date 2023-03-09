@@ -209,11 +209,12 @@
 				starconfig: "Starboard"
 			};
 
-			// eslint no-var: 0, prefer-const: 0
+			// eslint-disable no-var prefer-const
 			var drops = [];
 			var multiselect = [];
 			var advancedsetting = [];
 			var currentlySelected = {};
+			// eslint-enable no-var prefer-const
 
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;

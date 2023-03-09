@@ -265,7 +265,8 @@ function getLeaderboardHTML(guild) {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => {
-						text += "<div class='leaderboard'><p>" + encode(entry.place) + ". " +
+						text +=
+							"<div class='leaderboard'><p>" + encode(entry.place.toString()) + ". " +
 							"<img class='user-image' src='" + encode(entry.avatar) + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
 							encode(entry.user) + " <b>" + encode(entry.points) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + encode(entry.level) + "</b>)</p></div>";
 					});
@@ -314,7 +315,8 @@ function getDataexportHTML(token) {
 					if (json.data.ticket?.length > 0) tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ");
 
 					let suggests = "";
-					if (json.data.suggest?.length > 0) suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id) + "</p>").join(", ");
+					if (json.data.suggest?.length > 0)
+						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id.toString()) + "</p>").join(", ");
 
 					const text =
 						"<center>" +

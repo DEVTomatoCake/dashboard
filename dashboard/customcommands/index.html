@@ -225,9 +225,11 @@
 			let saving = false;
 			let savingToast;
 			let errorToast;
-			// eslint no-var: 0, prefer-const: 0
+
+			// eslint-disable no-var prefer-const
 			var customEmojiGlobal = [];
 			var guildName = "";
+			// eslint-enable no-var prefer-const
 
 			function saveCustomcommands() {
 				if (!params.has("guild") || saving) return;

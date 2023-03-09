@@ -63,30 +63,31 @@
 
 			function addRR(e) {
 				e.preventDefault();
-				let type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
-				let emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value;
-				let msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "createnew_" + Math.random().toString(36).slice(2) : document.getElementById("reactionroles-msg").value;
+				const type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name");
+				const emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value;
+				const msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "createnew_" + Math.random().toString(36).slice(2) : document.getElementById("reactionroles-msg").value;
 
-				let newelem = document.createElement("div");
+				const newelem = document.createElement("div");
 				newelem.classList.add("reactionrole");
 				newelem.innerHTML =
-					(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Reactionrole Image'><br>") : "") +
-					(type == "button" || type == "select" ? "<p><b>" + document.getElementById("reactionroles-" + type + "label").value + "</b></p>" : "") +
-					"<select class='setting' data-type='" + type + "' data-msg='" + msg + "' " +
-					"data-channel='" + document.getElementById("reactionroles-channel").value + "' " +
-					(type == "reaction" ? "data-reaction='" + document.getElementById("reactionroles-reaction").value + "' " : "") +
+					(emoji ? (isNaN(emoji) ? "<p><b>" + encode(emoji) + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + encode(emoji) + ".webp?size=32' alt='Reactionrole Image'><br>") : "") +
+					(type == "button" || type == "select" ? "<p><b>" + encode(document.getElementById("reactionroles-" + type + "label").value) + "</b></p>" : "") +
+					"<select class='setting' data-type='" + encode(type) + "' data-msg='" + encode(msg) + "' " +
+					"data-channel='" + encode(document.getElementById("reactionroles-channel").value) + "' " +
+					(type == "reaction" ? "data-reaction='" + encode(document.getElementById("reactionroles-reaction").value) + "' " : "") +
 					(type == "button" || type == "select" ?
-						"data-label='" + document.getElementById("reactionroles-" + type + "label").value + "' " +
-						"data-emoji='" + document.getElementById("reactionroles-" + type + "emoji").value + "' "
+						"data-label='" + encode(document.getElementById("reactionroles-" + type + "label").value) + "' " +
+						"data-emoji='" + encode(document.getElementById("reactionroles-" + type + "emoji").value) + "' "
 					: "") +
-					(type == "button" ? "data-buttonstyle='" + document.getElementById("reactionroles-buttonstyle").value + "' " : "") +
-					(type == "select" ? "data-selectdesc='" + document.getElementById("reactionroles-selectdesc").value + "' " : "") +
-					(document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "data-content='" + document.getElementById("reactionroles-content").value + "' " : "") +
-					"id='" + msg + "-" + (document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonlabel").value || document.getElementById("reactionroles-selectlabel").value) + "' " +
-					"name='" + msg + "'>" +
+					(type == "button" ? "data-buttonstyle='" + encode(document.getElementById("reactionroles-buttonstyle").value) + "' " : "") +
+					(type == "select" ? "data-selectdesc='" + encode(document.getElementById("reactionroles-selectdesc").value) + "' " : "") +
+					(document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "data-content='" + encode(document.getElementById("reactionroles-content").value) + "' " : "") +
+					"id='" + encode(msg) + "-" +
+					(document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonlabel").value || document.getElementById("reactionroles-selectlabel").value) + "' " +
+					"name='" + encode(msg) + "'>" +
 					Object.keys(rolecopy).map(key =>
-						"<option value='" + key.replace("_", "") + "'" +
-						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + rolecopy[key] + "</option>"
+						"<option value='" + encode(key.replace("_", "")) + "'" +
+						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + encode(rolecopy[key]) + "</option>"
 					) +
 					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 
@@ -101,8 +102,8 @@
 				document.getElementById("reactionroles-selectdesc").value = "";
 				document.getElementById("reactionroles-selectemoji").value = "";
 
-				if (clearTabs) for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
-					elem.remove();
+				if (clearTabs)
+					for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove();
 			};
 
 			var socket;

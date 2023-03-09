@@ -33,7 +33,7 @@ const loadLangFile = async language => {
 	alert("The lang file couldn't be loaded, the site might not work probably. Try again later!");
 };
 
-var reloadText = async language => {
+const reloadText = async language => {
 	setCookie("lang", language, 60, true);
 	document.documentElement.lang = language;
 

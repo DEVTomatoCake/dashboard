@@ -110,7 +110,6 @@
 		"no-irregular-whitespace": [2, { "skipRegExps": true }],
 		"no-constant-condition": 2,
 		"no-undefined": 2,
-		"no-confusing-arrow": 2,
 		"no-lone-blocks": 2,
 		"no-whitespace-before-property": 2,
 		"object-shorthand": 2,

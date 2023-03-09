@@ -268,7 +268,7 @@ function getLeaderboardHTML(guild) {
 						text +=
 							"<div class='leaderboard'><p>" + encode(entry.place.toString()) + ". " +
 							"<img class='user-image' src='" + encode(entry.avatar) + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
-							encode(entry.user) + " <b>" + encode(entry.points) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + encode(entry.level) + "</b>)</p></div>";
+							encode(entry.user) + " <b>" + encode(entry.points.toString()) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + encode(entry.level.toString()) + "</b>)</p></div>";
 					});
 					resolve(text);
 				} else handleError(resolve, json.message);

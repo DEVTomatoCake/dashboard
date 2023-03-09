@@ -91,7 +91,6 @@ function openDialog(dialog) {
 	};
 }
 
-var reloadText;
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=

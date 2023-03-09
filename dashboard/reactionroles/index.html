@@ -163,6 +163,7 @@
 						} else if (json.action == "SAVED_reactionroles") {
 							savingToast.setType("SUCCESS").setTitle("Reactionroles wurden gespeichert!");
 							saving = false;
+						}
 					}
 				});
 			}
@@ -310,7 +311,8 @@
 		</main>
 
 		<script>
-			var rolecopy = {};
+			// eslint-disable-next-line prefer-const
+			let rolecopy = {};
 			let amountnew = 0;
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();

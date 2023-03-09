@@ -98,18 +98,7 @@ function getSettingsHTML(json) {
 		json.data.forEach(setting => {
 			let temp = "<label for='" + setting.key + "'>" + setting.help + "</label><br>";
 
-			if (!setting.possible) {
-				if (json.constant.integer.includes(setting.key)) temp +=
-					"<input type='number' min='0' max='9999' class='setting' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
-				else temp +=
-					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
-
-				if (setting.value?.includes("<") || setting.value?.includes(">")) {
-					setTimeout(() => {
-						document.getElementById(setting.key).value = setting.value;
-					}, 2000);
-				};
-			} else {
+			if (setting.possible) {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 
@@ -162,8 +151,19 @@ function getSettingsHTML(json) {
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
-				};
-			};
+				}
+			} else {
+				if (json.constant.integer.includes(setting.key)) temp +=
+					"<input type='number' min='0' max='9999' class='setting' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
+				else temp +=
+					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
+
+				if (setting.value?.includes("<") || setting.value?.includes(">")) {
+					setTimeout(() => {
+						document.getElementById(setting.key).value = setting.value;
+					}, 2000);
+				}
+			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
 		});

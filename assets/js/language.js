@@ -1,5 +1,5 @@
 // Modified from https://booky.dev/assets/js/language.js
-var langCache = {};
+const langCache = {};
 
 const getLanguage = () => {
 	if (getCookie("lang")) return getCookie("lang");

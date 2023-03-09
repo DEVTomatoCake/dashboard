@@ -46,15 +46,15 @@
 					if (ticuserid != "" && !rows[1].innerText.toLowerCase().includes(ticuserid.toLowerCase())) hidden = true;
 					if (ticstate != "all" && !rows[3].innerText.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
 
-					if (!hidden) {
-						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "";
-					} else {
+					if (hidden) {
 						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "none";
-					};
-				};
-			};
+					} else {
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.style.display = "";
+					}
+				}
+			}
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">

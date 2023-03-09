@@ -1,5 +1,5 @@
 const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
-let toastNotifications = {}
+const toastNotifications = {}
 let autoscroll = true
 let currentId = 0
 

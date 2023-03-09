@@ -21,8 +21,8 @@ var $ = {
 	}
 }
 
-var drop = function(info) {
 	var o = {
+const Drop = function(info) {
 		options: info.options,
 		selected: info.selected || [],
 		preselected: info.preselected || [],
@@ -62,7 +62,7 @@ var drop = function(info) {
 			this.html.drop.classList.toggle("open")
 		},
 		addOption: function(element) {
-			var index = Number(element.dataset.index)
+			const index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
 				index: Number(index),
@@ -75,8 +75,8 @@ var drop = function(info) {
 		removeOption: function(e, element) {
 			e.stopPropagation()
 			this.clearStates()
-			var index = Number(element.dataset.index)
 			this.selected.forEach(function(select) {
+			const index = Number(element.dataset.index)
 				if (select.index == index && !select.removed) {
 					select.removed = true
 					select.state = "remove"
@@ -87,8 +87,8 @@ var drop = function(info) {
 		},
 		load: function() {
 			this.options = []
-			for (var i = 0; i < this.html.options.length; i++) {
-				var option = this.html.options[i]
+			for (let i = 0; i < this.html.options.length; i++) {
+				const option = this.html.options[i]
 
 				let prefix = ""
 				if (option.dataset.type == "text") prefix = "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>"

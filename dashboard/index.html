@@ -113,8 +113,8 @@
 				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
 				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
-			function removeRole(setting, item, role) {
 			}
+			function removeRole(setting, item, role) {
 				const possible = currentlySelected[setting].possible;
 				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
 				item.parentElement.remove();

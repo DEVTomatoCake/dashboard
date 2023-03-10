@@ -323,7 +323,6 @@ function getDataexportHTML(token) {
 						"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
 						"<div class='userdatagrid'>" +
 
-						// User
 						"<div class='userData'>" +
 						"<h1 translation='user.general'></h1>" +
 						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
@@ -331,12 +330,11 @@ function getDataexportHTML(token) {
 						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
 						"</div>" +
 
-						// Usersettings
 						"<div class='userData'>" +
 						"<h1 translation='dashboard.settings'></h1>" +
-						"<p><b>Embed color:</b><p style='background-color: #" + json.data.userProfiles?.settings?.embedcolor + ";'></p> " + json.data.userProfiles?.settings?.embedcolor + "</p>" +
-						"<p><b translation='user.levelbg'></b><br><a class='accent' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
-						"<p><b translation='user.saveticketatt'></b> " + json.data.userProfiles?.settings?.saveTicketAttachments + "</p>" +
+						"<p><b>Embed color:</b><p style='background-color: #" + encode(json.data.userProfiles?.settings?.embedcolor) + ";'></p> " + encode(json.data.userProfiles?.settings?.embedcolor) + "</p>" +
+						"<p><b translation='user.levelbg'></b><br><a class='accent' target='_blank' ref='noopener' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
+						"<p><b translation='user.saveticketatt'></b> " + encode(json.data.userProfiles?.settings?.saveTicketAttachments) + "</p>" +
 						"</div>" +
 
 						(json.data.economy ?

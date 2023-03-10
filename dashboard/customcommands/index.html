@@ -42,7 +42,7 @@
 				openDialog(document.getElementById("create-dialog"));
 			}
 
-			let guildName = '';
+			let guildName = "";
 			let customEmoji = [];
 			let socket;
 			function connectWS(guild) {
@@ -97,7 +97,7 @@
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
 							reloadText(getLanguage());
-							guildName = json.guild;
+							guildName = json.name;
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;

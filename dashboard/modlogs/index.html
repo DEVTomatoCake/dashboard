@@ -57,7 +57,7 @@
 
 			function info(id) {
 				const splitted = id.split("-");
-				const log = logs.find(log => log.user == splitted[0] && log.cases.find(c => c.date == parseInt(splitted[1]))).cases?.find(c => c.date == parseInt(splitted[1]));
+				const log = logs.find(l => l.user == splitted[0] && l.cases.find(c => c.date == parseInt(splitted[1]))).cases?.find(c => c.date == parseInt(splitted[1]));
 				openDialog(document.getElementById("info-dialog"));
 
 				let type = log.type;

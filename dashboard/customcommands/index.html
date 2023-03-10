@@ -42,6 +42,8 @@
 				openDialog(document.getElementById("create-dialog"));
 			}
 
+			let guildName = '';
+			let customEmoji = [];
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -84,13 +86,13 @@
 						if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<br><button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
+								"<button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 								"<br><hr><div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p>Statistiken</p></div>" +
-								"<hr><div class='tab' onclick='redirect(\"../?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p>Andere Einstellungen</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
+								"<hr><div class='tab' onclick='redirect(\"../?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.othersettings'></p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
@@ -99,7 +101,7 @@
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
-						} else if (json.action == "RECEIVE_emojis") customEmojiGlobal = json.data;
+						} else if (json.action == "RECEIVE_emojis") customEmoji = json.data;
 					}
 				});
 			}
@@ -182,7 +184,7 @@
 						<label for="customcommand-text" translation="dashboard.content"></label>
 						<div class="emoji-container" id="newmsg">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
-							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmojiGlobal)"></ion-icon>
+							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmoji, guildName)"></ion-icon>
 						</div>
 
 						<label for="customcommand-desc" translation="commands.description"></label>
@@ -214,7 +216,7 @@
 					"<label><b for='" + name + "'>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
-					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmojiGlobal)'></ion-icon>" +
+					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmoji, guildName)'></ion-icon>" +
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
@@ -225,11 +227,6 @@
 			let saving = false;
 			let savingToast;
 			let errorToast;
-
-			/* eslint-disable no-var, prefer-const */
-			var customEmojiGlobal = [];
-			var guildName = "";
-			/* eslint-enable no-var, prefer-const */
 
 			function saveCustomcommands() {
 				if (!params.has("guild") || saving) return;

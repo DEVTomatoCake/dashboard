@@ -1,4 +1,4 @@
-async function emojiPicker(parent = document.body) {
+async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
 	const pickerExisting = parent.querySelector("emoji-picker");
 	if (pickerExisting) return pickerExisting.remove();
 
@@ -33,12 +33,12 @@ async function emojiPicker(parent = document.body) {
 	});
 
 	picker.i18n = emojiPickerLang;
-	picker.customEmoji = customEmojiGlobal.map(emoji => {
+	picker.customEmoji = customEmoji.map(emoji => {
 		return {
 			name: emoji.name,
 			shortCodes: [emoji.name, emoji.id],
 			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
-			category: guildName || "TomatenKuchen"
+			category: guildName
 		};
 	});
 	parent.appendChild(picker);

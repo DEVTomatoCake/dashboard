@@ -43,7 +43,7 @@
 			}
 
 			let guildName = "";
-			let customEmoji = [];
+			let pickerData = {};
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -101,7 +101,12 @@
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
-						} else if (json.action == "RECEIVE_emojis") customEmoji = json.data;
+						} else if (json.action == "RECEIVE_emojis") {
+							pickerData = {
+								emojis: json.emojis,
+								roles: json.roles
+							}
+						}
 					}
 				});
 			}
@@ -184,7 +189,8 @@
 						<label for="customcommand-text" translation="dashboard.content"></label>
 						<div class="emoji-container" id="newmsg">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
-							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmoji, guildName)"></ion-icon>
+							<ion-icon name="at-outline" onclick="mentionPicker(this.parentElement, pickerData.roles, guildName)"></ion-icon>
+							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
 						<label for="customcommand-desc" translation="commands.description"></label>
@@ -216,7 +222,8 @@
 					"<label><b for='" + name + "'>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
-					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmoji, guildName)'></ion-icon>" +
+					"<ion-icon name='at-outline' onclick='mentionPicker(this.parentElement, pickerData.roles, guildName)'></ion-icon>" +
+					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);

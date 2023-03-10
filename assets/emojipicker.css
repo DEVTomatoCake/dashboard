@@ -47,6 +47,29 @@ emoji-picker.light {
 	font-size: 27px;
 	cursor: pointer;
 	position: relative;
-	left: -30px;
+	left: -60px;
 	top: -5px;
+}
+
+
+.custom-picker {
+	padding: 10px;
+	border-radius: 10px;
+	background-color: var(--background);
+	outline: var(--outline-size) solid var(--outline-color);
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-gap: 10px;
+}
+
+.custom-picker .element {
+	padding: 3px;
+	border-radius: 3px;
+}
+.custom-picker .element:hover {
+	opacity: 0.8;
+}
+
+.custom-picker .element .at {
+	font-size: 20px;
 }

@@ -1,49 +1,3 @@
-async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
-	const pickerExisting = parent.querySelector("emoji-picker");
-	if (pickerExisting) return pickerExisting.remove();
-
-	const picker = document.createElement("emoji-picker");
-	if (getCookie("theme") == "light") picker.classList.add("light");
-	else picker.classList.add("dark");
-
-	const style = document.createElement("style");
-	style.textContent = `
-		.picker {
-			border-radius: 10px;
-		}
-		.emoji, button.emoji {
-			border-radius: 4px;
-		}
-		input.search {
-			outline: none;
-			background-color: var(--input-border-color);
-		}
-		#skintone-button {
-			font-size: 24px;
-		}
-	`;
-	picker.shadowRoot.appendChild(style);
-
-	var validActiveElement;
-	document.addEventListener("click", e => {
-		if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target;
-	});
-	picker.addEventListener("emoji-click", e => {
-		insertText(validActiveElement, e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
-	});
-
-	picker.i18n = emojiPickerLang;
-	picker.customEmoji = customEmoji.map(emoji => {
-		return {
-			name: emoji.name,
-			shortCodes: [emoji.name, emoji.id],
-			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
-			category: guildName
-		};
-	});
-	parent.appendChild(picker);
-}
-
 const emojiPickerLang = {
 	categoriesLabel: "Kategorien",
 	emojiUnsupportedMessage: "Dein Browser unterstützt keine farbigen Emojis.",
@@ -77,6 +31,78 @@ const emojiPickerLang = {
 		symbols: "Symbole",
 		flags: "Flaggen"
 	}
+}
+
+let validActiveElement;
+document.addEventListener("click", e => {
+	if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target;
+});
+
+async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
+	const pickerExisting = parent.querySelector("emoji-picker");
+	if (pickerExisting) return pickerExisting.remove();
+
+	const picker = document.createElement("emoji-picker");
+	if (getCookie("theme") == "light") picker.classList.add("light");
+	else picker.classList.add("dark");
+
+	const style = document.createElement("style");
+	style.textContent = `
+		.picker {
+			border-radius: 10px;
+		}
+		.emoji, button.emoji {
+			border-radius: 4px;
+		}
+		input.search {
+			outline: none;
+			background-color: var(--input-border-color);
+		}
+		#skintone-button {
+			font-size: 24px;
+		}
+	`;
+	picker.shadowRoot.appendChild(style);
+
+	picker.addEventListener("emoji-click", e => {
+		if (validActiveElement) insertText(validActiveElement, e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
+		else console.warn("No element found to insert emoji into.");
+	});
+
+	picker.i18n = emojiPickerLang;
+	picker.customEmoji = customEmoji.map(emoji => {
+		return {
+			name: emoji.name,
+			shortCodes: [emoji.name, emoji.id],
+			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
+			category: guildName
+		};
+	});
+	parent.appendChild(picker);
+}
+
+async function mentionPicker(parent = document.body, roles = [], guildName = "Rollen") {
+	const pickerExisting = parent.querySelector(".custom-picker");
+	if (pickerExisting) return pickerExisting.remove();
+
+	const picker = document.createElement("div");
+	picker.classList.add("custom-picker");
+	if (getCookie("theme") == "light") picker.classList.add("light");
+
+	picker.addEventListener("click", e => {
+		if (validActiveElement) insertText(validActiveElement, "<@&" + e.target.getAttribute("data-id") + ">");
+		else console.warn("No element found to insert mentionable into.");
+	});
+
+	let text = roles.map(mention => (
+		"<div class='element'>" +
+		"<span class='at'>@</span>" +
+		"<span style='color:#" + mention.color.toString(16) + ";'>" + mention.name + "</span>" +
+		"</div>"
+	));
+
+	picker.innerHTML = text;
+	parent.appendChild(picker);
 }
 
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js

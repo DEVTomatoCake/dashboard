@@ -216,7 +216,7 @@ tr.cmdvisible:nth-child(odd) {
 	opacity: 1;
 }
 
-.guilds-container .notactivated {
+.guilds-container .inactive {
 	-webkit-filter: grayscale(100%);
 			filter: grayscale(100%);
 }

@@ -62,8 +62,8 @@ const getTickets = guild => new Promise((resolve, reject) => {
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 
-const getGiveaway = guild => new Promise((resolve, reject) => {
-	get("giveaways/" + guild)
+const getGiveaway = msg => new Promise((resolve, reject) => {
+	get("giveaways/" + msg)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 

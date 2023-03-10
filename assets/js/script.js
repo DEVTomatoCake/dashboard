@@ -27,6 +27,13 @@ function deleteCookie(name) {
 const redirect = url => window.location = url;
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
+function handleError(resolve, error) {
+	if (typeof error != "string") console.error(error);
+	resolve(
+		"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
+}
+
 let sideState = 0;
 function sidebar() {
 	sideState++;

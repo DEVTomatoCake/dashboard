@@ -58,7 +58,7 @@ emoji-picker.light {
 	background-color: #2F3136;
 	outline: 1px solid #FFF;
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
 	grid-gap: 10px;
 }
 .custom-picker.light {
@@ -72,5 +72,6 @@ emoji-picker.light {
 	transition: .1s;
 }
 .custom-picker .element:hover {
+	cursor: pointer;
 	opacity: 0.7;
 }

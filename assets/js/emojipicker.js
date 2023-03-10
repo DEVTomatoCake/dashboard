@@ -94,15 +94,14 @@ async function mentionPicker(parent = document.body, roles = []) {
 		else console.warn("No element found to insert mentionable into.");
 	});
 
-	let text = roles.map(mention => (
-		"<div class='element'>" +
-		"<span style='color:#" + mention.color.toString(16) + ";'>@" + mention.name + "</span>" +
+	picker.innerHTML = roles.map(mention => (
+		"<div class='element' data-id='" + mention.id + "'>" +
+		"<span" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") + ">@" + mention.name + "</span>" +
 		"</div>"
 	)).join("");
-
-	picker.innerHTML = text;
 	parent.appendChild(picker);
 }
 
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js
+/* eslint-disable */
 let browserTextNode;function canTextNode(input){if(input.nodeName!=="TEXTAREA"){return false}if(typeof browserTextNode==="undefined"){const textarea=document.createElement("textarea");textarea.value=1;browserTextNode=!!textarea.firstChild}return browserTextNode}function insertText(input,text){input.focus();if(document.selection){const ieRange=document.selection.createRange();ieRange.text=text;ieRange.collapse(false );ieRange.select();return}const isSuccess=document.execCommand("insertText",false,text);if(!isSuccess){const start=input.selectionStart;const end=input.selectionEnd;if(typeof input.setRangeText==="function"){input.setRangeText(text)}else{const range=document.createRange();const textNode=document.createTextNode(text);if(canTextNode(input)){let node=input.firstChild;if(!node){input.appendChild(textNode)}else{let offset=0;let startNode=null;let endNode=null;while(node&&(startNode===null||endNode===null)){const nodeLength=node.nodeValue.length;if(start>=offset&&start<=offset+nodeLength){range.setStart((startNode=node),start-offset)}if(end>=offset&&end<=offset+nodeLength){range.setEnd((endNode=node),end-offset)}offset+=nodeLength;node=node.nextSibling}if(start!==end){range.deleteContents()}}}if(canTextNode(input)&&range.commonAncestorContainer.nodeName==="#text"){range.insertNode(textNode)}else{const value=input.value;input.value=value.slice(0,start)+text+value.slice(end)}}input.setSelectionRange(start+text.length,start+text.length);const e=document.createEvent("UIEvent");e.initEvent("input",true,false);input.dispatchEvent(e)}};

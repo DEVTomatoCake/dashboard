@@ -5,14 +5,14 @@ function getGuildsHTML() {
 				if (json.status == "success") {
 					let text = "";
 					json.data.sort((a, b) => {
-						if (a.activated && b.activated) return 0;
-						if (!a.activated && b.activated) return 1;
+						if (a.active && b.active) return 0;
+						if (!a.active && b.active) return 1;
 						return -1;
 					}).forEach(guild => {
 						text +=
 							"<div class='guilds-container'>" +
-							"<a class='guild' href='" + (guild.activated ? "./settings/" : "../invite/") + "?guild=" + guild.id + "'>" +
-							"<img" + (guild.activated ? "" : " class='inactive'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							"<a class='guild' href='" + (guild.active ? "./settings/" : "../invite/") + "?guild=" + guild.id + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";

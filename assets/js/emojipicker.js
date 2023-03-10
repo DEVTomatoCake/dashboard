@@ -89,15 +89,14 @@ async function mentionPicker(parent = document.body, roles = []) {
 	picker.classList.add("custom-picker");
 	if (getCookie("theme") == "light") picker.classList.add("light");
 
-	picker.addEventListener("click", e => {
-		if (validActiveElement) insertText(validActiveElement, "<@&" + e.target.getAttribute("data-id") + ">");
+	function insert(id) {
+		if (validActiveElement) insertText(validActiveElement, "<@&" + id + ">");
 		else console.warn("No element found to insert mentionable into.");
-	});
+	}
 
 	picker.innerHTML = roles.map(mention => (
-		"<div class='element' data-id='" + mention.id + "'>" +
-		"<span" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") + ">@" + mention.name + "</span>" +
-		"</div>"
+		"<span class='element'" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") +
+		" onclick='insert(\"" + mention.id + "\")'>@" + mention.name + "</span>"
 	)).join("");
 	parent.appendChild(picker);
 }

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. Modify your servers settings easily.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/settings/">
+		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/settings/">
+		<link rel="manifest" href="../../manifest.json">
+
+		<title>TomatenKuchen - Server settings - Dashboard</title>
+		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="../../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="../../assets/style.css" rel="stylesheet" type="text/css">
+
+		<link href="../../assets/multiselect.css" rel="stylesheet" type="text/css">
+		<script src="../../assets/js/multiselect.js"></script>
+
+		<link href="../../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../../assets/js/toasts.js"></script>
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
+
+		<script src="../../assets/js/script.js"></script>
+		<script src="../../assets/js/language.js"></script>
+		<script src="../../assets/js/sockette.js"></script>
+		<script src="../../assets/js/api/api.js"></script>
+		<script src="../../assets/js/api/transformer.js"></script>
+
+		<script>
+			let socket;
+			function connectWS(guild) {
+				socket = sockette("wss://api.tomatenkuchen.eu", {
+					onClose: event => {
+						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
+						drops = [];
+						const olddrops = document.getElementsByClassName("drop");
+						for (const drop of olddrops) drop.remove();
+					},
+					onOpen: event => {
+						console.log("Connected!", event);
+						if (errorToast) {
+							errorToast.setType("SUCCESS");
+							setTimeout(errorToast.close, 1000);
+						}
+						socket.send({
+							status: "success",
+							action: "GET_settings",
+							guild,
+							lang: getLanguage(),
+							token: getCookie("token")
+						});
+					},
+					onMessage: event => {
+						let json;
+						try {
+							json = JSON.parse(event.data);
+						} catch (e) {
+							console.warn(e, event);
+							return socket.send({
+								status: "error",
+								message: "Invalid json",
+								debug: event.data
+							});
+						}
+						console.log(json);
+
+						if (json.action == "RECEIVE_settings") {
+							const rendered = getSettingsHTML(json);
+
+							let sidebarHTML =
+								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
+								"<button type='button' onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
+								"<br><hr><div class='tab otherlinks' onclick='redirect(\"./customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"./reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"./tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
+								"<hr>";
+
+							rendered.categories.forEach(category => {
+								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
+							});
+
+							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
+							reloadText(getLanguage());
+						} else if (json.action == "SAVED_settings") {
+							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
+							saving = false;
+						}
+					}
+				});
+			}
+
+			function addRole(setting, select) {
+				const possible = currentlySelected[setting].possible;
+				currentlySelected[setting].value += select.value + " ";
+				const roleelement = document.createElement("div");
+				roleelement.innerHTML =
+					"<br><label for='an_" + setting + "_" + select.value + "value'>" + possible["_" + select.value].name + "</label>" +
+					"<input type='" + (setting == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1' value='1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
+					" id='an_" + setting + "_" + select.value + "value' class='settingcopy'>" +
+					"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting + "\", this, \"" + select.value + "\")'></ion-icon>";
+				document.getElementById(setting + "list").appendChild(roleelement);
+
+				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
+				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
+			}
+			function removeRole(setting, item, role) {
+				const possible = currentlySelected[setting].possible;
+				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
+				item.parentElement.remove();
+
+				const select = document.getElementById(setting);
+				select.innerHTML += "<option value='" + role + "'>" + possible["_" + role].name + "</option>";
+				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
+				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
+			}
+		</script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<div class="sidebar-container visible" id="sidebar-container">
+			<nav class="sidebar" id="sidebar">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop2"></div>
+					<div class="line" id="lineBottom2"></div>
+				</div>
+
+				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
+
+				<div class="section">
+					<a href="/" title="Home" class="tab">
+						<ion-icon name="home-outline"></ion-icon>
+						<p translation="sidebar.home"></p>
+					</a>
+					<a href="/commands/" title="Bot commands" class="tab">
+						<ion-icon name="terminal-outline"></ion-icon>
+						<p translation="sidebar.commands"></p>
+					</a>
+					<a href="/dashboard/" class="tab active">
+						<ion-icon name="settings-outline"></ion-icon>
+						<p translation="sidebar.dashboard"></p>
+					</a>
+					<a href="/docs/" title="Documention of the bot" class="tab">
+						<ion-icon name="document-text-outline"></ion-icon>
+						<p translation="sidebar.docs"></p>
+					</a>
+					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
+						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
+						<p translation="sidebar.support"></p>
+					</a>
+				</div>
+				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
+
+				<div class="section bottom">
+					<label class="switch" data-type="lang">
+						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
+						<span class="slider round"></span>
+					</label>
+					<label class="switch" data-type="theme">
+						<input type="checkbox" id="theme-toggle" aria-label="Toggle theme">
+						<span class="slider round"></span>
+					</label>
+				</div>
+			</nav>
+		</div>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="accdropdown">
+					<div class="account" onclick="redirect('/login/')">
+						<p id="username-header">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="accdropdown-content">
+						<a href="/login/" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="root-container" class="row">
+					<section id="guilds">
+						<div id="guilds-container" class="grid">
+							<h1>Die Server werden geladen...</h1>
+						</div>
+					</section>
+				</div>
+
+				<p id="author" translation="global.footer"></p>
+			</div>
+		</main>
+
+		<script>
+			const friendlyCat = {
+				starconfig: "Starboard"
+			};
+
+			/* eslint-disable no-var, prefer-const */
+			var drops = [];
+			var multiselect = [];
+			var advancedsetting = [];
+			var currentlySelected = {};
+			/* eslint-enable no-var, prefer-const */
+
+			const params = new URLSearchParams(window.location.search);
+			let saving = false;
+			let savingToast;
+			let errorToast;
+
+			function saveSettings() {
+				if (!params.has("guild") || saving) return;
+
+				saving = true;
+				const settings = document.getElementsByClassName("setting");
+
+				const items = {};
+				for (let i = 0; i < settings.length; i++) {
+					const item = settings.item(i);
+
+					let entry = "";
+					if (multiselect.includes(item.name)) {
+						drops.forEach(drop => {
+							if (drop.key != item.name) return
+							drop.data.selected.forEach(possible => {
+								if (!possible.removed) entry += drop.data.options[possible.index].value + ",";
+							});
+						});
+						if (entry.endsWith(",")) entry = entry.slice(0, -1);
+					} else if (advancedsetting.includes(item.name)) {
+						if (currentlySelected[item.name].value.trim().length > 0) currentlySelected[item.name].value.trim().split(" ").forEach(r => {
+							const value = document.getElementById("an_" + item.name + "_" + r + "value").value;
+							if (value.trim() != "") entry += r + ":" + value.replace(/,/g, ";") + ","; // TODO: Handle commas in values
+						});
+						if (entry.endsWith(",")) entry = entry.slice(0, -1);
+					} else entry = item.value;
+
+					items[item.name] = entry;
+				}
+
+				socket.send(JSON.stringify({
+					status: "success",
+					action: "SAVE_settings",
+					data: items,
+					guild: encode(params.get("guild")),
+					token: getCookie("token")
+				}));
+
+				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();
+			}
+
+			if (params.has("guild") && getCookie("token")) {
+				document.getElementById("root-container").innerHTML = "<h1>Die Einstellungen werden geladen...</h1>";
+				connectWS(encode(params.get("guild")));
+			} else if (params.has("guild_id") && getCookie("token")) {
+				document.getElementById("root-container").innerHTML = "<h1>Die Einstellungen werden geladen...</h1>";
+				location.href = "./?guild=" + params.get("guild_id");
+			} else if (getCookie("token")) {
+				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Serverauswahl weitergeleitet...</h1>";
+				location.href = "../";
+			} else {
+				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
+				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
+			}
+		</script>
+		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
+		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
+	</body>
+</html>

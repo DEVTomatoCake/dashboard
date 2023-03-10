@@ -34,6 +34,11 @@
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
 		<script>
+			let drops = [];
+			let multiselect = [];
+			let advancedsetting = [];
+			let currentlySelected = {};
+
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -208,13 +213,6 @@
 			const friendlyCat = {
 				starconfig: "Starboard"
 			};
-
-			/* eslint-disable no-var, prefer-const */
-			var drops = [];
-			var multiselect = [];
-			var advancedsetting = [];
-			var currentlySelected = {};
-			/* eslint-enable no-var, prefer-const */
 
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;

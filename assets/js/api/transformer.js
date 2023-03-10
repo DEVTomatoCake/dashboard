@@ -67,8 +67,7 @@ function getGuildsHTML() {
 						if (a.activated && b.activated) return 0;
 						if (!a.activated && b.activated) return 1;
 						return -1;
-					})
-					json.data.forEach(guild => {
+					}).forEach(guild => {
 						text +=
 							"<div class='guilds-container'>" +
 							"<a class='guild' href='" + (guild.activated ? "" : "../invite/") + "?guild=" + guild.id + "'>" +

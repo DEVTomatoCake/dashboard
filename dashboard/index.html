@@ -108,6 +108,7 @@
 		</main>
 
 		<script>
+			const params = new URLSearchParams(window.location.search);
 			if (getCookie("token") && (params.has("guild") || params.has("guild_id"))) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Einstellungen werden geladen...</h1>";
 				location.href = "./settings/?guild=" + encode(params.get("guild") || params.get("guild_id"));
@@ -128,6 +129,7 @@
 			} else if (getCookie("token")) {
 				getGuildsHTML().then(html => {
 					document.getElementById("guilds-container").innerHTML = html;
+					reloadText(getLanguage());
 				});
 			} else if (params.has("code")) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Anmeldung erfolgt, bitte warten...</h1>";

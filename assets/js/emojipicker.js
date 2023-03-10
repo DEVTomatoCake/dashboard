@@ -81,7 +81,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	parent.appendChild(picker);
 }
 
-async function mentionPicker(parent = document.body, roles = [], guildName = "Rollen") {
+async function mentionPicker(parent = document.body, roles = []) {
 	const pickerExisting = parent.querySelector(".custom-picker");
 	if (pickerExisting) return pickerExisting.remove();
 
@@ -96,10 +96,9 @@ async function mentionPicker(parent = document.body, roles = [], guildName = "Ro
 
 	let text = roles.map(mention => (
 		"<div class='element'>" +
-		"<span class='at'>@</span>" +
-		"<span style='color:#" + mention.color.toString(16) + ";'>" + mention.name + "</span>" +
+		"<span style='color:#" + mention.color.toString(16) + ";'>@" + mention.name + "</span>" +
 		"</div>"
-	));
+	)).join("");
 
 	picker.innerHTML = text;
 	parent.appendChild(picker);

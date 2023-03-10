@@ -189,7 +189,7 @@
 						<label for="customcommand-text" translation="dashboard.content"></label>
 						<div class="emoji-container" id="newmsg">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
-							<ion-icon name="at-outline" onclick="mentionPicker(this.parentElement, pickerData.roles, guildName)"></ion-icon>
+							<ion-icon name="at-outline" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
@@ -222,7 +222,7 @@
 					"<label><b for='" + name + "'>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
-					"<ion-icon name='at-outline' onclick='mentionPicker(this.parentElement, pickerData.roles, guildName)'></ion-icon>" +
+					"<ion-icon name='at-outline' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
 					"<br>";

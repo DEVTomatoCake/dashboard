@@ -55,21 +55,22 @@ emoji-picker.light {
 .custom-picker {
 	padding: 10px;
 	border-radius: 10px;
-	background-color: var(--background);
-	outline: var(--outline-size) solid var(--outline-color);
+	background-color: #2F3136;
+	outline: 1px solid #FFF;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	grid-gap: 10px;
 }
+.custom-picker.light {
+	background-color: #E1E5EF;
+	outline: 1px solid #E3E5E8;
+}
 
 .custom-picker .element {
-	padding: 3px;
 	border-radius: 3px;
+	font-size: 18px;
+	transition: .1s;
 }
 .custom-picker .element:hover {
-	opacity: 0.8;
-}
-
-.custom-picker .element .at {
-	font-size: 20px;
+	opacity: 0.7;
 }

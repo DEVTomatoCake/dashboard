@@ -1,62 +1,3 @@
-function handleError(resolve, error) {
-	if (typeof error != "string") console.error(error);
-	resolve(
-		"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
-}
-
-function getCommandsHTML() {
-	return new Promise((resolve => {
-		getCommands()
-			.then(json => {
-				if (json.status == "success") {
-					let text = "";
-					const categories = [];
-					const categoryData = [];
-
-					json.data.forEach(command => {
-						const temp =
-							"<tr class='command cmdvisible'" + (command.category ? " data-category='" + command.category + "'" : "") + ">" +
-							"<td>" + command.name + "</td>" +
-							"<td>" + command.description + "</td>" +
-							"<td>" + command.usage + "</td>" +
-							"</tr>";
-
-						if (command.category && !categories.includes(command.category)) categories.push(command.category);
-						if (command.category) categoryData.push([command.category, temp]);
-					});
-
-					categories.forEach(category => {
-						text +=
-							"<center><h2 id='" + category + "title'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
-							"<button type='button' class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");' translation='commands.hide'></button>" +
-							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
-							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th><th translation='commands.usage'></th></tr></thead><tbody>";
-
-						categoryData.forEach(data => {
-							if (category == data[0]) text += data[1];
-						});
-						text += "</tbody></table></center><br id='" + category + "br'>";
-					});
-
-					resolve(text);
-				} else handleError(resolve, json.message);
-			})
-			.catch(e => handleError(resolve, e));
-	}));
-}
-
-function getStatsHTML(guild, filter) {
-	return new Promise(resolve => {
-		getStats(guild + (filter.time ? "&time=" + filter.time : "") + (filter.type ? "&type=" + filter.type : ""))
-			.then(json => {
-				if (json.status == "success") resolve(json);
-				else handleError(resolve, json.message);
-			})
-			.catch(e => handleError(resolve, e));
-	});
-}
-
 function getGuildsHTML() {
 	return new Promise(resolve => {
 		getGuilds()
@@ -64,15 +5,14 @@ function getGuildsHTML() {
 				if (json.status == "success") {
 					let text = "";
 					json.data.sort((a, b) => {
-						if (a.activated && b.activated) return 0;
-						if (!a.activated && b.activated) return 1;
+						if (a.active && b.active) return 0;
+						if (!a.active && b.active) return 1;
 						return -1;
-					})
-					json.data.forEach(guild => {
+					}).forEach(guild => {
 						text +=
 							"<div class='guilds-container'>" +
-							"<a class='guild' href='" + (guild.activated ? "" : "../invite/") + "?guild=" + guild.id + "'>" +
-							"<img" + (guild.activated ? "" : " class='notactivated'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							"<a class='guild' href='" + (guild.active ? "./settings/" : "../invite/") + "?guild=" + guild.id + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";
@@ -258,25 +198,6 @@ function getReactionrolesHTML(json) {
 	}
 }
 
-function getLeaderboardHTML(guild) {
-	return new Promise(resolve => {
-		getLeaderboard(guild)
-			.then(json => {
-				if (json.status == "success") {
-					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
-					json.data.forEach(entry => {
-						text +=
-							"<div class='leaderboard'><p>" + encode(entry.place.toString()) + ". " +
-							"<img class='user-image' src='" + encode(entry.avatar) + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
-							encode(entry.user) + " <b>" + encode(entry.points.toString()) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + encode(entry.level.toString()) + "</b>)</p></div>";
-					});
-					resolve(text);
-				} else handleError(resolve, json.message);
-			})
-			.catch(e => handleError(resolve, e));
-	});
-}
-
 const tkbadges = {
 	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy'> Entwickler",
 	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy'> Team",
@@ -444,44 +365,6 @@ function getTicketsHTML(guild) {
 						});
 						text += "</tbody></table>";
 					} else text += "<p translation='tickets.nocategories'></p>";
-
-					resolve(text);
-				} else handleError(resolve, json.message);
-			})
-			.catch(e => handleError(resolve, e));
-	});
-}
-
-function getGiveawayHTML(giveaway) {
-	return new Promise(resolve => {
-		getGiveaway(giveaway)
-			.then(json => {
-				if (json.status == "success") {
-					let text = "<h1 class='greeting'><span translation='giveaway.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
-
-					if (json.data.ended)
-						text += "<div class='creditsUser'><h2 translation='giveaway.ended'></h2><p>" + (json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
-
-					text +=
-						"<h2>" + json.data.prize + "</h2>" +
-						"<p>Giveaway-ID: <code>" + json.data.message + "</code></p>" +
-						"<p>Kanal: " + json.data.channel + "</p>" +
-						"<p>Gestartet: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
-						"<p>Endet: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
-						"<p>Erstellt von: " + json.data.hostedBy + "</p>" +
-						"<p>Anzahl der Gewinner: <b>" + json.data.winnerCount + "</b></p>" +
-						"<p>Aktuelle Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>";
-
-					const reqs = json.data.requirements;
-					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
-						text += "<br><h3 translate='giveaway.requirements'>Bedingungen</h3>";
-						if (reqs.roles.length > 0) text += "<p>Alle diese Rollen: " + reqs.roles.join(", ") + "</p>";
-						if (reqs.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + reqs.anyRoles.join(", ") + "</p>";
-						if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
-						if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
-						if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
-						if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints + "</b></p>";
-					}
 
 					resolve(text);
 				} else handleError(resolve, json.message);

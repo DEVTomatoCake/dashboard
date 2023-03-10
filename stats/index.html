@@ -27,16 +27,20 @@
 
 		<script src="../assets/js/script.js"></script>
 		<script src="../assets/js/api/api.js"></script>
-		<script src="../assets/js/api/transformer.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 	</head>
 	<body>
 		<script>
 			const params = new URLSearchParams(window.location.search);
 			if (params.has("guild")) {
-				getStatsHTML(params.get("guild"), {time: params.get("time"), type: params.get("type")}).then(html => {
-					if (typeof html == "string") document.body.innerHTML = html;
-					else createChart(html);
+				getStats(params.get("guild") + (params.has("time") ? "&time=" + params.get("time") : "") + (params.has("type") ? "&type=" + params.get("type") : "")).then(res => {
+					if (res.status == "success") createChart(res);
+					else {
+						if (typeof res != "string") console.error(res);
+						document.body.innerHTML =
+							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+							"<h1>" + (typeof res == "string" ? res : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>";
+					}
 				});
 			} else document.body.innerHTML = "<center><h1>Bitte gib den gewünschten Server mit an!</h1></center>";
 

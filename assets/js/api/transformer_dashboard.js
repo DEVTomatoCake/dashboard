@@ -29,6 +29,7 @@ function getGuildsHTML() {
 function getSettingsHTML(json) {
 	if (json.status == "success") {
 		let text = "";
+		const queue = [];
 		const categories = [];
 		const categoryData = [];
 
@@ -59,7 +60,7 @@ function getSettingsHTML(json) {
 					/*setTimeout(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
 					}, 2000);*/
-					loadQueue.push(() => {
+					queue.push(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
 					});
 				} else if (advancedsetting.includes(setting.key)) {
@@ -109,7 +110,7 @@ function getSettingsHTML(json) {
 					/*setTimeout(() => {
 						document.getElementById(setting.key).value = setting.value;
 					}, 2000);*/
-					loadQueue.push(() => document.getElementById(setting.key).value = setting.value);
+					queue.push(() => document.getElementById(setting.key).value = setting.value);
 				}
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
@@ -125,7 +126,8 @@ function getSettingsHTML(json) {
 
 		return {
 			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
-			categories
+			categories,
+			queue
 		};
 	} else {
 		return (

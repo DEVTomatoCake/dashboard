@@ -224,15 +224,18 @@ tr.cmdvisible:nth-child(odd) {
 .page-select {
 	display: flex;
 	flex-wrap: wrap;
+	margin-bottom: 25px;
 }
 .page-select button {
-	padding: 10px;
+	padding: 5px 10px;
+	margin: 5px;
 	font-size: 25px;
+	background-color: var(--button-accent-color);
+	color: #FFF;
 	border: none;
 	border-radius: 10px;
-	transition: .3s;
+	transition: .2s;
 	cursor: pointer;
-	background-color: var(--button-accent-color);
 }
 .page-select button:hover {
 	background-color: var(--accent-color-hover);

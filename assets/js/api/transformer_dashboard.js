@@ -95,16 +95,16 @@ function getSettingsHTML(json) {
 			} else {
 				if (json.constant.integer.includes(setting.key)) temp +=
 					"<input type='number' min='0' max='9999' class='setting' id='" + setting.key + "' name='" + setting.key + "' value='" +
-					(false/*setting.value?.includes("<") || setting.value?.includes(">")*/ ? "" : setting.value) + "'>";
+					setting.value.replace(/[<>]/g, "") + "'>";
 				else temp +=
 					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + (false/*setting.value?.includes("<") || setting.value?.includes(">")*/ ? "" : setting.value) + "'>";
+					"' value='" + setting.value.replace(/[<>]/g, "") + "'>";
 
-				/*if (setting.value?.includes("<") || setting.value?.includes(">")) {
+				if (setting.value?.includes("<") || setting.value?.includes(">")) {
 					setTimeout(() => {
 						document.getElementById(setting.key).value = setting.value;
 					}, 2000);
-				}*/
+				}
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);

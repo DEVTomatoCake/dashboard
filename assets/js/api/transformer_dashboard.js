@@ -56,9 +56,12 @@ function getSettingsHTML(json) {
 						else temp += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (possible[key].color ? " data-color='" + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
-					setTimeout(() => {
+					/*setTimeout(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
-					}, 2000);
+					}, 2000);*/
+					loadQueue.push(() => {
+						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
+					});
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
@@ -93,7 +96,7 @@ function getSettingsHTML(json) {
 					temp += "</select>";
 				}
 			} else {
-				if (!setting.value) return;
+				if (!setting.value) setting.value = ""; // TODO: Remove after new settings are released
 
 				if (json.constant.integer.includes(setting.key)) temp +=
 					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +

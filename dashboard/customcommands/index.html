@@ -94,7 +94,9 @@
 								"<hr><div class='tab otherlinks' onclick='redirect(\"../?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.othersettings'></p></div>" +
 								"</div>";
 
+							const loadQueue = [];
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
+							loadQueue.forEach(func => func());
 							reloadText(getLanguage());
 							guildName = json.name;
 						} else if (json.action == "SAVED_customcommands") {

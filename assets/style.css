@@ -221,21 +221,23 @@ tr.cmdvisible:nth-child(odd) {
 			filter: grayscale(100%);
 }
 
-.select-page {
+.page-select {
 	display: flex;
+	flex-wrap: wrap;
 }
-.select-page button {
-	padding: 5px;
+.page-select button {
+	padding: 10px;
 	font-size: 25px;
 	border: none;
-	border-radius: 5px;
+	border-radius: 10px;
 	transition: .3s;
+	cursor: pointer;
 	background-color: var(--button-accent-color);
 }
-.select-page button:hover {
+.page-select button:hover {
 	background-color: var(--accent-color-hover);
 }
-.select-page button.current {
+.page-select button.current {
 	background-color: var(--purple);
 }
 
@@ -1207,8 +1209,8 @@ input:invalid, input:out-of-range {
 	font-size: 28px;
 	font-weight: bold;
 	transition: .2s;
+	cursor: pointer;
 }
 .close:hover, .close:focus {
 	color: #000;
-	cursor: pointer;
 }

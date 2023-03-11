@@ -81,8 +81,8 @@ emoji-picker.light {
 	border-radius: 3px;
 	font-size: 18px;
 	transition: .1s;
+	cursor: pointer;
 }
 .custom-picker .element:hover {
-	cursor: pointer;
 	opacity: 0.7;
 }

@@ -28,7 +28,7 @@
 
 		<script>
 			function changePage(elem) {
-				let pages = document.getElementsByClassName("page-select")[0].children;
+				const pages = document.getElementsByClassName("page-select")[0].children;
 				for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current");
 				elem.classList.add("current");
 			}
@@ -101,12 +101,12 @@
 
 			<div class="content" id="content">
 				<div class="page-select" hidden>
-					<button onclick="changePage(this)" class="current">Settings</button>
-					<button onclick="changePage(this)">Customcommands</button>
-					<button onclick="changePage(this)">Reaction-, Button- & Selectroles</button>
-					<button onclick="changePage(this)">Tickets</button>
-					<button onclick="changePage(this)">Logs</button>
-					<button onclick="changePage(this)">Modlogs</button>
+					<button type="button" onclick="changePage(this)" class="current">Settings</button>
+					<button type="button" onclick="changePage(this)">Customcommands</button>
+					<button type="button" onclick="changePage(this)">Reaction-, Button- & Selectroles</button>
+					<button type="button" onclick="changePage(this)">Tickets</button>
+					<button type="button" onclick="changePage(this)">Logs</button>
+					<button type="button" onclick="changePage(this)">Modlogs</button>
 				</div>
 
 				<div id="root-container" class="row">

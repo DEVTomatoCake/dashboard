@@ -98,7 +98,7 @@ function openDialog(dialog) {
 	};
 }
 
-let loadQueue = [];
+const loadQueue = [];
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=

@@ -93,7 +93,8 @@ function getSettingsHTML(json) {
 					temp += "</select>";
 				}
 			} else {
-				console.log(setting.key)
+				if (!setting.value) return;
+
 				if (json.constant.integer.includes(setting.key)) temp +=
 					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +
 					"' value='" + setting.value.replace(/[<>]/g, "") + "'>";

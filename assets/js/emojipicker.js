@@ -81,6 +81,10 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	parent.appendChild(picker);
 }
 
+function insertMention(id) {
+	if (validActiveElement) insertText(validActiveElement, "<@&" + id + ">");
+	else console.warn("No element found to insert mentionable into.");
+}
 async function mentionPicker(parent = document.body, roles = []) {
 	const pickerExisting = parent.querySelector(".custom-picker");
 	if (pickerExisting) return pickerExisting.remove();
@@ -89,14 +93,9 @@ async function mentionPicker(parent = document.body, roles = []) {
 	picker.classList.add("custom-picker");
 	if (getCookie("theme") == "light") picker.classList.add("light");
 
-	function insert(id) {
-		if (validActiveElement) insertText(validActiveElement, "<@&" + id + ">");
-		else console.warn("No element found to insert mentionable into.");
-	}
-
 	picker.innerHTML = roles.map(mention => (
 		"<span class='element'" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") +
-		" onclick='insert(\"" + mention.id + "\")'>@" + mention.name + "</span>"
+		" onclick='insertMention(\"" + mention.id + "\")'>@" + mention.name + "</span>"
 	)).join("");
 	parent.appendChild(picker);
 }

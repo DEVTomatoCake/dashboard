@@ -98,10 +98,10 @@ function getSettingsHTML(json) {
 
 				if (json.constant.integer.includes(setting.key)) temp +=
 					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + setting.value.replace(/[<>]/g, "") + "'>";
+					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 				else temp +=
 					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + setting.value.replace(/[<>]/g, "") + "'>";
+					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 
 				if (setting.value?.includes("<") || setting.value?.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
 			}

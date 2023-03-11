@@ -98,6 +98,7 @@ function openDialog(dialog) {
 	};
 }
 
+let loadQueue = [];
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=
@@ -151,5 +152,6 @@ function pageLoad(page = "") {
 	if (reloadText) reloadText(getLanguage());
 	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
 
+	loadQueue.forEach(func => func());
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
 }

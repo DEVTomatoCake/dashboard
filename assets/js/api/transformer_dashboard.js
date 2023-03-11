@@ -93,17 +93,19 @@ function getSettingsHTML(json) {
 					temp += "</select>";
 				}
 			} else {
+				console.log(setting.key)
 				if (json.constant.integer.includes(setting.key)) temp +=
-					"<input type='number' min='0' max='9999' class='setting' id='" + setting.key + "' name='" + setting.key + "' value='" +
-					setting.value.replace(/[<>]/g, "") + "'>";
+					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +
+					"' value='" + setting.value.replace(/[<>]/g, "") + "'>";
 				else temp +=
 					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
 					"' value='" + setting.value.replace(/[<>]/g, "") + "'>";
 
 				if (setting.value?.includes("<") || setting.value?.includes(">")) {
-					setTimeout(() => {
+					/*setTimeout(() => {
 						document.getElementById(setting.key).value = setting.value;
-					}, 2000);
+					}, 2000);*/
+					loadQueue.push(() => document.getElementById(setting.key).value = setting.value);
 				}
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);

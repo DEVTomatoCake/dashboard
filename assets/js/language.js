@@ -57,8 +57,8 @@ const reloadText = async language => {
 			Object.keys(args).forEach(replaceKey => text = text.replaceAll(replaceKey, args[replaceKey]));
 		}
 
-		if (typeof text != "string") return console.warn("Couldn't load lang string " + key + ", got " + typeof text + " instead", text);
-		element.innerHTML = text;
+		if (typeof text == "string") element.innerHTML = text;
+		else console.warn("Couldn't load lang string " + key + ", got " + typeof text + " instead", text);
 	}
 
 	document.documentElement.scrollTop = document.body.scrollTop = scrollTop;

@@ -29,6 +29,7 @@ function getGuildsHTML() {
 function getSettingsHTML(json) {
 	if (json.status == "success") {
 		let text = "";
+		const queue = [];
 		const categories = [];
 		const categoryData = [];
 
@@ -56,9 +57,9 @@ function getSettingsHTML(json) {
 						else temp += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (possible[key].color ? " data-color='" + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
-					setTimeout(() => {
+					queue.push(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
-					}, 2000);
+					});
 				} else if (advancedsetting.includes(setting.key)) {
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
@@ -93,16 +94,16 @@ function getSettingsHTML(json) {
 					temp += "</select>";
 				}
 			} else {
-				if (json.constant.integer.includes(setting.key)) temp +=
-					"<input type='number' min='0' max='9999' class='setting' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
-				else temp +=
-					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key + "' value='" + (setting.value?.includes("<") || setting.value?.includes(">") ? "" : setting.value) + "'>";
+				if (!setting.value) setting.value = ""; // TODO: Remove after new settings are released
 
-				if (setting.value?.includes("<") || setting.value?.includes(">")) {
-					setTimeout(() => {
-						document.getElementById(setting.key).value = setting.value;
-					}, 2000);
-				}
+				if (json.constant.integer.includes(setting.key)) temp +=
+					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +
+					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+				else temp +=
+					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
+					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+
+				if (setting.value?.includes("<") || setting.value?.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
@@ -117,7 +118,8 @@ function getSettingsHTML(json) {
 
 		return {
 			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
-			categories
+			categories,
+			queue
 		};
 	} else {
 		return (
@@ -135,7 +137,8 @@ function getCustomcommandsHTML(json) {
 				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
 				"<div class='emoji-container'>" +
 				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
-				"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmoji, guildName)'></ion-icon>" +
+				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
+				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
 				"<br>";
 		});
@@ -143,7 +146,7 @@ function getCustomcommandsHTML(json) {
 		if (text == "") text = "<p id='no-cc'><b translation='dashboard.cc.nocc'></b></p>";
 		return "<center><h1><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
 			"<p translation='dashboard.cc.delete'></p>" +
-			"<button type='button' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
+			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +

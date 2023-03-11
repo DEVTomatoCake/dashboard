@@ -221,6 +221,29 @@ tr.cmdvisible:nth-child(odd) {
 			filter: grayscale(100%);
 }
 
+.page-select {
+	display: flex;
+	flex-wrap: wrap;
+	margin-bottom: 25px;
+}
+.page-select button {
+	padding: 5px 10px;
+	margin: 5px;
+	font-size: 25px;
+	background-color: var(--button-accent-color);
+	color: #FFF;
+	border: none;
+	border-radius: 10px;
+	transition: .2s;
+	cursor: pointer;
+}
+.page-select button:hover {
+	background-color: var(--accent-color-hover);
+}
+.page-select button.current {
+	background-color: var(--purple);
+}
+
 .setting, .settingcopy {
 	overflow-wrap: anywhere;
 	font-size: 1.1em;
@@ -294,9 +317,10 @@ textarea:focus {
 	padding: 10px;
 	border: none;
 	box-sizing: border-box;
-	border-radius: 5px;
-	width: 100%;
+	border-radius: 10px;
+	width: calc(100% - 70px);
 	font-family: "Be Vietnam Pro", sans-serif;
+	font-size: 16px;
 }
 
 .sidebar-container {
@@ -540,8 +564,8 @@ textarea:focus {
 }
 
 .sidebar .section p.title {
-	font-size: 13px;
-	margin: 10px 15px;
+	font-size: 14px;
+	margin: 7px 15px;
 	color: var(--secondary-text-color);
 	letter-spacing: 2px;
 	text-transform: uppercase;
@@ -558,7 +582,7 @@ textarea:focus {
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
-	padding: 7px 15px 7px 20px;
+	padding: 7px 15px 7px 18px;
 	color: var(--primary-text-color);
 }
 
@@ -598,7 +622,7 @@ textarea:focus {
 }
 
 .sidebar .section .tab.otherlinks p {
-	font-size: 18px;
+	font-size: 18.5px;
 }
 
 .sidebar .section.bottom .tab {
@@ -1188,8 +1212,8 @@ input:invalid, input:out-of-range {
 	font-size: 28px;
 	font-weight: bold;
 	transition: .2s;
+	cursor: pointer;
 }
 .close:hover, .close:focus {
 	color: #000;
-	cursor: pointer;
 }

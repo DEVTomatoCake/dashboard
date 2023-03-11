@@ -13,7 +13,7 @@ const getCommands = () => new Promise((resolve, reject) => {
 })
 
 const getBotstats = () => new Promise((resolve, reject) => {
-	get("stats?uptime_ratio=1", false)
+	get("stats", false)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 

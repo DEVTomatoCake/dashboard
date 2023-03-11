@@ -25,6 +25,23 @@
 		<script src="../assets/js/language.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer_dashboard.js"></script>
+
+		<script>
+			function changePage(elem) {
+				const pages = document.getElementsByClassName("page-select")[0].children;
+				for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current");
+				elem.classList.add("current");
+				const target = elem.getAttribute("data-target") || elem.innerText.toLowerCase().replace(/ /g, "");
+
+				const links = document.getElementsByClassName("guild");
+				for (let i = 0; i < links.length; i++) {
+					const href = links[i].getAttribute("href").split("/");
+					if (href[1] == "invite") continue;
+					href[1] = target;
+					links[i].setAttribute("href", href.join("/"));
+				}
+			}
+		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
@@ -92,6 +109,16 @@
 			</header>
 
 			<div class="content" id="content">
+				<p translation="dashboard.selectpage"></p>
+				<div class="page-select">
+					<button type="button" onclick="changePage(this)" class="current">Settings</button>
+					<button type="button" onclick="changePage(this)">Customcommands</button>
+					<button type="button" onclick="changePage(this)" data-target="reactionroles">Reaction-, Button- & Selectroles</button>
+					<button type="button" onclick="changePage(this)">Tickets</button>
+					<button type="button" onclick="changePage(this)">Logs</button>
+					<button type="button" onclick="changePage(this)">Modlogs</button>
+				</div>
+
 				<div id="root-container" class="row">
 					<section id="guilds">
 						<div id="guilds-container" class="grid">

@@ -1,49 +1,3 @@
-async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
-	const pickerExisting = parent.querySelector("emoji-picker");
-	if (pickerExisting) return pickerExisting.remove();
-
-	const picker = document.createElement("emoji-picker");
-	if (getCookie("theme") == "light") picker.classList.add("light");
-	else picker.classList.add("dark");
-
-	const style = document.createElement("style");
-	style.textContent = `
-		.picker {
-			border-radius: 10px;
-		}
-		.emoji, button.emoji {
-			border-radius: 4px;
-		}
-		input.search {
-			outline: none;
-			background-color: var(--input-border-color);
-		}
-		#skintone-button {
-			font-size: 24px;
-		}
-	`;
-	picker.shadowRoot.appendChild(style);
-
-	var validActiveElement;
-	document.addEventListener("click", e => {
-		if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target;
-	});
-	picker.addEventListener("emoji-click", e => {
-		insertText(validActiveElement, e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
-	});
-
-	picker.i18n = emojiPickerLang;
-	picker.customEmoji = customEmoji.map(emoji => {
-		return {
-			name: emoji.name,
-			shortCodes: [emoji.name, emoji.id],
-			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
-			category: guildName
-		};
-	});
-	parent.appendChild(picker);
-}
-
 const emojiPickerLang = {
 	categoriesLabel: "Kategorien",
 	emojiUnsupportedMessage: "Dein Browser unterstützt keine farbigen Emojis.",
@@ -79,5 +33,66 @@ const emojiPickerLang = {
 	}
 }
 
+async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
+	const pickerExisting = parent.querySelector("emoji-picker");
+	if (pickerExisting) return pickerExisting.remove();
+
+	const picker = document.createElement("emoji-picker");
+	if (getCookie("theme") == "light") picker.classList.add("light");
+	else picker.classList.add("dark");
+
+	const style = document.createElement("style");
+	style.textContent = `
+		.picker {
+			border-radius: 10px;
+		}
+		.emoji, button.emoji {
+			border-radius: 4px;
+		}
+		input.search {
+			outline: none;
+			background-color: var(--input-border-color);
+		}
+		#skintone-button {
+			font-size: 24px;
+		}
+	`;
+	picker.shadowRoot.appendChild(style);
+
+	picker.addEventListener("emoji-click", e => {
+		insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
+	});
+
+	picker.i18n = emojiPickerLang;
+	picker.customEmoji = customEmoji.map(emoji => {
+		return {
+			name: emoji.name,
+			shortCodes: [emoji.name, emoji.id],
+			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
+			category: guildName
+		};
+	});
+	parent.appendChild(picker);
+}
+
+function insertMention(elem, id) {
+	insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@" + id + ">");
+}
+async function mentionPicker(parent = document.body, roles = []) {
+	const pickerExisting = parent.querySelector(".custom-picker");
+	if (pickerExisting) return pickerExisting.remove();
+
+	const picker = document.createElement("div");
+	picker.classList.add("custom-picker");
+	if (getCookie("theme") == "light") picker.classList.add("light");
+
+	picker.innerHTML = roles.map(mention => (
+		"<span class='element'" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") +
+		" onclick='insertMention(this, \"" + mention.id + "\")'>@" + mention.name + "</span>"
+	)).join("");
+	parent.appendChild(picker);
+}
+
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js
-let browserTextNode;function canTextNode(input){if(input.nodeName!=="TEXTAREA"){return false}if(typeof browserTextNode==="undefined"){const textarea=document.createElement("textarea");textarea.value=1;browserTextNode=!!textarea.firstChild}return browserTextNode}function insertText(input,text){input.focus();if(document.selection){const ieRange=document.selection.createRange();ieRange.text=text;ieRange.collapse(false );ieRange.select();return}const isSuccess=document.execCommand("insertText",false,text);if(!isSuccess){const start=input.selectionStart;const end=input.selectionEnd;if(typeof input.setRangeText==="function"){input.setRangeText(text)}else{const range=document.createRange();const textNode=document.createTextNode(text);if(canTextNode(input)){let node=input.firstChild;if(!node){input.appendChild(textNode)}else{let offset=0;let startNode=null;let endNode=null;while(node&&(startNode===null||endNode===null)){const nodeLength=node.nodeValue.length;if(start>=offset&&start<=offset+nodeLength){range.setStart((startNode=node),start-offset)}if(end>=offset&&end<=offset+nodeLength){range.setEnd((endNode=node),end-offset)}offset+=nodeLength;node=node.nextSibling}if(start!==end){range.deleteContents()}}}if(canTextNode(input)&&range.commonAncestorContainer.nodeName==="#text"){range.insertNode(textNode)}else{const value=input.value;input.value=value.slice(0,start)+text+value.slice(end)}}input.setSelectionRange(start+text.length,start+text.length);const e=document.createEvent("UIEvent");e.initEvent("input",true,false);input.dispatchEvent(e)}};
+/* eslint-disable */
+let browserTextNode;function canTextNode(e){if("TEXTAREA"!==e.nodeName)return!1;if(void 0===browserTextNode){const e=document.createElement("textarea");e.value=1,browserTextNode=!!e.firstChild}return browserTextNode}function insertText(e,t){if(e.focus(),document.selection){const e=document.selection.createRange();return e.text=t,e.collapse(!1),void e.select()}if(!document.execCommand("insertText",!1,t)){const n=e.selectionStart,o=e.selectionEnd;if("function"==typeof e.setRangeText)e.setRangeText(t);else{const c=document.createRange(),l=document.createTextNode(t);if(canTextNode(e)){let t=e.firstChild;if(t){let e=0,l=null,s=null;for(;t&&(null===l||null===s);){const i=t.nodeValue.length;n>=e&&n<=e+i&&c.setStart(l=t,n-e),o>=e&&o<=e+i&&c.setEnd(s=t,o-e),e+=i,t=t.nextSibling}n!==o&&c.deleteContents()}else e.appendChild(l)}if(canTextNode(e)&&"#text"===c.commonAncestorContainer.nodeName)c.insertNode(l);else{const c=e.value;e.value=c.slice(0,n)+t+c.slice(o)}}e.setSelectionRange(n+t.length,n+t.length);const c=document.createEvent("UIEvent");c.initEvent("input",!0,!1),e.dispatchEvent(c)}}

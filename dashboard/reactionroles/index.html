@@ -27,7 +27,6 @@
 		<script src="../../assets/js/script.js"></script>
 		<script src="../../assets/js/language.js"></script>
 		<script src="../../assets/js/sockette.js"></script>
-		<script src="../../assets/js/api/api.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
 		<script>
@@ -155,7 +154,7 @@
 								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
-								"<hr><div class='tab' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.othersettings'></p></div>" +
+								"<hr><div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.othersettings'></p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>";

@@ -28,7 +28,6 @@
 		<script src="../../assets/js/language.js"></script>
 
 		<script src="../../assets/js/sockette.js"></script>
-		<script src="../../assets/js/api/api.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
 		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
@@ -43,7 +42,7 @@
 			}
 
 			let guildName = "";
-			let customEmoji = [];
+			let pickerData = {};
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -92,7 +91,7 @@
 								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
-								"<hr><div class='tab' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.othersettings'></p></div>" +
+								"<hr><div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.othersettings'></p></div>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
@@ -101,7 +100,12 @@
 						} else if (json.action == "SAVED_customcommands") {
 							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
-						} else if (json.action == "RECEIVE_emojis") customEmoji = json.data;
+						} else if (json.action == "RECEIVE_emojis") {
+							pickerData = {
+								emojis: json.emojis,
+								roles: json.roles
+							}
+						}
 					}
 				});
 			}
@@ -184,11 +188,12 @@
 						<label for="customcommand-text" translation="dashboard.content"></label>
 						<div class="emoji-container" id="newmsg">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
-							<ion-icon name="happy-outline" onclick="emojiPicker(this.parentElement, customEmoji, guildName)"></ion-icon>
+							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
-						<label for="customcommand-desc" translation="commands.description"></label>
-						<input type="text" placeholder="Gib eine Slashcommand-Beschreibung ein" name="customcommand-desc" id="customcommand-desc">
+						<label for="customcommand-desc" translation="dashboard.cc.slashdesc"></label>
+						<input type="text" name="customcommand-desc" id="customcommand-desc">
 
 						<br>
 						<button type="submit" translation="dashboard.cc.create"></button>
@@ -216,7 +221,8 @@
 					"<label><b for='" + name + "'>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
-					"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, customEmoji, guildName)'></ion-icon>" +
+					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
+					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);

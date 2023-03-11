@@ -135,8 +135,8 @@ function getCustomcommandsHTML(json) {
 				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
 				"<div class='emoji-container'>" +
 				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
-				"<ion-icon name='at-outline' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
-				"<ion-icon name='happy-outline' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
+				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
+				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
 				"<br>";
 		});

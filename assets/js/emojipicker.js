@@ -33,11 +33,6 @@ const emojiPickerLang = {
 	}
 }
 
-let validActiveElement;
-document.addEventListener("click", e => {
-	if (e.target.matches("input") || e.target.matches("textarea")) validActiveElement = e.target;
-});
-
 async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
 	const pickerExisting = parent.querySelector("emoji-picker");
 	if (pickerExisting) return pickerExisting.remove();
@@ -65,8 +60,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	picker.shadowRoot.appendChild(style);
 
 	picker.addEventListener("emoji-click", e => {
-		if (validActiveElement) insertText(validActiveElement, e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
-		else console.warn("No element found to insert emoji into.");
+		insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
 	});
 
 	picker.i18n = emojiPickerLang;
@@ -81,9 +75,8 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	parent.appendChild(picker);
 }
 
-function insertMention(id) {
-	if (validActiveElement) insertText(validActiveElement, "<@&" + id + ">");
-	else console.warn("No element found to insert mentionable into.");
+function insertMention(elem, id) {
+	insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@" + id + ">");
 }
 async function mentionPicker(parent = document.body, roles = []) {
 	const pickerExisting = parent.querySelector(".custom-picker");
@@ -95,7 +88,7 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 	picker.innerHTML = roles.map(mention => (
 		"<span class='element'" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") +
-		" onclick='insertMention(\"" + mention.id + "\")'>@" + mention.name + "</span>"
+		" onclick='insertMention(this, \"" + mention.id + "\")'>@" + mention.name + "</span>"
 	)).join("");
 	parent.appendChild(picker);
 }

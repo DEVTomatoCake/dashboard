@@ -25,6 +25,14 @@
 		<script src="../assets/js/language.js"></script>
 		<script src="../assets/js/api/api.js"></script>
 		<script src="../assets/js/api/transformer_dashboard.js"></script>
+
+		<script>
+			function changePage(elem) {
+				let pages = document.getElementsByClassName("page-select")[0].children;
+				for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current");
+				elem.classList.add("current");
+			}
+		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<div class="sidebar-container visible" id="sidebar-container">
@@ -92,6 +100,15 @@
 			</header>
 
 			<div class="content" id="content">
+				<div class="page-select" hidden>
+					<button onclick="changePage(this)" class="current">Settings</button>
+					<button onclick="changePage(this)">Customcommands</button>
+					<button onclick="changePage(this)">Reaction-, Button- & Selectroles</button>
+					<button onclick="changePage(this)">Tickets</button>
+					<button onclick="changePage(this)">Logs</button>
+					<button onclick="changePage(this)">Modlogs</button>
+				</div>
+
 				<div id="root-container" class="row">
 					<section id="guilds">
 						<div id="guilds-container" class="grid">

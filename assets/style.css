@@ -221,6 +221,24 @@ tr.cmdvisible:nth-child(odd) {
 			filter: grayscale(100%);
 }
 
+.select-page {
+	display: flex;
+}
+.select-page button {
+	padding: 5px;
+	font-size: 25px;
+	border: none;
+	border-radius: 5px;
+	transition: .3s;
+	background-color: var(--button-accent-color);
+}
+.select-page button:hover {
+	background-color: var(--accent-color-hover);
+}
+.select-page button.current {
+	background-color: var(--purple);
+}
+
 .setting, .settingcopy {
 	overflow-wrap: anywhere;
 	font-size: 1.1em;

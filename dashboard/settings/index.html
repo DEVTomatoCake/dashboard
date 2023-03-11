@@ -76,6 +76,7 @@
 						console.log(json);
 
 						if (json.action == "RECEIVE_settings") {
+							const loadQueue = [];
 							const rendered = getSettingsHTML(json);
 
 							let sidebarHTML =
@@ -94,6 +95,7 @@
 
 							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
+							loadQueue.forEach(func => func());
 							reloadText(getLanguage());
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");

@@ -69,7 +69,7 @@ function getSettingsHTML(json) {
 					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
 						"onchange='addRole(\"" + setting.key + "\", this)'>" +
-						"<option>" + (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
+						"<option>" + (setting.key == "levelMultipliers" || setting.key == "voiceNotifyMessage" || setting.key == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
 
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
 						temp += "<option value='" + key.replace("_", "") + "'>" + possible[key].name + "</option>";

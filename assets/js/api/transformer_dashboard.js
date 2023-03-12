@@ -81,7 +81,7 @@ function getSettingsHTML(json) {
 							"<div><br>" +
 							"<label for='an_" + setting.key + "_" + r.split(":")[0] + "value'>" + possible["_" + r.split(":")[0]].name + "</label><br>" +
 							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":")[1] + "'>" +
+							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":").slice(1).join(":") + "'>" +
 							"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
 					});
 					temp += "</div>";
@@ -103,7 +103,7 @@ function getSettingsHTML(json) {
 					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
 					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 
-				if (setting.value?.includes("<") || setting.value?.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				if (setting.value.includes("<") || setting.value.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);

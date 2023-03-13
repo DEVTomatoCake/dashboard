@@ -493,12 +493,7 @@ textarea:focus {
 	width: 60px;
 	height: 34px;
 	color: var(--textarea-color);
-}
-.switch[data-type="lang"] {
-	margin-left: 10px;
-	margin-right: auto;
-}
-.switch[data-type="theme"] {
+
 	margin-left: auto;
 	margin-right: 10px;
 }
@@ -534,19 +529,6 @@ textarea:focus {
 	align-items: center;
 	padding-left: 1px;
 	line-height: 0;
-}
-
-.switch[data-type="lang"] .slider:before {
-	content: "";
-	background-image: url("./images/wikimedia_flagde.svg");
-	background-position: center;
-	background-size: cover;
-}
-.switch[data-type="lang"] input:checked + .slider:before {
-	content: "";
-	background-image: url("./images/wikimedia_flagen.svg");
-	background-position: center;
-	background-size: cover;
 }
 
 .switch[data-type="theme"] .slider:before {
@@ -697,7 +679,15 @@ textarea:focus {
 	color: var(--primary-text-color);
 }
 
-.top .account {
+.top .account ion-icon {
+	font-size: 35px;
+}
+.top .account img {
+	padding-left: 5px;
+	border-radius: 50%;
+}
+
+.hoverdropdown .account {
 	display: flex;
 	align-items: center;
 	margin-left: auto;
@@ -707,25 +697,29 @@ textarea:focus {
 	padding: 5px;
 	background: var(--primary-color);
 	color: var(--primary-text-color);
-	cursor: pointer;
 	transition: var(--transition-buttons);
 }
 
-.top .account ion-icon {
-	font-size: 35px;
+.hoverdropdown.lang .account {
+	background: var(--secondary-color);
 }
-.top .account img {
-	padding-left: 5px;
-	border-radius: 50%;
+.hoverdropdown.lang .account ion-icon {
+	font-size: 24px;
 }
 
-.accdropdown {
+.hoverdropdown {
 	display: inline-block;
 	position: relative;
 	margin-left: auto;
+	cursor: pointer;
 }
 
-.accdropdown-content {
+.hoverdropdown.lang {
+	margin-left: 10px;
+	margin-right: auto;
+}
+
+.hoverdropdown-content {
 	display: none;
 	position: absolute;
 	width: 80%;
@@ -734,19 +728,31 @@ textarea:focus {
 	box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.4);
 }
 
-.accdropdown:hover .accdropdown-content {
+.hoverdropdown:hover .hoverdropdown-content {
 	display: block;
 }
 
-.accdropdown-content a {
+.hoverdropdown-content a, .hoverdropdown-content.langselect div {
 	display: block;
 	color: var(--primary-text-color);
 	padding: 5px;
 	text-decoration: none;
 	background: var(--primary-color);
 }
-.accdropdown-content a:hover {
+.hoverdropdown-content a:hover, .hoverdropdown-content.langselect div:hover {
 	background-color: var(--select-hover);
+}
+
+.hoverdropdown-content.langselect {
+	position: fixed;
+	width: 140px;
+	bottom: 42px;
+}
+.hoverdropdown-content.langselect div {
+	display: flex;
+}
+.hoverdropdown-content.langselect img {
+	padding-right: 5px;
 }
 
 .content {

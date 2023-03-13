@@ -119,9 +119,9 @@ function pageLoad(page = "") {
 
 	const username = getCookie("user");
 	if (username) {
-		if (page == "main") document.getElementById("username-content").innerHTML = "Hallo, <span class='accent'>" + username + "</span>!";
+		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!";
 		document.getElementById("username-header").innerText = username;
-		document.getElementsByClassName("accdropdown-content")[0].innerHTML = '<a href="/logout/" translation="global.logout">Abmelden</a><a href="/dashboard/user/" translation="global.viewdataexport">Eigene Daten ansehen</a>';
+		document.getElementById("hoverdrop-login").innerHTML = '<a href="/logout/" translation="global.logout">Abmelden</a><a href="/dashboard/user/" translation="global.viewdataexport">Eigene Daten ansehen</a>';
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML += "<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style = \"display: block;\";this.style.display = \"none\";'>";
 	} else document.getElementById("username-avatar").style = "display: block;";
 
@@ -144,10 +144,6 @@ function pageLoad(page = "") {
 		});
 	});
 
-	document.getElementById("lang-toggle").addEventListener("change", () => {
-		if (document.documentElement.lang.includes("en")) reloadText("de");
-		else reloadText("en");
-	});
 	if (reloadText) reloadText(getLanguage());
 	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
 

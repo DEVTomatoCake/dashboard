@@ -687,7 +687,7 @@ textarea:focus {
 	border-radius: 50%;
 }
 
-.hoverdropdown .account {
+.hoverdropdown .account, .hoverdropdown.lang .text {
 	display: flex;
 	align-items: center;
 	margin-left: auto;
@@ -700,10 +700,10 @@ textarea:focus {
 	transition: var(--transition-buttons);
 }
 
-.hoverdropdown.lang .account {
+.hoverdropdown.lang .text {
 	background: var(--secondary-color);
 }
-.hoverdropdown.lang .account ion-icon {
+.hoverdropdown.lang .text ion-icon {
 	font-size: 24px;
 }
 

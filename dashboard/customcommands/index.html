@@ -146,10 +146,31 @@
 				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
 
 				<div class="section bottom">
-					<label class="switch" data-type="lang">
-						<input type="checkbox" id="lang-toggle" aria-label="Toggle lang">
-						<span class="slider round"></span>
-					</label>
+					<div class="hoverdropdown lang">
+						<div class="hoverdropdown-content langselect">
+							<div onclick="reloadText('de')">
+								<img src="../../assets/images/wikimedia_flagde.svg" width="30" height="30" alt="DE flag">
+								<span>Deutsch</span>
+							</div>
+							<div onclick="reloadText('en')">
+								<img src="../../assets/images/wikimedia_flagen.svg" width="30" height="30" alt="EN flag">
+								<span>English</span>
+							</div>
+							<div onclick="reloadText('hu')">
+								<img src="../../assets/images/wikimedia_flaghu.svg" width="30" height="30" alt="HU flag">
+								<span>Magyar</span>
+							</div>
+							<div onclick="reloadText('fr')">
+								<img src="../../assets/images/wikimedia_flagfr.svg" width="30" height="30" alt="FR flag">
+								<span>Français</span>
+							</div>
+						</div>
+						<div class="text">
+							<ion-icon name="language-outline"></ion-icon>
+							<span>Language</span>
+						</div>
+					</div>
+
 					<label class="switch" data-type="theme">
 						<input type="checkbox" id="theme-toggle" aria-label="Toggle theme">
 						<span class="slider round"></span>

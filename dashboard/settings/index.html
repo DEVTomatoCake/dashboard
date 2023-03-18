@@ -162,7 +162,7 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					if (!parent && typeof type == "object" && !Array.isArray(setting.value)) html += "<br><label for='" + setting.key + "_" + key + "'>" + key + "</label>";
+					if (!parent && !Array.isArray(setting.value)) html += "<br><label for='" + setting.key + "_" + key + "'>" + key + "</label>";
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
@@ -300,15 +300,17 @@
 
 				const items = {};
 				Object.keys(settingsData).forEach(key => {
+					const setting = settingsData[key];
+
 					let entry;
-					if (multiselect.includes(key)) {
+					if (Array.isArray(setting.value) && typeof setting.type == "string" && (setting.type == "bool" || setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key))) {
 						entry = [];
 						drops.filter(drop => drop.key == key).forEach(drop => {
 							drop.data.selected.forEach(possible => {
 								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
 							});
 						});
-					} else if (advancedsetting.includes(key)) {
+					} else if (typeof setting.value == "object") {
 						entry = {};
 					} else entry = document.getElementById(key).value;
 

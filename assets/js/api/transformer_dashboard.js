@@ -59,35 +59,10 @@ function getSettingsHTML(json) {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
 					});*/
 
-					/*currentlySelected[setting.key] = {
-						value: setting.value.map(r => r.split(":")[0]).join(" ") + " ",
-						possible
-					};*/
-
-					if (possible) {
-						temp += "<select class='setting' id='" + setting.key + "' " +
-							(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
-							"onchange='addItem(\"" + setting.key + "\", this)'>" +
-							"<option>Hinzufügen...</option>";
-
-						Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
-							temp += "<option value='" + key.replace("_", "") + "'>" + possible[key].name + "</option>";
-						});
-						temp += "</select>";
-					}
-
-					function addItem(key, value) {
-						temp +=
-							"<div><br>" +
-							"<label for='an_" + setting.key + "_" + key + "value'>" + possible["_" + key].name + "</label><br>" +
-							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + key + "value' class='settingcopy' value='" + (value || key) + "'>" +
-							"<ion-icon name='trash-outline' class='removeItem' onclick='removeItem(\"" + setting.key + "\", this, \"" + key + "\")'></ion-icon></div>";
-					}
-
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
-					if (setting.value.length > 0) setting.value.forEach(addItem);
-					else if (Object.keys(setting.value).length > 0) Object.keys(setting.value).forEach(i => addItem(setting.value[i], i));
+					if (setting.value.length) temp += "<button class='createForm' onclick='this.parentElement.innerHTML+=addItem(" + setting + ", Math.random().toString(36))'>Hinzufügen</button>"
+					if (setting.value.length > 0) setting.value.forEach(i => addItem(setting, i));
+					else if (Object.keys(setting.value).length > 0) Object.keys(setting.value).forEach(i => addItem(setting, setting.value[i], i));
 					temp += "</div>";
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";

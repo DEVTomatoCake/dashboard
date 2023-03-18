@@ -112,7 +112,7 @@
 
 			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent) {
 				//if (typeof setting == "string") setting = JSON.parse(setting);
-				console.error(setting.max, parent.childElementCount)
+				if (parent) console.error(setting.max, parent.childElementCount)
 				if (parent && setting.max > parent.childElementCount) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
 				//if (typeof possible == "string") possible = JSON.parse(possible);
 

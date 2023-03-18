@@ -58,8 +58,8 @@ function getSettingsHTML(json) {
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
-						if (setting.type == "bool") console.log(possible[key], key, setting.value)
 						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
+						else if (typeof possible[key] == "boolean") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";

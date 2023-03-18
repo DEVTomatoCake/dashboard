@@ -127,11 +127,13 @@
 						}
 					})
 				} else {
-					if (setting.type[key]) setting.type = setting.type[key];
-					if (setting.type == "int" || setting.type == "number") html +=
+					let type = setting.type;
+					if (setting.type[key]) type = setting.type[key];
+					if (typeof type == "object") console.warn(setting.key + " ungültiger Typ:", type)
+					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
-						"' value='" + (parent ? "" : (setting.type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if (setting.type == "bool")
+						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
+					else if (type == "bool")
 						html += "<label class='switch'><input type='checkbox' class='settingcopy' id='an_" + setting.key + "_" + key + "'" + (value ?? key ? " checked" : "") + "><span class='slider round'></span></label>";
 					else {
 						console.log(value, key)

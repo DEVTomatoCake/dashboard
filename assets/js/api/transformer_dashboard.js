@@ -45,7 +45,7 @@ function getSettingsHTML(json) {
 					})
 				}
 
-				if (Array.isArray(setting.value) && (setting.type == "bool" || setting.type == "logs" || setting.type == "role" || setting.type.endsWith("channel"))) {
+				if (Array.isArray(setting.value) && typeof setting.type == "string" && (setting.type == "bool" || setting.type == "logs" || setting.type == "role" || setting.type.endsWith("channel"))) {
 					temp += addMultiselect(setting, possible, setting.value);
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";

@@ -100,7 +100,7 @@
 
 							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
-							queue.forEach(func => func());
+							queue.forEach(f => f());
 							reloadText(getLanguage());
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
@@ -110,18 +110,16 @@
 				});
 			}
 
-			function addMultiselect(setting, possible) {
+			function addMultiselect(setting, possible, value) {
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
-				let i = 0;
-				Object.keys(possible).forEach(key => {
+				Object.keys(possible).forEach((key, i) => {
 					if (key == "") return;
-					setting.value.forEach(data => {
+					value.forEach(data => {
 						if (data == key.replace("_", "")) selected.push(i);
 					});
-					i++;
-					if (typeof possible[key] == "string") html += "<option value='" + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + "</option>";
-					else html += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
+					if (typeof possible[key] == "string") html += "<option value='" + key.replace("_", "") + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key] + "</option>";
+					else html += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key].name + "</option>";
 				});
 				html += "</select>";
 				queue.push(() => {
@@ -159,9 +157,8 @@
 						});
 						html += "</select>";
 					} else if (type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
-						console.log(possible)
 						console.log(possible[key])
-						html += addMultiselect(setting, possible[key]);
+						html += addMultiselect(setting, possible[key], value);
 					} else {
 						if (type != "string") console.warn(type)
 						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";

@@ -111,29 +111,27 @@
 			}
 
 			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent) {
-				//if (typeof setting == "string") setting = JSON.parse(setting);
-				if (parent) console.error(setting.max, parent.childElementCount)
-				if (parent && setting.max > parent.childElementCount) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
-				//if (typeof possible == "string") possible = JSON.parse(possible);
+				if (parent && setting.value.length && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
 
 				let html = "<div><br>";
 				if (typeof setting.type == "object") {
 					html += (possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
-					Object.keys(setting.type).map(setKey => {
+					Object.keys(setting.type).forEach(setKey => {
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
-							"<input type='number' min='" + (setting.type[setKey] == "number" ? "-10000" : "0") + "' max='10000' class='settingcopy' id='an_" + setting.key + "_" + key +
-							"' value='" + (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key)) + "'>";
+							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
+							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
 						else {
-							html += "<textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "'>" + (value[setKey] ?? key).replace(/[<>&"']/g, "") + "</textarea>";
+							html += "<textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "'>" +
+								(parent ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key).value = value[setKey] ?? key);
 						}
 					})
 				} else {
 					if (setting.type == "int" || setting.type == "number") html +=
-						"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='settingcopy' id='an_" + setting.key + "_" + key +
-						"' value='" + (setting.type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key)) + "'>";
+						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
+						"' value='" + (parent ? "" : (setting.type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
 					else {
-						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "'>" + (value ?? key).replace(/[<>&"']/g, "") + "</textarea>";
+						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key).value = value ?? key);
 					}
 				}

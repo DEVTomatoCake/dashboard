@@ -155,7 +155,7 @@
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
 					else if (type == "bool") {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
-						Object.keys(possible[setting.key]).forEach(posKey => {
+						Object.keys(possible[key]).forEach(posKey => {
 							html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"
 						});
 						html += "</select>";

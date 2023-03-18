@@ -42,6 +42,7 @@
 			};
 
 			let drops = [];
+			let multiselectKeys = [];
 			const queue = [];
 
 			let socket;
@@ -50,8 +51,7 @@
 					onClose: event => {
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 						drops = [];
-						const olddrops = document.getElementsByClassName("drop");
-						for (const drop of olddrops) drop.remove();
+						for (const drop of document.getElementsByClassName("drop")) drop.remove();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -82,6 +82,7 @@
 						console.log(json);
 
 						if (json.action == "RECEIVE_settings") {
+							multiselectKeys = json.constant.multiselectKeys;
 							const rendered = getSettingsHTML(json);
 
 							let sidebarHTML =
@@ -137,19 +138,19 @@
 					html += (possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
-							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
+							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key + "_" + setKey +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
-						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")))
+						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselectKeys.includes(setting.key)))
 							html += addMultiselect(setting, possible[key], value[setKey]);
 						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
-							html += "<select class='settingcopy' id='" + setting.key + "'>";
+							html += "<select class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
 								if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
 							html += "</select>";
 						} else {
-							html += "<textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "'>" +
+							html += "<textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
 								(parent ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key).value = value[setKey] ?? key);
 						}
@@ -161,7 +162,7 @@
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel")))
+					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselectKeys.includes(setting.key)))
 						html += addMultiselect(setting, possible, value);
 					else if (typeof type == "string" && possible && Object.keys(possible).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";

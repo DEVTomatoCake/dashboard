@@ -29,7 +29,6 @@ function getGuildsHTML() {
 function getSettingsHTML(json) {
 	if (json.status == "success") {
 		let text = "";
-		const queue = [];
 		const categories = [];
 		const categoryData = [];
 
@@ -96,8 +95,7 @@ function getSettingsHTML(json) {
 
 		return {
 			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
-			categories,
-			queue
+			categories
 		};
 	} else {
 		return (

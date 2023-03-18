@@ -41,8 +41,8 @@ function getSettingsHTML(json) {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 
-				/*if (multiselect.includes(setting.key)) {
-					temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
+				if (typeof setting.type == "object") {
+					/*temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					const selected = [];
 					let i = 0;
 					Object.keys(possible).forEach(key => {
@@ -58,7 +58,8 @@ function getSettingsHTML(json) {
 					queue.push(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
 					});
-				} else if (typeof setting.type == "object") {
+
+
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
 						possible
@@ -82,7 +83,7 @@ function getSettingsHTML(json) {
 							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":").slice(1).join(":") + "'>" +
 							"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
 					});
-					temp += "</div>";
+					temp += "</div>";*/
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
@@ -90,14 +91,13 @@ function getSettingsHTML(json) {
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
-				}*/
+				}
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
 					"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='setting' id='" + setting.key +
 					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>";
 				else {
-					temp +=
-						"<textarea class='setting' rows='5' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";
+					temp += "<textarea class='setting' rows='" + setting.value.split("\n").length + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				}
 			}

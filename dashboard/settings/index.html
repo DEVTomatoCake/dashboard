@@ -115,9 +115,11 @@
 				const selected = [];
 				Object.keys(possible).forEach((key, i) => {
 					if (key == "") return;
-					value.forEach(data => {
-						if (data == key.replace("_", "")) selected.push(i);
-					});
+					if (value.length) {
+						value.forEach(data => {
+							if (data.includes(key.replace("_", ""))) selected.push(i);
+						});
+					} else if (value.includes(key.replace("_", ""))) selected.push(i);
 					if (typeof possible[key] == "string") html += "<option value='" + key.replace("_", "") + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key] + "</option>";
 					else html += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key].name + "</option>";
 				});

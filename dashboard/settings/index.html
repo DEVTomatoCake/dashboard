@@ -160,18 +160,19 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
+					if (setting.key == "disabledLogs") console.error(typeof type, type, typeof value, Array.isArray(value), value, multiselect.includes(setting.key))
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
 					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselect.includes(setting.key)))
 						html += addMultiselect(setting, possible, value);
-					else if (typeof type == "string" && possible && Object.keys(possible).length > 0) {
-						console.log(possible)
+					else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
+						console.log(possible[key])
 						console.log(setting.key, key)
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
-						Object.keys(possible).forEach(posKey => {
-							if (typeof possible[posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"
-							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey].name + "</option>";
+						Object.keys(possible[key]).forEach(posKey => {
+							if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
 						html += "</select>";
 					} else {

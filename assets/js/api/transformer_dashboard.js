@@ -63,7 +63,7 @@ function getSettingsHTML(json) {
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
 
 					if (setting.value.length > 0 && typeof setting.value[0] != "object") temp += setting.value.map(i => addItem(setting, possible, i)).join("");
-					else if (Object.keys(setting.value).length > 0) temp += Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i])).join("");
+					else if (Object.keys(setting.value).length > 0) temp += addItem(setting, possible, setting.key, setting.value)//Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i])).join("");
 					temp += "</div>";
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";

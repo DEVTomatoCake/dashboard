@@ -36,7 +36,7 @@
 			const friendlyCat = {
 				ticket: "Tickets",
 				boost: "Boosts",
-				level: "Leaderboard/Level",
+				level: "Leaderboard & Level",
 				stats: "Statistiken",
 				sticky: "Sticky Messages",
 				autonick: "Rollen-Nickname",
@@ -323,8 +323,10 @@
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
 							const child = document.getElementById(setting.key + "_" + key);
-							if (child) entry[key] = child.value;
-							else console.error("Could not find child with id " + setting.key + "_" + key, setting)
+							if (child) {
+								if (setting[key].type == "bool") entry[key] = child.value == "true"
+								else entry[key] = child.value;
+							}
 						})
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);

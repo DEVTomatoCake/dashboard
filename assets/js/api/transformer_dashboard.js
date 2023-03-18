@@ -93,11 +93,13 @@ function getSettingsHTML(json) {
 				}*/
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
-					"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
-				else temp +=
-					"<textarea class='setting' rows='5' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";
-
-				if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
+					"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='setting' id='" + setting.key +
+					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>";
+				else {
+					temp +=
+						"<textarea class='setting' rows='5' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				}
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);

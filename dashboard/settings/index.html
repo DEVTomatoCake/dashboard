@@ -160,8 +160,8 @@
 						html += "</select>";
 					} else if (type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
 						console.log(possible)
-						console.log(possible[setting.key])
-						html += addMultiselect(setting, possible[setting.key]);
+						console.log(possible[key])
+						html += addMultiselect(setting, possible[key]);
 					} else {
 						if (type != "string") console.warn(type)
 						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";

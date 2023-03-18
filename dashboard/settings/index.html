@@ -149,6 +149,7 @@
 					let type = setting.type;
 					if (setting.type[key]) type = setting.type[key];
 
+					console.log(possible[key])
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
@@ -159,7 +160,6 @@
 						});
 						html += "</select>";
 					} else if (type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
-						console.log(possible[key])
 						html += addMultiselect(setting, possible[key], value);
 					} else {
 						if (type != "string") console.warn(type)

@@ -109,24 +109,29 @@
 				});
 			}
 
-			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value = {}, parent) {
-				if (parent && setting.max > parent.childElementCount) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
-
+			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent) {
 				if (typeof setting == "string") setting = JSON.parse(setting);
+				if (parent && setting.max > parent.childElementCount) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
 				if (typeof possible == "string") possible = JSON.parse(possible);
 
-				const html = "<div><br>" +
-					(setting.type == "object" ?
-						(possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "") +
+				let html = "<div><br>"
+				if (setting.type == "object") {
+					html += (possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "") +
 						Object.keys(setting.type).map(setKey => (
 							"<input type='" + (setting.type[setKey] == "int" || setting.type[setKey] == "number" ? "number'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-								" id='an_" + setting.key + "_" + key + setKey + "' class='settingcopy' value='" + (value[setKey] || key) + "'>"
+								" id='an_" + setting.key + "_" + key + setKey + "' class='settingcopy' value='" + (value[setKey] ?? key) + "'>"
 						))
-					:
-						"<input type='" + (setting.type == "int" || setting.type == "number" ? "number'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + key + "' class='settingcopy' value='" + key + "'>"
-					) +
-					(setting.value.length ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
+				} else {
+					if (setting.type == "int" || setting.type == "number") html +=
+						"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='settingcopy' id='an_" + setting.key + "_" + key +
+						"' value='" + (setting.type == "number" ? parseFloat(value) : parseInt(value)) + "'>";
+					else {
+						html += "<textarea class='setting' rows='" + value.split("\n").length + "' id='" + setting.key + "'>" + value.replace(/[<>&"']/g, "") + "</textarea>";
+						if (/[<>&"']/.test(value)) queue.push(() => document.getElementById(setting.key).value = value);
+					}
+				}
+
+				html += (setting.value.length ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";
 
 				if (parent) parent.innerHTML += html;

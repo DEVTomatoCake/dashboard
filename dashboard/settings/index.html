@@ -312,7 +312,9 @@
 						});
 					} else if (typeof setting.value == "object") {
 						entry = {};
-					} else entry = document.getElementById(setting.key).value;
+					} else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
+					else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value);
+					else entry = document.getElementById(setting.key).value;
 
 					console.log(entry)
 					items[setting.key] = entry;

@@ -317,13 +317,13 @@
 					} else if (typeof setting.value == "object" && Array.isArray(setting.value)) {
 						entry = [];
 						for (const element of document.getElementById(setting.key).children) {
-							if (element.querySelector("input,textarea,select")) entry.push(element.querySelector("input,textarea").value);
+							if (element.querySelector("input,textarea,select")) entry.push(element.querySelector("input,textarea,select").value);
 						}
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						for (const element of document.getElementById(setting.key).children) {
-							console.log(2, element)
-							if (element.querySelector("input,textarea,select")) entry[element.id.split("_")[1]] = element.querySelector("input,textarea").value;
+							console.log(element)
+							if (element.querySelector("input,textarea,select")) entry[element.id.split("_")[1]] = element.querySelector("input,textarea,select").value;
 						}
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);

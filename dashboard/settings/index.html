@@ -323,7 +323,8 @@
 						entry = {};
 						for (const element of document.getElementById(setting.key).children) {
 							console.log(element)
-							if (element.querySelector("input,textarea,select")) entry[element.id.split("_")[1]] = element.querySelector("input,textarea,select").value;
+							const child = element.querySelector("input,textarea,select")
+							if (child) entry[child.id.split("_")[1]] = child.value;
 						}
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);

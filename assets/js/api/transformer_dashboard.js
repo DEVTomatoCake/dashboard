@@ -48,7 +48,7 @@ function getSettingsHTML(json) {
 				if (Array.isArray(setting.value) && typeof setting.type == "string" && (setting.type == "bool" || setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key)))
 					temp += addMultiselect(setting, possible, setting.value);
 				else if (typeof setting.value == "object") {
-					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
+					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
 

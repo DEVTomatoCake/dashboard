@@ -177,7 +177,7 @@
 						html += "</select>";
 					} else {
 						if (type != "string") console.warn(type)
-						html += "<textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) + "' id='" + setting.key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
+						html += "<textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key).value = value ?? key);
 					}
 				}
@@ -310,8 +310,17 @@
 								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
 							});
 						});
+					} else if (typeof setting.value == "object" && Array.isArray(setting.value)) {
+						entry = [];
+						for (const element of document.getElementById(setting.key)) {
+							console.log(1, element)
+						}
 					} else if (typeof setting.value == "object") {
 						entry = {};
+						for (const element of document.getElementById(setting.key)) {
+							console.log(2, element)
+							entry[element.id.split("_")[1]] = element.value;
+						}
 					} else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
 					else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value);
 					else entry = document.getElementById(setting.key).value;

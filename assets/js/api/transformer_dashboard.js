@@ -60,9 +60,9 @@ function getSettingsHTML(json) {
 					});*/
 
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
-					if (setting.value.length) temp += "<button class='createForm' onclick='this.parentElement.innerHTML+=addItem(" + setting + ", Math.random().toString(36))'>Hinzufügen</button>"
-					if (setting.value.length > 0) setting.value.forEach(i => addItem(setting, i));
-					else if (Object.keys(setting.value).length > 0) Object.keys(setting.value).forEach(i => addItem(setting, setting.value[i], i));
+					if (setting.value.length) temp += "<button class='createForm' onclick='this.parentElement.innerHTML+=addItem(" + setting + ", " + possible + ", Math.random().toString(36))'>Hinzufügen</button>"
+					if (setting.value.length > 0) setting.value.forEach(i => addItem(setting, possible, i));
+					else if (Object.keys(setting.value).length > 0) Object.keys(setting.value).forEach(i => addItem(setting, possible, setting.value[i], i));
 					temp += "</div>";
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";

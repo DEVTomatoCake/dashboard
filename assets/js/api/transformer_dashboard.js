@@ -34,9 +34,10 @@ function getSettingsHTML(json) {
 		const categoryData = [];
 
 		json.data.forEach(setting => {
+			console.log(setting)
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label><br>";
 
-			if (setting.possible) {
+			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 
@@ -94,9 +95,9 @@ function getSettingsHTML(json) {
 				if (setting.type == "int" || setting.type == "number") temp +=
 					"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 				else temp +=
-					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+					"<textarea class='setting' rows='5' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";
 
-				if (setting.value.includes("<") || setting.value.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
 			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);

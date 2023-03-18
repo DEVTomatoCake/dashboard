@@ -324,7 +324,7 @@
 						Object.keys(setting.type).forEach(key => {
 							const child = document.getElementById(setting.key + "_" + key);
 							if (child) {
-								if (setting[key].type == "bool") entry[key] = child.value == "true"
+								if (setting.type[key] == "bool") entry[key] = child.value == "true"
 								else entry[key] = child.value;
 							}
 						})

@@ -149,7 +149,7 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					console.log(setting.type + " " + value.length)
+					console.log(setting.key + " " + key + " " + value.length)
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";

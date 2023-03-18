@@ -270,7 +270,7 @@
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
-						<a href="/login/" id="hoverdrop-login" translation="global.login"></a>
+						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
 			</header>
@@ -303,7 +303,7 @@
 					console.log(setting)
 
 					let entry;
-					if (Array.isArray(setting.value) && typeof setting.type == "string" && (setting.type == "bool" || setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key))) {
+					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key))) {
 						entry = [];
 						drops.filter(drop => drop.key == setting.key).forEach(drop => {
 							drop.data.selected.forEach(possible => {
@@ -321,7 +321,8 @@
 							console.log(2, element)
 							entry[element.id.split("_")[1]] = element.value;
 						}
-					} else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
+					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
+					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
 					else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value);
 					else entry = document.getElementById(setting.key).value;
 

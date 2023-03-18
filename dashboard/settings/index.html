@@ -139,14 +139,14 @@
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
 							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
-						else if ((setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel") && Array.isArray(value[setKey])) {
+						else if ((setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel" || setting.type[setKey] == "announcementchannel") && Array.isArray(value[setKey])) {
 							console.log(possible[key], value[setKey])
 							html += addMultiselect(setting, possible[key], value[setKey]);
-						} else if (setting.type[setKey] == "bool" || setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel") {
+						} else if (setting.type[setKey] == "bool" || setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel" || setting.type[setKey] == "announcementchannel") {
 							html += "<select class='settingcopy' id='" + setting.key + "'>";
-							Object.keys(possible[key]).forEach(posKey => {
-								if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
-								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
+							Object.keys(possible[setKey]).forEach(posKey => {
+								if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
 							html += "</select>";
 						} else {
@@ -162,10 +162,10 @@
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if ((type == "textchannel" || type == "voicechannel" || type == "categorychannel") && Array.isArray(value)) {
+					else if ((type == "textchannel" || type == "voicechannel" || type == "categorychannel" || type == "announcementchannel") && Array.isArray(value)) {
 						console.log(possible[key], value)
 						html += addMultiselect(setting, possible[key], value);
-					} else if (type == "bool" || type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
+					} else if (type == "bool" || type == "textchannel" || type == "voicechannel" || type == "categorychannel" || type == "announcementchannel") {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
 							if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"

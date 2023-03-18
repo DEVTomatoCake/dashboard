@@ -148,8 +148,8 @@
 						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 							html += "<select class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
-								if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
-								else if (typeof possible[setKey][posKey] == "boolean") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + (value[setKey] ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
 							html += "</select>";
@@ -172,8 +172,8 @@
 					else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
-							if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
-							else if (typeof possible[key][posKey] == "boolean") html += "<option value='" + posKey.replace("_", "") + "'" + (value ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							if (type == "bool") html += "<option value='" + posKey + "'" + (value ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
 							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
 						html += "</select>";

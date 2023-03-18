@@ -172,7 +172,7 @@
 					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselect.includes(setting.key)))
 						html += addMultiselect(setting, possible, value);
 					else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
-						html += "<select class='settingcopy' id='" + setting.key + "'>";
+						html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
 							if (type == "bool") html += "<option value='" + posKey + "'" + ((value && key == "true") || (!value && key != "true") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
 							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
@@ -317,14 +317,13 @@
 					} else if (typeof setting.value == "object" && Array.isArray(setting.value)) {
 						entry = [];
 						for (const element of document.getElementById(setting.key).children) {
-							if (element.querySelector("input,textarea")) entry.push(element.querySelector("input,textarea").value);
+							if (element.querySelector("input,textarea,select")) entry.push(element.querySelector("input,textarea").value);
 						}
-						console.log(entry)
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						for (const element of document.getElementById(setting.key).children) {
 							console.log(2, element)
-							if (element.querySelector("input,textarea")) entry[element.id.split("_")[1]] = element.querySelector("input,textarea").value;
+							if (element.querySelector("input,textarea,select")) entry[element.id.split("_")[1]] = element.querySelector("input,textarea").value;
 						}
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);

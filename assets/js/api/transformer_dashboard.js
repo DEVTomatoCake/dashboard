@@ -33,17 +33,14 @@ function getSettingsHTML(json) {
 		const categories = [];
 		const categoryData = [];
 
-		multiselect = json.constant.multiselect;
-		advancedsetting = json.constant.advancedsetting;
-
 		json.data.forEach(setting => {
-			let temp = "<label for='" + setting.key + "'>" + setting.help + "</label><br>";
+			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label><br>";
 
 			if (setting.possible) {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 
-				if (multiselect.includes(setting.key)) {
+				/*if (multiselect.includes(setting.key)) {
 					temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
 					const selected = [];
 					let i = 0;
@@ -60,7 +57,7 @@ function getSettingsHTML(json) {
 					queue.push(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
 					});
-				} else if (advancedsetting.includes(setting.key)) {
+				} else if (typeof setting.type == "object") {
 					currentlySelected[setting.key] = {
 						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
 						possible
@@ -69,7 +66,7 @@ function getSettingsHTML(json) {
 					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
 						"onchange='addRole(\"" + setting.key + "\", this)'>" +
-						"<option>" + (setting.key == "levelMultipliers" || setting.key == "voiceNotifyMessage" || setting.key == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
+						"<option>" + (setting.type == "role" ? "Rolle" : "Kanal") + " hinzufügen...</option>";
 
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
 						temp += "<option value='" + key.replace("_", "") + "'>" + possible[key].name + "</option>";
@@ -92,16 +89,12 @@ function getSettingsHTML(json) {
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
-				}
+				}*/
 			} else {
-				if (!setting.value) setting.value = ""; // TODO: Remove after new settings are released
-
-				if (json.constant.integer.includes(setting.key)) temp +=
-					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+				if (setting.type == "int" || setting.type == "number") temp +=
+					"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 				else temp +=
-					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 
 				if (setting.value.includes("<") || setting.value.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
 			}

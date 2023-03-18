@@ -122,7 +122,7 @@
 						))
 					:
 						"<input type='" + (setting.type == "int" || setting.type == "number" ? "number'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + key + "value' class='settingcopy' value='" + (value || key) + "'>"
+							" id='an_" + setting.key + "_" + key + "value' class='settingcopy' value='" + key + "'>"
 					) +
 					"<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" +
 					"</div>";

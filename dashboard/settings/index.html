@@ -136,13 +136,12 @@
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
-						console.log(setKey, possible, possible[setKey])
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
 							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
 						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")))
 							html += addMultiselect(setting, possible[key], value[setKey]);
-						else if (typeof setting.type[setKey] == "string" && Object.keys(possible[setKey]).length > 0) {
+						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 							html += "<select class='settingcopy' id='" + setting.key + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
 								if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
@@ -164,7 +163,7 @@
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
 					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel")))
 						html += addMultiselect(setting, possible, value);
-					else if (typeof type == "string" && Object.keys(possible).length > 0) {
+					else if (typeof type == "string" && possible && Object.keys(possible).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible).forEach(posKey => {
 							if (typeof possible[posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"

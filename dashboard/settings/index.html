@@ -160,7 +160,6 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					if (setting.key == "disabledLogs") console.error(value)
 					if (!parent) html += "<br><label for='" + setting.key + "_" + key + "'>" + key + "</label>";
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key +

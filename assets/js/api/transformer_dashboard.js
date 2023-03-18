@@ -41,23 +41,6 @@ function getSettingsHTML(json) {
 				if (typeof possible == "string") possible = json.constant[possible];
 
 				if (typeof setting.value == "object") {
-					/*temp += "<select multiple class='setting' id='" + setting.key + "'>";
-					const selected = [];
-					let i = 0;
-					Object.keys(possible).forEach(key => {
-						if (key == "") return;
-						setting.value.forEach(data => {
-							if (data == key.replace("_", "")) selected.push(i);
-						});
-						i++;
-						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + "</option>";
-						else temp += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (possible[key].color ? " data-color='" + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
-					});
-					temp += "</select>";
-					queue.push(() => {
-						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
-					});*/
-
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
 					if (setting.value.length) temp += "<button class='createForm' onclick='addItem(" +
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";

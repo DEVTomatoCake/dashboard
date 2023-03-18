@@ -139,10 +139,10 @@
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
 							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
-						else if ((setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) && Array.isArray(value[setKey])) {
+						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel"))) {
 							console.log(possible[key], value[setKey])
 							html += addMultiselect(setting, possible[key], value[setKey]);
-						} else if (setting.type[setKey] == "bool" || setting.type[setKey] == "logs" || setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
+						} else if (typeof setting.type[setKey] == "string" && (setting.type[setKey] == "bool" || setting.type[setKey] == "logs" || setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel"))) {
 							html += "<select class='settingcopy' id='" + setting.key + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
 								if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
@@ -162,10 +162,10 @@
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if ((type == "role" || type.endsWith("channel")) && Array.isArray(value)) {
+					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel"))) {
 						console.log(possible, value)
 						html += addMultiselect(setting, possible, value);
-					} else if (type == "bool" || type == "logs" || type == "role" || type.endsWith("channel")) {
+					} else if (typeof type == "string" && (type == "bool" || type == "logs" || type == "role" || type.endsWith("channel"))) {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible).forEach(posKey => {
 							if (typeof possible[posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"

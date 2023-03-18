@@ -149,7 +149,7 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					console.log(setting.key + " " + key + " " + value.length)
+					if (value) console.log(setting.key + " " + key + " " + (value.length ? true : false))
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
@@ -159,8 +159,8 @@
 					} else if (type == "bool" || type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
-							if (typeof possible[posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"
-							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey].name + "</option>";
+							if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
 						html += "</select>";
 					} else {

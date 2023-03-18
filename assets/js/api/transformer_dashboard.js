@@ -40,7 +40,11 @@ function getSettingsHTML(json) {
 				let possible = setting.possible;
 				console.log(possible)
 				if (typeof possible == "string") possible = json.constant[possible];
-				else if (typeof possible == "object") possible = Object.keys(possible).filter(i => i != "").map(i => possible[i]);
+				else if (typeof possible == "object") {
+					Object.keys(possible).filter(i => i != "").forEach(key => {
+						if (typeof possible[key] == "string") possible[key] = json.constant[possible[key]];
+					})
+				};
 				console.log(possible)
 
 				if (typeof setting.value == "object") {

@@ -116,7 +116,7 @@
 				if (typeof possible == "string") possible = JSON.parse(possible);
 
 				let html = "<div><br>"
-				if (setting.type == "object") {
+				if (typeof setting.type == "object") {
 					html += (possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "") +
 						Object.keys(setting.type).map(setKey => (
 							"<input type='" + (setting.type[setKey] == "int" || setting.type[setKey] == "number" ? "number'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +

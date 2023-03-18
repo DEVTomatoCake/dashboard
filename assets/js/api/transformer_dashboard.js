@@ -42,7 +42,7 @@ function getSettingsHTML(json) {
 				if (typeof possible == "string") possible = json.constant[possible];
 				else if (typeof possible == "object") {
 					Object.keys(possible).filter(i => i != "").forEach(key => {
-						if (typeof possible[key] == "string") possible[key] = json.constant[possible[key]];
+						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]];
 					})
 				};
 				console.log(possible)

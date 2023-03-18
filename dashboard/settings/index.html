@@ -35,10 +35,12 @@
 		<script>
 			const friendlyCat = {
 				ticket: "Tickets",
-				level: "Leaderboard & Level",
+				boost: "Boosts",
+				level: "Leaderboard/Level",
 				stats: "Statistiken",
 				sticky: "Sticky Messages",
-				autonick: "Automatischer Nickname"
+				autonick: "Rollen-Nickname",
+				voting: "Vote-Announcements"
 			};
 
 			let drops = [];
@@ -148,7 +150,7 @@
 						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 							html += "<select class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
-								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + (value[setKey] ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + ((value[setKey] && key == "true") || (!value[setKey] && key != "true") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
@@ -172,7 +174,7 @@
 					else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
-							if (type == "bool") html += "<option value='" + posKey + "'" + (value ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							if (type == "bool") html += "<option value='" + posKey + "'" + ((value && key == "true") || (!value && key != "true") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
 							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
 							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
@@ -315,13 +317,14 @@
 					} else if (typeof setting.value == "object" && Array.isArray(setting.value)) {
 						entry = [];
 						for (const element of document.getElementById(setting.key).children) {
-							console.log(1, element)
+							if (element.querySelector("input,textarea")) entry.push(element.querySelector("input,textarea").value);
 						}
+						console.log(entry)
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						for (const element of document.getElementById(setting.key).children) {
 							console.log(2, element)
-							entry[element.id.split("_")[1]] = element.value;
+							if (element.querySelector("input,textarea")) entry[element.id.split("_")[1]] = element.querySelector("input,textarea").value;
 						}
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
@@ -332,7 +335,6 @@
 					items[setting.key] = entry;
 				});
 
-				console.log(items)
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_settings_beta",

@@ -41,13 +41,13 @@ function getSettingsHTML(json) {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 
-				if (typeof setting.type == "object") {
-					/*temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
+				if (typeof setting.value == "object") {
+					/*temp += "<select multiple class='setting' id='" + setting.key + "'>";
 					const selected = [];
 					let i = 0;
 					Object.keys(possible).forEach(key => {
 						if (key == "") return;
-						setting.value.split(",").forEach(data => {
+						setting.value.forEach(data => {
 							if (data == key.replace("_", "")) selected.push(i);
 						});
 						i++;
@@ -57,17 +57,16 @@ function getSettingsHTML(json) {
 					temp += "</select>";
 					queue.push(() => {
 						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
-					});
+					});*/
 
-
-					currentlySelected[setting.key] = {
-						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
+					/*currentlySelected[setting.key] = {
+						value: setting.value.map(r => r.split(":")[0]).join(" ") + " ",
 						possible
-					};
+					};*/
 
-					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
+					temp += "<select class='setting' id='" + setting.key + "' " +
 						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
-						"onchange='addRole(\"" + setting.key + "\", this)'>" +
+						"onchange='addItem(\"" + setting.key + "\", this)'>" +
 						"<option>" + (setting.type == "role" ? "Rolle" : "Kanal") + " hinzufügen...</option>";
 
 					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
@@ -75,17 +74,17 @@ function getSettingsHTML(json) {
 					});
 					temp += "</select><div id='" + setting.key + "list' class='advancedsetting'>";
 
-					if (setting.value.trim() != "") setting.value.split(",").forEach(r => {
+					if (setting.value.length > 0) Object.keys(setting.value).forEach(key => {
 						temp +=
 							"<div><br>" +
-							"<label for='an_" + setting.key + "_" + r.split(":")[0] + "value'>" + possible["_" + r.split(":")[0]].name + "</label><br>" +
+							"<label for='an_" + setting.key + "_" + key + "value'>" + possible["_" + key].name + "</label><br>" +
 							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":").slice(1).join(":") + "'>" +
-							"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
+							" id='an_" + setting.key + "_" + key + "value' class='settingcopy' value='" + setting.value[key] + "'>" +
+							"<ion-icon name='trash-outline' class='removeItem' onclick='removeItem(\"" + setting.key + "\", this, \"" + key + "\")'></ion-icon></div>";
 					});
-					temp += "</div>";*/
+					temp += "</div>";
 				} else {
-					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
+					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
 						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";

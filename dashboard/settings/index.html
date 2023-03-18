@@ -312,12 +312,12 @@
 						});
 					} else if (typeof setting.value == "object" && Array.isArray(setting.value)) {
 						entry = [];
-						for (const element of document.getElementById(setting.key)) {
+						for (const element of document.getElementById(setting.key).children) {
 							console.log(1, element)
 						}
 					} else if (typeof setting.value == "object") {
 						entry = {};
-						for (const element of document.getElementById(setting.key)) {
+						for (const element of document.getElementById(setting.key).children) {
 							console.log(2, element)
 							entry[element.id.split("_")[1]] = element.value;
 						}

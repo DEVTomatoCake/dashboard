@@ -60,7 +60,9 @@ function getSettingsHTML(json) {
 					});*/
 
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
-					if (setting.value.length) temp += "<button class='createForm' onclick='this.parentElement.innerHTML+=addItem(" + setting + ", " + possible + ")'>Hinzufügen</button>"
+					if (setting.value.length) temp += "<button class='createForm' onclick='this.parentElement.innerHTML+=addItem(\"" +
+						JSON.stringify(setting) + "\", \"" + JSON.stringify(possible) + "\")'>Hinzufügen</button>";
+
 					if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting, possible, i)).join("");
 					else if (Object.keys(setting.value).length > 0) temp += Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i])).join("");
 					temp += "</div>";

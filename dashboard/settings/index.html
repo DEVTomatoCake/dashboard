@@ -110,12 +110,20 @@
 			}
 
 			function addItem(setting, possible = [], key = Math.random().toString(36), value = {}) {
+				if (typeof setting == "string") setting = JSON.parse(setting);
+				if (typeof possible == "string") possible = JSON.parse(possible);
+
 				return "<div><br>" +
 					(possible[key] ? "<label for='an_" + setting.key + "_" + key + "value'>" + possible[key].name + "</label><br>" : "") +
-					Object.keys(setting.type).map(setKey => (
-						"<input type='" + (setting.type[setKey] == "number" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + key + setKey + "value' class='settingcopy' value='" + (value[setKey] || key) + "'>"
-					)) +
+					(setting.type == "object" ?
+						Object.keys(setting.type).map(setKey => (
+							"<input type='" + (setting.type[setKey] == "int" || setting.type[setKey] == "number" ? "number'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
+								" id='an_" + setting.key + "_" + key + setKey + "value' class='settingcopy' value='" + (value[setKey] || key) + "'>"
+						))
+					:
+						"<input type='" + (setting.type == "int" || setting.type == "number" ? "number'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
+							" id='an_" + setting.key + "_" + key + "value' class='settingcopy' value='" + (value || key) + "'>"
+					) +
 					"<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" +
 					"</div>";
 			}

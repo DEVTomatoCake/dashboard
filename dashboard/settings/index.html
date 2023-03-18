@@ -122,7 +122,7 @@
 				document.getElementById(setting + "list").appendChild(roleelement);
 
 				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
-				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
+				select.value = "Hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
 			}
 			function removeItem(setting, elem, role) {
@@ -132,7 +132,7 @@
 
 				const select = document.getElementById(setting);
 				select.innerHTML += "<option value='" + role + "'>" + possible["_" + role].name + "</option>";
-				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
+				select.value = "Hinzufügen...";
 				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
 			}
 		</script>

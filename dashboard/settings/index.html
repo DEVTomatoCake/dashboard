@@ -299,24 +299,23 @@
 				saving = true;
 
 				const items = {};
-				Object.keys(settingsData).forEach(key => {
-					console.log(key)
-					const setting = settingsData[key];
+				settingsData.forEach(setting => {
+					console.log(setting)
 
 					let entry;
 					if (Array.isArray(setting.value) && typeof setting.type == "string" && (setting.type == "bool" || setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key))) {
 						entry = [];
-						drops.filter(drop => drop.key == key).forEach(drop => {
+						drops.filter(drop => drop.key == setting.key).forEach(drop => {
 							drop.data.selected.forEach(possible => {
 								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
 							});
 						});
 					} else if (typeof setting.value == "object") {
 						entry = {};
-					} else entry = document.getElementById(key).value;
+					} else entry = document.getElementById(setting.key).value;
 
 					console.log(entry)
-					items[key] = entry;
+					items[setting.key] = entry;
 				});
 
 				console.log(items)

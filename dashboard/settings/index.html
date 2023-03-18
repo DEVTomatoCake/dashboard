@@ -55,7 +55,7 @@
 						}
 						socket.send({
 							status: "success",
-							action: "GET_settings",
+							action: "GET_settings_beta",
 							guild,
 							lang: getLanguage(),
 							token: getCookie("token")
@@ -270,13 +270,14 @@
 					items[item.name] = entry;
 				}
 
-				socket.send(JSON.stringify({
+				console.log(items)
+				/*socket.send(JSON.stringify({
 					status: "success",
-					action: "SAVE_settings",
+					action: "SAVE_settings_beta",
 					data: items,
 					guild: encode(params.get("guild")),
 					token: getCookie("token")
-				}));
+				}));*/
 
 				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();
 			}

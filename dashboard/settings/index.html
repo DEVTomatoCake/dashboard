@@ -42,6 +42,7 @@
 			};
 
 			let drops = [];
+			let settingsData = {};
 			let multiselect = [];
 			const queue = [];
 
@@ -82,6 +83,7 @@
 						console.log(json);
 
 						if (json.action == "RECEIVE_settings") {
+							settingsData = json.data;
 							multiselect = json.constant.multiselect;
 							const rendered = getSettingsHTML(json);
 
@@ -137,7 +139,7 @@
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
-						html += "<br><label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label>";
+						html += "<label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
@@ -160,7 +162,7 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					if (!parent) html += "<br><label for='" + setting.key + "_" + key + "'>" + key + "</label>";
+					if (!parent && typeof type == "object" && !Array.isArray(setting.value)) html += "<br><label for='" + setting.key + "_" + key + "'>" + key + "</label>";
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
@@ -294,19 +296,25 @@
 
 			function saveSettings() {
 				if (!params.has("guild") || saving) return;
-
 				saving = true;
-				const settings = document.getElementsByClassName("setting");
 
 				const items = {};
-				for (let i = 0; i < settings.length; i++) {
-					const item = settings.item(i);
-					console.log(item)
+				Object.keys(settingsData).forEach(key => {
+					let entry;
+					if (multiselect.includes(key)) {
+						entry = [];
+						drops.filter(drop => drop.key == key).forEach(drop => {
+							drop.data.selected.forEach(possible => {
+								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
+							});
+						});
+					} else if (advancedsetting.includes(key)) {
+						entry = {};
+					} else entry = document.getElementById(key).value;
 
-					let entry
 					console.log(entry)
-					items[item.id] = entry;
-				}
+					items[key] = entry;
+				});
 
 				console.log(items)
 				socket.send(JSON.stringify({

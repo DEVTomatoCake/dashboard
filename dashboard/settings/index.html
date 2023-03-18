@@ -130,9 +130,10 @@
 					if (setting.type == "int" || setting.type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (setting.type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if (setting.type == "bool") {
+					else if (setting.type == "bool")
 						html += "<label class='switch'><input type='checkbox' class='settingcopy' id='an_" + setting.key + "_" + key + "'" + (value ?? key ? " checked" : "") + "><span class='slider round'></span></label>";
-					} else {
+					else {
+						console.log(value, key)
 						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key).value = value ?? key);
 					}

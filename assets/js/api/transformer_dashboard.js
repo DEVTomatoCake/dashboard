@@ -47,7 +47,7 @@ function getSettingsHTML(json) {
 
 				if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
-					if (setting.value.length) temp += "<button class='createForm' onclick='addItem(" +
+					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
 
 					if (setting.value.length > 0 && typeof setting.value[0] != "object") temp += setting.value.map(i => addItem(setting, possible, i)).join("");

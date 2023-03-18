@@ -130,16 +130,16 @@
 				return html;
 			}
 			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent) {
-				if (parent && setting.value.length && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
+				if (parent && Array.isArray(setting.value) && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl erreicht!"}).show();
 
 				let html = "<div><br>";
-				if (typeof setting.type == "object" && setting.value.length) {
+				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='an_" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
 							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
-						else if ((setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel") && value[setKey].length) {
+						else if ((setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel") && Array.isArray(value[setKey])) {
 							console.log(possible[key], value[setKey])
 							html += addMultiselect(setting, possible[key], value[setKey]);
 						} else if (setting.type[setKey] == "bool" || setting.type[setKey] == "textchannel" || setting.type[setKey] == "voicechannel" || setting.type[setKey] == "categorychannel") {
@@ -159,11 +159,10 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					if (value) console.log(setting.key + " " + key + " " + (value.length ? true : false))
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if ((type == "textchannel" || type == "voicechannel" || type == "categorychannel") && value.length) {
+					else if ((type == "textchannel" || type == "voicechannel" || type == "categorychannel") && Array.isArray(value)) {
 						console.log(possible[key], value)
 						html += addMultiselect(setting, possible[key], value);
 					} else if (type == "bool" || type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
@@ -179,7 +178,7 @@
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key).value = value ?? key);
 					}
 				}
-				html += (setting.value.length ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
+				html += (Array.isArray(setting.value) ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";
 
 				if (parent) parent.innerHTML += html;

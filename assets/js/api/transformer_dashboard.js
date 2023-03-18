@@ -38,8 +38,10 @@ function getSettingsHTML(json) {
 
 			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible;
+				console.log(possible)
 				if (typeof possible == "string") possible = json.constant[possible];
 				else if (typeof possible == "object") possible = Object.keys(possible).filter(i => i != "").map(i => possible[i]);
+				console.log(possible)
 
 				if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";

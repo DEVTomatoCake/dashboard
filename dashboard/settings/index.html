@@ -153,14 +153,14 @@
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='an_" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if (type == "bool") {
+					else if ((type == "textchannel" || type == "voicechannel" || type == "categorychannel") && value.length) {
+						html += addMultiselect(setting, possible[key], value);
+					} else if (type == "bool" || type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
 							html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"
 						});
 						html += "</select>";
-					} else if (type == "textchannel" || type == "voicechannel" || type == "categorychannel") {
-						html += addMultiselect(setting, possible[key], value);
 					} else {
 						if (type != "string") console.warn(type)
 						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "'>" + (parent ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";

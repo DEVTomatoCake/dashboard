@@ -115,7 +115,7 @@
 				const selected = [];
 				Object.keys(possible).forEach((key, i) => {
 					if (key == "") return;
-					if (value.length) {
+					if (Array.isArray(value)) {
 						value.forEach(data => {
 							if (data.includes(key.replace("_", ""))) selected.push(i);
 						});

@@ -45,7 +45,9 @@ function getSettingsHTML(json) {
 					})
 				}
 
-				if (typeof setting.value == "object") {
+				if (typeof setting.value == "object" && Array.isArray(setting.value)) {
+					temp += addMultiselect(setting, possible, setting.value);
+				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "list' class='advancedsetting'>";
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";

@@ -137,9 +137,9 @@
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
-						html += "<label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label><br>";
+						html += "<br><label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
-							"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
+							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
 						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
 							html += addMultiselect(setting, possible[key], value[setKey]);
@@ -166,6 +166,8 @@
 					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselect.includes(setting.key)))
 						html += addMultiselect(setting, possible, value);
 					else if (typeof type == "string" && possible && Object.keys(possible).length > 0) {
+						console.log(possible)
+						console.log(setting.key, key)
 						html += "<select class='settingcopy' id='" + setting.key + "'>";
 						Object.keys(possible).forEach(posKey => {
 							if (typeof possible[posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[posKey] + "</option>"

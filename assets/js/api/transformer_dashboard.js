@@ -52,8 +52,7 @@ function getSettingsHTML(json) {
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
 
-					if (setting.value.length > 0 && typeof setting.value[0] == "object") setting.value.forEach(i => Object.keys(i).forEach(j => console.warn(j, i[j])));
-					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += setting.value.map(i => Object.keys(i).map(j => addItem(setting, possible, j, i[j]))).join("");
+					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += setting.value.map(i => addItem(setting, possible, i, void 0, void 0, true)).join("");
 					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting, possible, i)).join("");
 					else if (Object.keys(setting.value).length > 0) temp += Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i])).join("");
 					temp += "</div>";
@@ -68,7 +67,7 @@ function getSettingsHTML(json) {
 				}
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
-					"<input type='number' min='" + (setting.type == "number" ? "-10000" : "0") + "' max='10000' class='setting' id='" + setting.key +
+					"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='setting' id='" + setting.key +
 					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>";
 				else {
 					temp += "<textarea class='setting' rows='" + setting.value.split("\n").length + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";

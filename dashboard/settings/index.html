@@ -321,10 +321,11 @@
 							const child = element.querySelector("input,textarea,select")
 							if (child && !child.id.split("_")[2]) entry.push(child.value);
 							else {
+								let temp = {};
 								for (const objchild of element.querySelectorAll("input,textarea,select")) {
-									console.log(objchild.id.split("_")[2], key)
-									if (objchild.id.split("_")[2] == key) entry[key] = objchild.value;
+									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
 								}
+								entry.push(temp);
 							}
 						})
 					} else if (typeof setting.value == "object") {

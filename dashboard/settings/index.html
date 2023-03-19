@@ -314,11 +314,18 @@
 								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
 							});
 						});
-					} else if (typeof setting.value == "object" && Array.isArray(setting.value)) {
+					} else if (Array.isArray(setting.value)) {
 						entry = [];
-						for (const element of document.getElementById(setting.key).children) {
-							if (element.querySelector("input,textarea,select")) entry.push(element.querySelector("input,textarea,select").value);
-						}
+						Object.keys(setting.type).forEach(key => {
+							const element = document.getElementById(setting.key);
+							const child = element.querySelector("input,textarea,select")
+							if (child && !child.id.split("_")[2]) entry.push(child.value);
+							else {
+								for (const objchild of element.querySelectorAll("input,textarea,select")) {
+									if (objchild.id.split("_")[2] == key) entry[key] = objchild.value;
+								}
+							}
+						})
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
@@ -328,7 +335,7 @@
 								else if (setting.type[key] == "number") entry[key] = parseFloat(child.value);
 								else if (setting.type[key] == "int") entry[key] = parseInt(child.value);
 								else entry[key] = child.value;
-							}
+							} else console.warn(setting.key + "_" + key + " not found")
 						})
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);

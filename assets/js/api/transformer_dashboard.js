@@ -74,7 +74,7 @@ function getSettingsHTML(json) {
 				}
 			}
 			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
-			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
+			if (setting.category) categoryData.push([setting.category, temp + "<br>"]);
 		});
 
 		categories.forEach(category => {

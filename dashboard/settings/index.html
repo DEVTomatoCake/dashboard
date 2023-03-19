@@ -165,7 +165,7 @@
 					let type = setting.type;
 					if (type[key]) type = type[key];
 
-					if (!parent && !Array.isArray(setting.value)) html += "<br><label for='" + setting.key + "_" + key + "'>" + key + "</label>";
+					if (!parent && !Array.isArray(setting.value)) html += "<label for='" + setting.key + "_" + key + "'>" + key + "</label><br>";
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
@@ -322,6 +322,7 @@
 							if (child && !child.id.split("_")[2]) entry.push(child.value);
 							else {
 								for (const objchild of element.querySelectorAll("input,textarea,select")) {
+									console.log(objchild.id.split("_")[2], key)
 									if (objchild.id.split("_")[2] == key) entry[key] = objchild.value;
 								}
 							}

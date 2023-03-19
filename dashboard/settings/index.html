@@ -318,13 +318,13 @@
 						Object.keys(setting.type).forEach(key => {
 							const element = document.getElementById(setting.key);
 							const child = element.querySelector("input,textarea,select")
+							console.warn(child)
 							if (child && !child.id.split("_")[2]) entry.push(child.value);
 							else {
 								for (const objchild of element.querySelectorAll("input,textarea,select"))
 									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
 							}
 						})
-						console.log(setting, temp, entry)
 						if (Object.keys(temp).length > 0) entry.push(temp);
 					} else if (typeof setting.value == "object") {
 						entry = {};

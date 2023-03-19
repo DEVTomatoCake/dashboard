@@ -316,18 +316,18 @@
 						});
 					} else if (Array.isArray(setting.value)) {
 						entry = [];
+						let temp = {};
 						Object.keys(setting.type).forEach(key => {
 							const element = document.getElementById(setting.key);
 							const child = element.querySelector("input,textarea,select")
 							if (child && !child.id.split("_")[2]) entry.push(child.value);
 							else {
-								let temp = {};
 								for (const objchild of element.querySelectorAll("input,textarea,select")) {
 									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
 								}
-								entry.push(temp);
 							}
 						})
+						if (Object.keys(temp).length > 0) entry.push(temp);
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {

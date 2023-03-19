@@ -207,7 +207,7 @@ function getDataexportHTML(token) {
 
 					let suggests = "";
 					if (json.data.suggest?.length > 0)
-						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id.toString()) + "</p>").join(", ");
+						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode("" + suggest.id) + "</p>").join(", ");
 
 					const text =
 						"<center>" +
@@ -360,7 +360,7 @@ function getLogsHTML(guild) {
 							"<td>" + encode(log.id) + "</td>" +
 							"<td>" + encode(log.type) + "</td>" +
 							"<td class='overflow'>" + encode(log.message) + "</td>" +
-							"<td>" + encode(log.count) + "</td>" +
+							"<td>" + encode("" + log.count) + "</td>" +
 							"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button></td>" +
 							"</tr>";
 					});

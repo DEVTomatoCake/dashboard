@@ -32,6 +32,10 @@
 		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<script src="../../assets/js/emojipicker.js"></script>
+		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
+
 		<script>
 			const friendlyCat = {
 				ticket: "Tickets",
@@ -314,18 +318,19 @@
 						});
 					} else if (Array.isArray(setting.value)) {
 						entry = [];
-						const temp = {};
 						if (typeof setting.type == "object") {
+							const temp = {};
 							Object.keys(setting.type).forEach(key => {
 								for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) {
+									console.warn(objchild)
 									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
 									else entry.push(objchild.value);
 								}
 							})
+							if (Object.keys(temp).length > 0) entry.push(temp);
 						} else {
 							for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
 						}
-						if (Object.keys(temp).length > 0) entry.push(temp);
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {

@@ -317,19 +317,15 @@
 						const temp = {};
 						if (typeof setting.type == "object") {
 							Object.keys(setting.type).forEach(key => {
-								const child = document.getElementById(setting.key).querySelector("input,textarea,select");
-								if (child && !child.id.split("_")[2]) entry.push(child.value);
-								else {
-									for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select"))
-										if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
+								for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) {
+									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
+									else entry.push(objchild.value);
 								}
 							})
 						} else {
-							const child = document.getElementById(setting.key).querySelector("input,textarea,select");
-							if (child && !child.id.split("_")[2]) entry.push(child.value);
-							else {
-								for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select"))
-									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
+							for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) {
+								if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
+								else entry.push(objchild.value);
 							}
 						}
 						if (Object.keys(temp).length > 0) entry.push(temp);

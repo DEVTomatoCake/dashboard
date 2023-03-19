@@ -315,16 +315,23 @@
 					} else if (Array.isArray(setting.value)) {
 						entry = [];
 						const temp = {};
-						Object.keys(setting.type).forEach(key => {
-							const element = document.getElementById(setting.key);
-							const child = element.querySelector("input,textarea,select")
-							console.warn(child)
+						if (typeof setting.type == "object") {
+							Object.keys(setting.type).forEach(key => {
+								const child = document.getElementById(setting.key).querySelector("input,textarea,select");
+								if (child && !child.id.split("_")[2]) entry.push(child.value);
+								else {
+									for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select"))
+										if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
+								}
+							})
+						} else {
+							const child = document.getElementById(setting.key).querySelector("input,textarea,select");
 							if (child && !child.id.split("_")[2]) entry.push(child.value);
 							else {
-								for (const objchild of element.querySelectorAll("input,textarea,select"))
+								for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select"))
 									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
 							}
-						})
+						}
 						if (Object.keys(temp).length > 0) entry.push(temp);
 					} else if (typeof setting.value == "object") {
 						entry = {};

@@ -323,10 +323,7 @@
 								}
 							})
 						} else {
-							for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) {
-								if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
-								else entry.push(objchild.value);
-							}
+							for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
 						}
 						if (Object.keys(temp).length > 0) entry.push(temp);
 					} else if (typeof setting.value == "object") {

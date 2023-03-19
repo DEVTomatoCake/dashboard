@@ -253,6 +253,10 @@ tr.cmdvisible:nth-child(odd) {
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
 }
+
+.setting, .settingcopy textarea {
+	width: calc(100% - 70px);
+}
 .advancedsetting {
 	margin-left: 20px;
 }
@@ -264,10 +268,6 @@ textarea {
 textarea:focus {
 	background-color: var(--textarea-background-focus);
 	outline: none;
-}
-
-.setting textarea {
-	width: calc(100% - 70px);
 }
 
 .badge {

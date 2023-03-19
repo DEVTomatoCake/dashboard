@@ -147,7 +147,8 @@
 					Object.keys(setting.type).forEach(setKey => {
 						html += "<label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
-							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
+							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) +
+							"' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
 							"' value='" + (parent ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
 						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
 							html += addMultiselect(setting, possible[key], value[setKey]);

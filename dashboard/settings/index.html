@@ -328,7 +328,7 @@
 								else if (setting.type[key] == "number") entry[key] = parseFloat(child.value);
 								else if (setting.type[key] == "int") entry[key] = parseInt(child.value);
 								else entry[key] = child.value;
-							} else entry[key] = "";
+							}
 						})
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);

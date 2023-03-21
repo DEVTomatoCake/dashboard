@@ -199,7 +199,7 @@
 				html += (Array.isArray(setting.value) ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";
 
-				if (parent) parent.innerHTML += html;
+				if (parent) document.getElementById(parent).insertAdjacentHTML("beforeend", html);
 				else return html;
 			}
 		</script>
@@ -326,15 +326,18 @@
 					} else if (Array.isArray(setting.value)) {
 						entry = [];
 						if (typeof setting.type == "object") {
-							const temp = {};
-							Object.keys(setting.type).forEach(key => {
-								for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) {
-									console.warn(objchild)
-									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
-									else if (!objchild.id.split("_")[2]) entry.push(objchild.value);
-								}
-							})
-							if (Object.keys(temp).length > 0) entry.push(temp);
+							const parent = document.getElementById(setting.key);
+							for (const arrentry of parent.querySelectorAll("div")) {
+								const temp = {};
+								Object.keys(setting.type).forEach(key => {
+									for (const objchild of arrentry.querySelectorAll("input,textarea,select")) {
+										console.warn(objchild)
+										if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
+										else if (!objchild.id.split("_")[2]) entry.push(objchild.value);
+									}
+								})
+								if (Object.keys(temp).length > 0) entry.push(temp);
+							}
 						} else {
 							for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
 						}

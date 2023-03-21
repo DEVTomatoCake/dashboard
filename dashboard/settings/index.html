@@ -162,7 +162,7 @@
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
-						html += "<label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label><br>";
+						html += "<label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
 							"' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
@@ -170,7 +170,7 @@
 						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
 							html += addMultiselect(setting, possible[key], value[setKey]);
 						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
-							html += "<select class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey + "'>";
+							html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
 								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + ((value[setKey] && key == "true") || (!value[setKey] && key != "true") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
@@ -178,11 +178,11 @@
 							});
 							html += "</select>";
 						} else if (setting.type[setKey] == "time" || setting.type[setKey] == "singlestring") {
-							html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "_" + setKey + "' value='" +
+							html += "<input type='text' class='setting' id='" + setting.key + "_" + setKey + "_" + key + "' value='" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						} else {
-							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
+							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + setKey + "_" + key + "'>" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
 								"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
 								"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";

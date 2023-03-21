@@ -133,6 +133,9 @@
 				});
 			}
 
+			const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles);
+			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
+
 			function addMultiselect(setting, possible, value) {
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
@@ -181,8 +184,8 @@
 						} else {
 							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
-							"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
-							"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon></div>";
+								"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
+								"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						}
 						html += "<br>";
@@ -211,8 +214,8 @@
 					} else {
 						html += "<div class='emoji-container'><textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "'>" +
 							(parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
-							"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, " + pickerData.roles + ")'></ion-icon>" +
-							"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, " + pickerData.emojis + ", " + guildName + ")'></ion-icon></div>";
+							"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
+							"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					}
 					html += "<br>";

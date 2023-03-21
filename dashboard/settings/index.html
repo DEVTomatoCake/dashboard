@@ -220,7 +220,7 @@
 					}
 					html += "<br>";
 				}
-				html += (Array.isArray(setting.value) ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
+				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";
 
 				if (parent) parent.insertAdjacentHTML("beforeend", html);
@@ -347,7 +347,7 @@
 								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
 							});
 						});
-					} else if (setting.org == "object" || typeof setting.value == "object") {
+					} else if (setting.org == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
 							const child = document.getElementById(setting.key + "_" + key);

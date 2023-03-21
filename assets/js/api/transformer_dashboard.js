@@ -55,10 +55,10 @@ function getSettingsHTML(json) {
 					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i], void 0, true)).join("");
 					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting, possible, i)).join("");
 					else if (Object.keys(setting.value).length > 0) {
-						setting.org = "object"
-						setting.value = [setting.value]
-						temp += addItem(setting, possible, void 0, setting.value[0])
-					}//Object.keys(setting.type).map(i => addItem(setting, possible, i, setting.value[i])).join("");
+						setting.org = "object";
+						setting.value = [setting.value];
+						temp += addItem(setting, possible, void 0, setting.value[0], void 0, true);
+					}
 					temp += "</div>";
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";

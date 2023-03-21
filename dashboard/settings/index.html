@@ -350,9 +350,9 @@
 					} else if (setting.org == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
-							const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]")//document.getElementById(setting.key + "_" + key);
+							const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]");
 							if (child) {
-								if (setting.type[key] == "bool") entry[key] = child.value == "true"
+								if (setting.type[key] == "bool") entry[key] = child.value == "true";
 								else if (setting.type[key] == "number") entry[key] = parseFloat(child.value);
 								else if (setting.type[key] == "int") entry[key] = parseInt(child.value);
 								else entry[key] = child.value;
@@ -371,6 +371,7 @@
 										else if (setting.type[key] == "number") value = parseFloat(objchild.value);
 										else if (setting.type[key] == "int") value = parseInt(objchild.value);
 
+										console.log(objchild.id, value)
 										if (objchild.id.split("_")[1] == key) temp[key] = value;
 										else if (!objchild.id.split("_")[2]) entry.push(value);
 									}

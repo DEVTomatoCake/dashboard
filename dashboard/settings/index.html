@@ -160,7 +160,7 @@
 					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
 						html += "<label for='" + setting.key + "_" + key + "_" + setKey + "'>" + setKey + "</label><br>";
-						if (setting.type[setKey] == "int" || setting.type[setKey] == "number") html +=
+						if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
 							"' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
 							"' value='" + (parent || noDefault ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
@@ -179,10 +179,13 @@
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						} else {
-							html += "<textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
-								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
+							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
+								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
+							"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, " + pickerData.roles + ")'></ion-icon>" +
+							"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, " + pickerData.emojis + ", " + guildName + ")'></ion-icon></div>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						}
+						html += "<br>";
 					})
 				} else {
 					let type = setting.type;
@@ -206,9 +209,13 @@
 						html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "' value='" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "'>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					} else {
-						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "'>" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
+						html += "<div class='emoji-container'><textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "'>" +
+							(parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
+							"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, " + pickerData.roles + ")'></ion-icon>" +
+							"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, " + pickerData.emojis + ", " + guildName + ")'></ion-icon></div>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					}
+					html += "<br>";
 				}
 				html += (Array.isArray(setting.value) ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";

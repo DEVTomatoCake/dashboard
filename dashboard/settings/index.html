@@ -158,7 +158,7 @@
 			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				if (parent && Array.isArray(setting.value) && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl (" + setting.max + ") erreicht!"}).show();
 
-				let html = "<div><br>";
+				let html = "<div class='setgroup'><br>";
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
@@ -362,7 +362,7 @@
 						entry = [];
 						if (typeof setting.type == "object") {
 							const parent = document.getElementById(setting.key);
-							for (const arrentry of parent.querySelectorAll("div")) {
+							for (const arrentry of parent.querySelectorAll("div.setgroup")) {
 								const temp = {};
 								Object.keys(setting.type).forEach(key => {
 									for (const objchild of arrentry.querySelectorAll("input,textarea,select")) {
@@ -371,7 +371,6 @@
 										else if (setting.type[key] == "number") value = parseFloat(objchild.value);
 										else if (setting.type[key] == "int") value = parseInt(objchild.value);
 
-										if (objchild.id.split("_")[1] == key) console.log(objchild.id, key, value)
 										if (objchild.id.split("_")[1] == key) temp[key] = value;
 										else if (!objchild.id.split("_")[2]) entry.push(value);
 									}

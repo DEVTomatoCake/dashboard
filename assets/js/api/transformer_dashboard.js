@@ -33,7 +33,6 @@ function getSettingsHTML(json) {
 		const categoryData = [];
 
 		json.data.forEach(setting => {
-			console.log(setting)
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label><br>";
 
 			if (setting.possible || typeof setting.value == "object") {

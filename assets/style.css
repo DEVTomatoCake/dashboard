@@ -262,8 +262,8 @@ textarea.setting, textarea.settingcopy {
 .advancedsetting {
 	margin-left: 25px;
 }
-.advancedsetting div {
-	padding: 0 5px 5px;
+.advancedsetting div.setgroup {
+	padding: 0 10px 10px;
 	background-color: var(--tertiary-color);
 	border-radius: 10px;
 }

@@ -366,9 +366,7 @@
 								})
 								if (Object.keys(temp).length > 0) entry.push(temp);
 							}
-						} else {
-							for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
-						}
+						} else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
 					} else if (typeof setting.value == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
@@ -385,7 +383,6 @@
 					else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value);
 					else entry = document.getElementById(setting.key).value;
 
-					console.log(entry)
 					items[setting.key] = entry;
 				});
 

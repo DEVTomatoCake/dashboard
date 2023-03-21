@@ -56,7 +56,7 @@ function getSettingsHTML(json) {
 					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting, possible, i)).join("");
 					else if (Object.keys(setting.value).length > 0) {
 						setting.value = [setting.value]
-						temp += addItem(setting, possible, setting.value[0])
+						temp += addItem(setting, possible, void 0, setting.value[0])
 					}//Object.keys(setting.type).map(i => addItem(setting, possible, i, setting.value[i])).join("");
 					temp += "</div>";
 				} else {

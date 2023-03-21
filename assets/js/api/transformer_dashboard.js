@@ -69,7 +69,10 @@ function getSettingsHTML(json) {
 				if (setting.type == "int" || setting.type == "number") temp +=
 					"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='setting' id='" + setting.key +
 					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>";
-				else {
+				else if (setting.type == "time" || setting.type == "singlestring") {
+					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				} else {
 					temp += "<textarea class='setting' rows='" + setting.value.split("\n").length + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				}

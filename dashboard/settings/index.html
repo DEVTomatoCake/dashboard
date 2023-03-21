@@ -160,10 +160,14 @@
 								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
 							html += "</select>";
+						} else if (setting.type[setKey] == "time" || setting.type[setKey] == "singlestring") {
+							html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "_" + setKey + "' value='" +
+								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'>";
+							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						} else {
-							html += "<textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
+							html += "<textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
-							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key).value = value[setKey] ?? key);
+							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						}
 					})
 				} else {
@@ -184,9 +188,12 @@
 							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
 						html += "</select>";
+					} else if (type == "time" || type == "singlestring") {
+						html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "' value='" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "'>";
+						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					} else {
-						html += "<textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + key + "'>" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
-						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key).value = value ?? key);
+						html += "<textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "'>" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>";
+						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					}
 				}
 				html += (Array.isArray(setting.value) ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
@@ -324,7 +331,7 @@
 								for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) {
 									console.warn(objchild)
 									if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
-									else entry.push(objchild.value);
+									else if (!objchild.id.split("_")[2]) entry.push(objchild.value);
 								}
 							})
 							if (Object.keys(temp).length > 0) entry.push(temp);

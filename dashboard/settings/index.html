@@ -52,6 +52,8 @@
 			let multiselect = [];
 			const queue = [];
 
+			let guildName = "";
+			let pickerData = {};
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -71,6 +73,12 @@
 							action: "GET_settings_beta",
 							guild,
 							lang: getLanguage(),
+							token: getCookie("token")
+						});
+						socket.send({
+							status: "success",
+							action: "GET_emojis",
+							guild,
 							token: getCookie("token")
 						});
 					},
@@ -111,9 +119,15 @@
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
 							queue.forEach(f => f());
 							reloadText(getLanguage());
+							guildName = json.name;
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
+						} else if (json.action == "RECEIVE_emojis") {
+							pickerData = {
+								emojis: json.emojis,
+								roles: json.roles
+							};
 						}
 					}
 				});
@@ -331,9 +345,13 @@
 								const temp = {};
 								Object.keys(setting.type).forEach(key => {
 									for (const objchild of arrentry.querySelectorAll("input,textarea,select")) {
-										console.warn(objchild)
-										if (objchild.id.split("_")[2] == key) temp[key] = objchild.value;
-										else if (!objchild.id.split("_")[2]) entry.push(objchild.value);
+										let value = objchild.value;
+										if (setting.type[key] == "bool") value = objchild.value == "true"
+										else if (setting.type[key] == "number") value = parseFloat(objchild.value);
+										else if (setting.type[key] == "int") value = parseInt(objchild.value);
+
+										if (objchild.id.split("_")[2] == key) temp[key] = value;
+										else if (!objchild.id.split("_")[2]) entry.push(value);
 									}
 								})
 								if (Object.keys(temp).length > 0) entry.push(temp);

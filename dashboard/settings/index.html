@@ -165,7 +165,7 @@
 						html += "<label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
-							"' class='settingcopy' id='" + setting.key + "_" + key + "_" + setKey +
+							"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
 							"' value='" + (parent || noDefault ? "" : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
 						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
 							html += addMultiselect(setting, possible[key], value[setKey]);
@@ -180,13 +180,13 @@
 						} else if (setting.type[setKey] == "time" || setting.type[setKey] == "singlestring") {
 							html += "<input type='text' class='setting' id='" + setting.key + "_" + setKey + "_" + key + "' value='" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'>";
-							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
+							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
 						} else {
 							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + setKey + "_" + key + "'>" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
 								"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
 								"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
-							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
+							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
 						}
 						html += "<br>";
 					})
@@ -371,7 +371,7 @@
 										else if (setting.type[key] == "number") value = parseFloat(objchild.value);
 										else if (setting.type[key] == "int") value = parseInt(objchild.value);
 
-										if (objchild.id.split("_")[2] == key) temp[key] = value;
+										if (objchild.id.split("_")[1] == key) temp[key] = value;
 										else if (!objchild.id.split("_")[2]) entry.push(value);
 									}
 								})

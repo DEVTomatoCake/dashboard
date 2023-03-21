@@ -181,8 +181,8 @@
 						} else {
 							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "_" + setKey + "'>" +
 								(parent || noDefault ? "" : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
-							"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, " + pickerData.roles + ")'></ion-icon>" +
-							"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, " + pickerData.emojis + ", " + guildName + ")'></ion-icon></div>";
+							"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
+							"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon></div>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key + "_" + setKey).value = value[setKey] ?? key);
 						}
 						html += "<br>";

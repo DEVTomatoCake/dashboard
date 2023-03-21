@@ -199,7 +199,7 @@
 				html += (Array.isArray(setting.value) ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";
 
-				if (parent) document.getElementById(parent).insertAdjacentHTML("beforeend", html);
+				if (parent) parent.insertAdjacentHTML("beforeend", html);
 				else return html;
 			}
 		</script>

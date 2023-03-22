@@ -70,7 +70,7 @@
 						}
 						socket.send({
 							status: "success",
-							action: "GET_settings_beta",
+							action: "GET_settings",
 							guild,
 							lang: getLanguage(),
 							token: getCookie("token")
@@ -388,7 +388,7 @@
 
 				socket.send(JSON.stringify({
 					status: "success",
-					action: "SAVE_settings_beta",
+					action: "SAVE_settings",
 					data: items,
 					guild: encode(params.get("guild")),
 					token: getCookie("token")

@@ -32,20 +32,35 @@
 		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
-		<script>
-			let drops = [];
-			let multiselect = [];
-			let advancedsetting = [];
-			let currentlySelected = {};
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<script src="../../assets/js/emojipicker.js"></script>
+		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
+		<script>
+			const friendlyCat = {
+				ticket: "Tickets",
+				boost: "Boosts",
+				level: "Leaderboard & Level",
+				stats: "Statistiken",
+				sticky: "Sticky Messages",
+				autonick: "Rollen-Nickname",
+				voting: "Vote-Announcements"
+			};
+
+			let drops = [];
+			let settingsData = {};
+			let multiselect = [];
+			const queue = [];
+
+			let guildName = "";
+			let pickerData = {};
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
 						drops = [];
-						const olddrops = document.getElementsByClassName("drop");
-						for (const drop of olddrops) drop.remove();
+						for (const drop of document.getElementsByClassName("drop")) drop.remove();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -58,6 +73,12 @@
 							action: "GET_settings",
 							guild,
 							lang: getLanguage(),
+							token: getCookie("token")
+						});
+						socket.send({
+							status: "success",
+							action: "GET_emojis",
+							guild,
 							token: getCookie("token")
 						});
 					},
@@ -76,6 +97,8 @@
 						console.log(json);
 
 						if (json.action == "RECEIVE_settings") {
+							settingsData = json.data;
+							multiselect = json.constant.multiselect;
 							const rendered = getSettingsHTML(json);
 
 							let sidebarHTML =
@@ -94,40 +117,114 @@
 
 							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
-							rendered.queue.forEach(func => func());
+							queue.forEach(f => f());
 							reloadText(getLanguage());
+							guildName = json.name;
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
+						} else if (json.action == "RECEIVE_emojis") {
+							pickerData = {
+								emojis: json.emojis,
+								roles: json.roles
+							};
 						}
 					}
 				});
 			}
 
-			function addRole(setting, select) {
-				const possible = currentlySelected[setting].possible;
-				currentlySelected[setting].value += select.value + " ";
-				const roleelement = document.createElement("div");
-				roleelement.innerHTML =
-					"<br><label for='an_" + setting + "_" + select.value + "value'>" + possible["_" + select.value].name + "</label><br>" +
-					"<input type='" + (setting == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1' value='1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-					" id='an_" + setting + "_" + select.value + "value' class='settingcopy'>" +
-					"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting + "\", this, \"" + select.value + "\")'></ion-icon>";
-				document.getElementById(setting + "list").appendChild(roleelement);
+			const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles);
+			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
 
-				select.innerHTML = select.innerHTML.replace("<option value='" + select.value + "'>" + possible["_" + select.value].name + "</option>", "");
-				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
-				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length == 0) select.disabled = true;
+			function addMultiselect(setting, possible, value) {
+				let html = "<select multiple class='setting' id='" + setting.key + "'>";
+				const selected = [];
+				Object.keys(possible).forEach((key, i) => {
+					if (key == "") return;
+					if (Array.isArray(value)) {
+						value.forEach(data => {
+							if (data.includes(key.replace("_", ""))) selected.push(i);
+						});
+					} else if (value.includes(key.replace("_", ""))) selected.push(i);
+					if (typeof possible[key] == "string") html += "<option value='" + key.replace("_", "") + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key] + "</option>";
+					else html += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key].name + "</option>";
+				});
+				html += "</select>";
+				queue.push(() => {
+					drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
+				});
+				return html;
 			}
-			function removeRole(setting, item, role) {
-				const possible = currentlySelected[setting].possible;
-				currentlySelected[setting].value = currentlySelected[setting].value.replace(role + " ", "");
-				item.parentElement.remove();
+			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
+				if (parent && Array.isArray(setting.value) && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl (" + setting.max + ") erreicht!"}).show();
 
-				const select = document.getElementById(setting);
-				select.innerHTML += "<option value='" + role + "'>" + possible["_" + role].name + "</option>";
-				select.value = (setting == "levelMultipliers" || setting == "voiceNotifyMessage" || setting == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...";
-				if (Object.keys(possible).filter(r => r.trim() != "" && !currentlySelected[setting].value.includes(r.replace("_", ""))).length > 0) select.disabled = false;
+				let html = "<div class='setgroup'><br>";
+				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
+					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
+					Object.keys(setting.type).forEach(setKey => {
+						html += "<label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>";
+						if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
+							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
+							"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
+							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
+						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
+							html += addMultiselect(setting, possible[key], value[setKey]);
+						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
+							html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>";
+							Object.keys(possible[setKey]).forEach(posKey => {
+								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + ((value[setKey] && key == "true") || (!value[setKey] && key != "true") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
+							});
+							html += "</select>";
+						} else if (setting.type[setKey] == "time" || setting.type[setKey] == "singlestring") {
+							html += "<input type='text' class='setting' id='" + setting.key + "_" + setKey + "_" + key + "' value='" +
+								(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'>";
+							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
+						} else {
+							html += "<div class='emoji-container'><textarea class='setting' rows='" + (value[setKey] ?? key).split("\n").length + "' id='" + setting.key + "_" + setKey + "_" + key + "'>" +
+								(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
+								"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
+								"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
+							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
+						}
+						html += "<br>";
+					})
+				} else {
+					let type = setting.type;
+					if (type[key]) type = type[key];
+
+					if (!parent && !Array.isArray(setting.value)) html += "<label for='" + setting.key + "_" + key + "'>" + key + "</label><br>";
+					if (type == "int" || type == "number") html +=
+						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='settingcopy' id='" + setting.key + "_" + key +
+						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
+					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselect.includes(setting.key)))
+						html += addMultiselect(setting, possible, value);
+					else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
+						html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>";
+						Object.keys(possible[key]).forEach(posKey => {
+							if (type == "bool") html += "<option value='" + posKey + "'" + ((value && key == "true") || (!value && key != "true") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
+						});
+						html += "</select>";
+					} else if (type == "time" || type == "singlestring") {
+						html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "' value='" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "'>";
+						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
+					} else {
+						html += "<div class='emoji-container'><textarea class='setting' rows='" + (value ?? key).split("\n").length + "' id='" + setting.key + "_" + key + "'>" +
+							(parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
+							"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
+							"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
+						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
+					}
+					html += "<br>";
+				}
+				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
+					"</div>";
+
+				if (parent) parent.insertAdjacentHTML("beforeend", html);
+				else return html;
 			}
 		</script>
 	</head>
@@ -212,7 +309,7 @@
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
-						<a href="/login/" id="hoverdrop-login" translation="global.login"></a>
+						<a href="/login/" translation="global.login"></a>
 					</div>
 				</div>
 			</header>
@@ -231,10 +328,6 @@
 		</main>
 
 		<script>
-			const friendlyCat = {
-				starconfig: "Starboard"
-			};
-
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;
 			let savingToast;
@@ -242,33 +335,56 @@
 
 			function saveSettings() {
 				if (!params.has("guild") || saving) return;
-
 				saving = true;
-				const settings = document.getElementsByClassName("setting");
 
 				const items = {};
-				for (let i = 0; i < settings.length; i++) {
-					const item = settings.item(i);
-
-					let entry = "";
-					if (multiselect.includes(item.name)) {
-						drops.forEach(drop => {
-							if (drop.key != item.name) return
+				settingsData.forEach(setting => {
+					let entry;
+					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key))) {
+						entry = [];
+						drops.filter(drop => drop.key == setting.key).forEach(drop => {
 							drop.data.selected.forEach(possible => {
-								if (!possible.removed) entry += drop.data.options[possible.index].value + ",";
+								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
 							});
 						});
-						if (entry.endsWith(",")) entry = entry.slice(0, -1);
-					} else if (advancedsetting.includes(item.name)) {
-						if (currentlySelected[item.name].value.trim().length > 0) currentlySelected[item.name].value.trim().split(" ").forEach(r => {
-							const value = document.getElementById("an_" + item.name + "_" + r + "value").value;
-							if (value.trim() != "") entry += r + ":" + value.replace(/,/g, ";") + ","; // TODO: Handle commas in values
-						});
-						if (entry.endsWith(",")) entry = entry.slice(0, -1);
-					} else entry = item.value;
+					} else if (setting.org == "object") {
+						entry = {};
+						Object.keys(setting.type).forEach(key => {
+							const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]");
+							if (child) {
+								if (setting.type[key] == "bool") entry[key] = child.value == "true";
+								else if (setting.type[key] == "number") entry[key] = parseFloat(child.value);
+								else if (setting.type[key] == "int") entry[key] = parseInt(child.value);
+								else entry[key] = child.value;
+							} else console.warn(setting.key + "_" + key + " not found")
+						})
+					} else if (Array.isArray(setting.value)) {
+						entry = [];
+						if (typeof setting.type == "object") {
+							const parent = document.getElementById(setting.key);
+							for (const arrentry of parent.querySelectorAll("div.setgroup")) {
+								const temp = {};
+								Object.keys(setting.type).forEach(key => {
+									for (const objchild of arrentry.querySelectorAll("input,textarea,select")) {
+										let value = objchild.value;
+										if (setting.type[key] == "bool") value = objchild.value == "true"
+										else if (setting.type[key] == "number") value = parseFloat(objchild.value);
+										else if (setting.type[key] == "int") value = parseInt(objchild.value);
 
-					items[item.name] = entry;
-				}
+										if (objchild.id.split("_")[1] == key) temp[key] = value;
+										else if (!objchild.id.split("_")[2]) entry.push(value);
+									}
+								})
+								if (Object.keys(temp).length > 0) entry.push(temp);
+							}
+						} else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
+					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
+					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
+					else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value);
+					else entry = document.getElementById(setting.key).value;
+
+					items[setting.key] = entry;
+				});
 
 				socket.send(JSON.stringify({
 					status: "success",

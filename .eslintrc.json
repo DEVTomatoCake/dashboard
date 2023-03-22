@@ -28,7 +28,6 @@
 		"comma-style": 2,
 		"computed-property-spacing": 2,
 		"default-case-last": 2,
-		"default-param-last": 2,
 		"dot-notation": 2,
 		"dot-location": [2, "property"],
 		"func-call-spacing": 2,

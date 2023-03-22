@@ -29,84 +29,61 @@ function getGuildsHTML() {
 function getSettingsHTML(json) {
 	if (json.status == "success") {
 		let text = "";
-		const queue = [];
 		const categories = [];
 		const categoryData = [];
 
-		multiselect = json.constant.multiselect;
-		advancedsetting = json.constant.advancedsetting;
-
 		json.data.forEach(setting => {
-			let temp = "<label for='" + setting.key + "'>" + setting.help + "</label><br>";
+			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label><br>";
 
-			if (setting.possible) {
+			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
+				else if (typeof possible == "object") {
+					Object.keys(possible).filter(key => key != "").forEach(key => {
+						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]];
+					})
+				}
 
-				if (multiselect.includes(setting.key)) {
-					temp += "<select multiple class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
-					const selected = [];
-					let i = 0;
-					Object.keys(possible).forEach(key => {
-						if (key == "") return;
-						setting.value.split(",").forEach(data => {
-							if (data == key.replace("_", "")) selected.push(i);
-						});
-						i++;
-						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "' " + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key] + "</option>";
-						else temp += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "' " + (possible[key].color ? " data-color='" + possible[key].color + "' " : "") + (setting.value == key.replace("_", "") ? "selected" : "") + ">" + possible[key].name + "</option>";
-					});
-					temp += "</select>";
-					queue.push(() => {
-						drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
-					});
-				} else if (advancedsetting.includes(setting.key)) {
-					currentlySelected[setting.key] = {
-						value: setting.value.split(",").map(r => r.split(":")[0]).join(" ") + " ",
-						possible
-					};
+				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key)))
+					temp += addMultiselect(setting, possible, setting.value);
+				else if (typeof setting.value == "object") {
+					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
+					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
+						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
 
-					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "' " +
-						(Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).length == 0 ? "disabled " : "") +
-						"onchange='addRole(\"" + setting.key + "\", this)'>" +
-						"<option>" + (setting.key == "levelMultipliers" || setting.key == "voiceNotifyMessage" || setting.key == "statsChannelFormat" ? "Kanal" : "Rolle") + " hinzufügen...</option>";
-
-					Object.keys(possible).filter(r => r.trim() != "" && !setting.value.includes(r.replace("_", ""))).forEach(key => {
-						temp += "<option value='" + key.replace("_", "") + "'>" + possible[key].name + "</option>";
-					});
-					temp += "</select><div id='" + setting.key + "list' class='advancedsetting'>";
-
-					if (setting.value.trim() != "") setting.value.split(",").forEach(r => {
-						temp +=
-							"<div><br>" +
-							"<label for='an_" + setting.key + "_" + r.split(":")[0] + "value'>" + possible["_" + r.split(":")[0]].name + "</label><br>" +
-							"<input type='" + (setting.key == "levelMultipliers" ? "number' min='0.1' max='3' step='0.1'" : "text' size='" + (screen.width > 500 ? 30 : 20) + "'") +
-							" id='an_" + setting.key + "_" + r.split(":")[0] + "value' class='settingcopy' value='" + r.split(":").slice(1).join(":") + "'>" +
-							"<ion-icon name='trash-outline' class='removeItem' onclick='removeRole(\"" + setting.key + "\", this, \"" + r.split(":")[0] + "\")'></ion-icon></div>";
-					});
+					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i], void 0, true)).join("");
+					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting, possible, i)).join("");
+					else if (Object.keys(setting.value).length > 0) {
+						setting.org = "object";
+						setting.value = [setting.value];
+						temp += addItem(setting, possible, void 0, setting.value[0], void 0, true);
+					}
 					temp += "</div>";
 				} else {
-					temp += "<select class='setting' id='" + setting.key + "' name='" + setting.key + "'>";
+					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
-						if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
+						if (setting.type == "bool") temp += "<option value='" + key + "'" + ((setting.value && key == "true") || (!setting.value && key != "true") ? " selected" : "") + ">" + possible[key] + "</option>"
+						else if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
 					});
 					temp += "</select>";
 				}
 			} else {
-				if (!setting.value) setting.value = ""; // TODO: Remove after new settings are released
-
-				if (json.constant.integer.includes(setting.key)) temp +=
-					"<input type='number' min='0' max='999' class='setting' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
-				else temp +=
-					"<input class='setting' size='" + (screen.width > 500 ? 38 : 20) + "' id='" + setting.key + "' name='" + setting.key +
-					"' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
-
-				if (setting.value.includes("<") || setting.value.includes(">")) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				if (setting.type == "int" || setting.type == "number") temp +=
+					"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='setting' id='" + setting.key +
+					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>";
+				else if (setting.type == "time" || setting.type == "singlestring") {
+					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				} else {
+					temp += "<div class='emoji-container'><textarea class='setting' rows='" + setting.value.split("\n").length + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
+						"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
+						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
+				}
 			}
-			if (setting.category && !categories.includes(setting.category)) categories.push(setting.category);
-			if (setting.category) categoryData.push([setting.category, temp + "<br><br>"]);
+			if (!categories.includes(setting.category)) categories.push(setting.category);
+			categoryData.push([setting.category, temp + "<br><br>"]);
 		});
 
 		categories.forEach(category => {
@@ -118,8 +95,7 @@ function getSettingsHTML(json) {
 
 		return {
 			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
-			categories,
-			queue
+			categories
 		};
 	} else {
 		return (
@@ -240,7 +216,7 @@ function getDataexportHTML(token) {
 
 					let suggests = "";
 					if (json.data.suggest?.length > 0)
-						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode(suggest.id.toString()) + "</p>").join(", ");
+						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode("" + suggest.id) + "</p>").join(", ");
 
 					const text =
 						"<center>" +
@@ -393,7 +369,7 @@ function getLogsHTML(guild) {
 							"<td>" + encode(log.id) + "</td>" +
 							"<td>" + encode(log.type) + "</td>" +
 							"<td class='overflow'>" + encode(log.message) + "</td>" +
-							"<td>" + encode(log.count) + "</td>" +
+							"<td>" + encode("" + log.count) + "</td>" +
 							"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button></td>" +
 							"</tr>";
 					});

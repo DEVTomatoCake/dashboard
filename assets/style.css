@@ -253,8 +253,19 @@ tr.cmdvisible:nth-child(odd) {
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
 }
+
+textarea.setting, textarea.settingcopy {
+	width: calc(100% - 70px);
+	min-height: 50px;
+}
+
 .advancedsetting {
-	margin-left: 30px;
+	margin-left: 25px;
+}
+.advancedsetting div.setgroup {
+	padding: 0 10px 10px;
+	background-color: var(--tertiary-color);
+	border-radius: 10px;
 }
 
 textarea {

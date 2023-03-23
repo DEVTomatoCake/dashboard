@@ -353,8 +353,8 @@
 							const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]");
 							if (child) {
 								if (setting.type[key] == "bool") entry[key] = child.value == "true";
-								else if (setting.type[key] == "number") entry[key] = parseFloat(child.value);
-								else if (setting.type[key] == "int") entry[key] = parseInt(child.value);
+								else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = parseFloat(child.value);
+								else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = parseInt(child.value);
 								else entry[key] = child.value;
 							} else console.warn(setting.key + "_" + key + " not found")
 						})
@@ -368,8 +368,8 @@
 									for (const objchild of arrentry.querySelectorAll("input,textarea,select")) {
 										let value = objchild.value;
 										if (setting.type[key] == "bool") value = objchild.value == "true"
-										else if (setting.type[key] == "number") value = parseFloat(objchild.value);
-										else if (setting.type[key] == "int") value = parseInt(objchild.value);
+										else if (setting.type[key] == "number" || setting.type[key].type == "number") value = parseFloat(objchild.value);
+										else if (setting.type[key] == "int" || setting.type[key].type == "int") value = parseInt(objchild.value);
 
 										if (objchild.id.split("_")[1] == key) temp[key] = value;
 										else if (!objchild.id.split("_")[2]) entry.push(value);

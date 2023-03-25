@@ -15,10 +15,14 @@
 		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
-		<link href="../assets/style.css" rel="stylesheet" type="text/css">
 		<style>
 			body {
-				background-color: var(--textarea-background);
+				background-color: #000;
+			}
+			@media (prefers-color-scheme: light) {
+				body {
+					background-color: #FFF;
+				}
 			}
 		</style>
 
@@ -38,8 +42,10 @@
 					else {
 						if (typeof res != "string") console.error(res);
 						document.body.innerHTML =
+							"<center>" +
 							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-							"<h1>" + (typeof res == "string" ? res : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>";
+							"<h1>" + (typeof res == "string" ? res : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>" +
+							"</center>";
 					}
 				});
 			} else document.body.innerHTML = "<center><h1>Bitte gib den gewünschten Server mit an!</h1></center>";
@@ -64,6 +70,11 @@
 							backgroundColor: "rgb(244, 127, 255)",
 							borderColor: "rgb(244, 127, 255)",
 							data: apiresponse.data.boosts.split(",")
+						},{
+							label: "Chatters",
+							backgroundColor: "rgb(2, 129, 247)",
+							borderColor: "rgb(2, 129, 247)",
+							data: apiresponse.data.chatters.split(",")
 						}]
 					},
 					options: {
@@ -73,7 +84,7 @@
 								text: "Statistiken von " + apiresponse.name
 							},
 							subtitle: {
-								display: params.get("type") != "members" && params.get("type") != "messages" && params.get("type") != "boosts" && !params.has("time"),
+								display: params.get("type") != "members" && params.get("type") != "messages" && params.get("type") != "boosts" && params.get("type") != "chatters" && !params.has("time"),
 								text: "Ein Teil der Mitglieder- und Nachrichtendaten wird nicht angezeigt. Nutze die Query-Parameter \"type\" und \"time\", um sie anzuzeigen."
 							}
 						}

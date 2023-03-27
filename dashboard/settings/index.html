@@ -139,11 +139,11 @@
 				if (setting.key == "rejoinRoles") console.log(setting, possible, value)
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
-				let i = 0;
-				Object.keys(possible).forEach(key => {
+				//let i = 0;
+				Object.keys(possible).forEach((key, i) => {
 					if (setting.key == "rejoinRoles") console.log(i)
 					if (key == "") return;
-					i++;
+					//i++;
 					if (setting.key == "rejoinRoles") console.log(i)
 					if (Array.isArray(value)) {
 						value.forEach(data => {

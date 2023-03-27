@@ -995,7 +995,7 @@ input:invalid, input:out-of-range {
 }
 
 .feature {
-	margin-top: 20px;
+	margin-top: 30px;
 	display: grid;
 	grid-template-columns: auto auto;
 	gap: 15px;

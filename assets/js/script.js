@@ -65,6 +65,7 @@ class Sidebar extends HTMLElement {
 		this.page = this.getAttribute("page");
 	}
 	connectedCallback() {
+		console.warn(this.page)
 		this.innerHTML =
 			"<div class='sidebar-container visible' id='sidebar-container'>" +
 			"<nav class='sidebar' id='sidebar'>" +
@@ -76,7 +77,7 @@ class Sidebar extends HTMLElement {
 				"<button type='button' onclick='redirect(\"/invite/\")' translation='sidebar.invite'></button>" +
 
 				"<div id='linksidebar' class='section'>" +
-					"<a href='/' title='Home' class='tab" + (this.page == "main" ? " active" : "") + "'>" +
+					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active" : "") + "'>" +
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +

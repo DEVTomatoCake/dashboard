@@ -136,6 +136,7 @@
 			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
 
 			function addMultiselect(setting, possible, value) {
+				console.log(setting, possible, value)
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
 				Object.keys(possible).forEach((key, i) => {

@@ -128,7 +128,6 @@ const Drop = function(info) {
 			console.warn(this.options)
 			this.selected.forEach(select => {
 				const option = that.options[select.index]
-				console.warn(option)
 				const childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
 				const childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")
 				childCloseHTML.on("click", function(e) {

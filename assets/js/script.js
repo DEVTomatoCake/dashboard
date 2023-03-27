@@ -36,7 +36,7 @@ function handleError(resolve, error) {
 
 class Footer extends HTMLElement {
 	constructor() {
-		super()
+		super();
 	}
 	connectedCallback() {
 		this.innerHTML =
@@ -54,10 +54,10 @@ class Footer extends HTMLElement {
 				"<a href='/invite/'>Invite Bot</a>" +
 				"<a href='/discord/'>Discord</a>" +
 			"</div>" +
-			"</footer>"
+			"</footer>";
 	}
 }
-customElements.define("global-footer", Footer)
+customElements.define("global-footer", Footer);
 
 class Sidebar extends HTMLElement {
 	constructor() {
@@ -130,10 +130,10 @@ class Sidebar extends HTMLElement {
 					"</label>" +
 				"</div>" +
 			"</nav>" +
-			"</div>"
+			"</div>";
 	}
 }
-customElements.define("global-sidebar", Sidebar)
+customElements.define("global-sidebar", Sidebar);
 
 let sideState = 0;
 function sidebar() {

@@ -34,6 +34,98 @@ function handleError(resolve, error) {
 		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
 }
 
+class Footer extends HTMLElement {
+	constructor() {
+		super();
+	}
+	connectedCallback() {
+		this.innerHTML =
+			"<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>" +
+			"<footer>" +
+			"<a href='/'>" +
+			"<div id='mainlink'>" +
+				"<img src='/assets/images/background_192.webp' width='64' height='64' alt='TomatenKuchen Logo'>" +
+				"<span>TomatenKuchen</span>" +
+			"</div>" +
+			"</a>" +
+			"<div class='links'>" +
+				"<a href='/credits/'>Credits</a>" +
+				"<a href='/docs/'>Docs</a>" +
+				"<a href='/invite/'>Invite Bot</a>" +
+				"<a href='/discord/'>Discord</a>" +
+			"</div>" +
+			"</footer>";
+	}
+}
+customElements.define("global-footer", Footer);
+
+class Sidebar extends HTMLElement {
+	constructor() {
+		super();
+	}
+	connectedCallback() {
+		this.innerHTML =
+			"<div class='sidebar-container visible' id='sidebar-container'>" +
+			"<nav class='sidebar' id='sidebar'>" +
+				"<div class='hamburger' onclick='sidebar()'>" +
+					"<div class='line' id='lineTop2'></div>" +
+					"<div class='line' id='lineBottom2'></div>" +
+				"</div>" +
+
+				"<button type='button' onclick='redirect(\"/invite/\")' translation='sidebar.invite'></button>" +
+
+				"<div id='linksidebar' class='section'>" +
+					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active" : "") + "'>" +
+						"<ion-icon name='home-outline'></ion-icon>" +
+						"<p translation='sidebar.home'></p>" +
+					"</a>" +
+					"<a href='/commands/' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
+						"<ion-icon name='terminal-outline'></ion-icon>" +
+						"<p translation='sidebar.commands'></p>" +
+					"</a>" +
+					"<a href='/dashboard/' class='tab" + (this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
+						"<ion-icon name='settings-outline'></ion-icon>" +
+						"<p translation='sidebar.dashboard'></p>" +
+					"</a>" +
+				"</div>" +
+
+				"<div class='section bottom'>" +
+					"<div class='hoverdropdown lang'>" +
+						"<div class='hoverdropdown-content langselect'>" +
+							"<div onclick='reloadText(\"de\")'>" +
+								"<img src='/assets/images/wikimedia_flagde.svg' width='30' height='30' alt='DE flag'>" +
+								"<span>Deutsch</span>" +
+							"</div>" +
+							"<div onclick='reloadText(\"en\")'>" +
+								"<img src='/assets/images/wikimedia_flagen.svg' width='30' height='30' alt='EN flag'>" +
+								"<span>English</span>" +
+							"</div>" +
+							"<div onclick='reloadText(\"hu\")'>" +
+								"<img src='/assets/images/wikimedia_flaghu.svg' width='30' height='30' alt='HU flag'>" +
+								"<span>Magyar</span>" +
+							"</div>" +
+							"<div onclick='reloadText(\"fr\")'>" +
+								"<img src='/assets/images/wikimedia_flagfr.svg' width='30' height='30' alt='FR flag'>" +
+								"<span>Français</span>" +
+							"</div>" +
+						"</div>" +
+						"<div class='text'>" +
+							"<ion-icon name='language-outline'></ion-icon>" +
+							"<span translation='global.language'>Language</span>" +
+						"</div>" +
+					"</div>" +
+
+					"<label class='switch' data-type='theme'>" +
+						"<input type='checkbox' id='theme-toggle' aria-label='Toggle theme'>" +
+						"<span class='slider round'></span>" +
+					"</label>" +
+				"</div>" +
+			"</nav>" +
+			"</div>";
+	}
+}
+customElements.define("global-sidebar", Sidebar);
+
 let sideState = 0;
 function sidebar() {
 	sideState++;
@@ -144,7 +236,7 @@ function pageLoad(page = "") {
 		});
 	});
 
-	if (reloadText) reloadText(getLanguage());
+	if (reloadText) reloadText();
 	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
 
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");

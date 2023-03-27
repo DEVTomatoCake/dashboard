@@ -35,71 +35,7 @@
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad('main')">
-		<div class="sidebar-container visible" id="sidebar-container">
-			<nav class="sidebar" id="sidebar">
-				<div class="hamburger" onclick="sidebar()">
-					<div class="line" id="lineTop2"></div>
-					<div class="line" id="lineBottom2"></div>
-				</div>
-
-				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
-
-				<div class="section">
-					<a href="/" title="Home" class="tab active">
-						<ion-icon name="home-outline"></ion-icon>
-						<p translation="sidebar.home"></p>
-					</a>
-					<a href="/commands/" title="Bot commands" class="tab">
-						<ion-icon name="terminal-outline"></ion-icon>
-						<p translation="sidebar.commands"></p>
-					</a>
-					<a href="/dashboard/" class="tab">
-						<ion-icon name="settings-outline"></ion-icon>
-						<p translation="sidebar.dashboard"></p>
-					</a>
-					<a href="/docs/" title="Documention of the bot" class="tab">
-						<ion-icon name="document-text-outline"></ion-icon>
-						<p translation="sidebar.docs"></p>
-					</a>
-					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
-						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
-						<p translation="sidebar.support"></p>
-					</a>
-				</div>
-
-				<div class="section bottom">
-					<div class="hoverdropdown lang">
-						<div class="hoverdropdown-content langselect">
-							<div onclick="reloadText('de')">
-								<img src="./assets/images/wikimedia_flagde.svg" width="30" height="30" alt="DE flag">
-								<span>Deutsch</span>
-							</div>
-							<div onclick="reloadText('en')">
-								<img src="./assets/images/wikimedia_flagen.svg" width="30" height="30" alt="EN flag">
-								<span>English</span>
-							</div>
-							<div onclick="reloadText('hu')">
-								<img src="./assets/images/wikimedia_flaghu.svg" width="30" height="30" alt="HU flag">
-								<span>Magyar</span>
-							</div>
-							<div onclick="reloadText('fr')">
-								<img src="./assets/images/wikimedia_flagfr.svg" width="30" height="30" alt="FR flag">
-								<span>Français</span>
-							</div>
-						</div>
-						<div class="text">
-							<ion-icon name="language-outline"></ion-icon>
-							<span>Language</span>
-						</div>
-					</div>
-
-					<label class="switch" data-type="theme">
-						<input type="checkbox" id="theme-toggle" aria-label="Toggle theme">
-						<span class="slider round"></span>
-					</label>
-				</div>
-			</nav>
-		</div>
+		<global-sidebar page="main"></global-sidebar>
 
 		<main class="main" id="main">
 			<header class="top">
@@ -133,7 +69,6 @@
 								<ion-icon name="open-outline" class="open"></ion-icon>
 							</a>
 						</div>
-
 						<p id="stats-guilds" class="value">Loading...</p>
 					</div>
 
@@ -146,7 +81,6 @@
 								<ion-icon name="open-outline" class="open"></ion-icon>
 							</a>
 						</div>
-
 						<p id="stats-uptime" class="value">Loading...</p>
 					</div>
 
@@ -155,7 +89,6 @@
 							<ion-icon name="ticket-outline"></ion-icon>
 							<p class="title">Tickets</p>
 						</div>
-
 						<p id="stats-tickets" class="value">Loading...</p>
 					</div>
 
@@ -168,7 +101,6 @@
 								<ion-icon name="open-outline" class="open"></ion-icon>
 							</a>
 						</div>
-
 						<p id="stats-users" class="value">Loading...</p>
 					</div>
 				</div>
@@ -176,7 +108,7 @@
 				<div class="featurelist">
 					<h2>Features</h2>
 					<div class="feature">
-						<img src="./assets/images/tomato_ban.webp" alt="Drawn tomato holding a ban sign">
+						<img src="./assets/images/tomato_ban.webp" width="160" height="160" alt="Drawn tomato holding a ban sign">
 						<div>
 							<p>
 								<strong translation="main.features.moderation.title">
@@ -201,10 +133,10 @@
 								</span>
 							</p>
 						</div>
-						<img src="./assets/images/tomato_empty.webp" alt="Drawn tomato default">
+						<img src="./assets/images/tomato_empty.webp" width="160" height="160" alt="Drawn tomato default">
 					</div>
 					<div class="feature">
-						<img src="./assets/images/tomato_empty.webp" alt="Drawn tomato default">
+						<img src="./assets/images/ticketembed.webp" width="400" height="328" alt="Drawn tomato default">
 						<div>
 							<p>
 								<strong translation="main.features.ticket.title">
@@ -229,14 +161,13 @@
 								</span>
 							</p>
 						</div>
-						<img src="./assets/images/tomato_empty.webp" alt="Drawn tomato default">
+						<img src="./assets/images/tomato_empty.webp" width="160" height="160" alt="Drawn tomato default">
 					</div>
 				</div>
-
-				<p id="author" translation="global.footer"></p>
 			</div>
 		</main>
-		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
+
+		<global-footer></global-footer>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
 	</body>
 </html>

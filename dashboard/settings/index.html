@@ -42,7 +42,6 @@
 				boost: "Boosts",
 				level: "Leaderboard & Level",
 				stats: "Statistiken",
-				sticky: "Sticky Messages",
 				autonick: "Rollen-Nickname",
 				voting: "Vote-Announcements"
 			};
@@ -115,10 +114,10 @@
 								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
 							});
 
-							document.getElementById("linksidebar").innerHTML = sidebarHTML + "</div>";
+							document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>";
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
 							queue.forEach(f => f());
-							reloadText(getLanguage());
+							reloadText();
 							guildName = json.name;
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
@@ -229,72 +228,7 @@
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
-		<div class="sidebar-container visible" id="sidebar-container">
-			<nav class="sidebar" id="sidebar">
-				<div class="hamburger" onclick="sidebar()">
-					<div class="line" id="lineTop2"></div>
-					<div class="line" id="lineBottom2"></div>
-				</div>
-
-				<button type="button" onclick="redirect('/invite/')" translation="sidebar.invite"></button>
-
-				<div class="section">
-					<a href="/" title="Home" class="tab">
-						<ion-icon name="home-outline"></ion-icon>
-						<p translation="sidebar.home"></p>
-					</a>
-					<a href="/commands/" title="Bot commands" class="tab">
-						<ion-icon name="terminal-outline"></ion-icon>
-						<p translation="sidebar.commands"></p>
-					</a>
-					<a href="/dashboard/" class="tab active">
-						<ion-icon name="settings-outline"></ion-icon>
-						<p translation="sidebar.dashboard"></p>
-					</a>
-					<a href="/docs/" title="Documention of the bot" class="tab">
-						<ion-icon name="document-text-outline"></ion-icon>
-						<p translation="sidebar.docs"></p>
-					</a>
-					<a href="/discord/" title="Bot support server" class="tab" target="_blank" rel="noopener">
-						<ion-icon name="chatbox-ellipses-outline"></ion-icon>
-						<p translation="sidebar.support"></p>
-					</a>
-				</div>
-				<div id="linksidebar" class="section" style="margin-top: 0;"></div>
-
-				<div class="section bottom">
-					<div class="hoverdropdown lang">
-						<div class="hoverdropdown-content langselect">
-							<div onclick="reloadText('de')">
-								<img src="../../assets/images/wikimedia_flagde.svg" width="30" height="30" alt="DE flag">
-								<span>Deutsch</span>
-							</div>
-							<div onclick="reloadText('en')">
-								<img src="../../assets/images/wikimedia_flagen.svg" width="30" height="30" alt="EN flag">
-								<span>English</span>
-							</div>
-							<div onclick="reloadText('hu')">
-								<img src="../../assets/images/wikimedia_flaghu.svg" width="30" height="30" alt="HU flag">
-								<span>Magyar</span>
-							</div>
-							<div onclick="reloadText('fr')">
-								<img src="../../assets/images/wikimedia_flagfr.svg" width="30" height="30" alt="FR flag">
-								<span>Français</span>
-							</div>
-						</div>
-						<div class="text">
-							<ion-icon name="language-outline"></ion-icon>
-							<span>Language</span>
-						</div>
-					</div>
-
-					<label class="switch" data-type="theme">
-						<input type="checkbox" id="theme-toggle" aria-label="Toggle theme">
-						<span class="slider round"></span>
-					</label>
-				</div>
-			</nav>
-		</div>
+		<global-sidebar page="dashboard"></global-sidebar>
 
 		<main class="main" id="main">
 			<header class="top">
@@ -322,8 +256,6 @@
 						</div>
 					</section>
 				</div>
-
-				<p id="author" translation="global.footer"></p>
 			</div>
 		</main>
 
@@ -411,7 +343,8 @@
 				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
 			}
 		</script>
-		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
+
+		<global-footer></global-footer>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
 	</body>
 </html>

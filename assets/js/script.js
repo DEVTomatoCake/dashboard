@@ -34,6 +34,31 @@ function handleError(resolve, error) {
 		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
 }
 
+class Footer extends HTMLElement {
+	constructor() {
+		super()
+	}
+	connectedCallback() {
+		this.innerHTML =
+			"<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>" +
+			"<footer>" +
+			"<a href='/'>" +
+			"<div id='mainlink'>" +
+				"<img src='assets/images/background_192.webp' width='64' height='64' alt='TomatenKuchen Logo'>" +
+				"<span>TomatenKuchen</span>" +
+			"</div>" +
+			"</a>" +
+			"<div class='links'>" +
+				"<a href='/credits/'>Credits</a>" +
+				"<a href='/docs/'>Docs</a>" +
+				"<a href='/invite/'>Invite Bot</a>" +
+				"<a href='/discord/'>Discord</a>" +
+			"</div>" +
+			"</footer>"
+	}
+}
+customElements.define("global-footer", Footer)
+
 let sideState = 0;
 function sidebar() {
 	sideState++;

@@ -37,6 +37,8 @@
 				for (let i = 0; i < links.length; i++) {
 					const href = links[i].getAttribute("href").split("/");
 					if (href[1] == "invite") continue;
+					if (target == "stats" || target == "leaderboard") href[0] = "..";
+					else href[0] = ".";
 					href[1] = target;
 					links[i].setAttribute("href", href.join("/"));
 				}
@@ -138,8 +140,8 @@
 					<button type="button" onclick="changePage(this)">Tickets</button>
 					<button type="button" onclick="changePage(this)">Logs</button>
 					<button type="button" onclick="changePage(this)">Modlogs</button>
-					<button type="button" onclick="changePage(this)" data-target="../leaderboard">Leaderboard</button>
-					<button type="button" onclick="changePage(this)" data-target="../stats">Statistiken</button>
+					<button type="button" onclick="changePage(this)">Leaderboard</button>
+					<button type="button" onclick="changePage(this)" data-target="stats">Statistiken</button>
 				</div>
 
 				<div id="root-container" class="row">
@@ -152,8 +154,6 @@
 						</div>
 					</section>
 				</div>
-
-				<p id="author" translation="global.footer"></p>
 			</div>
 		</main>
 
@@ -203,7 +203,8 @@
 				location.href = "../login/?next=" + encodeURIComponent(location.pathname + location.search);
 			}
 		</script>
-		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
+
+		<global-footer></global-footer>
 		<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js" crossorigin="anonymous"></script>
 	</body>
 </html>

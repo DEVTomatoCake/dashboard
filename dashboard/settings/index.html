@@ -136,13 +136,15 @@
 			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
 
 			function addMultiselect(setting, possible, value) {
-				console.log(setting, possible, value)
+				if (setting.key == "rejoinRoles") console.log(setting, possible, value)
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
 				let i = 0;
 				Object.keys(possible).forEach(key => {
+					if (setting.key == "rejoinRoles") console.log(i)
 					if (key == "") return;
 					i++;
+					if (setting.key == "rejoinRoles") console.log(i)
 					if (Array.isArray(value)) {
 						value.forEach(data => {
 							if (data.includes(key.replace("_", ""))) selected.push(i);

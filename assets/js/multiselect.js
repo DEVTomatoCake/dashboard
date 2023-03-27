@@ -107,7 +107,6 @@ const Drop = function(info) {
 		preselect() {
 			const that = this
 			this.selected = []
-			console.warn(this.preselected)
 			this.preselected.forEach(pre => {
 				that.selected.push({
 					index: pre,
@@ -124,8 +123,6 @@ const Drop = function(info) {
 		renderDrop() {
 			const that = this
 			const parentHTML = $.template("<div></div>")
-			console.warn(this.selected)
-			console.warn(this.options)
 			this.selected.forEach(select => {
 				const option = that.options[select.index]
 				const childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")

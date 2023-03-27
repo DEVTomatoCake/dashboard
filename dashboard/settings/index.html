@@ -142,7 +142,6 @@
 				let i = 0;
 				Object.keys(possible).forEach(key => {
 					if (key == "") return;
-					if (setting.key == "rejoinRoles") console.log(i)
 					if (Array.isArray(value)) {
 						value.forEach(data => {
 							if (data.includes(key.replace("_", ""))) selected.push(i);

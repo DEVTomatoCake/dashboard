@@ -62,10 +62,8 @@ customElements.define("global-footer", Footer);
 class Sidebar extends HTMLElement {
 	constructor() {
 		super();
-		this.page = this.getAttribute("page");
 	}
 	connectedCallback() {
-		console.warn(this.page)
 		this.innerHTML =
 			"<div class='sidebar-container visible' id='sidebar-container'>" +
 			"<nav class='sidebar' id='sidebar'>" +
@@ -81,11 +79,11 @@ class Sidebar extends HTMLElement {
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +
-					"<a href='/commands/' title='Bot commands' class='tab" + (this.page == "commands" ? " active" : "") + "'>" +
+					"<a href='/commands/' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
 						"<ion-icon name='terminal-outline'></ion-icon>" +
 						"<p translation='sidebar.commands'></p>" +
 					"</a>" +
-					"<a href='/dashboard/' class='tab" + (this.page == "dashboard" ? " active" : "") + "'>" +
+					"<a href='/dashboard/' class='tab" + (this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +

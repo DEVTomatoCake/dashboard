@@ -139,17 +139,16 @@
 				if (setting.key == "rejoinRoles") console.log(setting, possible, value)
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
-				//let i = 0;
-				Object.keys(possible).forEach((key, i) => {
-					if (setting.key == "rejoinRoles") console.log(i)
+				let i = 0;
+				Object.keys(possible).forEach(key => {
 					if (key == "") return;
-					//i++;
 					if (setting.key == "rejoinRoles") console.log(i)
 					if (Array.isArray(value)) {
 						value.forEach(data => {
 							if (data.includes(key.replace("_", ""))) selected.push(i);
 						});
 					} else if (value.includes(key.replace("_", ""))) selected.push(i);
+					i++;
 					if (typeof possible[key] == "string") html += "<option value='" + key.replace("_", "") + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key] + "</option>";
 					else html += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key].name + "</option>";
 				});

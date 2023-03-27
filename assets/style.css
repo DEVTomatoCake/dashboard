@@ -252,6 +252,7 @@ tr.cmdvisible:nth-child(odd) {
 	padding: 3px;
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
+	transition: all .5s cubic-bezier(.33,.02,.47,.96);
 }
 
 textarea.setting, textarea.settingcopy {

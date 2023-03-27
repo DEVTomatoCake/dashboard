@@ -65,7 +65,7 @@ const Drop = function(info) {
 			const index = Number(element.dataset.index)
 			this.clearStates()
 			this.selected.push({
-				index: Number(index),
+				index,
 				state: "add",
 				removed: false
 			})
@@ -107,6 +107,7 @@ const Drop = function(info) {
 		preselect() {
 			const that = this
 			this.selected = []
+			console.warn(this.preselected)
 			this.preselected.forEach(pre => {
 				that.selected.push({
 					index: pre,

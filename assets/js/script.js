@@ -87,14 +87,6 @@ class Sidebar extends HTMLElement {
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
-					"<a href='/docs/' title='Documention of the bot' class='tab'>" +
-						"<ion-icon name='document-text-outline'></ion-icon>" +
-						"<p translation='sidebar.docs'></p>" +
-					"</a>" +
-					"<a href='/discord/' title='Bot support server' class='tab' target='_blank' rel='noopener'>" +
-						"<ion-icon name='chatbox-ellipses-outline'></ion-icon>" +
-						"<p translation='sidebar.support'></p>" +
-					"</a>" +
 				"</div>" +
 
 				"<div class='section bottom'>" +

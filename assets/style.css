@@ -252,7 +252,6 @@ tr.cmdvisible:nth-child(odd) {
 	padding: 3px;
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
-	transition: all .5s cubic-bezier(.33,.02,.47,.96);
 }
 
 textarea.setting, textarea.settingcopy {
@@ -996,7 +995,7 @@ input:invalid, input:out-of-range {
 }
 
 .feature {
-	margin-top: 10px;
+	margin-top: 20px;
 	display: grid;
 	grid-template-columns: auto auto;
 	gap: 15px;
@@ -1013,10 +1012,6 @@ input:invalid, input:out-of-range {
 .feature a {
 	color: var(--blue);
 	text-decoration: none;
-}
-.feature img {
-	width: 150px;
-	height: 150px;
 }
 
 @media only screen and (max-width: 1300px) {

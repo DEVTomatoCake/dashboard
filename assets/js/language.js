@@ -34,6 +34,7 @@ const loadLangFile = async language => {
 };
 
 const reloadText = async language => {
+	if (!language) language = getLanguage();
 	setCookie("lang", language, 60, true);
 	document.documentElement.lang = language;
 

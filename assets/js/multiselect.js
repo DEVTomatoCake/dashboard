@@ -97,7 +97,7 @@ const Drop = function(info) {
 				else if (option.dataset.type == "role") prefix = "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>"
 
 				this.options[i] = {
-					html: prefix + option.innerText + (option.dataset.type == "role" && option.dataset.color ? "</span>" : ""),
+					html: prefix + option.innerText,
 					value: option.value,
 					selected: option.selected,
 					state: ""
@@ -123,8 +123,11 @@ const Drop = function(info) {
 		renderDrop() {
 			const that = this
 			const parentHTML = $.template("<div></div>")
+			console.warn(this.selected)
+			console.warn(this.options)
 			this.selected.forEach(select => {
 				const option = that.options[select.index]
+				console.warn(option)
 				const childHTML = $.template("<span class='item " + select.state + "'>" + option.html + "</span>")
 				const childCloseHTML = $.template("<ion-icon style='margin-top: 5px; font-size: 20px;' name='close-circle-outline' data-index='" + select.index + "'></ion-icon></span>")
 				childCloseHTML.on("click", function(e) {

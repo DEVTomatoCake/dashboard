@@ -92,18 +92,18 @@ async function mentionPicker(parent = document.body, roles = []) {
 }
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
-const updateSelected = (elem, value, multi = false) => {
-	console.log(elem.id, value, multi)
+const updateSelected = (elem, value, multi = false, editMulti = false) => {
+	console.log(elem, value, multi)
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (multi && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
-		if (!multi) e.classList.remove("selected");
+		if (multi && editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
+		else if (!multi) e.classList.remove("selected");
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", multi ? value.join(",") : value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML +=
-				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), " + multi + ")'></ion-icon></div>";
+				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), " + multi + ", true)'></ion-icon></div>";
 		}
 	});
 }

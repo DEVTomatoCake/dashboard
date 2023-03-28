@@ -100,7 +100,7 @@ const updateSingleSelected = (elem, value = "") => {
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
-			elem.parentElement.querySelector(".list").innerHTML = e.innerHTML;
+			elem.parentElement.parentElement.querySelector(".list").innerHTML = e.innerHTML;
 		}
 	});
 }

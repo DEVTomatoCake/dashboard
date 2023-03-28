@@ -44,6 +44,7 @@ function getSettingsHTML(json) {
 					})
 				}
 
+				if (!setting.type) console.warn(setting)
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key)))
 					temp += addMultiselect(setting, possible, setting.value);
 				else if (typeof setting.value == "object") {

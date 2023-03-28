@@ -103,6 +103,8 @@
 							pickerData.leveltextchannel = {here: "Aktueller Kanal", ...pickerData.textchannel}
 							pickerData.voicechannel = json.constant.voicechannel;
 							pickerData.categorychannel = json.constant.categorychannel;
+							pickerData.categoryallchannel = {all: "Alle Kanäle", ...json.constant.categorychannel};
+							pickerData.announcementchannel = json.data.find(setting => setting.type == "announcementchannel").possible;
 							const rendered = getSettingsHTML(json);
 
 							let sidebarHTML =

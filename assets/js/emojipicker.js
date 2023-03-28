@@ -93,7 +93,7 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const toggleSinglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSingleSelected = (elem, value = "") => {
-	elem.parentElement.parentElement.setAttribute("value", value.replace("_", ""));
+	elem.parentElement.parentElement.setAttribute("data-selected", value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected");
 	});

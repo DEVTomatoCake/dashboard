@@ -116,7 +116,7 @@ class SinglePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span onclick='updateSingleSelected(this, \"" + channel + "\")'>" +
-					(channel ? encode(current.name) : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
+					(channel ? encode(current.name || current) : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
 					"</span></div>"
 			}).join("") +
 			"</div>";

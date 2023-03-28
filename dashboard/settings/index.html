@@ -173,7 +173,10 @@
 							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
 						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
 							html += addMultiselect(setting, possible[key], value[setKey]);
-						else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
+						else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
+							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>";
+							queue.push(() => updateSingleSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]));
+						} else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 							html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
 								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + ((value[setKey] && key == "true") || (!value[setKey] && key != "true") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
@@ -204,7 +207,10 @@
 						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
 					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselect.includes(setting.key)))
 						html += addMultiselect(setting, possible, value);
-					else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
+					else if (type == "role" || type.endsWith("channel")) {
+						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>";
+						queue.push(() => updateSingleSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value));
+					} else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
 							if (type == "bool") html += "<option value='" + posKey + "'" + ((value && key == "true") || (!value && key != "true") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
@@ -288,12 +294,12 @@
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
 							const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]");
-							if (child) {
-								if (setting.type[key] == "bool") entry[key] = child.value == "true";
-								else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = parseFloat(child.value);
-								else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = parseInt(child.value);
-								else entry[key] = child.value;
-							} else console.warn(setting.key + "_" + key + " not found")
+
+							if (setting.type[key] == "bool") entry[key] = child.value == "true";
+							else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = parseFloat(child.value);
+							else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = parseInt(child.value);
+							else if (child.hasAttribute("data-selected")) entry = child.getAttribute("data-selected");
+							else entry[key] = child.value;
 						})
 					} else if (Array.isArray(setting.value)) {
 						entry = [];
@@ -307,6 +313,7 @@
 										if (setting.type[key] == "bool") value = objchild.value == "true"
 										else if (setting.type[key] == "number" || setting.type[key].type == "number") value = parseFloat(objchild.value);
 										else if (setting.type[key] == "int" || setting.type[key].type == "int") value = parseInt(objchild.value);
+										else if (objchild.hasAttribute("data-selected")) entry = objchild.getAttribute("data-selected");
 
 										if (objchild.id.split("_")[1] == key) temp[key] = value;
 										else if (!objchild.id.split("_")[2]) entry.push(value);

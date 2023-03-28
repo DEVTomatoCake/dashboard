@@ -95,7 +95,7 @@ const togglePicker = elem => elem.parentElement.querySelector(".picker").classLi
 const updateSelected = (elem, value, editMulti = false) => {
 	const found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (!Array.isArray(value) || e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
+		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
 		else if (value.includes(e.getAttribute("data-id").replace("_", ""))) found.push(e.getAttribute("data-id").replace("_", ""));
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""));

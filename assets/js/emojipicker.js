@@ -91,34 +91,35 @@ async function mentionPicker(parent = document.body, roles = []) {
 	parent.appendChild(picker);
 }
 
-const toggleSinglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
-const updateSingleSelected = (elem, value = "") => {
-	elem.parentElement.parentElement.setAttribute("data-selected", value.replace("_", ""));
+const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
+const updateSelected = (elem, value, multi = false) => {
+	console.log(elem.id, value, multi)
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		e.classList.remove("selected");
+		if (multi && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
+		if (!multi) e.classList.remove("selected");
 	});
-	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<ion-icon name='build-outline'></ion-icon>";
+	elem.parentElement.parentElement.setAttribute("data-selected", multi ? value.join(",") : value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
-			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
+			elem.parentElement.parentElement.querySelector(".list").innerHTML +=
+				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), " + multi + ")'></ion-icon></div>";
 		}
 	});
 }
+
 class SinglePicker extends HTMLElement {
 	constructor() {
 		super();
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<div class='list' onclick='toggleSinglePicker(this)'>" +
-			"<ion-icon name='build-outline'></ion-icon>" +
-			"</div>" +
+			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
-				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")updateSingleSelected(this, \"" + channel + "\")' " +
-					"onclick='updateSingleSelected(this, \"" + channel + "\")' class='element" + (current.parent ? " child" : "") + "' tabindex='0'>" +
+				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")updateSelected(this, \"" + channel + "\")' " +
+					"onclick='updateSelected(this, \"" + channel + "\")' class='element" + (current.parent ? " child" : "") + "' tabindex='0'>" +
 					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +

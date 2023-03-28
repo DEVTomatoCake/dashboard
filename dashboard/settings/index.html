@@ -175,7 +175,7 @@
 							html += addMultiselect(setting, possible[key], value[setKey]);
 						else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
 							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>";
-							queue.push(() => updateSingleSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]));
+							queue.push(() => updateSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]));
 						} else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 							html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
@@ -209,7 +209,7 @@
 						html += addMultiselect(setting, possible, value);
 					else if (type == "role" || type.endsWith("channel")) {
 						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>";
-						queue.push(() => updateSingleSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value));
+						queue.push(() => updateSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value));
 					} else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {

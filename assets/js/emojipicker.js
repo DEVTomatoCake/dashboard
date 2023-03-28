@@ -95,11 +95,11 @@ const togglePicker = elem => elem.parentElement.querySelector(".picker").classLi
 const updateSelected = (elem, value, editMulti = false) => {
 	const found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
+		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.toggle("selected"); // toggle zu remove wenn iwas weird is
 		else if (value.includes(e.getAttribute("data-id").replace("_", ""))) found.push(e.getAttribute("data-id").replace("_", ""));
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""));
-	if (!Array.isArray(value) && !editMulti) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div><span>Keine" + (elem.getAttribute("type") == "role" ? " Rolle" : "n Kanal") + "</span></div>";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (((Array.isArray(value) || editMulti) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && !editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
 			e.classList.add("selected");

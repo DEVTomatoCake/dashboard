@@ -308,7 +308,7 @@
 							for (const arrentry of parent.querySelectorAll("div.setgroup")) {
 								const temp = {};
 								Object.keys(setting.type).forEach(key => {
-									for (const objchild of arrentry.querySelectorAll("input,textarea,select")) {
+									for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
 										let value = objchild.value;
 										if (setting.type[key] == "bool") value = objchild.value == "true"
 										else if (setting.type[key] == "number" || setting.type[key].type == "number") value = parseFloat(objchild.value);
@@ -321,7 +321,7 @@
 								})
 								if (Object.keys(temp).length > 0) entry.push(temp);
 							}
-						} else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select")) entry.push(objchild.value);
+						} else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select,channel-picker")) entry.push(objchild.value);
 					} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true";
 					else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value);
 					else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value);

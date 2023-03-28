@@ -110,8 +110,8 @@ class SinglePicker extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<button type='button' class='togglePicker' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
-			"<div class='list'></div>" +
+			//"<button type='button' class='togglePicker' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
+			"<div class='list' onclick='toggleSinglePicker(this)'></div>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]

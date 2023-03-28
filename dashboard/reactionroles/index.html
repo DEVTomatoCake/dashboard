@@ -173,7 +173,7 @@
 			}
 
 			function verifyMsg(elem) {
-				if (!elem.value || document.getElementById("reactionroles-channel").value) return;
+				if (!elem.value || !/^[0-9]{17,20}$/.test(elem.value) || !document.getElementById("reactionroles-channel").value) return;
 
 				socket.send({
 					status: "success",

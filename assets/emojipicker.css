@@ -108,6 +108,6 @@ channel-picker .element {
 channel-picker .element.child {
 	padding-left: 20px;
 }
-channel-picker .elemet.selected {
+channel-picker .element.selected {
 	background-color: var(--picker-selected);
 }

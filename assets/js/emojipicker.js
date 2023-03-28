@@ -109,6 +109,7 @@ class SinglePicker extends HTMLElement {
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
+				if (!current.name) console.warn(current, this.getAttribute("type"));
 				return "<div class='element" + (current.parent ? " child" : "") + "'>" +
 					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +

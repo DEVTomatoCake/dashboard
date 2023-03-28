@@ -91,29 +91,30 @@ async function mentionPicker(parent = document.body, roles = []) {
 	parent.appendChild(picker);
 }
 
-const toggleChannelPicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
-class ChannelPicker extends HTMLElement {
+const toggleSinglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
+class SinglePicker extends HTMLElement {
 	constructor() {
 		super();
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<button type='button' class='createForm' onclick='toggleChannelPicker(this)'>Kanal auswählen</button>" +
+			"<button type='button' class='createForm' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
 			"<div class='picker'>" +
-			Object.keys(pickerData[this.getAttribute("type")]).map(channel => (
-				"<div class='element" + (pickerData[this.getAttribute("type")][channel].parent ? " child" : "") + "'>" +
-				(pickerData[this.getAttribute("type")][channel].type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
-				(pickerData[this.getAttribute("type")][channel].type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
-				(pickerData[this.getAttribute("type")][channel].type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
-				(pickerData[this.getAttribute("type")][channel].type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
-				"<span onclick='this.parentElement.parentElement.parentElement.setAttribute(\"value\", \"" + channel + "\")'>" +
-				(channel ? pickerData[this.getAttribute("type")][channel].name : "Kein Kanal") +
-				"</span></div>"
-			)).join("") +
+			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
+				const current = pickerData[this.getAttribute("type")][channel]
+				return "<div class='element" + (current.parent ? " child" : "") + "'>" +
+					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
+					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
+					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
+					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
+					"<span onclick='this.parentElement.parentElement.parentElement.setAttribute(\"value\", \"" + channel + "\")'>" +
+					(channel ? current.name : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
+					"</span></div>"
+			}).join("") +
 			"</div>";
 	}
 }
-customElements.define("channel-picker", ChannelPicker);
+customElements.define("channel-picker", SinglePicker);
 
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js
 /* eslint-disable */

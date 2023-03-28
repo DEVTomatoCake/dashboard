@@ -59,9 +59,9 @@ function getSettingsHTML(json) {
 						temp += addItem(setting, possible, void 0, setting.value[0], void 0, true);
 					}
 					temp += "</div>";
-				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
-					temp += "<channel-picker type='" + setting.type + "'></channel-picker>";
-				} else {
+				} else if (setting.type == "role" || setting.type.endsWith("channel")) temp += "<channel-picker type='" + setting.type + "'></channel-picker>";
+				else {
+					console.warn(setting);
 					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
 						if (setting.type == "bool") temp += "<option value='" + key + "'" + ((setting.value && key == "true") || (!setting.value && key != "true") ? " selected" : "") + ">" + possible[key] + "</option>"

@@ -52,7 +52,7 @@
 			const queue = [];
 
 			let guildName = "";
-			let pickerData = {};
+			const pickerData = {};
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -135,7 +135,6 @@
 			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
 
 			function addMultiselect(setting, possible, value) {
-				if (setting.key == "rejoinRoles") console.log(setting, possible, value)
 				let html = "<select multiple class='setting' id='" + setting.key + "'>";
 				const selected = [];
 				let i = 0;

@@ -98,10 +98,15 @@ class ChannelPicker extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<button type='button' class='createbutton' onclick='toggleChannelPicker(this)'>Kanal auswählen</button>" +
+			"<button type='button' class='createForm' onclick='toggleChannelPicker(this)'>Kanal auswählen</button>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData.channels).map(channel => (
-				"<span class='element' onclick='this.parentElement.value=\"" + channel + "\"'>" + (channel == "" ? "Kein Kanal" : pickerData.channels[channel]) + "</span>"
+				"<p class='element' onclick='this.parentElement.setAttribute('value', \"" + channel + "\")'>" +
+				(option.dataset.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
+				(option.dataset.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
+				(option.dataset.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
+				(option.dataset.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
+				(pickerData.channels[channel] ? pickerData.channels[channel].name : "Kein Kanal") + "</p>"
 			)).join("") +
 			"</div>";
 	}

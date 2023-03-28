@@ -98,4 +98,5 @@ channel-picker .picker.open {
 }
 channel-picker .element {
 	padding: 5px;
+	cursor: pointer;
 }

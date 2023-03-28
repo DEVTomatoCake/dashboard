@@ -298,7 +298,7 @@
 							if (setting.type[key] == "bool") entry[key] = child.value == "true";
 							else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = parseFloat(child.value);
 							else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = parseInt(child.value);
-							else if (child.hasAttribute("data-selected")) entry = child.getAttribute("data-selected");
+							else if (child.hasAttribute("data-selected")) entry[key] = child.getAttribute("data-selected");
 							else entry[key] = child.value;
 						})
 					} else if (Array.isArray(setting.value)) {
@@ -313,7 +313,7 @@
 										if (setting.type[key] == "bool") value = objchild.value == "true"
 										else if (setting.type[key] == "number" || setting.type[key].type == "number") value = parseFloat(objchild.value);
 										else if (setting.type[key] == "int" || setting.type[key].type == "int") value = parseInt(objchild.value);
-										else if (objchild.hasAttribute("data-selected")) entry = objchild.getAttribute("data-selected");
+										else if (objchild.hasAttribute("data-selected")) value = objchild.getAttribute("data-selected");
 
 										if (objchild.id.split("_")[1] == key) temp[key] = value;
 										else if (!objchild.id.split("_")[2]) entry.push(value);

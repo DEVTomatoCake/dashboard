@@ -92,18 +92,18 @@ async function mentionPicker(parent = document.body, roles = []) {
 }
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
-const updateSelected = (elem, value, multi = false, editMulti = false) => {
-	console.log(elem, value, multi)
+const updateSelected = (elem, value, editMulti = false) => {
+	console.log(elem, value)
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (multi && editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
-		else if (!multi) e.classList.remove("selected");
+		if (Array.isArray(value) && editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
+		else if (!Array.isArray(value)) e.classList.remove("selected");
 	});
-	elem.parentElement.parentElement.setAttribute("data-selected", multi ? value.join(",") : value.replace("_", ""));
+	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) ? value.join(",") : value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
+		if ((Array.isArray(value) && value.includes(e.getAttribute("data-id").replace("_", ""))) || e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML +=
-				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), " + multi + ", true)'></ion-icon></div>";
+				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon></div>";
 		}
 	});
 }

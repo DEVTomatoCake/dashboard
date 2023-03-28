@@ -46,7 +46,7 @@ function getSettingsHTML(json) {
 
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>"//addMultiselect(setting, possible, setting.value);
-					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value, true));
+					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value));
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +

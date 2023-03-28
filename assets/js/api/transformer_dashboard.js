@@ -59,6 +59,8 @@ function getSettingsHTML(json) {
 						temp += addItem(setting, possible, void 0, setting.value[0], void 0, true);
 					}
 					temp += "</div>";
+				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
+					temp += "<channel-picker type='" + setting.type + "'></channel-picker>";
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {

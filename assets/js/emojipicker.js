@@ -100,7 +100,7 @@ class ChannelPicker extends HTMLElement {
 		this.innerHTML =
 			"<button type='button' class='createForm' onclick='toggleChannelPicker(this)'>Kanal auswählen</button>" +
 			"<div class='picker'>" +
-			Object.keys(pickerData.channels).map(channel => (
+			Object.keys(pickerData[this.getAttribute("type")]).map(channel => (
 				"<div class='element" + (pickerData.channels[channel].parent ? " child" : "") + "'>" +
 				(pickerData.channels[channel].type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 				(pickerData.channels[channel].type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +

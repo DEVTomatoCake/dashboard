@@ -94,7 +94,7 @@ html, body {
 	font-family: "Be Vietnam Pro", sans-serif;
 }
 
-h1, h2, h3, h4, p, small, label, input, ul li {
+h1, h2, h3, h4, p, small, label, input, span, ul li {
 	color: var(--primary-text-color);
 }
 

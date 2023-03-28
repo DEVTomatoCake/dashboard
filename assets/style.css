@@ -261,6 +261,7 @@ tr.cmdvisible:nth-child(odd) {
 
 textarea.setting, textarea.settingcopy {
 	min-height: 50px;
+	min-width: 65px;
 }
 
 .advancedsetting {

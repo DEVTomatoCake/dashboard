@@ -119,6 +119,7 @@
 							queue.forEach(f => f());
 							reloadText();
 							guildName = json.name;
+							pickerData.channels = json.constant.categorychannel;
 						} else if (json.action == "SAVED_settings") {
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;

@@ -86,3 +86,16 @@ emoji-picker.light {
 .custom-picker .element:hover {
 	opacity: 0.7;
 }
+
+channel-picker .picker {
+	display: none;
+}
+channel-picker .picker.open {
+	display: block;
+	padding: 10px;
+	max-height: 200px;
+	overflow-y: auto;
+}
+channel-picker .element {
+	padding: 5px;
+}

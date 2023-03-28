@@ -91,6 +91,23 @@ async function mentionPicker(parent = document.body, roles = []) {
 	parent.appendChild(picker);
 }
 
+const toggleChannelPicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
+class ChannelPicker extends HTMLElement {
+	constructor() {
+		super();
+	}
+	connectedCallback() {
+		this.innerHTML =
+			"<button type='button' class='createbutton' onclick='toggleChannelPicker(this)'>Kanal auswählen</button>" +
+			"<div class='picker'>" +
+			Object.keys(pickerData.channels).map(channel => (
+				"<span class='element' onclick='this.parentElement.value=\"" + channel + "\"'>" + (channel == "" ? "Kein Kanal" : pickerData.channels[channel]) + "</span>"
+			)).join("") +
+			"</div>";
+	}
+}
+customElements.define("channel-picker", ChannelPicker);
+
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js
 /* eslint-disable */
 let browserTextNode;function canTextNode(e){if("TEXTAREA"!==e.nodeName)return!1;if(void 0===browserTextNode){const e=document.createElement("textarea");e.value=1,browserTextNode=!!e.firstChild}return browserTextNode}function insertText(e,t){if(e.focus(),document.selection){const e=document.selection.createRange();return e.text=t,e.collapse(!1),void e.select()}if(!document.execCommand("insertText",!1,t)){const n=e.selectionStart,o=e.selectionEnd;if("function"==typeof e.setRangeText)e.setRangeText(t);else{const c=document.createRange(),l=document.createTextNode(t);if(canTextNode(e)){let t=e.firstChild;if(t){let e=0,l=null,s=null;for(;t&&(null===l||null===s);){const i=t.nodeValue.length;n>=e&&n<=e+i&&c.setStart(l=t,n-e),o>=e&&o<=e+i&&c.setEnd(s=t,o-e),e+=i,t=t.nextSibling}n!==o&&c.deleteContents()}else e.appendChild(l)}if(canTextNode(e)&&"#text"===c.commonAncestorContainer.nodeName)c.insertNode(l);else{const c=e.value;e.value=c.slice(0,n)+t+c.slice(o)}}e.setSelectionRange(n+t.length,n+t.length);const c=document.createEvent("UIEvent");c.initEvent("input",!0,!1),e.dispatchEvent(c)}}

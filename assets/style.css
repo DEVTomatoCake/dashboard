@@ -815,7 +815,7 @@ h1.greeting, h2.greeting {
 	padding-top: 20px;
 }
 
-input:not(.switch) {
+input:not(#theme-toggle) {
 	border-radius: 8px;
 	outline: none;
 	padding: 8px;

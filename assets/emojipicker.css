@@ -102,7 +102,7 @@ channel-picker .picker.open {
 channel-picker .element {
 	display: flex;
 	align-items: center;
-	border-radius: 5px;
+	border-radius: 7px;
 	padding: 5px;
 	cursor: pointer;
 }
@@ -120,11 +120,13 @@ channel-picker .list {
 	gap: 20px;
 	padding: 10px;
 	margin: 5px 10px 5px 0;
-	border-radius: 10px;
+	border-radius: 7px;
 	background-color: var(--light-text-color);
 	cursor: pointer;
 }
+channel-picker .list div {
+	display: flex;
+}
 channel-picker .list ion-icon {
-	font-size: 27px;
-	margin-right: 10px;
+	font-size: 28px;
 }

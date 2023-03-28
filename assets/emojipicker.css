@@ -89,14 +89,17 @@ emoji-picker.light {
 
 channel-picker .picker {
 	display: none;
+	padding: 10px;
+	max-height: 220px;
+	overflow-y: auto;
+	background-color: var(--channel-picker-bg);
+	border-radius: 10px;
 }
 channel-picker .picker.open {
 	display: block;
-	padding: 10px;
-	max-height: 200px;
-	overflow-y: auto;
 }
 channel-picker .element {
 	padding: 5px;
 	cursor: pointer;
+	color: var(--primary-text-color);
 }

@@ -101,12 +101,14 @@ class ChannelPicker extends HTMLElement {
 			"<button type='button' class='createForm' onclick='toggleChannelPicker(this)'>Kanal auswählen</button>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData.channels).map(channel => (
-				"<p class='element' onclick='this.parentElement.setAttribute('value', \"" + channel + "\")'>" +
+				"<div>" +
 				(pickerData.channels[channel].type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 				(pickerData.channels[channel].type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
 				(pickerData.channels[channel].type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 				(pickerData.channels[channel].type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
-				(pickerData.channels[channel] ? pickerData.channels[channel].name : "Kein Kanal") + "</p>"
+				"<p class='element' onclick='this.parentElement.setAttribute(\"value\", \"" + channel + "\")'>" +
+				(channel ? pickerData.channels[channel].name : "Kein Kanal") +
+				"</p></div>"
 			)).join("") +
 			"</div>";
 	}

@@ -98,8 +98,13 @@ channel-picker .picker {
 channel-picker .picker.open {
 	display: block;
 }
+
 channel-picker .element {
+	display: flex;
+	align-items: center;
 	padding: 5px;
 	cursor: pointer;
-	color: var(--primary-text-color);
+}
+channel-picker .element.child {
+	padding-left: 20px;
 }

@@ -160,7 +160,7 @@
 			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				if (parent && Array.isArray(setting.value) && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl (" + setting.max + ") erreicht!"}).show();
 
-				let html = "<div class='setgroup'><br>";
+				let html = "<div class='setgroup'>";
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {

@@ -124,3 +124,7 @@ channel-picker .list {
 	cursor: pointer;
 	transition: var(--transition-buttons);
 }
+channel-picker .list ion-icon {
+	font-size: 23px;
+	margin-right: 10px;
+}

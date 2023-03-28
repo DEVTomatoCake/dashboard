@@ -100,7 +100,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) ? value.join(",") : value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if ((Array.isArray(value) && value.includes(e.getAttribute("data-id").replace("_", ""))) || e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
+		if ((Array.isArray(value) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML +=
 				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon></div>";

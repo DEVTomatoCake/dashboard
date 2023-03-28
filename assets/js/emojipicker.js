@@ -98,7 +98,10 @@ const updateSingleSelected = (elem, value = "") => {
 		e.classList.remove("selected");
 	});
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.add("selected");
+		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
+			e.classList.add("selected");
+			elem.parentElement.querySelector(".selected").innerHTML = e.innerHTML;
+		}
 	});
 }
 class SinglePicker extends HTMLElement {
@@ -107,7 +110,9 @@ class SinglePicker extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<button type='button' class='createForm' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
+			"<button type='button' class='togglePicker' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
+			"<div class='selected'>" +
+			"</div>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
@@ -118,8 +123,8 @@ class SinglePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
-					(channel ? encode(current.name || current) : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
-					"</span></div>"
+					(channel ? encode(current.name || current) : "Keine" + (this.getAttribute("type") == "role" ? "" : "n")) +
+					"</span></div>";
 			}).join("") +
 			"</div>";
 	}

@@ -112,3 +112,14 @@ channel-picker .element.child {
 channel-picker .element.selected {
 	background-color: var(--picker-selected);
 }
+
+channel-picker .togglePicker {
+	border: none;
+	padding: 10px;
+	margin: 5px 10px 5px 0;
+	border-radius: 17px;
+	font-size: 20px;
+	background-color: var(--light-text-color);
+	cursor: pointer;
+	transition: var(--transition-buttons);
+}

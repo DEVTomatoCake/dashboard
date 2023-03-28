@@ -95,11 +95,11 @@ const togglePicker = elem => elem.parentElement.querySelector(".picker").classLi
 const updateSelected = (elem, value, editMulti = false) => {
 	console.log(elem, value)
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (Array.isArray(value) && editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
+		if (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
 		else if (!Array.isArray(value)) e.classList.remove("selected");
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) ? value.join(",") : value.replace("_", ""));
-	if (!Array.isArray(value)) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+	if (!Array.isArray(value) && !editMulti) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if ((Array.isArray(value) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
 			e.classList.add("selected");
@@ -120,8 +120,8 @@ class SinglePicker extends HTMLElement {
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
-				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")updateSelected(this, \"" + channel + "\")' " +
-					"onclick='updateSelected(this, \"" + channel + "\")' class='element" + (current.parent ? " child" : "") + "' tabindex='0'>" +
+				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")updateSelected(this, \"" + channel + "\", this.getAttribute(\"data-multi\"))' " +
+					"onclick='updateSelected(this, \"" + channel + "\", this.getAttribute(\"data-multi\"))' class='element" + (current.parent ? " child" : "") + "' tabindex='0'>" +
 					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +

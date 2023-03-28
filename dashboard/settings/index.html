@@ -124,10 +124,8 @@
 							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
 						} else if (json.action == "RECEIVE_emojis") {
-							pickerData = {
-								emojis: json.emojis,
-								roles: json.roles
-							};
+							pickerData.emojis = json.emojis;
+							pickerData.roles = json.roles;
 						}
 					}
 				});

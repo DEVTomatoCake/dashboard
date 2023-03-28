@@ -97,6 +97,7 @@ class SinglePicker extends HTMLElement {
 		super();
 	}
 	connectedCallback() {
+		console.warn(this.getAttribute("type"))
 		this.innerHTML =
 			"<button type='button' class='createForm' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
 			"<div class='picker'>" +

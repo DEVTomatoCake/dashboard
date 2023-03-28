@@ -30,6 +30,9 @@
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
 		<script>
+			// eslint-disable-next-line prefer-const
+			let rolecopy = {};
+
 			function openForm() {
 				document.getElementById("reactionroles-reaction").value = "";
 				document.getElementById("reactionroles-msg").value = "";
@@ -108,8 +111,7 @@
 				document.getElementById("reactionroles-selectdesc").value = "";
 				document.getElementById("reactionroles-selectemoji").value = "";
 
-				if (clearTabs)
-					for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove();
+				if (clearTabs) for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove();
 			}
 
 			let socket;
@@ -162,8 +164,22 @@
 						} else if (json.action == "SAVED_reactionroles") {
 							savingToast.setType("SUCCESS").setTitle("Reactionroles wurden gespeichert!");
 							saving = false;
+						} else if (json.action == "GETRES_rr_message") {
+							if (json.found) document.getElementById("reactionroles-msg").classList.remove("invalid");
+							else document.getElementById("reactionroles-msg").classList.add("invalid");
 						}
 					}
+				});
+			}
+
+			function verifyMsg(elem) {
+				if (!elem.value || document.getElementById("reactionroles-channel").value) return;
+
+				socket.send({
+					status: "success",
+					action: "GET_rr_message",
+					channel: document.getElementById("reactionroles-channel").value,
+					msg: elem.value
 				});
 			}
 		</script>
@@ -204,7 +220,7 @@
 
 						<div id="existingmsg" class="tabs">
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-							<input type="text" pattern="https:\/\/(canary\.|ptb\.)?discord\.com\/channels(\/[0-9]{17,20}){3}|[0-9]{17,20}" maxlength="20" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+							<input type="text" pattern="[0-9]{17,20}" maxlength="20" onchange="verifyMsg(this)" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 						</div>
 						<div id="newmsg" class="tabs" style="display: none;">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
@@ -264,8 +280,6 @@
 		</main>
 
 		<script>
-			// eslint-disable-next-line prefer-const
-			let rolecopy = {};
 			let amountnew = 0;
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
@@ -318,9 +332,7 @@
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_reactionroles",
-					data: items,
-					guild: encode(params.get("guild")),
-					token: getCookie("token")
+					data: items
 				}));
 
 				savingToast = toastNotification({type: "LOADING", title: "Reactionroles werden gespeichert...", timeout: 5}).show();

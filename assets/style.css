@@ -983,7 +983,7 @@ pre {
 	cursor: pointer;
 }
 
-input:invalid, input:out-of-range {
+input:invalid, input:out-of-range, input.invalid {
 	border: red solid 2px;
 }
 

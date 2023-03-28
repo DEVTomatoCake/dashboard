@@ -324,9 +324,7 @@
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_settings",
-					data: items,
-					guild: encode(params.get("guild")),
-					token: getCookie("token")
+					data: items
 				}));
 
 				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();

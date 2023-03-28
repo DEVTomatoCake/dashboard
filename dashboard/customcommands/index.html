@@ -206,9 +206,7 @@
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_customcommands",
-					data: items,
-					guild: encode(params.get("guild")),
-					token: getCookie("token")
+					data: items
 				}));
 
 				savingToast = toastNotification({type: "LOADING", title: "Customcommands werden gespeichert...", timeout: 5}).show();

@@ -115,16 +115,16 @@ channel-picker .element.selected {
 
 channel-picker .list {
 	display: flex;
-	border: none;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 20px;
 	padding: 10px;
 	margin: 5px 10px 5px 0;
 	border-radius: 10px;
-	font-size: 20px;
 	background-color: var(--light-text-color);
 	cursor: pointer;
-	transition: var(--transition-buttons);
 }
 channel-picker .list ion-icon {
-	font-size: 23px;
+	font-size: 27px;
 	margin-right: 10px;
 }

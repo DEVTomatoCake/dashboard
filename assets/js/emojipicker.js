@@ -97,10 +97,11 @@ const updateSingleSelected = (elem, value = "") => {
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected");
 	});
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<ion-icon name='build-outline'></ion-icon>";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
-			elem.parentElement.parentElement.querySelector(".list").innerHTML = "<ion-icon name='build-outline'></ion-icon>" + e.innerHTML;
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
 		}
 	});
 }

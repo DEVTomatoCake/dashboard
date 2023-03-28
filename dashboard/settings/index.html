@@ -162,7 +162,7 @@
 
 				let html = "<div class='setgroup'>";
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
-					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
+					html += "<div>" + (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
 					Object.keys(setting.type).forEach(setKey => {
 						html += "<label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
@@ -190,7 +190,7 @@
 								"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
 						}
-						html += "<br>";
+						html += "<br></div>";
 					})
 				} else {
 					let type = setting.type;

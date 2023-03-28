@@ -100,7 +100,7 @@ const updateSingleSelected = (elem, value = "") => {
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
-			elem.parentElement.querySelector(".selected").innerHTML = e.innerHTML;
+			elem.parentElement.querySelector(".list").innerHTML = e.innerHTML;
 		}
 	});
 }
@@ -111,8 +111,7 @@ class SinglePicker extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML =
 			"<button type='button' class='togglePicker' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
-			"<div class='selected'>" +
-			"</div>" +
+			"<div class='list'></div>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]

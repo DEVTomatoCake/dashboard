@@ -99,6 +99,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 		else if (!Array.isArray(value)) e.classList.remove("selected");
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) ? value.join(",") : value.replace("_", ""));
+	if (!Array.isArray(value)) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if ((Array.isArray(value) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
 			e.classList.add("selected");

@@ -109,13 +109,12 @@ class SinglePicker extends HTMLElement {
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
-				if (!current.name) console.warn(current, this.getAttribute("type"));
-				return "<div class='element" + (current.parent ? " child" : "") + "'>" +
+				return "<div onclick='updateSingleSelected(this, \"" + channel + "\")' class='element" + (current.parent ? " child" : "") + "'>" +
 					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
-					"<span onclick='updateSingleSelected(this, \"" + channel + "\")'>" +
+					"<span>" +
 					(channel ? encode(current.name || current) : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
 					"</span></div>"
 			}).join("") +

@@ -263,6 +263,9 @@ textarea.setting, textarea.settingcopy {
 	margin-left: 25px;
 }
 .advancedsetting div.setgroup {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	grid-gap: 10px;
 	margin-top: 5px;
 	padding: 5px 12px 12px;
 	background-color: var(--tertiary-color);

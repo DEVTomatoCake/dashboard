@@ -128,6 +128,5 @@ channel-picker .list div {
 	cursor: pointer;
 }
 channel-picker .list ion-icon {
-	font-size: 30px;
-	margin-right: 5px;
+	font-size: 20px;
 }

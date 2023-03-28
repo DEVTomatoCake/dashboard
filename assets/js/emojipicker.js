@@ -113,6 +113,7 @@ class SinglePicker extends HTMLElement {
 		super();
 	}
 	connectedCallback() {
+		console.warn(this.getAttribute("type"))
 		this.innerHTML =
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +

@@ -61,7 +61,7 @@ function getSettingsHTML(json) {
 					temp += "</div>";
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>";
-					queue.push(() => updateSingleSelected(document.getElementById(setting.key), setting.value));
+					queue.push(() => updateSingleSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value));
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {

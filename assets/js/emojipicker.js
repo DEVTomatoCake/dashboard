@@ -93,11 +93,13 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const toggleSinglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSingleSelected = (elem, value = "") => {
-	elem.parentElement.parentElement.parentElement.setAttribute("value", value.replace("_", ""));
+	elem.parentElement.parentElement.setAttribute("value", value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected");
 	});
-	elem.classList.add("selected");
+	elem.parentElement.querySelectorAll(".element").forEach(e => {
+		if (e.innerText == elem.innerText) e.classList.add("selected");
+	});
 }
 class SinglePicker extends HTMLElement {
 	constructor() {

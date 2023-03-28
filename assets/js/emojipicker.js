@@ -98,7 +98,7 @@ const updateSingleSelected = (elem, value = "") => {
 		e.classList.remove("selected");
 	});
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (e.innerText == elem.innerText) e.classList.add("selected");
+		if (e.innerText == value) e.classList.add("selected");
 	});
 }
 class SinglePicker extends HTMLElement {

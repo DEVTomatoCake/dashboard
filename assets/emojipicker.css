@@ -102,6 +102,7 @@ channel-picker .picker.open {
 channel-picker .element {
 	display: flex;
 	align-items: center;
+	border-radius: 3px;
 	padding: 5px;
 	cursor: pointer;
 }

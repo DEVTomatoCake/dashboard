@@ -92,7 +92,7 @@ channel-picker .picker {
 	padding: 10px;
 	max-height: 220px;
 	overflow-y: auto;
-	background-color: var(--channel-picker-bg);
+	background-color: var(--picker-bg);
 	border-radius: 10px;
 }
 channel-picker .picker.open {
@@ -107,4 +107,7 @@ channel-picker .element {
 }
 channel-picker .element.child {
 	padding-left: 20px;
+}
+channel-picker .elemet.selected {
+	background-color: var(--picker-selected);
 }

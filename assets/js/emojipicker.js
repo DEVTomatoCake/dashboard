@@ -92,12 +92,18 @@ async function mentionPicker(parent = document.body, roles = []) {
 }
 
 const toggleSinglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
+const updateSingleSelected = (elem, value = "") => {
+	elem.parentElement.parentElement.parentElement.setAttribute("value", value.replace("_", ""));
+	elem.parentElement.querySelectorAll(".element").forEach(e => {
+		e.classList.remove("selected");
+	});
+	elem.classList.add("selected");
+}
 class SinglePicker extends HTMLElement {
 	constructor() {
 		super();
 	}
 	connectedCallback() {
-		console.warn(this.getAttribute("type"))
 		this.innerHTML =
 			"<button type='button' class='createForm' onclick='toggleSinglePicker(this)'>" + (this.getAttribute("type") == "role" ? "Rolle" : "Kanal") + " auswählen</button>" +
 			"<div class='picker'>" +
@@ -108,8 +114,8 @@ class SinglePicker extends HTMLElement {
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
-					"<span onclick='this.parentElement.parentElement.parentElement.setAttribute(\"value\", \"" + channel + "\")'>" +
-					(channel ? current.name : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
+					"<span onclick='updateSingleSelected(this, \"" + channel + "\")'>" +
+					(channel ? encode(current.name) : "Kein" + (this.getAttribute("type") == "role" ? "e" : "")) +
 					"</span></div>"
 			}).join("") +
 			"</div>";

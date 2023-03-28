@@ -49,7 +49,8 @@
 	--link-visited: #551A8B;
 	--dialog-bg: #EEE;
 	--dialog-shadow: rgba(0, 0, 0, 0.25);
-	--channel-picker-bg: #C3D8F5;
+	--picker-bg: #C3D8F5;
+	--picker-selected: #8ad6a7;
 }
 
 .dark-theme {
@@ -77,7 +78,8 @@
 	--link-visited: #7B45AD;
 	--dialog-bg: #222;
 	--dialog-shadow: rgba(0, 0, 0, 0.75);
-	--channel-picker-bg: #1B3558;
+	--picker-bg: #1B3558;
+	--picker-selected: #2a6d44;
 }
 
 * {

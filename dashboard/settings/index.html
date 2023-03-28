@@ -100,6 +100,7 @@
 							multiselect = json.constant.multiselect;
 							pickerData.role = json.constant.role;
 							pickerData.textchannel = json.constant.textchannel;
+							pickerData.leveltextchannel = {here: "Aktueller Kanal", ...pickerData.textchannel}
 							pickerData.voicechannel = json.constant.voicechannel;
 							pickerData.categorychannel = json.constant.categorychannel;
 							const rendered = getSettingsHTML(json);

@@ -93,18 +93,19 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSelected = (elem, value, editMulti = false) => {
-	console.log(elem, value)
+	let found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) e.classList.remove("selected");
-		else if (!Array.isArray(value)) e.classList.remove("selected");
+		else if (value.includes(e.getAttribute("data-id").replace("_", ""))) found.push(e.getAttribute("data-id").replace("_", ""));
+		else if (!Array.isArray(value) && !editMulti) e.classList.remove("selected");
 	});
-	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) ? value.join(",") : value.replace("_", ""));
+	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""));
 	if (!Array.isArray(value) && !editMulti) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if ((Array.isArray(value) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
+		if (((Array.isArray(value) || editMulti) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && !editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML +=
-				"<div>" + e.innerHTML + "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon></div>";
+				"<div>" + e.innerHTML + (Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "") + "</div>";
 		}
 	});
 }

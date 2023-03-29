@@ -109,7 +109,7 @@ const updateMultiSelected = (elem, key, value) => {
 	elem.classList.toggle("selected");
 	if (elem.classList.contains("selected")) {
 		multiselectData[key].value.push(value);
-		elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
+		elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>";
 	} else {
 		multiselectData[key].value.splice(multiselectData[key].value.indexOf(value), 1);
 		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";

@@ -128,7 +128,7 @@ class SinglePicker extends HTMLElement {
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
-				if (this.getAttribute("data-multi") == 1 && channel == "") return;
+				if (this.getAttribute("data-multi") == 1 && channel == "") return "";
 				const current = pickerData[this.getAttribute("type")][channel];
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +

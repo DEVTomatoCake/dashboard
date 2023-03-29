@@ -285,12 +285,7 @@
 				settingsData.forEach(setting => {
 					let entry;
 					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
-						entry = [];
-						drops.filter(drop => drop.key == setting.key).forEach(drop => {
-							drop.data.selected.forEach(possible => {
-								if (!possible.removed) entry.push(drop.data.options[possible.index].value);
-							});
-						});
+						entry = multiselectData[setting.key].value.map(v => v.replace("_", ""));
 					} else if (setting.org == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {

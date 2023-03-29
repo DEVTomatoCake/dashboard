@@ -114,7 +114,7 @@ const updateMultiSelected = (elem, key, value) => {
 		multiselectData[key].value.splice(multiselectData[key].value.indexOf(value), 1);
 		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 		multiselectData[key].value.forEach(v => {
-			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id$='" + v + "']").innerHTML + "</div>";
 		});
 	}
 }

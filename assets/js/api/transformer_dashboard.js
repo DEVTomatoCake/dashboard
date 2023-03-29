@@ -53,7 +53,7 @@ function getSettingsHTML(json) {
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>";
 					queue.push(() => {
 						multiselectData[setting.key].value.forEach(v => {
-							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").innerHTML + "</div>";
+							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id$='" + v + "']").innerHTML + "</div>";
 						});
 					});
 				} else if (typeof setting.value == "object") {

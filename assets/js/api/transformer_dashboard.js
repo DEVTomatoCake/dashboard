@@ -53,7 +53,7 @@ function getSettingsHTML(json) {
 					if (setting.key == "logsExcludedChannels") console.warn(multiselectData[setting.key])
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>"//addMultiselect(setting, possible, setting.value);
 					queue.push(() => {
-						multiselectData[key].value.forEach(v => {
+						multiselectData[setting.key].value.forEach(v => {
 							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").innerHTML + "</div>";
 						});
 					});

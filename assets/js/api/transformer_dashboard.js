@@ -41,7 +41,7 @@ function getSettingsHTML(json) {
 				else if (typeof possible == "object") {
 					Object.keys(possible).filter(key => key != "").forEach(key => {
 						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]];
-					})
+					});
 				}
 
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
@@ -53,6 +53,7 @@ function getSettingsHTML(json) {
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>";
 					queue.push(() => {
 						multiselectData[setting.key].value.forEach(v => {
+							document.getElementById(setting.key).querySelector(".picker div[data-id$='" + v + "']").classList.toggle("selected");
 							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id$='" + v + "']").innerHTML + "</div>";
 						});
 					});

@@ -95,13 +95,16 @@ const togglePicker = elem => elem.parentElement.querySelector(".picker").classLi
 const updateSelected = (elem, value, editMulti = false) => {
 	const found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.toggle("selected"); // toggle zu remove wenn iwas weird is
+		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
 		else if (value.includes(e.getAttribute("data-id").replace("_", ""))) found.push(e.getAttribute("data-id").replace("_", ""));
 	});
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""));
-	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div><span>Keine" + (elem.getAttribute("type") == "role" ? " Rolle" : "n Kanal") + "</span></div>";
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div><span>Kein" + (elem.getAttribute("type") == "role" ? "e Rolle" : " Kanal") + "</span></div>";
+	found = []
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (((Array.isArray(value) || editMulti) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && !editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
+			if (found.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+			found.push(e.getAttribute("data-id").replace("_", ""));
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML +
 				(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "") + "</div>";
@@ -127,7 +130,7 @@ class SinglePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
-					(channel ? encode(current.name || current) : "Keine" + (this.getAttribute("type") == "role" ? " Rolle" : "n Kanal")) +
+					(channel ? encode(current.name || current) : "Kein" + (this.getAttribute("type") == "role" ? "e Rolle" : " Kanal")) +
 					"</span></div>";
 			}).join("") +
 			"</div>";

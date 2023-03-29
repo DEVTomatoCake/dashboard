@@ -93,14 +93,15 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSelected = (elem, value, editMulti = false) => {
-	console.log(editMulti, value, elem.parentElement.parentElement.getAttribute("data-selected"))
+	console.log(value, elem.parentElement.parentElement.getAttribute("data-selected"))
 	let found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if ((!editMulti && !Array.isArray(value)) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
-		else if (e.classList.contains("selected")) found.push(e.getAttribute("data-id").replace("_", ""));
+		if ((!editMulti && !Array.isArray(value)) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
+			console.warn(e)
+			e.classList.remove("selected");
+		} else if (e.classList.contains("selected") && e.getAttribute("data-id").trim() != "") found.push(e.getAttribute("data-id").replace("_", ""));
 	});
 	console.warn(Array.isArray(value) || editMulti, found.join(","), typeof value == "string" ? value.replace("_", "") : 0)
-	console.warn(found)
 	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""));
 	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div><span>Kein" + (elem.getAttribute("type") == "role" ? "e Rolle" : " Kanal") + "</span></div>";
 	found = []
@@ -110,7 +111,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 			found.push(e.getAttribute("data-id").replace("_", ""));
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML +
-				(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "") + "</div>";
+				/*(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "")*/ + "</div>";
 		}
 	});
 }

@@ -92,34 +92,31 @@ async function mentionPicker(parent = document.body, roles = []) {
 }
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
-const updateSelected = (elem, value, editMulti = false) => {
-	console.log(value, elem.parentElement.parentElement.getAttribute("data-selected"))
-	let found = [];
+const updateSelected = (elem, value = "") => {
+	elem.parentElement.parentElement.setAttribute("data-selected", value.replace("_", ""));
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if ((!editMulti && !Array.isArray(value)) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
-		else if (e.classList.contains("selected") && e.getAttribute("data-id").trim() != "") found.push(e.getAttribute("data-id").replace("_", ""));
+		e.classList.remove("selected");
 	});
-	console.warn(Array.isArray(value) || editMulti, found.join(","), typeof value == "string" ? value.replace("_", "") : 0)
-	elem.parentElement.parentElement.setAttribute("data-selected", Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""));
-	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div><span>Kein" + (elem.getAttribute("type") == "role" ? "e Rolle" : " Kanal") + "</span></div>";
-	found = []
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
-			e.classList.toggle("selected");
-			if (e.classList.contains("selected")) {
-				if (found.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
-				found.push(e.getAttribute("data-id").replace("_", ""));
-				elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML +
-					/*(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "") +*/ "</div>";
-			}
-		} else if (((Array.isArray(value) || editMulti) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && !editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
-			if (found.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
-			found.push(e.getAttribute("data-id").replace("_", ""));
+		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
 			e.classList.add("selected");
-			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML +
-				/*(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "") +*/ "</div>";
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
 		}
 	});
+}
+const updateMultiSelected = (elem, key, value) => {
+	elem.classList.toggle("selected");
+	if (elem.classList.contains("selected")) {
+		multiselectData[key].value.push(value);
+		elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
+	} else {
+		multiselectData[key].value.splice(multiselectData[key].value.indexOf(value), 1);
+		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+		multiselectData[key].value.forEach(v => {
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("[data-id='" + v + "']").innerHTML + "</div>";
+		});
+	}
 }
 
 class SinglePicker extends HTMLElement {

@@ -48,7 +48,7 @@
 
 			let drops = [];
 			let settingsData = {};
-			let multiselect = [];
+			let multiselectData = {};
 			const queue = [];
 
 			let guildName = "";
@@ -97,7 +97,6 @@
 
 						if (json.action == "RECEIVE_settings") {
 							settingsData = json.data;
-							multiselect = json.constant.multiselect;
 							pickerData.role = json.constant.role;
 							pickerData.textchannel = json.constant.textchannel;
 							pickerData.leveltextchannel = {here: "Aktueller Kanal", ...pickerData.textchannel}
@@ -173,7 +172,7 @@
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
 							"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
 							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
-						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel") || multiselect.includes(setting.key)))
+						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")))
 							html += addMultiselect(setting, possible[key], value[setKey]);
 						else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
 							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>";
@@ -207,7 +206,7 @@
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel") || multiselect.includes(setting.key)))
+					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel")))
 						html += addMultiselect(setting, possible, value);
 					else if (type == "role" || type.endsWith("channel")) {
 						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>";
@@ -285,7 +284,7 @@
 				const items = {};
 				settingsData.forEach(setting => {
 					let entry;
-					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key))) {
+					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
 						entry = [];
 						drops.filter(drop => drop.key == setting.key).forEach(drop => {
 							drop.data.selected.forEach(possible => {

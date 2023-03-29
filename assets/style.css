@@ -262,6 +262,12 @@ tr.cmdvisible:nth-child(odd) {
 textarea.setting, textarea.settingcopy {
 	min-height: 50px;
 	min-width: 65px;
+	border-radius: 8px;
+	padding: 8px;
+	transition: var(--transition-buttons);
+}
+textarea.setting:focus, textarea.settingcopy:focus {
+	box-shadow: 0 0 6px 2px var(--secondary-color);
 }
 
 .advancedsetting {

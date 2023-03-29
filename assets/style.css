@@ -49,6 +49,8 @@
 	--link-visited: #551A8B;
 	--dialog-bg: #EEE;
 	--dialog-shadow: rgba(0, 0, 0, 0.25);
+	--picker-bg: #C3D8F5;
+	--picker-selected: #8AD6A7;
 }
 
 .dark-theme {
@@ -76,6 +78,8 @@
 	--link-visited: #7B45AD;
 	--dialog-bg: #222;
 	--dialog-shadow: rgba(0, 0, 0, 0.75);
+	--picker-bg: #1B3558;
+	--picker-selected: #278B4E;
 }
 
 * {
@@ -92,7 +96,7 @@ html, body {
 	font-family: "Be Vietnam Pro", sans-serif;
 }
 
-h1, h2, h3, h4, p, small, label, input, ul li {
+h1, h2, h3, h4, p, small, label, input, span, ul li {
 	color: var(--primary-text-color);
 }
 
@@ -248,22 +252,33 @@ tr.cmdvisible:nth-child(odd) {
 	overflow-wrap: anywhere;
 	font-size: 1.1em;
 	border: none;
-	border-radius: 4px;
+	border-radius: 5px;
 	padding: 3px;
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
+	width: calc(100% - 70px);
 }
 
 textarea.setting, textarea.settingcopy {
-	width: calc(100% - 70px);
 	min-height: 50px;
+	min-width: 65px;
+	border-radius: 8px;
+	padding: 8px;
+	transition: var(--transition-buttons);
+}
+textarea.setting:focus, textarea.settingcopy:focus {
+	box-shadow: 0 0 6px 2px var(--secondary-color);
 }
 
 .advancedsetting {
 	margin-left: 25px;
 }
 .advancedsetting div.setgroup {
-	padding: 0 10px 10px;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	grid-gap: 5px 20px;
+	margin-top: 5px;
+	padding: 5px 12px 12px;
 	background-color: var(--tertiary-color);
 	border-radius: 10px;
 }
@@ -271,6 +286,7 @@ textarea.setting, textarea.settingcopy {
 textarea {
 	color: var(--textarea-color);
 	background-color: var(--textarea-background);
+	font-family: "Be Vietnam Pro", sans-serif;
 }
 textarea:focus {
 	background-color: var(--textarea-background-focus);
@@ -330,8 +346,6 @@ textarea:focus {
 	box-sizing: border-box;
 	border-radius: 10px;
 	width: calc(100% - 70px);
-	font-family: "Be Vietnam Pro", sans-serif;
-	font-size: 16px;
 }
 
 .sidebar-container {
@@ -492,11 +506,11 @@ footer {
 	background-color: var(--tertiary-color);
 	padding: 15px;
 	gap: 10px;
-	font-size: 18px;
 }
 footer a {
 	color: var(--blue);
 	text-decoration: none;
+	font-size: 17px;
 }
 
 footer #mainlink {
@@ -515,7 +529,7 @@ footer #mainlink img {
 footer .links {
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: 0 5px;
+	grid-gap: 0 10px;
 }
 
 .switch {
@@ -584,6 +598,7 @@ footer .links {
 	text-transform: uppercase;
 }
 .sidebar .section span.save {
+	color: #FFF;
 	text-transform: uppercase;
 }
 
@@ -787,7 +802,7 @@ footer .links {
 }
 
 .content {
-	margin: 40px 20px 50px 60px;
+	margin: 40px 20px 80px 60px;
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;
@@ -812,6 +827,20 @@ h1.greeting, h2.greeting {
 	padding-top: 20px;
 }
 
+input:not(#theme-toggle) {
+	border-radius: 8px;
+	outline: none;
+	padding: 8px;
+	min-width: 150px;
+	transition: var(--transition-buttons);
+}
+input:focus {
+	box-shadow: 0 0 6px 2px var(--secondary-color);
+}
+input:invalid, input:out-of-range, input.invalid {
+	border: red solid 2px;
+}
+
 .ticketsearch-container {
 	background-color: var(--secondary-table-bgcolor);
 	border-radius: 20px;
@@ -829,16 +858,7 @@ h1.greeting, h2.greeting {
 	margin-top: 20px;
 }
 .ticketsearch-container input, .dialog input {
-	border-radius: 10px;
-	outline: none;
-	padding: 8px;
-	font-size: 20px;
-	min-width: 150px;
-	transition: var(--transition-buttons);
 	background: var(--primary-color);
-}
-.ticketsearch-container input:focus, .top .search-box input:focus, .dialog input:focus {
-	box-shadow: 0 0 6px 2px var(--primary-color);
 }
 
 td.overflow {
@@ -981,10 +1001,6 @@ pre {
 .removeItem {
 	color: var(--select-border);
 	cursor: pointer;
-}
-
-input:invalid, input:out-of-range, input.invalid {
-	border: red solid 2px;
 }
 
 .featurelist {

@@ -95,8 +95,8 @@
 					) +
 					"' name='" + encode(msg) + "'>" +
 					Object.keys(rolecopy).map(key =>
-						"<option value='" + encode(key.replace("_", "")) + "'" +
-						(document.getElementById("reactionroles-role").value == key.replace("_", "") ? " selected" : "") + ">" + encode(rolecopy[key]) + "</option>"
+						"<option value='" + encode(key) + "'" +
+						(document.getElementById("reactionroles-role").value == key ? " selected" : "") + ">" + encode(rolecopy[key]) + "</option>"
 					) +
 					"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 

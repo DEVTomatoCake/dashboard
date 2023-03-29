@@ -41,12 +41,27 @@ function getSettingsHTML(json) {
 				else if (typeof possible == "object") {
 					Object.keys(possible).filter(key => key != "").forEach(key => {
 						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]];
-					})
+					});
 				}
 
-				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel") || multiselect.includes(setting.key)))
-					temp += addMultiselect(setting, possible, setting.value);
-				else if (typeof setting.value == "object") {
+				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
+					multiselectData[setting.key] = {
+						key: setting.key,
+						value: setting.value,
+						max: setting.max
+					};
+					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>";
+					queue.push(() => {
+						if (multiselectData[setting.key].value.length == 0) document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
+						else {
+							multiselectData[setting.key].value.forEach(v => {
+								document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").classList.toggle("selected");
+								document.getElementById(setting.key).querySelector(".list").innerHTML +=
+									"<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").innerHTML + "</div>";
+							});
+						}
+					});
+				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
 						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
@@ -59,12 +74,14 @@ function getSettingsHTML(json) {
 						temp += addItem(setting, possible, void 0, setting.value[0], void 0, true);
 					}
 					temp += "</div>";
+				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
+					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>";
+					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value));
 				} else {
 					temp += "<select class='setting' id='" + setting.key + "'>";
 					Object.keys(possible).forEach(key => {
 						if (setting.type == "bool") temp += "<option value='" + key + "'" + ((setting.value && key == "true") || (!setting.value && key != "true") ? " selected" : "") + ">" + possible[key] + "</option>"
-						else if (typeof possible[key] == "string") temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key] + "</option>"
-						else temp += "<option value='" + key.replace("_", "") + "'" + (setting.value == key.replace("_", "") ? " selected" : "") + ">" + possible[key].name + "</option>";
+						else temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>";
 					});
 					temp += "</select>";
 				}
@@ -133,11 +150,11 @@ function getCustomcommandsHTML(json) {
 function getReactionrolesHTML(json) {
 	if (json.status == "success") {
 		let channeloptions = "";
-		Object.keys(json.data.channels).forEach(key => channeloptions += "<option value='" + key.replace("_", "") + "'>" + json.data.channels[key] + "</option>");
+		Object.keys(json.data.channels).forEach(key => channeloptions += "<option value='" + key + "'>" + json.data.channels[key] + "</option>");
 		document.getElementById("reactionroles-channel").innerHTML = channeloptions;
 
 		let roleoptions = "";
-		Object.keys(json.data.roles).forEach(key => roleoptions += "<option value='" + key.replace("_", "") + "'>" + json.data.roles[key] + "</option>");
+		Object.keys(json.data.roles).forEach(key => roleoptions += "<option value='" + key + "'>" + json.data.roles[key] + "</option>");
 		document.getElementById("reactionroles-role").innerHTML = roleoptions;
 		rolecopy = json.data.roles;
 
@@ -162,7 +179,7 @@ function getReactionrolesHTML(json) {
 				"id='" + encode(setting.msg + "-" + (setting.reaction || setting.label)) + "' " +
 				"name='" + encode(setting.msg) + "' disabled>" +
 				Object.keys(rolecopy).map(key =>
-					setting.role == key.replace("_", "") ? "<option value='" + key.replace("_", "") + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
+					setting.role == key ? "<option value='" + key + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
 				) +
 				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
 		});

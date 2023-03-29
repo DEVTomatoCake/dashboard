@@ -65,18 +65,18 @@ function getGiveawayHTML(giveaway) {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'><span translation='giveaway.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 
-					if (json.data.ended)
-						text += "<div class='creditsUser'><h2 translation='giveaway.ended'></h2><p>" + (json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
+					if (json.data.ended) text += "<div class='creditsUser'><h2 translation='giveaway.ended'></h2><p>" +
+						(json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
 
 					text +=
 						"<h2>" + json.data.prize + "</h2>" +
 						"<p>Giveaway-ID: <code>" + json.data.message + "</code></p>" +
-						"<p>Kanal: " + json.data.channel + "</p>" +
-						"<p>Gestartet: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
-						"<p>Endet: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
-						"<p>Erstellt von: " + json.data.hostedBy + "</p>" +
-						"<p>Anzahl der Gewinner: <b>" + json.data.winnerCount + "</b></p>" +
-						"<p>Aktuelle Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>";
+						"<p><span translation='dashboard.channel'></span>: " + json.data.channel + "</p>" +
+						"<p><span translation='giveaway.started'></span>: " + new Date(json.data.startAt).toLocaleString() + "</p>" +
+						"<p><span translation='giveaway.ends'></span>: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
+						"<p><span translation='giveaway.hostedby'></span>: " + json.data.hostedBy + "</p>" +
+						"<p><span translation='giveaway.winneramount'></span>: <b>" + json.data.winnerCount + "</b></p>" +
+						"<p>" + (json.data.ended ? "" : "Aktuelle ") + "Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>";
 
 					const reqs = json.data.requirements;
 					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
@@ -86,7 +86,7 @@ function getGiveawayHTML(giveaway) {
 						if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
 						if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
 						if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
-						if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints + "</b></p>";
+						if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints.toLocaleString("de-DE") + "</b></p>";
 					}
 
 					resolve(text);

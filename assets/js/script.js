@@ -52,7 +52,8 @@ class Footer extends HTMLElement {
 				"<a href='/credits/'>Credits</a>" +
 				"<a href='/docs/'>Docs</a>" +
 				"<a href='/invite/'>Invite Bot</a>" +
-				"<a href='/discord/'>Discord</a>" +
+				"<a href='/discord/'>Support server</a>" +
+				"<a href='/privacy/'>Privacy/ToS</a>" +
 			"</div>" +
 			"</footer>";
 	}

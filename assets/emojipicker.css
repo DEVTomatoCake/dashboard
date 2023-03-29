@@ -86,3 +86,47 @@ emoji-picker.light {
 .custom-picker .element:hover {
 	opacity: 0.7;
 }
+
+channel-picker .picker {
+	display: none;
+	padding: 10px;
+	max-height: 220px;
+	overflow-y: auto;
+	background-color: var(--picker-bg);
+	border-radius: 10px;
+}
+channel-picker .picker.open {
+	display: block;
+}
+
+channel-picker .element {
+	display: flex;
+	align-items: center;
+	border-radius: 7px;
+	padding: 5px;
+	cursor: pointer;
+}
+channel-picker .element.child {
+	padding-left: 20px;
+}
+channel-picker .element.selected {
+	background-color: var(--picker-selected);
+}
+
+channel-picker .list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+channel-picker .list div {
+	display: flex;
+	align-items: center;
+	padding: 5px 10px;
+	margin: 5px 10px 5px 0;
+	border-radius: 7px;
+	background-color: var(--picker-selected);
+	cursor: pointer;
+}
+channel-picker .list ion-icon {
+	font-size: 30px;
+}

@@ -96,7 +96,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 	let found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
-		else if (e.classList && e.classList.has("selected")) found.push(e.getAttribute("data-id").replace("_", ""));
+		else if (e.classList.contains("selected")) found.push(e.getAttribute("data-id").replace("_", ""));
 	});
 	console.warn(Array.isArray(value) || editMulti ? found.join(",") : value.replace("_", ""))
 	console.warn(found)

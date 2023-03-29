@@ -51,7 +51,7 @@ function getSettingsHTML(json) {
 						max: setting.max
 					};
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>"//addMultiselect(setting, possible, setting.value);
-					queue.push(() => updateMultiSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value, setting));
+					queue.push(() => updateMultiSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.key, setting.value));
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +

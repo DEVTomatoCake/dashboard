@@ -129,8 +129,9 @@ class SinglePicker extends HTMLElement {
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
-				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")updateSelected(this, \"" + channel + "\", this.parentElement.parentElement.getAttribute(\"data-multi\") == 1)' " +
-					"onclick='updateSelected(this, \"" + channel + "\", this.parentElement.parentElement.getAttribute(\"data-multi\") == 1)' class='element" +
+				const func = this.parentElement.parentElement.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
+				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
+					"onclick='" + func + "' class='element" +
 					(current.parent ? " child" : "") + "' tabindex='0'>" +
 					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +

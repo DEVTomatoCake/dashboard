@@ -111,7 +111,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 			found.push(e.getAttribute("data-id").replace("_", ""));
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML +
-				/*(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "")*/ + "</div>";
+				/*(Array.isArray(value) || editMulti ? "<ion-icon name='trash-outline' class='removeItem' onclick='updateSelected(this, this.getAttribute(\"data-id\"), true)'></ion-icon>" : "") +*/ "</div>";
 		}
 	});
 }

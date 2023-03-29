@@ -129,7 +129,7 @@ class SinglePicker extends HTMLElement {
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
 				const current = pickerData[this.getAttribute("type")][channel]
-				const func = this.parentElement.parentElement.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
+				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +
 					(current.parent ? " child" : "") + "' tabindex='0'>" +

@@ -156,8 +156,8 @@
 							html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>";
 							Object.keys(possible[setKey]).forEach(posKey => {
 								if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + ((value[setKey] && key == "true") || (!value[setKey] && key != "true") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
-								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
-								else html += "<option value='" + posKey.replace("_", "") + "'" + (value[setKey] == posKey.replace("_", "") ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
+								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+								else html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
 							html += "</select>";
 						} else if (setting.type[setKey] == "time" || setting.type[setKey] == "singlestring") {
@@ -188,8 +188,8 @@
 						html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>";
 						Object.keys(possible[key]).forEach(posKey => {
 							if (type == "bool") html += "<option value='" + posKey + "'" + ((value && key == "true") || (!value && key != "true") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
-							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
-							else html += "<option value='" + posKey.replace("_", "") + "'" + (value == posKey.replace("_", "") ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
+							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey + "'" + (value == posKey ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
+							else html += "<option value='" + posKey + "'" + (value == posKey ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
 						html += "</select>";
 					} else if (type == "time" || type == "singlestring") {
@@ -257,8 +257,7 @@
 				const items = {};
 				settingsData.forEach(setting => {
 					let entry;
-					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel")))
-						entry = multiselectData[setting.key].value.map(v => v.replace("_", ""));
+					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = multiselectData[setting.key].value;
 					else if (setting.org == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {

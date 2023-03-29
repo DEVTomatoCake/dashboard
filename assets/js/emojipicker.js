@@ -93,13 +93,13 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSelected = (elem, value = "") => {
-	elem.parentElement.parentElement.setAttribute("data-selected", value.replace("_", ""));
+	elem.parentElement.parentElement.setAttribute("data-selected", value);
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected");
 	});
 	elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (e.getAttribute("data-id").replace("_", "") == value.replace("_", "")) {
+		if (e.getAttribute("data-id") == value) {
 			e.classList.add("selected");
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
 		}
@@ -109,14 +109,18 @@ const updateMultiSelected = (elem, key, value) => {
 	elem.classList.toggle("selected");
 	if (elem.classList.contains("selected")) {
 		multiselectData[key].value.push(value);
-		elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+		//elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+		multiselectData[key].value.forEach(v => {
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
+		});
 	} else {
 		multiselectData[key].value.splice(multiselectData[key].value.indexOf(value), 1);
 		if (multiselectData[key].value.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
 		else {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 			multiselectData[key].value.forEach(v => {
-				elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id$='" + v + "']").innerHTML + "</div>";
+				elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
 			});
 		}
 	}

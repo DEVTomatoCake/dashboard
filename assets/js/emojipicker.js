@@ -114,7 +114,6 @@ const updateMultiSelected = (elem, key, value) => {
 		multiselectData[key].value.splice(multiselectData[key].value.indexOf(value), 1);
 		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 		multiselectData[key].value.forEach(v => {
-			console.warn(v)
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
 		});
 	}
@@ -129,7 +128,8 @@ class SinglePicker extends HTMLElement {
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
 			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
-				const current = pickerData[this.getAttribute("type")][channel]
+				if (this.getAttribute("data-multi") == 1 && channel == "") return;
+				const current = pickerData[this.getAttribute("type")][channel];
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +

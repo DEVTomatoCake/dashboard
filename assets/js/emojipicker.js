@@ -106,7 +106,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div><span>Kein" + (elem.getAttribute("type") == "role" ? "e Rolle" : " Kanal") + "</span></div>";
 	found = []
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (((Array.isArray(value) || editMulti) && value.includes(e.getAttribute("data-id").replace("_", ""))) || (!Array.isArray(value) && !editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
+		if (((Array.isArray(value) || editMulti) && value.includes(e.getAttribute("data-id").replace("_", "") && elem != e)) || (!Array.isArray(value) && !editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) {
 			if (found.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
 			found.push(e.getAttribute("data-id").replace("_", ""));
 			e.classList.add("selected");

@@ -96,7 +96,7 @@ const updateSelected = (elem, value, editMulti = false) => {
 	console.log(editMulti, value, elem.parentElement.parentElement.getAttribute("data-selected"))
 	let found = [];
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		if (!Array.isArray(value) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
+		if ((!editMulti && !Array.isArray(value)) || (editMulti && e.getAttribute("data-id").replace("_", "") == value.replace("_", ""))) e.classList.remove("selected");
 		else if (e.classList.contains("selected")) found.push(e.getAttribute("data-id").replace("_", ""));
 	});
 	console.warn(Array.isArray(value) || editMulti, found.join(","), typeof value == "string" ? value.replace("_", "") : 0)

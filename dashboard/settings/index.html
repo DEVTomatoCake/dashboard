@@ -46,9 +46,8 @@
 				voting: "Vote-Announcements"
 			};
 
-			let drops = [];
 			let settingsData = {};
-			const multiselectData = {};
+			let multiselectData = {};
 			const queue = [];
 
 			let guildName = "";
@@ -58,8 +57,7 @@
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
-						drops = [];
-						for (const drop of document.getElementsByClassName("drop")) drop.remove();
+						multiselectData = {};
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -139,27 +137,6 @@
 			const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles);
 			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
 
-			function addMultiselect(setting, possible, value) {
-				let html = "<select multiple class='setting' id='" + setting.key + "'>";
-				const selected = [];
-				let i = 0;
-				Object.keys(possible).forEach(key => {
-					if (key == "") return;
-					if (Array.isArray(value)) {
-						value.forEach(data => {
-							if (data.includes(key.replace("_", ""))) selected.push(i);
-						});
-					} else if (value.includes(key.replace("_", ""))) selected.push(i);
-					i++;
-					if (typeof possible[key] == "string") html += "<option value='" + key.replace("_", "") + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key] + "</option>";
-					else html += "<option value='" + key.replace("_", "") + "' data-type='" + possible[key].type + "'" + (value.includes(key.replace("_", "")) ? " selected" : "") + ">" + possible[key].name + "</option>";
-				});
-				html += "</select>";
-				queue.push(() => {
-					drops.push({key: setting.key, data: new Drop({selector: "#" + setting.key, preselected: selected})});
-				});
-				return html;
-			}
 			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				if (parent && Array.isArray(setting.value) && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl (" + setting.max + ") erreicht!"}).show();
 
@@ -172,8 +149,6 @@
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
 							"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
 							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
-						else if (typeof setting.type[setKey] == "string" && Array.isArray(value[setKey]) && (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")))
-							html += addMultiselect(setting, possible[key], value[setKey]);
 						else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
 							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>";
 							queue.push(() => updateSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]));
@@ -206,8 +181,6 @@
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
-					else if (typeof type == "string" && Array.isArray(value) && (type == "role" || type.endsWith("channel")))
-						html += addMultiselect(setting, possible, value);
 					else if (type == "role" || type.endsWith("channel")) {
 						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>";
 						queue.push(() => updateSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value));
@@ -284,9 +257,9 @@
 				const items = {};
 				settingsData.forEach(setting => {
 					let entry;
-					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
+					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel")))
 						entry = multiselectData[setting.key].value.map(v => v.replace("_", ""));
-					} else if (setting.org == "object") {
+					else if (setting.org == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {
 							const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]");

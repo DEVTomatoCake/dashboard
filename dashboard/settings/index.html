@@ -44,7 +44,7 @@
 			};
 
 			let settingsData = {};
-			let multiselectData = {};
+			let selectData = {};
 			const queue = [];
 
 			let guildName = "";
@@ -54,7 +54,6 @@
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
-						multiselectData = {};
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -134,7 +133,8 @@
 			const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles);
 			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
 
-			function addItem(setting, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
+			function addItem(settingKey, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
+				const setting = selectData[settingKey];
 				if (parent && Array.isArray(setting.value) && parent.childElementCount > setting.max) return toastNotification({type: "ERROR", title: "Maximale Anzahl (" + setting.max + ") erreicht!"}).show();
 
 				let html = "<div class='setgroup'>";
@@ -254,7 +254,7 @@
 				const items = {};
 				settingsData.forEach(setting => {
 					let entry;
-					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = multiselectData[setting.key].value;
+					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value;
 					else if (setting.org == "object") {
 						entry = {};
 						Object.keys(setting.type).forEach(key => {

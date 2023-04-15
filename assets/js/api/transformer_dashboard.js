@@ -44,17 +44,17 @@ function getSettingsHTML(json) {
 					});
 				}
 
+				selectData[setting.key] = {
+					key: setting.key,
+					value: setting.value,
+					max: setting.max
+				};
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
-					multiselectData[setting.key] = {
-						key: setting.key,
-						value: setting.value,
-						max: setting.max
-					};
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>";
 					queue.push(() => {
-						if (multiselectData[setting.key].value.length == 0) document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
+						if (selectData[setting.key].value.length == 0) document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
 						else {
-							multiselectData[setting.key].value.forEach(v => {
+							selectData[setting.key].value.forEach(v => {
 								document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").classList.toggle("selected");
 								document.getElementById(setting.key).querySelector(".list").innerHTML +=
 									"<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").innerHTML + "</div>";
@@ -63,15 +63,15 @@ function getSettingsHTML(json) {
 					});
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
-					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" +
-						JSON.stringify(setting) + ", " + JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
+					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(" + setting.key + ", " +
+						JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
 
-					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting, possible, i, setting.value[i], void 0, true)).join("");
-					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting, possible, i)).join("");
+					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting.key, possible, i, setting.value[i], void 0, true)).join("");
+					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting.key, possible, i)).join("");
 					else if (Object.keys(setting.value).length > 0) {
 						setting.org = "object";
 						setting.value = [setting.value];
-						temp += addItem(setting, possible, void 0, setting.value[0], void 0, true);
+						temp += addItem(setting.key, possible, void 0, setting.value[0], void 0, true);
 					}
 					temp += "</div>";
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {

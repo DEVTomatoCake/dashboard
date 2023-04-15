@@ -107,13 +107,13 @@ const updateSelected = (elem, value = "") => {
 }
 const updateMultiSelected = (elem, key, value) => {
 	elem.classList.toggle("selected");
-	if (elem.classList.contains("selected")) multiselectData[key].value.push(value);
-	else multiselectData[key].value.splice(multiselectData[key].value.indexOf(value), 1);
+	if (elem.classList.contains("selected")) selectData[key].value.push(value);
+	else selectData[key].value.splice(selectData[key].value.indexOf(value), 1);
 
-	if (multiselectData[key].value.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
+	if (selectData[key].value.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
 	else {
 		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
-		multiselectData[key].value.forEach(v => {
+		selectData[key].value.forEach(v => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
 		});
 	}

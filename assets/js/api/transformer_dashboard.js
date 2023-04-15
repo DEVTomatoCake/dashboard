@@ -44,11 +44,7 @@ function getSettingsHTML(json) {
 					});
 				}
 
-				selectData[setting.key] = {
-					key: setting.key,
-					value: setting.value,
-					max: setting.max
-				};
+				selectData[setting.key] = setting;
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>";
 					queue.push(() => {

@@ -264,7 +264,7 @@ textarea.setting, textarea.settingcopy {
 	min-width: 65px;
 	border-radius: 8px;
 	padding: 8px;
-	transition: var(--transition-buttons);
+	transition: box-shadow var(--transition-buttons),background-color var(--transition-buttons),outline var(--transition-buttons);
 }
 textarea.setting:focus, textarea.settingcopy:focus {
 	box-shadow: 0 0 6px 2px var(--secondary-color);
@@ -802,7 +802,7 @@ footer .links {
 }
 
 .content {
-	margin: 40px 20px 80px 60px;
+	margin: 40px 20px 100px 60px;
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;
@@ -830,7 +830,7 @@ h1.greeting, h2.greeting {
 input:not(#theme-toggle) {
 	border-radius: 8px;
 	outline: none;
-	padding: 8px;
+	padding: 6px;
 	min-width: 150px;
 	transition: var(--transition-buttons);
 }

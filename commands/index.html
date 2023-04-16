@@ -27,6 +27,7 @@
 		<script src="../assets/js/api/transformer_other.js"></script>
 
 		<script>
+			let commandData = [];
 			getCommandsHTML().then(html => {
 				document.getElementById("linksidebar").innerHTML +=
 					"<div class='section middle'><p class='title'>KATEGORIEN</p>" +
@@ -37,7 +38,6 @@
 					"<div class='tab' onclick='cmdSearch(\"moderation\")'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"info\")'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"admin\")'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"music\")'><ion-icon name='musical-notes-outline'></ion-icon><p>Musik</p></div>" +
 					"</div>";
 
 				document.getElementById("commands-container").innerHTML = html;
@@ -81,16 +81,35 @@
 				}
 			}
 
+			function cmdInfo(elem, cmd) {
+				const info = elem.querySelector(".cmd-info");
+				if (info) info.remove();
+				else {
+					const command = commandData.find(c => c.name == cmd);
+					let html = "<div class='cmd-info'>" +
+						"<p>Category: " + command.category + "</p>" +
+						"<p>Usage: " + command.usage + "</p>";
+
+					if (command.aliases[0] != command.name) html += "<p>Aliases: " + command.aliases.join(", ") + "</p>";
+					if (command.options) html += "<p>Options: " + command.options.map(o => (
+						o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span style='color:red;'>*</span>" : "") + " <small title='" + o.desc + "'>" + o.type + "</small>"
+					)).join(", ") + "</p>";
+
+					elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>";
+				}
+			}
+
 			function toggleCategory(category) {
 				const toModify = document.getElementById(category);
 
 				if (toModify.style.display == "none") {
 					toModify.style.display = "block";
-					document.getElementById(category + "tb").innerText = "Verstecken";
+					document.getElementById(category + "tb").setAttribute("translation", "commands.hide");
 				} else {
 					toModify.style.display = "none";
-					document.getElementById(category + "tb").innerText = "Zeigen";
+					document.getElementById(category + "tb").setAttribute("translation", "commands.show");
 				}
+				reloadText();
 			}
 		</script>
 	</head>
@@ -105,7 +124,7 @@
 				</div>
 
 				<div id="search-box" class="search-box">
-					<input type="text" id="cmd-search" onkeyup="cmdSearch()" placeholder="Befehle durchsuchen..." role="searchbox">
+					<input type="text" id="cmd-search" onkeyup="cmdSearch()" placeholder="Search commands..." role="searchbox">
 					<ion-icon name="search"></ion-icon>
 				</div>
 

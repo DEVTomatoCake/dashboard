@@ -51,6 +51,7 @@ function getSettingsHTML(json) {
 						if (selectData[setting.key].value.length == 0) document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
 						else {
 							selectData[setting.key].value.forEach(v => {
+								console.warn(setting.key, v)
 								document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").classList.toggle("selected");
 								document.getElementById(setting.key).querySelector(".list").innerHTML +=
 									"<div>" + document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']").innerHTML + "</div>";

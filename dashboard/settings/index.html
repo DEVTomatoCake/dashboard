@@ -208,8 +208,8 @@
 
 				if (parent) {
 					parent.insertAdjacentHTML("beforeend", html);
-					/*queue.forEach(f => f());
-					queue = [];*/
+					queue.forEach(f => f());
+					queue = [];
 				} else return html;
 			}
 		</script>

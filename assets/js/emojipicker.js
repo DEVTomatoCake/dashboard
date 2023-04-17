@@ -144,9 +144,8 @@ class ChannelRolePicker extends HTMLElement {
 					type: "text"
 				},
 				...toSelect
-			}
+			};
 		}
-		console.warn(toSelect)
 		this.innerHTML =
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +

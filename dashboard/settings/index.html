@@ -45,7 +45,7 @@
 
 			let settingsData = {};
 			let selectData = {};
-			const queue = [];
+			let queue = [];
 
 			let guildName = "";
 			const pickerData = {};
@@ -117,6 +117,7 @@
 							document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>";
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
 							queue.forEach(f => f());
+							queue = [];
 							if (location.hash != "") document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true);
 							reloadText();
 							guildName = json.name;
@@ -205,8 +206,11 @@
 				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
 					"</div>";
 
-				if (parent) parent.insertAdjacentHTML("beforeend", html);
-				else return html;
+				if (parent) {
+					parent.insertAdjacentHTML("beforeend", html);
+					queue.forEach(f => f());
+					queue = [];
+				} else return html;
 			}
 		</script>
 	</head>

@@ -146,12 +146,13 @@ class ChannelRolePicker extends HTMLElement {
 				...toSelect
 			}
 		}
+		console.warn(toSelect)
 		this.innerHTML =
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
 			Object.keys(toSelect).map(channel => {
 				if (this.getAttribute("data-multi") == 1 && channel == "") return "";
-				const current = pickerData[this.getAttribute("type")][channel];
+				const current = toSelect[channel];
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +

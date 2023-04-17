@@ -60,7 +60,7 @@ function getSettingsHTML(json) {
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>";
 					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(\"" + setting.key + "\", " +
-						JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Hinzufügen</button>";
+						JSON.stringify(possible) + ", void 0, \"\", this.parentElement)'>Add</button>";
 
 					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting.key, possible, i, setting.value[i], void 0, true)).join("");
 					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting.key, possible, i)).join("");
@@ -324,7 +324,7 @@ function getTicketsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID</th><th translation='tickets.table.user'></th><th>Weitere Nutzer</th><th translation='tickets.table.state'></th></tr></thead><tbody>";
+						"<thead><tr><th>ID/Transcript</th><th translation='tickets.table.user'></th><th>Weitere Nutzer</th><th translation='tickets.table.state'></th></tr></thead><tbody>";
 
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
@@ -332,31 +332,9 @@ function getTicketsHTML(guild) {
 							"<td><a href='/ticket/?id=" + ticket.id + "'>" + ticket.id + "</a></td>" +
 							"<td>" + ticket.owner + "</td>" +
 							"<td>" + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + "</td>" +
-							"<td>" + (ticketStates[ticket.state] || "Unbekannt") + "</td>" +
+							"<td>" + ticketStates[ticket.state] + "</td>" +
 							"</tr>";
 					});
-
-					text +=
-						"</tbody></table><br><br>" +
-						"<h1 translation='tickets.categories'></h1>";
-
-					if (json.data.filter(ticket => ticket.category).length > 0) {
-						text +=
-							"<table cellpadding='8' cellspacing='0'>" +
-							"<thead><tr><th translation='tickets.category'></th><th translation='tickets.message'></th><th>Embedtitel</th><th>Embedbeschreibung</th><th>Embedfooter</th></tr></thead><tbody>";
-
-						json.data.filter(ticket => ticket.category).forEach(category => {
-							text +=
-								"<tr class='cmdvisible'>" +
-								"<td>" + category.category + "</td>" +
-								"<td>" + (category.ticketmsg || "") + "</td>" +
-								"<td>" + (category.ticketembedtitle || "") + "</td>" +
-								"<td>" + (category.ticketembeddescription ? (category.ticketembeddescription.length > 80 ? "<details><summary>" + category.ticketembeddescription.substring(0, 70) + "...</summary>" + category.ticketembeddescription.substring(70) + "</details>" : category.ticketembeddescription) : "") + "</td>" +
-								"<td>" + (category.ticketembedfooter || "") + "</td>" +
-								"</tr>";
-						});
-						text += "</tbody></table>";
-					} else text += "<p translation='tickets.nocategories'></p>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);

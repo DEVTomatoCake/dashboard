@@ -119,15 +119,34 @@ const updateMultiSelected = (elem, key, value) => {
 	}
 }
 
-class SinglePicker extends HTMLElement {
+class ChannelRolePicker extends HTMLElement {
 	constructor() {
 		super();
 	}
 	connectedCallback() {
+		const current = pickerData[this.getAttribute("type")]
+		if (this.getAttribute("data-multi") == 1) {
+			current.alltext = {
+				name: "All text channels",
+				type: "text"
+			}
+			current.allvoice = {
+				name: "All voice channels",
+				type: "voice"
+			}
+			current.allcategory = {
+				name: "All categories",
+				type: "category"
+			}
+			current.allannouncement = {
+				name: "All announcement channels",
+				type: "text"
+			}
+		}
 		this.innerHTML =
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
-			Object.keys(pickerData[this.getAttribute("type")]).map(channel => {
+			Object.keys(current).map(channel => {
 				if (this.getAttribute("data-multi") == 1 && channel == "") return "";
 				const current = pickerData[this.getAttribute("type")][channel];
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
@@ -139,13 +158,13 @@ class SinglePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
-					(channel ? encode(current.name || current) : "Kein" + (this.getAttribute("type") == "role" ? "e Rolle" : " Kanal")) +
+					(channel ? encode(current.name || current) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel") + " selected") +
 					"</span></div>";
 			}).join("") +
 			"</div>";
 	}
 }
-customElements.define("channel-picker", SinglePicker);
+customElements.define("channel-picker", ChannelRolePicker);
 
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js
 /* eslint-disable */

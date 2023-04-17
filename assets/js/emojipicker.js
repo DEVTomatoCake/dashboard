@@ -124,29 +124,32 @@ class ChannelRolePicker extends HTMLElement {
 		super();
 	}
 	connectedCallback() {
-		const current = pickerData[this.getAttribute("type")]
+		const toSelect = pickerData[this.getAttribute("type")]
 		if (this.getAttribute("data-multi") == 1) {
-			current.alltext = {
-				name: "All text channels",
-				type: "text"
-			}
-			current.allvoice = {
-				name: "All voice channels",
-				type: "voice"
-			}
-			current.allcategory = {
-				name: "All categories",
-				type: "category"
-			}
-			current.allannouncement = {
-				name: "All announcement channels",
-				type: "text"
+			toSelect = {
+				alltext: {
+					name: "All text channels",
+					type: "text"
+				},
+				allvoice: {
+					name: "All voice channels",
+					type: "voice"
+				},
+				allcategory: {
+					name: "All categories",
+					type: "category"
+				},
+				allannouncement: {
+					name: "All announcement channels",
+					type: "text"
+				},
+				...toSelect
 			}
 		}
 		this.innerHTML =
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
-			Object.keys(current).map(channel => {
+			Object.keys(toSelect).map(channel => {
 				if (this.getAttribute("data-multi") == 1 && channel == "") return "";
 				const current = pickerData[this.getAttribute("type")][channel];
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
@@ -158,7 +161,7 @@ class ChannelRolePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
-					(channel ? encode(current.name || current) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel") + " selected") +
+					(channel ? encode(current.name || current) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
 					"</span></div>";
 			}).join("") +
 			"</div>";

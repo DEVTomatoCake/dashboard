@@ -89,8 +89,11 @@
 						}
 						console.log(json);
 
-						if (json.action == "NOTIFY") toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
-						else if (json.action == "RECEIVE_settings") {
+						if (json.action == "NOTIFY") {
+							setTimeout(() => {
+								toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
+							}, 6000);
+						} else if (json.action == "RECEIVE_settings") {
 							settingsData = json.data;
 							pickerData.role = json.constant.role;
 							pickerData.textchannel = json.constant.textchannel;

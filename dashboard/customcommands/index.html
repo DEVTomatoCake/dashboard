@@ -82,8 +82,11 @@
 						}
 						console.log(json);
 
-						if (json.action == "NOTIFY") toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
-						else if (json.action == "RECEIVE_customcommands") {
+						if (json.action == "NOTIFY") {
+							setTimeout(() => {
+								toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
+							}, 6000);
+						} else if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +

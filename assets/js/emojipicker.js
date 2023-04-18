@@ -135,12 +135,16 @@ class ChannelRolePicker extends HTMLElement {
 					name: "All voice channels",
 					type: "voice"
 				},
+				allannouncement: {
+					name: "All announcement channels",
+					type: "text"
+				},
 				allcategory: {
 					name: "All categories",
 					type: "category"
 				},
-				allannouncement: {
-					name: "All announcement channels",
+				allthread: {
+					name: "All threads",
 					type: "text"
 				},
 				...toSelect

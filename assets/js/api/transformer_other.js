@@ -48,9 +48,9 @@ function getLeaderboardHTML(guild) {
 					json.data.forEach(entry => {
 						text +=
 							"<div class='leaderboard" + (entry.id + "/" + entry.avatar == getCookie("avatar") ? " highlight" : "") + "'><p>" + encode(entry.place.toString()) + ". " +
-							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(entry.id + "/" + entry.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' alt='Avatar: " +
-							encode(entry.user) + "'>" + encode(entry.user) + " <b>" + encode(entry.points.toString()) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" +
-							encode(entry.level.toString()) + "</b>)</p></div>";
+							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(entry.id + "/" + entry.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' " +
+							"alt='Avatar: " + encode(entry.user) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + entry.id % 4 + ".png\"'>" + encode(entry.user) + " <b>" +
+							encode(entry.points.toString()) + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + encode(entry.level.toString()) + "</b>)</p></div>";
 					});
 					resolve(text);
 				} else handleError(resolve, json.message);

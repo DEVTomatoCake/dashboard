@@ -119,7 +119,7 @@
 
 				if (localStorage.getItem("next")) {
 					const elems = document.getElementsByClassName("page-select")[0];
-					const elem = elems.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
+					const elem = elems.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || elems.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
 					changePage(elem);
 				}
 			} else if (params.has("code")) {

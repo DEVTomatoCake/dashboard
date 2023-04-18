@@ -220,6 +220,7 @@
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Serverauswahl weitergeleitet...</h1>";
+				localStorage.setItem("next", location.pathname);
 				location.href = "../";
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";

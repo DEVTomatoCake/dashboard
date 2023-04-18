@@ -241,10 +241,10 @@
 							<div id="button" class="tabs" style="display: none;">
 								<label for="reactionroles-buttonstyle">Button-Design</label>
 								<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
-									<option value="primary">Primary</option>
-									<option value="secondary">Secondary</option>
-									<option value="success">Success</option>
-									<option value="danger">Danger</option>
+									<option value="primary">Primary (Blurple)</option>
+									<option value="secondary">Secondary (Gray)</option>
+									<option value="success">Success (Green)</option>
+									<option value="danger">Danger (Red)</option>
 								</select>
 
 								<label for="reactionroles-buttonlabel">Button-Text</label>
@@ -345,6 +345,7 @@
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Serverauswahl weitergeleitet...</h1>";
+				localStorage.setItem("next", location.pathname);
 				location.href = "../";
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";

@@ -26,12 +26,49 @@
 		<script src="./assets/js/api/transformer_other.js"></script>
 
 		<script>
+			let servers = [];
 			getBotstats().then(json => {
 				document.getElementById("stats-guilds").innerText = json.guilds;
 				document.getElementById("stats-uptime").innerText = json.uptime_ratio.toFixed(2) + "%";
 				document.getElementById("stats-tickets").innerText = json.tickets.toLocaleString();
 				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
+
+				servers = json.public_guilds;
+				for (let i = 1; i <= 3; i++) {
+					const server = servers[i - 1];
+					document.getElementById("server" + i).innerHTML =
+						"<img src='" + server.icon + "'>" +
+						"<div>" +
+						"<h3>" + server.name + "</h3>" +
+						"<p><b>" + server.members + "</b> Members</p>" +
+						"<p>Using bot since <b>" + server.botsince + "</b></p>" +
+						"</div>";
+				}
 			});
+
+			let currentServer = 0;
+			let currentIndex = 2;
+			setInterval(() => {
+				currentServer++;
+				currentIndex++;
+				if (currentServer > 3) currentServer = 1;
+				if (currentIndex >= servers.length) currentIndex = 0;
+				const server = servers[currentIndex];
+
+				document.getElementById("server" + currentServer).style.opacity = "0";
+				setTimeout(() => {
+					document.getElementById("server" + currentServer).innerHTML = `
+						<img src="${server.icon}">
+						<div>
+							<h3>${server.name}</h3>
+							<p><b>${server.members}</b> Members</p>
+							<p>Using bot since <b>${server.botsince}</b></p>
+						</div>
+					`;
+
+					document.getElementById("server" + currentServer).style.opacity = "1";
+				}, 700);
+			}, 15000);
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad('main')">
@@ -103,6 +140,13 @@
 						</div>
 						<p id="stats-users" class="value">Loading...</p>
 					</div>
+				</div>
+
+				<h2 style="margin-top:3rem;">Public Servers</h2>
+				<div class="public-servers">
+					<div id="server1" class="server"></div>
+					<div id="server2" class="server"></div>
+					<div id="server3" class="server"></div>
 				</div>
 
 				<div class="featurelist">

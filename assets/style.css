@@ -149,6 +149,33 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
+.public-servers {
+	padding: 10px;
+	background-color: var(--tertiary-color);
+	border-radius: 15px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-around;
+}
+.public-servers .server {
+	display: inline-flex;
+	align-items: center;
+	background-color: var(--secondary-color);
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px;
+	transition: .7s;
+}
+.public-servers img {
+	border-radius: 50%;
+	width: 80px;
+	height: 80px;
+	margin-right: 7px;
+}
+.public-servers h3 {
+	font-size: 26px;
+}
+
 .user-image {
 	border-radius: 50%;
 	width: 24px;
@@ -158,7 +185,7 @@ tr.cmdvisible:nth-child(odd) {
 	padding: 5px;
 	font-size: 120%;
 }
-.leaderboard .highlight {
+.leaderboard.highlight {
 	background-color: var(--secondary-color);
 	border-radius: 10px;
 }
@@ -1017,7 +1044,7 @@ pre {
 }
 
 .featurelist {
-	margin-top: 4rem;
+	margin-top: 3rem;
 }
 .featurelist h2 {
 	font-size: 36px;

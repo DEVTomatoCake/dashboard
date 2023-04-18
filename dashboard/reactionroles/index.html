@@ -296,9 +296,7 @@
 
 				const div = document.createElement("div");
 				let html = "";
-
-				for (elem of document.getElementsByClassName("reactionrole"))
-					html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
+				for (elem of document.getElementsByClassName("reactionrole")) html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
 
 				div.innerHTML = html;
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
@@ -321,14 +319,14 @@
 					items[item.name].push({
 						type,
 						channel: item.getAttribute("data-channel"),
-						msg: item.getAttribute("data-msg"),
+						msg: item.getAttribute("data-msg").trim(),
 						role: item.value,
 						content: item.getAttribute("data-content") || null,
 						reaction: type == "reaction" ? item.getAttribute("data-reaction") : null,
-						label: type == "button" || type == "select" ? item.getAttribute("data-label") : null,
-						emoji: type == "button" || type == "select" ? item.getAttribute("data-emoji") : null,
+						label: type == "button" || type == "select" ? item.getAttribute("data-label")?.trim() : null,
+						emoji: type == "button" || type == "select" ? item.getAttribute("data-emoji")?.trim() : null,
 						buttonstyle: type == "button" ? item.getAttribute("data-buttonstyle") : null,
-						selectdesc: type == "select" ? item.getAttribute("data-selectdesc") : null
+						selectdesc: type == "select" ? item.getAttribute("data-selectdesc")?.trim() : null
 					});
 				}
 

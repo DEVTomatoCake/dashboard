@@ -82,7 +82,8 @@
 						}
 						console.log(json);
 
-						if (json.action == "RECEIVE_customcommands") {
+						if (json.action == "NOTIFY") toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
+						else if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
@@ -98,8 +99,8 @@
 							reloadText();
 							guildName = json.name;
 						} else if (json.action == "SAVED_customcommands") {
-							savingToast.setType("SUCCESS").setTitle("Customcommands wurden gespeichert!");
 							saving = false;
+							savingToast.setType("SUCCESS").setTitle("Saved customcommands!");
 						} else if (json.action == "RECEIVE_emojis") {
 							pickerData = {
 								emojis: json.emojis,

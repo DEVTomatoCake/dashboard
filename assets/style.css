@@ -242,7 +242,7 @@ tr.cmdvisible:nth-child(odd) {
 .page-select button {
 	padding: 5px 10px;
 	margin: 5px;
-	font-size: 25px;
+	font-size: 23px;
 	background-color: var(--button-accent-color);
 	color: #FFF;
 	border: none;

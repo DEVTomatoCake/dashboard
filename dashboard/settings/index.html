@@ -89,14 +89,14 @@
 						}
 						console.log(json);
 
-						if (json.action == "RECEIVE_settings") {
+						if (json.action == "NOTIFY") toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
+						else if (json.action == "RECEIVE_settings") {
 							settingsData = json.data;
 							pickerData.role = json.constant.role;
 							pickerData.textchannel = json.constant.textchannel;
 							pickerData.leveltextchannel = {here: "Aktueller Kanal", ...pickerData.textchannel}
 							pickerData.voicechannel = json.constant.voicechannel;
 							pickerData.categorychannel = json.constant.categorychannel;
-							pickerData.categoryallchannel = {all: "Alle Kanäle", ...json.constant.categorychannel};
 							pickerData.announcementchannel = json.data.find(setting => setting.type == "announcementchannel").possible;
 							const rendered = getSettingsHTML(json);
 
@@ -122,8 +122,8 @@
 							reloadText();
 							guildName = json.name;
 						} else if (json.action == "SAVED_settings") {
-							savingToast.setType("SUCCESS").setTitle("Einstellungen wurden gespeichert!");
 							saving = false;
+							savingToast.setType("SUCCESS").setTitle("Saved settings!");
 						} else if (json.action == "RECEIVE_emojis") {
 							pickerData.emojis = json.emojis;
 							pickerData.roles = json.roles;

@@ -115,13 +115,14 @@
 				getGuildsHTML().then(html => {
 					document.getElementById("guilds-container").innerHTML = html;
 					reloadText();
-				});
 
-				if (localStorage.getItem("next")) {
-					const elems = document.getElementsByClassName("page-select")[0];
-					const elem = elems.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || elems.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
-					changePage(elem);
-				}
+					if (localStorage.getItem("next")) {
+						const pages = document.getElementsByClassName("page-select")[0];
+						const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
+						changePage(elem);
+						localStorage.removeItem("next");
+					};
+				});
 			} else if (params.has("code")) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Anmeldung erfolgt, bitte warten...</h1>";
 

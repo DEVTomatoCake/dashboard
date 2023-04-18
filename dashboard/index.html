@@ -121,7 +121,7 @@
 						const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
 						changePage(elem);
 						localStorage.removeItem("next");
-					};
+					}
 				});
 			} else if (params.has("code")) {
 				document.getElementById("root-container").innerHTML = "<h1>Die Anmeldung erfolgt, bitte warten...</h1>";

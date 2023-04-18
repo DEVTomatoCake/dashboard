@@ -47,9 +47,10 @@ function getLeaderboardHTML(guild) {
 					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => {
 						text +=
-							"<div class='leaderboard'><p>" + encode(entry.place.toString()) + ". " +
-							"<img class='user-image' src='" + encode(entry.avatar) + "?size=32' loading='lazy' width='32' height='32' alt='Avatar von " + encode(entry.user) + "'>" +
-							encode(entry.user) + " <b>" + encode(entry.points.toString()) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" + encode(entry.level.toString()) + "</b>)</p></div>";
+							"<div class='leaderboard" + (entry.id + "/" + entry.avatar == getCookie("avatar") ? " highlight" : "") + "'><p>" + encode(entry.place.toString()) + ". " +
+							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(entry.id + "/" + entry.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' alt='Avatar: " +
+							encode(entry.user) + "'>" + encode(entry.user) + " <b>" + encode(entry.points.toString()) + "</b> Punkt" + (entry.points == 1 ? "" : "e") + " (Level <b>" +
+							encode(entry.level.toString()) + "</b>)</p></div>";
 					});
 					resolve(text);
 				} else handleError(resolve, json.message);

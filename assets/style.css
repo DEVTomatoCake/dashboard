@@ -158,6 +158,10 @@ tr.cmdvisible:nth-child(odd) {
 	padding: 5px;
 	font-size: 120%;
 }
+.leaderboard .highlight {
+	background-color: var(--secondary-color);
+	border-radius: 10px;
+}
 
 .grid {
 	width: auto;

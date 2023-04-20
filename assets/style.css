@@ -856,7 +856,7 @@ footer .links {
 h1.greeting, h2.greeting {
 	font-size: 55px;
 	text-align: center;
-	padding-bottom: 40px;
+	padding-bottom: 35px;
 	margin: 0 auto;
 }
 .center {
@@ -1227,9 +1227,6 @@ pre {
 	border-radius: 10px;
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
 	width: fit-content;
-	margin: 20px;
-	margin-left: auto;
-	margin-right: auto;
 	transition: .5s;
 	text-align: center;
 	cursor: default;
@@ -1239,6 +1236,10 @@ pre {
 .creditsUser:hover {
 	box-shadow: 0 0 20px var(--primary-text-color);
 	transform: scale(1.08);
+}
+.creditsPackages .creditsUser {
+	padding: 8px;
+	margin: 15px 10px;
 }
 
 .creditsUser img {
@@ -1258,6 +1259,9 @@ pre {
 }
 .creditsMedia:hover {
 	transform: scale(1.2);
+}
+.creditsPackages .creditsMedia {
+	margin-bottom: 0;
 }
 
 .dialog {

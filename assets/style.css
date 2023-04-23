@@ -166,14 +166,19 @@ tr.cmdvisible:nth-child(odd) {
 	margin: 5px;
 	transition: .7s;
 }
+.public-servers h3 {
+	font-size: 26px;
+}
+
 .public-servers img {
 	border-radius: 50%;
 	width: 80px;
 	height: 80px;
 	margin-right: 7px;
+	transition: .3s;
 }
-.public-servers h3 {
-	font-size: 26px;
+.public-servers img:hover {
+	border-radius: 25%;
 }
 
 .user-image {

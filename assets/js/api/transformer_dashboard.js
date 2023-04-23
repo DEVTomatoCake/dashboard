@@ -364,8 +364,8 @@ function getLogsHTML(guild) {
 							"<td>" + encode("" + log.count) + "</td>" +
 							"<td>" +
 								"<button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
-								(log.date < Date.now() - 1000 * 60 * 60 * 24 * 5 ? "<button type='button' class='categorybutton red' onclick='const c=confirm(\"Do you really want to delete the log \\\"" + encode(log.id) + "\\\"?\");" +
-								"if(c)deleteLog(\"" + encode(guild) + "\",\"" + encode(log.id) + "\")' translation='logs.delete'></button>" : "") +
+								(log.date < Date.now() - 1000 * 60 * 60 * 24 * 5 ? "<button type='button' class='categorybutton red' onclick='const c=confirm(\"Do you really want to delete the log \\\"" +
+								encode(log.id) + "\\\"?\");if(c){deleteLog(\"" + encode(guild) + "\",\"" + encode(log.id) + "\");this.parentElement.remove();}' translation='logs.delete'></button>" : "") +
 							"</td>" +
 							"</tr>";
 					});

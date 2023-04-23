@@ -59,7 +59,7 @@
 			if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Deine Daten werden geladen...</h1>";
 				getDataexportHTML().then(data => {
-					document.getElementById("content").innerHTML = data + "<p id='author' translation='global.footer'></p>";
+					document.getElementById("content").innerHTML = data;
 					reloadText();
 				});
 			} else {

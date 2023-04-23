@@ -347,8 +347,9 @@ textarea:focus {
 
 .badge {
 	background-color: var(--select-hover);
+	margin: 2px;
 	padding: 2px;
-	border-radius: 3px;
+	border-radius: 5px;
 	color: var(--primary-text-color);
 	display: inline-block;
 }

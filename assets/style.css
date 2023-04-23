@@ -149,6 +149,13 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
+.categorybutton.red {
+	background-color: #D32F2F;
+}
+.categorybutton.red:hover {
+	background-color: #B71C1C;
+}
+
 .public-servers {
 	padding: 10px;
 	background-color: var(--tertiary-color);
@@ -415,13 +422,13 @@ textarea:focus {
 }
 
 .sidebar-container.visible {
-	width: 300px;
+	width: 290px;
 	z-index: 3;
 	border-right: 1px solid var(--tertiary-color);
 }
 
 .sidebar-container.visible .sidebar {
-	width: 300px;
+	width: 290px;
 }
 
 #lineTop1 {
@@ -651,7 +658,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 8px 50px 0 0;
+	margin: 8px 35px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;

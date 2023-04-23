@@ -1,6 +1,8 @@
 const url = "https://api.tomatenkuchen.eu/api/"
-async function get(component, auth = true) {
-	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""))
+async function get(component, auth = true, method = "GET") {
+	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
+		method
+	})
 
 	const json = await res.json()
 	console.log("Response for \"" + url + component + "\": " + JSON.stringify(json))
@@ -69,6 +71,10 @@ const getGiveaway = msg => new Promise((resolve, reject) => {
 
 const getLogs = guild => new Promise((resolve, reject) => {
 	get("logs/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
+const deleteLog = (guild, log) => new Promise((resolve, reject) => {
+	get("logs/" + guild + "/" + log, true, "DELETE")
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 

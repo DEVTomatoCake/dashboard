@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. Manage the bot on and invite the bot to new servers.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Manage the bot on and invite the bot to new servers.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/">
@@ -119,7 +119,7 @@
 					if (localStorage.getItem("next")) {
 						const pages = document.getElementsByClassName("page-select")[0];
 						const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
-						changePage(elem);
+						if (elem) changePage(elem);
 						localStorage.removeItem("next");
 					}
 				});
@@ -141,7 +141,7 @@
 					}
 				});
 			} else {
-				document.getElementById("root-container").innerHTML = "<h1>Es wird zur Anmeldung weitergeleitet...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
 				location.href = "../login/?next=" + encodeURIComponent(location.pathname + location.search);
 			}
 		</script>

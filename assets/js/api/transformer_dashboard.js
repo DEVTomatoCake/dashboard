@@ -240,7 +240,10 @@ function getDataexportHTML(token) {
 						"<div class='userData'>" +
 						"<h1 translation='user.general'></h1>" +
 						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
-						(json.data.birthday ? "<p><b>Birthday:</b> " + encode(json.data.birthday.day) + "." + encode(json.data.birthday.month) + ".</p>" : "") +
+						(json.data.birthday ?
+							"<p><b>Birthday:</b> " + encode("" + json.data.birthday.day) + "." + encode("" + json.data.birthday.month) + "." +
+							(json.data.birthday.year ? encode("" + json.data.birthday.year) : "") + "</p>"
+						: "") +
 						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
 						"</div>" +
 
@@ -325,7 +328,7 @@ function getTicketsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID/Transcript</th><th translation='tickets.table.user'></th><th>Weitere Nutzer</th><th translation='tickets.table.state'></th></tr></thead><tbody>";
+						"<thead><tr><th>ID/Transcript</th><th translation='tickets.table.user'></th><th translation='tickets.table.otherusers'></th><th translation='tickets.table.state'></th></tr></thead><tbody>";
 
 					json.data.filter(ticket => !ticket.category).forEach(ticket => {
 						text +=
@@ -353,7 +356,7 @@ function getLogsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th>Mehr Informationen</th></tr></thead><tbody>";
+						"<thead><tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr></thead><tbody>";
 
 					json.data.forEach(log => {
 						text +=
@@ -362,7 +365,11 @@ function getLogsHTML(guild) {
 							"<td>" + encode(log.type) + "</td>" +
 							"<td class='overflow'>" + encode(log.message) + "</td>" +
 							"<td>" + encode("" + log.count) + "</td>" +
-							"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button></td>" +
+							"<td>" +
+								"<button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
+								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='categorybutton red' onclick='const c=confirm(\"Do you really want to delete the log \\\"" +
+								encode(log.id) + "\\\"?\");if(c){deleteLog(\"" + encode(guild) + "\",\"" + encode(log.id) + "\");this.parentElement.parentElement.remove();}' translation='logs.delete'></button>" : "") +
+							"</td>" +
 							"</tr>";
 					});
 

@@ -149,6 +149,13 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
+.categorybutton.red {
+	background-color: #D32F2F;
+}
+.categorybutton.red:hover {
+	background-color: #B71C1C;
+}
+
 .public-servers {
 	padding: 10px;
 	background-color: var(--tertiary-color);
@@ -166,14 +173,19 @@ tr.cmdvisible:nth-child(odd) {
 	margin: 5px;
 	transition: .7s;
 }
+.public-servers h3 {
+	font-size: 26px;
+}
+
 .public-servers img {
 	border-radius: 50%;
 	width: 80px;
 	height: 80px;
 	margin-right: 7px;
+	transition: .3s;
 }
-.public-servers h3 {
-	font-size: 26px;
+.public-servers img:hover {
+	border-radius: 25%;
 }
 
 .user-image {
@@ -335,6 +347,9 @@ textarea:focus {
 
 .badge {
 	background-color: var(--select-hover);
+	margin: 2px;
+	padding: 2px;
+	border-radius: 5px;
 	color: var(--primary-text-color);
 	display: inline-block;
 }
@@ -410,13 +425,13 @@ textarea:focus {
 }
 
 .sidebar-container.visible {
-	width: 300px;
+	width: 290px;
 	z-index: 3;
 	border-right: 1px solid var(--tertiary-color);
 }
 
 .sidebar-container.visible .sidebar {
-	width: 300px;
+	width: 290px;
 }
 
 #lineTop1 {
@@ -518,7 +533,7 @@ textarea:focus {
 }
 
 .sidebar .section {
-	margin-top: 30px;
+	margin-top: 20px;
 	overflow-y: auto;
 }
 
@@ -646,7 +661,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 8px 50px 0 0;
+	margin: 8px 35px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -842,7 +857,7 @@ footer .links {
 }
 
 .content {
-	margin: 40px 20px 100px 60px;
+	margin: 40px 20px 100px 40px;
 	flex-direction: column;
 	align-items: center;
 	gap: 50px;

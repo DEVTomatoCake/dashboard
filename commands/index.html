@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose german/english Discord bot including many features for your Discord server. View and search all commands of the bot here.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View and search all commands of the bot here.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/commands/">
@@ -30,7 +30,7 @@
 			let commandData = [];
 			getCommandsHTML().then(html => {
 				document.getElementById("linksidebar").innerHTML +=
-					"<div class='section middle'><p class='title'>KATEGORIEN</p>" +
+					"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
 					"<div class='tab' onclick='cmdSearch(\"ticket\")'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"fun\")'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
 					"<div class='tab' onclick='cmdSearch(\"suggest\")'><ion-icon name='settings-outline'></ion-icon><p translation='user.suggestions'></p></div>" +

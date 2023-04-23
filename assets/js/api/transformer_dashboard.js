@@ -240,7 +240,10 @@ function getDataexportHTML(token) {
 						"<div class='userData'>" +
 						"<h1 translation='user.general'></h1>" +
 						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
-						(json.data.birthday ? "<p><b>Birthday:</b> " + encode(json.data.birthday.day) + "." + encode(json.data.birthday.month) + ".</p>" : "") +
+						(json.data.birthday ?
+							"<p><b>Birthday:</b> " + encode("" + json.data.birthday.day) + "." + encode("" + json.data.birthday.month) + "." +
+							(json.data.birthday.year ? encode("" + json.data.birthday.year) : "") + "</p>"
+						: "") +
 						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
 						"</div>" +
 
@@ -364,7 +367,7 @@ function getLogsHTML(guild) {
 							"<td>" + encode("" + log.count) + "</td>" +
 							"<td>" +
 								"<button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
-								(log.date < Date.now() - 1000 * 60 * 60 * 24 * 5 ? "<button type='button' class='categorybutton red' onclick='const c=confirm(\"Do you really want to delete the log \\\"" +
+								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='categorybutton red' onclick='const c=confirm(\"Do you really want to delete the log \\\"" +
 								encode(log.id) + "\\\"?\");if(c){deleteLog(\"" + encode(guild) + "\",\"" + encode(log.id) + "\");this.parentElement.parentElement.remove();}' translation='logs.delete'></button>" : "") +
 							"</td>" +
 							"</tr>";

@@ -120,7 +120,6 @@
 						const pages = document.getElementsByClassName("page-select")[0];
 						const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
 						if (elem) changePage(elem);
-						console.warn(localStorage.getItem("next").split("/"), "[data-target='" + localStorage.getItem("next").split("/")[2] + "']", "[data-target='" + localStorage.getItem("next").split("/")[1] + "']");
 						localStorage.removeItem("next");
 					}
 				});

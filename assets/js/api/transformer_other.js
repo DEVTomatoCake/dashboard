@@ -47,10 +47,10 @@ function getLeaderboardHTML(guild) {
 					let text = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 					json.data.forEach(entry => {
 						text +=
-							"<div class='leaderboard" + (entry.id + "/" + entry.avatar == getCookie("avatar") ? " highlight" : "") + "'><p>" + encode(entry.place.toString()) + ". " +
-							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(entry.id + "/" + entry.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' " +
+							"<div class='leaderboard" + (entry.id + "/" + entry.avatar == getCookie("avatar") ? " highlight" : "") + "'><p>" + encode("" + entry.place) + ". " +
+							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(entry.id + "/" + entry.avatar) + ".webp?size=32' loading='lazy' " +
 							"alt='Avatar: " + encode(entry.user) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + entry.id % 4 + ".png\"'>" + encode(entry.user) + " <b>" +
-							encode(entry.points.toString()) + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + encode(entry.level.toString()) + "</b>)</p></div>";
+							encode("" + entry.points) + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + encode("" + entry.level) + "</b>)</p></div>";
 					});
 					resolve(text);
 				} else handleError(resolve, json.message);
@@ -66,14 +66,14 @@ function getGiveawayHTML(giveaway) {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'><span translation='giveaway.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 
-					if (json.data.ended) text += "<div class='creditsUser'><h2 translation='giveaway.ended'></h2><p>" +
+					if (json.data.ended) text += "<h2 translation='giveaway.ended'></h2><p>" +
 						(json.data.winners.length > 0 ?
-							"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ":<br>" +
+							"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winnerLength + "</b><br>" +
 							(json.data.winners.map(user =>
-								"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' " +
+								"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' " +
 								"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
 							)).join("")
-						: "Keiner hat gewonnen!") + "</b></p></div>";
+						: "Keiner hat gewonnen!") + "</b></p><br><br><br>";
 
 					text +=
 						"<h2>" + json.data.prize + "</h2>" +
@@ -83,21 +83,21 @@ function getGiveawayHTML(giveaway) {
 						"<p><span translation='giveaway.ends'></span>: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
 						"<p><span translation='giveaway.hostedby'></span>: " + json.data.hostedBy + "</p>" +
 						"<p><span translation='giveaway.winneramount'></span>: <b>" + json.data.winnerCount + "</b></p>" +
-						"<p>" + (json.data.ended ? "" : "Aktuelle ") + "Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>" +
+						"<p>" + (json.data.ended ? "" : "Aktuelle ") + "Nutzer im Giveaway: <b>" + json.data.userLength + "</b></p>" +
 						(json.data.users.map(user =>
-							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' " +
+							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' " +
 							"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
 						)).join("");
 
 					const reqs = json.data.requirements;
 					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
-						text += "<br><h3 translate='giveaway.requirements'>Bedingungen</h3>";
-						if (reqs.roles.length > 0) text += "<p>Alle diese Rollen: " + reqs.roles.join(", ") + "</p>";
-						if (reqs.anyRoles.length > 0) text += "<p>Irgendeine dieser Rollen: " + reqs.anyRoles.join(", ") + "</p>";
-						if (reqs.notRoles.length > 0) text += "<p>Keine dieser Rollen: " + reqs.notRoles.join(", ") + "</p>";
-						if (reqs.minAge) text += "<p>Mindestaccountalter: <b>" + reqs.minAge + "</b></p>";
-						if (reqs.minMemberAge) text += "<p>Mindestzeit auf dem Server: <b>" + reqs.minMemberAge + "</b></p>";
-						if (reqs.minLeaderboardPoints) text += "<p>Mindestleaderboardpunkte: <b>" + reqs.minLeaderboardPoints.toLocaleString("de-DE") + "</b></p>";
+						text += "<br><h3 translate='giveaway.requirements'></h3>";
+						if (reqs.roles.length > 0) text += "<p translation='giveaway.thoseroles'>: " + reqs.roles.join(", ") + "</p>";
+						if (reqs.anyRoles.length > 0) text += "<p translation='giveaway.anyrole'>: " + reqs.anyRoles.join(", ") + "</p>";
+						if (reqs.notRoles.length > 0) text += "<p translation='giveaway.notrole'>: " + reqs.notRoles.join(", ") + "</p>";
+						if (reqs.minAge) text += "<p translation='giveaway.minaccage'>: <b>" + reqs.minAge + "</b></p>";
+						if (reqs.minMemberAge) text += "<p translation='giveaway.minmemberage'>: <b>" + reqs.minMemberAge + "</b></p>";
+						if (reqs.minLeaderboardPoints) text += "<p translation='giveaway.minleaderboardpoints'>: <b>" + reqs.minLeaderboardPoints.toLocaleString("de-DE") + "</b></p>";
 					}
 
 					resolve(text);

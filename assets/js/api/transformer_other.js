@@ -68,7 +68,7 @@ function getGiveawayHTML(giveaway) {
 
 					if (json.data.ended) text += "<h2 translation='giveaway.ended'></h2><p>" +
 						(json.data.winners.length > 0 ?
-							"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winnerLength + "</b><br>" +
+							"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + " (<b>" + json.data.winnerLength + "</b>):<br>" +
 							(json.data.winners.map(user =>
 								"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' " +
 								"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
@@ -83,7 +83,7 @@ function getGiveawayHTML(giveaway) {
 						"<p><span translation='giveaway.ends'></span>: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
 						"<p><span translation='giveaway.hostedby'></span>: " + json.data.hostedBy + "</p>" +
 						"<p><span translation='giveaway.winneramount'></span>: <b>" + json.data.winnerCount + "</b></p>" +
-						"<p>" + (json.data.ended ? "" : "Aktuelle ") + "Nutzer im Giveaway: <b>" + json.data.userLength + "</b></p>" +
+						"<p><span translation='giveaway.users'></span> (<b>" + json.data.userLength + "</b>):</p>" +
 						(json.data.users.map(user =>
 							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' " +
 							"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"

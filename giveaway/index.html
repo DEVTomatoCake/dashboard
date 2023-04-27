@@ -55,7 +55,10 @@
 			const rootContainer = document.getElementById("root-container");
 			const params = new URLSearchParams(location.search);
 
-			if (params.has("id")) getGiveawayHTML(params.get("id")).then(html => rootContainer.innerHTML = html);
+			if (params.has("id")) getGiveawayHTML(params.get("id")).then(html => {
+				rootContainer.innerHTML = html
+				reloadText();
+			});
 			else {
 				rootContainer.innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>";
 				reloadText();

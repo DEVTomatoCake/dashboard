@@ -67,7 +67,13 @@ function getGiveawayHTML(giveaway) {
 					let text = "<h1 class='greeting'><span translation='giveaway.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>";
 
 					if (json.data.ended) text += "<div class='creditsUser'><h2 translation='giveaway.ended'></h2><p>" +
-						(json.data.winners.length > 0 ? "Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ": <b>" + json.data.winners.join(", ") : "Keiner hat gewonnen!") + "</b></p></div>";
+						(json.data.winners.length > 0 ?
+							"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + ":<br>" +
+							(json.data.winners.map(user =>
+								"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' " +
+								"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
+							)).join("")
+						: "Keiner hat gewonnen!") + "</b></p></div>";
 
 					text +=
 						"<h2>" + json.data.prize + "</h2>" +
@@ -77,7 +83,11 @@ function getGiveawayHTML(giveaway) {
 						"<p><span translation='giveaway.ends'></span>: " + new Date(json.data.endAt).toLocaleString() + "</p>" +
 						"<p><span translation='giveaway.hostedby'></span>: " + json.data.hostedBy + "</p>" +
 						"<p><span translation='giveaway.winneramount'></span>: <b>" + json.data.winnerCount + "</b></p>" +
-						"<p>" + (json.data.ended ? "" : "Aktuelle ") + "Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>";
+						"<p>" + (json.data.ended ? "" : "Aktuelle ") + "Nutzer im Giveaway: <b>" + json.data.users.length + "</b></p>" +
+						(json.data.users.map(user =>
+							"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' width='32' height='32' " +
+							"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
+						)).join("");
 
 					const reqs = json.data.requirements;
 					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {

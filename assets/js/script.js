@@ -31,7 +31,8 @@ function handleError(resolve, error) {
 	if (typeof error != "string") console.error(error);
 	resolve(
 		"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-		"<h1>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h1>");
+		"<h2>An error occured while handling your request!</h2>" +
+		"<h2>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h2>");
 }
 
 class Footer extends HTMLElement {
@@ -40,7 +41,7 @@ class Footer extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>" +
+			"<noscript>This website doesn't work without JavaScript.</noscript>" +
 			"<footer>" +
 			"<a href='/'>" +
 			"<div id='mainlink'>" +

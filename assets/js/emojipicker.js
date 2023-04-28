@@ -63,7 +63,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 		insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
 	});
 
-	picker.i18n = emojiPickerLang;
+	//picker.i18n = emojiPickerLang;
 	picker.customEmoji = customEmoji.map(emoji => {
 		return {
 			name: emoji.name,

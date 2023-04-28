@@ -5,7 +5,7 @@ const getLanguage = () => {
 	if (getCookie("lang")) return getCookie("lang");
 
 	const userLang = navigator.language || navigator.userLanguage;
-	return userLang ? (userLang.split("-")[0] == "de" ? "de" : "en") : "en";
+	return userLang ? (userLang.split("-")[0] == "de" || userLang.split("-")[0] == "fr" || userLang.split("-")[0] == "hu" ? userLang.split("-")[0] : "en") : "en";
 };
 
 const resolveValue = (obj, keySplit) => {

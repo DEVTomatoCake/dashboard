@@ -114,7 +114,8 @@ function getSettingsHTML(json) {
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h1>" + json.message + "</h1>");
+			"<h2>An error occured while handling your request!</h2>" +
+			"<h2>" + json.message + "</h2>");
 	}
 }
 
@@ -140,7 +141,8 @@ function getCustomcommandsHTML(json) {
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h1>" + json.message + "</h1>");
+			"<h2>An error occured while handling your request!</h2>" +
+			"<h2>" + json.message + "</h2>");
 	}
 }
 
@@ -187,7 +189,8 @@ function getReactionrolesHTML(json) {
 	} else {
 		return (
 			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h1>" + json.message + "</h1>");
+			"<h2>An error occured while handling your request!</h2>" +
+			"<h2>" + json.message + "</h2>");
 	}
 }
 
@@ -302,7 +305,7 @@ function getDataexportHTML(token) {
 						"<div class='userData'>" +
 						"<label for='datajson'><h1 translation='user.json'></h1></label><br>" +
 						"<textarea id='datajson' rows='13' cols='" + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + "' readonly>" +
-						JSON.stringify(json.data, null, 2) + "</textarea>" +
+							JSON.stringify(json.data, null, 2) + "</textarea>" +
 						"</div>" +
 						"</div>" +
 
@@ -315,11 +318,6 @@ function getDataexportHTML(token) {
 	});
 }
 
-const ticketStates = {
-	open: "Offen",
-	closed: "Geschlossen",
-	deleted: "Gelöscht"
-}
 function getTicketsHTML(guild) {
 	return new Promise(resolve => {
 		getTickets(guild)
@@ -327,16 +325,17 @@ function getTicketsHTML(guild) {
 				if (json.status == "success") {
 					let text =
 						"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID/Transcript</th><th translation='tickets.table.user'></th><th translation='tickets.table.otherusers'></th><th translation='tickets.table.state'></th></tr></thead><tbody>";
+						"<table cellpadding='8' cellspacing='0'><thead>" +
+						"<tr><th>ID/Transcript</th><th translation='tickets.table.user'></th><th translation='tickets.table.otherusers'></th><th translation='tickets.table.state'></th></tr>" +
+						"</thead><tbody>";
 
-					json.data.filter(ticket => !ticket.category).forEach(ticket => {
+					json.data.forEach(ticket => {
 						text +=
 							"<tr class='ticket cmdvisible'>" +
-							"<td><a href='/ticket/?id=" + ticket.id + "'>" + ticket.id + "</a></td>" +
-							"<td>" + ticket.owner + "</td>" +
-							"<td>" + (ticket.users.some(u => u != ticket.owner) ? ticket.users.filter(u => u != ticket.owner).join(", ") : "") + "</td>" +
-							"<td>" + ticketStates[ticket.state] + "</td>" +
+							"<td><a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a></td>" +
+							"<td>" + encode(ticket.owner) + "</td>" +
+							"<td>" + encode(ticket.users.filter(u => u != ticket.owner).join(", ")) + "</td>" +
+							"<td>" + encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) + "</td>" +
 							"</tr>";
 					});
 
@@ -355,8 +354,9 @@ function getLogsHTML(guild) {
 					logs = json.data;
 					let text =
 						"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr></thead><tbody>";
+						"<table cellpadding='8' cellspacing='0'><thead>" +
+						"<tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr>" +
+						"</thead><tbody>";
 
 					json.data.forEach(log => {
 						text +=
@@ -388,22 +388,15 @@ function getModlogsHTML(guild) {
 					logs = json.data;
 					let text =
 						"<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-						"<table cellpadding='8' cellspacing='0'>" +
-						"<thead><tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th><th>Mehr Informationen</th></tr></thead><tbody>";
+						"<table cellpadding='8' cellspacing='0'><thead>" +
+						"<tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th><th translation='logs.moreinfo'></th></tr>" +
+						"</thead><tbody>";
 
 					json.data.forEach(log => {
 						log.cases?.forEach(i => {
-							let type = i.type;
-							if (i.type == "warning") type = "Warn";
-							else if (i.type == "mute") type = "Mute";
-							else if (i.type == "unmute") type = "Unmute";
-							else if (i.type == "ban") type = "Ban";
-							else if (i.type == "kick") type = "Kick";
-							else if (i.type == "tempban") type = "Tempban";
-
 							text +=
 								"<tr class='ticket cmdvisible'>" +
-								"<td>" + encode(type) + "</td>" +
+								"<td>" + encode(i.type.charAt(0).toUpperCase() + i.type.slice(1)) + "</td>" +
 								"<td>" + encode(log.user) + "</td>" +
 								"<td>" + encode(i.moderator) + "</td>" +
 								"<td class='overflow'>" + encode(i.reason) + "</td>" +

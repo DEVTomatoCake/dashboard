@@ -57,14 +57,13 @@
 
 				document.getElementById("server" + currentServer).style.opacity = "0";
 				setTimeout(() => {
-					document.getElementById("server" + currentServer).innerHTML = `
-						<img src="${server.icon}">
-						<div>
-							<h3>${server.name}</h3>
-							<p><b>${server.members}</b> Members</p>
-							<p>Using bot since <b>${server.botsince}</b></p>
-						</div>
-					`;
+					document.getElementById("server" + currentServer).innerHTML =
+						"<img src='" + server.icon + "'>" +
+						"<div>" +
+						"<h3>" + server.name + "</h3>" +
+						"<p><b>" + server.members + "</b> Members</p>" +
+						"<p>Using bot since <b>" + server.botsince + "</b></p>" +
+						"</div>";
 
 					document.getElementById("server" + currentServer).style.opacity = "1";
 				}, 700);

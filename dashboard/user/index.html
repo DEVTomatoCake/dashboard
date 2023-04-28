@@ -50,14 +50,14 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
-					<h1>Deine Daten werden geladen...</h1>
+					<h1>Loading your user data...</h1>
 				</div>
 			</div>
 		</main>
 
 		<script>
 			if (getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Deine Daten werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading your user data...</h1>";
 				getDataexportHTML().then(data => {
 					document.getElementById("content").innerHTML = data;
 					reloadText();

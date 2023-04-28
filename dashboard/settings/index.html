@@ -37,10 +37,10 @@
 			const friendlyCat = {
 				ticket: "Tickets",
 				boost: "Boosts",
-				level: "Leaderboard & Level",
-				stats: "Statistiken",
-				autonick: "Rollen-Nickname",
-				voting: "Vote-Announcements"
+				level: "Leaderboard & level",
+				stats: "Statistics",
+				autonick: "Role nicknames",
+				voting: "Vote messages"
 			};
 
 			let settingsData = {};
@@ -53,7 +53,7 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
+						errorToast = toastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -91,13 +91,13 @@
 
 						if (json.action == "NOTIFY") {
 							setTimeout(() => {
-								toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
+								toastNotification({type: json.type || "INFO", title: json.message, timeout: 20}).show();
 							}, 6000);
 						} else if (json.action == "RECEIVE_settings") {
 							settingsData = json.data;
 							pickerData.role = json.constant.role;
 							pickerData.textchannel = json.constant.textchannel;
-							pickerData.leveltextchannel = {here: "Aktueller Kanal", ...pickerData.textchannel}
+							pickerData.leveltextchannel = {here: "Current channel", ...pickerData.textchannel}
 							pickerData.voicechannel = json.constant.voicechannel;
 							pickerData.categorychannel = json.constant.categorychannel;
 							pickerData.announcementchannel = json.data.find(setting => setting.type == "announcementchannel").possible;
@@ -242,7 +242,7 @@
 				<div id="root-container" class="row">
 					<section id="guilds">
 						<div id="guilds-container" class="grid">
-							<h1>Die Server werden geladen...</h1>
+							<h1>Loading settings...</h1>
 						</div>
 					</section>
 				</div>
@@ -310,14 +310,14 @@
 					data: items
 				}));
 
-				savingToast = toastNotification({type: "LOADING", title: "Einstellungen werden gespeichert...", timeout: 5}).show();
+				savingToast = toastNotification({type: "LOADING", title: "Saving settings...", timeout: 5}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Einstellungen werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading settings...</h1>";
 				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Einstellungen werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading settings...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";

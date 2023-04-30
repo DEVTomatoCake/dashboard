@@ -118,7 +118,7 @@
 				</div>
 
 				<div id="root-container">
-					<h1>Die Modlogs werden geladen...</h1>
+					<h1>Loading modlogs...</h1>
 				</div>
 
 				<div id="info-dialog" class="dialog">
@@ -138,7 +138,7 @@
 			const params = new URLSearchParams(window.location.search);
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Modlogs werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading modlogs...</h1>";
 				getModlogsHTML(params.get("guild")).then(data => {
 					const encodedGuild = encode(params.get("guild"));
 					document.getElementById("linksidebar").innerHTML +=
@@ -155,7 +155,7 @@
 					reloadText();
 				});
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Modlogs werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading modlogs...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";

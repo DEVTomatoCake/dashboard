@@ -1,39 +1,4 @@
-const emojiPickerLang = {
-	categoriesLabel: "Kategorien",
-	emojiUnsupportedMessage: "Dein Browser unterstützt keine farbigen Emojis.",
-	favoritesLabel: "Favoriten",
-	loadingMessage: "Wird geladen…",
-	networkErrorMessage: "Konnte Emoji nicht laden.",
-	regionLabel: "Emoji auswählen",
-	searchDescription: "Wenn Suchergebnisse verfügbar sind, wähle sie mit Pfeil rauf und runter, dann Eingabetaste, aus.",
-	searchLabel: "Suchen",
-	searchResultsLabel: "Suchergebnisse",
-	skinToneDescription: "Wenn angezeigt, nutze Pfeiltasten rauf und runter zum Auswählen, Eingabe zum Akzeptieren.",
-	skinToneLabel: "Wähle einen Hautton (aktuell {skinTone})",
-	skinTonesLabel: "Hauttöne",
-	skinTones: [
-		"Standard",
-		"Hell",
-		"Mittel-hell",
-		"Mittel",
-		"Mittel-dunkel",
-		"Dunkel"
-	],
-	categories: {
-		custom: "Benutzerdefiniert",
-		"smileys-emotion": "Smileys und Emoticons",
-		"people-body": "Menschen und Körper",
-		"animals-nature": "Tiere und Natur",
-		"food-drink": "Essen und Trinken",
-		"travel-places": "Reisen und Orte",
-		activities: "Aktivitäten",
-		objects: "Objekte",
-		symbols: "Symbole",
-		flags: "Flaggen"
-	}
-}
-
-async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis") {
+async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis", onlyNameReplace = false) {
 	const pickerExisting = parent.querySelector("emoji-picker");
 	if (pickerExisting) return pickerExisting.remove();
 
@@ -60,18 +25,16 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	picker.shadowRoot.appendChild(style);
 
 	picker.addEventListener("emoji-click", e => {
-		insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
+		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name;
+		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
 	});
 
-	picker.i18n = emojiPickerLang;
-	picker.customEmoji = customEmoji.map(emoji => {
-		return {
-			name: emoji.name,
-			shortCodes: [emoji.name, emoji.id],
-			url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
-			category: guildName
-		};
-	});
+	picker.customEmoji = customEmoji.map(emoji => ({
+		name: emoji.name,
+		shortCodes: [emoji.name, emoji.id],
+		url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
+		category: guildName
+	}));
 	parent.appendChild(picker);
 }
 

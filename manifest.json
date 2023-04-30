@@ -35,14 +35,29 @@
 	"theme_color": "#ED8721",
 	"shortcuts": [
 		{
-			"name": "Einstellungen ändern",
-			"short_name": "Dashboard",
-			"description": "Ändere die Einstellungen für einen Server",
+			"name": "View your servers",
+			"short_name": "Server list",
+			"description": "View your servers or invite the bot",
 			"url": "/dashboard/?source=pwa"
 		},{
-			"name": "Befehle anzeigen",
-			"short_name": "Befehle",
-			"description": "Sieh dir die Befehle vom Bot an",
+			"name": "Edit server settings",
+			"short_name": "Settings",
+			"description": "Modify the settings of a server",
+			"url": "/dashboard/settings/?source=pwa"
+		},{
+			"name": "Manage customcommands",
+			"short_name": "Customcommands",
+			"description": "Create and modify customcommands of a server",
+			"url": "/dashboard/customcommands/?source=pwa"
+		},{
+			"name": "Manage reaction, button and select roles",
+			"short_name": "Reactionroles",
+			"description": "Create and modify reaction, button and select roles of a server",
+			"url": "/dashboard/reactionroles/?source=pwa"
+		},{
+			"name": "View bot commands",
+			"short_name": "Commands",
+			"description": "Check the commands of the bot",
 			"url": "/commands/?source=pwa"
 		}
 	],
@@ -52,6 +67,10 @@
 			"src": "/assets/images/ticketembed_dark.png",
 			"type": "image/png",
 			"sizes": "362x423"
+		},{
+			"src": "/assets/images/buttonroles.webp",
+			"type": "image/webp",
+			"sizes": "349x86"
 		}
 	]
 }

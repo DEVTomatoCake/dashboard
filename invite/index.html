@@ -16,13 +16,11 @@
 
 		<script>
 			const params = new URLSearchParams(location.search);
-
-			const redirect_uri = "https://" + location.host + "/dashboard/";
-			const scopes = "identify guilds bot";
-			const permissions = "1393602981110";
+			const perms = "1393602981110";
 			const guild = params.has("guild") ? "&guild_id=" + encodeURIComponent(params.get("guild")) : "";
 
-			location.href = "https://discord.com/oauth2/authorize?client_id=685166801394335819&redirect_uri=" + encodeURIComponent(redirect_uri) + "&response_type=code&scope=" + encodeURIComponent(scopes) + "&permissions=" + permissions + guild;
+			location.href = "https://discord.com/oauth2/authorize?client_id=685166801394335819&redirect_uri=" + encodeURIComponent("https://" + location.host + "/dashboard/") +
+				"&response_type=code&scope=identify+guilds+bot&permissions=" + perms + guild;
 		</script>
 	</head>
 </html>

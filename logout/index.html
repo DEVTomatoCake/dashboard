@@ -3,11 +3,11 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Logout of your Discord Account here.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Log out of your Discord account here.">
 		<meta name="theme-color" content="#ed8721">
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/logout/">
 
-		<title>TomatenKuchen - Discord Account Logout</title>
+		<title>TomatenKuchen - Discord account logout</title>
 		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon">
 		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
@@ -20,8 +20,8 @@
 	</head>
 	<body class="dark-theme">
 		<div class="center">
-			<h1>Die Abmeldung erfolgt...</h1>
-			<h2>Du wirst auf die Startseite geleitet, wenn die Abmeldung erfolgreich war!</h2>
+			<h1>Logging you out...</h1>
+			<h2>You'll be redirected to the home page automatically after success.</h2>
 		</div>
 		<script>
 			logout().then(json => {
@@ -32,11 +32,12 @@
 				if (json.status == "success") location.href = "https://" + location.host + "/";
 				else {
 					document.body.innerHTML =
-						"<center>" +
-						"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1><br>" +
-						"<h1>" + json.message + "</h1>" +
-						"<h2>Du wurdest trotzdem aus dem Browser abgemeldet.</h2>" +
-						"</center>";
+						"<div class='center'>" +
+						"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
+						"<h2>An error occured while handling your request!</h2>" +
+						"<h2>" + json.message + "</h2>" +
+						"<h3>Du wurdest trotzdem aus dem Browser abgemeldet.</h3>" +
+						"</div>";
 
 					setTimeout(() => {
 						location.href = "https://" + location.host + "/";

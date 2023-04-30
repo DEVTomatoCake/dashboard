@@ -136,7 +136,7 @@
 			}
 
 			const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles);
-			const cEmoPic = elem => emojiPicker(elem.parentElement, pickerData.emojis, guildName);
+			const cEmoPic = (elem, onlyName = false) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyName);
 
 			function addItem(settingKey, possible = {}, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				const setting = selectData[settingKey];

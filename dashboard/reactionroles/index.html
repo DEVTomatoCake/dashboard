@@ -116,10 +116,11 @@
 
 				if (clearTabs) for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove();
 			}
-			const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace);
 
 			let guildName = "";
 			const pickerData = {};
+			const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace);
+
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -255,7 +256,9 @@
 
 							<div id="reaction" class="tabs">
 								<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
-								<div><input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly></div>
+								<div>
+									<input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
+								</div>
 							</div>
 							<div id="button" class="tabs" style="display: none;">
 								<label for="reactionroles-buttonstyle">Button-Design</label>
@@ -270,7 +273,9 @@
 								<input type="text" maxlength="80" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-buttonemoji">Button-Emoji</label>
-								<div><input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly></div>
+								<div>
+									<input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
+								</div>
 							</div>
 							<div id="select" class="tabs" style="display: none;">
 								<label for="reactionroles-selectlabel">Select-Text</label>
@@ -280,7 +285,9 @@
 								<input type="text" maxlength="100" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
 
 								<label for="reactionroles-selectemoji">Select-Emoji</label>
-								<div><input type="text" maxlength="50" name="reactionroles-selectemoji" id="reactionroles-selectemoji" onclick="cEmoPic(this, true)" readonly></div>
+								<div>
+									<input type="text" maxlength="50" name="reactionroles-selectemoji" id="reactionroles-selectemoji" onclick="cEmoPic(this, true)" readonly>
+								</div>
 							</div>
 
 							<button type="submit" onclick="addRR(event)" translation="dashboard.rr.add"></button>

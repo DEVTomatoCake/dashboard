@@ -90,8 +90,7 @@ function getSettingsHTML(json) {
 					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				} else if (setting.type == "emoji") {
-					temp += "<div class='emoji-container'><input class='setting' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + " hidden />" +
-						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
+					temp += "<input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' disabled onclick='cEmoPic(this)' />";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				} else {
 					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>" +

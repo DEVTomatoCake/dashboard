@@ -90,7 +90,7 @@ function getSettingsHTML(json) {
 					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				} else if (setting.type == "emoji") {
-					temp += "<div><input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' onclick='cEmoPic(this, true)' readonly /></div>";
+					temp += "<div><input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' onclick='cEmoPic(this, true)' readonly></div>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				} else {
 					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
@@ -166,7 +166,8 @@ function getReactionrolesHTML(json) {
 			const emoji = encode(setting.reaction || setting.emoji);
 
 			text +=
-				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Reactionrole Image'><br>") : "") +
+				"<div>" +
+				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Role emoji'><br>") : "") +
 				(type == "button" || type == "select" ? "<p><b>" + encode(setting.label) + "</b></p>" : "") +
 				"<select class='setting' data-type='" + type + "' data-msg='" + encode(setting.msg) + "' " +
 				"data-channel='' " +
@@ -183,7 +184,7 @@ function getReactionrolesHTML(json) {
 				Object.keys(rolecopy).map(key =>
 					setting.role == key ? "<option value='" + key + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
 				) +
-				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br>";
+				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br></div>";
 		});
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";

@@ -47,7 +47,7 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						errorToast = toastNotification({type: "ERROR", title: "Die Verbindung wurde getrennt...", timeout: 30}).show();
+						errorToast = toastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -59,6 +59,7 @@
 							status: "success",
 							action: "GET_customcommands",
 							guild,
+							lang: getLanguage(),
 							token: getCookie("token")
 						});
 						socket.send({

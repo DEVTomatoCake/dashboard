@@ -28,14 +28,21 @@
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
 		<script>
-			function ticketSearch() {
+			async function ticketSearch() {
 				const ticid = document.getElementById("ts-id").value;
 				const ticusername = document.getElementById("ts-username").value;
 				const ticuserid = document.getElementById("ts-userid").value;
 				const ticcreated = document.getElementById("ts-created").value;
+				const ticcontent = document.getElementById("ts-content").value;
 				const ticstate = document.getElementById("ts-state").value;
 
 				const ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
+
+				let includeContent = [];
+				if (ticcontent != "" && ticcontent.length > 2) {
+					const params = new URLSearchParams(window.location.search);
+					includeContent = await searchTickets(params.get("guild"), ticcontent);
+				}
 
 				for (let i = 0; i < ticketdiv.length; i++) {
 					const cmd = ticketdiv[i];
@@ -43,6 +50,7 @@
 
 					let hidden = false;
 					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
+					if (ticcontent != "" && !includeContent.includes(rows[0].innerText.toLowerCase())) hidden = true;
 					if (ticuserid != "" && !rows[1].innerText.toLowerCase().includes(ticuserid.toLowerCase())) hidden = true;
 					if (ticstate != "all" && !rows[3].innerText.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
 
@@ -93,6 +101,10 @@
 
 					<label for="ts-created" translation="tickets.created"></label>
 					<input type="datetime-local" id="ts-created" onchange="ticketSearch()">
+
+					<label for="ts-content" translation="dashboard.content"></label>
+					<input id="ts-content" onchange="ticketSearch()">
+					<p translation="tickets.contentwarning"></p>
 
 					<label for="ts-state" translation="tickets.state"></label>
 					<select id="ts-state" onchange="ticketSearch()">

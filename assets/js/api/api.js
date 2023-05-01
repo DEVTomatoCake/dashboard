@@ -63,6 +63,10 @@ const getTickets = guild => new Promise((resolve, reject) => {
 	get("tickets/" + guild)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
+const searchTickets = (guild, text) => new Promise((resolve, reject) => {
+	get("ticketsearch/" + guild + "?search=" + encodeURIComponent(text))
+		.then(d => resolve(d)).catch(e => reject(e))
+})
 
 const getGiveaway = msg => new Promise((resolve, reject) => {
 	get("giveaways/" + msg)

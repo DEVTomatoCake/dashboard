@@ -2,17 +2,38 @@ const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
 let _toastNotifications = []
 let autoscroll = true
 
+const toastNotifications = {
+    closeAll: function () {
+        _toastNotifications.forEach(toastNotification => {
+            toastNotification.close()
+        })
+    }
+}
+
 function createWrapper() {
     const wrapper = document.createElement("div")
+    const closeAll = document.createElement("div")
     const container = document.createElement("div")
 
     wrapper.setAttribute("id", "toast-notification-wrapper")
+    closeAll.setAttribute("class", "close-all")
     container.setAttribute("class", "toast-notification-container")
 
+    closeAll.innerHTML = `
+        <span>Close all notifications</span>
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor;">
+            <path d="M435.2,128l-358.4,0l0,332.8c0,28.087 23.113,51.2 51.2,51.2l256,0c28.087,0 51.2,-23.113 51.2,-51.2l0,-332.8Zm-230.4,307.2l-51.2,0l0,-230.4l51.2,0l0,230.4Zm153.6,0l-51.2,0l0,-230.4l51.2,0l0,230.4Zm15.821,-384l-41.421,-51.2l-153.6,0l-41.421,51.2l-112.179,0l0,51.2l460.8,0l0,-51.2l-112.179,0Z"/>
+        </svg>
+    `
+
+    closeAll.addEventListener("click", () => {
+        toastNotifications.closeAll()
+    })
     container.addEventListener("scroll", () => {
-        autoscroll = (wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40
+        autoscroll = ((wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40)
     })
 
+    wrapper.append(closeAll, container)
     document.querySelector("body").prepend(wrapper)
     return container
 }

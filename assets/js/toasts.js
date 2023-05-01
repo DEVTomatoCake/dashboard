@@ -1,7 +1,8 @@
+// Made by Mqx#8315 on "Deutsches Mapmaking" Discord
+
 const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
-const toastNotifications = {}
+let _toastNotifications = []
 let autoscroll = true
-let currentId = 0
 
 function createWrapper() {
 	const wrapper = document.createElement("div")
@@ -19,99 +20,123 @@ function createWrapper() {
 	return container
 }
 
-function toastNotification({timeout = 10, type = "INFO", title = ""}) {
-	const element = document.createElement("div")
-	element.setAttribute("class", "toast-notification")
-	element.innerHTML = `
-		<div class="type-image-wrapper" data-type="${type}">
-			<div class="type-image"></div>
-		</div>
-		<div class="content-wrapper">
-			<header>
-				<div class="title-wrapper">
-					<span class="title">${title}</span>
-				</div>
-				<div class="close">
-					<span class="timeout"></span>
-					<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor;">
-						<path d="M448.006,0l-192.029,192l-191.983,-192l-63.994,64l191.983,192l-191.983,192l63.994,64l191.983,-192l192.029,192l63.994,-64l-191.983,-192l191.983,-192l-63.994,-64Z"/>
-					</svg>
-				</div>
-			</header>
-		</div>
-	`
-	const id = currentId++
-	let intervalId
+class ToastNotification {
+	#_intervalId
+	#element
 
-	element.querySelector(".content-wrapper header .close svg").addEventListener("click", () => {
-		this.close()
-	})
+	#type
+	#title
+	#description
+	#tag
+	#timeout
 
-	this.setType = function setType(newType) {
-		if (element.classList.contains("closed")) return
-		element.querySelector(".type-image-wrapper").setAttribute("data-type", types.includes(newType) ? newType : "INFO")
+	constructor({timeout = 20, type = "INFO", title = "", description = "", tag = ""}) {
+		this.#type = type
+		this.#title = title
+		this.#description = description
+		this.#tag = tag
+		this.#timeout = timeout
+
+		this.#element = document.createElement("div")
+		this.#element.setAttribute("class", "toast-notification")
+		this.#element.innerHTML = `
+			<div class="type-image-wrapper" data-type="${this.#type}">
+				<div class="type-image"></div>
+			</div>
+			<div class="content-wrapper">
+				<header>
+					<div class="title-wrapper">
+						<span class="title">${this.#title}</span>
+						<span class="tag">${this.#tag}</span>
+					</div>
+					<div class="close">
+						<span class="timeout"></span>
+						<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" style="fill:currentColor;">
+							<path d="M448.006,0l-192.029,192l-191.983,-192l-63.994,64l191.983,192l-191.983,192l63.994,64l191.983,-192l192.029,192l63.994,-64l-191.983,-192l191.983,-192l-63.994,-64Z"/>
+						</svg>
+					</div>
+				</header>
+				<div class="description">${this.#description}</div>
+			</div>
+		`
+		this.#element.querySelector(".content-wrapper header .close").addEventListener("click", () => {
+			this.close()
+		})
+	}
+
+	setType(type) {
+		if (this.#element.classList.contains("closed")) return
+		this.#type = types.includes(type) ? type : "INFO"
+		this.#element.querySelector(".type-image-wrapper").setAttribute("data-type", this.#type)
 		return this
 	}
 
-	this.setTitle = function setTitle(newTitle) {
-		if (element.classList.contains("closed")) return
-		element.querySelector(".content-wrapper header .title-wrapper .title").innerText = newTitle || ""
+	setTitle(title) {
+		if (this.#element.classList.contains("closed")) return
+		this.#title = title || ""
+		this.#element.querySelector(".content-wrapper header .title-wrapper .title").innerText = this.#title
 		return this
 	}
 
-	function createTimeout() {
-		const e = element.querySelector(".content-wrapper header .close .timeout")
-		e.innerText = timeout ? timeout + "s" : e.innerText
+	setDescription(description) {
+		if (this.#element.classList.contains("closed")) return
+		this.#description = description || ""
+		this.#element.querySelector(".content-wrapper .description").innerHTML = this.#description
+		return this
 	}
 
-	this.show = function show() {
+	setTag(tag) {
+		if (this.#element.classList.contains("closed")) return
+		this.#tag = tag || ""
+		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").innerText = this.#tag
+		return this
+	}
+
+	#setTimeout() {
+		const e = this.#element.querySelector(".content-wrapper header .close .timeout")
+		e.innerText = (this.#timeout === void 0) ? e.innerText : (this.#timeout + "s")
+	}
+
+	show() {
 		let container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (!container) container = createWrapper()
-		else if (container.contains(element)) return
+		if (container === null) container = createWrapper()
+		else if (container.contains(this.#element)) return
 
 		autoscroll = ((container.scrollHeight - container.scrollTop - container.clientHeight) <= 40)
+
+		container.append(this.#element)
+		_toastNotifications.push(this)
+
 		if (autoscroll) container.scrollTop = container.scrollHeight
 
-		container.append(element)
-		toastNotifications[id] = this.get()
+		this.#setTimeout()
+		this.#_intervalId = setInterval(() => {
+			this.#timeout -= 1
 
-		createTimeout()
-		intervalId = setInterval(() => {
-			toastNotifications[id].intervalId = intervalId
-			timeout--
-			createTimeout()
+			this.#setTimeout()
 
-			if (timeout <= 0) this.close(id)
+			if (this.#timeout <= 0) {
+				clearInterval(this.#_intervalId)
+
+				this.close()
+			}
 		}, 1000)
 		return this
 	}
 
-	this.close = function close(closeId) {
-		if (!closeId) closeId = id
-		const current = toastNotifications[closeId]
-		clearInterval(current.intervalId)
+	close() {
+		clearInterval(this.#_intervalId)
 
+		const wrapper = document.body.querySelector("#toast-notification-wrapper")
 		const container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (!container) return
+		if (container === null) return
 
-		current.element.classList.add("closed")
+		this.#element.classList.add("closed")
 
 		setTimeout(() => {
-			current.element.remove()
-			delete toastNotifications[closeId]
-			if (container.childElementCount == 0) document.body.querySelector("#toast-notification-wrapper").remove()
+			this.#element.remove()
+			_toastNotifications.splice(_toastNotifications.indexOf(this), 1)
+			if (container.childElementCount === 0) wrapper.remove()
 		}, 500)
 	}
-
-	this.get = function get() {
-		return {
-			id,
-			intervalId,
-			type,
-			title,
-			timeout,
-			element
-		}
-	}
-	return this
 }

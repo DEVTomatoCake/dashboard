@@ -40,7 +40,6 @@ function createWrapper() {
 
 class ToastNotification {
     #_intervalId
-    #closeConditions
 
     #element
 
@@ -50,9 +49,7 @@ class ToastNotification {
     #tag
     #timeout
 
-    constructor(timeout, closeConditions) {
-        this.#closeConditions = {}
-        this.#closeConditions.time = !closeConditions || closeConditions.time === undefined ? true : closeConditions.time
+    constructor(timeout) {
         this.#type = "INFO"
         this.#title = ""
         this.#description = ""
@@ -116,7 +113,7 @@ class ToastNotification {
 
     #setTimeout() {
         const e = this.#element.querySelector(".content-wrapper header .close .timeout")
-        e.innerText = (this.#timeout === undefined) ? e.innerText : (this.#timeout + "s")
+        e.innerText = (this.#timeout === void 0) ? e.innerText : (this.#timeout + "s")
     }
 
     show() {
@@ -129,24 +126,20 @@ class ToastNotification {
         container.append(this.#element)
         _toastNotifications.push(this)
 
-        if (autoscroll) {
-            container.scrollTop = container.scrollHeight
-        }
+        if (autoscroll) container.scrollTop = container.scrollHeight
 
-        if (this.#closeConditions.time) {
-            this.#setTimeout()
-            this.#_intervalId = setInterval(() => {
-                this.#timeout -= 1
+		this.#setTimeout()
+		this.#_intervalId = setInterval(() => {
+			this.#timeout -= 1
 
-                this.#setTimeout()
+			this.#setTimeout()
 
-                if (this.#timeout <= 0) {
-                    clearInterval(this.#_intervalId)
+			if (this.#timeout <= 0) {
+				clearInterval(this.#_intervalId)
 
-                    this.close()
-                }
-            }, 1000)
-        }
+				this.close()
+			}
+		}, 1000)
         return this
     }
 

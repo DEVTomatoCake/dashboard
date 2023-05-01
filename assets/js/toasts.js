@@ -1,3 +1,5 @@
+// Made by Mqx#8315 on "Deutsches Mapmaking" Discord
+
 const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
 let _toastNotifications = []
 let autoscroll = true

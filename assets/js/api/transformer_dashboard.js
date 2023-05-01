@@ -34,7 +34,7 @@ function getSettingsHTML(json) {
 
 		json.data.forEach(setting => {
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
-				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de" : "en") + "/" + setting.docs + "'><small>Docs<ion-icon name='link-outline'></ion-icon></small></a>" : "") + "<br>";
+				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de" : "en") + "/" + setting.docs + "' target='_blank' rel='noopener'><small>Docs<ion-icon name='link-outline'></ion-icon></small></a>" : "") + "<br>";
 
 			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible;

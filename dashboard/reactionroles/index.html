@@ -162,9 +162,9 @@
 						console.log(json);
 
 						if (json.action == "NOTIFY") {
-							new ToastNotification(json.timeout, closeCondition)
+							new ToastNotification(json.timeout)
 								.setType(json.type)
-								.setTitle(json.message)
+								.setTitle(json.title)
 								.setDescription(json.desc)
 								.setTag(json.tag)
 								.show()

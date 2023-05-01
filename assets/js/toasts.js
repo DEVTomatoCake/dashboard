@@ -28,10 +28,10 @@ function createWrapper() {
 
     closeAll.addEventListener("click", () => {
         toastNotifications.closeAll()
-    }, )
+    })
     container.addEventListener("scroll", () => {
         autoscroll = ((wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40)
-    }, )
+    })
 
     wrapper.append(closeAll, container)
     document.querySelector("body").prepend(wrapper)
@@ -40,7 +40,6 @@ function createWrapper() {
 
 class ToastNotification {
     #_intervalId
-
     #element
 
     #type
@@ -49,12 +48,12 @@ class ToastNotification {
     #tag
     #timeout
 
-    constructor(timeout) {
-        this.#type = "INFO"
-        this.#title = ""
-        this.#description = ""
-        this.#tag = ""
-        this.#timeout = timeout || 20
+    constructor({timeout = 20, type = "INFO", title = "", description = "", tag = ""}) {
+        this.#type = type
+        this.#title = title
+        this.#description = description
+        this.#tag = tag
+        this.#timeout = timeout
 
         this.#element = document.createElement("div")
         this.#element.setAttribute("class", "toast-notification")

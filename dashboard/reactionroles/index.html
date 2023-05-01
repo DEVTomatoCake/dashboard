@@ -161,14 +161,8 @@
 						}
 						console.log(json);
 
-						if (json.action == "NOTIFY") {
-							new ToastNotification(json.timeout)
-								.setType(json.type)
-								.setTitle(json.title)
-								.setDescription(json.desc)
-								.setTag(json.tag)
-								.show()
-						} else if (json.action == "RECEIVE_reactionroles") {
+						if (json.action == "NOTIFY") new ToastNotification(json).show();
+						else if (json.action == "RECEIVE_reactionroles") {
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveReactionroles();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +

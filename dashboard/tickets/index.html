@@ -41,7 +41,7 @@
 				let includeContent = [];
 				if (ticcontent != "" && ticcontent.length > 2) {
 					const params = new URLSearchParams(window.location.search);
-					includeContent = await searchTickets(params.get("guild"), ticcontent);
+					includeContent = (await searchTickets(params.get("guild"), ticcontent)).data;
 				}
 
 				for (let i = 0; i < ticketdiv.length; i++) {

@@ -1,25 +1,17 @@
 :root {
-	--toast-primary-color: #1f98ff;
-	--toast-divider-color: rgba(0, 0, 0, 0.2);
+	--toast-secondary-text-color: var(--secondary-text-color);
 
-	--toast-primary-text-color: #111; /* #dadde1 */
-	--toast-secondary-text-color: #9da2a3;
-
-	--toast-scroll-thumb-color: rgba(0, 0, 0, 0.4);
-
-	--toast-notification-background-color: #bdbdbd; /* #292f38 */
+	--toast-notification-background-color: var(--secondary-color);
 
 	--toast-notification-wrapper-color: #d5d6e2; /* #30363d */
-	--toast-notification-close-color: var(--toast-primary-text-color);
-	--toast-notification-tag-color: #81818b; /* #76767a */
+	--toast-notification-close-color: var(--primary-text-color);
+	--toast-notification-tag-color: #7f7f81;
 
 	--toast-notification-success-color: #56ee59;
 	--toast-notification-loading-color: #cc6ef1;
 	--toast-notification-info-color: #60bbec;
 	--toast-notification-warning-color: #efb849;
 	--toast-notification-error-color: #e34e4e;
-
-	--toast-shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 #toast-notification-wrapper {
@@ -51,7 +43,7 @@
 #toast-notification-wrapper .toast-notification-container::-webkit-scrollbar-thumb {
 	width: 10px;
 	background-clip: padding-box;
-	background-color: var(--toast-scroll-thumb-color);
+	background-color: rgba(0, 0, 0, 0.4);
 	border: 3px solid transparent;
 	border-radius: 5px;
 }
@@ -59,7 +51,7 @@
 #toast-notification-wrapper .toast-notification-container .toast-notification {
 	display: flex;
 	flex-shrink: 0;
-	box-shadow: 0 0 3px 3px var(--toast-shadow-color);
+	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
 	border-radius: 5px;
 	z-index: 3;
 	overflow: hidden;
@@ -73,7 +65,7 @@
 	animation-name: slide-out-animation;
 }
 
-@keyframes slide-in-animation{
+@keyframes slide-in-animation {
 	from {
 		transform: translateX(150%);
 	}
@@ -82,7 +74,7 @@
 	}
 }
 
-@keyframes slide-out-animation{
+@keyframes slide-out-animation {
 	from {
 		transform: translateX(0);
 	}
@@ -155,7 +147,7 @@
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .title-wrapper .title {
-	color: var(--toast-primary-text-color);
+	color: var(--primary-text-color);
 	font-weight: bold;
 }
 
@@ -174,7 +166,7 @@
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close .timeout {
 	font-size: 11px;
 	margin: 0 3px 1px 6px;
-	color: var(--toast-primary-text-color);
+	color: var(--primary-text-color);
 }
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close .timeout:empty {
 	display: none;
@@ -185,13 +177,13 @@
 	width: 10px;
 	height: 10px;
 	cursor: pointer;
-	color: var(--toast-notification-close-color);
+	color: var(--primary-text-color);
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper .description {
 	padding-top: 2px;
 	font-size: 13px;
-	border-top: 1px solid var(--toast-divider-color);
+	border-top: 1px solid rgba(0, 0, 0, 0.2);
 	color: var(--toast-secondary-text-color);
 }
 

@@ -47,7 +47,7 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						errorToast = toastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
+						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -83,11 +83,8 @@
 						}
 						console.log(json);
 
-						if (json.action == "NOTIFY") {
-							setTimeout(() => {
-								toastNotification({type: json.type || "INFO", title: json.message, timeout: 30}).show();
-							}, 6000);
-						} else if (json.action == "RECEIVE_customcommands") {
+						if (json.action == "NOTIFY") new ToastNotification(json).show();
+						else if (json.action == "RECEIVE_customcommands") {
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
@@ -214,7 +211,7 @@
 					data: items
 				}));
 
-				savingToast = toastNotification({type: "LOADING", title: "Customcommands werden gespeichert...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 5}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {

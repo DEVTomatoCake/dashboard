@@ -125,7 +125,7 @@
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
-						errorToast = toastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
+						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -355,7 +355,7 @@
 					data: items
 				}));
 
-				savingToast = toastNotification({type: "LOADING", title: "Reactionroles werden gespeichert...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving reactionroles...", timeout: 5}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {

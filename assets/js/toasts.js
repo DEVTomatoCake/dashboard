@@ -57,7 +57,7 @@ class ToastNotification {
                 <div class="description">${this.#description}</div>
             </div>
         `
-        this.#element.querySelector(".content-wrapper header .close svg").addEventListener("click", () => {
+        this.#element.querySelector(".content-wrapper header .close").addEventListener("click", () => {
             this.close()
         })
     }

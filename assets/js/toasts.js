@@ -21,14 +21,14 @@ function createWrapper() {
 }
 
 class ToastNotification {
-	#_intervalId
+	/*#_intervalId
 	#element
 
 	#type
 	#title
 	#description
 	#tag
-	#timeout
+	#timeout*/
 
 	constructor({timeout = 20, type = "INFO", title = "", description = "", tag = ""}) {
 		this.#type = type

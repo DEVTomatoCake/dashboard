@@ -50,14 +50,16 @@
 
 				if (!hasSavePopup) {
 					const params = new URLSearchParams(window.location.search);
-					document.body.innerHTML +=
+					document.body.insertAdjacentHTML("beforeend",
 						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
-						"<h2 translation='cookie.title'>Unsaved changes</h2>" +
-						"<button type='button' onclick='saveSettings();fadeOut(this.parentElement);' translation='unsaved.save'>Save changes</button>" +
+						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
+						"<button type='button' onclick='saveSettings();fadeOut(this.parentElement);' translation='unsaved.save'>Save</button>" +
 						"<button type='button' onclick='connectWS(\"" + encode(params.get("guild")) + "\");fadeOut(this.parentElement);' translation='unsaved.revert'>Revert</button>" +
-						"</div>";
+						"</div>"
+					);
 					fadeIn(document.getElementById("unsaved-container"));
 					hasSavePopup = true;
+					reloadText();
 				}
 			}
 
@@ -139,7 +141,7 @@
 							if (location.hash != "") document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true);
 							reloadText();
 							guildName = json.name;
-							for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
+							for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
 						} else if (json.action == "SAVED_settings") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved settings!");

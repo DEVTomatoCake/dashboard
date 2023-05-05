@@ -1054,7 +1054,8 @@ pre {
 }
 
 .unsaved-container {
-	margin: 0 auto;
+	left: calc(50% - 350px);
+	right: unset;
 	z-index: 3;
 }
 

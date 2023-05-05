@@ -46,7 +46,8 @@
 			let changed = [];
 			let hasSavePopup;
 			function handleChange(id) {
-				changed.push(id);
+				if (!document.getElementById("settings-container")) return;
+				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
 
 				if (!hasSavePopup) {
 					const params = new URLSearchParams(window.location.search);
@@ -74,6 +75,7 @@
 				if (hasSavePopup) {
 					fadeOut(document.getElementById("unsaved-container"));
 					hasSavePopup = false;
+					changed = [];
 				}
 
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -282,13 +284,10 @@
 				if (!params.has("guild") || saving) return;
 				saving = true;
 
-				if (hasSavePopup) {
-					fadeOut(document.getElementById("unsaved-container"));
-					hasSavePopup = false;
-				}
-
 				const items = {};
 				settingsData.forEach(setting => {
+					if (!changed.includes(setting.key)) return;
+
 					let entry;
 					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value;
 					else if (setting.org == "object") {
@@ -337,6 +336,12 @@
 					action: "SAVE_settings",
 					data: items
 				}));
+
+				if (hasSavePopup) {
+					fadeOut(document.getElementById("unsaved-container"));
+					hasSavePopup = false;
+					changed = [];
+				}
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 5}).show();
 			}

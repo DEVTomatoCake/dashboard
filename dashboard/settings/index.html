@@ -44,9 +44,10 @@
 			};
 
 			let changed = [];
+			let hasLoaded = false;
 			let hasSavePopup;
 			function handleChange(id) {
-				if (!document.getElementsByClassName("settingsContent")[0]) return;
+				if (!hasLoaded) return;
 				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
 
 				if (!hasSavePopup) {
@@ -75,6 +76,7 @@
 				if (hasSavePopup) {
 					fadeOut(document.getElementById("unsaved-container"));
 					hasSavePopup = false;
+					hasLoaded = false;
 					changed = [];
 				}
 
@@ -149,6 +151,7 @@
 							reloadText();
 							guildName = json.name;
 							for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
+							hasLoaded = true;
 						} else if (json.action == "SAVED_settings") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved settings!");

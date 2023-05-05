@@ -149,10 +149,10 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
-.categorybutton.red {
+.categorybutton.red, .unsaved-container button.red {
 	background-color: #D32F2F;
 }
-.categorybutton.red:hover {
+.categorybutton.red:hover, .unsaved-container button.red:hover {
 	background-color: #B71C1C;
 }
 
@@ -1054,7 +1054,8 @@ pre {
 }
 
 .unsaved-container {
-	left: calc(50% - 350px);
+	min-width: 250px;
+	left: calc(50% - 225px);
 	right: unset;
 	z-index: 3;
 }

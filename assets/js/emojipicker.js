@@ -39,10 +39,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	parent.appendChild(picker);
 }
 
-const insertMention = (elem, id) => {
-	if (handleChange) handleChange(picker.parentElement.parentElement.querySelector("textarea,input").id);
-	insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">");
-};
+const insertMention = (elem, id) => insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">");
 async function mentionPicker(parent = document.body, roles = []) {
 	const pickerExisting = parent.querySelector(".custom-picker");
 	if (pickerExisting) return pickerExisting.remove();
@@ -71,6 +68,7 @@ const updateSelected = (elem, value = "") => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
 		}
 	});
+	if (handleChange) handleChange(elem.parentElement.parentElement.id);
 }
 const updateMultiSelected = (elem, key, value) => {
 	elem.classList.toggle("selected");
@@ -84,6 +82,7 @@ const updateMultiSelected = (elem, key, value) => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
 		});
 	}
+	if (handleChange) handleChange(elem.parentElement.parentElement.id);
 }
 
 class ChannelRolePicker extends HTMLElement {

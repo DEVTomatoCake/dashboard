@@ -53,8 +53,8 @@
 					document.body.insertAdjacentHTML("beforeend",
 						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
 						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
-						"<button type='button' onclick='saveSettings();fadeOut(this.parentElement);' translation='unsaved.save'>Save</button>" +
-						"<button type='button' onclick='connectWS(\"" + encode(params.get("guild")) + "\");fadeOut(this.parentElement);' translation='unsaved.revert'>Revert</button>" +
+						"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
+						"<button type='button' class='red' onclick='connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
 						"</div>"
 					);
 					fadeIn(document.getElementById("unsaved-container"));
@@ -71,6 +71,11 @@
 			const pickerData = {};
 			let socket;
 			function connectWS(guild) {
+				if (hasSavePopup) {
+					fadeOut(document.getElementById("unsaved-container"));
+					hasSavePopup = false;
+				}
+
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();

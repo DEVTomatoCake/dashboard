@@ -29,7 +29,7 @@
 		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
-		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/index.js" integrity="sha384-K6agUzbeMc1GXMXkIluupxooxm0lI/miwK1KgDxZqBS19dXN9xTv3eEg8qOjpQ2q" crossorigin="anonymous"></script>
 		<script src="../../assets/js/emojipicker.js"></script>
 		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
@@ -42,6 +42,24 @@
 				autonick: "Role nicknames",
 				voting: "Vote messages"
 			};
+
+			let changed = [];
+			let hasSavePopup;
+			function handleChange(id) {
+				changed.push(id);
+
+				if (!hasSavePopup) {
+					const params = new URLSearchParams(window.location.search);
+					document.body.innerHTML +=
+						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
+						"<h2 translation='cookie.title'>Unsaved changes</h2>" +
+						"<button type='button' onclick='saveSettings();fadeOut(this.parentElement);' translation='unsaved.save'>Save changes</button>" +
+						"<button type='button' onclick='connectWS(\"" + encode(params.get("guild")) + "\");fadeOut(this.parentElement);' translation='unsaved.revert'>Revert</button>" +
+						"</div>";
+					fadeIn(document.getElementById("unsaved-container"));
+					hasSavePopup = true;
+				}
+			}
 
 			let settingsData = {};
 			let selectData = {};
@@ -121,6 +139,7 @@
 							if (location.hash != "") document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true);
 							reloadText();
 							guildName = json.name;
+							for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
 						} else if (json.action == "SAVED_settings") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved settings!");
@@ -255,6 +274,11 @@
 			function saveSettings() {
 				if (!params.has("guild") || saving) return;
 				saving = true;
+
+				if (hasSavePopup) {
+					fadeOut(document.getElementById("unsaved-container"));
+					hasSavePopup = false;
+				}
 
 				const items = {};
 				settingsData.forEach(setting => {

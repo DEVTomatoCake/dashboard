@@ -1033,7 +1033,7 @@ pre {
 	background-color: var(--secondary-color);
 	padding: 15px;
 	opacity: 0;
-	z-index: 3;
+	z-index: 5;
 	border-radius: 20px;
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
@@ -1051,6 +1051,11 @@ pre {
 }
 .cookie-container button:hover, .create-form button:hover {
 	background-color: var(--accent-color);
+}
+
+.unsaved-container {
+	margin: 0 auto;
+	z-index: 3;
 }
 
 .removeItem {

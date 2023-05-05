@@ -25,6 +25,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	picker.shadowRoot.appendChild(style);
 
 	picker.addEventListener("emoji-click", e => {
+		if (handleChange) handleChange(picker.parentElement.querySelector("textarea,input").id);
 		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name;
 		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
 	});
@@ -38,7 +39,10 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	parent.appendChild(picker);
 }
 
-const insertMention = (elem, id) => insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">");
+const insertMention = (elem, id) => {
+	if (handleChange) handleChange(picker.parentElement.parentElement.querySelector("textarea,input").id);
+	insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">");
+};
 async function mentionPicker(parent = document.body, roles = []) {
 	const pickerExisting = parent.querySelector(".custom-picker");
 	if (pickerExisting) return pickerExisting.remove();

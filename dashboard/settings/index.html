@@ -46,7 +46,7 @@
 			let changed = [];
 			let hasSavePopup;
 			function handleChange(id) {
-				if (!document.getElementById("settings-container")) return;
+				if (!document.getElementById("settingsContent")) return;
 				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
 
 				if (!hasSavePopup) {

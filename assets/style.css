@@ -149,10 +149,10 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
-.categorybutton.red {
+.categorybutton.red, .unsaved-container button.red {
 	background-color: #D32F2F;
 }
-.categorybutton.red:hover {
+.categorybutton.red:hover, .unsaved-container button.red:hover {
 	background-color: #B71C1C;
 }
 
@@ -661,7 +661,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 8px 35px 0 0;
+	margin: 5px 35px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -1033,7 +1033,7 @@ pre {
 	background-color: var(--secondary-color);
 	padding: 15px;
 	opacity: 0;
-	z-index: 3;
+	z-index: 5;
 	border-radius: 20px;
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
@@ -1051,6 +1051,13 @@ pre {
 }
 .cookie-container button:hover, .create-form button:hover {
 	background-color: var(--accent-color);
+}
+
+.unsaved-container {
+	min-width: 350px;
+	left: calc(50% - 275px);
+	right: unset;
+	z-index: 3;
 }
 
 .removeItem {

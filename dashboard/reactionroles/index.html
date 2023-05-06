@@ -29,7 +29,7 @@
 		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
-		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/index.js" integrity="sha384-K6agUzbeMc1GXMXkIluupxooxm0lI/miwK1KgDxZqBS19dXN9xTv3eEg8qOjpQ2q" crossorigin="anonymous"></script>
 		<script src="../../assets/js/emojipicker.js"></script>
 		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
@@ -131,7 +131,9 @@
 						console.log("Connected!", event);
 						if (errorToast) {
 							errorToast.setType("SUCCESS");
-							setTimeout(errorToast.close, 1000);
+							setTimeout(() => {
+								errorToast.close();
+							}, 1000);
 						}
 						socket.send({
 							status: "success",
@@ -169,7 +171,6 @@
 								"<br><hr><div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks active'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
 								"</div>";

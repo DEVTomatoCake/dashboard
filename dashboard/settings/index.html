@@ -29,7 +29,7 @@
 		<script src="../../assets/js/sockette.js"></script>
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
-		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/index.js" integrity="sha384-K6agUzbeMc1GXMXkIluupxooxm0lI/miwK1KgDxZqBS19dXN9xTv3eEg8qOjpQ2q" crossorigin="anonymous"></script>
 		<script src="../../assets/js/emojipicker.js"></script>
 		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
@@ -43,6 +43,28 @@
 				voting: "Vote messages"
 			};
 
+			let changed = [];
+			let hasLoaded = false;
+			let hasSavePopup = false;
+			function handleChange(id) {
+				if (!hasLoaded) return;
+				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
+
+				if (!hasSavePopup) {
+					const params = new URLSearchParams(window.location.search);
+					document.body.insertAdjacentHTML("beforeend",
+						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
+						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
+						"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
+						"<button type='button' class='red' onclick='connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
+						"</div>"
+					);
+					fadeIn(document.getElementById("unsaved-container"));
+					hasSavePopup = true;
+					reloadText();
+				}
+			}
+
 			let settingsData = {};
 			let selectData = {};
 			let queue = [];
@@ -51,15 +73,31 @@
 			const pickerData = {};
 			let socket;
 			function connectWS(guild) {
+				if (hasSavePopup) {
+					fadeOut(document.getElementById("unsaved-container"));
+					hasSavePopup = false;
+					changed = [];
+				}
+				hasLoaded = false;
+
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
+
+						if (hasSavePopup) {
+							fadeOut(document.getElementById("unsaved-container"));
+							hasSavePopup = false;
+							changed = [];
+						}
+						hasLoaded = false;
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
 						if (errorToast) {
 							errorToast.setType("SUCCESS");
-							setTimeout(errorToast.close, 1000);
+							setTimeout(() => {
+								errorToast.close();
+							}, 1000);
 						}
 						socket.send({
 							status: "success",
@@ -102,10 +140,8 @@
 
 							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<button type='button' onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
 								"<hr>";
@@ -114,13 +150,29 @@
 								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
 							});
 
-							document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>";
+							document.getElementById("linksidebar").innerHTML =
+								"<a href='/' title='Home' class='tab'>" +
+									"<ion-icon name='home-outline'></ion-icon>" +
+									"<p translation='sidebar.home'></p>" +
+								"</a>" +
+								"<a href='/commands/' title='Bot commands' class='tab'>" +
+									"<ion-icon name='terminal-outline'></ion-icon>" +
+									"<p translation='sidebar.commands'></p>" +
+								"</a>" +
+								"<a href='/dashboard/' class='tab active'>" +
+									"<ion-icon name='settings-outline'></ion-icon>" +
+									"<p translation='sidebar.dashboard'></p>" +
+								"</a>" +
+								sidebarHTML + "</div>";
+
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
 							queue.forEach(f => f());
 							queue = [];
 							if (location.hash != "") document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true);
 							reloadText();
 							guildName = json.name;
+							for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
+							hasLoaded = true;
 						} else if (json.action == "SAVED_settings") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved settings!");
@@ -203,13 +255,15 @@
 					}
 					html += "<br>";
 				}
-				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
+				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
 					"</div>";
 
 				if (parent) {
 					parent.insertAdjacentHTML("beforeend", html);
 					queue.forEach(f => f());
 					queue = [];
+					reloadText();
+					for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
 				} else return html;
 			}
 		</script>
@@ -258,6 +312,8 @@
 
 				const items = {};
 				settingsData.forEach(setting => {
+					if (!changed.includes(setting.key)) return;
+
 					let entry;
 					if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value;
 					else if (setting.org == "object") {
@@ -306,6 +362,12 @@
 					action: "SAVE_settings",
 					data: items
 				}));
+
+				if (hasSavePopup) {
+					fadeOut(document.getElementById("unsaved-container"));
+					hasSavePopup = false;
+					changed = [];
+				}
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 5}).show();
 			}

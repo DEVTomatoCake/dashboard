@@ -25,6 +25,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	picker.shadowRoot.appendChild(style);
 
 	picker.addEventListener("emoji-click", e => {
+		if (handleChange) handleChange(picker.parentElement.querySelector("textarea,input").id);
 		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name;
 		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
 	});
@@ -67,6 +68,7 @@ const updateSelected = (elem, value = "") => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
 		}
 	});
+	if (handleChange) handleChange(elem.parentElement.parentElement.id);
 }
 const updateMultiSelected = (elem, key, value) => {
 	elem.classList.toggle("selected");
@@ -80,6 +82,7 @@ const updateMultiSelected = (elem, key, value) => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
 		});
 	}
+	if (handleChange) handleChange(elem.parentElement.parentElement.id);
 }
 
 class ChannelRolePicker extends HTMLElement {

@@ -45,7 +45,7 @@
 
 			let changed = [];
 			let hasLoaded = false;
-			let hasSavePopup;
+			let hasSavePopup = false;
 			function handleChange(id) {
 				if (!hasLoaded) return;
 				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
@@ -76,13 +76,20 @@
 				if (hasSavePopup) {
 					fadeOut(document.getElementById("unsaved-container"));
 					hasSavePopup = false;
-					hasLoaded = false;
 					changed = [];
 				}
+				hasLoaded = false;
 
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
+
+						if (hasSavePopup) {
+							fadeOut(document.getElementById("unsaved-container"));
+							hasSavePopup = false;
+							changed = [];
+						}
+						hasLoaded = false;
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -131,8 +138,7 @@
 
 							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<button type='button' onclick='saveSettings();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<br><div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
@@ -234,7 +240,7 @@
 					}
 					html += "<br>";
 				}
-				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()'></ion-icon>" : "") +
+				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
 					"</div>";
 
 				if (parent) {

@@ -53,7 +53,9 @@
 						console.log("Connected!", event);
 						if (errorToast) {
 							errorToast.setType("SUCCESS");
-							setTimeout(errorToast.close, 1000);
+							setTimeout(() => {
+								errorToast.close();
+							}, 1000);
 						}
 						socket.send({
 							status: "success",

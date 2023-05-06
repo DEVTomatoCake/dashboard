@@ -661,7 +661,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 8px 35px 0 0;
+	margin: 5px 35px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -1054,8 +1054,8 @@ pre {
 }
 
 .unsaved-container {
-	min-width: 250px;
-	left: calc(50% - 225px);
+	min-width: 350px;
+	left: calc(50% - 275px);
 	right: unset;
 	z-index: 3;
 }

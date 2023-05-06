@@ -138,7 +138,7 @@
 
 							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<br><div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../tickets/?guild=" + guild + "\")'><ion-icon name='ticket-outline'></ion-icon><p>Tickets</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
@@ -149,7 +149,21 @@
 								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
 							});
 
-							document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>";
+							document.getElementById("linksidebar").innerHTML =
+								"<a href='/' title='Home' class='tab'>" +
+									"<ion-icon name='home-outline'></ion-icon>" +
+									"<p translation='sidebar.home'></p>" +
+								"</a>" +
+								"<a href='/commands/' title='Bot commands' class='tab'>" +
+									"<ion-icon name='terminal-outline'></ion-icon>" +
+									"<p translation='sidebar.commands'></p>" +
+								"</a>" +
+								"<a href='/dashboard/' class='tab active'>" +
+									"<ion-icon name='settings-outline'></ion-icon>" +
+									"<p translation='sidebar.dashboard'></p>" +
+								"</a>" +
+								sidebarHTML + "</div>";
+
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>";
 							queue.forEach(f => f());
 							queue = [];
@@ -247,6 +261,8 @@
 					parent.insertAdjacentHTML("beforeend", html);
 					queue.forEach(f => f());
 					queue = [];
+					reloadText();
+					for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
 				} else return html;
 			}
 		</script>

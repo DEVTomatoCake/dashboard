@@ -1115,6 +1115,13 @@ pre {
 	}
 }
 
+@media only screen and (max-width: 700px) {
+	.feature {
+		display: inline-block;
+		margin-top: 60px;
+	}
+}
+
 @media only screen and (max-width: 600px) {
 	.content {
 		gap: 20px;
@@ -1158,6 +1165,11 @@ pre {
 	.stats-row .data h3 {
 		font-size: 20px;
 		transition: .2s;
+	}
+
+	footer #mainlink span {
+		font-size: 20px;
+		padding: 0 25px 0 10px
 	}
 }
 

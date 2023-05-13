@@ -111,6 +111,9 @@ a:visited {
 	color: var(--link-visited);
 }
 
+#commands-container {
+	overflow-x: auto;
+}
 tr.command {
 	cursor: pointer;
 }
@@ -583,8 +586,9 @@ footer #mainlink img {
 
 footer .links {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	grid-gap: 0 10px;
+	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	grid-gap: 0 15px;
+	width: 100%;
 }
 
 .switch {

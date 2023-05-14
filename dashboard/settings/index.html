@@ -190,11 +190,11 @@
 			function addItem(settingKey, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				const setting = selectData[settingKey];
 
-				let possible = setting.possible;
-				if (typeof possible == "string") possible = pickerData[possible];
-				else if (typeof possible == "object") {
-					Object.keys(possible).filter(possibleKey => possibleKey != "").forEach(possibleKey => {
-						if (typeof possible[possibleKey] == "string" && pickerData[possible[possibleKey]]) possible[possibleKey] = pickerData[possible[possibleKey]];
+				let possible = {};
+				if (typeof setting.possible == "string") possible = pickerData[possible];
+				else if (typeof setting.possible == "object") {
+					Object.keys(setting.possible).filter(possibleKey => possibleKey != "").forEach(possibleKey => {
+						if (typeof setting.possible[possibleKey] == "string" && pickerData[setting.possible[possibleKey]]) possible[possibleKey] = pickerData[setting.possible[possibleKey]];
 					});
 				}
 				console.warn(setting.possible, possible)

@@ -68,7 +68,7 @@ function getSettingsHTML(json) {
 					else if (Object.keys(setting.value).length > 0) {
 						setting.org = "object";
 						setting.value = [setting.value];
-						temp += addItem(setting.key, void 0, setting.value[0], void 0, true);
+						temp += addItem(setting.key, setting.value[0], void 0, true);
 					}
 					temp += "</div>";
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {

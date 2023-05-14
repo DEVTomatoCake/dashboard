@@ -190,7 +190,7 @@
 			function addItem(settingKey, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				const setting = selectData[settingKey];
 
-				let possible = {};
+				let possible = setting.possible || {};
 				if (typeof setting.possible == "string") possible = pickerData[possible];
 				else if (typeof setting.possible == "object") {
 					Object.keys(setting.possible).filter(possibleKey => possibleKey != "").forEach(possibleKey => {

@@ -90,7 +90,7 @@ emoji-picker.light {
 channel-picker .picker {
 	display: none;
 	padding: 10px;
-	max-height: 220px;
+	max-height: 250px;
 	overflow-y: auto;
 	background-color: var(--picker-bg);
 	border-radius: 10px;
@@ -103,7 +103,8 @@ channel-picker .element {
 	display: flex;
 	align-items: center;
 	border-radius: 7px;
-	padding: 5px;
+	margin: 2px;
+	padding: 3px;
 	cursor: pointer;
 }
 channel-picker .element.child {

@@ -37,11 +37,23 @@
 			const friendlyCat = {
 				ticket: "Tickets",
 				boost: "Boosts",
-				level: "Leaderboard & level",
+				level: "Leaderboard<br>& level",
 				stats: "Statistics",
 				autonick: "Role nicknames",
 				voting: "Vote messages"
 			};
+
+			function settingsTab(tab) {
+				redirect("#" + tab);
+
+				for (const e of document.querySelectorAll(".tab.small.active")) e.classList.remove("active");
+				const elem = document.getElementById("settings-tab-" + tab);
+				elem.classList.add("active");
+
+				for (const e of document.querySelectorAll(".tab.small.active")) e.classList.remove("active");
+				const category = document.getElementById(tab);
+				category.classList.add("visible");
+			}
 
 			let changed = [];
 			let hasLoaded = false;
@@ -147,7 +159,7 @@
 								"<hr>";
 
 							rendered.categories.forEach(category => {
-								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
+								sidebarHTML += "<div class='tab small' id='settings-tab-" + category + "' onclick='settingsTab(\"" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
 							});
 
 							document.getElementById("linksidebar").innerHTML =

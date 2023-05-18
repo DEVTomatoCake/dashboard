@@ -44,13 +44,14 @@
 			};
 
 			function settingsTab(tab) {
-				redirect("#" + tab);
-
 				for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active");
 				document.getElementById("settings-tab-" + tab).classList.add("active");
 
 				for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden");
 				document.getElementById("setcat-" + tab).classList.remove("hidden");
+
+				redirect("#" + tab);
+				if (screen.width <= 800) sidebar();
 			}
 
 			let changed = [];

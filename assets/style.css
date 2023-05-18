@@ -591,6 +591,10 @@ footer .links {
 	width: 100%;
 }
 
+.settingdiv.hidden {
+	display: none;
+}
+
 .switch {
 	position: relative;
 	display: inline-block;

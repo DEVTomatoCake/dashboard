@@ -37,11 +37,22 @@
 			const friendlyCat = {
 				ticket: "Tickets",
 				boost: "Boosts",
-				level: "Leaderboard & level",
+				level: "Leaderboard<br>& level",
 				stats: "Statistics",
 				autonick: "Role nicknames",
 				voting: "Vote messages"
 			};
+
+			function settingsTab(tab) {
+				for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active");
+				document.getElementById("settings-tab-" + tab).classList.add("active");
+
+				for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden");
+				document.getElementById("setcat-" + tab).classList.remove("hidden");
+
+				redirect("#" + tab);
+				if (screen.width <= 800) sidebar();
+			}
 
 			let changed = [];
 			let hasLoaded = false;
@@ -147,7 +158,7 @@
 								"<hr>";
 
 							rendered.categories.forEach(category => {
-								sidebarHTML += "<div class='tab small' onclick='redirect(\"#" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
+								sidebarHTML += "<div class='tab small' id='settings-tab-" + category + "' onclick='settingsTab(\"" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>";
 							});
 
 							document.getElementById("linksidebar").innerHTML =

@@ -34,7 +34,7 @@ function getSettingsHTML(json) {
 
 		json.data.forEach(setting => {
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
-				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de" : "en") + "/" + setting.docs + "' target='_blank' rel='noopener'><small>Docs<ion-icon name='link-outline'></ion-icon></small></a>" : "") + "<br>";
+				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de/" : "") + setting.docs + "' target='_blank' rel='noopener'><small>Docs<ion-icon name='link-outline'></ion-icon></small></a>" : "") + "<br>";
 
 			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible;
@@ -104,10 +104,11 @@ function getSettingsHTML(json) {
 		});
 
 		categories.forEach(category => {
-			text += "<h2 id='" + category + "'>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
+			text += "<div id='setcat-" + category + "' class='settingdiv'><h2 id='" + category + "'>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1];
 			});
+			text += "</div>";
 		});
 
 		return {

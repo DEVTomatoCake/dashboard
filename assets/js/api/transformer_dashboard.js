@@ -104,7 +104,7 @@ function getSettingsHTML(json) {
 		});
 
 		categories.forEach(category => {
-			text += "<div id='div-" + category + "'><h2 id='" + category + "'>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
+			text += "<div class='settingdiv'><h2 id='" + category + "'>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>";
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1];
 			});

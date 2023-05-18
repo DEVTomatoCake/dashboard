@@ -50,7 +50,7 @@
 				const elem = document.getElementById("settings-tab-" + tab);
 				elem.classList.add("active");
 
-				for (const e of document.querySelectorAll(".tab.small.active")) e.classList.remove("active");
+				for (const e of document.getElementsByClassName("settingdiv")) e.classList.remove("visible");
 				const category = document.getElementById(tab);
 				category.classList.add("visible");
 			}

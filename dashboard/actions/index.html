@@ -42,7 +42,20 @@
 
 			let guildName = "";
 			let actions = [];
-			let pickerData = {};
+			let pickerData = {
+				"action-trigger": {
+					command: "Message and/or slash command",
+					reactionAdd: "Reaction added",
+					reactionRemove: "Reaction removed",
+					join: "Member joined",
+					leave: "Member left",
+					voiceJoin: "Member joined voice channel",
+					voiceLeave: "Member left voice channel"
+				},
+				"action-version": {
+					"1.0.0": "1.0.0"
+				}
+			};
 			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
@@ -146,6 +159,7 @@
 						<input type="text" placeholder="Action name" name="action-name" id="action-name" required>
 
 						<label for="action-trigger">Action trigger</label>
+						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
 
 						<label for="action-text" translation="dashboard.content"></label>
 						<div class="emoji-container" id="newmsg">
@@ -158,6 +172,7 @@
 						<input type="text" name="action-slashcommand" id="action-slashcommand">
 
 						<label for="action-version">Parser version</label>
+						<channel-picker id="action-version" type="action-version"></channel-picker>
 
 						<br>
 						<button type="submit" translation="dashboard.cc.create"></button>

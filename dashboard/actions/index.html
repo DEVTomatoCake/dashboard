@@ -247,7 +247,7 @@
 						<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
 
 						<label for="integration-id">ID</label>
-						<input type="text" maxlength="32" placeholder="Unique integration ID" name="integration-id" id="integration-id">
+						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique integration ID" name="integration-id" id="integration-id">
 
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" placeholder="Integration name" name="integration-name" id="integration-name">
@@ -383,6 +383,9 @@
 
 				const res = await fetch("https://api.tomatenkuchen.eu/api/integrations?token=" + getCookie("token"), {
 					method: "POST",
+					headers: {
+						"Content-Type": "application/json"
+					},
 					body: JSON.stringify({
 						id,
 						name,

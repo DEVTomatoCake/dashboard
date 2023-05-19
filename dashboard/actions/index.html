@@ -51,8 +51,8 @@
 			let hasLoaded = false;
 			let hasSavePopup = false;
 			function handleChange(id) {
-				if (!hasLoaded || id == "action-content" || id == "integration-longdesc" || id == "integration-content") return;
-				if (!changed.includes(id.split("-")[0])) changed.push(id.split("-")[0]);
+				if (!hasLoaded || id.startsWith("action-") || id.startsWith("integration-")) return;
+				if (!changed.includes(id)) changed.push(id);
 
 				if (!hasSavePopup) {
 					const params = new URLSearchParams(window.location.search);
@@ -162,6 +162,7 @@
 							savingToast.setType("SUCCESS").setTitle("Saved actions!");
 						} else if (json.action == "RECEIVE_emojis") {
 							pickerData = {
+								...pickerData,
 								emojis: json.emojis,
 								roles: json.roles
 							};
@@ -264,11 +265,13 @@
 
 		<script>
 			function createAction() {
+				const name = encode(document.getElementById("action-name").value);
+				if (!name) return alert("Enter a name for the action!");
+				const value = encode(document.getElementById("action-content").value);
+				if (!value) return alert("Enter content for the action!");
+
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
-
-				const name = encode(document.getElementById("action-name").value);
-				const value = encode(document.getElementById("action-content").value);
 
 				const div = document.createElement("div");
 				div.innerHTML =
@@ -299,6 +302,8 @@
 				const items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
+					if (!changed.includes(item.id)) return;
+
 					items[item.name] = {
 						content: item.value,
 						description: item.getAttribute("data-slashcommand") || void 0,
@@ -312,6 +317,12 @@
 					action: "SAVE_actions",
 					data: items
 				}));
+
+				if (hasSavePopup) {
+					fadeOut(document.getElementById("unsaved-container"));
+					hasSavePopup = false;
+					changed = [];
+				}
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 10}).show();
 			}

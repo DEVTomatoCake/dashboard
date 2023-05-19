@@ -134,16 +134,6 @@
 
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
 						else if (json.action == "RECEIVE_actions") {
-							const sidebarHTML =
-								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
-								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
-								"</div>";
-
 							document.getElementById("linksidebar").innerHTML =
 								"<a href='/' title='Home' class='tab'>" +
 									"<ion-icon name='home-outline'></ion-icon>" +
@@ -157,7 +147,14 @@
 									"<ion-icon name='settings-outline'></ion-icon>" +
 									"<p translation='sidebar.dashboard'></p>" +
 								"</a>" +
-								sidebarHTML + "</div>";
+								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
+									"<a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></a>" +
+									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></a>" +
+									"<a class='tab otherlinks' href='../customcommands/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></a>" +
+									"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
+									"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></a>" +
+									"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
+								"</div></div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
 							reloadText();
@@ -215,7 +212,7 @@
 						<h1>Create action</h1>
 
 						<label for="action-name">Name</label>
-						<input type="text" placeholder="Action name" name="action-name" id="action-name">
+						<input type="text" maxlength="32" placeholder="Action name" name="action-name" id="action-name">
 
 						<label for="action-trigger">Action trigger</label>
 						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
@@ -241,15 +238,19 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<h1>Create integration</h1>
+						<h2>Integrations are actions which can be shared between servers. If you only want to create a customcommand or other per-server actions, you likely won't need this.</h2>
 
 						<label for="integration-name">Name</label>
-						<input type="text" maxlength="25" placeholder="Integration name" name="integration-name" id="integration-name">
+						<input type="text" maxlength="32" placeholder="Integration name" name="integration-name" id="integration-name">
 
 						<label for="integration-shortdesc">Short description</label>
 						<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
 
 						<label for="integration-longdesc">Long description</label>
 						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
+
+						<label for="integration-image">Image URL</label>
+						<input type="text" maxlength="300" placeholder="Integration image URL" name="integration-image" id="integration-image">
 
 						<label for="integration-public">Public</label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
@@ -258,7 +259,7 @@
 						<channel-picker id="integration-trigger" type="action-trigger"></channel-picker>
 
 						<label for="integration-slashcommand">If command: Register slash command with this description</label>
-						<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand">
+						<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
 
 						<label for="integration-version">Parser version</label>
 						<channel-picker id="integration-version" type="action-version"></channel-picker>
@@ -269,6 +270,9 @@
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
+
+						<label for="integration-longdesc">Long description</label>
+						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
 
 						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -282,8 +286,8 @@
 			function createAction() {
 				const name = encode(document.getElementById("action-name").value);
 				if (!name) return alert("Enter a name for the action!");
-				const value = encode(document.getElementById("action-content").value);
-				if (!value) return alert("Enter content for the action!");
+				const content = encode(document.getElementById("action-content").value);
+				if (!content) return alert("Enter content for the action!");
 
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
@@ -292,14 +296,16 @@
 				div.innerHTML =
 					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
-					"<textarea class='setting' rows='" + (Math.round(value.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
+					"<textarea class='setting' rows='" + (Math.round(content.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
 					encode(document.getElementById("action-slashcommand").value) + "' data-trigger='" + encode(document.getElementById("action-trigger").getAttribute("data-selected")) + "' data-version='" +
-					encode(document.getElementById("action-version").getAttribute("data-selected")) + "'>" + value + "</textarea>" +
+					encode(document.getElementById("action-version").getAttribute("data-selected")) + "'>" + content + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
+
+				changed.push(name + "-action");
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 				saveActions();
 			}
@@ -340,7 +346,28 @@
 					changed = [];
 				}
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 10}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 7}).show();
+			}
+
+			async function createIntegration() {
+				const name = encode(document.getElementById("integration-name").value);
+				if (!name) return alert("Enter a name for the integration!");
+				const content = encode(document.getElementById("integration-content").value);
+				if (!content) return alert("Enter content for the integration!");
+
+				document.getElementById("create-dialog").style.display = "none";
+
+				const create = await get("integrations", true, "POST", {
+					name,
+					content,
+					trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),
+					version: document.getElementById("integration-version").getAttribute("data-selected"),
+					slashcommand: document.getElementById("integration-slashcommand").value,
+					shortdesc: document.getElementById("integration-shortdesc").value,
+					longdesc: document.getElementById("integration-longdesc").value,
+					image: document.getElementById("integration-image").value
+				})
+				alert(create.message)
 			}
 
 			if (params.has("guild") && getCookie("token")) {

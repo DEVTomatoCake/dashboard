@@ -48,18 +48,18 @@
 	--link: #00E;
 	--link-visited: #551A8B;
 	--dialog-bg: #EEE;
-	--dialog-shadow: rgba(0, 0, 0, 0.25);
+	--dialog-shadow: #00000040;
 	--picker-bg: #C3D8F5;
 	--picker-selected: #8AD6A7;
 }
 
 .dark-theme {
-	--primary-color: #131524;
+	--primary-color: #1e1f2a;
 	--primary-color-hover: #000;
-	--secondary-color: #232742;
+	--secondary-color: #30344e;
 	--tertiary-color: #4d516d;
-	--accent-color: #7B4CD9;
-	--accent-color-hover: #5B2ABD;
+	--accent-color: #6d55b8;
+	--accent-color-hover: #4f3eb2;
 	--button-accent-color: #343692;
 	--primary-text-color: #E6E7F1;
 	--secondary-text-color: #C1C4DB;
@@ -72,13 +72,13 @@
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
 	--select-background: #24265A;
-	--select-hover: #8A7FF0;
+	--select-hover: #8176e6;
 	--select-border: var(--secondary-text-color);
-	--link: #4848C9;
-	--link-visited: #7B45AD;
+	--link: #3a3afa;
+	--link-visited: #9f7dcb;
 	--dialog-bg: #222;
-	--dialog-shadow: rgba(0, 0, 0, 0.75);
-	--picker-bg: #1B3558;
+	--dialog-shadow: #000000bf;
+	--picker-bg: #203653;
 	--picker-selected: #278B4E;
 }
 
@@ -1032,16 +1032,19 @@ pre {
 	top: -25px;
 }
 
-.cookie-container {
-	position: fixed;
-	right: 15px;
-	bottom: 15px;
+.integration-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-gap: 5px 20px;
+}
+.integration {
 	background-color: var(--secondary-color);
-	padding: 15px;
-	opacity: 0;
-	z-index: 5;
 	border-radius: 20px;
-	box-shadow: 0 0 20px rgba(0,0,0,.5);
+	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 button {
@@ -1053,6 +1056,18 @@ button {
 	cursor: pointer;
 	color: var(--light-text-color);
 	background-color: var(--button-accent-color);
+}
+
+.cookie-container {
+	position: fixed;
+	right: 15px;
+	bottom: 15px;
+	background-color: var(--secondary-color);
+	padding: 15px;
+	opacity: 0;
+	z-index: 5;
+	border-radius: 20px;
+	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
 .cookie-container button, button.createForm, .create-form button {
 	padding: 10px;

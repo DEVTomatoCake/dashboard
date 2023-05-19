@@ -169,11 +169,16 @@ function getActionsHTML(json) {
 		if (json.integrations.length > 0) text += "<h1>Public and your integrations</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
+				"<div class='integration'>" +
 				"<h3>" + encode(integration.name) + "</h3>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
+				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 				"<p>Version: " + encode(integration.version) + "</p>" +
-				"<p>Trigger: " + encode(integration.trigger) + "</p>" +
-				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>";
+				"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
+				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
+				"<button>View</button>" +
+				(integration.isOwner ? "<button>Edit</button>" : "") +
+				"</div>";
 		});
 		if (json.integrations.length > 0) text += "</div>"
 

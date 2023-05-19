@@ -1,7 +1,11 @@
 const url = "https://api.tomatenkuchen.eu/api/"
-async function get(component, auth = true, method = "GET") {
+async function get(component, auth = true, method = "GET", body = null) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
-		method
+		method,
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: body ? JSON.stringify(body) : null
 	})
 
 	const json = await res.json()

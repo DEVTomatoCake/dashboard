@@ -1037,6 +1037,7 @@ pre {
 	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 	grid-gap: 5px 20px;
 }
+
 .integration {
 	background-color: var(--secondary-color);
 	border-radius: 20px;
@@ -1045,6 +1046,9 @@ pre {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
+}
+.integration .title {
+	display: flex;
 }
 
 button {

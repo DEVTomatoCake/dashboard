@@ -156,6 +156,7 @@ function getActionsHTML(json) {
 
 		json.data.forEach(action => {
 			text +=
+				"<div>" +
 				"<label for='" + encode(action.name) + "'><b>" + encode(action.name) + "</b></label>" +
 				"<div class='emoji-container'>" +
 				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + encode(action.name) + "-action' maxlength='2000' name='" + encode(action.name) +
@@ -164,14 +165,17 @@ function getActionsHTML(json) {
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
 				"<ion-icon name='trash-outline' onclick='this.parentElement.remove();socket.send(JSON.stringify({status: \"success\", action: \"DELETE_action\", name: \"" + action.name + "\"}));'></ion-icon>" +
-				"<br>";
+				"<br></div>";
 		});
 
 		if (json.integrations.length > 0) text += "<h1>Public and your integrations</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +
-				"<h3>" + encode(integration.name) + "</h3>" +
+				"<div class='title'>" +
+					"<h3>" + encode(integration.name) + "</h3>" +
+					"<img src='" + integration.icon + "' alt='Integration icon' width='32' height='32' loading='lazy'>" +
+				"</div>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 				"<p>Version: " + encode(integration.version) + "</p>" +

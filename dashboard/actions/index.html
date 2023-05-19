@@ -246,10 +246,10 @@
 						<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
 
 						<label for="integration-longdesc">Long description</label>
-						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
+						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="7"></textarea>
 
 						<label for="integration-image">Image URL</label>
-						<input type="text" maxlength="300" placeholder="Integration image URL" name="integration-image" id="integration-image">
+						<input type="text" maxlength="500" placeholder="Integration image URL" name="integration-image" id="integration-image">
 
 						<label for="integration-public">Public</label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
@@ -271,13 +271,13 @@
 						</div>
 
 						<label for="integration-placeholders">Placeholder text, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="3"></textarea>
+						<textarea class="setting" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
 
 						<label for="integration-input">Input variables, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Input variables" name="integration-input" id="integration-input" rows="3"></textarea>
+						<textarea class="setting" maxlength="300" placeholder="Input variables" name="integration-input" id="integration-input" rows="2"></textarea>
 
 						<label for="integration-env">Environment variables, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Environment variables" name="integration-env" id="integration-env" rows="3"></textarea>
+						<textarea class="setting" maxlength="300" placeholder="Environment variables" name="integration-env" id="integration-env" rows="2"></textarea>
 
 						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -369,21 +369,26 @@
 				const env = {}
 				document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => env[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
 
-				const create = await get("integrations", true, "POST", {
-					name,
-					content,
-					trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),
-					version: document.getElementById("integration-version").getAttribute("data-selected"),
-					slashcommand: document.getElementById("integration-slashcommand").value,
-					shortdesc: document.getElementById("integration-shortdesc").value,
-					longdesc: document.getElementById("integration-longdesc").value,
-					image: document.getElementById("integration-image").value,
-					public: document.getElementById("integration-public").checked,
-					placeholders,
-					input,
-					env
+				const res = await fetch("https://api.tomatenkuchen.eu/api/integrations?token=" + getCookie("token"), {
+					method: "POST",
+					body: JSON.stringify({
+						name,
+						content,
+						trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),
+						version: document.getElementById("integration-version").getAttribute("data-selected"),
+						slashcommand: document.getElementById("integration-slashcommand").value,
+						shortdesc: document.getElementById("integration-shortdesc").value,
+						longdesc: document.getElementById("integration-longdesc").value,
+						image: document.getElementById("integration-image").value,
+						public: document.getElementById("integration-public").checked,
+						placeholders,
+						input,
+						env
+					})
 				})
-				alert(create.message)
+				const json = await res.json()
+				console.log("Response for POST https://api.tomatenkuchen.eu/api/integrations: " + JSON.stringify(json))
+				alert(json.message)
 			}
 
 			if (params.has("guild") && getCookie("token")) {

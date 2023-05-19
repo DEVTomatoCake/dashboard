@@ -51,7 +51,7 @@
 			let hasLoaded = false;
 			let hasSavePopup = false;
 			function handleChange(id) {
-				if (!hasLoaded) return;
+				if (!hasLoaded || id == "action-content" || id == "integration-longdesc" || id == "integration-content") return;
 				if (!changed.includes(id.split("-")[0])) changed.push(id.split("-")[0]);
 
 				if (!hasSavePopup) {
@@ -151,10 +151,11 @@
 							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
-							["#action-trigger .picker div[data-id='command']", "#action-version .picker div[data-id='1.0.0']", "#integration-trigger .picker div[data-id='command']", "#integration-version .picker div[data-id='1.0.0']",].forEach(selector => {
+							["#action-trigger .picker div[data-id='command']", "#action-version .picker div[data-id='1.0.0']", "#integration-trigger .picker div[data-id='command']", "#integration-version .picker div[data-id='1.0.0']"].forEach(selector => {
 								const elem = document.querySelector(selector);
 								elem.classList.add("selected");
 								document.querySelector(selector.split(" ")[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+								document.getElementById(selector.split(" ")[0].replace("#", "")).setAttribute("data-selected", elem.getAttribute("data-id"));
 							});
 						} else if (json.action == "SAVED_actions") {
 							saving = false;
@@ -300,9 +301,9 @@
 					const item = settings.item(i);
 					items[item.name] = {
 						content: item.value,
-						description: item.getAttribute("data-slashcommand"),
+						description: item.getAttribute("data-slashcommand") || void 0,
 						trigger: item.getAttribute("data-trigger"),
-						version: item.getAttribute("data-version")
+						version: item.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1]
 					};
 				}
 

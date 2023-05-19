@@ -156,10 +156,11 @@ function getActionsHTML(json) {
 
 		json.data.forEach(action => {
 			text +=
-				"<label for='" + action.name + "'><b>" + action.name + "</b></label>" +
+				"<label for='" + encode(action.name) + "'><b>" + encode(action.name) + "</b></label>" +
 				"<div class='emoji-container'>" +
-				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + action.name + "-action' maxlength='2000' name='" + action.name + "'>" + action.content + "</textarea>" +
-				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
+				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + encode(action.name) + "-action' maxlength='2000' name='" + encode(action.name) +
+				(action.slashcommand ? "' data-slashcommand='" + encode(action.slashcommand) : "") + "' data-trigger='" + encode(action.trigger) + "' data-version='" + encode(action.version) + "'>" +
+				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
 				"<br>";
@@ -167,7 +168,8 @@ function getActionsHTML(json) {
 
 		if (json.integrations.length > 0) text += "<h1>Public and your integrations</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
-			text += "<label><b>" + integration.name + "</b></label>"
+			text +=
+				"<h3>" + encode(integration.name) + "</h3>"
 		});
 		if (json.integrations.length > 0) text += "</div>"
 

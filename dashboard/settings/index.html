@@ -389,7 +389,7 @@
 					changed = [];
 				}
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 10}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {

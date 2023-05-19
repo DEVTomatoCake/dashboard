@@ -50,7 +50,7 @@ emoji-picker.light {
 	left: -60px;
 	top: -5px;
 }
-#newmsg ion-icon {
+.emoji-special ion-icon {
 	left: -70px;
 }
 

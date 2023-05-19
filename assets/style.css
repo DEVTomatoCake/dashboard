@@ -305,7 +305,7 @@ tr.cmdvisible:nth-child(odd) {
 
 .setting, .settingcopy {
 	overflow-wrap: anywhere;
-	font-size: 1.1em;
+	font-size: 21px;
 	border: none;
 	border-radius: 5px;
 	padding: 3px;
@@ -314,15 +314,24 @@ tr.cmdvisible:nth-child(odd) {
 	width: calc(100% - 70px);
 }
 
+textarea {
+	color: var(--textarea-color);
+	background-color: var(--textarea-background);
+	font-family: "Be Vietnam Pro", sans-serif;
+}
+textarea:focus {
+	background-color: var(--textarea-background-focus);
+	outline: none;
+	box-shadow: 0 0 6px 2px var(--secondary-color);
+}
+
 textarea.setting, textarea.settingcopy {
 	min-height: 50px;
 	min-width: 65px;
 	border-radius: 8px;
 	padding: 8px;
+	font-size: 16px;
 	transition: box-shadow var(--transition-buttons),background-color var(--transition-buttons),outline var(--transition-buttons);
-}
-textarea.setting:focus, textarea.settingcopy:focus {
-	box-shadow: 0 0 6px 2px var(--secondary-color);
 }
 
 .advancedsetting {
@@ -336,16 +345,6 @@ textarea.setting:focus, textarea.settingcopy:focus {
 	padding: 5px 12px 12px;
 	background-color: var(--tertiary-color);
 	border-radius: 10px;
-}
-
-textarea {
-	color: var(--textarea-color);
-	background-color: var(--textarea-background);
-	font-family: "Be Vietnam Pro", sans-serif;
-}
-textarea:focus {
-	background-color: var(--textarea-background-focus);
-	outline: none;
 }
 
 .badge {
@@ -882,7 +881,7 @@ h1.greeting, h2.greeting {
 	padding-top: 20px;
 }
 
-input:not(#theme-toggle):not(#cmd-search) {
+input:not(#cmd-search):not([type="checkbox"]) {
 	border-radius: 8px;
 	outline: none;
 	padding: 6px;
@@ -894,6 +893,12 @@ input:focus {
 }
 input:invalid, input:out-of-range, input.invalid {
 	border: red solid 2px;
+}
+
+input[type="checkbox"]:not(#theme-toggle) {
+	width: 20px;
+	height: 20px;
+	margin: 2px 5px;
 }
 
 .ticketsearch-container {
@@ -1051,7 +1056,7 @@ button {
 .cookie-container button, button.createForm, .create-form button {
 	padding: 10px;
 	margin: 10px 10px 0 0;
-	border-radius: 16px;
+	border-radius: 15px;
 }
 .cookie-container button:hover, .create-form button:hover {
 	background-color: var(--accent-color);

@@ -145,7 +145,7 @@
 						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
 
 						<label for="customcommand-text" translation="dashboard.content"></label>
-						<div class="emoji-container">
+						<div class="emoji-container emoji-special">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
@@ -220,7 +220,7 @@
 					data: items
 				}));
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 10}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {

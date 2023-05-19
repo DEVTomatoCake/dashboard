@@ -158,7 +158,7 @@ function getActionsHTML(json) {
 			text +=
 				"<label for='" + action.name + "'><b>" + action.name + "</b></label>" +
 				"<div class='emoji-container'>" +
-				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='action-" + action.name + "' maxlength='2000' name='" + action.name + "'>" + action.content + "</textarea>" +
+				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + action.name + "-action' maxlength='2000' name='" + action.name + "'>" + action.content + "</textarea>" +
 				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
@@ -171,7 +171,7 @@ function getActionsHTML(json) {
 		});
 		if (json.integrations.length > 0) text += "</div>"
 
-		if (text == "") text = "<p id='no-cc'><b>There are no actions for this server!</b></p>";
+		if (text == "") text = "<p id='no-action'><b>There are no actions for this server!</b></p>";
 		return "<center><h1><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create action</button>" +
 			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create integration</button>" +

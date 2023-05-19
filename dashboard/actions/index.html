@@ -52,7 +52,7 @@
 			let hasSavePopup = false;
 			function handleChange(id) {
 				if (!hasLoaded) return;
-				if (!changed.includes(id.split("-")[1])) changed.push(id.split("-")[1]);
+				if (!changed.includes(id.split("-")[0])) changed.push(id.split("-")[0]);
 
 				if (!hasSavePopup) {
 					const params = new URLSearchParams(window.location.search);
@@ -148,6 +148,14 @@
 							reloadText();
 							guildName = json.name;
 							actions = json.data;
+							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
+							hasLoaded = true;
+
+							["#action-trigger .picker div[data-id='command']", "#action-version .picker div[data-id='1.0.0']", "#integration-trigger .picker div[data-id='command']", "#integration-version .picker div[data-id='1.0.0']",].forEach(selector => {
+								const elem = document.querySelector(selector);
+								elem.classList.add("selected");
+								document.querySelector(selector.split(" ")[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+							});
 						} else if (json.action == "SAVED_actions") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved actions!");
@@ -195,21 +203,20 @@
 						<label for="action-trigger">Action trigger</label>
 						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
 
-						<label for="action-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
+						<label for="action-slashcommand">If command: Register slash command with this description</label>
 						<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand">
 
 						<label for="action-version">Parser version</label>
 						<channel-picker id="action-version" type="action-version"></channel-picker>
 
 						<label for="action-content" translation="dashboard.content"></label>
-						<div class="emoji-container">
+						<div class="emoji-container emoji-special">
 							<textarea maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
-						<br>
-						<button type="submit" onclick="createAction()">Create action</button>
+						<button type="submit" class="createForm" onclick="createAction()">Create action</button>
 					</div>
 				</div>
 
@@ -225,7 +232,7 @@
 						<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
 
 						<label for="integration-longdesc">Long description</label>
-						<textarea maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
+						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
 
 						<label for="integration-public">Public</label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
@@ -233,21 +240,20 @@
 						<label for="integration-trigger">Trigger</label>
 						<channel-picker id="integration-trigger" type="action-trigger"></channel-picker>
 
-						<label for="integration-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
+						<label for="integration-slashcommand">If command: Register slash command with this description</label>
 						<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand">
 
 						<label for="integration-version">Parser version</label>
 						<channel-picker id="integration-version" type="action-version"></channel-picker>
 
 						<label for="integration-content" translation="dashboard.content"></label>
-						<div class="emoji-container">
+						<div class="emoji-container emoji-special">
 							<textarea maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
-						<br>
-						<button type="submit" onclick="createIntegration()">Create integration</button>
+						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
 				</div>
 
@@ -258,17 +264,18 @@
 		<script>
 			function createAction() {
 				document.getElementById("create-dialog").style.display = "none";
-				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
+				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
 
 				const name = encode(document.getElementById("action-name").value);
 				const value = encode(document.getElementById("action-content").value);
-				const desc = encode(document.getElementById("action-desc").value);
 
 				const div = document.createElement("div");
 				div.innerHTML =
 					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
-					"<textarea class='setting' rows='" + (Math.round(value.split("\n").length * 1.2) + 2) + "' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
+					"<textarea class='setting' rows='" + (Math.round(value.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
+					encode(document.getElementById("action-slashcommand").value) + "' data-trigger='" + encode(document.getElementById("action-trigger").getAttribute("data-selected")) + "' data-version='" +
+					encode(document.getElementById("action-version").getAttribute("data-selected")) + "'>" + value + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
@@ -294,6 +301,7 @@
 					items[item.name] = {
 						content: item.value,
 						description: item.getAttribute("data-slashcommand"),
+						trigger: item.getAttribute("data-trigger"),
 						version: item.getAttribute("data-version")
 					};
 				}
@@ -304,7 +312,7 @@
 					data: items
 				}));
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 10}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {

@@ -360,10 +360,10 @@
 			}
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Reactionroles werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading reactionroles...</h1>";
 				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Reactionroles werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading reactionroles...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";

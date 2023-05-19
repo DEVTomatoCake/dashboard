@@ -117,8 +117,8 @@ function getSettingsHTML(json) {
 		};
 	} else {
 		return (
-			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h2>An error occured while handling your request!</h2>" +
+			"<h1>An error occured while handling your request!</h1>" +
+			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -144,8 +144,36 @@ function getCustomcommandsHTML(json) {
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
 		return (
-			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h2>An error occured while handling your request!</h2>" +
+			"<h1>An error occured while handling your request!</h1>" +
+			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
+			"<h2>" + json.message + "</h2>");
+	}
+}
+
+function getActionsHTML(json) {
+	if (json.status == "success") {
+		let text = "";
+
+		json.data.forEach(setting => {
+			text +=
+				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
+				"<div class='emoji-container'>" +
+				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
+				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
+				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
+				"</div>" +
+				"<br>";
+		});
+
+		if (text == "") text = "<p id='no-cc'><b>There are no actions for this server!</b></p>";
+		return "<center><h1><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+			"<button type='button' class='createForm' onclick='openForm()'>Create action</button>" +
+			"<button type='button' class='createForm' onclick='openForm()'>Create public integration</button>" +
+			"<br><br>" + text;
+	} else {
+		return (
+			"<h1>An error occured while handling your request!</h1>" +
+			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -193,8 +221,8 @@ function getReactionrolesHTML(json) {
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
 	} else {
 		return (
-			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h2>An error occured while handling your request!</h2>" +
+			"<h1>An error occured while handling your request!</h1>" +
+			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }

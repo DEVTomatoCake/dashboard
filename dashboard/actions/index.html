@@ -3,14 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server, like unlimited and feature rich customcommands.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server, like unlimited and feature rich actions for e.g. customcommands.">
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/customcommands/">
-		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/customcommands/">
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/actions/">
+		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/actions/">
 		<link rel="manifest" href="../../manifest.json">
 
-		<title>TomatenKuchen - Customcommands settings - Dashboard</title>
+		<title>TomatenKuchen - Actions - Dashboard</title>
 		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon">
 		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
@@ -36,12 +36,12 @@
 
 		<script>
 			function openForm() {
-				document.getElementById("customcommand-name").value = "";
-				document.getElementById("customcommand-text").value = "";
+				document.getElementById("action-name").value = "";
 				openDialog(document.getElementById("create-dialog"));
 			}
 
 			let guildName = "";
+			let actions = [];
 			let pickerData = {};
 			let socket;
 			function connectWS(guild) {
@@ -59,7 +59,7 @@
 						}
 						socket.send({
 							status: "success",
-							action: "GET_customcommands",
+							action: "GET_actions",
 							guild,
 							lang: getLanguage(),
 							token: getCookie("token")
@@ -86,23 +86,24 @@
 						console.log(json);
 
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
-						else if (json.action == "RECEIVE_customcommands") {
+						else if (json.action == "RECEIVE_actions") {
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
-								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
+								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
 								"</div>";
 
-							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
+							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
 							reloadText();
 							guildName = json.name;
-						} else if (json.action == "SAVED_customcommands") {
+							actions = json.data;
+						} else if (json.action == "SAVED_actions") {
 							saving = false;
-							savingToast.setType("SUCCESS").setTitle("Saved customcommands!");
+							savingToast.setType("SUCCESS").setTitle("Saved actions!");
 						} else if (json.action == "RECEIVE_emojis") {
 							pickerData = {
 								emojis: json.emojis,
@@ -139,32 +140,29 @@
 				<div id="create-dialog" class="dialog">
 					<form id="create-form" class="dialog-content">
 						<span class="close">&times;</span>
-						<h1 translation="dashboard.cc.create"></h1>
+						<h1>Create action</h1>
 
-						<label for="customcommand-name">Name</label>
-						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
+						<label for="action-name">Name</label>
+						<input type="text" placeholder="Action name" name="action-name" id="action-name" required>
 
-						<label for="customcommand-text" translation="dashboard.content"></label>
+						<label for="action-trigger">Action trigger</label>
+
+						<label for="action-text" translation="dashboard.content"></label>
 						<div class="emoji-container" id="newmsg">
-							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
+							<textarea form="create-form" maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8" required></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
-						<label for="customcommand-desc" translation="dashboard.cc.slashdesc"></label>
-						<input type="text" name="customcommand-desc" id="customcommand-desc">
+						<label for="action-slashcommand" translation="dashboard.cc.slashdesc"></label>
+						<input type="text" name="action-slashcommand" id="action-slashcommand">
+
+						<label for="action-version">Parser version</label>
 
 						<br>
 						<button type="submit" translation="dashboard.cc.create"></button>
 					</form>
 				</div>
-
-				<!--
-					<div style="min-width:200px;background-color:#C77;padding:3px 10px;border-radius:7px">
-						<h2>Customcommands are deprecated!</h2>
-						<p>They are being replaced by actions now, which offer more and better variables, version support, and more triggers than just commands! <a href="../actions/">Check them out</a> and migrate your customcommands.</p>
-					</div>
-				-->
 
 				<div id="root-container" class="row"></div>
 			</div>
@@ -176,9 +174,9 @@
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
 
-				const name = encode(document.getElementById("customcommand-name").value);
-				const value = encode(document.getElementById("customcommand-text").value);
-				const desc = encode(document.getElementById("customcommand-desc").value);
+				const name = encode(document.getElementById("action-name").value);
+				const value = encode(document.getElementById("action-content").value);
+				const desc = encode(document.getElementById("action-desc").value);
 
 				const div = document.createElement("div");
 				div.innerHTML =
@@ -190,7 +188,7 @@
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
-				saveCustomcommands();
+				saveActions();
 			});
 
 			const params = new URLSearchParams(window.location.search);
@@ -198,7 +196,7 @@
 			let savingToast;
 			let errorToast;
 
-			function saveCustomcommands() {
+			function saveActions() {
 				if (!params.has("guild") || saving) return;
 
 				saving = true;
@@ -208,25 +206,26 @@
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
 					items[item.name] = {
-						reply: item.value,
-						description: item.getAttribute("data-desc")
+						content: item.value,
+						description: item.getAttribute("data-slashcommand"),
+						version: item.getAttribute("data-version")
 					};
 				}
 
 				socket.send(JSON.stringify({
 					status: "success",
-					action: "SAVE_customcommands",
+					action: "SAVE_actions",
 					data: items
 				}));
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 5}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading customcommands...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading actions...</h1>";
 				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading customcommands...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading actions...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";

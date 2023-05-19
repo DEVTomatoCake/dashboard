@@ -70,7 +70,6 @@
 			}
 
 			let guildName = "";
-			let actions = [];
 			let pickerData = {
 				"action-trigger": {
 					command: "Message and/or slash command",
@@ -149,7 +148,7 @@
 								"</a>" +
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 									"<a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></a>" +
-									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></a>" +
+									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></div>" +
 									"<a class='tab otherlinks' href='../customcommands/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></a>" +
 									"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
 									"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></a>" +
@@ -159,7 +158,6 @@
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
 							reloadText();
 							guildName = json.name;
-							actions = json.data;
 							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
@@ -217,8 +215,8 @@
 						<label for="action-trigger">Action trigger</label>
 						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
 
-						<label for="action-slashcommand">If command: Register slash command with this description</label>
-						<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand">
+						<label for="action-slashcommand">If command: Slash command description</label>
+						<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
 
 						<label for="action-version">Parser version</label>
 						<channel-picker id="action-version" type="action-version"></channel-picker>
@@ -238,7 +236,8 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<h1>Create integration</h1>
-						<h2>Integrations are actions which can be shared between servers. If you only want to create a customcommand or other per-server actions, you likely won't need this.</h2>
+						<h2>Integrations are actions which can be shared between servers.</h2>
+						<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
 
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" placeholder="Integration name" name="integration-name" id="integration-name">
@@ -258,8 +257,8 @@
 						<label for="integration-trigger">Trigger</label>
 						<channel-picker id="integration-trigger" type="action-trigger"></channel-picker>
 
-						<label for="integration-slashcommand">If command: Register slash command with this description</label>
-						<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
+						<label for="integration-slashcommand">If command: Slash command description</label>
+						<input type="text" maxlength="100" placeholder="Slash command description" name="integration-slashcommand" id="integration-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
 
 						<label for="integration-version">Parser version</label>
 						<channel-picker id="integration-version" type="action-version"></channel-picker>
@@ -271,8 +270,14 @@
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
-						<label for="integration-longdesc">Long description</label>
-						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
+						<label for="integration-placeholders">Placeholder text, one per line</label>
+						<textarea class="setting" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="3"></textarea>
+
+						<label for="integration-input">Input variables, one per line</label>
+						<textarea class="setting" maxlength="300" placeholder="Input variables" name="integration-input" id="integration-input" rows="3"></textarea>
+
+						<label for="integration-env">Environment variables, one per line</label>
+						<textarea class="setting" maxlength="300" placeholder="Environment variables" name="integration-env" id="integration-env" rows="3"></textarea>
 
 						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -357,6 +362,13 @@
 
 				document.getElementById("create-dialog").style.display = "none";
 
+				const placeholders = {}
+				document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => placeholders[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
+				const input = {}
+				document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => input[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
+				const env = {}
+				document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => env[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
+
 				const create = await get("integrations", true, "POST", {
 					name,
 					content,
@@ -365,7 +377,11 @@
 					slashcommand: document.getElementById("integration-slashcommand").value,
 					shortdesc: document.getElementById("integration-shortdesc").value,
 					longdesc: document.getElementById("integration-longdesc").value,
-					image: document.getElementById("integration-image").value
+					image: document.getElementById("integration-image").value,
+					public: document.getElementById("integration-public").checked,
+					placeholders,
+					input,
+					env
 				})
 				alert(create.message)
 			}

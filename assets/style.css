@@ -316,8 +316,9 @@ tr.cmdvisible:nth-child(odd) {
 
 textarea {
 	font-family: "Be Vietnam Pro", sans-serif;
-	padding: 7px;
+	padding: 7px !important;
 	border-radius: 7px;
+	font-size: 16px;
 	color: var(--textarea-color);
 	background-color: var(--textarea-background);
 	border: none;
@@ -332,7 +333,6 @@ textarea:focus {
 textarea.setting, textarea.settingcopy {
 	min-height: 50px;
 	min-width: 65px;
-	font-size: 16px;
 }
 
 .advancedsetting {
@@ -1340,7 +1340,7 @@ button {
 .dialog-content {
 	position: relative;
 	margin: auto;
-	width: 70%;
+	width: 75%;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	animation-name: animateDialog;

@@ -163,6 +163,7 @@ function getActionsHTML(json) {
 				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
+				"<ion-icon name='trash-outline' onclick='this.parentElement.remove();socket.send(JSON.stringify({status: \"success\", action: \"DELETE_action\", name: \"" + action.name + "\"}));'></ion-icon>" +
 				"<br>";
 		});
 

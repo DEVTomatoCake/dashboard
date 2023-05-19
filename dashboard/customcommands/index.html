@@ -145,7 +145,7 @@
 						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
 
 						<label for="customcommand-text" translation="dashboard.content"></label>
-						<div class="emoji-container" id="newmsg">
+						<div class="emoji-container">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
@@ -159,7 +159,8 @@
 					</form>
 				</div>
 
-				<!-- eslint-disable @html-eslint/indent
+				<!-- eslint-disable @html-eslint/indent -->
+				<!--
 					<div style="min-width:100px;background-color:#C77;padding:10px 13px;margin-bottom:30px;border-radius:14px">
 						<h2>Customcommands are deprecated!</h2>
 						<p>They are being replaced by actions now, which offer more and better variables, version support, and more triggers than just commands! <a href="../actions/">Check them out</a> and migrate your customcommands.</p>
@@ -182,7 +183,7 @@
 
 				const div = document.createElement("div");
 				div.innerHTML =
-					"<label><b for='" + name + "'>" + name + "</b></label>" +
+					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +

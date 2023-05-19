@@ -167,8 +167,8 @@ function getActionsHTML(json) {
 
 		if (text == "") text = "<p id='no-cc'><b>There are no actions for this server!</b></p>";
 		return "<center><h1><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
-			"<button type='button' class='createForm' onclick='openDialog()'>Create action</button>" +
-			"<button type='button' class='createForm' onclick='openDialog(\"integration-create-dialog\")'>Create public integration</button>" +
+			"<button type='button' class='createForm' onclick='createDialog()'>Create action</button>" +
+			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create public integration</button>" +
 			"<br><br>" + text;
 	} else {
 		return (

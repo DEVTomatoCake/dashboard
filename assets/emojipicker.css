@@ -54,6 +54,14 @@ emoji-picker.light {
 	left: -70px;
 }
 
+.emoji-container textarea {
+	padding: 10px;
+	border: none;
+	box-sizing: border-box;
+	border-radius: 10px;
+	width: calc(100% - 70px);
+}
+
 .custom-picker {
 	padding: 10px;
 	border-radius: 10px;

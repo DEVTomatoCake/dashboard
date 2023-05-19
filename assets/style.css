@@ -398,14 +398,6 @@ textarea:focus {
 	border-bottom: #d14ff8 2px solid;
 }
 
-#newmsg textarea {
-	padding: 10px;
-	border: none;
-	box-sizing: border-box;
-	border-radius: 10px;
-	width: calc(100% - 70px);
-}
-
 .sidebar-container {
 	position: fixed;
 	width: 0;
@@ -1051,16 +1043,15 @@ button {
 	border: none;
 	transition: var(--transition-buttons);
 	border-radius: 5px;
-	font-size: 17px;
+	font-size: 19px;
 	cursor: pointer;
+	color: var(--light-text-color);
+	background-color: var(--button-accent-color);
 }
 .cookie-container button, button.createForm, .create-form button {
 	padding: 10px;
 	margin: 10px 10px 0 0;
-	border-radius: 17px;
-	font-size: 20px;
-	color: var(--light-text-color);
-	background-color: var(--button-accent-color);
+	border-radius: 16px;
 }
 .cookie-container button:hover, .create-form button:hover {
 	background-color: var(--accent-color);

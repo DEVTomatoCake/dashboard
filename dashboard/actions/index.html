@@ -35,8 +35,15 @@
 		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
 		<script>
-			function openDialog(dialog = "create-dialog") {
+			function createDialog(dialog = "create-dialog") {
 				document.getElementById("action-name").value = "";
+				document.getElementById("action-content").value = "";
+
+				document.getElementById("integration-name").value = "";
+				document.getElementById("integration-shortdesc").value = "";
+				document.getElementById("integration-longdesc").value = "";
+				document.getElementById("integration-public").checked = true;
+				document.getElementById("integration-content").value = "";
 				openDialog(document.getElementById(dialog));
 			}
 
@@ -167,7 +174,7 @@
 					<channel-picker id="action-version" type="action-version"></channel-picker>
 
 					<label for="action-content" translation="dashboard.content"></label>
-					<div class="emoji-container" id="newmsg">
+					<div class="emoji-container">
 						<textarea maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
 						<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 						<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
@@ -182,7 +189,7 @@
 					<h1>Create integration</h1>
 
 					<label for="integration-name">Name</label>
-					<input type="text" maxlength="20" placeholder="Integration name" name="integration-name" id="integration-name">
+					<input type="text" maxlength="25" placeholder="Integration name" name="integration-name" id="integration-name">
 
 					<label for="integration-shortdesc">Short description</label>
 					<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
@@ -203,7 +210,7 @@
 					<channel-picker id="integration-version" type="action-version"></channel-picker>
 
 					<label for="integration-content" translation="dashboard.content"></label>
-					<div class="emoji-container" id="newmsg">
+					<div class="emoji-container">
 						<textarea maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
 						<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 						<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
@@ -228,7 +235,7 @@
 
 				const div = document.createElement("div");
 				div.innerHTML =
-					"<label><b for='" + name + "'>" + name + "</b></label>" +
+					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + (Math.round(value.split("\n").length * 1.2) + 2) + "' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
@@ -237,7 +244,7 @@
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 				saveActions();
-			};
+			}
 
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;

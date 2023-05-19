@@ -94,6 +94,13 @@
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
+
+						if (hasSavePopup) {
+							fadeOut(document.getElementById("unsaved-container"));
+							hasSavePopup = false;
+							changed = [];
+						}
+						hasLoaded = false;
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -239,17 +246,20 @@
 						<h2>Integrations are actions which can be shared between servers.</h2>
 						<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
 
+						<label for="integration-id">ID</label>
+						<input type="text" maxlength="32" placeholder="Unique integration ID" name="integration-id" id="integration-id">
+
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" placeholder="Integration name" name="integration-name" id="integration-name">
 
 						<label for="integration-shortdesc">Short description</label>
-						<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
+						<input type="text" maxlength="200" placeholder="Short description" name="integration-shortdesc" id="integration-shortdesc">
 
 						<label for="integration-longdesc">Long description</label>
-						<textarea class="setting" maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="7"></textarea>
+						<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-longdesc" id="integration-longdesc" rows="7"></textarea>
 
 						<label for="integration-image">Image URL</label>
-						<input type="text" maxlength="500" placeholder="Integration image URL" name="integration-image" id="integration-image">
+						<input type="text" maxlength="500" placeholder="Image URL" name="integration-image" id="integration-image">
 
 						<label for="integration-public">Public</label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
@@ -277,7 +287,7 @@
 						<textarea class="setting" maxlength="300" placeholder="Input variables" name="integration-input" id="integration-input" rows="2"></textarea>
 
 						<label for="integration-env">Environment variables, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Environment variables" name="integration-env" id="integration-env" rows="2"></textarea>
+						<textarea class="setting" maxlength="300" placeholder="Hidden environment variables" name="integration-env" id="integration-env" rows="2"></textarea>
 
 						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -355,6 +365,8 @@
 			}
 
 			async function createIntegration() {
+				const id = encode(document.getElementById("integration-id").value);
+				if (!id) return alert("Enter an id for the integration!");
 				const name = encode(document.getElementById("integration-name").value);
 				if (!name) return alert("Enter a name for the integration!");
 				const content = encode(document.getElementById("integration-content").value);
@@ -372,6 +384,7 @@
 				const res = await fetch("https://api.tomatenkuchen.eu/api/integrations?token=" + getCookie("token"), {
 					method: "POST",
 					body: JSON.stringify({
+						id,
 						name,
 						content,
 						trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),

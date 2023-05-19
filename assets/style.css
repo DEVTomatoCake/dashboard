@@ -1034,7 +1034,7 @@ pre {
 
 .integration-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
 	grid-gap: 5px 20px;
 }
 
@@ -1047,7 +1047,8 @@ pre {
 	justify-content: center;
 	align-items: center;
 }
-.integration .title {
+
+.flex {
 	display: flex;
 }
 

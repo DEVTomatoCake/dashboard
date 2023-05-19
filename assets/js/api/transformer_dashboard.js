@@ -168,21 +168,23 @@ function getActionsHTML(json) {
 				"<br></div>";
 		});
 
-		if (json.integrations.length > 0) text += "<h1>Public and your integrations</h1><div class='integration-container'>"
+		if (json.integrations.length > 0) text += "<h1 style='margin-top:125px'>Your and public integrations</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +
-				"<div class='title'>" +
+				"<div class='flex'>" +
 					"<h3>" + encode(integration.name) + "</h3>" +
-					"<img src='" + integration.icon + "' alt='Integration icon' width='32' height='32' loading='lazy'>" +
+					"<img src='" + encode(integration.image) + "' alt='Integration icon' width='100' height='100' loading='lazy'>" +
 				"</div>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 				"<p>Version: " + encode(integration.version) + "</p>" +
 				"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
-				"<button>View</button>" +
-				(integration.isOwner ? "<button>Edit</button>" : "") +
+				"<div class='flex'>" +
+					"<button>View</button>" +
+					(integration.isOwner ? "<button>Edit</button>" : "") +
+				"</div>" +
 				"</div>";
 		});
 		if (json.integrations.length > 0) text += "</div>"

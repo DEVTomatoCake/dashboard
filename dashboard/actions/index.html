@@ -134,7 +134,7 @@
 
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
 						else if (json.action == "RECEIVE_actions") {
-							document.getElementById("linksidebar").innerHTML +=
+							const sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
 								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></div>" +
@@ -143,6 +143,21 @@
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
 								"</div>";
+
+							document.getElementById("linksidebar").innerHTML =
+								"<a href='/' title='Home' class='tab'>" +
+									"<ion-icon name='home-outline'></ion-icon>" +
+									"<p translation='sidebar.home'></p>" +
+								"</a>" +
+								"<a href='/commands/' title='Bot commands' class='tab'>" +
+									"<ion-icon name='terminal-outline'></ion-icon>" +
+									"<p translation='sidebar.commands'></p>" +
+								"</a>" +
+								"<a href='/dashboard/' class='tab active'>" +
+									"<ion-icon name='settings-outline'></ion-icon>" +
+									"<p translation='sidebar.dashboard'></p>" +
+								"</a>" +
+								sidebarHTML + "</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
 							reloadText();
@@ -285,6 +300,7 @@
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
+				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 				saveActions();
 			}
 

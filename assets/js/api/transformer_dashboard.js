@@ -129,7 +129,7 @@ function getCustomcommandsHTML(json) {
 
 		json.data.forEach(setting => {
 			text +=
-				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
+				"<label for='" + setting.name + "'><b>" + setting.name + "</b></label>" +
 				"<div class='emoji-container'>" +
 				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
 				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
@@ -156,19 +156,25 @@ function getActionsHTML(json) {
 
 		json.data.forEach(action => {
 			text +=
-				"<label><b for='" + action.name + "'>" + action.name + "</b></label>" +
+				"<label for='" + action.name + "'><b>" + action.name + "</b></label>" +
 				"<div class='emoji-container'>" +
-				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + action.name + "' maxlength='2000' name='" + action.name + "'>" + action.content + "</textarea>" +
+				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='action-" + action.name + "' maxlength='2000' name='" + action.name + "'>" + action.content + "</textarea>" +
 				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
 				"<br>";
 		});
 
+		if (json.integrations.length > 0) text += "<h1>Public and your integrations</h1><div class='integration-container'>"
+		json.integrations.forEach(integration => {
+			text += "<label><b>" + integration.name + "</b></label>"
+		});
+		if (json.integrations.length > 0) text += "</div>"
+
 		if (text == "") text = "<p id='no-cc'><b>There are no actions for this server!</b></p>";
 		return "<center><h1><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create action</button>" +
-			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create public integration</button>" +
+			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create integration</button>" +
 			"<br><br>" + text;
 	} else {
 		return (

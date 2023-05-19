@@ -47,17 +47,44 @@
 				openDialog(document.getElementById(dialog));
 			}
 
+			let changed = [];
+			let hasLoaded = false;
+			let hasSavePopup = false;
+			function handleChange(id) {
+				if (!hasLoaded) return;
+				if (!changed.includes(id.split("-")[1])) changed.push(id.split("-")[1]);
+
+				if (!hasSavePopup) {
+					const params = new URLSearchParams(window.location.search);
+					document.body.insertAdjacentHTML("beforeend",
+						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
+						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
+						"<button type='button' onclick='saveActions()' translation='unsaved.save'>Save</button>" +
+						"<button type='button' class='red' onclick='connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
+						"</div>"
+					);
+					fadeIn(document.getElementById("unsaved-container"));
+					reloadText();
+					hasSavePopup = true;
+				}
+			}
+
 			let guildName = "";
 			let actions = [];
 			let pickerData = {
 				"action-trigger": {
 					command: "Message and/or slash command",
+					button: "Button pressed",
+					select: "Select menu selected",
 					reactionAdd: "Reaction added",
 					reactionRemove: "Reaction removed",
+					roleAdd: "Role added to user",
+					roleRemove: "Role removed from user",
 					join: "Member joined",
 					leave: "Member left",
 					voiceJoin: "Member joined voice channel",
-					voiceLeave: "Member left voice channel"
+					voiceLeave: "Member left voice channel",
+					voiceSwitch: "Member switched voice channel"
 				},
 				"action-version": {
 					"1.0.0": "1.0.0 (current)"
@@ -158,66 +185,70 @@
 
 			<div class="content" id="content">
 				<div id="create-dialog" class="dialog">
-					<span class="close">&times;</span>
-					<h1>Create action</h1>
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1>Create action</h1>
 
-					<label for="action-name">Name</label>
-					<input type="text" placeholder="Action name" name="action-name" id="action-name">
+						<label for="action-name">Name</label>
+						<input type="text" placeholder="Action name" name="action-name" id="action-name">
 
-					<label for="action-trigger">Action trigger</label>
-					<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
+						<label for="action-trigger">Action trigger</label>
+						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
 
-					<label for="action-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
-					<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand">
+						<label for="action-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
+						<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand">
 
-					<label for="action-version">Parser version</label>
-					<channel-picker id="action-version" type="action-version"></channel-picker>
+						<label for="action-version">Parser version</label>
+						<channel-picker id="action-version" type="action-version"></channel-picker>
 
-					<label for="action-content" translation="dashboard.content"></label>
-					<div class="emoji-container">
-						<textarea maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
-						<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
-						<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+						<label for="action-content" translation="dashboard.content"></label>
+						<div class="emoji-container">
+							<textarea maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
+							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+						</div>
+
+						<br>
+						<button type="submit" onclick="createAction()">Create action</button>
 					</div>
-
-					<br>
-					<button type="submit" onclick="createAction()">Create action</button>
 				</div>
 
 				<div id="integration-create-dialog" class="dialog">
-					<span class="close">&times;</span>
-					<h1>Create integration</h1>
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1>Create integration</h1>
 
-					<label for="integration-name">Name</label>
-					<input type="text" maxlength="25" placeholder="Integration name" name="integration-name" id="integration-name">
+						<label for="integration-name">Name</label>
+						<input type="text" maxlength="25" placeholder="Integration name" name="integration-name" id="integration-name">
 
-					<label for="integration-shortdesc">Short description</label>
-					<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
+						<label for="integration-shortdesc">Short description</label>
+						<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
 
-					<label for="integration-longdesc">Long description</label>
-					<textarea maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
+						<label for="integration-longdesc">Long description</label>
+						<textarea maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
 
-					<label for="integration-public">Public</label>
-					<input type="checkbox" name="integration-public" id="integration-public" checked>
+						<label for="integration-public">Public</label>
+						<input type="checkbox" name="integration-public" id="integration-public" checked>
 
-					<label for="integration-trigger">Trigger</label>
-					<channel-picker id="integration-trigger" type="action-trigger"></channel-picker>
+						<label for="integration-trigger">Trigger</label>
+						<channel-picker id="integration-trigger" type="action-trigger"></channel-picker>
 
-					<label for="integration-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
-					<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand">
+						<label for="integration-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
+						<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand">
 
-					<label for="integration-version">Parser version</label>
-					<channel-picker id="integration-version" type="action-version"></channel-picker>
+						<label for="integration-version">Parser version</label>
+						<channel-picker id="integration-version" type="action-version"></channel-picker>
 
-					<label for="integration-content" translation="dashboard.content"></label>
-					<div class="emoji-container">
-						<textarea maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
-						<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
-						<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+						<label for="integration-content" translation="dashboard.content"></label>
+						<div class="emoji-container">
+							<textarea maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
+							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+						</div>
+
+						<br>
+						<button type="submit" onclick="createIntegration()">Create integration</button>
 					</div>
-
-					<br>
-					<button type="submit" onclick="createIntegration()">Create integration</button>
 				</div>
 
 				<div id="root-container" class="row"></div>

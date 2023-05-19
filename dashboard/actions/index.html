@@ -35,9 +35,9 @@
 		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
 		<script>
-			function openForm() {
+			function openDialog(dialog = "create-dialog") {
 				document.getElementById("action-name").value = "";
-				openDialog(document.getElementById("create-dialog"));
+				openDialog(document.getElementById(dialog));
 			}
 
 			let guildName = "";
@@ -53,7 +53,7 @@
 					voiceLeave: "Member left voice channel"
 				},
 				"action-version": {
-					"1.0.0": "1.0.0"
+					"1.0.0": "1.0.0 (current)"
 				}
 			};
 			let socket;
@@ -104,7 +104,7 @@
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
 								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
 								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
@@ -151,32 +151,66 @@
 
 			<div class="content" id="content">
 				<div id="create-dialog" class="dialog">
-					<form id="create-form" class="dialog-content">
-						<span class="close">&times;</span>
-						<h1>Create action</h1>
+					<span class="close">&times;</span>
+					<h1>Create action</h1>
 
-						<label for="action-name">Name</label>
-						<input type="text" placeholder="Action name" name="action-name" id="action-name" required>
+					<label for="action-name">Name</label>
+					<input type="text" placeholder="Action name" name="action-name" id="action-name">
 
-						<label for="action-trigger">Action trigger</label>
-						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
+					<label for="action-trigger">Action trigger</label>
+					<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
 
-						<label for="action-text" translation="dashboard.content"></label>
-						<div class="emoji-container" id="newmsg">
-							<textarea form="create-form" maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8" required></textarea>
-							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
-							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
-						</div>
+					<label for="action-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
+					<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand">
 
-						<label for="action-slashcommand" translation="dashboard.cc.slashdesc"></label>
-						<input type="text" name="action-slashcommand" id="action-slashcommand">
+					<label for="action-version">Parser version</label>
+					<channel-picker id="action-version" type="action-version"></channel-picker>
 
-						<label for="action-version">Parser version</label>
-						<channel-picker id="action-version" type="action-version"></channel-picker>
+					<label for="action-content" translation="dashboard.content"></label>
+					<div class="emoji-container" id="newmsg">
+						<textarea maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
+						<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+						<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+					</div>
 
-						<br>
-						<button type="submit" translation="dashboard.cc.create"></button>
-					</form>
+					<br>
+					<button type="submit" onclick="createAction()">Create action</button>
+				</div>
+
+				<div id="integration-create-dialog" class="dialog">
+					<span class="close">&times;</span>
+					<h1>Create integration</h1>
+
+					<label for="integration-name">Name</label>
+					<input type="text" maxlength="20" placeholder="Integration name" name="integration-name" id="integration-name">
+
+					<label for="integration-shortdesc">Short description</label>
+					<input type="text" maxlength="200" placeholder="Integration short description" name="integration-shortdesc" id="integration-shortdesc">
+
+					<label for="integration-longdesc">Long description</label>
+					<textarea maxlength="1000" placeholder="Integration long description" name="integration-longdesc" id="integration-longdesc" rows="10"></textarea>
+
+					<label for="integration-public">Public</label>
+					<input type="checkbox" name="integration-public" id="integration-public" checked>
+
+					<label for="integration-trigger">Trigger</label>
+					<channel-picker id="integration-trigger" type="action-trigger"></channel-picker>
+
+					<label for="integration-slashcommand">If trigger = command: If filled, registers slash command with this description</label>
+					<input type="text" maxlength="100" placeholder="Integration slash command description" name="integration-slashcommand" id="integration-slashcommand">
+
+					<label for="integration-version">Parser version</label>
+					<channel-picker id="integration-version" type="action-version"></channel-picker>
+
+					<label for="integration-content" translation="dashboard.content"></label>
+					<div class="emoji-container" id="newmsg">
+						<textarea maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
+						<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+						<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+					</div>
+
+					<br>
+					<button type="submit" onclick="createIntegration()">Create integration</button>
 				</div>
 
 				<div id="root-container" class="row"></div>
@@ -184,8 +218,7 @@
 		</main>
 
 		<script>
-			document.getElementById("create-form").addEventListener("submit", e => {
-				e.preventDefault();
+			function createAction() {
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
 
@@ -197,14 +230,14 @@
 				div.innerHTML =
 					"<label><b for='" + name + "'>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
-					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
+					"<textarea class='setting' rows='" + (Math.round(value.split("\n").length * 1.2) + 2) + "' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
 					"<br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 				saveActions();
-			});
+			};
 
 			const params = new URLSearchParams(window.location.search);
 			let saving = false;

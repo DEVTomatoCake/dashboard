@@ -154,11 +154,11 @@ function getActionsHTML(json) {
 	if (json.status == "success") {
 		let text = "";
 
-		json.data.forEach(setting => {
+		json.data.forEach(action => {
 			text +=
-				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
+				"<label><b for='" + action.name + "'>" + action.name + "</b></label>" +
 				"<div class='emoji-container'>" +
-				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
+				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + action.name + "' maxlength='2000' name='" + action.name + "'>" + action.content + "</textarea>" +
 				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
@@ -167,8 +167,8 @@ function getActionsHTML(json) {
 
 		if (text == "") text = "<p id='no-cc'><b>There are no actions for this server!</b></p>";
 		return "<center><h1><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
-			"<button type='button' class='createForm' onclick='openForm()'>Create action</button>" +
-			"<button type='button' class='createForm' onclick='openForm()'>Create public integration</button>" +
+			"<button type='button' class='createForm' onclick='openDialog()'>Create action</button>" +
+			"<button type='button' class='createForm' onclick='openDialog(\"integration-create-dialog\")'>Create public integration</button>" +
 			"<br><br>" + text;
 	} else {
 		return (

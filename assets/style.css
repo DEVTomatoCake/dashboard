@@ -1046,16 +1046,21 @@ pre {
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
 
-.cookie-container button, button.createForm, .create-form button {
+button {
+	padding: 7px;
 	border: none;
+	transition: var(--transition-buttons);
+	border-radius: 5px;
+	font-size: 17px;
+	cursor: pointer;
+}
+.cookie-container button, button.createForm, .create-form button {
 	padding: 10px;
 	margin: 10px 10px 0 0;
 	border-radius: 17px;
 	font-size: 20px;
-	background-color: var(--button-accent-color);
 	color: var(--light-text-color);
-	cursor: pointer;
-	transition: var(--transition-buttons);
+	background-color: var(--button-accent-color);
 }
 .cookie-container button:hover, .create-form button:hover {
 	background-color: var(--accent-color);

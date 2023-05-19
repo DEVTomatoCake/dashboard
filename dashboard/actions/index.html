@@ -318,7 +318,7 @@
 				const items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					if (!changed.includes(item.id)) return;
+					if (!changed.includes(item.id)) continue;
 
 					items[item.name] = {
 						content: item.value,

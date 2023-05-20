@@ -40,10 +40,13 @@
 				document.getElementById("action-content").value = "";
 				document.getElementById("action-sync-container").setAttribute("hidden", "");
 
+				document.getElementById("integration-id").value = "";
+				document.getElementById("integration-id").readonly = false;
 				document.getElementById("integration-name").value = "";
-				document.getElementById("integration-shortdesc").value = "";
-				document.getElementById("integration-longdesc").value = "";
+				document.getElementById("integration-short").value = "";
+				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-public").checked = true;
+				document.getElementById("integration-public").readonly = false;
 				document.getElementById("integration-content").value = "";
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
@@ -92,9 +95,9 @@
 					"<p>Created: " + new Date(integration.created).toLocaleString() + "</p>" +
 					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p>" +
 					"<br><textarea class='code' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>" +
-					"<br><button type='button' class='createForm' onclick='useIntegration(\"" + integrationId + "\")'>Use integration on <b>" + guildName + "</b></button>";
+					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationId + "\")'>Use integration on <b>" + guildName + "</b></button>";
 			}
-			function useIntegration(integrationId) {
+			function integrationUse(integrationId) {
 				document.getElementById("info-dialog").style.display = "none";
 				openDialog(document.getElementById("create-dialog"));
 				const integration = integrations.find(e => e.id == integrationId);
@@ -103,6 +106,25 @@
 				document.getElementById("action-name").value = encode(integration.name);
 				document.getElementById("action-content").value = integration.content;
 				document.getElementById("action-sync-container").removeAttribute("hidden");
+			}
+
+			function integrationEdit(integrationId) {
+				openDialog(document.getElementById("integration-create-dialog"));
+				const integration = integrations.find(e => e.id == integrationId);
+
+				document.getElementById("integration-create-title").innerHTML = "Edit integration <b>" + encode(integration.name) + "</b>";
+				document.getElementById("integration-id").value = integration.id;
+				document.getElementById("integration-id").readonly = true;
+				document.getElementById("integration-name").value = integration.name;
+				document.getElementById("integration-short").value = integration.short;
+				document.getElementById("integration-long").value = integration.long;
+				document.getElementById("integration-public").checked = integration.public;
+				document.getElementById("integration-public").readonly = true;
+				document.getElementById("integration-content").value = integration.content;
+				document.getElementById("integration-placeholders").value = integration.placeholders;
+				document.getElementById("integration-input").value = integration.input;
+				document.getElementById("integration-env").value = integration.env;
+				document.getElementById("integration-submit").innerText = "Edit integration";
 			}
 
 			let socket;
@@ -216,11 +238,11 @@
 							for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
-							["#action-trigger .picker div[data-id='command']", "#action-version .picker div[data-id='1.0.0']", "#integration-trigger .picker div[data-id='command']", "#integration-version .picker div[data-id='1.0.0']"].forEach(selector => {
-								const elem = document.querySelector(selector);
+							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", ""], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
+								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
 								elem.classList.add("selected");
-								document.querySelector(selector.split(" ")[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-								document.getElementById(selector.split(" ")[0].replace("#", "")).setAttribute("data-selected", elem.getAttribute("data-id"));
+								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+								document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"));
 							});
 						} else if (json.action == "SAVED_actions") {
 							saving = false;
@@ -295,7 +317,7 @@
 				<div id="integration-create-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1>Create integration</h1>
+						<h1 id="integration-create-title">Create integration</h1>
 						<h2>Integrations are actions which can be shared between servers.</h2>
 						<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
 
@@ -305,11 +327,11 @@
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" placeholder="Display name, if command: command name" name="integration-name" id="integration-name">
 
-						<label for="integration-shortdesc">Short description</label>
-						<input type="text" maxlength="200" placeholder="Short description" name="integration-shortdesc" id="integration-shortdesc">
+						<label for="integration-short">Short description</label>
+						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
 
-						<label for="integration-longdesc">Long description</label>
-						<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-longdesc" id="integration-longdesc" rows="7"></textarea>
+						<label for="integration-long">Long description</label>
+						<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
 
 						<label for="integration-image">Image URL</label>
 						<input type="text" maxlength="500" placeholder="Image URL" name="integration-image" id="integration-image">
@@ -342,7 +364,7 @@
 						<label for="integration-env">Hidden environment variables, one per line, invisible to users</label>
 						<textarea class="code" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
 
-						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
+						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
 				</div>
 
@@ -433,8 +455,8 @@
 				if (!name) return alert("Enter a name for the integration!");
 				const content = encode(document.getElementById("integration-content").value);
 				if (!content) return alert("Enter content for the integration!");
-				const shortdesc = encode(document.getElementById("integration-shortdesc").value);
-				if (!shortdesc) return alert("Enter a short description for the integration!");
+				const short = encode(document.getElementById("integration-short").value);
+				if (!short) return alert("Enter a short description for the integration!");
 
 				document.getElementById("integration-create-dialog").style.display = "none";
 
@@ -454,8 +476,8 @@
 						trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),
 						version: document.getElementById("integration-version").getAttribute("data-selected"),
 						slashcommand: document.getElementById("integration-slashcommand").value,
-						shortdesc,
-						longdesc: document.getElementById("integration-longdesc").value,
+						short,
+						long: document.getElementById("integration-long").value,
 						image: document.getElementById("integration-image").value,
 						public: document.getElementById("integration-public").checked,
 						placeholders,

@@ -164,7 +164,7 @@ function getActionsHTML(json) {
 				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
-				"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(action.name) + "\");'></ion-icon>" +
+				"<br><ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(action.name) + "\");'></ion-icon>" +
 				"<br></div>";
 		});
 
@@ -179,7 +179,6 @@ function getActionsHTML(json) {
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 				"<p>Version: " + encode(integration.version) + "</p>" +
-				"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 				"<div class='flex'>" +
 					"<button>View / Use</button>" +

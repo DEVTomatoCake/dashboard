@@ -44,15 +44,10 @@
 				document.getElementById("integration-longdesc").value = "";
 				document.getElementById("integration-public").checked = true;
 				document.getElementById("integration-content").value = "";
+				document.getElementById("integration-placeholders").value = "";
+				document.getElementById("integration-input").value = "";
+				document.getElementById("integration-env").value = "";
 				openDialog(document.getElementById(dialog));
-			}
-
-			function deleteAction(elem, action) {
-				const confirmed = confirm("Are you sure you want to delete this action? This cannot be undone!");
-				if (confirmed) {
-					elem.parentElement.remove();
-					socket.send(JSON.stringify({status: "success", action: "DELETE_action", name: action}));
-				}
 			}
 
 			let changed = [];
@@ -77,27 +72,49 @@
 				}
 			}
 
+			let integrations = [];
+			function integrationInfo(integration) {
+				openDialog(document.getElementById("info-dialog"));
+				document.getElementById("info-name").innerText = integration.name;
+				document.getElementById("info-shortdesc").innerText = integration.shortdesc;
+				document.getElementById("info-longdesc").innerText = integration.longdesc;
+				document.getElementById("info-content").innerText = integration.content;
+				document.getElementById("info-general").innerHTML =
+					"<p>Owner: " + encode(integration.owner) + "</p>" +
+					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
+					"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
+					"<p>Version: " + encode(integration.version) + "</p>" +
+					"<p>Created: " + new Date(integration.created).toLocaleDateString() + "</p>" +
+					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>";
+			}
+
+			let socket;
+			function deleteAction(elem, action) {
+				const confirmed = confirm("Are you sure you want to delete this action? This cannot be undone!");
+				if (confirmed) {
+					elem.parentElement.remove();
+					socket.send(JSON.stringify({status: "success", action: "DELETE_action", name: action}));
+				}
+			}
+
 			let guildName = "";
 			let pickerData = {
 				"action-trigger": {
-					command: "Message and/or slash command",
+					command: "Message and/or slash command used",
 					button: "Button pressed",
 					select: "Select menu selected",
+					automod: "Discord Automod triggered",
 					reactionAdd: "Reaction added",
 					reactionRemove: "Reaction removed",
 					roleAdd: "Role added to user",
 					roleRemove: "Role removed from user",
 					join: "Member joined",
-					leave: "Member left",
-					voiceJoin: "Member joined voice channel",
-					voiceLeave: "Member left voice channel",
-					voiceSwitch: "Member switched voice channel"
+					leave: "Member left"
 				},
 				"action-version": {
 					"1.0.0": "1.0.0 (current)"
 				}
 			};
-			let socket;
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
@@ -173,6 +190,7 @@
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
 							reloadText();
 							guildName = json.name;
+							integrations = json.integrations;
 							document.getElementById("info-guildname").innerText = json.name;
 							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
@@ -305,9 +323,18 @@
 				<div id="info-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1>Information about <span id="info-actionname"></span></h1>
+						<h1>
+							Information about <span id="info-name"></span>
+						</h1>
 
-						<button type="button" class="createForm" onclick="useAction()">Use integration on <span id="info-guildname"></span></button>
+						<h2 id="info-shortdesc"></h2>
+						<p id="info-longdesc"></p>
+						<p id="info-general"></p>
+						<textarea id="info-content" rows="10" readonly></textarea>
+
+						<button type="button" class="createForm" onclick="useAction()">
+							Use integration on <span id="info-guildname"></span>
+						</button>
 					</div>
 				</div>
 
@@ -336,7 +363,7 @@
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
-					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
+					"<br><ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
 					"<br></div>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);

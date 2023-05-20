@@ -79,8 +79,8 @@
 
 				document.getElementById("info-container").innerHTML =
 					"<h1>Information about <b>" + integration.name + "</b></h1>" +
-					"<h2>" + encode(integration.shortdesc) + "</h2><br>" +
-					"<p>" + encode(integration.longdesc) + "</p><br>" +
+					"<h2>" + encode(integration.short) + "</h2><br>" +
+					"<p>" + encode(integration.long) + "</p><br>" +
 					"<p>ID: <code>" + encode(integration.owner) + "</code></p>" +
 					"<p>Owner: " + encode(integration.owner) + "</p>" +
 					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
@@ -330,7 +330,7 @@
 
 						<br>
 						<button type="button" class="createForm" onclick="useAction()">
-							Use integration on <span id="info-guildname"></span>
+							Use integration on <b id="info-guildname"></b>
 						</button>
 					</div>
 				</div>

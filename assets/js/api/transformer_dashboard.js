@@ -181,7 +181,7 @@ function getActionsHTML(json) {
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 				"<div class='flex'>" +
-					"<button>View / Use</button>" +
+					"<button onclick='integrationInfo(\"" + encode(integration.id) + "\")'>View / Use</button>" +
 					(integration.isOwner ? "<button>Edit</button>" : "") +
 				"</div>" +
 				"</div>";

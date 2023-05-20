@@ -40,13 +40,15 @@
 				document.getElementById("action-content").value = "";
 				document.getElementById("action-sync-container").setAttribute("hidden", "");
 
+				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
+				document.getElementById("integration-about").removeAttribute("hidden");
 				document.getElementById("integration-id").value = "";
-				document.getElementById("integration-id").readonly = false;
+				document.getElementById("integration-id").removeAttribute("readonly");
 				document.getElementById("integration-name").value = "";
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-public").checked = true;
-				document.getElementById("integration-public").readonly = false;
+				document.getElementById("integration-public").removeAttribute("readonly");
 				document.getElementById("integration-content").value = "";
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
@@ -112,18 +114,24 @@
 				openDialog(document.getElementById("integration-create-dialog"));
 				const integration = integrations.find(e => e.id == integrationId);
 
+				document.getElementById("integration-create-dialog").setAttribute("data-edit", "");
 				document.getElementById("integration-create-title").innerHTML = "Edit integration <b>" + encode(integration.name) + "</b>";
+				document.getElementById("integration-about").setAttribute("hidden", "");
 				document.getElementById("integration-id").value = integration.id;
-				document.getElementById("integration-id").readonly = true;
+				document.getElementById("integration-id").setAttribute("readonly", "");
 				document.getElementById("integration-name").value = integration.name;
 				document.getElementById("integration-short").value = integration.short;
 				document.getElementById("integration-long").value = integration.long;
 				document.getElementById("integration-public").checked = integration.public;
-				document.getElementById("integration-public").readonly = true;
+				document.getElementById("integration-public").setAttribute("readonly", "");
 				document.getElementById("integration-content").value = integration.content;
-				document.getElementById("integration-placeholders").value = integration.placeholders;
-				document.getElementById("integration-input").value = integration.input;
-				document.getElementById("integration-env").value = integration.env;
+				document.getElementById("integration-content").rows = Math.round(integration.content.split("\n").length * 1.2) + 2;
+				document.getElementById("integration-placeholders").value = integration.placeholders.join("\n");
+				document.getElementById("integration-placeholders").rows = integration.placeholders.length + 2;
+				document.getElementById("integration-input").value = integration.input.join("\n");
+				document.getElementById("integration-input").rows = integration.input.length + 2;
+				document.getElementById("integration-env").value = integration.env.join("\n");
+				document.getElementById("integration-env").rows = integration.env.length + 2;
 				document.getElementById("integration-submit").innerText = "Edit integration";
 			}
 
@@ -318,8 +326,10 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<h1 id="integration-create-title">Create integration</h1>
-						<h2>Integrations are actions which can be shared between servers.</h2>
-						<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
+						<div id="integration-about">
+							<h2>Integrations are actions which can be shared between servers.</h2>
+							<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
+						</div>
 
 						<label for="integration-id">ID</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique integration ID" name="integration-id" id="integration-id">
@@ -470,6 +480,7 @@
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
+						edit: document.getElementById("integration-create-dialog").getAttribute("data-edit"),
 						id,
 						name,
 						content,

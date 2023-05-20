@@ -168,13 +168,13 @@ function getActionsHTML(json) {
 				"<br><br></div>";
 		});
 
-		if (json.integrations.length > 0) text += "<h1 class='center' style='margin:125px 0 10px'>Available integrations (yours/public)</h1><div class='integration-container'>"
+		if (json.integrations.length > 0) text += "<h1 class='center' style='margin:110px 0 5px'>Available integrations (yours/public)</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +
 				"<div class='flex'>" +
-					"<h3>" + encode(integration.name) + "</h3>" +
-					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon' width='100' height='100' loading='lazy'>" : "") +
+					"<h3>" + encode(integration.name) + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") + "</h3>" +
+					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon of " + encode(integration.name) + "' width='75' height='75' loading='lazy'>" : "") +
 				"</div>" +
 				"<p>ID: <code>" + encode(integration.id) + "</code></p>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +

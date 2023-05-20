@@ -164,8 +164,8 @@ function getActionsHTML(json) {
 				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
-				"<br><ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(action.name) + "\");'></ion-icon>" +
-				"<br></div>";
+				"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(action.name) + "\");'></ion-icon>" +
+				"<br><br></div>";
 		});
 
 		if (json.integrations.length > 0) text += "<h1 style='margin-top:125px'>Your and public integrations</h1><div class='integration-container'>"

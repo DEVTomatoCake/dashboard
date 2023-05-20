@@ -38,6 +38,7 @@
 			function createDialog(dialog = "create-dialog") {
 				document.getElementById("action-name").value = "";
 				document.getElementById("action-content").value = "";
+				document.getElementById("action-sync-container").setAttribute("hidden", "");
 
 				document.getElementById("integration-name").value = "";
 				document.getElementById("integration-shortdesc").value = "";
@@ -78,17 +79,27 @@
 				const integration = integrations.find(e => e.id == integrationId);
 
 				document.getElementById("info-container").innerHTML =
-					"<h1>Information about <b>" + integration.name + "</b></h1>" +
+					"<h1>Information about <b>" + encode(integration.name) + "</b></h1>" +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
 					"<p>" + encode(integration.long) + "</p><br>" +
-					"<p>ID: <code>" + encode(integration.owner) + "</code></p>" +
+					"<p>ID: <code>" + encode(integrationId) + "</code></p>" +
 					"<p>Owner: " + encode(integration.owner) + "</p>" +
 					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
 					"<p>Parser version: <code>" + encode(integration.version) + "</code></p>" +
 					"<p>Created: " + new Date(integration.created).toLocaleDateString() + "</p>" +
 					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
-					"<textarea class='setting' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>";
+					"<br><textarea class='setting' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>" +
+					"<br><button type='button' class='createForm' onclick='useIntegration(\"" + integrationId + "\")'>Use integration on <b>" + guildName + "</b></button>";
+			}
+			function useIntegration(integrationId) {
+				document.getElementById("info-dialog").style.display = "none";
+				openDialog(document.getElementById("create-dialog"));
+				const integration = integrations.find(e => e.id == integrationId);
+
+				document.getElementById("action-name").value = integration.name;
+				document.getElementById("action-content").value = integration.content;
+				document.getElementById("action-sync-container").removeAttribute("hidden");
 			}
 
 			let socket;
@@ -116,6 +127,12 @@
 				},
 				"action-version": {
 					"1.0.0": "1.0.0 (current)"
+				},
+				"action-sync": {
+					none: "Disable syncing",
+					manual: "Manual syncing, be notified of changes",
+					auto: "Auto syncing, changes are instantly applied once updated, content not editable",
+					safeAuto: "Safe auto syncing, changes are applied after bot or server staff review, content not editable"
 				}
 			};
 			function connectWS(guild) {
@@ -194,7 +211,6 @@
 							reloadText();
 							guildName = json.name;
 							integrations = json.integrations;
-							document.getElementById("info-guildname").innerText = json.name;
 							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
@@ -247,7 +263,7 @@
 						<h1>Create action</h1>
 
 						<label for="action-name">Name</label>
-						<input type="text" maxlength="32" placeholder="Action name" name="action-name" id="action-name">
+						<input type="text" maxlength="32" placeholder="Display name, if command: command name" name="action-name" id="action-name">
 
 						<label for="action-trigger">Action trigger</label>
 						<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
@@ -257,6 +273,11 @@
 
 						<label for="action-version">Parser version</label>
 						<channel-picker id="action-version" type="action-version"></channel-picker>
+
+						<div id="action-sync-container" hidden>
+							<label for="action-sync">Sync mode</label>
+							<channel-picker id="action-sync" type="action-sync"></channel-picker>
+						</div>
 
 						<label for="action-content" translation="dashboard.content"></label>
 						<div class="emoji-container emoji-special">
@@ -280,7 +301,7 @@
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique integration ID" name="integration-id" id="integration-id">
 
 						<label for="integration-name">Name</label>
-						<input type="text" maxlength="32" placeholder="Integration name" name="integration-name" id="integration-name">
+						<input type="text" maxlength="32" placeholder="Display name, if command: command name" name="integration-name" id="integration-name">
 
 						<label for="integration-shortdesc">Short description</label>
 						<input type="text" maxlength="200" placeholder="Short description" name="integration-shortdesc" id="integration-shortdesc">
@@ -327,11 +348,6 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<div id="info-container"></div>
-
-						<br>
-						<button type="button" class="createForm" onclick="useAction()">
-							Use integration on <b id="info-guildname"></b>
-						</button>
 					</div>
 				</div>
 
@@ -360,8 +376,8 @@
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
-					"<br><ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
-					"<br></div>";
+					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
+					"<br><br></div>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 

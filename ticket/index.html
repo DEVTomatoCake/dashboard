@@ -31,7 +31,7 @@
 		</style>
 		<script>
 			function loadTranscript() {
-				const params = new URLSearchParams(window.location.search);
+				const params = new URLSearchParams(location.search);
 				if (!params.has("id")) location = "/";
 				document.getElementById("transcript").src = "https://api.tomatenkuchen.eu/transcript/" + params.get("id");
 			}

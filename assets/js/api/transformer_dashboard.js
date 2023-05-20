@@ -112,7 +112,7 @@ function getSettingsHTML(json) {
 		});
 
 		return {
-			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
+			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" + text,
 			categories
 		};
 	} else {
@@ -139,7 +139,7 @@ function getCustomcommandsHTML(json) {
 		});
 
 		if (text == "") text = "<p id='no-cc'><b translation='dashboard.cc.nocc'></b></p>";
-		return "<center><h1><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+		return "<h1 class='center'><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<p translation='dashboard.cc.delete'></p>" +
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
@@ -159,7 +159,7 @@ function getActionsHTML(json) {
 				"<div>" +
 				"<label for='" + encode(action.name) + "'><b>" + encode(action.name) + "</b></label>" +
 				"<div class='emoji-container'>" +
-				"<textarea class='setting' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + encode(action.name) + "-action' maxlength='2000' name='" + encode(action.name) +
+				"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + encode(action.name) + "-action' maxlength='2000' name='" + encode(action.name) +
 				(action.slashcommand ? "' data-slashcommand='" + encode(action.slashcommand) : "") + "' data-trigger='" + encode(action.trigger) + "' data-version='" + encode(action.version) + "'>" +
 				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
@@ -168,7 +168,7 @@ function getActionsHTML(json) {
 				"<br><br></div>";
 		});
 
-		if (json.integrations.length > 0) text += "<h1 style='margin-top:125px'>Your and public integrations</h1><div class='integration-container'>"
+		if (json.integrations.length > 0) text += "<h1 class='center' style='margin:125px 0 10px'>Available integrations (yours/public)</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +
@@ -189,7 +189,7 @@ function getActionsHTML(json) {
 		if (json.integrations.length > 0) text += "</div>"
 
 		if (text == "") text = "<p id='no-action'><b>There are no actions for this server!</b></p>";
-		return "<center><h1><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+		return "<h1 class='center'><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create action</button>" +
 			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create integration</button>" +
 			"<br><br>" + text;
@@ -240,7 +240,7 @@ function getReactionrolesHTML(json) {
 		});
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";
-		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+		return "<h1 class='center'><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
 	} else {
 		return (
@@ -292,7 +292,7 @@ function getDataexportHTML(token) {
 						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode("" + suggest.id) + "</p>").join(", ");
 
 					const text =
-						"<center>" +
+						"<div class='center'>" +
 						"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
 						"<div class='userdatagrid'>" +
 
@@ -365,7 +365,7 @@ function getDataexportHTML(token) {
 						"</div>" +
 						"</div>" +
 
-						"</center>";
+						"</div>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);

@@ -55,11 +55,11 @@
 			let hasLoaded = false;
 			let hasSavePopup = false;
 			function handleChange(id) {
-				if (!hasLoaded || id.startsWith("action-") || id.startsWith("integration-")) return;
+				if (!hasLoaded || !id || id.startsWith("action-") || id.startsWith("integration-")) return;
 				if (!changed.includes(id)) changed.push(id);
 
 				if (!hasSavePopup) {
-					const params = new URLSearchParams(window.location.search);
+					const params = new URLSearchParams(location.search);
 					document.body.insertAdjacentHTML("beforeend",
 						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
 						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
@@ -73,6 +73,7 @@
 				}
 			}
 
+			let guildName = "";
 			let integrations = [];
 			function integrationInfo(integrationId) {
 				openDialog(document.getElementById("info-dialog"));
@@ -85,11 +86,12 @@
 					"<p>ID: <code>" + encode(integrationId) + "</code></p>" +
 					"<p>Owner: " + encode(integration.owner) + "</p>" +
 					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
+					"<p>Used by: <b>" + encode("" + integration.uses) + "</b></p>" +
 					"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
 					"<p>Parser version: <code>" + encode(integration.version) + "</code></p>" +
-					"<p>Created: " + new Date(integration.created).toLocaleDateString() + "</p>" +
-					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
-					"<br><textarea class='setting' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>" +
+					"<p>Created: " + new Date(integration.created).toLocaleString() + "</p>" +
+					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p>" +
+					"<br><textarea class='code' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>" +
 					"<br><button type='button' class='createForm' onclick='useIntegration(\"" + integrationId + "\")'>Use integration on <b>" + guildName + "</b></button>";
 			}
 			function useIntegration(integrationId) {
@@ -97,7 +99,8 @@
 				openDialog(document.getElementById("create-dialog"));
 				const integration = integrations.find(e => e.id == integrationId);
 
-				document.getElementById("action-name").value = integration.name;
+				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
+				document.getElementById("action-name").value = encode(integration.name);
 				document.getElementById("action-content").value = integration.content;
 				document.getElementById("action-sync-container").removeAttribute("hidden");
 			}
@@ -111,7 +114,6 @@
 				}
 			}
 
-			let guildName = "";
 			let pickerData = {
 				"action-trigger": {
 					command: "Message and/or slash command used",
@@ -211,7 +213,7 @@
 							reloadText();
 							guildName = json.name;
 							integrations = json.integrations;
-							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
+							for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
 							["#action-trigger .picker div[data-id='command']", "#action-version .picker div[data-id='1.0.0']", "#integration-trigger .picker div[data-id='command']", "#integration-version .picker div[data-id='1.0.0']"].forEach(selector => {
@@ -246,7 +248,7 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="redirect('/login/')">
+					<div class="account" onclick="location = '/login/'">
 						<p id="username-header">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
@@ -260,7 +262,7 @@
 				<div id="create-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1>Create action</h1>
+						<h1 id="create-title">Create action</h1>
 
 						<label for="action-name">Name</label>
 						<input type="text" maxlength="32" placeholder="Display name, if command: command name" name="action-name" id="action-name">
@@ -281,7 +283,7 @@
 
 						<label for="action-content" translation="dashboard.content"></label>
 						<div class="emoji-container emoji-special">
-							<textarea maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
+							<textarea class="code" maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
@@ -326,19 +328,19 @@
 
 						<label for="integration-content" translation="dashboard.content"></label>
 						<div class="emoji-container emoji-special">
-							<textarea maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
+							<textarea class="code" maxlength="2000" placeholder="Integration content" name="integration-content" id="integration-content" rows="10"></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 						</div>
 
 						<label for="integration-placeholders">Placeholder text, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
+						<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
 
 						<label for="integration-input">Input variables, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="url;Your GitHub URL;https://github.com/DEVTomatoCake" name="integration-input" id="integration-input" rows="2"></textarea>
+						<textarea class="code" maxlength="300" placeholder="url;Your GitHub URL;https://github.com/DEVTomatoCake" name="integration-input" id="integration-input" rows="2"></textarea>
 
 						<label for="integration-env">Hidden environment variables, one per line, invisible to users</label>
-						<textarea class="setting" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
+						<textarea class="code" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
 
 						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -370,7 +372,7 @@
 					"<div>" +
 					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
-					"<textarea class='setting' rows='" + (Math.round(content.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
+					"<textarea class='code' rows='" + (Math.round(content.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
 					encode(document.getElementById("action-slashcommand").value) + "' data-trigger='" + encode(document.getElementById("action-trigger").getAttribute("data-selected")) + "' data-version='" +
 					encode(document.getElementById("action-version").getAttribute("data-selected")) + "'>" + content + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
@@ -379,13 +381,13 @@
 					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
 					"<br><br></div>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
-				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
+				for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
 
 				changed.push(name + "-action");
 				saveActions();
 			}
 
-			const params = new URLSearchParams(window.location.search);
+			const params = new URLSearchParams(location.search);
 			let saving = false;
 			let savingToast;
 			let errorToast;

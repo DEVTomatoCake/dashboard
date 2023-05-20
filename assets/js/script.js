@@ -24,7 +24,6 @@ function deleteCookie(name) {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;";
 }
 
-const redirect = url => window.location = url;
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
 
 function handleError(resolve, error) {
@@ -74,7 +73,7 @@ class Sidebar extends HTMLElement {
 					"<div class='line' id='lineBottom2'></div>" +
 				"</div>" +
 
-				"<button type='button' onclick='redirect(\"/invite/\")' translation='sidebar.invite'></button>" +
+				"<button type='button' onclick='location = \"/invite/\"' translation='sidebar.invite'></button>" +
 
 				"<div id='linksidebar' class='section'>" +
 					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active" : "") + "'>" +

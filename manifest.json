@@ -45,10 +45,10 @@
 			"description": "Modify the settings of a server",
 			"url": "/dashboard/settings/?source=pwa"
 		},{
-			"name": "Manage customcommands",
-			"short_name": "Customcommands",
-			"description": "Create and modify customcommands of a server",
-			"url": "/dashboard/customcommands/?source=pwa"
+			"name": "Manage actions",
+			"short_name": "Actions",
+			"description": "Create and modify actions of a server",
+			"url": "/dashboard/actions/?source=pwa"
 		},{
 			"name": "Manage reaction, button and select roles",
 			"short_name": "Reactionroles",

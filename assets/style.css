@@ -316,13 +316,17 @@ tr.cmdvisible:nth-child(odd) {
 
 textarea {
 	font-family: "Be Vietnam Pro", sans-serif;
-	padding: 7px !important;
-	border-radius: 7px;
-	font-size: 16px;
+	padding: 7px;
+	border-radius: 8px;
+	font-size: 18px;
 	color: var(--textarea-color);
 	background-color: var(--textarea-background);
-	border: none;
 	transition: box-shadow var(--transition-buttons),background-color var(--transition-buttons),outline var(--transition-buttons);
+	border: none;
+	min-height: 40px;
+	min-width: 150px;
+	max-width: 100%;
+	width: 100%;
 }
 textarea:focus {
 	background-color: var(--textarea-background-focus);
@@ -330,9 +334,9 @@ textarea:focus {
 	box-shadow: 0 0 6px 2px var(--secondary-color);
 }
 
-textarea.setting, textarea.settingcopy {
-	min-height: 50px;
-	min-width: 65px;
+textarea.code {
+	overflow-wrap: anywhere;
+	font-family: monospace;
 }
 
 .advancedsetting {
@@ -886,7 +890,7 @@ input:not(#cmd-search):not([type="checkbox"]) {
 	border-radius: 8px;
 	outline: none;
 	padding: 6px;
-	min-width: 150px;
+	min-width: 250px;
 	transition: var(--transition-buttons);
 }
 input:focus {

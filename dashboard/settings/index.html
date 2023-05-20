@@ -50,7 +50,7 @@
 				for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden");
 				document.getElementById("setcat-" + tab).classList.remove("hidden");
 
-				redirect("#root-container");
+				location = "#root-container";
 				if (screen.width <= 800) sidebar();
 			}
 
@@ -62,7 +62,7 @@
 				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
 
 				if (!hasSavePopup) {
-					const params = new URLSearchParams(window.location.search);
+					const params = new URLSearchParams(location.search);
 					document.body.insertAdjacentHTML("beforeend",
 						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
 						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
@@ -151,10 +151,10 @@
 
 							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
+								"<a class='tab otherlinks' href='../actions/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></a>" +
+								"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
+								"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></a>" +
+								"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
 								"<hr>";
 
 							rendered.categories.forEach(category => {
@@ -299,7 +299,7 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="redirect('/login/')">
+					<div class="account" onclick="location = '/login/'">
 						<p id="username-header">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
@@ -321,7 +321,7 @@
 		</main>
 
 		<script>
-			const params = new URLSearchParams(window.location.search);
+			const params = new URLSearchParams(location.search);
 			let saving = false;
 			let savingToast;
 			let errorToast;

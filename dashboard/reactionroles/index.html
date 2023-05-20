@@ -168,11 +168,11 @@
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveReactionroles();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
+								"<br><hr><a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></a>" +
+								"<a class='tab otherlinks' href='../actions/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></a>" +
 								"<div class='tab otherlinks active'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
+								"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></a>" +
+								"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>";
@@ -212,7 +212,7 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="redirect('/login/')">
+					<div class="account" onclick="location = '/login/'">
 						<p id="username-header">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
@@ -323,7 +323,7 @@
 				saveReactionroles();
 			});
 
-			const params = new URLSearchParams(window.location.search);
+			const params = new URLSearchParams(location.search);
 			let saving = false;
 			let savingToast;
 			let errorToast;

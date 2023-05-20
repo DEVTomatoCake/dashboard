@@ -176,9 +176,9 @@ function getActionsHTML(json) {
 					"<h3>" + encode(integration.name) + "</h3>" +
 					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon' width='100' height='100' loading='lazy'>" : "") +
 				"</div>" +
+				"<p>ID: <code>" + encode(integration.id) + "</code></p>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
-				"<p>Version: " + encode(integration.version) + "</p>" +
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 				"<div class='flex'>" +
 					"<button>View / Use</button>" +

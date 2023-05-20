@@ -73,19 +73,22 @@
 			}
 
 			let integrations = [];
-			function integrationInfo(integration) {
+			function integrationInfo(integrationId) {
 				openDialog(document.getElementById("info-dialog"));
-				document.getElementById("info-name").innerText = integration.name;
-				document.getElementById("info-shortdesc").innerText = integration.shortdesc;
-				document.getElementById("info-longdesc").innerText = integration.longdesc;
-				document.getElementById("info-content").innerText = integration.content;
-				document.getElementById("info-general").innerHTML =
+				const integration = integrations.find(e => e.id == integrationId);
+
+				document.getElementById("info-container").innerHTML =
+					"<h1>Information about <b>" + integration.name + "</b></h1>" +
+					"<h2>" + encode(integration.shortdesc) + "</h2><br>" +
+					"<p>" + encode(integration.longdesc) + "</p><br>" +
+					"<p>ID: <code>" + encode(integration.owner) + "</code></p>" +
 					"<p>Owner: " + encode(integration.owner) + "</p>" +
 					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
-					"<p>Version: " + encode(integration.version) + "</p>" +
+					"<p>Parser version: <code>" + encode(integration.version) + "</code></p>" +
 					"<p>Created: " + new Date(integration.created).toLocaleDateString() + "</p>" +
-					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>";
+					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
+					"<textarea class='setting' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>";
 			}
 
 			let socket;
@@ -323,15 +326,9 @@
 				<div id="info-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1>
-							Information about <span id="info-name"></span>
-						</h1>
+						<div id="info-container"></div>
 
-						<h2 id="info-shortdesc"></h2>
-						<p id="info-longdesc"></p>
-						<p id="info-general"></p>
-						<textarea id="info-content" rows="10" readonly></textarea>
-
+						<br>
 						<button type="button" class="createForm" onclick="useAction()">
 							Use integration on <span id="info-guildname"></span>
 						</button>

@@ -1053,6 +1053,7 @@ pre {
 }
 
 button {
+	margin: 2px;
 	padding: 7px;
 	border: none;
 	transition: var(--transition-buttons);

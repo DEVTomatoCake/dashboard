@@ -164,7 +164,7 @@ function getActionsHTML(json) {
 				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 				"</div>" +
-				"<ion-icon name='trash-outline' onclick='this.parentElement.remove();socket.send(JSON.stringify({status: \"success\", action: \"DELETE_action\", name: \"" + action.name + "\"}));'></ion-icon>" +
+				"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(action.name) + "\");'></ion-icon>" +
 				"<br></div>";
 		});
 
@@ -174,7 +174,7 @@ function getActionsHTML(json) {
 				"<div class='integration'>" +
 				"<div class='flex'>" +
 					"<h3>" + encode(integration.name) + "</h3>" +
-					"<img src='" + encode(integration.image) + "' alt='Integration icon' width='100' height='100' loading='lazy'>" +
+					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon' width='100' height='100' loading='lazy'>" : "") +
 				"</div>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
@@ -182,7 +182,7 @@ function getActionsHTML(json) {
 				"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 				"<div class='flex'>" +
-					"<button>View</button>" +
+					"<button>View / Use</button>" +
 					(integration.isOwner ? "<button>Edit</button>" : "") +
 				"</div>" +
 				"</div>";

@@ -47,6 +47,14 @@
 				openDialog(document.getElementById(dialog));
 			}
 
+			function deleteAction(elem, action) {
+				const confirmed = confirm("Are you sure you want to delete this action? This cannot be undone!");
+				if (confirmed) {
+					elem.parentElement.remove();
+					socket.send(JSON.stringify({status: "success", action: "DELETE_action", name: action}));
+				}
+			}
+
 			let changed = [];
 			let hasLoaded = false;
 			let hasSavePopup = false;
@@ -165,6 +173,7 @@
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
 							reloadText();
 							guildName = json.name;
+							document.getElementById("info-guildname").innerText = json.name;
 							for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
@@ -284,12 +293,21 @@
 						<textarea class="setting" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
 
 						<label for="integration-input">Input variables, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Input variables" name="integration-input" id="integration-input" rows="2"></textarea>
+						<textarea class="setting" maxlength="300" placeholder="url;Your GitHub URL;https://github.com/DEVTomatoCake" name="integration-input" id="integration-input" rows="2"></textarea>
 
-						<label for="integration-env">Environment variables, one per line</label>
-						<textarea class="setting" maxlength="300" placeholder="Hidden environment variables" name="integration-env" id="integration-env" rows="2"></textarea>
+						<label for="integration-env">Hidden environment variables, one per line, invisible to users</label>
+						<textarea class="setting" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
 
 						<button type="submit" class="createForm" onclick="createIntegration()">Create integration</button>
+					</div>
+				</div>
+
+				<div id="info-dialog" class="dialog">
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1>Information about <span id="info-actionname"></span></h1>
+
+						<button type="button" class="createForm" onclick="useAction()">Use integration on <span id="info-guildname"></span></button>
 					</div>
 				</div>
 
@@ -309,6 +327,7 @@
 
 				const div = document.createElement("div");
 				div.innerHTML =
+					"<div>" +
 					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + (Math.round(content.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
@@ -317,11 +336,12 @@
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
 					"</div>" +
-					"<br>";
+					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
+					"<br></div>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
+				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 
 				changed.push(name + "-action");
-				for (const elem of document.querySelectorAll("input.setting, textarea.setting")) elem.onchange = () => handleChange(elem.id);
 				saveActions();
 			}
 
@@ -371,15 +391,14 @@
 				if (!name) return alert("Enter a name for the integration!");
 				const content = encode(document.getElementById("integration-content").value);
 				if (!content) return alert("Enter content for the integration!");
+				const shortdesc = encode(document.getElementById("integration-shortdesc").value);
+				if (!shortdesc) return alert("Enter a short description for the integration!");
 
-				document.getElementById("create-dialog").style.display = "none";
+				document.getElementById("integration-create-dialog").style.display = "none";
 
-				const placeholders = {}
-				document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => placeholders[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
-				const input = {}
-				document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => input[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
-				const env = {}
-				document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e).forEach(e => env[e.split(":")[0]] = e.split(":").slice(1).join(":").trim());
+				const placeholders = document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e);
+				const input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e);
+				const env = document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e);
 
 				const res = await fetch("https://api.tomatenkuchen.eu/api/integrations?token=" + getCookie("token"), {
 					method: "POST",
@@ -393,7 +412,7 @@
 						trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),
 						version: document.getElementById("integration-version").getAttribute("data-selected"),
 						slashcommand: document.getElementById("integration-slashcommand").value,
-						shortdesc: document.getElementById("integration-shortdesc").value,
+						shortdesc,
 						longdesc: document.getElementById("integration-longdesc").value,
 						image: document.getElementById("integration-image").value,
 						public: document.getElementById("integration-public").checked,

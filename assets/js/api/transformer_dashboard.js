@@ -173,8 +173,8 @@ function getActionsHTML(json) {
 			text +=
 				"<div class='integration'>" +
 				"<div class='flex'>" +
-					"<h3>" + encode(integration.name) + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") + "</h3>" +
-					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon of " + encode(integration.name) + "' width='75' height='75' loading='lazy'>" : "") +
+					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon of " + encode(integration.name) + "' width='100' loading='lazy'>" : "") +
+					"<h2>" + encode(integration.name) + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") + "</h2>" +
 				"</div>" +
 				"<p>ID: <code>" + encode(integration.id) + "</code></p>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +

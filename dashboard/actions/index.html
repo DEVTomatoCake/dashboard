@@ -110,8 +110,16 @@
 				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
 				document.getElementById("action-name").value = encode(integration.name);
 				document.getElementById("action-content").value = integration.content;
+				document.getElementById("action-content").rows = Math.round(integration.content.split("\n").length * 1.2) + 2;
+				if (document.getElementById(id).getAttribute("data-selected").endsWith("auto")) document.getElementById("action-content").setAttribute("readonly", "");
 				document.getElementById("action-use-container").removeAttribute("hidden");
 				document.getElementById("action-submit").onclick = () => createAction(integrationId);
+				document.getElementById("action-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
+				document.getElementById("action-input").innerHTML = integration.input ? integration.input.map(e => {
+					const randomId = Math.random().toString(36).slice(2);
+					return "<label for='" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
+						"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='" + randomId + "' name='" + encode(e.split(";")[0]) + "'>"
+				}).join("<br>") : "";
 			}
 
 			function integrationEdit(integrationId) {
@@ -311,6 +319,9 @@
 						<channel-picker id="action-version" type="action-version"></channel-picker>
 
 						<div id="action-use-container" hidden>
+							<p id="action-placeholders"></p>
+							<div id="action-input"></div>
+
 							<label for="action-sync">Sync mode from original</label>
 							<channel-picker id="action-sync" type="action-sync"></channel-picker>
 						</div>

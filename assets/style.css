@@ -1053,6 +1053,18 @@ pre {
 	align-items: center;
 }
 
+.integration .flex {
+	align-items: center;
+}
+.integration img {
+	margin-right: 5px;
+	border-radius: 3px;
+}
+.integration h2 ion-icon {
+	color: #25A54C;
+	font-size: 34px;
+}
+
 .flex {
 	display: flex;
 }

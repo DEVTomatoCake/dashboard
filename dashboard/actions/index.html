@@ -61,7 +61,7 @@
 			let hasLoaded = false;
 			let hasSavePopup = false;
 			function handleChange(id) {
-				if (id == "action-sync" && document.getElementById(id).getAttribute("data-selected") == "auto" && document.getElementById(id).getAttribute("data-selected") == "safe") document.getElementById("action-content").setAttribute("readonly", "");
+				if (id == "action-sync" && (document.getElementById(id).getAttribute("data-selected") == "auto" || document.getElementById(id).getAttribute("data-selected") == "safe")) document.getElementById("action-content").setAttribute("readonly", "");
 				else document.getElementById("action-content").removeAttribute("readonly");
 
 				if (!hasLoaded || !id || id.startsWith("action-") || id.startsWith("integration-")) return;
@@ -113,6 +113,7 @@
 				document.getElementById("action-content").rows = Math.round(integration.content.split("\n").length * 1.2) + 2;
 				if (document.getElementById("action-sync").getAttribute("data-selected") == "auto" || document.getElementById("action-sync").getAttribute("data-selected") == "safe")
 					document.getElementById("action-content").setAttribute("readonly", "");
+				document.getElementById("action-slashcommand").value = integration.slashcommand;
 				document.getElementById("action-use-container").removeAttribute("hidden");
 				document.getElementById("action-submit").onclick = () => createAction(integrationName);
 				document.getElementById("action-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";

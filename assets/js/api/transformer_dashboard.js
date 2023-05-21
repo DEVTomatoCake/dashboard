@@ -159,7 +159,8 @@ function getActionsHTML(json) {
 				"<div>" +
 				"<label for='" + encode(action.name) + "'><b>" + encode(action.name) + "</b></label>" +
 				"<div class='emoji-container'>" +
-				"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + encode(action.name) + "-action' maxlength='2000' name='" + encode(action.name) +
+				(action.source ? "<p>Source: " + encode(action.source) + "</p>" : "") +
+				(action.content ? "<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' id='" + encode(action.name) + "-action' maxlength='2000' name='" + encode(action.name) : "") +
 				(action.slashcommand ? "' data-slashcommand='" + encode(action.slashcommand) : "") + "' data-trigger='" + encode(action.trigger) + "' data-version='" + encode(action.version) + "'>" +
 				action.content + "</textarea><ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +

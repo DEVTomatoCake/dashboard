@@ -1059,14 +1059,17 @@ pre {
 
 button {
 	margin: 2px;
-	padding: 7px;
+	padding: 8px;
 	border: none;
 	transition: var(--transition-buttons);
-	border-radius: 5px;
+	border-radius: 7px;
 	font-size: 19px;
 	cursor: pointer;
 	color: var(--light-text-color);
 	background-color: var(--button-accent-color);
+}
+button:hover, button:focus {
+	background-color: var(--accent-color);
 }
 
 .cookie-container {
@@ -1081,12 +1084,8 @@ button {
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
 .cookie-container button, button.createForm, .create-form button {
-	padding: 10px;
 	margin: 10px 10px 0 0;
-	border-radius: 15px;
-}
-.cookie-container button:hover, .create-form button:hover {
-	background-color: var(--accent-color);
+	border-radius: 13px;
 }
 
 .unsaved-container {

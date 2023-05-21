@@ -38,7 +38,7 @@
 			function createDialog(dialog = "create-dialog") {
 				document.getElementById("action-name").value = "";
 				document.getElementById("action-content").value = "";
-				document.getElementById("action-sync-container").setAttribute("hidden", "");
+				document.getElementById("action-use-container").setAttribute("hidden", "");
 
 				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
 				document.getElementById("integration-about").removeAttribute("hidden");
@@ -48,7 +48,7 @@
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-public").checked = true;
-				document.getElementById("integration-public").removeAttribute("readonly");
+				document.getElementById("integration-public").removeAttribute("disabled");
 				document.getElementById("integration-content").value = "";
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
@@ -60,6 +60,9 @@
 			let hasLoaded = false;
 			let hasSavePopup = false;
 			function handleChange(id) {
+				if (id == "action-sync" && document.getElementById(id).getAttribute("data-selected").endsWith("auto")) document.getElementById("action-content").setAttribute("readonly", "");
+				else document.getElementById("action-content").removeAttribute("readonly");
+
 				if (!hasLoaded || !id || id.startsWith("action-") || id.startsWith("integration-")) return;
 				if (!changed.includes(id)) changed.push(id);
 
@@ -107,7 +110,7 @@
 				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
 				document.getElementById("action-name").value = encode(integration.name);
 				document.getElementById("action-content").value = integration.content;
-				document.getElementById("action-sync-container").removeAttribute("hidden");
+				document.getElementById("action-use-container").removeAttribute("hidden");
 				document.getElementById("action-submit").onclick = () => createAction(integrationId);
 			}
 
@@ -124,15 +127,15 @@
 				document.getElementById("integration-short").value = integration.short;
 				document.getElementById("integration-long").value = integration.long;
 				document.getElementById("integration-public").checked = integration.public;
-				document.getElementById("integration-public").setAttribute("readonly", "");
+				document.getElementById("integration-public").setAttribute("disabled", "");
 				document.getElementById("integration-content").value = integration.content;
 				document.getElementById("integration-content").rows = Math.round(integration.content.split("\n").length * 1.2) + 2;
-				document.getElementById("integration-placeholders").value = integration.placeholders.join("\n");
-				document.getElementById("integration-placeholders").rows = integration.placeholders.length + 2;
-				document.getElementById("integration-input").value = integration.input.join("\n");
-				document.getElementById("integration-input").rows = integration.input.length + 2;
-				document.getElementById("integration-env").value = integration.env.join("\n");
-				document.getElementById("integration-env").rows = integration.env.length + 2;
+				document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : "";
+				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
+				document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : "";
+				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
+				document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
+				document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
 				document.getElementById("integration-submit").innerText = "Edit integration";
 			}
 
@@ -307,7 +310,7 @@
 						<label for="action-version">Parser version</label>
 						<channel-picker id="action-version" type="action-version"></channel-picker>
 
-						<div id="action-sync-container" hidden>
+						<div id="action-use-container" hidden>
 							<label for="action-sync">Sync mode from original</label>
 							<channel-picker id="action-sync" type="action-sync"></channel-picker>
 						</div>
@@ -430,22 +433,20 @@
 				if (!params.has("guild") || saving) return;
 
 				saving = true;
-				const settings = document.getElementsByClassName("setting");
+				const settings = document.getElementsByClassName("code");
 
 				const items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					console.warn(changed)
-					if (!changed.includes(item.id)) {
-						console.warn("Skipping unchanged action " + item.id)
-						continue;
-					}
+					if (!changed.includes(item.id)) continue;
 
 					items[item.name] = {
 						content: item.value,
 						description: item.getAttribute("data-slashcommand") || void 0,
 						trigger: item.getAttribute("data-trigger"),
-						version: item.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1]
+						version: item.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1],
+						source: item.getAttribute("data-source") || void 0,
+						sync: item.getAttribute("data-sync") || void 0
 					};
 				}
 

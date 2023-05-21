@@ -38,6 +38,7 @@
 			function createDialog(dialog = "create-dialog") {
 				document.getElementById("action-name").value = "";
 				document.getElementById("action-content").value = "";
+				document.getElementById("action-slashcommand").value = "";
 				document.getElementById("action-use-container").setAttribute("hidden", "");
 
 				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
@@ -47,6 +48,7 @@
 				document.getElementById("integration-name").value = "";
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
+				document.getElementById("integration-slashcommand").value = "";
 				document.getElementById("integration-public").checked = true;
 				document.getElementById("integration-public").removeAttribute("disabled");
 				document.getElementById("integration-content").value = "";
@@ -60,7 +62,7 @@
 			let hasLoaded = false;
 			let hasSavePopup = false;
 			function handleChange(id) {
-				if (id == "action-sync" && document.getElementById(id).getAttribute("data-selected").endsWith("auto")) document.getElementById("action-content").setAttribute("readonly", "");
+				if (id == "action-sync" && document.getElementById(id).getAttribute("data-selected") == "auto" && document.getElementById(id).getAttribute("data-selected") == "safe") document.getElementById("action-content").setAttribute("readonly", "");
 				else document.getElementById("action-content").removeAttribute("readonly");
 
 				if (!hasLoaded || !id || id.startsWith("action-") || id.startsWith("integration-")) return;
@@ -111,7 +113,8 @@
 				document.getElementById("action-name").value = encode(integration.name);
 				document.getElementById("action-content").value = integration.content;
 				document.getElementById("action-content").rows = Math.round(integration.content.split("\n").length * 1.2) + 2;
-				if (document.getElementById(id).getAttribute("data-selected").endsWith("auto")) document.getElementById("action-content").setAttribute("readonly", "");
+				if (document.getElementById("action-sync").getAttribute("data-selected") == "auto" || document.getElementById("action-sync").getAttribute("data-selected") == "safe")
+					document.getElementById("action-content").setAttribute("readonly", "");
 				document.getElementById("action-use-container").removeAttribute("hidden");
 				document.getElementById("action-submit").onclick = () => createAction(integrationId);
 				document.getElementById("action-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
@@ -133,7 +136,8 @@
 				document.getElementById("integration-id").setAttribute("readonly", "");
 				document.getElementById("integration-name").value = integration.name;
 				document.getElementById("integration-short").value = integration.short;
-				document.getElementById("integration-long").value = integration.long;
+				document.getElementById("integration-long").value = integration.long || "";
+				document.getElementById("integration-slashcommand").value = integration.slashcommand || "";
 				document.getElementById("integration-public").checked = integration.public;
 				document.getElementById("integration-public").setAttribute("disabled", "");
 				document.getElementById("integration-content").value = integration.content;
@@ -176,7 +180,7 @@
 					none: "Disable syncing",
 					manual: "Manual syncing, be notified of changes",
 					auto: "Auto syncing, changes are instantly applied once updated, content not editable. Your integration? You likely want to use this.",
-					safeAuto: "Safe auto syncing, changes are applied after bot or server staff review, content not editable. Not your integration? You likely want to use this."
+					safe: "Safe auto syncing, changes are applied after bot or server staff review, content not editable. Not your integration? You likely want to use this."
 				}
 			};
 			function connectWS(guild) {
@@ -258,7 +262,7 @@
 							for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
-							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", "safeAuto"], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
+							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", "safe"], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
 								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
 								elem.classList.add("selected");
 								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
@@ -498,7 +502,7 @@
 						"Content-Type": "application/json"
 					},
 					body: JSON.stringify({
-						edit: document.getElementById("integration-create-dialog").getAttribute("data-edit"),
+						edit: document.getElementById("integration-create-dialog").hasAttribute("data-edit"),
 						id,
 						name,
 						content,

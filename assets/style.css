@@ -1055,12 +1055,12 @@ pre {
 
 .integration .flex {
 	align-items: center;
+	gap: 7px;
 }
 .integration img {
-	margin-right: 5px;
-	border-radius: 3px;
+	border-radius: 5px;
 }
-.integration ion-icon {
+.integration ion-icon, #info-container ion-icon {
 	color: #25A54C;
 	font-size: 34px;
 }

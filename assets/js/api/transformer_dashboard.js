@@ -152,7 +152,7 @@ function getCustomcommandsHTML(json) {
 
 function getActionsHTML(json) {
 	if (json.status == "success") {
-		let text = "";
+		let text = "<div class='settingsContent'>";
 
 		json.data.forEach(action => {
 			text +=
@@ -168,7 +168,7 @@ function getActionsHTML(json) {
 				"<br><br></div>";
 		});
 
-		if (json.integrations.length > 0) text += "<h1 class='center' style='margin:90px 0 5px'>Available integrations (yours/public)</h1><div class='integration-container'>"
+		if (json.integrations.length > 0) text += "</div><div><h1 class='center' style='margin:90px 0 5px'>Available integrations (yours/public)</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +
@@ -176,7 +176,6 @@ function getActionsHTML(json) {
 					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
 					"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 				"</div>" +
-				"<p>ID: <code>" + encode(integration.id) + "</code></p>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
 				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
@@ -192,7 +191,7 @@ function getActionsHTML(json) {
 		return "<h1 class='center'><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create action</button>" +
 			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create integration</button>" +
-			"<br><br>" + text;
+			"<br><br>" + text + "</div>";
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +

@@ -43,9 +43,8 @@
 
 				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
 				document.getElementById("integration-about").removeAttribute("hidden");
-				document.getElementById("integration-id").value = "";
-				document.getElementById("integration-id").removeAttribute("readonly");
 				document.getElementById("integration-name").value = "";
+				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-slashcommand").value = "";
@@ -85,15 +84,14 @@
 
 			let guildName = "";
 			let integrations = [];
-			function integrationInfo(integrationId) {
+			function integrationInfo(integrationName) {
 				openDialog(document.getElementById("info-dialog"));
-				const integration = integrations.find(e => e.id == integrationId);
+				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("info-container").innerHTML =
-					"<h1>Information about <b>" + encode(integration.name) + "</b></h1>" +
+					"<h1>Information about <b>" + encode(integration.name) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
 					"<p>" + encode(integration.long) + "</p><br>" +
-					"<p>ID: <code>" + encode(integrationId) + "</code></p>" +
 					"<p>Owner: " + encode(integration.owner) + "</p>" +
 					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p>Used by: <b>" + encode("" + integration.uses) + "</b></p>" +
@@ -102,12 +100,12 @@
 					"<p>Created: " + new Date(integration.created).toLocaleString() + "</p>" +
 					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p>" +
 					"<br><textarea class='code' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>" +
-					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationId + "\")'>Use integration on <b>" + guildName + "</b></button>";
+					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
 			}
-			function integrationUse(integrationId) {
+			function integrationUse(integrationName) {
 				document.getElementById("info-dialog").style.display = "none";
 				openDialog(document.getElementById("create-dialog"));
-				const integration = integrations.find(e => e.id == integrationId);
+				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
 				document.getElementById("action-name").value = encode(integration.name);
@@ -116,7 +114,7 @@
 				if (document.getElementById("action-sync").getAttribute("data-selected") == "auto" || document.getElementById("action-sync").getAttribute("data-selected") == "safe")
 					document.getElementById("action-content").setAttribute("readonly", "");
 				document.getElementById("action-use-container").removeAttribute("hidden");
-				document.getElementById("action-submit").onclick = () => createAction(integrationId);
+				document.getElementById("action-submit").onclick = () => createAction(integrationName);
 				document.getElementById("action-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
 				document.getElementById("action-input").innerHTML = integration.input ? integration.input.map(e => {
 					const randomId = Math.random().toString(36).slice(2);
@@ -125,16 +123,15 @@
 				}).join("<br>") : "";
 			}
 
-			function integrationEdit(integrationId) {
+			function integrationEdit(integrationName) {
 				openDialog(document.getElementById("integration-create-dialog"));
-				const integration = integrations.find(e => e.id == integrationId);
+				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("integration-create-dialog").setAttribute("data-edit", "");
 				document.getElementById("integration-create-title").innerHTML = "Edit integration <b>" + encode(integration.name) + "</b>";
 				document.getElementById("integration-about").setAttribute("hidden", "");
-				document.getElementById("integration-id").value = integration.id;
-				document.getElementById("integration-id").setAttribute("readonly", "");
 				document.getElementById("integration-name").value = integration.name;
+				document.getElementById("integration-name").setAttribute("readonly", "");
 				document.getElementById("integration-short").value = integration.short;
 				document.getElementById("integration-long").value = integration.long || "";
 				document.getElementById("integration-slashcommand").value = integration.slashcommand || "";
@@ -142,7 +139,7 @@
 				document.getElementById("integration-public").setAttribute("disabled", "");
 				document.getElementById("integration-content").value = integration.content;
 				document.getElementById("integration-content").rows = Math.round(integration.content.split("\n").length * 1.2) + 2;
-				document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : "";
+				document.getElementById("integration-placeholders").value = (integration.input || integration.placeholders ? "<h2>User input variables</h2>" : "") + integration.placeholders ? "Available placeholders:<br>" + integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
 				document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : "";
 				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
@@ -255,7 +252,7 @@
 									"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
 								"</div></div>";
 
-							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getActionsHTML(json) + "</div>";
+							document.getElementById("root-container").innerHTML = getActionsHTML(json);
 							reloadText();
 							guildName = json.name;
 							integrations = json.integrations;
@@ -323,11 +320,11 @@
 						<channel-picker id="action-version" type="action-version"></channel-picker>
 
 						<div id="action-use-container" hidden>
-							<p id="action-placeholders"></p>
-							<div id="action-input"></div>
-
 							<label for="action-sync">Sync mode from original</label>
 							<channel-picker id="action-sync" type="action-sync"></channel-picker>
+
+							<p id="action-placeholders"></p>
+							<div id="action-input"></div>
 						</div>
 
 						<label for="action-content" translation="dashboard.content"></label>
@@ -350,11 +347,8 @@
 							<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
 						</div>
 
-						<label for="integration-id">ID</label>
-						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique integration ID" name="integration-id" id="integration-id">
-
 						<label for="integration-name">Name</label>
-						<input type="text" maxlength="32" placeholder="Display name, if command: command name" name="integration-name" id="integration-name">
+						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique display (& command) name" name="integration-name" id="integration-name">
 
 						<label for="integration-short">Short description</label>
 						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
@@ -481,8 +475,6 @@
 			}
 
 			async function createIntegration() {
-				const id = encode(document.getElementById("integration-id").value);
-				if (!id) return alert("Enter an id for the integration!");
 				const name = encode(document.getElementById("integration-name").value);
 				if (!name) return alert("Enter a name for the integration!");
 				const content = encode(document.getElementById("integration-content").value);
@@ -503,7 +495,6 @@
 					},
 					body: JSON.stringify({
 						edit: document.getElementById("integration-create-dialog").hasAttribute("data-edit"),
-						id,
 						name,
 						content,
 						trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),

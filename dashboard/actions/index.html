@@ -164,8 +164,8 @@
 				"action-sync": {
 					none: "Disable syncing",
 					manual: "Manual syncing, be notified of changes",
-					auto: "Auto syncing, changes are instantly applied once updated, content not editable",
-					safeAuto: "Safe auto syncing, changes are applied after bot or server staff review, content not editable"
+					auto: "Auto syncing, changes are instantly applied once updated, content not editable. Your integration? You likely want to use this.",
+					safeAuto: "Safe auto syncing, changes are applied after bot or server staff review, content not editable. Not your integration? You likely want to use this."
 				}
 			};
 			function connectWS(guild) {
@@ -247,7 +247,7 @@
 							for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
 							hasLoaded = true;
 
-							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", "auto"], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
+							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", "safeAuto"], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
 								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
 								elem.classList.add("selected");
 								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
@@ -435,7 +435,11 @@
 				const items = {};
 				for (let i = 0; i < settings.length; i++) {
 					const item = settings.item(i);
-					if (!changed.includes(item.id)) continue;
+					console.warn(changed)
+					if (!changed.includes(item.id)) {
+						console.warn("Skipping unchanged action " + item.id)
+						continue;
+					}
 
 					items[item.name] = {
 						content: item.value,

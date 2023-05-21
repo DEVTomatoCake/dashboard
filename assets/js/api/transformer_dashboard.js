@@ -168,7 +168,7 @@ function getActionsHTML(json) {
 				"<br><br></div>";
 		});
 
-		if (json.integrations.length > 0) text += "<h1 class='center' style='margin:110px 0 5px'>Available integrations (yours/public)</h1><div class='integration-container'>"
+		if (json.integrations.length > 0) text += "<h1 class='center' style='margin:90px 0 5px'>Available integrations (yours/public)</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +

@@ -1368,7 +1368,7 @@ button:hover, button:focus {
 	animation-name: animateDialog;
 	animation-duration: 0.4s;
 	background-color: var(--dialog-bg);
-	border-radius: 5px;
+	border-radius: 10px;
 
 	max-height: -webkit-fill-available;
 	overflow: scroll;

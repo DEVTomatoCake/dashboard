@@ -151,6 +151,11 @@
 				document.getElementById("integration-submit").innerText = "Edit integration";
 			}
 
+			function editAction(action) {
+				const newElem = document.getElementById("actions-template").cloneNode(true);
+				newElem.id = "actions-" + Math.random().toString(36).slice(2);
+			}
+
 			let socket;
 			function deleteAction(elem, action) {
 				const confirmed = confirm("Are you sure you want to delete this action? This cannot be undone!");
@@ -324,7 +329,7 @@
 						<label for="action-version">Parser version</label>
 						<channel-picker id="action-version" type="action-version"></channel-picker>
 
-						<template id="actions-template">
+						<div id="actions-template">
 							<label for="action-trigger">Action trigger</label>
 							<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
 
@@ -337,8 +342,10 @@
 								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
-						</template>
+						</div>
+						<div id="integration-actions-container"></div>
 
+						<button type="button" id="action-add" class="createForm" onclick="addAction()">Add sub-action</button>
 						<button type="submit" id="action-submit" class="createForm" onclick="createAction()">Create action</button>
 					</div>
 				</div>
@@ -409,16 +416,9 @@
 				const div = document.createElement("div");
 				div.innerHTML =
 					"<div>" +
-					"<label for='" + name + "'><b>" + name + "</b></label>" +
-					"<div class='emoji-container'>" +
-					"<textarea class='code' rows='" + (Math.round(content.split("\n").length * 1.2) + 2) + "' id='" + name + "-action' maxlength='2000' name='" + name + "' data-slashcommand='" +
-					encode(document.getElementById("action-slashcommand").value) + "' data-trigger='" + encode(document.getElementById("action-trigger").getAttribute("data-selected")) +
-					(sourceId ? "' data-source='" + encode(sourceId) + "' data-sync='" + encode(document.getElementById("action-sync").getAttribute("data-selected")) : "") + "' data-version='" +
-					encode(document.getElementById("action-version").getAttribute("data-selected")) + "'>" + content + "</textarea>" +
-					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
-					"<ion-icon name='happy-outline' title='Emojipicker' onclick='emojiPicker(this.parentElement, pickerData.emojis, guildName)'></ion-icon>" +
-					"</div>" +
-					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + name + "\");'></ion-icon>" +
+					"<label for='" + encode(name) + "'><b>" + encode(name) + "</b></label>" +
+					"<ion-icon name='build-outline' onclick='editAction(\"" + encode(name) + "\");'></ion-icon>" +
+					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(name) + "\");'></ion-icon>" +
 					"<br><br></div>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 				for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);

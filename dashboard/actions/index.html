@@ -36,11 +36,10 @@
 
 		<script>
 			function createDialog(dialog = "create-dialog") {
-				document.getElementById("action-name").value = "";
-				document.getElementById("action-content").value = "";
-				document.getElementById("action-slashcommand").value = "";
+				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("action-use-container").setAttribute("hidden", "");
 
+				document.getElementById("integration-actions-container").innerHTML = "";
 				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
 				document.getElementById("integration-about").removeAttribute("hidden");
 				document.getElementById("integration-name").value = "";
@@ -53,31 +52,6 @@
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
 				openDialog(document.getElementById(dialog));
-			}
-
-			let changed = [];
-			let hasLoaded = false;
-			let hasSavePopup = false;
-			function handleChange(id) {
-				if (id == "action-sync" && (document.getElementById(id).getAttribute("data-selected") == "auto" || document.getElementById(id).getAttribute("data-selected") == "safe")) document.getElementById("action-content").setAttribute("readonly", "");
-				else document.getElementById("action-content").removeAttribute("readonly");
-
-				if (!hasLoaded || !id || id.startsWith("action-") || id.startsWith("integration-")) return;
-				if (!changed.includes(id)) changed.push(id);
-
-				if (!hasSavePopup) {
-					const params = new URLSearchParams(location.search);
-					document.body.insertAdjacentHTML("beforeend",
-						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
-						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
-						"<button type='button' onclick='saveActions()' translation='unsaved.save'>Save</button>" +
-						"<button type='button' class='red' onclick='connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
-						"</div>"
-					);
-					fadeIn(document.getElementById("unsaved-container"));
-					reloadText();
-					hasSavePopup = true;
-				}
 			}
 
 			let guildName = "";
@@ -93,11 +67,15 @@
 					"<p>Owner: " + encode(integration.owner) + "</p>" +
 					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p>Used by: <b>" + encode("" + integration.uses) + "</b></p>" +
-					"<p>Trigger: <code>" + encode(integration.trigger) + "</code></p>" +
 					"<p>Parser version: <code>" + encode(integration.version) + "</code></p>" +
 					"<p>Created: " + new Date(integration.created).toLocaleString() + "</p>" +
 					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p>" +
-					"<br><textarea class='code' rows='" + (Math.round(integration.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(integration.content) + "</textarea>" +
+					integration.actions.map(action => {
+						return "<p>Name: <code>" + encode(action.name) + "</code></p>" +
+							"<p>Slashcommand: " + encode(action.slashcommand) + "</p>" +
+							"<p>Trigger: <code>" + encode(action.trigger) + "</code></p>" +
+							"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
+					}).join("<br><br>") +
 					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
 			}
 			function integrationUse(integrationName) {
@@ -137,11 +115,10 @@
 				document.getElementById("integration-public").setAttribute("disabled", "");
 				integration.actions.forEach(action => {
 					const newElem = document.getElementById("actions-template").cloneNode(true);
-					newElem.querySelector(".action-name").value = action.slashcommand || "";
+					newElem.querySelector(".action-trigger").value = action.content;
 					newElem.querySelector(".action-slashcommand").value = action.slashcommand || "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-					newElem.querySelector(".action-trigger").value = action.content;
 				});
 				document.getElementById("integration-placeholders").value = (integration.input || integration.placeholders ? "<h2>User input variables</h2>" : "") + integration.placeholders ? "Available placeholders:<br>" + integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
@@ -171,13 +148,6 @@
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
 						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
-
-						if (hasSavePopup) {
-							fadeOut(document.getElementById("unsaved-container"));
-							hasSavePopup = false;
-							changed = [];
-						}
-						hasLoaded = false;
 					},
 					onOpen: event => {
 						console.log("Connected!", event);
@@ -243,8 +213,6 @@
 							reloadText();
 							guildName = json.name;
 							integrations = json.integrations;
-							for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
-							hasLoaded = true;
 
 							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", "safe"], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
 								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
@@ -322,7 +290,7 @@
 
 							<label for="action-content" translation="dashboard.content"></label>
 							<div class="emoji-container emoji-special">
-								<textarea class="code" maxlength="2000" placeholder="Action content" name="action-content" class="action-content" rows="8"></textarea>
+								<textarea class="code action-content" maxlength="2000" placeholder="Action content" name="action-content" rows="8"></textarea>
 								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
@@ -420,7 +388,7 @@
 				if (!params.has("guild") || saving) return;
 
 				saving = true;
-				const settings = document.getElementsByClassName("code");
+				/*const settings = document.getElementsByClassName("code");
 
 				const items = {};
 				for (let i = 0; i < settings.length; i++) {
@@ -441,13 +409,7 @@
 					status: "success",
 					action: "SAVE_actions",
 					data: items
-				}));
-
-				if (hasSavePopup) {
-					fadeOut(document.getElementById("unsaved-container"));
-					hasSavePopup = false;
-					changed = [];
-				}
+				}));*/
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 7}).show();
 			}

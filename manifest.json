@@ -3,7 +3,7 @@
 	"name": "TomatenKuchen - Multipurpose Discord bot",
 	"icons": [
 		{
-			"src": "/assets/images/icon.ico",
+			"src": "/assets/images/favicon.ico",
 			"type": "image/x-icon",
 			"sizes": "128x128",
 			"purpose": "maskable"

@@ -47,10 +47,8 @@
 				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
-				document.getElementById("integration-slashcommand").value = "";
 				document.getElementById("integration-public").checked = true;
 				document.getElementById("integration-public").removeAttribute("disabled");
-				document.getElementById("integration-content").value = "";
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
@@ -138,9 +136,12 @@
 				document.getElementById("integration-public").checked = integration.public;
 				document.getElementById("integration-public").setAttribute("disabled", "");
 				integration.actions.forEach(action => {
-					document.getElementById("integration-slashcommand").value = integration.slashcommand || "";
-					document.getElementById("integration-content").value = action.content;
-					document.getElementById("integration-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
+					const newElem = document.getElementById("actions-template").cloneNode(true);
+					newElem.querySelector(".action-name").value = action.slashcommand || "";
+					newElem.querySelector(".action-slashcommand").value = action.slashcommand || "";
+					newElem.querySelector(".action-content").value = action.content;
+					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
+					newElem.querySelector(".action-trigger").value = action.content;
 				});
 				document.getElementById("integration-placeholders").value = (integration.input || integration.placeholders ? "<h2>User input variables</h2>" : "") + integration.placeholders ? "Available placeholders:<br>" + integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
@@ -165,29 +166,7 @@
 				}
 			}
 
-			let pickerData = {
-				"action-trigger": {
-					command: "Message and/or slash command used",
-					button: "Button pressed",
-					select: "Select menu selected",
-					automod: "Discord Automod triggered",
-					reactionAdd: "Reaction added",
-					reactionRemove: "Reaction removed",
-					roleAdd: "Role added to user",
-					roleRemove: "Role removed from user",
-					join: "Member joined",
-					leave: "Member left"
-				},
-				"action-version": {
-					"1.0.0": "1.0.0 (current)"
-				},
-				"action-sync": {
-					none: "Disable syncing",
-					manual: "Manual syncing, be notified of changes",
-					auto: "Auto syncing, changes are instantly applied once updated, content not editable. Your integration? You likely want to use this.",
-					safe: "Safe auto syncing, changes are applied after bot or server staff review, content not editable. Not your integration? You likely want to use this."
-				}
-			};
+			let pickerData = {};
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {
@@ -278,7 +257,9 @@
 							savingToast.setType("SUCCESS").setTitle("Saved actions!");
 						} else if (json.action == "RECEIVE_emojis") {
 							pickerData = {
-								...pickerData,
+								"action-trigger": json.triggers,
+								"action-sync": json.sync,
+								"action-version": json.versions,
 								emojis: json.emojis,
 								roles: json.roles
 							};
@@ -329,21 +310,24 @@
 						<label for="action-version">Parser version</label>
 						<channel-picker id="action-version" type="action-version"></channel-picker>
 
-						<div id="actions-template">
+						<template id="actions-template">
+							<label for="action-name">Sub-action name</label>
+							<input type="text" maxlength="32" placeholder="Slash command description" name="action-name" class="action-name">
+
 							<label for="action-trigger">Action trigger</label>
-							<channel-picker id="action-trigger" type="action-trigger"></channel-picker>
+							<channel-picker class="action-trigger" type="action-trigger"></channel-picker>
 
 							<label for="action-slashcommand">If command: Slash command description</label>
-							<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" id="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
+							<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" class="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
 
 							<label for="action-content" translation="dashboard.content"></label>
 							<div class="emoji-container emoji-special">
-								<textarea class="code" maxlength="2000" placeholder="Action content" name="action-content" id="action-content" rows="8"></textarea>
+								<textarea class="code" maxlength="2000" placeholder="Action content" name="action-content" class="action-content" rows="8"></textarea>
 								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
-						</div>
-						<div id="integration-actions-container"></div>
+						</template>
+						<div id="actions-container"></div>
 
 						<button type="button" id="action-add" class="createForm" onclick="addAction()">Add sub-action</button>
 						<button type="submit" id="action-submit" class="createForm" onclick="createAction()">Create action</button>

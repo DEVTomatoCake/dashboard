@@ -93,13 +93,9 @@ class Sidebar extends HTMLElement {
 				"<div class='section bottom'>" +
 					"<div class='hoverdropdown lang'>" +
 						"<div class='hoverdropdown-content langselect'>" +
-							"<div onclick='reloadText(\"de\")'>" +
-								"<img src='/assets/images/wikimedia_flagde.svg' width='30' height='30' alt='DE flag'>" +
-								"<span>Deutsch</span>" +
-							"</div>" +
-							"<div onclick='reloadText(\"en\")'>" +
-								"<img src='/assets/images/wikimedia_flagen.svg' width='30' height='30' alt='EN flag'>" +
-								"<span>English</span>" +
+							"<div onclick='reloadText(\"ja\")'>" +
+								"<img src='/assets/images/wikimedia_flagja.svg' width='30' height='30' alt='JA flag'>" +
+								"<span>日本語</span>" +
 							"</div>" +
 							"<div onclick='reloadText(\"hu\")'>" +
 								"<img src='/assets/images/wikimedia_flaghu.svg' width='30' height='30' alt='HU flag'>" +
@@ -108,6 +104,14 @@ class Sidebar extends HTMLElement {
 							"<div onclick='reloadText(\"fr\")'>" +
 								"<img src='/assets/images/wikimedia_flagfr.svg' width='30' height='30' alt='FR flag'>" +
 								"<span>Français</span>" +
+							"</div>" +
+							"<div onclick='reloadText(\"de\")'>" +
+								"<img src='/assets/images/wikimedia_flagde.svg' width='30' height='30' alt='DE flag'>" +
+								"<span>Deutsch</span>" +
+							"</div>" +
+							"<div onclick='reloadText(\"en\")'>" +
+								"<img src='/assets/images/wikimedia_flagen.svg' width='30' height='30' alt='EN flag'>" +
+								"<span>English</span>" +
 							"</div>" +
 						"</div>" +
 						"<div class='text'>" +
@@ -118,7 +122,7 @@ class Sidebar extends HTMLElement {
 
 					"<label class='switch' data-type='theme'>" +
 						"<input type='checkbox' id='theme-toggle' aria-label='Toggle theme'>" +
-						"<span class='slider round'></span>" +
+						"<span class='slider'></span>" +
 					"</label>" +
 				"</div>" +
 			"</nav>" +

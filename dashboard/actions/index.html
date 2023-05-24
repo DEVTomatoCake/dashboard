@@ -213,20 +213,33 @@
 							guildName = json.name;
 							integrations = json.integrations;
 
-							[["action-trigger", "command"], ["action-version", "1.0.0"], ["action-sync", "safe"], ["integration-trigger", "command"], ["integration-version", "1.0.0"]].forEach(item => {
-								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
-								elem.classList.add("selected");
-								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-								document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"));
-							});
+							pickerData = {
+								...pickerData,
+								"action-trigger": json.triggers,
+								"action-sync": json.sync,
+								"action-version": json.versions
+							};
+
+							const actionSyncNode = document.createElement("channel-picker");
+							actionSyncNode.setAttribute("id", "action-sync");
+							actionSyncNode.setAttribute("type", "action-sync");
+							document.querySelector("label[for='action-sync']").parentNode.insertBefore(actionSyncNode, document.querySelector("label[for='action-sync']").nextSibling);
+
+							const actionVersionNode = document.createElement("channel-picker");
+							actionVersionNode.setAttribute("id", "action-version");
+							actionVersionNode.setAttribute("type", "action-version");
+							document.querySelector("label[for='action-version']").parentNode.insertBefore(actionVersionNode, document.querySelector("label[for='action-version']").nextSibling);
+
+							const integrationVersionNode = document.createElement("channel-picker");
+							integrationVersionNode.setAttribute("id", "integration-version");
+							integrationVersionNode.setAttribute("type", "integration-version");
+							document.querySelector("label[for='integration-version']").parentNode.insertBefore(integrationVersionNode, document.querySelector("label[for='integration-version']").nextSibling);
 						} else if (json.action == "SAVED_actions") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved actions!");
 						} else if (json.action == "RECEIVE_emojis") {
 							pickerData = {
-								"action-trigger": json.triggers,
-								"action-sync": json.sync,
-								"action-version": json.versions,
+								...pickerData,
 								emojis: json.emojis,
 								roles: json.roles
 							};
@@ -268,21 +281,18 @@
 
 						<div id="action-use-container" hidden>
 							<label for="action-sync">Sync mode from original</label>
-							<channel-picker id="action-sync" type="action-sync"></channel-picker>
 
 							<p id="action-placeholders"></p>
 							<div id="action-input"></div>
 						</div>
 
 						<label for="action-version">Parser version</label>
-						<channel-picker id="action-version" type="action-version"></channel-picker>
 
 						<template id="actions-template">
 							<label for="action-name">Sub-action name</label>
 							<input type="text" maxlength="32" placeholder="Slash command description" name="action-name" class="action-name">
 
 							<label for="action-trigger">Action trigger</label>
-							<channel-picker class="action-trigger" type="action-trigger"></channel-picker>
 
 							<label for="action-slashcommand">If command: Slash command description</label>
 							<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" class="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
@@ -326,7 +336,6 @@
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
 
 						<label for="integration-version">Parser version</label>
-						<channel-picker id="integration-version" type="action-version"></channel-picker>
 
 						<div id="integration-actions-container"></div>
 

@@ -220,6 +220,11 @@
 								"action-version": json.versions
 							};
 
+							const actionTriggerNode = document.createElement("channel-picker");
+							actionTriggerNode.setAttribute("class", "action-trigger");
+							actionTriggerNode.setAttribute("type", "action-trigger");
+							document.querySelector("label[for='action-trigger']").parentNode.insertBefore(actionTriggerNode, document.querySelector("label[for='action-trigger']").nextSibling);
+
 							const actionSyncNode = document.createElement("channel-picker");
 							actionSyncNode.setAttribute("id", "action-sync");
 							actionSyncNode.setAttribute("type", "action-sync");
@@ -232,7 +237,7 @@
 
 							const integrationVersionNode = document.createElement("channel-picker");
 							integrationVersionNode.setAttribute("id", "integration-version");
-							integrationVersionNode.setAttribute("type", "integration-version");
+							integrationVersionNode.setAttribute("type", "action-version");
 							document.querySelector("label[for='integration-version']").parentNode.insertBefore(integrationVersionNode, document.querySelector("label[for='integration-version']").nextSibling);
 						} else if (json.action == "SAVED_actions") {
 							saving = false;

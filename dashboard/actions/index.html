@@ -54,10 +54,9 @@
 			}
 
 			function addSubaction(elem) {
-				const target = elem.parentElement.querySelector(".actions-container");
 				const newElem = document.getElementById("actions-template").cloneNode(true);
 				newElem.id = "actions-" + Math.random().toString(36).slice(2);
-				target.appendChild(newElem);
+				elem.parentElement.querySelector(".action-container").appendChild(newElem);
 			}
 
 			let guildName = "";
@@ -313,7 +312,7 @@
 							</div>
 						</template>
 						<button type="button" id="action-addsub" class="createForm" onclick="addSubaction(this)">Add sub-action</button>
-						<div class="actions-container"></div>
+						<div id="actions-container" class="action-container"></div>
 
 						<button type="submit" id="action-submit" class="createForm" onclick="createAction()">Create action</button>
 					</div>
@@ -346,7 +345,7 @@
 						<label for="integration-version">Parser version</label>
 
 						<button type="button" id="integration-addsub" class="createForm" onclick="addSubaction(this)">Add sub-action</button>
-						<div class="actions-container"></div>
+						<div id="integration-actions-container" class="action-container"></div>
 
 						<label for="integration-placeholders">Placeholder text, one per line</label>
 						<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>

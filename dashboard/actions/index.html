@@ -58,12 +58,14 @@
 			function addSubaction(clickedElem) {
 				const newElem = document.getElementById("actions-template").content.cloneNode(true);
 				newElem.id = "actions-" + Math.random().toString(36).slice(2);
-				clickedElem.parentElement.querySelector(".action-container").appendChild(newElem);
+				const wrapper = document.createElement("div");
+				wrapper.appendChild(newElem);
+				clickedElem.parentElement.querySelector(".action-container").appendChild(wrapper);
 
-				const elem = document.querySelector("#" + newElem.id + " .picker div[data-id='command']");
+				const elem = newElem.querySelector("channel-picker .picker div[data-id='command']");
 				elem.classList.add("selected");
-				document.querySelector("#" + newElem.id + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-				document.getElementById(newElem.id).setAttribute("data-selected", elem.getAttribute("data-id"));
+				newElem.querySelector("#" + newElem.id + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+				newElem.querySelector("channel-picker").setAttribute("data-selected", elem.getAttribute("data-id"));
 			}
 
 			let guildName = "";

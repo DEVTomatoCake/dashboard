@@ -34,6 +34,8 @@
 		<link href="../../assets/emojipicker.css" rel="stylesheet" type="text/css">
 
 		<script>
+			function handleChange() {}
+
 			function createDialog(dialog = "create-dialog") {
 				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("action-use-container").setAttribute("hidden", "");
@@ -53,10 +55,15 @@
 				openDialog(document.getElementById(dialog));
 			}
 
-			function addSubaction(elem) {
+			function addSubaction(clickedElem) {
 				const newElem = document.getElementById("actions-template").content.cloneNode(true);
 				newElem.id = "actions-" + Math.random().toString(36).slice(2);
-				elem.parentElement.querySelector(".action-container").appendChild(newElem);
+				clickedElem.parentElement.querySelector(".action-container").appendChild(newElem);
+
+				const elem = document.querySelector("#" + newElem.id + " .picker div[data-id='command']");
+				elem.classList.add("selected");
+				document.querySelector("#" + newElem.id + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+				document.getElementById(newElem.id).setAttribute("data-selected", elem.getAttribute("data-id"));
 			}
 
 			let guildName = "";
@@ -386,7 +393,6 @@
 					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(name) + "\");'></ion-icon>" +
 					"<br><br></div>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
-				for (const elem of document.querySelectorAll("input, textarea")) elem.onchange = () => handleChange(elem.id);
 
 				changed.push(name + "-action");
 				saveActions();

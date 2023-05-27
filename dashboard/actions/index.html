@@ -53,6 +53,13 @@
 				openDialog(document.getElementById(dialog));
 			}
 
+			function addSubaction(elem) {
+				const target = elem.parentElement.querySelector(".actions-container");
+				const newElem = document.getElementById("actions-template").cloneNode(true);
+				newElem.id = "actions-" + Math.random().toString(36).slice(2);
+				target.appendChild(newElem);
+			}
+
 			let guildName = "";
 			let integrations = [];
 			function integrationInfo(integrationName) {
@@ -220,11 +227,6 @@
 								"action-version": json.versions
 							};
 
-							const actionTriggerNode = document.createElement("channel-picker");
-							actionTriggerNode.setAttribute("class", "action-trigger");
-							actionTriggerNode.setAttribute("type", "action-trigger");
-							document.querySelector("label[for='action-trigger']").parentNode.insertBefore(actionTriggerNode, document.querySelector("label[for='action-trigger']").nextSibling);
-
 							const actionSyncNode = document.createElement("channel-picker");
 							actionSyncNode.setAttribute("id", "action-sync");
 							actionSyncNode.setAttribute("type", "action-sync");
@@ -298,6 +300,7 @@
 							<input type="text" maxlength="32" placeholder="Slash command description" name="action-name" class="action-name">
 
 							<label for="action-trigger">Action trigger</label>
+							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger"></channel-picker>
 
 							<label for="action-slashcommand">If command: Slash command description</label>
 							<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" class="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
@@ -309,9 +312,9 @@
 								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
 						</template>
-						<div id="actions-container"></div>
+						<button type="button" id="action-addsub" class="createForm" onclick="addSubaction(this)">Add sub-action</button>
+						<div class="actions-container"></div>
 
-						<button type="button" id="action-add" class="createForm" onclick="addAction()">Add sub-action</button>
 						<button type="submit" id="action-submit" class="createForm" onclick="createAction()">Create action</button>
 					</div>
 				</div>
@@ -342,7 +345,8 @@
 
 						<label for="integration-version">Parser version</label>
 
-						<div id="integration-actions-container"></div>
+						<button type="button" id="integration-addsub" class="createForm" onclick="addSubaction(this)">Add sub-action</button>
+						<div class="actions-container"></div>
 
 						<label for="integration-placeholders">Placeholder text, one per line</label>
 						<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>

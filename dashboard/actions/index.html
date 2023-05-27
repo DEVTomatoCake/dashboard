@@ -54,7 +54,7 @@
 			}
 
 			function addSubaction(elem) {
-				const newElem = document.getElementById("actions-template").cloneNode(true);
+				const newElem = document.getElementById("actions-template").content.cloneNode(true);
 				newElem.id = "actions-" + Math.random().toString(36).slice(2);
 				elem.parentElement.querySelector(".action-container").appendChild(newElem);
 			}
@@ -226,20 +226,17 @@
 								"action-version": json.versions
 							};
 
-							const actionSyncNode = document.createElement("channel-picker");
-							actionSyncNode.setAttribute("id", "action-sync");
-							actionSyncNode.setAttribute("type", "action-sync");
-							document.querySelector("label[for='action-sync']").parentNode.insertBefore(actionSyncNode, document.querySelector("label[for='action-sync']").nextSibling);
+							[["action-version", "action-version", "1.0.0"], ["action-sync", "action-sync", "safe"], ["integration-version", "action-version", "1.0.0"]].forEach(item => {
+								const actionSyncNode = document.createElement("channel-picker");
+								actionSyncNode.setAttribute("id", item[0]);
+								actionSyncNode.setAttribute("type", item[1]);
+								document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(actionSyncNode, document.querySelector("label[for='" + item[0] + "']").nextSibling);
 
-							const actionVersionNode = document.createElement("channel-picker");
-							actionVersionNode.setAttribute("id", "action-version");
-							actionVersionNode.setAttribute("type", "action-version");
-							document.querySelector("label[for='action-version']").parentNode.insertBefore(actionVersionNode, document.querySelector("label[for='action-version']").nextSibling);
-
-							const integrationVersionNode = document.createElement("channel-picker");
-							integrationVersionNode.setAttribute("id", "integration-version");
-							integrationVersionNode.setAttribute("type", "action-version");
-							document.querySelector("label[for='integration-version']").parentNode.insertBefore(integrationVersionNode, document.querySelector("label[for='integration-version']").nextSibling);
+								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[2] + "']");
+								elem.classList.add("selected");
+								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+								document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"));
+							});
 						} else if (json.action == "SAVED_actions") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("Saved actions!");

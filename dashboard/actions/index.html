@@ -62,10 +62,10 @@
 				wrapper.appendChild(newElem);
 				clickedElem.parentElement.querySelector(".action-container").appendChild(wrapper);
 
-				const elem = newElem.querySelector("channel-picker .picker div[data-id='command']");
+				const elem = wrapper.querySelector("channel-picker .picker div[data-id='command']");
 				elem.classList.add("selected");
-				newElem.querySelector("#" + newElem.id + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-				newElem.querySelector("channel-picker").setAttribute("data-selected", elem.getAttribute("data-id"));
+				wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+				wrapper.querySelector("channel-picker").setAttribute("data-selected", elem.getAttribute("data-id"));
 			}
 
 			let guildName = "";

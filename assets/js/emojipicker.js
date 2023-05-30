@@ -25,9 +25,9 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	picker.shadowRoot.appendChild(style);
 
 	picker.addEventListener("emoji-click", e => {
-		if (handleChange) handleChange(picker.parentElement.querySelector("textarea,input").id);
 		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name;
 		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
+		if (handleChange) handleChange(picker.parentElement.querySelector("textarea,input").id);
 	});
 
 	picker.customEmoji = customEmoji.map(emoji => ({

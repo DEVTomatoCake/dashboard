@@ -1,6 +1,6 @@
 function setCookie(name, value, days, global) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return;
-	let cookie = name + "=" + (value || "") + ";path=/;";
+	let cookie = name + "=" + (value || "") + ";path=/;Secure;";
 	if (days) {
 		const date = new Date();
 		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));

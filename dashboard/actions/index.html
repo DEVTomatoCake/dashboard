@@ -381,8 +381,8 @@
 			function createAction(sourceId = "") {
 				const name = encode(document.getElementById("action-name").value);
 				if (!name) return alert("Enter a name for the action!");
-				const content = encode(document.getElementById("action-content").value);
-				if (!content) return alert("Enter content for the action!");
+
+				const actions = document.getElementsByClassName("action-container");
 
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();

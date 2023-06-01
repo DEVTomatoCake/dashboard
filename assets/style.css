@@ -339,6 +339,15 @@ textarea.code {
 	font-family: monospace;
 }
 
+.subaction {
+	padding: 10px;
+	border-radius: 5px;
+	background-color: var(--tertiary-color);
+}
+.subaction label {
+	margin-top: unset;
+}
+
 .advancedsetting {
 	margin-left: 25px;
 }

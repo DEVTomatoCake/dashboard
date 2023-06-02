@@ -424,21 +424,20 @@
 				if (!params.has("guild") || saving) return;
 				saving = true;
 
-				const item = document.getElementById(id);
-
-				items[item.name] = {
-					description: item.getAttribute("data-slashcommand") || void 0,
-					trigger: item.getAttribute("data-trigger"),
-					version: item.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1],
-					source: item.getAttribute("data-source") || void 0,
-					sync: item.getAttribute("data-sync") || void 0,
+				const elem = document.getElementById(id);
+				const item = {
+					description: elem.getAttribute("data-slashcommand") || void 0,
+					trigger: elem.getAttribute("data-trigger"),
+					version: elem.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1],
+					source: elem.getAttribute("data-source") || void 0,
+					sync: elem.getAttribute("data-sync") || void 0,
 					subactions: {}
 				};
 
-				const subactions = item.getElementsByClassName("subaction");
+				const subactions = elem.getElementsByClassName("subaction");
 				for (let j = 0; j < subactions.length; j++) {
 					const subaction = subactions.item(j);
-					items[item.name].subactions[subaction.id] = {
+					item.subactions[subaction.id] = {
 						slashcommand: subaction.querySelector(".action-slashcommand").value || void 0,
 						trigger: subaction.querySelector(".action-trigger").getAttribute("data-selected"),
 						content: subaction.querySelector(".action-content").value
@@ -448,7 +447,9 @@
 				socket.send(JSON.stringify({
 					status: "success",
 					action: "SAVE_actions",
-					data: items
+					data: {
+						[elem.name]: item
+					}
 				}));
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving action...", timeout: 7}).show();

@@ -39,6 +39,7 @@
 			function createDialog(dialog = "create-dialog") {
 				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("action-use-container").setAttribute("hidden", "");
+				if (dialog == "create-dialog") addSubaction(document.getElementById("action-addsub"));
 
 				document.getElementById("integration-actions-container").innerHTML = "";
 				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
@@ -52,6 +53,8 @@
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
+				if (dialog == "integration-create-dialog") addSubaction(document.getElementById("integration-addsub"));
+
 				openDialog(document.getElementById(dialog));
 			}
 
@@ -294,7 +297,7 @@
 						<h1 id="create-title">Create action</h1>
 
 						<label for="action-name">Name</label>
-						<input type="text" maxlength="32" placeholder="Display name, if command: command name" name="action-name" id="action-name">
+						<input type="text" maxlength="32" pattern="[a-z0-9_ \-]+" placeholder="Display name in dashboard" name="action-name" id="action-name">
 
 						<div id="action-use-container" hidden>
 							<label for="action-sync">Sync mode from original</label>
@@ -392,8 +395,9 @@
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
 
+				const id = "action-" + Math.random().toString(36).slice(2);
 				const div = document.createElement("div");
-				div.classList.add("added-action");
+				div.id = id;
 				div.setAttribute("name", encode(name));
 				div.setAttribute("version", document.getElementById("action-version").getAttribute("data-selected"));
 				if (sourceId) {
@@ -408,8 +412,7 @@
 					"<br><br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 
-				changed.push(name + "-action");
-				saveActions();
+				saveAction(id);
 			}
 
 			const params = new URLSearchParams(location.search);
@@ -417,35 +420,29 @@
 			let savingToast;
 			let errorToast;
 
-			function saveActions() {
+			function saveAction(id) {
 				if (!params.has("guild") || saving) return;
-
 				saving = true;
-				const settings = document.getElementsByClassName("added-action");
 
-				const items = {};
-				for (let i = 0; i < settings.length; i++) {
-					const item = settings.item(i);
-					if (!changed.includes(item.id)) continue;
+				const item = document.getElementById(id);
 
-					items[item.name] = {
-						description: item.getAttribute("data-slashcommand") || void 0,
-						trigger: item.getAttribute("data-trigger"),
-						version: item.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1],
-						source: item.getAttribute("data-source") || void 0,
-						sync: item.getAttribute("data-sync") || void 0,
-						subactions: {}
+				items[item.name] = {
+					description: item.getAttribute("data-slashcommand") || void 0,
+					trigger: item.getAttribute("data-trigger"),
+					version: item.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1],
+					source: item.getAttribute("data-source") || void 0,
+					sync: item.getAttribute("data-sync") || void 0,
+					subactions: {}
+				};
+
+				const subactions = item.getElementsByClassName("subaction");
+				for (let j = 0; j < subactions.length; j++) {
+					const subaction = subactions.item(j);
+					items[item.name].subactions[subaction.id] = {
+						slashcommand: subaction.querySelector(".action-slashcommand").value || void 0,
+						trigger: subaction.querySelector(".action-trigger").getAttribute("data-selected"),
+						content: subaction.querySelector(".action-content").value
 					};
-
-					const subactions = item.getElementsByClassName("subaction");
-					for (let j = 0; j < subactions.length; j++) {
-						const subaction = subactions.item(j);
-						items[item.name].subactions[subaction.id] = {
-							slashcommand: subaction.querySelector(".action-slashcommand").value || void 0,
-							trigger: subaction.querySelector(".action-trigger").getAttribute("data-selected"),
-							content: subaction.querySelector(".action-content").value
-						};
-					}
 				}
 
 				socket.send(JSON.stringify({
@@ -454,7 +451,7 @@
 					data: items
 				}));
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving actions...", timeout: 7}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving action...", timeout: 7}).show();
 			}
 
 			async function createIntegration() {

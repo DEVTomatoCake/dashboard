@@ -340,12 +340,13 @@ textarea.code {
 }
 
 .subaction {
-	padding: 10px;
+	margin: 3px;
+	padding: 7px;
 	border-radius: 5px;
 	background-color: var(--tertiary-color);
 }
-.subaction label {
-	margin-top: unset;
+.subaction label[for="action-name"] {
+	margin-top: unset !important;
 }
 
 .advancedsetting {
@@ -1365,7 +1366,7 @@ button:hover, button:focus {
 	height: 100%;
 	overflow: auto;
 	background-color: var(--dialog-shadow);
-	transition: .3;
+	transition: .3s;
 }
 
 .dialog-content {

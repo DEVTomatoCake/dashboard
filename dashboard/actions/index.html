@@ -310,12 +310,12 @@
 
 						<template id="actions-template">
 							<label for="action-name">Sub-action name</label>
-							<input type="text" maxlength="32" placeholder="Slash command description" name="action-name" class="action-name">
+							<input type="text" maxlength="32" placeholder="Slash command name" name="action-name" class="action-name">
 
 							<label for="action-trigger">Action trigger</label>
 							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger"></channel-picker>
 
-							<label for="action-slashcommand">If command: Slash command description</label>
+							<label for="action-slashcommand">If command: Slash command description, if regex: RegExp</label>
 							<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" class="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
 
 							<label for="action-content" translation="dashboard.content"></label>
@@ -390,19 +390,24 @@
 				const name = encode(document.getElementById("action-name").value);
 				if (!name) return alert("Enter a name for the action!");
 
-				const actions = document.getElementsByClassName("action-container");
-
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
 
-				const id = "action-" + Math.random().toString(36).slice(2);
 				const div = document.createElement("div");
-				div.id = id;
+				div.id = "action-" + Math.random().toString(36).slice(2);
 				div.setAttribute("name", encode(name));
 				div.setAttribute("version", document.getElementById("action-version").getAttribute("data-selected"));
 				if (sourceId) {
 					div.setAttribute("source", sourceId);
 					div.setAttribute("sync", document.getElementById("action-sync").getAttribute("data-selected"));
+				}
+
+				const subactions = document.getElementsByClassName("action-container").getElementsByClassName("subaction");
+				for (let j = 0; j < subactions.length; j++) {
+					const subaction = subactions.item(j);
+					div.setAttribute("data-slashcommand", subaction.querySelector(".action-slashcommand").value);
+					div.setAttribute("data-trigger", subaction.querySelector(".action-trigger").getAttribute("data-selected"));
+					div.setAttribute("data-content", subaction.querySelector(".action-content").value);
 				}
 
 				div.innerHTML =
@@ -412,7 +417,25 @@
 					"<br><br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 
-				saveAction(id);
+				const data = {
+					name,
+					version: document.getElementById("action-version").getAttribute("data-selected"),
+					subactions: {}
+				};
+				if (sourceId) {
+					data.source = sourceId;
+					data.sync = document.getElementById("action-sync").getAttribute("data-selected");
+				}
+
+				for (let j = 0; j < subactions.length; j++) {
+					data.subactions[subaction.id] = {
+						slashcommand: subaction.querySelector(".action-slashcommand").value || void 0,
+						trigger: subaction.querySelector(".action-trigger").getAttribute("data-selected"),
+						content: subaction.querySelector(".action-content").value
+					}
+				}
+
+				saveAction(data);
 			}
 
 			const params = new URLSearchParams(location.search);
@@ -420,19 +443,9 @@
 			let savingToast;
 			let errorToast;
 
-			function saveAction(id) {
+			function saveAction(data) {
 				if (!params.has("guild") || saving) return;
 				saving = true;
-
-				const elem = document.getElementById(id);
-				const item = {
-					description: elem.getAttribute("data-slashcommand") || void 0,
-					trigger: elem.getAttribute("data-trigger"),
-					version: elem.getAttribute("data-version") || Object.keys(pickerData["action-version"])[Object.keys(pickerData["action-version"]).length - 1],
-					source: elem.getAttribute("data-source") || void 0,
-					sync: elem.getAttribute("data-sync") || void 0,
-					subactions: {}
-				};
 
 				const subactions = elem.getElementsByClassName("subaction");
 				for (let j = 0; j < subactions.length; j++) {
@@ -448,7 +461,7 @@
 					status: "success",
 					action: "SAVE_actions",
 					data: {
-						[elem.name]: item
+						[elem.getAttribute("name")]: item
 					}
 				}));
 

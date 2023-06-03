@@ -421,7 +421,6 @@
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 
 				const data = {
-					name,
 					version: document.getElementById("action-version").getAttribute("data-selected"),
 					subactions: []
 				};
@@ -433,13 +432,14 @@
 				for (let j = 0; j < subactions.length; j++) {
 					const subaction = subactions.item(j);
 					data.subactions.push({
+						name: subaction.querySelector(".action-name").value,
 						slashcommand: subaction.querySelector(".action-slashcommand").value || void 0,
 						trigger: subaction.querySelector(".action-trigger").getAttribute("data-selected"),
 						content: subaction.querySelector(".action-content").value
 					});
 				}
 
-				saveAction(data);
+				saveAction(name, data);
 			}
 
 			const params = new URLSearchParams(location.search);
@@ -447,7 +447,7 @@
 			let savingToast;
 			let errorToast;
 
-			function saveAction(data) {
+			function saveAction(name, data = {}) {
 				if (!params.has("guild") || saving) return;
 				saving = true;
 
@@ -455,7 +455,7 @@
 					status: "success",
 					action: "SAVE_actions",
 					data: {
-						[data.name]: data
+						[name]: data
 					}
 				}));
 

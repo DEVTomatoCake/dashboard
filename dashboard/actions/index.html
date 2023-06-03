@@ -390,7 +390,7 @@
 			function createAction(sourceId = "") {
 				const name = encode(document.getElementById("action-name").value);
 				if (!name) return alert("Enter a name for the action!");
-				if (!/[a-z0-9_-]+/gi.test(name)) return alert("The name can only contain letters, numbers, underscores and dashes!");
+				if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!");
 
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();

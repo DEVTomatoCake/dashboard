@@ -297,7 +297,7 @@
 						<h1 id="create-title">Create action</h1>
 
 						<label for="action-name">Name</label>
-						<input type="text" maxlength="32" pattern="[a-z0-9_ \-]+" placeholder="Display name in dashboard" name="action-name" id="action-name">
+						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name in dashboard" name="action-name" id="action-name">
 
 						<div id="action-use-container" hidden>
 							<label for="action-sync">Sync mode from original</label>
@@ -389,6 +389,7 @@
 			function createAction(sourceId = "") {
 				const name = encode(document.getElementById("action-name").value);
 				if (!name) return alert("Enter a name for the action!");
+				if (!/[a-z0-9_\-]+/gi.test(name)) return alert("The name can only contain letters, numbers, underscores and dashes!");
 
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
@@ -402,7 +403,7 @@
 					div.setAttribute("sync", document.getElementById("action-sync").getAttribute("data-selected"));
 				}
 
-				const subactions = document.getElementsByClassName("action-container").getElementsByClassName("subaction");
+				const subactions = document.getElementById("actions-container").getElementsByClassName("subaction");
 				for (let j = 0; j < subactions.length; j++) {
 					const subaction = subactions.item(j);
 					div.setAttribute("data-slashcommand", subaction.querySelector(".action-slashcommand").value);

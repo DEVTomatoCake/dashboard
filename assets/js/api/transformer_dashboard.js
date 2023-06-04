@@ -150,25 +150,15 @@ function getCustomcommandsHTML(json) {
 	}
 }
 
-function getActionsHTML(json) {
+function getIntegrationsHTML(json) {
 	if (json.status == "success") {
-		let text = "<div class='settingsContent'>";
+		let text = "<div class='integration-container'>";
 
-		json.data.forEach(action => {
-			text +=
-				"<div>" +
-				"<label for='" + encode(action.name) + "'><b>" + encode(action.name) + "</b></label>" +
-				"<ion-icon name='build-outline' onclick='editAction(\"" + encode(action.name) + "\");'></ion-icon>" +
-				"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(action.name) + "\");'></ion-icon>" +
-				"<br><br></div>";
-		});
-
-		if (json.integrations.length > 0) text += "</div><div><h1 class='center' style='margin:90px 0 5px'>Available integrations (yours/public)</h1><div class='integration-container'>"
 		json.integrations.forEach(integration => {
 			text +=
 				"<div class='integration'>" +
 				"<div class='flex'>" +
-					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration icon of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
+					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
 					"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 				"</div>" +
 				"<p>Owner: " + encode(integration.owner) + "</p>" +
@@ -176,16 +166,16 @@ function getActionsHTML(json) {
 				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 				"<div class='flex'>" +
 					"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")'>View / Use</button>" +
-					(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'>Edit</button>" : "") +
+					(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'>Edit <ion-icon name='build-outline'></ion-icon></button>" : "") +
+					(integration.isOwner ? "<ion-icon name='trash-outline' onclick='deleteIntegration(this, \"" + encode(integration.name) + "\");'></ion-icon>" : "") +
 				"</div>" +
 				"</div>";
 		});
-		if (json.integrations.length > 0) text += "</div>"
+		text += "</div>"
 
-		if (text == "") text = "<p id='no-action'><b>There are no actions for this server!</b></p>";
-		return "<h1 class='center'><span>Actions of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Create action</button>" +
-			"<button type='button' class='createForm' onclick='createDialog(\"integration-create-dialog\")'>Create integration</button>" +
+		if (text == "") text = "<p id='no-integrations'><b>There are no integrations for this server!</b></p>";
+		return "<h1 class='center'><span>Integrations of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
+			"<button type='button' class='createForm' onclick='createDialog()'>Create integration</button>" +
 			"<br><br>" + text + "</div>";
 	} else {
 		return (

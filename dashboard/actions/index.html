@@ -36,12 +36,8 @@
 		<script>
 			function handleChange() {}
 
-			function createDialog(dialog = "create-dialog") {
+			function createDialog() {
 				document.getElementById("actions-container").innerHTML = "";
-				document.getElementById("action-use-container").setAttribute("hidden", "");
-				if (dialog == "create-dialog") addSubaction(document.getElementById("action-addsub"));
-
-				document.getElementById("integration-actions-container").innerHTML = "";
 				document.getElementById("integration-create-dialog").removeAttribute("data-edit");
 				document.getElementById("integration-about").removeAttribute("hidden");
 				document.getElementById("integration-name").value = "";
@@ -49,22 +45,21 @@
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-public").checked = true;
-				document.getElementById("integration-public").removeAttribute("disabled");
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
-				if (dialog == "integration-create-dialog") addSubaction(document.getElementById("integration-addsub"));
 
-				openDialog(document.getElementById(dialog));
+				addAction(document.getElementById("integration-addsub"));
+				openDialog(document.getElementById("integration-create-dialog"));
 			}
 
-			function addSubaction(clickedElem) {
+			function addAction(clickedElem) {
 				const newElem = document.getElementById("actions-template").content.cloneNode(true);
 				newElem.id = "actions-" + Math.random().toString(36).slice(2);
 				const wrapper = document.createElement("div");
-				wrapper.classList.add("subaction");
+				wrapper.classList.add("action");
 				wrapper.appendChild(newElem);
-				clickedElem.parentElement.querySelector(".action-container").appendChild(wrapper);
+				document.getElementById("actions-container").appendChild(wrapper);
 
 				const elem = wrapper.querySelector("channel-picker .picker div[data-id='command']");
 				elem.classList.add("selected");
@@ -90,7 +85,7 @@
 					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p>" +
 					integration.actions.map(action => {
 						return "<p>Name: <code>" + encode(action.name) + "</code></p>" +
-							"<p>Slashcommand: " + encode(action.slashcommand) + "</p>" +
+							"<p>Args 1: " + encode(action.args1) + "</p>" +
 							"<p>Trigger: <code>" + encode(action.trigger) + "</code></p>" +
 							"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					}).join("<br><br>") +
@@ -104,7 +99,7 @@
 				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
 				document.getElementById("action-name").value = encode(integration.name);
 				document.getElementById("action-use-container").removeAttribute("hidden");
-				document.getElementById("action-submit").onclick = () => createAction(integrationName);
+				document.getElementById("action-submit").onclick = () => createIntegration(integrationName);
 				document.getElementById("action-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
 				document.getElementById("action-input").innerHTML = integration.input ? integration.input.map(e => {
 					const randomId = Math.random().toString(36).slice(2);
@@ -118,7 +113,7 @@
 					document.getElementById("action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
 					if (document.getElementById("action-sync").getAttribute("data-selected") == "auto" || document.getElementById("action-sync").getAttribute("data-selected") == "safe")
 						document.getElementById("action-content").setAttribute("readonly", "");
-					document.getElementById("action-slashcommand").value = action.slashcommand;
+					document.getElementById("action-args1").value = action.args1;
 				});
 			}
 
@@ -134,11 +129,10 @@
 				document.getElementById("integration-short").value = integration.short;
 				document.getElementById("integration-long").value = integration.long || "";
 				document.getElementById("integration-public").checked = integration.public;
-				document.getElementById("integration-public").setAttribute("disabled", "");
 				integration.actions.forEach(action => {
 					const newElem = document.getElementById("actions-template").cloneNode(true);
 					newElem.querySelector(".action-trigger").value = action.content;
-					newElem.querySelector(".action-slashcommand").value = action.slashcommand || "";
+					newElem.querySelector(".action-args1").value = action.args1 || "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
 				});
@@ -151,17 +145,12 @@
 				document.getElementById("integration-submit").innerText = "Edit integration";
 			}
 
-			function editAction(action) {
-				const newElem = document.getElementById("actions-template").cloneNode(true);
-				newElem.id = "actions-" + Math.random().toString(36).slice(2);
-			}
-
 			let socket;
-			function deleteAction(elem, action) {
-				const confirmed = confirm("Are you sure you want to delete this action? This cannot be undone!");
+			function deleteIntegration(elem, integration) {
+				const confirmed = confirm("Are you sure you want to delete this integration? This cannot be undone!");
 				if (confirmed) {
 					elem.parentElement.remove();
-					socket.send(JSON.stringify({status: "success", action: "DELETE_action", name: action}));
+					socket.send(JSON.stringify({status: "success", action: "DELETE_integration", name: integration}));
 				}
 			}
 
@@ -231,7 +220,7 @@
 									"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
 								"</div></div>";
 
-							document.getElementById("root-container").innerHTML = getActionsHTML(json);
+							document.getElementById("root-container").innerHTML = getIntegrationsHTML(json);
 							reloadText();
 							guildName = json.name;
 							integrations = json.integrations;
@@ -243,7 +232,7 @@
 								"action-version": json.versions
 							};
 
-							[["action-version", "action-version", "1.0.0"], ["action-sync", "action-sync", "safe"], ["integration-version", "action-version", "1.0.0"]].forEach(item => {
+							[["action-sync", "action-sync", "safe"], ["integration-version", "action-version", "1.0.0"]].forEach(item => {
 								const pickerNode = document.createElement("channel-picker");
 								pickerNode.setAttribute("id", item[0]);
 								pickerNode.setAttribute("type", item[1]);
@@ -292,47 +281,6 @@
 			</header>
 
 			<div class="content" id="content">
-				<div id="create-dialog" class="dialog">
-					<div class="dialog-content">
-						<span class="close">&times;</span>
-						<h1 id="create-title">Create action</h1>
-
-						<label for="action-name">Name</label>
-						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name in dashboard" name="action-name" id="action-name">
-
-						<div id="action-use-container" hidden>
-							<label for="action-sync">Sync mode from original</label>
-
-							<p id="action-placeholders"></p>
-							<div id="action-input"></div>
-						</div>
-
-						<label for="action-version">Parser version</label>
-
-						<template id="actions-template">
-							<label for="action-name">Sub-action name</label>
-							<input type="text" maxlength="32" placeholder="Slash command name" name="action-name" class="action-name">
-
-							<label for="action-trigger">Action trigger</label>
-							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" tabindex="0"></channel-picker>
-
-							<label for="action-slashcommand">If command: Slash command description, if regex: RegExp</label>
-							<input type="text" maxlength="100" placeholder="Slash command description" name="action-slashcommand" class="action-slashcommand" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
-
-							<label for="action-content" translation="dashboard.content"></label>
-							<div class="emoji-container emoji-special">
-								<textarea class="code action-content" maxlength="2000" placeholder="Action content" name="action-content" rows="8"></textarea>
-								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
-								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
-							</div>
-						</template>
-						<button type="button" id="action-addsub" class="createForm" onclick="addSubaction(this)">Add sub-action</button>
-						<div id="actions-container" class="action-container"></div>
-
-						<button type="submit" id="action-submit" class="createForm" onclick="createAction()">Create action</button>
-					</div>
-				</div>
-
 				<div id="integration-create-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
@@ -344,6 +292,13 @@
 
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique display (& command) name" name="integration-name" id="integration-name">
+
+						<div id="action-use-container" hidden>
+							<label for="action-sync">Sync mode from original</label>
+
+							<p id="action-placeholders"></p>
+							<div id="action-input"></div>
+						</div>
 
 						<label for="integration-short">Short description</label>
 						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
@@ -359,8 +314,25 @@
 
 						<label for="integration-version">Parser version</label>
 
-						<button type="button" id="integration-addsub" class="createForm" onclick="addSubaction(this)">Add sub-action</button>
-						<div id="integration-actions-container" class="action-container"></div>
+						<button type="button" id="integration-addsub" class="createForm" onclick="addAction(this)">Add action</button>
+						<template id="actions-template">
+							<label for="action-name">Action name</label>
+							<input type="text" maxlength="32" placeholder="Slash command name" name="action-name" class="action-name">
+
+							<label for="action-trigger">Action trigger</label>
+							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" tabindex="0"></channel-picker>
+
+							<label for="action-args1">If command: Slash command description, if regex: RegExp</label>
+							<input type="text" maxlength="100" placeholder="Variable input" name="action-args1" class="action-args1" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
+
+							<label for="action-content" translation="dashboard.content"></label>
+							<div class="emoji-container emoji-special">
+								<textarea class="code action-content" maxlength="2000" placeholder="Action content" name="action-content" rows="8"></textarea>
+								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+							</div>
+						</template>
+						<div id="actions-container"></div>
 
 						<label for="integration-placeholders">Placeholder text, one per line</label>
 						<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
@@ -387,88 +359,68 @@
 		</main>
 
 		<script>
-			function createAction(sourceId = "") {
-				const name = encode(document.getElementById("action-name").value);
-				if (!name) return alert("Enter a name for the action!");
+			const params = new URLSearchParams(location.search);
+			let saving = false;
+			let savingToast;
+			let errorToast;
+
+			function createIntegration(sourceId = "") {
+				if (!params.has("guild") || saving) return;
+				saving = true;
+
+				const name = encode(document.getElementById("integration-name").value);
+				if (!name) return alert("Enter a name for the integration!");
 				if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!");
 
 				document.getElementById("create-dialog").style.display = "none";
-				if (document.getElementById("no-action")) document.getElementById("no-action").remove();
+				if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
 
 				const div = document.createElement("div");
 				div.id = "action-" + Math.random().toString(36).slice(2);
 				div.setAttribute("name", encode(name));
-				div.setAttribute("version", document.getElementById("action-version").getAttribute("data-selected"));
-				if (sourceId) {
-					div.setAttribute("source", sourceId);
-					div.setAttribute("sync", document.getElementById("action-sync").getAttribute("data-selected"));
-				}
 
-				const subactions = document.getElementById("actions-container").getElementsByClassName("subaction");
-				for (let j = 0; j < subactions.length; j++) {
-					const subaction = subactions.item(j);
-					div.setAttribute("data-name", subaction.querySelector(".action-name").value);
-					div.setAttribute("data-slashcommand", subaction.querySelector(".action-slashcommand").value);
-					div.setAttribute("data-trigger", subaction.querySelector(".action-trigger").getAttribute("data-selected"));
-					div.setAttribute("data-content", subaction.querySelector(".action-content").value);
+				const actions = document.getElementById("actions-container").getElementsByClassName("action");
+				for (let j = 0; j < actions.length; j++) {
+					const action = actions.item(j);
+					div.setAttribute("data-name", action.querySelector(".action-name").value);
+					div.setAttribute("data-args1", action.querySelector(".action-args1").value);
+					div.setAttribute("data-trigger", action.querySelector(".action-trigger").getAttribute("data-selected"));
+					div.setAttribute("data-content", action.querySelector(".action-content").value);
 				}
 
 				div.innerHTML =
 					"<label for='" + encode(name) + "'><b>" + encode(name) + "</b></label>" +
-					"<ion-icon name='build-outline' onclick='editAction(\"" + encode(name) + "\");'></ion-icon>" +
 					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(name) + "\");'></ion-icon>" +
 					"<br><br>";
 				document.getElementsByClassName("settingsContent")[0].appendChild(div);
 
 				const data = {
-					version: document.getElementById("action-version").getAttribute("data-selected"),
-					subactions: []
+					edit: document.getElementById("integration-create-dialog").hasAttribute("data-edit"),
+					name,
+					short,
+					long: document.getElementById("integration-long").value,
+					image: document.getElementById("integration-image").value,
+					public: document.getElementById("integration-public").checked,
+					version: document.getElementById("integration-version").getAttribute("data-selected"),
+					actions: [],
+					placeholders,
+					input,
+					env
 				};
 				if (sourceId) {
 					data.source = sourceId;
 					data.sync = document.getElementById("action-sync").getAttribute("data-selected");
 				}
 
-				for (let j = 0; j < subactions.length; j++) {
-					const subaction = subactions.item(j);
-					data.subactions.push({
-						name: subaction.querySelector(".action-name").value,
-						slashcommand: subaction.querySelector(".action-slashcommand").value || void 0,
-						trigger: subaction.querySelector(".action-trigger").getAttribute("data-selected"),
-						content: subaction.querySelector(".action-content").value
+				for (let j = 0; j < actions.length; j++) {
+					const action = actions.item(j);
+					data.actions.push({
+						name: action.querySelector(".action-name").value,
+						args: action.querySelector(".action-args1").value ? [action.querySelector(".action-args1").value] : [],
+						trigger: action.querySelector(".action-trigger").getAttribute("data-selected"),
+						content: action.querySelector(".action-content").value
 					});
 				}
-
-				saveAction(name, data);
-			}
-
-			const params = new URLSearchParams(location.search);
-			let saving = false;
-			let savingToast;
-			let errorToast;
-
-			function saveAction(name, data = {}) {
-				if (!params.has("guild") || saving) return;
-				saving = true;
-
-				socket.send(JSON.stringify({
-					status: "success",
-					action: "SAVE_actions",
-					data: {
-						[name]: data
-					}
-				}));
-
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving action...", timeout: 7}).show();
-			}
-
-			async function createIntegration() {
-				const name = encode(document.getElementById("integration-name").value);
-				if (!name) return alert("Enter a name for the integration!");
-				const content = encode(document.getElementById("integration-content").value);
-				if (!content) return alert("Enter content for the integration!");
-				const short = encode(document.getElementById("integration-short").value);
-				if (!short) return alert("Enter a short description for the integration!");
 
 				document.getElementById("integration-create-dialog").style.display = "none";
 
@@ -476,37 +428,20 @@
 				const input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e);
 				const env = document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e);
 
-				const res = await fetch("https://api.tomatenkuchen.eu/api/integrations?token=" + getCookie("token"), {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						edit: document.getElementById("integration-create-dialog").hasAttribute("data-edit"),
-						name,
-						content,
-						trigger: document.getElementById("integration-trigger").getAttribute("data-selected"),
-						version: document.getElementById("integration-version").getAttribute("data-selected"),
-						slashcommand: document.getElementById("integration-slashcommand").value,
-						short,
-						long: document.getElementById("integration-long").value,
-						image: document.getElementById("integration-image").value,
-						public: document.getElementById("integration-public").checked,
-						placeholders,
-						input,
-						env
-					})
-				})
-				const json = await res.json()
-				console.log("Response for POST https://api.tomatenkuchen.eu/api/integrations: " + JSON.stringify(json))
-				alert(json.message)
+				socket.send(JSON.stringify({
+					status: "success",
+					action: "SAVE_actions",
+					data
+				}));
+
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving integration \"" + encode(name) + "\"...", timeout: 7}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading actions...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading integrations...</h1>";
 				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading actions...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading integrations...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";

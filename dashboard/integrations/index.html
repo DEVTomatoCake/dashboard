@@ -82,11 +82,11 @@
 					"<p>Used by: <b>" + encode("" + integration.uses) + "</b></p>" +
 					"<p>Parser version: <code>" + encode(integration.version) + "</code></p>" +
 					"<p>Created: " + new Date(integration.created).toLocaleString() + "</p>" +
-					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p>" +
+					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><br><h2>Actions</h2>" +
 					integration.actions.map(action => {
-						return "<p>Name: <code>" + encode(action.name) + "</code></p>" +
-							"<p>Args 1: " + encode(action.args1) + "</p>" +
+						return "<p>Name: <b>" + encode(action.name) + "</b></p>" +
 							"<p>Trigger: <code>" + encode(action.trigger) + "</code></p>" +
+							(action.args ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 							"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					}).join("<br><br>") +
 					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
@@ -243,24 +243,24 @@
 
 							pickerData = {
 								...pickerData,
-								"action-trigger": json.triggers,
-								"action-sync": json.sync,
-								"action-version": json.versions
+								"integration-sync": json.sync,
+								"integration-version": json.versions,
+								"action-trigger": json.triggers
 							};
 
-							[["action-sync", "action-sync", "safe"], ["integration-version", "action-version", "1.0.0"]].forEach(item => {
+							[["integration-sync", "safe"], ["integration-version", "1.0.0"]].forEach(item => {
 								const pickerNode = document.createElement("channel-picker");
 								pickerNode.setAttribute("id", item[0]);
-								pickerNode.setAttribute("type", item[1]);
+								pickerNode.setAttribute("type", item[0]);
 								pickerNode.setAttribute("tabindex", "0");
 								document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling);
 
-								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[2] + "']");
+								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
 								elem.classList.add("selected");
 								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
 								document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"));
 							});
-						} else if (json.action == "SAVED_integrations") {
+						} else if (json.action == "SAVED_integration") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("The integration was saved!");
 						} else if (json.action == "RECEIVE_emojis") {
@@ -391,7 +391,6 @@
 
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
-
 
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),

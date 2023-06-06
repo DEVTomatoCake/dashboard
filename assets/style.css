@@ -339,16 +339,6 @@ textarea.code {
 	font-family: monospace;
 }
 
-.action {
-	margin: 3px;
-	padding: 7px;
-	border-radius: 5px;
-	background-color: var(--tertiary-color);
-}
-.action label[for="action-name"] {
-	margin-top: unset !important;
-}
-
 .advancedsetting {
 	margin-left: 25px;
 }
@@ -1070,9 +1060,19 @@ pre {
 .integration img {
 	border-radius: 5px;
 }
-.integration ion-icon, #info-container ion-icon {
-	color: #25A54C;
+.integration ion-icon[name="checkmark-circle-outline"], #info-container ion-icon {
+	color: #2aaa64;
 	font-size: 34px;
+}
+
+.action {
+	margin: 3px;
+	padding: 7px;
+	border-radius: 5px;
+	background-color: var(--tertiary-color);
+}
+.action label[for="action-name"] {
+	margin-top: unset !important;
 }
 
 .flex {

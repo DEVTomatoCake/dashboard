@@ -86,7 +86,7 @@
 					integration.actions.map(action => {
 						return "<p>Name: <b>" + encode(action.name) + "</b></p>" +
 							"<p>Trigger: <code>" + encode(action.trigger) + "</code></p>" +
-							(action.args ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
+							(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 							"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					}).join("<br><br>") +
 					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
@@ -97,11 +97,11 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
-				document.getElementById("action-name").value = encode(integration.name);
-				document.getElementById("action-use-container").removeAttribute("hidden");
-				document.getElementById("action-submit").onclick = () => createIntegration(integrationName);
-				document.getElementById("action-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
-				document.getElementById("action-input").innerHTML = integration.input ? integration.input.map(e => {
+				document.getElementById("integration-name").value = encode(integration.name);
+				document.getElementById("integration-use-container").removeAttribute("hidden");
+				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
+				document.getElementById("integration-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
+				document.getElementById("integration-input").innerHTML = integration.input ? integration.input.map(e => {
 					const randomId = Math.random().toString(36).slice(2);
 					return "<label for='" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
 						"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='" + randomId + "' name='" + encode(e.split(";")[0]) + "'>"
@@ -130,10 +130,14 @@
 				document.getElementById("integration-public").checked = integration.public;
 				integration.actions.forEach(action => {
 					const newElem = document.getElementById("actions-template").cloneNode(true);
-					newElem.querySelector(".action-trigger").value = action.content;
 					newElem.querySelector(".action-args1").value = action.args[0] || "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
+
+					const elem = newElem.querySelector(".action-trigger .picker div[data-id='" + item[1] + "']");
+					elem.classList.add("selected");
+					newElem.querySelector(".action-trigger .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
+					newElem.querySelector(".action-trigger").setAttribute("data-selected", elem.getAttribute("data-id"));
 				});
 				document.getElementById("integration-placeholders").value = (integration.input || integration.placeholders ? "<h2>User input variables</h2>" : "") + integration.placeholders ? "Available placeholders:<br>" + integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
@@ -305,11 +309,11 @@
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique display (& command) name" name="integration-name" id="integration-name">
 
-						<div id="action-use-container" hidden>
-							<label for="action-sync">Sync mode from original</label>
+						<div id="integration-use-container" hidden>
+							<label for="integration-sync">Sync mode from original</label>
 
-							<p id="action-placeholders"></p>
-							<div id="action-input"></div>
+							<p id="integration-placeholders"></p>
+							<div id="integration-input"></div>
 						</div>
 
 						<label for="integration-short">Short description</label>
@@ -408,7 +412,7 @@
 				};
 				if (sourceId) {
 					data.source = sourceId;
-					data.sync = document.getElementById("action-sync").getAttribute("data-selected");
+					data.sync = document.getElementById("integration-sync").getAttribute("data-selected");
 				}
 
 				const actions = document.getElementById("actions-container").getElementsByClassName("action");

@@ -152,14 +152,20 @@ function getCustomcommandsHTML(json) {
 
 function getIntegrationsHTML(json) {
 	if (json.status == "success") {
-		let text = "<div class='integration-container'><h1>Integrations of this server</h1>";
-		json.integrations.filter(i => i.guild == guild).forEach(handleIntegration);
+		let text = "<div class='integration-container'>";
 
-		text += "</div><div class='integration-container'><h1>Your integrations</h1>";
-		json.integrations.filter(i => i.guild != guild && i.isOwner).forEach(handleIntegration);
-
-		text += "</div><div class='integration-container'><h1>Other public integrations</h1>";
-		json.integrations.filter(i => i.guild != guild && !i.isOwner).forEach(handleIntegration);
+		if (json.integrations.filter(i => i.guild == guild).length > 0) {
+			text += "<h1>Integrations of this server</h1>";
+			json.integrations.filter(i => i.guild == guild).forEach(handleIntegration);
+		}
+		if (json.integrations.filter(i => i.guild != guild && i.isOwner).length > 0) {
+			text += "</div><div class='integration-container'><h1>Your integrations</h1>";
+			json.integrations.filter(i => i.guild != guild && i.isOwner).forEach(handleIntegration);
+		}
+		if (json.integrations.filter(i => i.guild != guild && !i.isOwner).length > 0) {
+			text += "</div><div class='integration-container'><h1>Other public integrations</h1>";
+			json.integrations.filter(i => i.guild != guild && !i.isOwner).forEach(handleIntegration);
+		}
 		text += "</div>";
 
 		if (text == "") text = "<p id='no-integrations'><b>There are no integrations for this server!</b></p>";

@@ -346,8 +346,8 @@
 						</template>
 						<div id="actions-container"></div>
 
-						<summary>
-							<details>Advanced settings for public integrations</details>
+						<details>
+							<summary>Advanced settings for public integrations</summary>
 
 							<label for="integration-placeholders">Placeholder text, one per line</label>
 							<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
@@ -357,7 +357,7 @@
 
 							<label for="integration-env">Environment variables, one per line, hidden for other users</label>
 							<textarea class="code" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
-						</summary>
+						</details>
 
 						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -396,7 +396,7 @@
 				div.setAttribute("name", encode(name));
 
 				const actions = document.getElementById("actions-container").getElementsByClassName("action");
-				for (let j = 0; j < actions.slice(0, 10).length; j++) {
+				for (let j = 0; j < actions.length; j++) {
 					const action = actions.item(j);
 					div.setAttribute("data-name", action.querySelector(".action-name").value);
 					div.setAttribute("data-args1", action.querySelector(".action-args1").value);
@@ -440,7 +440,7 @@
 
 				socket.send(JSON.stringify({
 					status: "success",
-					action: "SAVE_integrations",
+					action: "SAVE_integration",
 					data
 				}));
 

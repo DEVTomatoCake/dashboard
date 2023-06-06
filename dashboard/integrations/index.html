@@ -392,26 +392,10 @@
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
 
-				const div = document.createElement("div");
-				div.setAttribute("name", encode(name));
-
-				const actions = document.getElementById("actions-container").getElementsByClassName("action");
-				for (let j = 0; j < actions.length; j++) {
-					const action = actions.item(j);
-					div.setAttribute("data-name", action.querySelector(".action-name").value);
-					div.setAttribute("data-args1", action.querySelector(".action-args1").value);
-					div.setAttribute("data-trigger", action.querySelector(".action-trigger").getAttribute("data-selected"));
-					div.setAttribute("data-content", action.querySelector(".action-content").value);
-				}
-
-				div.innerHTML =
-					"<label for='" + encode(name) + "'><b>" + encode(name) + "</b></label>" +
-					"<ion-icon name='trash-outline' onclick='deleteIntegration(this, \"" + encode(name) + "\");'></ion-icon>" +
-					"<br><br>";
-				document.getElementsByClassName("integration-container")[0].appendChild(div);
 
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
+					guild: params.get("guild"),
 					name,
 					short: document.getElementById("integration-short").value,
 					long: document.getElementById("integration-long").value,
@@ -428,6 +412,7 @@
 					data.sync = document.getElementById("action-sync").getAttribute("data-selected");
 				}
 
+				const actions = document.getElementById("actions-container").getElementsByClassName("action");
 				for (let j = 0; j < actions.length; j++) {
 					const action = actions.item(j);
 					data.actions.push({
@@ -437,6 +422,10 @@
 						content: action.querySelector(".action-content").value
 					});
 				}
+
+				const div = document.createElement("div");
+				div.innerHTML = handleIntegration(data);
+				document.getElementsByClassName("integration-container")[0].appendChild(div);
 
 				socket.send(JSON.stringify({
 					status: "success",

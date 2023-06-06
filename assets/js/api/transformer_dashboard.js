@@ -152,26 +152,15 @@ function getCustomcommandsHTML(json) {
 
 function getIntegrationsHTML(json) {
 	if (json.status == "success") {
-		let text = "<div class='integration-container'>";
+		let text = "<div class='integration-container'><h1>Integrations of this server</h1>";
+		json.integrations.filter(i => i.guild == guild).forEach(handleIntegration);
 
-		json.integrations.forEach(integration => {
-			text +=
-				"<div class='integration'>" +
-				"<div class='flex'>" +
-					(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
-					"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
-				"</div>" +
-				"<p>Owner: " + encode(integration.owner) + "</p>" +
-				"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
-				"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
-				"<div class='flex'>" +
-					"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")'>View / Use</button>" +
-					(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'>Edit <ion-icon name='build-outline'></ion-icon></button>" : "") +
-					(integration.isOwner ? "<ion-icon name='trash-outline' onclick='deleteIntegration(this, \"" + encode(integration.name) + "\");'></ion-icon>" : "") +
-				"</div>" +
-				"</div>";
-		});
-		text += "</div>"
+		text += "</div><div class='integration-container'><h1>Your integrations</h1>";
+		json.integrations.filter(i => i.guild != guild && i.isOwner).forEach(handleIntegration);
+
+		text += "</div><div class='integration-container'><h1>Other public integrations</h1>";
+		json.integrations.filter(i => i.guild != guild && !i.isOwner).forEach(handleIntegration);
+		text += "</div>";
 
 		if (text == "") text = "<p id='no-integrations'><b>There are no integrations for this server!</b></p>";
 		return "<h1 class='center'><span>Integrations of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +

@@ -339,13 +339,13 @@ textarea.code {
 	font-family: monospace;
 }
 
-.subaction {
+.action {
 	margin: 3px;
 	padding: 7px;
 	border-radius: 5px;
 	background-color: var(--tertiary-color);
 }
-.subaction label[for="action-name"] {
+.action label[for="action-name"] {
 	margin-top: unset !important;
 }
 

@@ -39,7 +39,6 @@
 			function createDialog() {
 				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("create-dialog").removeAttribute("data-edit");
-				document.getElementById("integration-about").removeAttribute("hidden");
 				document.getElementById("integration-name").value = "";
 				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
@@ -48,6 +47,7 @@
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
+				document.getElementById("integration-submit").innerText = "Create integration";
 
 				addAction(document.getElementById("integration-addsub"));
 				openDialog(document.getElementById("create-dialog"));
@@ -123,7 +123,6 @@
 
 				document.getElementById("create-dialog").setAttribute("data-edit", "");
 				document.getElementById("integration-create-title").innerHTML = "Edit integration <b>" + encode(integration.name) + "</b>";
-				document.getElementById("integration-about").setAttribute("hidden", "");
 				document.getElementById("integration-name").value = integration.name;
 				document.getElementById("integration-name").setAttribute("readonly", "");
 				document.getElementById("integration-short").value = integration.short;
@@ -146,12 +145,29 @@
 			}
 
 			let socket;
-			function deleteIntegration(elem, integration) {
+			function deleteIntegration(elem, integration = "") {
 				const confirmed = confirm("Are you sure you want to delete this integration? This cannot be undone!");
 				if (confirmed) {
 					elem.parentElement.remove();
 					socket.send(JSON.stringify({status: "success", action: "DELETE_integration", name: integration}));
 				}
+			}
+
+			function handleIntegration(integration) {
+				return "<div class='integration'>" +
+					"<div class='flex'>" +
+						(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
+						"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
+					"</div>" +
+					"<p>Owner: " + encode(integration.owner) + "</p>" +
+					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
+					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
+					"<div class='flex'>" +
+						"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")'>View / Use</button>" +
+						(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'>Edit <ion-icon name='build-outline'></ion-icon></button>" : "") +
+						(integration.isOwner ? "<ion-icon name='trash-outline' onclick='deleteIntegration(this, \"" + encode(integration.name) + "\");'></ion-icon>" : "") +
+					"</div>" +
+					"</div>";
 			}
 
 			let pickerData = {};
@@ -213,14 +229,14 @@
 								"</a>" +
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 									"<a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></a>" +
-									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Actions</p></div>" +
+									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Integrations</p></div>" +
 									"<a class='tab otherlinks' href='../customcommands/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></a>" +
 									"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
 									"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></a>" +
 									"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
 								"</div></div>";
 
-							document.getElementById("root-container").innerHTML = getIntegrationsHTML(json);
+							document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild);
 							reloadText();
 							guildName = json.name;
 							integrations = json.integrations;
@@ -285,10 +301,6 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<h1 id="integration-create-title">Create integration</h1>
-						<div id="integration-about">
-							<h2>Integrations are actions which can be shared between servers.</h2>
-							<h3>If you only want to create a customcommand or other per-server actions, you likely won't need this.</h3>
-						</div>
 
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique display (& command) name" name="integration-name" id="integration-name">
@@ -307,7 +319,7 @@
 						<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
 
 						<label for="integration-image">Image URL</label>
-						<input type="text" maxlength="500" placeholder="Image URL" name="integration-image" id="integration-image">
+						<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
 
 						<label for="integration-public">Public</label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
@@ -317,7 +329,7 @@
 						<button type="button" id="integration-addsub" class="createForm" onclick="addAction(this)">Add action</button>
 						<template id="actions-template">
 							<label for="action-name">Action name</label>
-							<input type="text" maxlength="32" placeholder="Slash command name" name="action-name" class="action-name">
+							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" name="action-name" class="action-name">
 
 							<label for="action-trigger">Action trigger</label>
 							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" tabindex="0"></channel-picker>
@@ -334,14 +346,18 @@
 						</template>
 						<div id="actions-container"></div>
 
-						<label for="integration-placeholders">Placeholder text, one per line</label>
-						<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
+						<summary>
+							<details>Advanced settings for public integrations</details>
 
-						<label for="integration-input">Input variables, one per line</label>
-						<textarea class="code" maxlength="300" placeholder="url;Your GitHub URL;https://github.com/DEVTomatoCake" name="integration-input" id="integration-input" rows="2"></textarea>
+							<label for="integration-placeholders">Placeholder text, one per line</label>
+							<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
 
-						<label for="integration-env">Environment variables, one per line, hidden for other users</label>
-						<textarea class="code" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
+							<label for="integration-input">Input variables, one per line</label>
+							<textarea class="code" maxlength="300" placeholder="url;Your GitHub URL;https://github.com/DEVTomatoCake" name="integration-input" id="integration-input" rows="2"></textarea>
+
+							<label for="integration-env">Environment variables, one per line, hidden for other users</label>
+							<textarea class="code" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
+						</summary>
 
 						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -377,11 +393,10 @@
 				if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
 
 				const div = document.createElement("div");
-				div.id = "action-" + Math.random().toString(36).slice(2);
 				div.setAttribute("name", encode(name));
 
 				const actions = document.getElementById("actions-container").getElementsByClassName("action");
-				for (let j = 0; j < actions.length; j++) {
+				for (let j = 0; j < actions.slice(0, 10).length; j++) {
 					const action = actions.item(j);
 					div.setAttribute("data-name", action.querySelector(".action-name").value);
 					div.setAttribute("data-args1", action.querySelector(".action-args1").value);
@@ -391,13 +406,9 @@
 
 				div.innerHTML =
 					"<label for='" + encode(name) + "'><b>" + encode(name) + "</b></label>" +
-					"<ion-icon name='trash-outline' onclick='deleteAction(this, \"" + encode(name) + "\");'></ion-icon>" +
+					"<ion-icon name='trash-outline' onclick='deleteIntegration(this, \"" + encode(name) + "\");'></ion-icon>" +
 					"<br><br>";
-				document.getElementsByClassName("settingsContent")[0].appendChild(div);
-
-				const placeholders = document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e);
-				const input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e);
-				const env = document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e);
+				document.getElementsByClassName("integration-container")[0].appendChild(div);
 
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
@@ -408,9 +419,9 @@
 					public: document.getElementById("integration-public").checked,
 					version: document.getElementById("integration-version").getAttribute("data-selected"),
 					actions: [],
-					placeholders,
-					input,
-					env
+					placeholders: document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e),
+					input: document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e),
+					env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)
 				};
 				if (sourceId) {
 					data.source = sourceId;

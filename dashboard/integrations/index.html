@@ -109,11 +109,12 @@
 
 				document.getElementById("actions-container").innerHTML = "";
 				integration.actions.forEach(action => {
-					document.getElementById("action-content").value = action.content;
-					document.getElementById("action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-					if (document.getElementById("action-sync").getAttribute("data-selected") == "auto" || document.getElementById("action-sync").getAttribute("data-selected") == "safe")
-						document.getElementById("action-content").setAttribute("readonly", "");
-					document.getElementById("action-args1").value = action.args1;
+					const newElem = document.getElementById("actions-template").cloneNode(true);
+					newElem.querySelector(".action-args1").value = action.args[0] || "";
+					newElem.querySelector(".action-content").value = action.content;
+					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
+					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe")
+						newElem.querySelector(".action-content").setAttribute("readonly", "");
 				});
 			}
 

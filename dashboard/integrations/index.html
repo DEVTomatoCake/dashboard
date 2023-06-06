@@ -49,7 +49,7 @@
 				document.getElementById("integration-env").value = "";
 				document.getElementById("integration-submit").innerText = "Create integration";
 
-				addAction(document.getElementById("integration-addsub"));
+				addAction(document.getElementById("integration-addaction"));
 				openDialog(document.getElementById("create-dialog"));
 			}
 
@@ -77,18 +77,18 @@
 					"<h1>Information about <b>" + encode(integration.name) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
 					"<p>" + encode(integration.long) + "</p><br>" +
-					"<p>Owner: " + encode(integration.owner) + "</p>" +
-					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
-					"<p>Used by: <b>" + encode("" + integration.uses) + "</b></p>" +
-					"<p>Parser version: <code>" + encode(integration.version) + "</code></p>" +
-					"<p>Created: " + new Date(integration.created).toLocaleString() + "</p>" +
-					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><br><h2>Actions</h2>" +
-					integration.actions.map(action => {
-						return "<p>Name: <b>" + encode(action.name) + "</b></p>" +
-							"<p>Trigger: <code>" + encode(action.trigger) + "</code></p>" +
-							(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
-							"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
-					}).join("<br><br>") +
+					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
+					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
+					"<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" +
+					"<p><span translation='integration.version'></span>: <code>" + encode(integration.version) + "</code></p>" +
+					"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
+					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><br><h2 translation='integration.actions'></h2>" +
+					integration.actions.map(action => (
+						"<p>Name: <b>" + encode(action.name) + "</b></p>" +
+						"<p><span translation='integration.trigger'></span>: <code>" + encode(action.trigger) + "</code></p>" +
+						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
+						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
+					)).join("<br><br>") +
 					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
 			}
 			function integrationUse(integrationName) {
@@ -131,7 +131,7 @@
 				document.getElementById("integration-public").checked = integration.public;
 				integration.actions.forEach(action => {
 					const newElem = document.getElementById("actions-template").cloneNode(true);
-					newElem.querySelector(".action-args1").value = action.args[0] || "";
+					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
 
@@ -165,12 +165,12 @@
 						"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 					"</div>" +
 					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
-					"<p><span translation='integration.public'></span> " + (integration.public ? "✅" : "❌") + "</p>" +
+					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 					"<div class='flex'>" +
-						"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")'>View / Use</button>" +
-						(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'>Edit <ion-icon name='build-outline'></ion-icon></button>" : "") +
-						(integration.isOwner ? "<ion-icon name='trash-outline' onclick='deleteIntegration(this, \"" + encode(integration.name) + "\");'></ion-icon>" : "") +
+						"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
+						(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" : "") +
+						(integration.isOwner ? "<button onclick='deleteIntegration(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
 					"</div>" +
 					"</div>";
 			}
@@ -305,7 +305,7 @@
 				<div id="create-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1 id="create-title">Create integration</h1>
+						<h1 id="create-title" translation="integration.create"></h1>
 
 						<label for="integration-name">Name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique display (& command) name" name="integration-name" id="integration-name">
@@ -326,17 +326,17 @@
 						<label for="integration-image">Image URL</label>
 						<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
 
-						<label for="integration-public">Public</label>
+						<label for="integration-public" translation="integration.public"></label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
 
-						<label for="integration-version">Parser version</label>
+						<label for="integration-version" translation="integration.version"></label>
 
-						<button type="button" id="integration-addsub" class="createForm" onclick="addAction(this)">Add action</button>
+						<button type="button" id="integration-addaction" class="createForm" onclick="addAction(this)" translation="integration.addaction"></button>
 						<template id="actions-template">
 							<label for="action-name">Action name</label>
 							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" name="action-name" class="action-name">
 
-							<label for="action-trigger">Action trigger</label>
+							<label for="action-trigger" translation="integration.trigger"></label>
 							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" tabindex="0"></channel-picker>
 
 							<label for="action-args1">If command: Slash command description, if regex: RegExp</label>
@@ -350,7 +350,10 @@
 							</div>
 						</template>
 						<div id="actions-container"></div>
+						<button type="button" class="createForm" onclick="addAction(this)">Add action</button>
 
+						<br>
+						<br>
 						<details>
 							<summary>Advanced settings for public integrations</summary>
 
@@ -363,6 +366,7 @@
 							<label for="integration-env">Environment variables, one per line, hidden for other users</label>
 							<textarea class="code" maxlength="300" placeholder="apikey;your-secret-api-key" name="integration-env" id="integration-env" rows="2"></textarea>
 						</details>
+						<br>
 
 						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()">Create integration</button>
 					</div>
@@ -400,6 +404,7 @@
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					guild: params.get("guild"),
+					isOwner: true,
 					name,
 					short: document.getElementById("integration-short").value,
 					long: document.getElementById("integration-long").value,

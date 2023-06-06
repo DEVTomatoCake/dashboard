@@ -413,7 +413,7 @@
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					name,
-					short,
+					short: document.getElementById("integration-short").value,
 					long: document.getElementById("integration-long").value,
 					image: document.getElementById("integration-image").value,
 					public: document.getElementById("integration-public").checked,

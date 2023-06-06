@@ -39,10 +39,11 @@
 						"<img src='" + server.icon + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members + "</b> Members</p>" +
-						"<p>Using bot since <b>" + server.botsince + "</b></p>" +
+						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
+						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
 						"</div>";
 				}
+				reloadText();
 			});
 
 			let currentServer = 0;
@@ -60,13 +61,14 @@
 						"<img src='" + server.icon + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members + "</b> Members</p>" +
-						"<p>Using bot since <b>" + server.botsince + "</b></p>" +
+						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
+						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
 						"</div>";
 
 					document.getElementById("server" + currentServer).style.opacity = "1";
 				}, 700);
-			}, 15000);
+				reloadText();
+			}, 14000);
 		</script>
 	</head>
 	<body class="dark-theme" onload="pageLoad('main')">
@@ -81,7 +83,7 @@
 
 				<div class="hoverdropdown">
 					<div class="account" onclick="location = '/login/'">
-						<p id="username-header">Account</p>
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
@@ -110,7 +112,7 @@
 					<div class="data uptime">
 						<div class="container">
 							<ion-icon name="game-controller-outline"></ion-icon>
-							<p class="title">Uptime</p>
+							<p class="title" translation="main.uptime">Uptime</p>
 
 							<a class="linkicon" href="https://vanillaminigames.instatus.com/" title="Bot uptime data" target="_blank" rel="noopener">
 								<ion-icon name="open-outline" class="open"></ion-icon>
@@ -122,7 +124,7 @@
 					<div class="data tickets">
 						<div class="container">
 							<ion-icon name="ticket-outline"></ion-icon>
-							<p class="title">Tickets</p>
+							<p class="title" translation="dashboard.tickets">Tickets</p>
 						</div>
 						<p id="stats-tickets" class="value">Loading...</p>
 					</div>

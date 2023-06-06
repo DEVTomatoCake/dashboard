@@ -164,9 +164,9 @@
 						(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
 						"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 					"</div>" +
-					"<p>Owner: " + encode(integration.owner) + "</p>" +
-					"<p>Public: " + (integration.public ? "✅" : "❌") + "</p>" +
-					"<p>Last update: " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
+					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
+					"<p><span translation='integration.public'></span> " + (integration.public ? "✅" : "❌") + "</p>" +
+					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 					"<div class='flex'>" +
 						"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")'>View / Use</button>" +
 						(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'>Edit <ion-icon name='build-outline'></ion-icon></button>" : "") +
@@ -233,12 +233,12 @@
 									"<p translation='sidebar.dashboard'></p>" +
 								"</a>" +
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-									"<a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></a>" +
-									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Integrations</p></div>" +
+									"<a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
+									"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></div>" +
 									"<a class='tab otherlinks' href='../customcommands/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></a>" +
 									"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
-									"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></a>" +
-									"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></a>" +
+									"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+									"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 								"</div></div>";
 
 							document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild);
@@ -292,7 +292,7 @@
 
 				<div class="hoverdropdown">
 					<div class="account" onclick="location = '/login/'">
-						<p id="username-header">Account</p>
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
@@ -430,6 +430,7 @@
 				const div = document.createElement("div");
 				div.innerHTML = handleIntegration(data);
 				document.getElementsByClassName("integration-container")[0].appendChild(div);
+				reloadText();
 
 				socket.send(JSON.stringify({
 					status: "success",

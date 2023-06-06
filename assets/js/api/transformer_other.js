@@ -73,7 +73,7 @@ function getGiveawayHTML(giveaway) {
 								"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' " +
 								"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
 							)).join("")
-						: "Keiner hat gewonnen!") + "</b></p><br><br><br>";
+						: "<span translation='giveaway.nowinner'></span>") + "</b></p><br><br><br>";
 
 					text +=
 						"<h2>" + json.data.prize + "</h2>" +

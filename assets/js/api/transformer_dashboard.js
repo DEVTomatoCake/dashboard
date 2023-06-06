@@ -118,7 +118,6 @@ function getSettingsHTML(json) {
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -145,7 +144,6 @@ function getCustomcommandsHTML(json) {
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -156,30 +154,29 @@ function getIntegrationsHTML(json, guild) {
 
 		if (json.integrations.filter(i => i.guild == guild).length > 0)
 			text +=
-				"<h2>Integrations of this server</h2><div class='integration-container'>" +
+				"<h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild == guild).map(handleIntegration) +
 				"</div>";
 
 		if (json.integrations.filter(i => i.guild != guild && i.isOwner).length > 0)
 			text +=
-				"<h2>Your integrations</h2><div class='integration-container'>" +
+				"<h2 translation='integration.yours'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration) +
 				"</div>";
 
 		if (json.integrations.filter(i => i.guild != guild && !i.isOwner).length > 0)
 			text +=
-				"<h2>Other public integrations</h2><div class='integration-container'>" +
+				"<h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration) +
 				"</div>";
 
-		if (text == "") text = "<p id='no-integrations'><b>There are no integrations for this server!</b></p>";
-		return "<h1 class='center'><span>Integrations of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Create integration</button>" +
+		if (text == "") text = "<p id='no-integrations'><b translation='integration.none'></b></p>";
+		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
+			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" +
 			"<br><br>" + text + "</div>";
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -228,18 +225,17 @@ function getReactionrolesHTML(json) {
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h2>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
 
 const tkbadges = {
-	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy'> Entwickler",
-	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy'> Team",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy'> Developer",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy'> Staff",
 	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' width='24' height='24' alt='' loading='lazy'> Denkääär",
-	translator: "🏴‍☠️ Übersetzer",
+	translator: "🏴‍☠️ Translator",
 	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy'> Kek",
-	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy'> Altes Economysystem"
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy'> Old economy system"
 }
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
@@ -256,7 +252,7 @@ function getDataexportHTML(token) {
 
 					let cooldowns = "";
 					if (json.data.economy?.cooldowns?.length > 0)
-						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Bis " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
+						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Runs out: " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
 
 					let mentions = "";
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
@@ -283,10 +279,10 @@ function getDataexportHTML(token) {
 						"<h1 translation='user.general'></h1>" +
 						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
 						(json.data.birthday ?
-							"<p><b>Birthday:</b> " + encode("" + json.data.birthday.day) + "." + encode("" + json.data.birthday.month) + "." +
+							"<p><b translation='user.birthday'></b> " + encode("" + json.data.birthday.day) + "." + encode("" + json.data.birthday.month) + "." +
 							(json.data.birthday.year ? encode("" + json.data.birthday.year) : "") + "</p>"
 						: "") +
-						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
+						(badges ? "<p><b translation='user.badges'></b> " + badges + "</p>" : "") +
 						"</div>" +
 
 						"<div class='userData'>" +
@@ -299,8 +295,8 @@ function getDataexportHTML(token) {
 						(json.data.economy ?
 							"<div class='userData'>" +
 							"<h1>Economy</h1>" +
-							"<p><b>Wallet:</b> " + json.data.economy.wallet.toLocaleString("de-DE") + "🍅</p>" +
-							"<p><b>Bank:</b> " + json.data.economy.bank.toLocaleString("de-DE") + "🍅</p>" +
+							"<p><b>Wallet:</b> " + json.data.economy.wallet.toLocaleString() + "🍅</p>" +
+							"<p><b>Bank:</b> " + json.data.economy.bank.toLocaleString() + "🍅</p>" +
 							"<p><b>Skill:</b> " + json.data.economy.skill.toFixed(1) + "</p>" +
 							"<p><b>School:</b> " + json.data.economy.school + "</p>" +
 							(economyitems ? "<p><b>Items:</b> " + economyitems + "</p>" : "") +
@@ -335,6 +331,12 @@ function getDataexportHTML(token) {
 							"<div class='userData'>" +
 							"<h1 translation='user.suggestions'></h1>" +
 							suggests +
+							"</div>"
+						: "") +
+
+						(json.data.backup && json.data.backups ?
+							"<div class='userData'>" +
+							"<h1>" + json.data.backups.length + "Backups</h1>" +
 							"</div>"
 						: "") +
 

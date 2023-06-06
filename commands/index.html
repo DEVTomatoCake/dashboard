@@ -89,12 +89,13 @@
 						"<p>Category: " + command.category + "</p>" +
 						"<p>Usage: " + command.usage + "</p>";
 
-					if (command.aliases[0] != command.name) html += "<p>Aliases: " + command.aliases.join(", ") + "</p>";
-					if (command.options) html += "<p>Options: " + command.options.map(o => (
+					if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + command.aliases.join(", ") + "</p>";
+					if (command.options) html += "<p><span translation='commands.args'></span> " + command.options.map(o => (
 						o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span style='color:red;'>*</span>" : "") + " <small title='" + o.desc + "'>" + o.type + "</small>"
 					)).join(", ") + "</p>";
 
 					elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>";
+					reloadText();
 				}
 			}
 
@@ -102,7 +103,7 @@
 				const toModify = document.getElementById(category);
 
 				if (toModify.style.display == "none") {
-					toModify.style.display = "block";
+					toModify.style.display = "table";
 					document.getElementById(category + "tb").setAttribute("translation", "commands.hide");
 				} else {
 					toModify.style.display = "none";
@@ -129,7 +130,7 @@
 
 				<div class="hoverdropdown">
 					<div class="account" onclick="location = '/login/'">
-						<p id="username-header">Account</p>
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">

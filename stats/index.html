@@ -43,7 +43,6 @@
 						document.body.innerHTML =
 							"<div class='center'>" +
 							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-							"<h2>An error occured while handling your request!</h2>" +
 							"<h2>" + (typeof res == "string" ? res : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h2>" +
 							"</div>";
 					}
@@ -56,12 +55,12 @@
 					data: {
 						labels: apiresponse.data.labels.split(","),
 						datasets: [{
-							label: getCookie("lang") == "de" ? "Mitglieder" : "Members",
+							label: getLanguage() == "de" ? "Mitglieder" : "Members",
 							backgroundColor: "rgb(255, 99, 132)",
 							borderColor: "rgb(255, 99, 132)",
 							data: apiresponse.data.members.split(",")
 						},{
-							label: getCookie("lang") == "de" ? "Nachrichten pro Tag" : "Messages per day",
+							label: getLanguage() == "de" ? "Nachrichten pro Tag" : "Messages per day",
 							backgroundColor: "rgb(110, 255, 180)",
 							borderColor: "rgb(110, 255, 180)",
 							data: apiresponse.data.messages.split(",")
@@ -71,7 +70,7 @@
 							borderColor: "rgb(244, 127, 255)",
 							data: apiresponse.data.boosts.split(",")
 						},{
-							label: getCookie("lang") == "de" ? "Chatter" : "Chatters",
+							label: getLanguage() == "de" ? "Chatter" : "Chatters",
 							backgroundColor: "rgb(2, 129, 247)",
 							borderColor: "rgb(2, 129, 247)",
 							data: apiresponse.data.chatters.split(",")
@@ -81,7 +80,7 @@
 						plugins: {
 							title: {
 								display: true,
-								text: getCookie("lang") == "de" ? "Statistiken von " + apiresponse.name : "Statistics of " + apiresponse.name
+								text: getLanguage() == "de" ? "Statistiken von " + apiresponse.name : "Statistics of " + apiresponse.name
 							},
 							subtitle: {
 								display: params.get("type") != "members" && params.get("type") != "messages" && params.get("type") != "boosts" && params.get("type") != "chatters" && !params.has("time"),

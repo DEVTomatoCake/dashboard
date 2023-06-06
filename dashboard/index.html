@@ -56,7 +56,7 @@
 
 				<div class="hoverdropdown">
 					<div class="account" onclick="location = '/login/'">
-						<p id="username-header">Account</p>
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
@@ -69,12 +69,12 @@
 				<p translation="dashboard.selectpage"></p>
 				<div class="page-select">
 					<button type="button" onclick="changePage(this)" data-target="settings" class="current" translation="dashboard.settings">Settings</button>
-					<button type="button" onclick="changePage(this)" data-target="integrations">Integrations</button>
+					<button type="button" onclick="changePage(this)" data-target="integrations" translation="dashboard.integrations">Integrations</button>
 					<button type="button" onclick="changePage(this)" data-target="customcommands">Customcommands</button>
-					<button type="button" onclick="changePage(this)" data-target="reactionroles">Reaction-, Button- & Selectroles</button>
+					<button type="button" onclick="changePage(this)" data-target="reactionroles" translation="dashboard.reactionroles">Reaction-, Button- & Selectroles</button>
 					<button type="button" onclick="changePage(this)" data-target="tickets" translation="dashboard.tickets">Tickets</button>
-					<button type="button" onclick="changePage(this)" data-target="logs">Logs</button>
-					<button type="button" onclick="changePage(this)" data-target="modlogs">Modlogs</button>
+					<button type="button" onclick="changePage(this)" data-target="logs" translation="dashboard.logs">Logs</button>
+					<button type="button" onclick="changePage(this)" data-target="modlogs" translation="dashboard.modlogs">Modlogs</button>
 					<button type="button" onclick="changePage(this)" data-target="leaderboard" translation="dashboard.leaderboard">Leaderboard</button>
 					<button type="button" onclick="changePage(this)" data-target="stats" translation="dashboard.stats">Statistics</button>
 				</div>
@@ -104,8 +104,7 @@
 						document.getElementById("root-container").innerHTML = "<h1>The linked role connection was updated!</h1>";
 					} else {
 						document.getElementById("root-container").innerHTML =
-							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-							"<h2>An error occured while handling your request!</h2>" +
+							"<h1>An error occured while handling your request!</h1>" +
 							"<h2>" + json.message + "</h2>";
 					}
 				});
@@ -134,8 +133,7 @@
 						else location.href = "https://" + location.host + "/dashboard/" + (params.has("guild") ? "settings/?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
-							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-							"<h2>An error occured while handling your request!</h2>" +
+							"<h1>An error occured while handling your request!</h1>" +
 							"<h2>" + json.message + "</h2>";
 					}
 				});

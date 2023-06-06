@@ -29,9 +29,8 @@ const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g,
 function handleError(resolve, error) {
 	if (typeof error != "string") console.error(error);
 	resolve(
-		"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-		"<h2>An error occured while handling your request!</h2>" +
-		"<h2>" + (typeof error == "string" ? error : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h2>");
+		"<h1>An error occured while handling your request!</h1>" +
+		"<h2>" + (typeof error == "string" ? error : "Check your browser console to find out more!") + "</h2>");
 }
 
 class Footer extends HTMLElement {
@@ -244,7 +243,5 @@ function pageLoad(page = "") {
 	});
 
 	if (reloadText) reloadText();
-	if (getLanguage() != "de") document.getElementById("lang-toggle").checked = true;
-
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
 }

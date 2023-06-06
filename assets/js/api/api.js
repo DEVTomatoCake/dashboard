@@ -19,7 +19,7 @@ const getCommands = () => new Promise((resolve, reject) => {
 })
 
 const getBotstats = () => new Promise((resolve, reject) => {
-	get("stats", false)
+	get("stats?lang=" + getLanguage(), false)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 

@@ -90,6 +90,7 @@
 						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
 					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
+				reloadText();
 			}
 			function integrationUse(integrationName) {
 				document.getElementById("info-dialog").style.display = "none";
@@ -116,6 +117,7 @@
 					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe")
 						newElem.querySelector(".action-content").setAttribute("readonly", "");
 				});
+				reloadText();
 			}
 
 			function integrationEdit(integrationName) {
@@ -307,8 +309,8 @@
 						<span class="close">&times;</span>
 						<h1 id="create-title" translation="integration.create"></h1>
 
-						<label for="integration-name">Name</label>
-						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Unique display (& command) name" name="integration-name" id="integration-name">
+						<label for="integration-name">Unique name</label>
+						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" name="integration-name" id="integration-name">
 
 						<div id="integration-use-container" hidden>
 							<label for="integration-sync">Sync mode from original</label>
@@ -319,12 +321,6 @@
 
 						<label for="integration-short">Short description</label>
 						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
-
-						<label for="integration-long">Long description</label>
-						<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
-
-						<label for="integration-image">Image URL</label>
-						<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
 
 						<label for="integration-public" translation="integration.public"></label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>
@@ -355,7 +351,12 @@
 						<br>
 						<br>
 						<details>
-							<summary>Advanced settings for public integrations</summary>
+							<summary>Additional settings for public integrations</summary>
+							<label for="integration-long">Long description</label>
+							<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
+
+							<label for="integration-image">Image URL</label>
+							<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
 
 							<label for="integration-placeholders">Placeholder text, one per line</label>
 							<textarea class="code" maxlength="300" placeholder="Placeholders" name="integration-placeholders" id="integration-placeholders" rows="2"></textarea>
@@ -404,6 +405,7 @@
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					guild: params.get("guild"),
+					owner: getCookie("user") || "You",
 					isOwner: true,
 					name,
 					short: document.getElementById("integration-short").value,

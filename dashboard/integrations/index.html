@@ -74,7 +74,7 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("info-container").innerHTML =
-					"<h1>Information about <b>" + encode(integration.name) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
+					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integration.name) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
 					"<p>" + encode(integration.long) + "</p><br>" +
 					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
@@ -89,7 +89,7 @@
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
-					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'>Use integration on <b>" + guildName + "</b></button>";
+					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'><span translation='integration.use'></span> <b>" + guildName + "</b></button>";
 				reloadText();
 			}
 			function integrationUse(integrationName) {
@@ -97,7 +97,7 @@
 				openDialog(document.getElementById("create-dialog"));
 				const integration = integrations.find(e => e.name == integrationName);
 
-				document.getElementById("create-title").innerHTML = "Create action from integration <b>" + encode(integration.name) + "</b>";
+				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>";
 				document.getElementById("integration-name").value = encode(integration.name);
 				document.getElementById("integration-use-container").removeAttribute("hidden");
 				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
@@ -125,7 +125,7 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("create-dialog").setAttribute("data-edit", "");
-				document.getElementById("create-title").innerHTML = "Edit integration <b>" + encode(integration.name) + "</b>";
+				document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integration.name) + "</b>";
 				document.getElementById("integration-name").value = integration.name;
 				document.getElementById("integration-name").setAttribute("readonly", "");
 				document.getElementById("integration-short").value = integration.short;
@@ -313,13 +313,13 @@
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" name="integration-name" id="integration-name">
 
 						<div id="integration-use-container" hidden>
-							<label for="integration-sync">Sync mode from original</label>
+							<label for="integration-sync" translation="integration.syncmode"></label>
 
 							<p id="integration-use-placeholders"></p>
 							<div id="integration-use-input"></div>
 						</div>
 
-						<label for="integration-short">Short description</label>
+						<label for="integration-short" translation="integration.shortdesc"></label>
 						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
 
 						<label for="integration-public" translation="integration.public"></label>
@@ -346,16 +346,16 @@
 							</div>
 						</template>
 						<div id="actions-container"></div>
-						<button type="button" class="createForm" onclick="addAction(this)">Add action</button>
+						<button type="button" class="createForm" onclick="addAction(this)" translation="integration.addaction"></button>
 
 						<br>
 						<br>
 						<details>
-							<summary>Additional settings for public integrations</summary>
-							<label for="integration-long">Long description</label>
+							<summary translation="integration.additionalpublic"></summary>
+							<label for="integration-long" translation="integration.longdesc"></label>
 							<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
 
-							<label for="integration-image">Image URL</label>
+							<label for="integration-image" translation="integration.imageurl"></label>
 							<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
 
 							<label for="integration-placeholders">Placeholder text, one per line</label>
@@ -369,7 +369,7 @@
 						</details>
 						<br>
 
-						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()">Create integration</button>
+						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()" translation="integration.create"></button>
 					</div>
 				</div>
 
@@ -407,6 +407,8 @@
 					guild: params.get("guild"),
 					owner: getCookie("user") || "You",
 					isOwner: true,
+					created: Date.now(),
+					lastUpdate: Date.now(),
 					name,
 					short: document.getElementById("integration-short").value,
 					long: document.getElementById("integration-long").value,
@@ -422,6 +424,7 @@
 					data.source = sourceId;
 					data.sync = document.getElementById("integration-sync").getAttribute("data-selected");
 				}
+				integrations[name] = data;
 
 				const actions = document.getElementById("actions-container").getElementsByClassName("action");
 				for (let j = 0; j < actions.length; j++) {

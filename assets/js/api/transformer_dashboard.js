@@ -157,6 +157,7 @@ function getIntegrationsHTML(json, guild) {
 				"<h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild == guild).map(handleIntegration) +
 				"</div>";
+		else text += "<div class='integration-container'></div>";
 
 		if (json.integrations.filter(i => i.guild != guild && i.isOwner).length > 0)
 			text +=
@@ -170,7 +171,7 @@ function getIntegrationsHTML(json, guild) {
 				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration) +
 				"</div>";
 
-		if (text == "") text = "<p id='no-integrations'><b translation='integration.none'></b></p>";
+		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>";
 		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" +
 			"<br><br>" + text + "</div>";

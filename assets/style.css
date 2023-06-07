@@ -152,10 +152,10 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
-.categorybutton.red, .unsaved-container button.red {
+.categorybutton.red, button.red {
 	background-color: #D32F2F;
 }
-.categorybutton.red:hover, .unsaved-container button.red:hover {
+.categorybutton.red:hover, button.red:hover {
 	background-color: #B71C1C;
 }
 

@@ -74,22 +74,22 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("info-container").innerHTML =
-					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integration.name) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
+					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
 					"<p>" + encode(integration.long) + "</p><br>" +
-					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
+					"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" +
 					"<p><span translation='integration.version'></span>: <code>" + encode(integration.version) + "</code></p>" +
 					"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
-					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><br><h2 translation='integration.actions'></h2>" +
+					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><h2 translation='integration.actions'></h2>" +
 					integration.actions.map(action => (
 						"<p>Name: <b>" + encode(action.name) + "</b></p>" +
 						"<p><span translation='integration.trigger'></span>: <code>" + encode(action.trigger) + "</code></p>" +
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
-					"<br><button type='button' class='createForm' onclick='integrationUse(\"" + integrationName + "\")'><span translation='integration.use'></span> <b>" + guildName + "</b></button>";
+					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm red' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
 				reloadText();
 			}
 			function integrationUse(integrationName) {
@@ -125,8 +125,8 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("create-dialog").setAttribute("data-edit", "");
-				document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integration.name) + "</b>";
-				document.getElementById("integration-name").value = integration.name;
+				document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>";
+				document.getElementById("integration-name").value = integrationName;
 				document.getElementById("integration-name").setAttribute("readonly", "");
 				document.getElementById("integration-short").value = integration.short;
 				document.getElementById("integration-long").value = integration.long || "";
@@ -148,7 +148,7 @@
 				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
 				document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
 				document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
-				document.getElementById("integration-submit").innerText = "Edit integration";
+				document.getElementById("integration-submit").innerText = "<span translation='integration.edit'></span>";
 			}
 
 			let socket;

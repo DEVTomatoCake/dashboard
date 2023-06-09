@@ -53,7 +53,7 @@
 				openDialog(document.getElementById("create-dialog"));
 			}
 
-			function addAction(clickedElem) {
+			function addAction(trigger = "command") {
 				const newElem = document.getElementById("actions-template").content.cloneNode(true);
 				newElem.id = "actions-" + Math.random().toString(36).slice(2);
 				const wrapper = document.createElement("div");
@@ -61,10 +61,12 @@
 				wrapper.appendChild(newElem);
 				document.getElementById("actions-container").appendChild(wrapper);
 
-				const elem = wrapper.querySelector("channel-picker .picker div[data-id='command']");
-				elem.classList.add("selected");
-				wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-				wrapper.querySelector("channel-picker").setAttribute("data-selected", elem.getAttribute("data-id"));
+				const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']");
+				triggerElem.classList.add("selected");
+				wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>";
+				wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"));
+
+				return newElem;
 			}
 
 			let guildName = "";
@@ -89,7 +91,7 @@
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
-					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm red' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
+					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
 				reloadText();
 			}
 			function integrationUse(integrationName) {
@@ -110,8 +112,8 @@
 
 				document.getElementById("actions-container").innerHTML = "";
 				integration.actions.forEach(action => {
-					const newElem = document.getElementById("actions-template").cloneNode(true);
-					newElem.querySelector(".action-args1").value = action.args[0] || "";
+					const newElem = addAction(action.trigger);
+					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
 					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe")
@@ -132,15 +134,10 @@
 				document.getElementById("integration-long").value = integration.long || "";
 				document.getElementById("integration-public").checked = integration.public;
 				integration.actions.forEach(action => {
-					const newElem = document.getElementById("actions-template").cloneNode(true);
+					const newElem = addAction(action.trigger);
 					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-
-					const elem = newElem.querySelector(".action-trigger .picker div[data-id='" + item[1] + "']");
-					elem.classList.add("selected");
-					newElem.querySelector(".action-trigger .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-					newElem.querySelector(".action-trigger").setAttribute("data-selected", elem.getAttribute("data-id"));
 				});
 				document.getElementById("integration-placeholders").value = (integration.input || integration.placeholders ? "<h2>User input variables</h2>" : "") + integration.placeholders ? "Available placeholders:<br>" + integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
@@ -172,7 +169,7 @@
 					"<div class='flex'>" +
 						"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
 						(integration.isOwner ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" : "") +
-						(integration.isOwner ? "<button onclick='deleteIntegration(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
+						(integration.isOwner ? "<button class='red' onclick='deleteIntegration(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
 					"</div>" +
 					"</div>";
 			}
@@ -312,15 +309,15 @@
 						<label for="integration-name">Unique name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" name="integration-name" id="integration-name">
 
+						<label for="integration-short" translation="integration.shortdesc"></label>
+						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
+
 						<div id="integration-use-container" hidden>
 							<label for="integration-sync" translation="integration.syncmode"></label>
 
 							<p id="integration-use-placeholders"></p>
 							<div id="integration-use-input"></div>
 						</div>
-
-						<label for="integration-short" translation="integration.shortdesc"></label>
-						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
 
 						<label for="integration-public" translation="integration.public"></label>
 						<input type="checkbox" name="integration-public" id="integration-public" checked>

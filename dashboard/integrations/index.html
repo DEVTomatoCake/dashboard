@@ -47,10 +47,11 @@
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
-				document.getElementById("integration-submit").innerText = "Create integration";
+				document.getElementById("integration-submit").setAttribute("translation", "integration.create");
 
 				addAction(document.getElementById("integration-addaction"));
 				openDialog(document.getElementById("create-dialog"));
+				reloadText();
 			}
 
 			function addAction(trigger = "command") {
@@ -66,7 +67,6 @@
 				wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>";
 				wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"));
 
-				console.log(wrapper)
 				return wrapper;
 			}
 
@@ -133,6 +133,7 @@
 				document.getElementById("integration-name").setAttribute("readonly", "");
 				document.getElementById("integration-short").value = integration.short;
 				document.getElementById("integration-long").value = integration.long || "";
+				document.getElementById("integration-image").value = integration.image || "";
 				document.getElementById("integration-public").checked = integration.public;
 				integration.actions.forEach(action => {
 					const newElem = addAction(action.trigger);
@@ -146,7 +147,8 @@
 				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
 				document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
 				document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
-				document.getElementById("integration-submit").innerText = "<span translation='integration.edit'></span>";
+				document.getElementById("integration-submit").setAttribute("translation", "integration.edit");
+				reloadText();
 			}
 
 			let socket;
@@ -342,6 +344,7 @@
 								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
+							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
 						</template>
 						<div id="actions-container"></div>
 						<button type="button" class="createForm" onclick="addAction(this)" translation="integration.addaction"></button>
@@ -403,7 +406,7 @@
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					guild: params.get("guild"),
-					owner: getCookie("user") || "You",
+					owner: getCookie("user") ? getCookie("user").split("#")[0] : "You",
 					isOwner: true,
 					created: Date.now(),
 					lastUpdate: Date.now(),
@@ -435,10 +438,12 @@
 					});
 				}
 
-				const div = document.createElement("div");
-				div.innerHTML = handleIntegration(data);
-				document.getElementsByClassName("integration-container")[0].appendChild(div);
-				reloadText();
+				if (!data.edit) {
+					const div = document.createElement("div");
+					div.innerHTML = handleIntegration(data);
+					document.getElementsByClassName("integration-container")[0].appendChild(div);
+					reloadText();
+				}
 
 				socket.send(JSON.stringify({
 					status: "success",

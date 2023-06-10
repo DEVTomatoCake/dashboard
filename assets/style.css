@@ -307,8 +307,8 @@ tr.cmdvisible:nth-child(odd) {
 	overflow-wrap: anywhere;
 	font-size: 21px;
 	border: none;
-	border-radius: 5px;
-	padding: 3px;
+	border-radius: 7px;
+	padding: 5px;
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
 	width: calc(100% - 70px);
@@ -895,7 +895,7 @@ input:not(#cmd-search):not([type="checkbox"]) {
 	border-radius: 8px;
 	border-width: 1px;
 	outline: none;
-	padding: 6px;
+	padding: 5px;
 	min-width: 250px;
 	transition: var(--transition-buttons);
 }

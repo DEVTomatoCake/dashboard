@@ -141,7 +141,7 @@
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
 				});
-				document.getElementById("integration-placeholders").value = (integration.input || integration.placeholders ? "<h2>User input variables</h2>" : "") + integration.placeholders ? "Available placeholders:<br>" + integration.placeholders.join("\n") : "";
+				document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
 				document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : "";
 				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;

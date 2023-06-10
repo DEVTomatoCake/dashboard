@@ -873,6 +873,10 @@ footer .links {
 	color: var(--accent-color);
 }
 
+summary {
+	cursor: pointer;
+}
+
 h1.greeting, h2.greeting {
 	font-size: 55px;
 	text-align: center;
@@ -889,13 +893,14 @@ h1.greeting, h2.greeting {
 
 input:not(#cmd-search):not([type="checkbox"]) {
 	border-radius: 8px;
+	border-width: 1px;
 	outline: none;
 	padding: 6px;
 	min-width: 250px;
 	transition: var(--transition-buttons);
 }
 input:focus {
-	box-shadow: 0 0 6px 2px var(--secondary-color);
+	box-shadow: 0 0 6px 3px var(--secondary-color);
 }
 input:invalid, input:out-of-range, input.invalid {
 	border: red solid 2px;
@@ -1370,6 +1375,10 @@ button span {
 	overflow: auto;
 	background-color: var(--dialog-shadow);
 	transition: .3s;
+}
+
+.dialog input {
+	min-width: 400px;
 }
 
 .dialog-content {

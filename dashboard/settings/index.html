@@ -199,6 +199,10 @@
 
 			function addItem(settingKey, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				const setting = selectData[settingKey];
+				if (parent && setting.key == "rssUpdate") {
+					console.log(setting, key)
+					if (key == "footer") value = "{domain}";
+				}
 
 				let possible = setting.possible || {};
 				if (typeof setting.possible == "string") possible = pickerData[possible];

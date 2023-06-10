@@ -199,8 +199,7 @@
 
 			function addItem(settingKey, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				const setting = selectData[settingKey];
-				if (parent && setting.key == "rssUpdate") {
-					console.log(setting, key)
+				if (parent && setting.key == "rssUpdate")
 					value = {
 						author: "{author}",
 						title: "{title}",
@@ -208,7 +207,6 @@
 						image: "{image}",
 						footer: "{domain}"
 					};
-				}
 
 				let possible = setting.possible || {};
 				if (typeof setting.possible == "string") possible = pickerData[possible];
@@ -291,8 +289,14 @@
 					parent.insertAdjacentHTML("beforeend", html);
 					queue.forEach(f => f());
 					queue = [];
-					reloadText();
 					for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
+
+					if (parent && Array.isArray(setting.value) && parent.childElementCount > 3) {
+						const buttons = parent.querySelectorAll("button.createForm");
+						if (buttons.length > 1) buttons[1].remove();
+						parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>");
+					}
+					reloadText();
 				} else return html;
 			}
 		</script>

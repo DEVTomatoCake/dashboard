@@ -201,7 +201,13 @@
 				const setting = selectData[settingKey];
 				if (parent && setting.key == "rssUpdate") {
 					console.log(setting, key)
-					if (key == "footer") value = "{domain}";
+					value = {
+						author: "{author}",
+						title: "{title}",
+						description: "{content}",
+						image: "{image}",
+						footer: "{domain}"
+					};
 				}
 
 				let possible = setting.possible || {};

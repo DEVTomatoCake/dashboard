@@ -90,11 +90,11 @@ function getGiveawayHTML(giveaway) {
 						)).join("");
 
 					const reqs = json.data.requirements;
-					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
+					if (reqs.roles || reqs.anyRoles || reqs.notRoles || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
 						text += "<br><h3 translate='giveaway.requirements'></h3>";
-						if (reqs.roles.length > 0) text += "<p><span translation='giveaway.thoseroles'></span>: " + reqs.roles.join(", ") + "</p>";
-						if (reqs.anyRoles.length > 0) text += "<p><span translation='giveaway.anyrole'></span>: " + reqs.anyRoles.join(", ") + "</p>";
-						if (reqs.notRoles.length > 0) text += "<p><span translation='giveaway.notrole'></span>: " + reqs.notRoles.join(", ") + "</p>";
+						if (reqs.roles) text += "<p><span translation='giveaway.thoseroles'></span>: " + reqs.roles.join(", ") + "</p>";
+						if (reqs.anyRoles) text += "<p><span translation='giveaway.anyrole'></span>: " + reqs.anyRoles.join(", ") + "</p>";
+						if (reqs.notRoles) text += "<p><span translation='giveaway.notrole'></span>: " + reqs.notRoles.join(", ") + "</p>";
 						if (reqs.minAge) text += "<p><span translation='giveaway.minaccage'></span>: <b>" + reqs.minAge + "</b></p>";
 						if (reqs.minMemberAge) text += "<p><span translation='giveaway.minmemberage'></span>: <b>" + reqs.minMemberAge + "</b></p>";
 						if (reqs.minLeaderboardPoints) text += "<p><span translation='giveaway.minleaderboardpoints'></span>: <b>" + reqs.minLeaderboardPoints.toLocaleString() + "</b></p>";

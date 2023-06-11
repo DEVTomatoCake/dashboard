@@ -291,10 +291,11 @@
 					queue = [];
 					for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
 
-					if (parent && Array.isArray(setting.value) && parent.childElementCount > 3) {
+					if (parent && Array.isArray(setting.value)) {
 						const buttons = parent.querySelectorAll("button.createForm");
 						if (buttons.length > 1) buttons[1].remove();
-						parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>");
+						if (parent.childElementCount > 3)
+							parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>");
 					}
 					reloadText();
 				} else return html;

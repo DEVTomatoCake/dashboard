@@ -40,7 +40,7 @@ function getSettingsHTML(json) {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 				else if (typeof possible == "object") {
-					Object.keys(possible).filter(key => key != "").forEach(key => {
+					Object.keys(possible).filter(key => key != "").sort((a, b) => b.pos - a.pos).forEach(key => {
 						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]];
 					});
 				}

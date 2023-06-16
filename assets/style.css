@@ -1377,8 +1377,9 @@ button span {
 	transition: .3s;
 }
 
-.dialog input {
-	min-width: 400px;
+.dialog input:not([type=checkbox]) {
+	min-width: 300px;
+	width: 550px;
 }
 
 .dialog-content {

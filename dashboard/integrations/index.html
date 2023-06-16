@@ -101,7 +101,8 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>";
-				document.getElementById("integration-name").value = encode(integration.name);
+				document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
+				document.getElementById("integration-short").value = encode(integration.short);
 				document.getElementById("integration-use-container").removeAttribute("hidden");
 				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
 				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
@@ -114,6 +115,7 @@
 				document.getElementById("actions-container").innerHTML = "";
 				integration.actions.forEach(action => {
 					const newElem = addAction(action.trigger);
+					newElem.querySelector(".action-name").value = action.name;
 					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
@@ -137,6 +139,7 @@
 				document.getElementById("integration-public").checked = integration.public;
 				integration.actions.forEach(action => {
 					const newElem = addAction(action.trigger);
+					newElem.querySelector(".action-name").value = action.name;
 					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
@@ -164,7 +167,9 @@
 				return "<div class='integration'>" +
 					"<div class='flex'>" +
 						(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
-						"<h2>" + encode(integration.name) + "</h2>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
+						"<h2>" + encode(integration.name) + "</h2>" +
+						(integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
+						(integration.unsynced ? " <ion-icon name='refresh-outline'></ion-icon>" : "") +
 					"</div>" +
 					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
 					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +

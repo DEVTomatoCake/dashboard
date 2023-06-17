@@ -103,13 +103,14 @@
 				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>";
 				document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
 				document.getElementById("integration-short").value = encode(integration.short);
+				document.getElementById("integration-public").checked = false;
 				document.getElementById("integration-use-container").removeAttribute("hidden");
 				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
-				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders ? integration.placeholders.map(e => "<code>" + encode(e) + "</code>").join("<br>") : "";
-				document.getElementById("integration-use-input").innerHTML = integration.input ? integration.input.map(e => {
+				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders ? "<p>Placeholders</p><br>" + integration.placeholders.map(e => "<code>{" + encode(e) + "}</code>").join(" ") : "";
+				document.getElementById("integration-use-input").innerHTML = integration.input ? "<p>Variable inputs</p><br>" + integration.input.map(e => {
 					const randomId = Math.random().toString(36).slice(2);
-					return "<label for='" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
-						"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='" + randomId + "' name='" + encode(e.split(";")[0]) + "'>"
+					return "<label for='use-input-" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
+						"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='use-input-" + randomId + "' name='" + encode(e.split(";")[0]) + "'>"
 				}).join("<br>") : "";
 
 				document.getElementById("actions-container").innerHTML = "";
@@ -408,6 +409,12 @@
 				document.getElementById("create-dialog").style.display = "none";
 				if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
 
+				let input = []
+				if (sourceId) {
+					const children = document.getElementById("integration-use-input").children;
+					for (const elem of children) input.push(elem.getAttribute("name") + ";TODO;" + elem.value);
+				} else input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e);
+
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					guild: params.get("guild"),
@@ -423,7 +430,7 @@
 					version: document.getElementById("integration-version").getAttribute("data-selected"),
 					actions: [],
 					placeholders: document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e),
-					input: document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e),
+					input,
 					env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)
 				};
 				if (sourceId) {

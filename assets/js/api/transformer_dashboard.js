@@ -154,20 +154,20 @@ function getIntegrationsHTML(json, guild) {
 
 		if (json.integrations.filter(i => i.guild == guild).length > 0)
 			text +=
-				"<h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
+				"<br><h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild == guild).map(handleIntegration) +
 				"</div>";
 		else text += "<div class='integration-container'></div>";
 
 		if (json.integrations.filter(i => i.guild != guild && i.isOwner).length > 0)
 			text +=
-				"<h2 translation='integration.yours'></h2><div class='integration-container'>" +
+				"<br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration) +
 				"</div>";
 
 		if (json.integrations.filter(i => i.guild != guild && !i.isOwner).length > 0)
 			text +=
-				"<h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
+				"<br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration) +
 				"</div>";
 

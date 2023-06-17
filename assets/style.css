@@ -27,23 +27,23 @@
 .light-theme {
 	--primary-color: #F3F3F8;
 	--primary-color-hover: #FFF;
-	--secondary-color: #C1C4DB;
+	--secondary-color: #bfc2d4;
 	--tertiary-color: #E6E7F1;
 	--accent-color: #505FD2;
-	--accent-color-hover: #3C47A0;
-	--button-accent-color: #414DA7;
-	--primary-text-color: #131524;
-	--secondary-text-color: #3D404E;
+	--accent-color-hover: #414c9b;
+	--button-accent-color: #4752a7;
+	--primary-text-color: #10121d;
+	--secondary-text-color: #3d404e;
 	--blue: #4B57C9;
 	--green: #1B5E20;
 	--purple: #7D2A97;
 	--primary-table-bgcolor: #E5E7F1;
-	--secondary-table-bgcolor: #C1C4DB;
+	--secondary-table-bgcolor: #bec1d6;
 	--textarea-color: #000;
 	--textarea-background: #FFF;
 	--textarea-background-focus: #F6F6F6;
 	--select-background: #FFF;
-	--select-hover: #99B6FF;
+	--select-hover: #98b2f5;
 	--select-border: #000;
 	--link: #00E;
 	--link-visited: #551A8B;
@@ -54,25 +54,25 @@
 }
 
 .dark-theme {
-	--primary-color: #1e1f2a;
+	--primary-color: #1d1d27;
 	--primary-color-hover: #000;
-	--secondary-color: #30344e;
-	--tertiary-color: #4d516d;
+	--secondary-color: #2e3247;
+	--tertiary-color: #4f5269;
 	--accent-color: #6d55b8;
-	--accent-color-hover: #4f3eb2;
-	--button-accent-color: #343692;
+	--accent-color-hover: #5141ac;
+	--button-accent-color: #373992;
 	--primary-text-color: #E6E7F1;
 	--secondary-text-color: #C1C4DB;
-	--blue: #8C9EFF;
+	--blue: #8596f7;
 	--green: #B9F6CA;
 	--purple: #B388FF;
-	--primary-table-bgcolor: #25273A;
-	--secondary-table-bgcolor: #363952;
+	--primary-table-bgcolor: #26283a;
+	--secondary-table-bgcolor: #36384e;
 	--textarea-color: #FFF;
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
 	--select-background: #24265A;
-	--select-hover: #8176e6;
+	--select-hover: #8076da;
 	--select-border: var(--secondary-text-color);
 	--link: #3a3afa;
 	--link-visited: #9f7dcb;
@@ -1065,9 +1065,15 @@ pre {
 .integration img {
 	border-radius: 5px;
 }
-.integration ion-icon[name="checkmark-circle-outline"], #info-container ion-icon {
-	color: #2aaa64;
+
+.integration ion-icon, #info-container ion-icon {
 	font-size: 34px;
+}
+.integration ion-icon[name="checkmark-circle-outline"], #info-container ion-icon[name="checkmark-circle-outline"] {
+	color: #2aaa64;
+}
+.integration ion-icon[name="refresh-outline"], #info-container ion-icon[name="refresh-outline"] {
+	color: #4585ce;
 }
 
 .action {
@@ -1378,7 +1384,7 @@ button span {
 }
 
 .dialog input:not([type=checkbox]) {
-	min-width: 300px;
+	font-size: 15px;
 	width: 550px;
 }
 

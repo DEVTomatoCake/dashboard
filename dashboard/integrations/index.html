@@ -49,7 +49,7 @@
 				document.getElementById("integration-env").value = "";
 				document.getElementById("integration-submit").setAttribute("translation", "integration.create");
 
-				addAction(document.getElementById("integration-addaction"));
+				addAction();
 				openDialog(document.getElementById("create-dialog"));
 				reloadText();
 			}
@@ -77,12 +77,14 @@
 				const integration = integrations.find(e => e.name == integrationName);
 
 				document.getElementById("info-container").innerHTML =
-					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" + (integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
+					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" +
+					(integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") + (integration.unsynced ? " <ion-icon name='refresh-outline'></ion-icon>" : "") +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
-					"<p>" + encode(integration.long) + "</p><br>" +
+					(integration.long && integration.long.length > 0 ? "<p>" + encode(integration.long) + "</p><br>" : "") +
 					"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" +
+					(integration.source ? "<p>Source: <b>" + encode(integration.source) + "</b></p>" : "") +
 					"<p><span translation='integration.version'></span>: <code>" + encode(integration.version) + "</code></p>" +
 					"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
 					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><h2 translation='integration.actions'></h2>" +
@@ -138,13 +140,6 @@
 				document.getElementById("integration-long").value = integration.long || "";
 				document.getElementById("integration-image").value = integration.image || "";
 				document.getElementById("integration-public").checked = integration.public;
-				integration.actions.forEach(action => {
-					const newElem = addAction(action.trigger);
-					newElem.querySelector(".action-name").value = action.name;
-					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
-					newElem.querySelector(".action-content").value = action.content;
-					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-				});
 				document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : "";
 				document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
 				document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : "";
@@ -152,6 +147,15 @@
 				document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
 				document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
 				document.getElementById("integration-submit").setAttribute("translation", "integration.edit");
+
+				document.getElementById("actions-container").innerHTML = "";
+				integration.actions.forEach(action => {
+					const newElem = addAction(action.trigger);
+					newElem.querySelector(".action-name").value = action.name;
+					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
+					newElem.querySelector(".action-content").value = action.content;
+					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
+				});
 				reloadText();
 			}
 
@@ -333,7 +337,7 @@
 
 						<label for="integration-version" translation="integration.version"></label>
 
-						<button type="button" id="integration-addaction" class="createForm" onclick="addAction(this)" translation="integration.addaction"></button>
+						<button type="button" id="integration-addaction" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
 						<template id="actions-template">
 							<label for="action-name">Action name</label>
 							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" name="action-name" class="action-name">
@@ -341,8 +345,8 @@
 							<label for="action-trigger" translation="integration.trigger"></label>
 							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" tabindex="0"></channel-picker>
 
-							<label for="action-args1">If command: Slash command description, if regex: RegExp</label>
-							<input type="text" maxlength="100" placeholder="Variable input" name="action-args1" class="action-args1" title="If the trigger type is command, filling this out will create a slash command for it with the given description. Can be used as comment for non-commands.">
+							<label for="action-args1">Args 1</label>
+							<input type="text" maxlength="100" placeholder="Variable input" name="action-args1" class="action-args1" title="Depending on the trigger this can be ommited or is require for it to work.">
 
 							<label for="action-content" translation="dashboard.content"></label>
 							<div class="emoji-container emoji-special">
@@ -353,7 +357,7 @@
 							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
 						</template>
 						<div id="actions-container"></div>
-						<button type="button" class="createForm" onclick="addAction(this)" translation="integration.addaction"></button>
+						<button type="button" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
 
 						<br>
 						<br>

@@ -170,7 +170,7 @@
 			}
 
 			let socket;
-			function deleteIntegration(elem, integration = "") {
+			function integrationDelete(elem, integration = "") {
 				const confirmed = confirm("Are you sure you want to delete this integration? This cannot be undone!");
 				if (confirmed) {
 					elem.parentElement.parentElement.remove();
@@ -191,8 +191,8 @@
 					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 					"<div class='flex'>" +
 						"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
-						(integration.isOwner && i.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" : "") +
-						(integration.isOwner && i.guild == params.get("guild") ? "<button class='red' onclick='deleteIntegration(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
+						(integration.isOwner && integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" : "") +
+						(integration.isOwner && integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
 					"</div>" +
 					"</div>";
 			}

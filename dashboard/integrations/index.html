@@ -36,8 +36,8 @@
 		<script>
 			function handleChange(id) {
 				if (id == "integration-sync") {
-					const inputs = document.querySelectorAll(".actions-container textarea, .actions-container input");
-					const triggers = document.querySelectorAll(".actions-container channel-picker.action-trigger");
+					const inputs = document.querySelectorAll(".action textarea, .action input");
+					const triggers = document.querySelectorAll(".action channel-picker.action-trigger");
 					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe") {
 						for (const elem of inputs) elem.setAttribute("readonly", "");
 						for (const elem of triggers) elem.classList.add("disabled");
@@ -136,8 +136,7 @@
 					newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
 					newElem.querySelector(".action-content").value = action.content;
 					newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe")
-						newElem.querySelector(".action-content").setAttribute("readonly", "");
+					handleChange("integration-sync");
 				});
 				reloadText();
 			}
@@ -175,11 +174,16 @@
 
 			let socket;
 			function integrationDelete(elem, integration = "") {
-				const confirmed = confirm("Are you sure you want to delete this integration? This cannot be undone!");
+				const confirmed = confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!");
 				if (confirmed) {
 					elem.parentElement.parentElement.remove();
 					socket.send(JSON.stringify({status: "success", action: "DELETE_integration", name: integration}));
 				}
+			}
+
+			function nameExists(elem) {
+				if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("Name already exists.");
+				else elem.setCustomValidity("");
 			}
 
 			function handleIntegration(integration) {
@@ -334,7 +338,7 @@
 						<h1 id="create-title" translation="integration.create"></h1>
 
 						<label for="integration-name">Unique name</label>
-						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" name="integration-name" id="integration-name">
+						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" oninput="nameExists(this)" name="integration-name" id="integration-name">
 
 						<label for="integration-short" translation="integration.shortdesc"></label>
 						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">

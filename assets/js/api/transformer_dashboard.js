@@ -452,3 +452,17 @@ function getModlogsHTML(guild) {
 			.catch(e => handleError(resolve, e));
 	});
 }
+
+function getCustomHTML(guild) {
+	return new Promise(resolve => {
+		getCustom(guild)
+			.then(json => {
+				if (json.status == "success") {
+					let text = "";
+
+					resolve(text);
+				} else handleError(resolve, json.message);
+			})
+			.catch(e => handleError(resolve, e));
+	});
+}

@@ -57,6 +57,8 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSelected = (elem, value = "") => {
+	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.name);
+
 	elem.parentElement.parentElement.setAttribute("data-selected", value);
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected");
@@ -71,6 +73,8 @@ const updateSelected = (elem, value = "") => {
 	handleChange(elem.parentElement.parentElement.id);
 }
 const updateMultiSelected = (elem, key, value) => {
+	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.name);
+
 	elem.classList.toggle("selected");
 	if (elem.classList.contains("selected")) selectData[key].value.push(value);
 	else selectData[key].value.splice(selectData[key].value.indexOf(value), 1);

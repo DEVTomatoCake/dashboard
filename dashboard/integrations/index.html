@@ -35,13 +35,16 @@
 
 		<script>
 			function handleChange(id) {
-				console.log(id)
 				if (id == "integration-sync") {
-					const elems = document.querySelectorAll(".action-container textarea, .action-container input")
-					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe")
-						for (const elem of elems) elem.setAttribute("readonly", "");
-					else
-						for (const elem of elems) elem.removeAttribute("readonly");
+					const inputs = document.querySelectorAll(".actions-container textarea, .actions-container input");
+					const triggers = document.querySelectorAll(".actions-container channel-picker.action-trigger");
+					if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe") {
+						for (const elem of inputs) elem.setAttribute("readonly", "");
+						for (const elem of triggers) elem.classList.add("disabled");
+					} else {
+						for (const elem of inputs) elem.removeAttribute("readonly");
+						for (const elem of triggers) elem.classList.remove("disabled");
+					}
 				}
 			}
 
@@ -118,8 +121,9 @@
 				document.getElementById("integration-public").checked = false;
 				document.getElementById("integration-use-container").removeAttribute("hidden");
 				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
-				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders ? "<p>Placeholders</p><br>" + integration.placeholders.map(e => "<code>{" + encode(e) + "}</code>").join(" ") : "";
-				document.getElementById("integration-use-input").innerHTML = integration.input ? "<p>Variable inputs</p><br>" + integration.input.map(e => {
+				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders && integration.placeholders.length > 0 ?
+					"<br><p>Placeholders</p><br>" + integration.placeholders.map(e => "<code>{" + encode(e) + "}</code>").join(" ") : "";
+				document.getElementById("integration-use-input").innerHTML = integration.input && integration.input.length > 0 ? "<p>Variable inputs</p><br>" + integration.input.map(e => {
 					const randomId = Math.random().toString(36).slice(2);
 					return "<label for='use-input-" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
 						"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='use-input-" + randomId + "' name='" + encode(e.split(";")[0]) + "'>"

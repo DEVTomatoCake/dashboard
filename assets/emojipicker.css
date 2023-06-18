@@ -119,6 +119,10 @@ channel-picker .element.selected {
 	background-color: var(--picker-selected);
 }
 
+channel-picker.disabled .element, channel-picker.disabled .list {
+	cursor: not-allowed;
+}
+
 channel-picker .list {
 	display: flex;
 	flex-wrap: wrap;

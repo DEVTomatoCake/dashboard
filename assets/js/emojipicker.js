@@ -131,7 +131,7 @@ class ChannelRolePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
-					(channel ? encode(current.name || current) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
+					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
 					"</span></div>";
 			}).join("") +
 			"</div>";

@@ -37,13 +37,14 @@
 			function handleChange() {}
 
 			function createDialog() {
-				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("create-dialog").removeAttribute("data-edit");
 				document.getElementById("integration-name").value = "";
 				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
+				document.getElementById("integration-image").value = "";
 				document.getElementById("integration-public").checked = true;
+				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
 				document.getElementById("integration-env").value = "";
@@ -303,7 +304,7 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="location = '/login/'">
+					<div class="account" onclick="location='/login'">
 						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
@@ -343,7 +344,7 @@
 							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" name="action-name" class="action-name">
 
 							<label for="action-trigger" translation="integration.trigger"></label>
-							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" tabindex="0"></channel-picker>
+							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
 
 							<label for="action-args1">Args 1</label>
 							<input type="text" maxlength="100" placeholder="Variable input" name="action-args1" class="action-args1" title="Depending on the trigger this can be ommited or is require for it to work.">

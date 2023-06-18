@@ -1067,7 +1067,10 @@ pre {
 }
 
 .integration ion-icon, #info-container ion-icon {
-	font-size: 34px;
+	font-size: 36px;
+}
+.integration button ion-icon {
+	font-size: 22px;
 }
 .integration ion-icon[name="checkmark-circle-outline"], #info-container ion-icon[name="checkmark-circle-outline"] {
 	color: #2aaa64;

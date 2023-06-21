@@ -122,7 +122,7 @@
 				document.getElementById("integration-short").value = encode(integration.short);
 				document.getElementById("integration-public").checked = false;
 				document.getElementById("integration-use-container").removeAttribute("hidden");
-				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName, integration.guild);
+				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
 				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders && integration.placeholders.length > 0 ?
 					"<br><p>Placeholders</p><br>" + integration.placeholders.map(e => "<code>{" + encode(e) + "}</code>").join(" ") : "";
 				document.getElementById("integration-use-input").innerHTML = integration.input && integration.input.length > 0 ? "<p>Variable inputs</p><br>" + integration.input.map(e => {
@@ -421,7 +421,7 @@
 			let savingToast;
 			let errorToast;
 
-			function createIntegration(sourceId = "", guildId = "") {
+			function createIntegration(sourceId = "") {
 				if (!params.has("guild") || saving) return;
 				saving = true;
 
@@ -458,7 +458,7 @@
 					env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)
 				};
 				if (sourceId) {
-					data.source = guildId + "-" + sourceId;
+					data.source = sourceId;
 					data.sync = document.getElementById("integration-sync").getAttribute("data-selected");
 				}
 				integrations[name] = data;

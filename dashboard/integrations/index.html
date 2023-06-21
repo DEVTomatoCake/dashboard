@@ -107,9 +107,11 @@
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
-					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
+					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>") +
+					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm' onclick='socket.send(JSON.stringify({status: \"success\", action: \"SYNC_integration\", name: \"" + encode(integrationName) + "\"}));this.remove()'>Sync integration from original</button>" : "");
 				reloadText();
 			}
+
 			function integrationUse(integrationName) {
 				document.getElementById("info-dialog").style.display = "none";
 				openDialog(document.getElementById("create-dialog"));

@@ -91,7 +91,8 @@
 
 				document.getElementById("info-container").innerHTML =
 					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" +
-					(integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") + (integration.unsynced ? " <ion-icon name='refresh-outline'></ion-icon>" : "") +
+					(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
+					(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
 					"<h2>" + encode(integration.short) + "</h2><br>" +
 					(integration.long && integration.long.length > 0 ? "<p>" + encode(integration.long) + "</p><br>" : "") +
 					"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
@@ -107,8 +108,7 @@
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
-					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>") +
-					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm' onclick='socket.send(JSON.stringify({status: \"success\", action: \"SYNC_integration\", name: \"" + encode(integrationName) + "\"}));this.remove()'>Sync integration from original</button>" : "");
+					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
 				reloadText();
 			}
 
@@ -117,15 +117,19 @@
 				openDialog(document.getElementById("create-dialog"));
 				const integration = integrations.find(e => e.name == integrationName);
 
-				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>";
+				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>" +
+					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm' onclick='socket.send(JSON.stringify({status:\"success\"," +
+						"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"}));this.remove()'>Sync integration from original</button>" : "");
 				document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
 				document.getElementById("integration-short").value = encode(integration.short);
+				document.getElementById("integration-long").value = encode(integration.long);
+				document.getElementById("integration-image").value = encode(integration.image);
 				document.getElementById("integration-public").checked = false;
 				document.getElementById("integration-use-container").removeAttribute("hidden");
 				document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
 				document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders && integration.placeholders.length > 0 ?
 					"<br><p>Placeholders</p><br>" + integration.placeholders.map(e => "<code>{" + encode(e) + "}</code>").join(" ") : "";
-				document.getElementById("integration-use-input").innerHTML = integration.input && integration.input.length > 0 ? "<p>Variable inputs</p><br>" + integration.input.map(e => {
+				document.getElementById("integration-use-input").innerHTML = integration.input && integration.input.length > 0 ? "<br><p>Variable inputs</p>" + integration.input.map(e => {
 					const randomId = Math.random().toString(36).slice(2);
 					return "<label for='use-input-" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
 						"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='use-input-" + randomId + "' name='" + encode(e.split(";")[0]) + "'>"
@@ -193,8 +197,8 @@
 					"<div class='flex'>" +
 						(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
 						"<h2>" + encode(integration.name) + "</h2>" +
-						(integration.verified ? " <ion-icon name='checkmark-circle-outline'></ion-icon>" : "") +
-						(integration.unsynced ? " <ion-icon name='refresh-outline'></ion-icon>" : "") +
+						(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
+						(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
 					"</div>" +
 					"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
 					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
@@ -285,11 +289,12 @@
 								"action-trigger": json.triggers
 							};
 
-							[["integration-sync", "safe"], ["integration-version", "1.0.0"]].forEach(item => {
+							[["integration-sync", "safe"], ["integration-version", Object.keys(pickerData["integration-version"]).at(-1)]].forEach(item => {
 								const pickerNode = document.createElement("channel-picker");
 								pickerNode.setAttribute("id", item[0]);
 								pickerNode.setAttribute("type", item[0]);
 								pickerNode.setAttribute("tabindex", "0");
+								pickerNode.setAttribute("data-unsafe", "1");
 								document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling);
 
 								const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");

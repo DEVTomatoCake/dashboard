@@ -3,6 +3,7 @@ function getGuildsHTML() {
 		getGuilds()
 			.then(json => {
 				if (json.status == "success") {
+					const target = localStorage.getItem("next");
 					let text = "";
 					json.data.sort((a, b) => {
 						if (a.active && b.active) return 0;
@@ -11,8 +12,8 @@ function getGuildsHTML() {
 					}).forEach(guild => {
 						text +=
 							"<div class='guilds-container'>" +
-							"<a class='guild' href='" + (guild.active ? "./settings/" : "../invite/") + "?guild=" + guild.id + "'>" +
-							"<img" + (guild.active ? "" : " class='inactive'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							"<a class='guild' href='" + (guild.active ? "./settings/" : "/invite/") + "?guild=" + guild.id + (target ? "&" + target.split("?")[1] : "") + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + guild.id + "' width='128' height='128' title='" + encode(guild.name) + "' src='" + guild.icon + "'>" +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";

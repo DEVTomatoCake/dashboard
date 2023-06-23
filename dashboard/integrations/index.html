@@ -107,7 +107,7 @@
 						"<p>Name: <b>" + encode(action.name) + "</b></p>" +
 						"<p><span translation='integration.trigger'></span>: <code>" + encode(action.trigger) + "</code></p>" +
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
-						"<textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
+						"<br><textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
 					(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
 				reloadText();
@@ -284,9 +284,6 @@
 							guildName = json.name;
 							integrations = json.integrations;
 
-							if (params.has("info")) integrationInfo(params.get("info"));
-							if (params.has("use")) integrationUse(params.get("use"));
-
 							pickerData = {
 								...pickerData,
 								"integration-sync": json.sync,
@@ -307,6 +304,12 @@
 								document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
 								document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"));
 							});
+
+							if (params.has("info") || params.has("use"))
+								setTimeout(() => {
+									if (params.has("info")) integrationInfo(params.get("info"));
+									else integrationUse(params.get("use"));
+								}, 300);
 						} else if (json.action == "SAVED_integration") {
 							saving = false;
 							savingToast.setType("SUCCESS").setTitle("The integration was saved!");

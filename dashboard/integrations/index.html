@@ -50,12 +50,12 @@
 
 			function createDialog() {
 				document.getElementById("create-dialog").removeAttribute("data-edit");
-				document.getElementById("integration-name").value = "";
+				document.getElementById("integration-name").value = params.get("guild") + "-";
 				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-image").value = "";
-				document.getElementById("integration-public").checked = true;
+				document.getElementById("integration-public").checked = false;
 				document.getElementById("actions-container").innerHTML = "";
 				document.getElementById("integration-placeholders").value = "";
 				document.getElementById("integration-input").value = "";
@@ -88,6 +88,7 @@
 			function integrationInfo(integrationName) {
 				openDialog(document.getElementById("info-dialog"));
 				const integration = integrations.find(e => e.name == integrationName);
+				if (!integration) return alert("Unknown integration \"" + integrationName + "\"!");
 
 				document.getElementById("info-container").innerHTML =
 					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" +
@@ -116,9 +117,10 @@
 				document.getElementById("info-dialog").style.display = "none";
 				openDialog(document.getElementById("create-dialog"));
 				const integration = integrations.find(e => e.name == integrationName);
+				if (!integration) return alert("Unknown integration \"" + integrationName + "\"!");
 
 				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>" +
-					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm' onclick='socket.send(JSON.stringify({status:\"success\"," +
+					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm red' onclick='socket.send(JSON.stringify({status:\"success\"," +
 						"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"}));this.remove()'>Sync integration from original</button>" : "");
 				document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
 				document.getElementById("integration-short").value = encode(integration.short);
@@ -165,7 +167,7 @@
 				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
 				document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
 				document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
-				document.getElementById("integration-submit").setAttribute("translation", "integration.edit");
+				document.getElementById("integration-submit").setAttribute("translation", "integration.editsave");
 
 				document.getElementById("actions-container").innerHTML = "";
 				integration.actions.forEach(action => {
@@ -282,6 +284,9 @@
 							guildName = json.name;
 							integrations = json.integrations;
 
+							if (params.has("info")) integrationInfo(params.get("info"));
+							if (params.has("use")) integrationUse(params.get("use"));
+
 							pickerData = {
 								...pickerData,
 								"integration-sync": json.sync,
@@ -342,7 +347,9 @@
 				<div id="create-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1 id="create-title" translation="integration.create"></h1>
+						<h1 id="create-title">
+							<span translation="integration.create"></span>
+						</h1>
 
 						<label for="integration-name">Unique name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" oninput="nameExists(this)" name="integration-name" id="integration-name">

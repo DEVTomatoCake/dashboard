@@ -105,7 +105,7 @@
 					"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
 					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><h2 translation='integration.actions'></h2>" +
 					integration.actions.map(action => (
-						"<p><span translation='integration.trigger'></span>: <code>" + encode(pickerData["action-trigger"][action.trigger].split("<br>")[0]) + "</code></p>" +
+						"<p><span translation='integration.trigger'></span>: " + encode(pickerData["action-trigger"][action.trigger].split("<br>")[0]) + "</p>" +
 						"<p>Name: <b>" + encode(action.name) + "</b></p>" +
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<br><textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
@@ -168,6 +168,7 @@
 				document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
 				document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
 				document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
+				document.getElementById("integration-use-container").setAttribute("hidden", "");
 				document.getElementById("integration-submit").setAttribute("translation", "integration.editsave");
 
 				document.getElementById("actions-container").innerHTML = "";
@@ -356,6 +357,7 @@
 
 						<label for="integration-name">Unique name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" oninput="nameExists(this)" name="integration-name" id="integration-name">
+						<br>
 
 						<div id="integration-use-container" hidden>
 							<label for="integration-sync" translation="integration.syncmode"></label>

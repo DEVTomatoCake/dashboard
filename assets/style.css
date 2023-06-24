@@ -1179,6 +1179,9 @@ button span {
 	color: var(--blue);
 	text-decoration: none;
 }
+.feature img {
+	border-radius: 5px;
+}
 
 @media only screen and (max-width: 1300px) {
 	.sidebar-container.visible + .stats-row {

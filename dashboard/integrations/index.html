@@ -405,7 +405,7 @@
 							<label for="integration-version" translation="integration.version"></label>
 
 							<label for="integration-short" translation="integration.shortdesc"></label>
-							<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
+							<input type="text" maxlength="300" placeholder="Short description" name="integration-short" id="integration-short">
 
 							<label for="integration-image" translation="integration.imageurl"></label>
 							<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
@@ -519,7 +519,7 @@
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";
-				localStorage.setItem("next", location.pathname);
+				localStorage.setItem("next", location.pathname + location.search);
 				location.href = "../";
 			} else {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";

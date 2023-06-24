@@ -3,7 +3,7 @@ function setCookie(name, value, days, global) {
 	let cookie = name + "=" + (value || "") + ";path=/;Secure;";
 	if (days) {
 		const date = new Date();
-		date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days);
 		cookie += "expires=" + date.toUTCString() + ";";
 	}
 	if (global) cookie += "domain=.tomatenkuchen.eu;";
@@ -216,7 +216,6 @@ function pageLoad(page = "") {
 	const username = getCookie("user");
 	if (username) {
 		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!";
-		document.getElementById("username-header").innerText = username;
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
 			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>";// +
 			//"<a href='/dashboard/custom'>Custom bots</a>";
@@ -246,5 +245,7 @@ function pageLoad(page = "") {
 	});
 
 	if (reloadText) reloadText();
+	if (username) document.getElementById("username-header").innerText = username;
+
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
 }

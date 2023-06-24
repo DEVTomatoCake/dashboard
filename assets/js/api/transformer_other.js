@@ -3,7 +3,7 @@ function getCommandsHTML() {
 		getCommands()
 			.then(json => {
 				if (json.status == "success") {
-					let text = "";
+					let text = "<center>";
 					const categories = [];
 					const categoryData = [];
 
@@ -32,7 +32,7 @@ function getCommandsHTML() {
 					});
 
 					commandData = json.data;
-					resolve(text);
+					resolve(text + "</center>");
 				} else handleError(resolve, json.message);
 			})
 			.catch(e => handleError(resolve, e));

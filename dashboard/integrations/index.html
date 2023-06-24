@@ -53,7 +53,6 @@
 				document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9);
 				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
-				document.getElementById("integration-long").value = "";
 				document.getElementById("integration-image").value = "";
 				document.getElementById("integration-public").checked = false;
 				document.getElementById("actions-container").innerHTML = "";
@@ -96,10 +95,9 @@
 					(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 					(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
 					(integration.short ? "<h2>" + encode(integration.short) + "</h2><br>" : "") +
-					(integration.long ? "<p>" + encode(integration.long) + "</p><br>" : "") +
 					"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
-					"<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" +
+					(integration.uses ? "<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" : "") +
 					(integration.source ? "<p>Source: <b>" + encode(integration.source) + "</b></p>" : "") +
 					"<p><span translation='integration.version'></span>: <code>" + encode(integration.version) + "</code></p>" +
 					"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
@@ -125,7 +123,6 @@
 						"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"}));this.remove()'>Sync integration from original</button>" : "");
 				document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
 				document.getElementById("integration-short").value = encode(integration.short);
-				document.getElementById("integration-long").value = encode(integration.long);
 				document.getElementById("integration-image").value = encode(integration.image);
 				document.getElementById("integration-public").checked = false;
 				document.getElementById("integration-use-container").removeAttribute("hidden");
@@ -165,7 +162,6 @@
 				document.getElementById("integration-name").value = integrationName;
 				document.getElementById("integration-name").setAttribute("readonly", "");
 				document.getElementById("integration-short").value = integration.short || "";
-				document.getElementById("integration-long").value = integration.long || "";
 				document.getElementById("integration-image").value = integration.image || "";
 				document.getElementById("integration-public").checked = integration.public;
 				document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : "";
@@ -411,9 +407,6 @@
 							<label for="integration-short" translation="integration.shortdesc"></label>
 							<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
 
-							<label for="integration-long" translation="integration.longdesc"></label>
-							<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
-
 							<label for="integration-image" translation="integration.imageurl"></label>
 							<input type="text" maxlength="300" placeholder="Image URL" name="integration-image" id="integration-image">
 
@@ -476,7 +469,6 @@
 					lastUpdate: Date.now(),
 					name,
 					short: document.getElementById("integration-short").value,
-					long: document.getElementById("integration-long").value,
 					image: document.getElementById("integration-image").value,
 					public: document.getElementById("integration-public").checked,
 					version: document.getElementById("integration-version").getAttribute("data-selected"),

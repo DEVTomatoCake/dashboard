@@ -137,7 +137,7 @@
 					document.getElementById("integration-use-input").innerHTML = integration.input.map(e => {
 						const randomId = Math.random().toString(36).slice(2);
 						return "<label for='use-input-" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
-							"<input type='text' maxlength='200' placeholder='" + (encode(e.split(";")[2]) || "") + "' id='use-input-" + randomId + "' name='" + encode(e.split(";")[0]) + "' data-desc='" + encode(e.split(";")[1]) + "'>"
+							"<input type='text' maxlength='200' id='use-input-" + randomId + "' value='" + (encode(e.split(";")[2]) || "") + "' name='" + encode(e.split(";")[0]) + "' data-desc='" + encode(e.split(";")[1]) + "'>"
 					}).join("<br>");
 				} else {
 					document.getElementById("integration-use-inputtext").innerHTML = "";
@@ -470,7 +470,7 @@
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					guild: params.get("guild"),
-					owner: getCookie("user") ? getCookie("user").split("#")[0] : "You",
+					owner: getCookie("user") ? getCookie("user") : "You",
 					isOwner: true,
 					created: Date.now(),
 					lastUpdate: Date.now(),
@@ -489,7 +489,6 @@
 					data.source = sourceId;
 					data.sync = document.getElementById("integration-sync").getAttribute("data-selected");
 				}
-				integrations[name] = data;
 
 				const actions = document.getElementById("actions-container").getElementsByClassName("action");
 				for (let j = 0; j < actions.length; j++) {
@@ -501,6 +500,8 @@
 						content: action.querySelector(".action-content").value
 					});
 				}
+				integrations = integrations.filter(int => int.name != data.name);
+				integrations.push(data);
 
 				if (!data.edit) {
 					const div = document.createElement("div");

@@ -157,7 +157,7 @@
 				document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>";
 				document.getElementById("integration-name").value = integrationName;
 				document.getElementById("integration-name").setAttribute("readonly", "");
-				document.getElementById("integration-short").value = integration.short;
+				document.getElementById("integration-short").value = integration.short || "";
 				document.getElementById("integration-long").value = integration.long || "";
 				document.getElementById("integration-image").value = integration.image || "";
 				document.getElementById("integration-public").checked = integration.public;
@@ -357,9 +357,6 @@
 						<label for="integration-name">Unique name</label>
 						<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Display name" oninput="nameExists(this)" name="integration-name" id="integration-name">
 
-						<label for="integration-short" translation="integration.shortdesc"></label>
-						<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
-
 						<div id="integration-use-container" hidden>
 							<label for="integration-sync" translation="integration.syncmode"></label>
 
@@ -373,16 +370,17 @@
 						<label for="integration-version" translation="integration.version"></label>
 
 						<a href="https://docs.tomatenkuchen.eu/category/action-functions" target="_blank" rel="noopener">Check out all available functions in the docs!</a>
+						<br>
 						<button type="button" id="integration-addaction" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
 						<template id="actions-template">
-							<label for="action-name">Action name</label>
-							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" name="action-name" class="action-name">
-
 							<label for="action-trigger" translation="integration.trigger"></label>
 							<channel-picker class="action-trigger" type="action-trigger" name="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
 
-							<label for="action-args1">Args 1</label>
-							<input type="text" maxlength="100" placeholder="Variable input" name="action-args1" class="action-args1" title="Depending on the trigger this can be ommited or is require for it to work.">
+							<label for="action-name">Action name</label>
+							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" name="action-name" class="action-name">
+
+							<label for="action-args1">Argument</label>
+							<input type="text" maxlength="100" placeholder="Variable input" name="action-args1" class="action-args1" title="Depending on the trigger this can be ommited or is required for it to work.">
 
 							<label for="action-content" translation="dashboard.content"></label>
 							<div class="emoji-container emoji-special">
@@ -399,6 +397,9 @@
 						<br>
 						<details>
 							<summary translation="integration.additionalpublic"></summary>
+							<label for="integration-short" translation="integration.shortdesc"></label>
+							<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
+
 							<label for="integration-long" translation="integration.longdesc"></label>
 							<textarea class="setting" maxlength="1000" placeholder="Long description" name="integration-long" id="integration-long" rows="7"></textarea>
 

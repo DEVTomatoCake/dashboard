@@ -50,7 +50,7 @@
 
 			function createDialog() {
 				document.getElementById("create-dialog").removeAttribute("data-edit");
-				document.getElementById("integration-name").value = params.get("guild") + "-";
+				document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9);
 				document.getElementById("integration-name").removeAttribute("readonly");
 				document.getElementById("integration-short").value = "";
 				document.getElementById("integration-long").value = "";
@@ -94,8 +94,8 @@
 					"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" +
 					(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 					(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
-					"<h2>" + encode(integration.short) + "</h2><br>" +
-					(integration.long && integration.long.length > 0 ? "<p>" + encode(integration.long) + "</p><br>" : "") +
+					(integration.short ? "<h2>" + encode(integration.short) + "</h2><br>" : "") +
+					(integration.long ? "<p>" + encode(integration.long) + "</p><br>" : "") +
 					"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 					"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 					"<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" +
@@ -104,8 +104,8 @@
 					"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
 					"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><h2 translation='integration.actions'></h2>" +
 					integration.actions.map(action => (
+						"<p><span translation='integration.trigger'></span>: <code>" + encode(pickerData["action-trigger"][action.trigger].split("<br>")[0]) + "</code></p>" +
 						"<p>Name: <b>" + encode(action.name) + "</b></p>" +
-						"<p><span translation='integration.trigger'></span>: <code>" + encode(action.trigger) + "</code></p>" +
 						(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
 						"<br><textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 					)).join("<br><br>") +
@@ -197,7 +197,7 @@
 			function handleIntegration(integration) {
 				return "<div class='integration'>" +
 					"<div class='flex'>" +
-						(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' width='120' loading='lazy'>" : "") +
+						(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
 						"<h2>" + encode(integration.name) + "</h2>" +
 						(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 						(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
@@ -364,11 +364,7 @@
 							<div id="integration-use-input"></div>
 						</div>
 
-						<label for="integration-public" translation="integration.public"></label>
-						<input type="checkbox" name="integration-public" id="integration-public" checked>
-
-						<label for="integration-version" translation="integration.version"></label>
-
+						<br>
 						<a href="https://docs.tomatenkuchen.eu/category/action-functions" target="_blank" rel="noopener">Check out all available functions in the docs!</a>
 						<br>
 						<button type="button" id="integration-addaction" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
@@ -397,6 +393,12 @@
 						<br>
 						<details>
 							<summary translation="integration.additionalpublic"></summary>
+
+							<label for="integration-public" translation="integration.public"></label>
+							<input type="checkbox" name="integration-public" id="integration-public" checked>
+
+							<label for="integration-version" translation="integration.version"></label>
+
 							<label for="integration-short" translation="integration.shortdesc"></label>
 							<input type="text" maxlength="200" placeholder="Short description" name="integration-short" id="integration-short">
 
@@ -417,7 +419,7 @@
 						</details>
 						<br>
 
-						<button type="submit" id="integration-submit" class="createForm" onclick="createIntegration()" translation="integration.create"></button>
+						<button type="submit" id="integration-submit" class="createForm green" onclick="createIntegration()" translation="integration.create"></button>
 					</div>
 				</div>
 

@@ -102,6 +102,7 @@ h1, h2, h3, h4, p, small, label, input, span, ul li {
 
 .main {
 	height: auto;
+	content-visibility: auto;
 }
 
 a {
@@ -157,6 +158,10 @@ tr.cmdvisible:nth-child(odd) {
 }
 .categorybutton.red:hover, button.red:hover {
 	background-color: #B71C1C;
+}
+
+button.green {
+	background-color: var(--picker-selected);
 }
 
 .public-servers {
@@ -1069,6 +1074,8 @@ pre {
 }
 .integration img {
 	border-radius: 5px;
+	width: 130px;
+	max-height: 80px;
 }
 
 .integration ion-icon, #info-container ion-icon {
@@ -1090,7 +1097,7 @@ pre {
 	border-radius: 5px;
 	background-color: var(--tertiary-color);
 }
-.action label[for="action-name"] {
+.action label[for="action-trigger"] {
 	margin-top: unset !important;
 }
 

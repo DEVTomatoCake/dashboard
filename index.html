@@ -36,7 +36,7 @@
 				for (let i = 1; i <= 3; i++) {
 					const server = servers[i - 1];
 					document.getElementById("server" + i).innerHTML =
-						"<img src='" + server.icon + "'>" +
+						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
 						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
@@ -66,8 +66,8 @@
 						"</div>";
 
 					document.getElementById("server" + currentServer).style.opacity = "1";
+					reloadText();
 				}, 700);
-				reloadText();
 			}, 14000);
 		</script>
 	</head>

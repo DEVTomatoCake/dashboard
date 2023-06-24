@@ -216,6 +216,9 @@ function pageLoad(page = "") {
 	const username = getCookie("user");
 	if (username) {
 		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!";
+		document.getElementById("username-header").removeAttribute("translation");
+		document.getElementById("username-header").innerText = username;
+
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
 			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>";// +
 			//"<a href='/dashboard/custom'>Custom bots</a>";
@@ -245,7 +248,6 @@ function pageLoad(page = "") {
 	});
 
 	if (reloadText) reloadText();
-	if (username) document.getElementById("username-header").innerText = username;
 
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
 }

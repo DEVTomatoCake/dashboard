@@ -3,7 +3,7 @@ function getCommandsHTML() {
 		getCommands()
 			.then(json => {
 				if (json.status == "success") {
-					let text = "";
+					let text = "<center>";
 					const categories = [];
 					const categoryData = [];
 
@@ -20,7 +20,7 @@ function getCommandsHTML() {
 
 					categories.forEach(category => {
 						text +=
-							"<center><h2 id='" + category + "title'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
+							"<h2 id='" + category + "title' class='center'>" + category.charAt(0).toUpperCase() + category.slice(1) + "</h2>" +
 							"<button type='button' class='categorybutton' id='" + category + "tb' onclick='toggleCategory(\"" + category + "\");' translation='commands.hide'></button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + category + "'>" +
 							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>";
@@ -28,11 +28,11 @@ function getCommandsHTML() {
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1];
 						});
-						text += "</tbody></table></center><br id='" + category + "br'>";
+						text += "</tbody></table><br id='" + category + "br'>";
 					});
 
 					commandData = json.data;
-					resolve(text);
+					resolve(text + "</center>");
 				} else handleError(resolve, json.message);
 			})
 			.catch(e => handleError(resolve, e));
@@ -73,7 +73,7 @@ function getGiveawayHTML(giveaway) {
 								"<img class='user-image' src='https://cdn.discordapp.com/avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32' loading='lazy' " +
 								"alt='Avatar: " + encode(user.name) + "' onerror='this.src=\"https://cdn.discordapp.com/embed/avatars/" + user.id % 4 + ".png\"'> " + encode(user.name) + "<br>"
 							)).join("")
-						: "Keiner hat gewonnen!") + "</b></p><br><br><br>";
+						: "<span translation='giveaway.nowinner'></span>") + "</b></p><br><br><br>";
 
 					text +=
 						"<h2>" + json.data.prize + "</h2>" +
@@ -90,11 +90,11 @@ function getGiveawayHTML(giveaway) {
 						)).join("");
 
 					const reqs = json.data.requirements;
-					if (reqs.roles.length > 0 || reqs.anyRoles.length > 0 || reqs.notRoles.length > 0 || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
+					if (reqs.roles || reqs.anyRoles || reqs.notRoles || reqs.minAge || reqs.minMemberAge || reqs.minLeaderboardPoints) {
 						text += "<br><h3 translate='giveaway.requirements'></h3>";
-						if (reqs.roles.length > 0) text += "<p><span translation='giveaway.thoseroles'></span>: " + reqs.roles.join(", ") + "</p>";
-						if (reqs.anyRoles.length > 0) text += "<p><span translation='giveaway.anyrole'></span>: " + reqs.anyRoles.join(", ") + "</p>";
-						if (reqs.notRoles.length > 0) text += "<p><span translation='giveaway.notrole'></span>: " + reqs.notRoles.join(", ") + "</p>";
+						if (reqs.roles) text += "<p><span translation='giveaway.thoseroles'></span>: " + reqs.roles.join(", ") + "</p>";
+						if (reqs.anyRoles) text += "<p><span translation='giveaway.anyrole'></span>: " + reqs.anyRoles.join(", ") + "</p>";
+						if (reqs.notRoles) text += "<p><span translation='giveaway.notrole'></span>: " + reqs.notRoles.join(", ") + "</p>";
 						if (reqs.minAge) text += "<p><span translation='giveaway.minaccage'></span>: <b>" + reqs.minAge + "</b></p>";
 						if (reqs.minMemberAge) text += "<p><span translation='giveaway.minmemberage'></span>: <b>" + reqs.minMemberAge + "</b></p>";
 						if (reqs.minLeaderboardPoints) text += "<p><span translation='giveaway.minleaderboardpoints'></span>: <b>" + reqs.minLeaderboardPoints.toLocaleString() + "</b></p>";

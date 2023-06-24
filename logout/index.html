@@ -8,8 +8,7 @@
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/logout/">
 
 		<title>TomatenKuchen - Discord account logout</title>
-		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
-		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
@@ -33,10 +32,9 @@
 				else {
 					document.body.innerHTML =
 						"<div class='center'>" +
-						"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-						"<h2>An error occured while handling your request!</h2>" +
+						"<h1>An error occured while handling your request!</h1>" +
 						"<h2>" + json.message + "</h2>" +
-						"<h3>Du wurdest trotzdem aus dem Browser abgemeldet.</h3>" +
+						"<h3>You still were logged out in the browser.</h3>" +
 						"</div>";
 
 					setTimeout(() => {

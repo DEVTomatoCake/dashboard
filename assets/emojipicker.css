@@ -50,8 +50,13 @@ emoji-picker.light {
 	left: -60px;
 	top: -5px;
 }
-#newmsg ion-icon {
+.emoji-special ion-icon {
 	left: -70px;
+}
+
+.emoji-container textarea {
+	box-sizing: border-box;
+	width: calc(100% - 70px);
 }
 
 .custom-picker {
@@ -112,6 +117,10 @@ channel-picker .element.child {
 }
 channel-picker .element.selected {
 	background-color: var(--picker-selected);
+}
+
+channel-picker.disabled .element, channel-picker.disabled .list {
+	cursor: not-allowed;
 }
 
 channel-picker .list {

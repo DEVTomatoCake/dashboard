@@ -10,8 +10,7 @@
 		<link rel="canonical" href="https://tomatenkuchen.eu/credits/">
 
 		<title>TomatenKuchen - View website and Discord bot credits</title>
-		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
-		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
@@ -31,8 +30,8 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="redirect('/login/')">
-						<p id="username-header">Account</p>
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
@@ -45,7 +44,7 @@
 				<div id="root-container" class="creditsContainer">
 					<h1 class="greeting">Credits</h1>
 					<h2>
-						<a href="https://github.com/DEVTomatoCake/dashboard/graphs/contributors">Contributors</a>
+						<a href="https://github.com/DEVTomatoCake/dashboard/graphs/contributors" translation="credits.contributors"></a>
 					</h2>
 					<div class="creditsUser">
 						<h3>TomatoCake</h3>
@@ -158,6 +157,18 @@
 						<img src="../assets/images/ItsJan_Logo.webp" width="140" height="140" alt="Avatar of ItsJan">
 					</div>
 
+					<div class="creditsUser">
+						<h3>Annhilati</h3>
+						<a href="https://github.com/annhilati" target="_blank" rel="noopener">
+							<ion-icon name="logo-github" class="creditsMedia"></ion-icon>
+						</a>
+						<a href="https://discord.com/users/720992368110862407" target="_blank" rel="noopener">
+							<ion-icon name="logo-discord" class="creditsMedia"></ion-icon>
+						</a>
+						<br>
+						<img src="../assets/images/Annhilati_Logo.webp" width="140" height="140" alt="Avatar of Annhilati">
+					</div>
+
 					<h2>Node packages</h2>
 					<div class="creditsPackages">
 						<div class="creditsUser">
@@ -166,6 +177,12 @@
 								<ion-icon name="link-outline" class="creditsMedia"></ion-icon>
 							</a>
 							<a href="https://npmjs.com/package/discord.js" target="_blank" rel="noopener">
+								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
+							</a>
+						</div>
+						<div class="creditsUser">
+							<h3>mysql2</h3>
+							<a href="https://npmjs.com/package/mysql2" target="_blank" rel="noopener">
 								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
 							</a>
 						</div>
@@ -224,12 +241,6 @@
 							</a>
 						</div>
 						<div class="creditsUser">
-							<h3>mysql</h3>
-							<a href="https://npmjs.com/package/mysql" target="_blank" rel="noopener">
-								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
-							</a>
-						</div>
-						<div class="creditsUser">
 							<h3>canvas</h3>
 							<a href="https://npmjs.com/package/canvas" target="_blank" rel="noopener">
 								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
@@ -244,6 +255,12 @@
 						<div class="creditsUser">
 							<h3>minecraft-server-util</h3>
 							<a href="https://npmjs.com/package/minecraft-server-util" target="_blank" rel="noopener">
+								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
+							</a>
+						</div>
+						<div class="creditsUser">
+							<h3>re2</h3>
+							<a href="https://npmjs.com/package/re2" target="_blank" rel="noopener">
 								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
 							</a>
 						</div>
@@ -272,8 +289,20 @@
 							</a>
 						</div>
 						<div class="creditsUser">
+							<h3>@mongodb-js/zstd</h3>
+							<a href="https://npmjs.com/package/@mongodb-js/zstd" target="_blank" rel="noopener">
+								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
+							</a>
+						</div>
+						<div class="creditsUser">
 							<h3>chrono-node</h3>
 							<a href="https://npmjs.com/package/chrono-node" target="_blank" rel="noopener">
+								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
+							</a>
+						</div>
+						<div class="creditsUser">
+							<h3>pidusage</h3>
+							<a href="https://npmjs.com/package/pidusage" target="_blank" rel="noopener">
 								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
 							</a>
 						</div>
@@ -284,11 +313,23 @@
 							</a>
 						</div>
 						<div class="creditsUser">
+							<h3>xmlbuilder2</h3>
+							<a href="https://npmjs.com/package/xmlbuilder2" target="_blank" rel="noopener">
+								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
+							</a>
+						</div>
+						<div class="creditsUser">
 							<h3>highlight.js</h3>
 							<a href="https://highlightjs.org" target="_blank" rel="noopener">
 								<ion-icon name="link-outline" class="creditsMedia"></ion-icon>
 							</a>
 							<a href="https://npmjs.com/package/highlight.js" target="_blank" rel="noopener">
+								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
+							</a>
+						</div>
+						<div class="creditsUser">
+							<h3>chalk</h3>
+							<a href="https://npmjs.com/package/chalk" target="_blank" rel="noopener">
 								<ion-icon name="logo-npm" class="creditsMedia"></ion-icon>
 							</a>
 						</div>

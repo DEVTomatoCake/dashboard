@@ -10,8 +10,7 @@
 		<link rel="canonical" href="https://tomatenkuchen.eu/stats/">
 
 		<title>TomatenKuchen - View Discord server member, messages and booster stats</title>
-		<link href="../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
-		<link href="../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
@@ -30,26 +29,27 @@
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
 		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
+
 		<script src="../assets/js/api/api.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" integrity="sha384-YAshAm4KKjf8V01c4sdNbPYiwU0D0Q82fjMHhKw8VvP0ecY4fxXsZAHxC4r4Ei+T" crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<script>
-			const params = new URLSearchParams(window.location.search);
+			const params = new URLSearchParams(location.search);
 			if (params.has("guild")) {
 				getStats(params.get("guild") + (params.has("time") ? "&time=" + params.get("time") : "") + (params.has("type") ? "&type=" + params.get("type") : "")).then(res => {
 					if (res.status == "success") createChart(res);
 					else {
 						if (typeof res != "string") console.error(res);
 						document.body.innerHTML =
-							"<center>" +
+							"<div class='center'>" +
 							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-							"<h2>An error occured while handling your request!</h2>" +
 							"<h2>" + (typeof res == "string" ? res : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h2>" +
-							"</center>";
+							"</div>";
 					}
 				});
-			} else document.body.innerHTML = "<center><h1>Please enter the server ID of the server you want to view the stats from!</h1></center>";
+			} else document.body.innerHTML = "<h1 class='center'>Please enter the server ID of the server you want to view the stats from!</h1>";
 
 			function createChart(apiresponse) {
 				const config = {
@@ -57,12 +57,12 @@
 					data: {
 						labels: apiresponse.data.labels.split(","),
 						datasets: [{
-							label: getCookie("lang") == "de" ? "Mitglieder" : "Members",
+							label: getLanguage() == "de" ? "Mitglieder" : "Members",
 							backgroundColor: "rgb(255, 99, 132)",
 							borderColor: "rgb(255, 99, 132)",
 							data: apiresponse.data.members.split(",")
 						},{
-							label: getCookie("lang") == "de" ? "Nachrichten pro Tag" : "Messages per day",
+							label: getLanguage() == "de" ? "Nachrichten pro Tag" : "Messages per day",
 							backgroundColor: "rgb(110, 255, 180)",
 							borderColor: "rgb(110, 255, 180)",
 							data: apiresponse.data.messages.split(",")
@@ -72,7 +72,7 @@
 							borderColor: "rgb(244, 127, 255)",
 							data: apiresponse.data.boosts.split(",")
 						},{
-							label: getCookie("lang") == "de" ? "Chatter" : "Chatters",
+							label: getLanguage() == "de" ? "Chatter" : "Chatters",
 							backgroundColor: "rgb(2, 129, 247)",
 							borderColor: "rgb(2, 129, 247)",
 							data: apiresponse.data.chatters.split(",")
@@ -82,7 +82,7 @@
 						plugins: {
 							title: {
 								display: true,
-								text: getCookie("lang") == "de" ? "Statistiken von " + apiresponse.name : "Statistics of " + apiresponse.name
+								text: getLanguage() == "de" ? "Statistiken von " + apiresponse.name : "Statistics of " + apiresponse.name
 							},
 							subtitle: {
 								display: params.get("type") != "members" && params.get("type") != "messages" && params.get("type") != "boosts" && params.get("type") != "chatters" && !params.has("time"),

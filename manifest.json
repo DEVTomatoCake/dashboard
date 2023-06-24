@@ -3,7 +3,7 @@
 	"name": "TomatenKuchen - Multipurpose Discord bot",
 	"icons": [
 		{
-			"src": "/assets/images/icon.ico",
+			"src": "/assets/images/favicon.ico",
 			"type": "image/x-icon",
 			"sizes": "128x128",
 			"purpose": "maskable"
@@ -45,10 +45,10 @@
 			"description": "Modify the settings of a server",
 			"url": "/dashboard/settings/?source=pwa"
 		},{
-			"name": "Manage customcommands",
-			"short_name": "Customcommands",
-			"description": "Create and modify customcommands of a server",
-			"url": "/dashboard/customcommands/?source=pwa"
+			"name": "Manage integrations",
+			"short_name": "Integrations",
+			"description": "Create and modify integrations of a server",
+			"url": "/dashboard/integrations/?source=pwa"
 		},{
 			"name": "Manage reaction, button and select roles",
 			"short_name": "Reactionroles",

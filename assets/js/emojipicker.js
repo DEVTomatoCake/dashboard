@@ -27,7 +27,7 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 	picker.addEventListener("emoji-click", e => {
 		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name;
 		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
-		if (handleChange) handleChange(picker.parentElement.querySelector("textarea,input").id);
+		handleChange(picker.parentElement.querySelector("textarea,input").id);
 	});
 
 	picker.customEmoji = customEmoji.map(emoji => ({
@@ -57,6 +57,8 @@ async function mentionPicker(parent = document.body, roles = []) {
 
 const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
 const updateSelected = (elem, value = "") => {
+	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"));
+
 	elem.parentElement.parentElement.setAttribute("data-selected", value);
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected");
@@ -68,9 +70,11 @@ const updateSelected = (elem, value = "") => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
 		}
 	});
-	if (handleChange) handleChange(elem.parentElement.parentElement.id);
+	handleChange(elem.parentElement.parentElement.id);
 }
 const updateMultiSelected = (elem, key, value) => {
+	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"));
+
 	elem.classList.toggle("selected");
 	if (elem.classList.contains("selected")) selectData[key].value.push(value);
 	else selectData[key].value.splice(selectData[key].value.indexOf(value), 1);
@@ -82,7 +86,7 @@ const updateMultiSelected = (elem, key, value) => {
 			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
 		});
 	}
-	if (handleChange) handleChange(elem.parentElement.parentElement.id);
+	handleChange(elem.parentElement.parentElement.id);
 }
 
 class ChannelRolePicker extends HTMLElement {
@@ -131,7 +135,7 @@ class ChannelRolePicker extends HTMLElement {
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
-					(channel ? encode(current.name || current) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
+					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
 					"</span></div>";
 			}).join("") +
 			"</div>";

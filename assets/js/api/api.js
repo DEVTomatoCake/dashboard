@@ -1,7 +1,11 @@
 const url = "https://api.tomatenkuchen.eu/api/"
-async function get(component, auth = true, method = "GET") {
+async function get(component, auth = true, method = "GET", body = null) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
-		method
+		method,
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: body ? JSON.stringify(body) : null
 	})
 
 	const json = await res.json()
@@ -15,7 +19,7 @@ const getCommands = () => new Promise((resolve, reject) => {
 })
 
 const getBotstats = () => new Promise((resolve, reject) => {
-	get("stats", false)
+	get("stats?lang=" + getLanguage() + "&publicServers=1", false)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 
@@ -30,7 +34,7 @@ const getStats = guild => new Promise((resolve, reject) => {
 })
 
 const login = code => {
-	const params = new URLSearchParams(window.location.search)
+	const params = new URLSearchParams(location.search)
 	return new Promise((resolve, reject) => {
 		get("auth/login?code=" + encodeURIComponent(code) + (params.get("state") ? "&dcState=" + params.get("state") : "") + (getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
 			.then(d => {
@@ -84,5 +88,10 @@ const deleteLog = (guild, log) => new Promise((resolve, reject) => {
 
 const getModlogs = guild => new Promise((resolve, reject) => {
 	get("modlogs/" + guild)
+		.then(d => resolve(d)).catch(e => reject(e))
+})
+
+const getCustom = () => new Promise((resolve, reject) => {
+	get("users/custom")
 		.then(d => resolve(d)).catch(e => reject(e))
 })

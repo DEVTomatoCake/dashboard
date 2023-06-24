@@ -3,6 +3,7 @@ function getGuildsHTML() {
 		getGuilds()
 			.then(json => {
 				if (json.status == "success") {
+					const target = localStorage.getItem("next");
 					let text = "";
 					json.data.sort((a, b) => {
 						if (a.active && b.active) return 0;
@@ -11,8 +12,9 @@ function getGuildsHTML() {
 					}).forEach(guild => {
 						text +=
 							"<div class='guilds-container'>" +
-							"<a class='guild' href='" + (guild.active ? "./settings/" : "../invite/") + "?guild=" + guild.id + "'>" +
-							"<img" + (guild.active ? "" : " class='inactive'") + ' alt="' + guild.id + '" width="128" height="128" title="' + encode(guild.name) + '" src="' + guild.icon + '">' +
+							"<a class='guild' href='" + (guild.active ? "./settings/" : "/invite/") + "?guild=" + guild.id +
+							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w=-]/gi, "") : "") + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + guild.id + "' width='128' height='128' title='" + encode(guild.name) + "' src='" + guild.icon + "'>" +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";
@@ -40,7 +42,7 @@ function getSettingsHTML(json) {
 				let possible = setting.possible;
 				if (typeof possible == "string") possible = json.constant[possible];
 				else if (typeof possible == "object") {
-					Object.keys(possible).filter(key => key != "").forEach(key => {
+					Object.keys(possible).filter(key => key != "").sort((a, b) => b.pos - a.pos).forEach(key => {
 						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]];
 					});
 				}
@@ -112,13 +114,12 @@ function getSettingsHTML(json) {
 		});
 
 		return {
-			html: "<center><h1><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" + text,
+			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" + text,
 			categories
 		};
 	} else {
 		return (
-			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h2>An error occured while handling your request!</h2>" +
+			"<h1>An error occured while handling your request!</h1>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -129,7 +130,7 @@ function getCustomcommandsHTML(json) {
 
 		json.data.forEach(setting => {
 			text +=
-				"<label><b for='" + setting.name + "'>" + setting.name + "</b></label>" +
+				"<label for='" + setting.name + "'><b>" + setting.name + "</b></label>" +
 				"<div class='emoji-container'>" +
 				"<textarea class='setting' rows='" + Math.round(setting.value.split("\n").length * 1.25) + "' cols='65' id='" + setting.name + "' maxlength='2000' name='" + setting.name + "'>" + setting.value + "</textarea>" +
 				"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
@@ -139,13 +140,45 @@ function getCustomcommandsHTML(json) {
 		});
 
 		if (text == "") text = "<p id='no-cc'><b translation='dashboard.cc.nocc'></b></p>";
-		return "<center><h1><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+		return "<h1 class='center'><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<p translation='dashboard.cc.delete'></p>" +
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
 	} else {
 		return (
-			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h2>An error occured while handling your request!</h2>" +
+			"<h1>An error occured while handling your request!</h1>" +
+			"<h2>" + json.message + "</h2>");
+	}
+}
+
+function getIntegrationsHTML(json, guild) {
+	if (json.status == "success") {
+		let text = "";
+
+		if (json.integrations.filter(i => i.guild == guild).length > 0)
+			text +=
+				"<br><br><h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
+				json.integrations.filter(i => i.guild == guild).map(handleIntegration).join("") +
+				"</div>";
+		else text += "<div class='integration-container'></div>";
+
+		if (json.integrations.filter(i => i.guild != guild && i.isOwner).length > 0)
+			text +=
+				"<br><br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
+				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration).join("") +
+				"</div>";
+
+		if (json.integrations.filter(i => i.guild != guild && !i.isOwner).length > 0)
+			text +=
+				"<br><br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
+				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration).join("") +
+				"</div>";
+
+		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>";
+		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
+			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" + text + "</div>";
+	} else {
+		return (
+			"<h1>An error occured while handling your request!</h1>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
@@ -189,23 +222,22 @@ function getReactionrolesHTML(json) {
 		});
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";
-		return "<center><h1><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1></center>" +
+		return "<h1 class='center'><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
 	} else {
 		return (
-			"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-			"<h2>An error occured while handling your request!</h2>" +
+			"<h1>An error occured while handling your request!</h1>" +
 			"<h2>" + json.message + "</h2>");
 	}
 }
 
 const tkbadges = {
-	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy'> Entwickler",
-	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy'> Team",
+	developer: "<img src='https://cdn.discordapp.com/emojis/712736235873108148.webp?size=24' width='24' height='24' alt='' loading='lazy'> Developer",
+	team: "<img src='https://cdn.discordapp.com/emojis/713984949639708712.webp?size=24' width='24' height='24' alt='' loading='lazy'> Staff",
 	contributor: "<img src='https://cdn.discordapp.com/emojis/914137176499949598.webp?size=24' width='24' height='24' alt='' loading='lazy'> Denkääär",
-	translator: "🏴‍☠️ Übersetzer",
+	translator: "🏴‍☠️ Translator",
 	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy'> Kek",
-	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy'> Altes Economysystem"
+	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy'> Old economy system"
 }
 function getDataexportHTML(token) {
 	return new Promise(resolve => {
@@ -222,7 +254,7 @@ function getDataexportHTML(token) {
 
 					let cooldowns = "";
 					if (json.data.economy?.cooldowns?.length > 0)
-						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Bis " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
+						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Runs out: " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
 
 					let mentions = "";
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
@@ -241,7 +273,7 @@ function getDataexportHTML(token) {
 						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode("" + suggest.id) + "</p>").join(", ");
 
 					const text =
-						"<center>" +
+						"<div class='center'>" +
 						"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
 						"<div class='userdatagrid'>" +
 
@@ -249,10 +281,10 @@ function getDataexportHTML(token) {
 						"<h1 translation='user.general'></h1>" +
 						"<p><b>ID:</b> " + json.data.userProfiles?.id + "</p>" +
 						(json.data.birthday ?
-							"<p><b>Birthday:</b> " + encode("" + json.data.birthday.day) + "." + encode("" + json.data.birthday.month) + "." +
+							"<p><b translation='user.birthday'></b> " + encode("" + json.data.birthday.day) + "." + encode("" + json.data.birthday.month) + "." +
 							(json.data.birthday.year ? encode("" + json.data.birthday.year) : "") + "</p>"
 						: "") +
-						(badges ? "<p><b>Badges:</b> " + badges + "</p>" : "") +
+						(badges ? "<p><b translation='user.badges'></b> " + badges + "</p>" : "") +
 						"</div>" +
 
 						"<div class='userData'>" +
@@ -265,8 +297,8 @@ function getDataexportHTML(token) {
 						(json.data.economy ?
 							"<div class='userData'>" +
 							"<h1>Economy</h1>" +
-							"<p><b>Wallet:</b> " + json.data.economy.wallet.toLocaleString("de-DE") + "🍅</p>" +
-							"<p><b>Bank:</b> " + json.data.economy.bank.toLocaleString("de-DE") + "🍅</p>" +
+							"<p><b>Wallet:</b> " + json.data.economy.wallet.toLocaleString() + "🍅</p>" +
+							"<p><b>Bank:</b> " + json.data.economy.bank.toLocaleString() + "🍅</p>" +
 							"<p><b>Skill:</b> " + json.data.economy.skill.toFixed(1) + "</p>" +
 							"<p><b>School:</b> " + json.data.economy.school + "</p>" +
 							(economyitems ? "<p><b>Items:</b> " + economyitems + "</p>" : "") +
@@ -304,6 +336,12 @@ function getDataexportHTML(token) {
 							"</div>"
 						: "") +
 
+						(json.data.backup && json.data.backups ?
+							"<div class='userData'>" +
+							"<h1>" + json.data.backups.length + "Backups</h1>" +
+							"</div>"
+						: "") +
+
 						"</div>" +
 
 						"<div style='overflow: auto;'>" +
@@ -314,7 +352,7 @@ function getDataexportHTML(token) {
 						"</div>" +
 						"</div>" +
 
-						"</center>";
+						"</div>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);
@@ -411,6 +449,20 @@ function getModlogsHTML(guild) {
 					});
 
 					resolve(text + "</tbody></table>");
+				} else handleError(resolve, json.message);
+			})
+			.catch(e => handleError(resolve, e));
+	});
+}
+
+function getCustomHTML(guild) {
+	return new Promise(resolve => {
+		getCustom(guild)
+			.then(json => {
+				if (json.status == "success") {
+					let text = "";
+
+					resolve(text);
 				} else handleError(resolve, json.message);
 			})
 			.catch(e => handleError(resolve, e));

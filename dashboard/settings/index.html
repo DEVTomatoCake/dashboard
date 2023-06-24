@@ -11,8 +11,7 @@
 		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - Server settings - Dashboard</title>
-		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
-		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
@@ -50,7 +49,7 @@
 				for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden");
 				document.getElementById("setcat-" + tab).classList.remove("hidden");
 
-				redirect("#" + tab);
+				document.body.scrollTo({top: 0, behavior: "smooth"});
 				if (screen.width <= 800) sidebar();
 			}
 
@@ -62,7 +61,7 @@
 				if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
 
 				if (!hasSavePopup) {
-					const params = new URLSearchParams(window.location.search);
+					const params = new URLSearchParams(location.search);
 					document.body.insertAdjacentHTML("beforeend",
 						"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
 						"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
@@ -151,10 +150,10 @@
 
 							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../customcommands/?guild=" + guild + "\")'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
+								"<a class='tab otherlinks' href='../integrations/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
+								"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
+								"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+								"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 								"<hr>";
 
 							rendered.categories.forEach(category => {
@@ -200,6 +199,14 @@
 
 			function addItem(settingKey, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
 				const setting = selectData[settingKey];
+				if (parent && setting.key == "rssUpdate")
+					value = {
+						author: "{author}",
+						title: "{title}",
+						description: "{content}",
+						image: "{image}",
+						footer: "{domain}"
+					};
 
 				let possible = setting.possible || {};
 				if (typeof setting.possible == "string") possible = pickerData[possible];
@@ -282,8 +289,15 @@
 					parent.insertAdjacentHTML("beforeend", html);
 					queue.forEach(f => f());
 					queue = [];
-					reloadText();
 					for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id);
+
+					if (parent && Array.isArray(setting.value)) {
+						const buttons = parent.querySelectorAll("button.createForm");
+						if (buttons.length > 1) buttons[1].remove();
+						if (parent.childElementCount > 3)
+							parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>");
+					}
+					reloadText();
 				} else return html;
 			}
 		</script>
@@ -299,8 +313,8 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="redirect('/login/')">
-						<p id="username-header">Account</p>
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
@@ -310,6 +324,26 @@
 			</header>
 
 			<div class="content" id="content">
+				<div style="min-width:100px;background-color:#3c9b8c;padding:10px 13px;margin-bottom:30px;border-radius:14px">
+					<h2>Hello there!</h2>
+					<p>
+						This is the main settings page of this server.
+						<br>
+						In the sidebar you can see the most important other pages, but
+						you can explore others by visiting the <a href="../">dashboard main page</a>, for example to view server logs or tickets.
+						<br>
+						<br>
+						Make sure to check out <a href="/docs" target="_blank" rel="noopener">our docs</a>
+						and/or to join the <a href="/discord" target="_blank" rel="noopener">support server</a>.
+						<br>
+						<small>
+							Yes, this page might seem clogged at first. That's a disadvantage of having many features and as such, auto-generating the settings pages.
+							<br>
+							You can select categories on the sidebar to only view a specific category. Let us know any suggestions for design improvements :D
+						</small>
+					</p>
+				</div>
+
 				<div id="root-container" class="row">
 					<section id="guilds">
 						<div id="guilds-container" class="grid">
@@ -321,7 +355,7 @@
 		</main>
 
 		<script>
-			const params = new URLSearchParams(window.location.search);
+			const params = new URLSearchParams(location.search);
 			let saving = false;
 			let savingToast;
 			let errorToast;
@@ -389,7 +423,7 @@
 					changed = [];
 				}
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 7}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {

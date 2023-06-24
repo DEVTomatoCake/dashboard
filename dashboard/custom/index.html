@@ -3,14 +3,14 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View your user data here.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View your custom branded bots here.">
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/user/">
-		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/user/">
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/custom/">
+		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/custom/">
 		<link rel="manifest" href="../../manifest.json">
 
-		<title>TomatenKuchen - User data and settings - Dashboard</title>
+		<title>TomatenKuchen - Custom branded bots - Dashboard</title>
 		<link href="../../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
@@ -49,15 +49,15 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
-					<h1>Loading your user data...</h1>
+					<h1>Loading your custom branded bots...</h1>
 				</div>
 			</div>
 		</main>
 
 		<script>
 			if (getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading your user data...</h1>";
-				getDataexportHTML().then(data => {
+				document.getElementById("root-container").innerHTML = "<h1>Loading your custom branded bots...</h1>";
+				getCustomHTML().then(data => {
 					document.getElementById("content").innerHTML = data;
 					reloadText();
 				});

@@ -11,8 +11,7 @@
 		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - Customcommands settings - Dashboard</title>
-		<link href="../../assets/images/icon.ico" rel="shortcut icon" type="image/x-icon">
-		<link href="../../assets/images/icon.ico" rel="icon" type="image/x-icon">
+		<link href="../../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
 		<link href="../../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
@@ -90,11 +89,12 @@
 							document.getElementById("linksidebar").innerHTML +=
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveCustomcommands();'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-								"<br><hr><div class='tab otherlinks' onclick='redirect(\"../settings/?guild=" + guild + "\")'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'></p></div>" +
+								"<br><hr><a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
+								"<a class='tab otherlinks' href='../integrations/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
 								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../reactionroles/?guild=" + guild + "\")'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../leaderboard/?guild=" + guild + "\")'><ion-icon name='speedometer-outline'></ion-icon><p>Leaderboard</p></div>" +
-								"<div class='tab otherlinks' onclick='redirect(\"../../stats/?guild=" + guild + "\")'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'></p></div>" +
+								"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
+								"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+								"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 								"</div>";
 
 							document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getCustomcommandsHTML(json) + "</div>";
@@ -125,8 +125,8 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="redirect('/login/')">
-						<p id="username-header">Account</p>
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
@@ -145,7 +145,7 @@
 						<input type="text" placeholder="Gib den Namen ein" name="customcommand-name" id="customcommand-name" required>
 
 						<label for="customcommand-text" translation="dashboard.content"></label>
-						<div class="emoji-container" id="newmsg">
+						<div class="emoji-container emoji-special">
 							<textarea form="create-form" maxlength="2000" placeholder="Gib den Text ein" name="customcommand-text" id="customcommand-text" rows="7" required></textarea>
 							<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 							<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
@@ -157,6 +157,14 @@
 						<br>
 						<button type="submit" translation="dashboard.cc.create"></button>
 					</form>
+				</div>
+
+				<div style="min-width:100px;background-color:#C74E4E;padding:10px 13px;margin-bottom:30px;border-radius:14px">
+					<h2>Customcommands are deprecated!</h2>
+					<p>
+						They are now being replaced by integrations. They offer more and better variables, version support, and much more triggers than only commands!
+						<a href="../integrations/">Have a look at them</a> and migrate your custom commands.
+					</p>
 				</div>
 
 				<div id="root-container" class="row"></div>
@@ -175,7 +183,7 @@
 
 				const div = document.createElement("div");
 				div.innerHTML =
-					"<label><b for='" + name + "'>" + name + "</b></label>" +
+					"<label for='" + name + "'><b>" + name + "</b></label>" +
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + Math.round(value.split("\n").length * 1.25) + "' cols='65' id='" + name + "' maxlength='2000' data-desc='" + desc + "' name='" + name + "'>" + value + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='mentionPicker(this.parentElement, pickerData.roles)'></ion-icon>" +
@@ -186,7 +194,7 @@
 				saveCustomcommands();
 			});
 
-			const params = new URLSearchParams(window.location.search);
+			const params = new URLSearchParams(location.search);
 			let saving = false;
 			let savingToast;
 			let errorToast;
@@ -212,14 +220,14 @@
 					data: items
 				}));
 
-				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 5}).show();
+				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 7}).show();
 			}
 
 			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Customcommands werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading customcommands...</h1>";
 				connectWS(encode(params.get("guild")));
 			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Die Customcommands werden geladen...</h1>";
+				document.getElementById("root-container").innerHTML = "<h1>Loading customcommands...</h1>";
 				location.href = "./?guild=" + params.get("guild_id");
 			} else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";

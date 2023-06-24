@@ -85,6 +85,7 @@
 
 			let guildName = "";
 			let integrations = [];
+			let pickerData = {};
 			function integrationInfo(integrationName) {
 				openDialog(document.getElementById("info-dialog"));
 				const integration = integrations.find(e => e.name == integrationName);
@@ -213,7 +214,6 @@
 					"</div>";
 			}
 
-			let pickerData = {};
 			function connectWS(guild) {
 				socket = sockette("wss://api.tomatenkuchen.eu", {
 					onClose: event => {

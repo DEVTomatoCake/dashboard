@@ -74,7 +74,7 @@ class ToastNotification {
 	setTitle(title) {
 		if (this.#element.classList.contains("closed")) return
 		this.#title = title || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .title").innerText = this.#title
+		this.#element.querySelector(".content-wrapper header .title-wrapper .title").textContent = this.#title
 		return this
 	}
 
@@ -88,13 +88,13 @@ class ToastNotification {
 	setTag(tag) {
 		if (this.#element.classList.contains("closed")) return
 		this.#tag = tag || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").innerText = this.#tag
+		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").textContent = this.#tag
 		return this
 	}
 
 	#setTimeout() {
 		const e = this.#element.querySelector(".content-wrapper header .close .timeout")
-		e.innerText = (this.#timeout === void 0) ? e.innerText : (this.#timeout + "s")
+		e.textContent = this.#timeout === void 0 ? e.textContent : (this.#timeout + "s")
 	}
 
 	show() {

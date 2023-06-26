@@ -54,7 +54,7 @@
 					const cmd = cmddiv[i];
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
-					if ((cmd.innerText.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
+					if ((cmd.textContent.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.style.display = "";
 						categories[cmd.getAttribute("data-category")]++;

@@ -40,9 +40,9 @@
 					const rows = cmd.getElementsByTagName("td");
 
 					let hidden = false;
-					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
-					if (tictype != "" && !rows[1].innerText.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
-					if (ticmessage != "" && !rows[2].innerText.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
+					if (ticid != "" && !rows[0].textContent.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
+					if (tictype != "" && !rows[1].textContent.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
+					if (ticmessage != "" && !rows[2].textContent.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
 
 					if (hidden) {
 						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");

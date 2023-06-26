@@ -4,7 +4,6 @@ function getGuildsHTML() {
 			.then(json => {
 				if (json.status == "success") {
 					const target = localStorage.getItem("next");
-					console.log(target)
 					let text = "";
 					json.data.sort((a, b) => {
 						if (a.active && b.active) return 0;

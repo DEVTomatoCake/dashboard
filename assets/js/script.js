@@ -217,7 +217,7 @@ function pageLoad(page = "") {
 	if (username) {
 		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!";
 		document.getElementById("username-header").removeAttribute("translation");
-		document.getElementById("username-header").innerText = username;
+		document.getElementById("username-header").textContent = username;
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
 			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>";// +

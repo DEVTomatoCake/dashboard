@@ -72,7 +72,7 @@ function getSettingsHTML(json) {
 						setting.value = [setting.value];
 						temp += addItem(setting.key, void 0, setting.value[0], void 0, true);
 					}
-					temp += "</div>";
+					temp += "</div><br>";
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>";
 					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value));
@@ -82,7 +82,7 @@ function getSettingsHTML(json) {
 						if (setting.type == "bool") temp += "<option value='" + key + "'" + ((setting.value && key == "true") || (!setting.value && key != "true") ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>";
 					});
-					temp += "</select>";
+					temp += "</select><br>";
 				}
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
@@ -100,9 +100,10 @@ function getSettingsHTML(json) {
 						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				}
+				temp += "<br>";
 			}
 			if (!categories.includes(setting.category)) categories.push(setting.category);
-			categoryData.push([setting.category, temp + "<br><br>"]);
+			categoryData.push([setting.category, temp + "<br>"]);
 		});
 
 		categories.forEach(category => {
@@ -290,7 +291,8 @@ function getDataexportHTML(token) {
 						"<div class='userData'>" +
 						"<h1 translation='dashboard.settings'></h1>" +
 						"<p><b>Embed color:</b><p style='background-color: #" + encode(json.data.userProfiles?.settings?.embedcolor) + ";'></p> " + encode(json.data.userProfiles?.settings?.embedcolor) + "</p>" +
-						"<p><b translation='user.levelbg'></b><br><a class='accent' target='_blank' ref='noopener' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
+						"<p><b translation='user.levelbg'></b><br><a class='accent' target='_blank' ref='noopener' href='" + json.data.userProfiles?.settings?.levelBackground +
+						"'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
 						"<p><b translation='user.saveticketatt'></b> " + encode(json.data.userProfiles?.settings?.saveTicketAttachments) + "</p>" +
 						"</div>" +
 

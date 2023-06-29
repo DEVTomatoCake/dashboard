@@ -228,7 +228,7 @@
 							"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
 							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'><br>";
 						else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
-							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker><br>";
+							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>";
 							queue.push(() => updateSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]));
 						} else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 							html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>";
@@ -260,7 +260,7 @@
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='settingcopy' id='" + setting.key + "_" + key +
 						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'><br>";
 					else if (type == "role" || type.endsWith("channel")) {
-						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker><br>";
+						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>";
 						queue.push(() => updateSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value));
 					} else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
 						html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>";

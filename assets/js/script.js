@@ -1,41 +1,42 @@
 function setCookie(name, value, days, global) {
-	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return;
-	let cookie = name + "=" + (value || "") + ";path=/;Secure;";
-	if (days) {
-		const date = new Date();
-		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days);
-		cookie += "expires=" + date.toUTCString() + ";";
-	}
-	if (global) cookie += "domain=.tomatenkuchen.eu;";
+	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 
-	document.cookie = cookie;
+	let cookie = name + "=" + (value || "") + ";path=/;Secure;"
+	if (days) {
+		const date = new Date()
+		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days)
+		cookie += "expires=" + date.toUTCString() + ";"
+	}
+	if (global) cookie += "domain=.tomatenkuchen.eu;"
+
+	document.cookie = cookie
 }
 function getCookie(name) {
-	const cookies = document.cookie.split(";");
+	const cookies = document.cookie.split(";")
 
-	for (let i = 0; i < cookies.length; i++) {
-		const cookie = cookies[i].trim();
-		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length);
+	for (const rawCookie of cookies) {
+		const cookie = rawCookie.trim()
+		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
 	}
-	return void 0;
+	return void 0
 }
 function deleteCookie(name) {
-	document.cookie = name + "=;Max-Age=-99999999;path=/;";
-	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;";
+	document.cookie = name + "=;Max-Age=-99999999;path=/;"
+	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;"
 }
 
-const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
 
 function handleError(resolve, error) {
-	if (typeof error != "string") console.error(error);
+	if (typeof error != "string") console.error(error)
 	resolve(
 		"<h1>An error occured while handling your request!</h1>" +
-		"<h2>" + (typeof error == "string" ? error : "Check your browser console to find out more!") + "</h2>");
+		"<h2>" + (typeof error == "string" ? error : "Check your browser console to find out more!") + "</h2>")
 }
 
 class Footer extends HTMLElement {
 	constructor() {
-		super();
+		super()
 	}
 	connectedCallback() {
 		this.innerHTML =
@@ -54,14 +55,14 @@ class Footer extends HTMLElement {
 				"<a href='/discord/'>Support server</a>" +
 				"<a href='/privacy/'>Privacy/ToS</a>" +
 			"</div>" +
-			"</footer>";
+			"</footer>"
 	}
 }
-customElements.define("global-footer", Footer);
+customElements.define("global-footer", Footer)
 
 class Sidebar extends HTMLElement {
 	constructor() {
-		super();
+		super()
 	}
 	connectedCallback() {
 		this.innerHTML =
@@ -125,73 +126,73 @@ class Sidebar extends HTMLElement {
 					"</label>" +
 				"</div>" +
 			"</nav>" +
-			"</div>";
+			"</div>"
 	}
 }
-customElements.define("global-sidebar", Sidebar);
+customElements.define("global-sidebar", Sidebar)
 
-let sideState = 0;
+let sideState = 0
 function sidebar() {
-	sideState++;
+	sideState++
 
-	document.getElementById("lineTop2").style.transform = "rotate(45deg)";
-	document.getElementById("lineTop2").style.top = "5px";
-	document.getElementById("lineBottom2").style.transform = "rotate(-45deg)";
-	document.getElementById("lineBottom2").style.bottom = "5px";
+	document.getElementById("lineTop2").style.transform = "rotate(45deg)"
+	document.getElementById("lineTop2").style.top = "5px"
+	document.getElementById("lineBottom2").style.transform = "rotate(-45deg)"
+	document.getElementById("lineBottom2").style.bottom = "5px"
 
-	document.getElementById("lineTop1").style.transform = "rotate(45deg)";
-	document.getElementById("lineTop1").style.top = "5px";
-	document.getElementById("lineBottom1").style.transform = "rotate(-45deg)";
-	document.getElementById("lineBottom1").style.bottom = "5px";
+	document.getElementById("lineTop1").style.transform = "rotate(45deg)"
+	document.getElementById("lineTop1").style.top = "5px"
+	document.getElementById("lineBottom1").style.transform = "rotate(-45deg)"
+	document.getElementById("lineBottom1").style.bottom = "5px"
 
 	if (sideState % 2 == 0) {
 		setTimeout(() => {
-			document.getElementById("content").style.paddingLeft = "300px";
-			document.getElementById("sidebar-container").classList.toggle("visible");
-		}, 300);
+			document.getElementById("content").style.paddingLeft = "300px"
+			document.getElementById("sidebar-container").classList.toggle("visible")
+		}, 300)
 	} else {
-		document.getElementById("content").style.paddingLeft = "0";
+		document.getElementById("content").style.paddingLeft = "0"
 
-		document.getElementById("lineTop2").style.transform = "rotate(0)";
-		document.getElementById("lineTop2").style.top = "0";
-		document.getElementById("lineBottom2").style.transform = "rotate(0)";
-		document.getElementById("lineBottom2").style.bottom = "0";
+		document.getElementById("lineTop2").style.transform = "rotate(0)"
+		document.getElementById("lineTop2").style.top = "0"
+		document.getElementById("lineBottom2").style.transform = "rotate(0)"
+		document.getElementById("lineBottom2").style.bottom = "0"
 
-		document.getElementById("lineTop1").style.transform = "rotate(0)";
-		document.getElementById("lineTop1").style.top = "0";
-		document.getElementById("lineBottom1").style.transform = "rotate(0)";
-		document.getElementById("lineBottom1").style.bottom = "0";
+		document.getElementById("lineTop1").style.transform = "rotate(0)"
+		document.getElementById("lineTop1").style.top = "0"
+		document.getElementById("lineBottom1").style.transform = "rotate(0)"
+		document.getElementById("lineBottom1").style.bottom = "0"
 
 		setTimeout(() => {
-			document.getElementById("sidebar-container").classList.toggle("visible");
-		}, 100);
+			document.getElementById("sidebar-container").classList.toggle("visible")
+		}, 100)
 	}
 }
 
 function fadeOut(element) {
-	if (!element) return;
-	if (!element.style.opacity) element.style.opacity = 1;
+	if (!element) return
+	if (!element.style.opacity) element.style.opacity = 1
 
-	element.style.opacity = parseFloat(element.style.opacity) - 0.05;
-	if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25);
-	else element.remove();
+	element.style.opacity = parseFloat(element.style.opacity) - 0.05
+	if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25)
+	else element.remove()
 }
 function fadeIn(element) {
-	if (!element) return;
-	if (!element.style.opacity) element.style.opacity = 0;
+	if (!element) return
+	if (!element.style.opacity) element.style.opacity = 0
 
-	element.style.opacity = parseFloat(element.style.opacity) + 0.05;
-	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25);
+	element.style.opacity = parseFloat(element.style.opacity) + 0.05
+	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25)
 }
 
 function openDialog(dialog) {
-	dialog.style.display = "block";
-	dialog.getElementsByClassName("close")[0].onclick = function() {
-		dialog.style.display = "none";
-	};
-	window.onclick = function(event) {
-		if (event.target == dialog) dialog.style.display = "none";
-	};
+	dialog.style.display = "block"
+	dialog.getElementsByClassName("close")[0].onclick = () => {
+		dialog.style.display = "none"
+	}
+	window.onclick = event => {
+		if (event.target == dialog) dialog.style.display = "none"
+	}
 }
 
 function pageLoad(page = "") {
@@ -199,55 +200,54 @@ function pageLoad(page = "") {
 		document.body.innerHTML +=
 			"<div class='cookie-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
-			"<p translation='cookie.text'>Unsere Website nutzt Cookies, um <br>bestmögliche Funktionalität bieten zu können.</p>" +
+			"<p translation='cookie.text'>Our website uses cookies to provide <br>the best possible user experience.</p>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement);' translation='cookie.all'>Accept all</button>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement);' translation='cookie.necessary'>Only essential</button>" +
-			"</div>";
-		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000);
+			"</div>"
+		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
 	}
 
 	if (screen.width <= 800) {
-		if (page == "commands") document.getElementById("search-box").style.marginLeft = "10px";
-		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible");
-		document.getElementById("content").style.paddingLeft = "0";
-		sideState = 1;
+		if (page == "commands") document.getElementById("search-box").style.marginLeft = "10px"
+		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible")
+		document.getElementById("content").style.paddingLeft = "0"
+		sideState = 1
 	}
 
-	const username = getCookie("user");
+	const username = getCookie("user")
 	if (username) {
-		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!";
-		document.getElementById("username-header").removeAttribute("translation");
-		document.getElementById("username-header").textContent = username;
+		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!"
+		document.getElementById("username-header").removeAttribute("translation")
+		document.getElementById("username-header").textContent = username
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>";// +
-			//"<a href='/dashboard/custom'>Custom bots</a>";
+			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>"// +
+			//"<a href='/dashboard/custom'>Custom bots</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style=\"display:block;\";this.style.display=\"none\";'>";
-	} else document.getElementById("username-avatar").style = "display: block;";
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style=\"display:block;\";this.style.display=\"none\";'>"
+	} else document.getElementById("username-avatar").style = "display: block;"
 
-	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme");
+	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
 	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
-		document.body.classList.replace("dark-theme", "light-theme");
-		setCookie("theme", "light", 365, true);
-	} else document.getElementById("theme-toggle").checked = true;
+		document.body.classList.replace("dark-theme", "light-theme")
+		setCookie("theme", "light", 365, true)
+	} else document.getElementById("theme-toggle").checked = true
 
 	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {
-			document.body.classList.replace("light-theme", "dark-theme");
-			setCookie("theme", "dark", 365, true);
+			document.body.classList.replace("light-theme", "dark-theme")
+			setCookie("theme", "dark", 365, true)
 		} else {
-			document.body.classList.replace("dark-theme", "light-theme");
-			setCookie("theme", "light", 365, true);
+			document.body.classList.replace("dark-theme", "light-theme")
+			setCookie("theme", "light", 365, true)
 		}
 		document.querySelectorAll("emoji-picker").forEach(picker => {
-			picker.classList.toggle("light");
-		});
-	});
+			picker.classList.toggle("light")
+		})
+	})
 
-	if (reloadText) reloadText();
-
-	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js");
+	if (reloadText) reloadText()
+	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

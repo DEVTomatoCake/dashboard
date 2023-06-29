@@ -463,7 +463,7 @@
 				const data = {
 					edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
 					guild: params.get("guild"),
-					owner: getCookie("user") ? getCookie("user") : "You",
+					owner: getCookie("user") || "You",
 					isOwner: true,
 					created: Date.now(),
 					lastUpdate: Date.now(),

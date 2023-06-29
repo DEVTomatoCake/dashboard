@@ -1,6 +1,6 @@
 // Made by Mqx#8315 on "Deutsches Mapmaking" Discord
 
-const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
+const types = new Set(["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"])
 let _toastNotifications = []
 let autoscroll = true
 
@@ -66,7 +66,7 @@ class ToastNotification {
 
 	setType(type) {
 		if (this.#element.classList.contains("closed")) return
-		this.#type = types.includes(type) ? type : "INFO"
+		this.#type = types.has(type) ? type : "INFO"
 		this.#element.querySelector(".type-image-wrapper").setAttribute("data-type", this.#type)
 		return this
 	}

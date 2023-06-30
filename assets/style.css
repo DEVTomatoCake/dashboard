@@ -310,7 +310,7 @@ button.green:hover {
 
 .setting, .settingcopy {
 	overflow-wrap: anywhere;
-	font-size: 21px;
+	font-size: 20px;
 	border: none;
 	border-radius: 7px;
 	padding: 5px;
@@ -339,6 +339,9 @@ textarea:focus {
 	box-shadow: 0 0 6px 2px var(--secondary-color);
 }
 
+textarea.setting, textarea.settingcopy {
+	font-size: 18px;
+}
 textarea.code {
 	overflow-wrap: anywhere;
 	font-family: monospace;

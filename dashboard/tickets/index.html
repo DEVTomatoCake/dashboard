@@ -35,30 +35,27 @@
 				const ticcontent = document.getElementById("ts-content").value;
 				const ticstate = document.getElementById("ts-state").value;
 
-				const ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
-
 				let includeContent = [];
 				if (ticcontent != "" && ticcontent.length > 2) {
 					const params = new URLSearchParams(location.search);
 					includeContent = (await searchTickets(params.get("guild"), ticcontent)).data;
 				}
 
-				for (let i = 0; i < ticketdiv.length; i++) {
-					const cmd = ticketdiv[i];
-					const rows = cmd.getElementsByTagName("td");
+				for (const tic of document.getElementById("content").getElementsByClassName("ticket")) {
+					const rows = tic.getElementsByTagName("td");
 
 					let hidden = false;
-					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
-					if (ticcontent != "" && !includeContent.includes(rows[0].innerText.toLowerCase())) hidden = true;
-					if (ticuserid != "" && !rows[1].innerText.toLowerCase().includes(ticuserid.toLowerCase())) hidden = true;
-					if (ticstate != "all" && !rows[3].innerText.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
+					if (ticid != "" && !rows[0].textContent.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
+					if (ticcontent != "" && !includeContent.includes(rows[0].textContent.toLowerCase())) hidden = true;
+					if (ticuserid != "" && !rows[1].textContent.toLowerCase().includes(ticuserid.toLowerCase())) hidden = true;
+					if (ticstate != "all" && !rows[3].textContent.toLowerCase().includes(ticstate.toLowerCase())) hidden = true;
 
 					if (hidden) {
-						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "none";
+						if (tic.classList.contains("cmdvisible")) tic.classList.toggle("cmdvisible");
+						tic.style.display = "none";
 					} else {
-						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "";
+						if (!tic.classList.contains("cmdvisible")) tic.classList.toggle("cmdvisible");
+						tic.style.display = "";
 					}
 				}
 			}

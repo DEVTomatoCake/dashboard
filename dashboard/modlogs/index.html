@@ -33,23 +33,20 @@
 				const ticmessage = document.getElementById("ts-message").value;
 				const ticcreated = document.getElementById("ts-created").value;
 
-				const ticketdiv = document.getElementById("content").getElementsByClassName("ticket");
-
-				for (let i = 0; i < ticketdiv.length; i++) {
-					const cmd = ticketdiv[i];
-					const rows = cmd.getElementsByTagName("td");
+				for (const log of document.getElementById("content").getElementsByClassName("ticket")) {
+					const rows = log.getElementsByTagName("td");
 
 					let hidden = false;
-					if (ticid != "" && !rows[0].innerText.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
-					if (tictype != "" && !rows[1].innerText.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
-					if (ticmessage != "" && !rows[2].innerText.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
+					if (ticid != "" && !rows[0].textContent.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
+					if (tictype != "" && !rows[1].textContent.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
+					if (ticmessage != "" && !rows[2].textContent.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
 
 					if (hidden) {
-						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "none";
+						if (log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible");
+						log.style.display = "none";
 					} else {
-						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "";
+						if (!log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible");
+						log.style.display = "";
 					}
 				}
 			}

@@ -220,13 +220,13 @@
 
 				let html = "<div class='setgroup'>";
 				if (typeof setting.type == "object" && Array.isArray(setting.value)) {
-					html += (possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "");
+					html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : "";
 					Object.keys(setting.type).forEach(setKey => {
 						html += "<div><label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>";
 						if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 							"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
 							"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
-							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'>";
+							"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'><br>";
 						else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
 							html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>";
 							queue.push(() => updateSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]));
@@ -237,10 +237,10 @@
 								else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 								else html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>";
 							});
-							html += "</select>";
+							html += "</select><br>";
 						} else if (setting.type[setKey] == "time" || setting.type[setKey] == "singlestring") {
 							html += "<input type='text' class='setting' id='" + setting.key + "_" + setKey + "_" + key + "' value='" +
-								(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'>";
+								(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'><br>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
 						} else {
 							html += "<div class='emoji-container'><textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + setKey + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
@@ -249,7 +249,7 @@
 								"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 							if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key);
 						}
-						html += "<br></div>";
+						html += "</div>";
 					})
 				} else {
 					let type = setting.type;
@@ -258,7 +258,7 @@
 					if (!parent && !Array.isArray(setting.value)) html += "<label for='" + setting.key + "_" + key + "'>" + key + "</label><br>";
 					if (type == "int" || type == "number") html +=
 						"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='settingcopy' id='" + setting.key + "_" + key +
-						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'>";
+						"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'><br>";
 					else if (type == "role" || type.endsWith("channel")) {
 						html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>";
 						queue.push(() => updateSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value));
@@ -269,9 +269,9 @@
 							else if (typeof possible[key][posKey] == "string") html += "<option value='" + posKey + "'" + (value == posKey ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
 							else html += "<option value='" + posKey + "'" + (value == posKey ? " selected" : "") + ">" + possible[key][posKey].name + "</option>";
 						});
-						html += "</select>";
+						html += "</select><br>";
 					} else if (type == "time" || type == "singlestring") {
-						html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "' value='" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "'>";
+						html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "' value='" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "'><br>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					} else {
 						html += "<div class='emoji-container'><textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
@@ -280,7 +280,6 @@
 							"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 						if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key);
 					}
-					html += "<br>";
 				}
 				html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
 					"</div>";
@@ -324,7 +323,7 @@
 			</header>
 
 			<div class="content" id="content">
-				<div style="min-width:100px;background-color:#3c9b8c;padding:10px 13px;margin-bottom:30px;border-radius:14px">
+				<div style="min-width:100px;background-color:var(--settings-upsell);padding:10px 13px;margin-bottom:30px;border-radius:14px">
 					<h2>Hello there!</h2>
 					<p>
 						This is the main settings page of this server.
@@ -337,9 +336,9 @@
 						and/or to join the <a href="/discord" target="_blank" rel="noopener">support server</a>.
 						<br>
 						<small>
-							Yes, this page might seem clogged at first. That's a disadvantage of having many features and as such, auto-generating the settings pages.
+							Yes, this page might seem clogged at first. That's a disadvantage of having many features and as such, auto-generating the settings pages xD
 							<br>
-							You can select categories on the sidebar to only view a specific category. Let us know any suggestions for design improvements :D
+							You can select categories on the sidebar to only view a specific category. Let us know any design (and bot) suggestions :D
 						</small>
 					</p>
 				</div>

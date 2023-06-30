@@ -4,7 +4,6 @@ function getGuildsHTML() {
 			.then(json => {
 				if (json.status == "success") {
 					const target = localStorage.getItem("next");
-					console.log(target)
 					let text = "";
 					json.data.sort((a, b) => {
 						if (a.active && b.active) return 0;
@@ -37,7 +36,7 @@ function getSettingsHTML(json) {
 
 		json.data.forEach(setting => {
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
-				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de/" : "") + setting.docs + "' target='_blank' rel='noopener'><small>Docs<ion-icon name='link-outline'></ion-icon></small></a>" : "") + "<br>";
+				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de/" : "") + setting.docs + "' target='_blank' rel='noopener'><small>Docs</small></a>" : "") + "<br>";
 
 			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible;
@@ -73,7 +72,7 @@ function getSettingsHTML(json) {
 						setting.value = [setting.value];
 						temp += addItem(setting.key, void 0, setting.value[0], void 0, true);
 					}
-					temp += "</div>";
+					temp += "</div><br>";
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>";
 					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value));
@@ -83,7 +82,7 @@ function getSettingsHTML(json) {
 						if (setting.type == "bool") temp += "<option value='" + key + "'" + ((setting.value && key == "true") || (!setting.value && key != "true") ? " selected" : "") + ">" + possible[key] + "</option>"
 						else temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>";
 					});
-					temp += "</select>";
+					temp += "</select><br>";
 				}
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
@@ -101,9 +100,10 @@ function getSettingsHTML(json) {
 						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>";
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value);
 				}
+				temp += "<br>";
 			}
 			if (!categories.includes(setting.category)) categories.push(setting.category);
-			categoryData.push([setting.category, temp + "<br><br>"]);
+			categoryData.push([setting.category, temp + "<br>"]);
 		});
 
 		categories.forEach(category => {
@@ -155,20 +155,20 @@ function getIntegrationsHTML(json, guild) {
 	if (json.status == "success") {
 		let text = "";
 
-		if (json.integrations.filter(i => i.guild == guild).length > 0)
+		if (json.integrations.some(i => i.guild == guild))
 			text +=
 				"<br><br><h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild == guild).map(handleIntegration).join("") +
 				"</div>";
 		else text += "<div class='integration-container'></div>";
 
-		if (json.integrations.filter(i => i.guild != guild && i.isOwner).length > 0)
+		if (json.integrations.some(i => i.guild != guild && i.isOwner))
 			text +=
 				"<br><br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration).join("") +
 				"</div>";
 
-		if (json.integrations.filter(i => i.guild != guild && !i.isOwner).length > 0)
+		if (json.integrations.some(i => i.guild != guild && !i.isOwner))
 			text +=
 				"<br><br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration).join("") +
@@ -291,7 +291,8 @@ function getDataexportHTML(token) {
 						"<div class='userData'>" +
 						"<h1 translation='dashboard.settings'></h1>" +
 						"<p><b>Embed color:</b><p style='background-color: #" + encode(json.data.userProfiles?.settings?.embedcolor) + ";'></p> " + encode(json.data.userProfiles?.settings?.embedcolor) + "</p>" +
-						"<p><b translation='user.levelbg'></b><br><a class='accent' target='_blank' ref='noopener' href='" + json.data.userProfiles?.settings?.levelBackground + "'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
+						"<p><b translation='user.levelbg'></b><br><a class='accent' target='_blank' ref='noopener' href='" + json.data.userProfiles?.settings?.levelBackground +
+						"'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
 						"<p><b translation='user.saveticketatt'></b> " + encode(json.data.userProfiles?.settings?.saveTicketAttachments) + "</p>" +
 						"</div>" +
 

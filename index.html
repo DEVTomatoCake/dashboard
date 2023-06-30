@@ -27,10 +27,10 @@
 		<script>
 			let servers = [];
 			getBotstats().then(json => {
-				document.getElementById("stats-guilds").innerText = json.guilds;
-				document.getElementById("stats-uptime").innerText = json.uptime_ratio.toFixed(2) + "%";
-				document.getElementById("stats-tickets").innerText = json.tickets.toLocaleString();
-				document.getElementById("stats-users").innerText = Math.round(json.users / 1000) + "k";
+				document.getElementById("stats-guilds").textContent = json.guilds;
+				document.getElementById("stats-uptime").textContent = json.uptime_ratio.toFixed(2) + "%";
+				document.getElementById("stats-tickets").textContent = json.tickets.toLocaleString();
+				document.getElementById("stats-users").textContent = Math.round(json.users / 1000) + "k";
 
 				servers = json.public_guilds;
 				for (let i = 1; i <= 3; i++) {

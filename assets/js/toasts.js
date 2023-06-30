@@ -1,6 +1,6 @@
 // Made by Mqx#8315 on "Deutsches Mapmaking" Discord
 
-const types = ["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"]
+const types = new Set(["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"])
 let _toastNotifications = []
 let autoscroll = true
 
@@ -66,7 +66,7 @@ class ToastNotification {
 
 	setType(type) {
 		if (this.#element.classList.contains("closed")) return
-		this.#type = types.includes(type) ? type : "INFO"
+		this.#type = types.has(type) ? type : "INFO"
 		this.#element.querySelector(".type-image-wrapper").setAttribute("data-type", this.#type)
 		return this
 	}
@@ -74,7 +74,7 @@ class ToastNotification {
 	setTitle(title) {
 		if (this.#element.classList.contains("closed")) return
 		this.#title = title || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .title").innerText = this.#title
+		this.#element.querySelector(".content-wrapper header .title-wrapper .title").textContent = this.#title
 		return this
 	}
 
@@ -88,13 +88,13 @@ class ToastNotification {
 	setTag(tag) {
 		if (this.#element.classList.contains("closed")) return
 		this.#tag = tag || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").innerText = this.#tag
+		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").textContent = this.#tag
 		return this
 	}
 
 	#setTimeout() {
 		const e = this.#element.querySelector(".content-wrapper header .close .timeout")
-		e.innerText = (this.#timeout === void 0) ? e.innerText : (this.#timeout + "s")
+		e.textContent = this.#timeout === void 0 ? e.textContent : (this.#timeout + "s")
 	}
 
 	show() {

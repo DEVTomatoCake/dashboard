@@ -121,8 +121,7 @@
 			document.getElementById("ts-created").max = new Date().toISOString().slice(0, -8);
 
 			const params = new URLSearchParams(location.search);
-			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading tickets...</h1>";
+			if (params.has("guild") && getCookie("token"))
 				getTicketsHTML(params.get("guild")).then(data => {
 					const encodedGuild = encode(params.get("guild"));
 					document.getElementById("linksidebar").innerHTML +=
@@ -137,10 +136,8 @@
 					document.getElementById("root-container").innerHTML = data;
 					reloadText();
 				});
-			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading tickets...</h1>";
-				location.href = "./?guild=" + params.get("guild_id");
-			} else if (getCookie("token")) {
+			else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id");
+			else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";
 				localStorage.setItem("next", location.pathname);
 				location.href = "../";

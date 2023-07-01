@@ -119,8 +119,8 @@
 				if (!integration) return alert("Unknown integration \"" + integrationName + "\"!");
 
 				document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>" +
-					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm red' onclick='socket.send(JSON.stringify({status:\"success\"," +
-						"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"}));this.remove()'>Sync integration from original</button>" : "");
+					(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm red' onclick='socket.send({status:\"success\"," +
+						"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"});this.remove()'>Sync integration from original</button>" : "");
 				document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
 				document.getElementById("integration-short").value = encode(integration.short);
 				document.getElementById("integration-image").value = encode(integration.image);
@@ -189,7 +189,7 @@
 				const confirmed = confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!");
 				if (confirmed) {
 					elem.parentElement.parentElement.remove();
-					socket.send(JSON.stringify({status: "success", action: "DELETE_integration", name: integration}));
+					socket.send({status: "success", action: "DELETE_integration", name: integration});
 				}
 			}
 
@@ -432,7 +432,9 @@
 					</div>
 				</div>
 
-				<div id="root-container" class="row"></div>
+				<div id="root-container" class="row">
+					<h1>Loading integrations...</h1>
+				</div>
 			</div>
 		</main>
 
@@ -502,22 +504,18 @@
 					reloadText();
 				}
 
-				socket.send(JSON.stringify({
+				socket.send({
 					status: "success",
 					action: "SAVE_integration",
 					data
-				}));
+				});
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving integration \"" + encode(name) + "\"...", timeout: 7}).show();
 			}
 
-			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading integrations...</h1>";
-				connectWS(encode(params.get("guild")));
-			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading integrations...</h1>";
-				location.href = "./?guild=" + params.get("guild_id");
-			} else if (getCookie("token")) {
+			if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")));
+			else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id");
+			else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";
 				localStorage.setItem("next", location.pathname + location.search);
 				location.href = "../";

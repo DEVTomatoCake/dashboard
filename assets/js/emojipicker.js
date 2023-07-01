@@ -1,12 +1,12 @@
 async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis", onlyNameReplace = false) {
-	const pickerExisting = parent.querySelector("emoji-picker");
-	if (pickerExisting) return pickerExisting.remove();
+	const pickerExisting = parent.querySelector("emoji-picker")
+	if (pickerExisting) return pickerExisting.remove()
 
-	const picker = document.createElement("emoji-picker");
-	if (getCookie("theme") == "light") picker.classList.add("light");
-	else picker.classList.add("dark");
+	const picker = document.createElement("emoji-picker")
+	if (getCookie("theme") == "light") picker.classList.add("light")
+	else picker.classList.add("dark")
 
-	const style = document.createElement("style");
+	const style = document.createElement("style")
 	style.textContent = `
 		.picker {
 			border-radius: 10px;
@@ -21,77 +21,77 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 		#skintone-button {
 			font-size: 24px;
 		}
-	`;
-	picker.shadowRoot.appendChild(style);
+	`
+	picker.shadowRoot.appendChild(style)
 
 	picker.addEventListener("emoji-click", e => {
-		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name;
-		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">");
-		handleChange(picker.parentElement.querySelector("textarea,input").id);
-	});
+		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name
+		else insertText(picker.parentElement.querySelector("textarea,input"), e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">")
+		handleChange(picker.parentElement.querySelector("textarea,input").id)
+	})
 
 	picker.customEmoji = customEmoji.map(emoji => ({
 		name: emoji.name,
 		shortCodes: [emoji.name, emoji.id],
 		url: "https://cdn.discordapp.com/emojis/" + emoji.id + "." + (emoji.a ? "gif" : "webp") + "?size=64",
 		category: guildName
-	}));
-	parent.appendChild(picker);
+	}))
+	parent.appendChild(picker)
 }
 
-const insertMention = (elem, id) => insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">");
+const insertMention = (elem, id) => insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">")
 async function mentionPicker(parent = document.body, roles = []) {
-	const pickerExisting = parent.querySelector(".custom-picker");
-	if (pickerExisting) return pickerExisting.remove();
+	const pickerExisting = parent.querySelector(".custom-picker")
+	if (pickerExisting) return pickerExisting.remove()
 
-	const picker = document.createElement("div");
-	picker.classList.add("custom-picker");
-	if (getCookie("theme") == "light") picker.classList.add("light");
+	const picker = document.createElement("div")
+	picker.classList.add("custom-picker")
+	if (getCookie("theme") == "light") picker.classList.add("light")
 
 	picker.innerHTML = roles.map(mention => (
 		"<span class='element'" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") +
 		" onclick='insertMention(this, \"" + mention.id + "\")'>@" + mention.name + "</span>"
-	)).join("");
-	parent.appendChild(picker);
+	)).join("")
+	parent.appendChild(picker)
 }
 
-const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open");
+const togglePicker = elem => elem.parentElement.querySelector(".picker").classList.toggle("open")
 const updateSelected = (elem, value = "") => {
-	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"));
+	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"))
 
-	elem.parentElement.parentElement.setAttribute("data-selected", value);
+	elem.parentElement.parentElement.setAttribute("data-selected", value)
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
-		e.classList.remove("selected");
-	});
-	elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+		e.classList.remove("selected")
+	})
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = ""
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id") == value) {
-			e.classList.add("selected");
-			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>";
+			e.classList.add("selected")
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + e.innerHTML + "</div>"
 		}
-	});
-	handleChange(elem.parentElement.parentElement.id);
+	})
+	handleChange(elem.parentElement.parentElement.id)
 }
 const updateMultiSelected = (elem, key, value) => {
-	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"));
+	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"))
 
-	elem.classList.toggle("selected");
-	if (elem.classList.contains("selected")) selectData[key].value.push(value);
-	else selectData[key].value.splice(selectData[key].value.indexOf(value), 1);
+	elem.classList.toggle("selected")
+	if (elem.classList.contains("selected")) selectData[key].value.push(value)
+	else selectData[key].value.splice(selectData[key].value.indexOf(value), 1)
 
-	if (selectData[key].value.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>";
+	if (selectData[key].value.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
 	else {
-		elem.parentElement.parentElement.querySelector(".list").innerHTML = "";
+		elem.parentElement.parentElement.querySelector(".list").innerHTML = ""
 		selectData[key].value.forEach(v => {
-			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>";
-		});
+			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>"
+		})
 	}
-	handleChange(elem.parentElement.parentElement.id);
+	handleChange(elem.parentElement.parentElement.id)
 }
 
 class ChannelRolePicker extends HTMLElement {
 	constructor() {
-		super();
+		super()
 	}
 	connectedCallback() {
 		let toSelect = pickerData[this.getAttribute("type")]
@@ -118,15 +118,15 @@ class ChannelRolePicker extends HTMLElement {
 					type: "text"
 				},
 				...toSelect
-			};
+			}
 		}
 		this.innerHTML =
 			"<div class='list' onclick='togglePicker(this)'></div>" +
 			"<div class='picker'>" +
 			Object.keys(toSelect).map(channel => {
-				if (this.getAttribute("data-multi") == 1 && channel == "") return "";
-				const current = toSelect[channel];
-				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")";
+				if (this.getAttribute("data-multi") == 1 && channel == "") return ""
+				const current = toSelect[channel]
+				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")"
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +
 					(current.parent ? " child" : "") + "' tabindex='0'>" +
@@ -136,12 +136,12 @@ class ChannelRolePicker extends HTMLElement {
 					(current.type == "role" ? "<img style='padding-right: 2px;' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
 					"<span>" +
 					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
-					"</span></div>";
+					"</span></div>"
 			}).join("") +
-			"</div>";
+			"</div>"
 	}
 }
-customElements.define("channel-picker", ChannelRolePicker);
+customElements.define("channel-picker", ChannelRolePicker)
 
 // Modified and minified from https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js
 /* eslint-disable */

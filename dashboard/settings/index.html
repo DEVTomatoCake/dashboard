@@ -344,11 +344,7 @@
 				</div>
 
 				<div id="root-container" class="row">
-					<section id="guilds">
-						<div id="guilds-container" class="grid">
-							<h1>Loading settings...</h1>
-						</div>
-					</section>
+					<h1>Loading settings...</h1>
 				</div>
 			</div>
 		</main>
@@ -410,11 +406,11 @@
 					items[setting.key] = entry;
 				});
 
-				socket.send(JSON.stringify({
+				socket.send({
 					status: "success",
 					action: "SAVE_settings",
 					data: items
-				}));
+				});
 
 				if (hasSavePopup) {
 					fadeOut(document.getElementById("unsaved-container"));
@@ -425,13 +421,9 @@
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 7}).show();
 			}
 
-			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading settings...</h1>";
-				connectWS(encode(params.get("guild")));
-			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading settings...</h1>";
-				location.href = "./?guild=" + params.get("guild_id");
-			} else if (getCookie("token")) {
+			if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")));
+			else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id");
+			else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";
 				localStorage.setItem("next", location.pathname);
 				location.href = "../";

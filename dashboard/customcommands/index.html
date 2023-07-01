@@ -167,7 +167,9 @@
 					</p>
 				</div>
 
-				<div id="root-container" class="row"></div>
+				<div id="root-container" class="row">
+					<h1>Loading customcommands...</h1>
+				</div>
 			</div>
 		</main>
 
@@ -214,22 +216,18 @@
 					};
 				}
 
-				socket.send(JSON.stringify({
+				socket.send({
 					status: "success",
 					action: "SAVE_customcommands",
 					data: items
-				}));
+				});
 
 				savingToast = new ToastNotification({type: "LOADING", title: "Saving customcommands...", timeout: 7}).show();
 			}
 
-			if (params.has("guild") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading customcommands...</h1>";
-				connectWS(encode(params.get("guild")));
-			} else if (params.has("guild_id") && getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading customcommands...</h1>";
-				location.href = "./?guild=" + params.get("guild_id");
-			} else if (getCookie("token")) {
+			if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")));
+			else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id");
+			else if (getCookie("token")) {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";
 				localStorage.setItem("next", location.pathname);
 				location.href = "../";

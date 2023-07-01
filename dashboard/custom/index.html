@@ -55,13 +55,12 @@
 		</main>
 
 		<script>
-			if (getCookie("token")) {
-				document.getElementById("root-container").innerHTML = "<h1>Loading your custom branded bots...</h1>";
+			if (getCookie("token"))
 				getCustomHTML().then(data => {
 					document.getElementById("content").innerHTML = data;
 					reloadText();
 				});
-			} else {
+			else {
 				document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
 				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
 			}

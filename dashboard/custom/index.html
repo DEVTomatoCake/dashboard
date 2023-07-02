@@ -54,10 +54,13 @@
 						<h1>Create a new custom branded bot</h1>
 
 						<label for="custom-token">Your bot token</label>
-						<input type="text" minlength="45" maxlength="90" pattern="[a-z0-9_\-]+" placeholder="Bot token from Discord" onchange="tokenChange(this)" name="custom-token" id="custom-token">
+						<input type="text" minlength="45" maxlength="90" pattern="[a-z0-9_\-]+" placeholder="Bot token from Discord" oninput="tokenInput()" onchange="tokenChange()" name="custom-token" id="custom-token">
 						<br>
 
 						<div id="bot-data" hidden>
+							<br>
+							<br>
+
 							<div class="flex">
 								<img id="bot-avatar" width="128" height="128" alt="Bot avatar">
 								<div>
@@ -70,6 +73,7 @@
 							<input placeholder="User IDs separated by ," name="custom-invite" id="custom-invite">
 						</div>
 
+						<br>
 						<button type="submit" id="bot-create" class="createForm green" onclick="createCustom()" disabled>Register bot</button>
 					</div>
 				</div>
@@ -81,13 +85,20 @@
 		</main>
 
 		<script>
-			async function tokenChange() {
+			function tokenInput() {
 				document.getElementById("bot-data").setAttribute("hidden", "");
 				document.getElementById("bot-create").setAttribute("disabled", "");
 
 				const elem = document.getElementById("custom-token");
 				const value = elem.value;
 				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) return elem.setCustomValidity("Invalid bot token format.");
+				elem.setCustomValidity("");
+			}
+
+			async function tokenChange() {
+				const elem = document.getElementById("custom-token");
+				const value = elem.value;
+				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) return;
 
 				const info = await getCustomInfo(value);
 				if (info.status == "success") {

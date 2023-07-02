@@ -459,7 +459,7 @@ function getModlogsHTML(guild) {
 
 function getCustomHTML(json) {
 	if (json.status == "success") {
-		let text = "<h1>Custom branded bots you have access to</h1>" +
+		const text = "<h1>Custom branded bots you have access to</h1>" +
 			"<button type='button' class='createForm' onclick='openDialog(document.getElementById(\"create-dialog\"))'>Create custom branded bot</button><br>" +
 			"<div class='integration-container'>" +
 			json.data.map(bot =>
@@ -470,7 +470,7 @@ function getCustomHTML(json) {
 			).join("<br>") +
 			"</div>";
 
-		resolve(text);
+		return text;
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +

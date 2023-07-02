@@ -192,7 +192,7 @@
 
 		<script>
 			const tokenElem = document.getElementById("custom-token");
-			const refresh = () => socket.send({action: "GET_custom_info", botToken: tokenElem.value});
+			const refresh = save => socket.send({action: "GET_custom_info", botToken: tokenElem.value, save});
 
 			function tokenChange() {
 				step = 1;
@@ -230,14 +230,19 @@
 
 				if (step == 5) {
 					document.getElementById("forward-button").textContent = "Create bot";
-					document.getElementById("forward-button").onclick = () => {
-
-					};
+					document.getElementById("forward-button").onclick = () => refresh(true);
 				} else {
 					document.getElementById("forward-button").textContent = "Next";
 					document.getElementById("forward-button").onclick = forward;
 				}
 				document.getElementById("back-button").removeAttribute("hidden");
+			}
+
+			function createDialog() {
+				step = 2;
+				back();
+				openDialog(document.getElementById("create-dialog"));
+				document.getElementById("custom-token").value = "";
 			}
 
 			if (getCookie("token")) connectWS();

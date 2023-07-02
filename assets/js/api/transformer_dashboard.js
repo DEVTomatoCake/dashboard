@@ -462,7 +462,8 @@ function getCustomHTML(guild) {
 		getCustom(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = "<button type='button' class='createForm' onclick='openDialog(document.getElementById(\"create-dialog\"))'>Create custom branded bot</button><br>" +
+					let text = "<h1>Custom branding bots you have access to</h1>" +
+						"<button type='button' class='createForm' onclick='openDialog(document.getElementById(\"create-dialog\"))'>Create custom branded bot</button><br>" +
 						"<div class='integration-container'>" +
 						json.data.map(bot =>
 							"<div class='integration'>" +

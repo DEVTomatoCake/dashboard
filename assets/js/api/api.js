@@ -90,12 +90,3 @@ const getModlogs = guild => new Promise((resolve, reject) => {
 	get("modlogs/" + guild)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
-
-const getCustom = () => new Promise((resolve, reject) => {
-	get("users/custom")
-		.then(d => resolve(d)).catch(e => reject(e))
-})
-const getCustomInfo = token => new Promise((resolve, reject) => {
-	get("users/custom/info?bot=" + token)
-		.then(d => resolve(d)).catch(e => reject(e))
-})

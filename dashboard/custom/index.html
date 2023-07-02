@@ -70,7 +70,7 @@
 							<input placeholder="User IDs separated by ," name="custom-invite" id="custom-invite">
 						</div>
 
-						<button type="submit" id="custom-submit" class="createForm green" onclick="createCustom()">Register bot</button>
+						<button type="submit" id="bot-create" class="createForm green" onclick="createCustom()" disabled>Register bot</button>
 					</div>
 				</div>
 
@@ -83,12 +83,17 @@
 		<script>
 			async function tokenChange() {
 				document.getElementById("bot-data").setAttribute("hidden", "");
-				const value = document.getElementById("custom-token").value;
+				document.getElementById("bot-create").setAttribute("disabled", "");
+
+				const elem = document.getElementById("custom-token");
+				const value = elem.value;
 				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) return elem.setCustomValidity("Invalid bot token format.");
 
 				const info = await getCustomInfo(value);
 				if (info.status == "success") {
 					document.getElementById("bot-data").removeAttribute("hidden");
+					document.getElementById("bot-create").removeAttribute("disabled");
+
 					document.getElementById("bot-name").src = encode(info.username);
 					document.getElementById("bot-avatar").src = encode(info.avatar);
 					document.getElementById("bot-access").src = "Users with access:<br><ul>" + info.access.map(user => "<li>" + encode(user) + "</li>").join("") + "</ul>";

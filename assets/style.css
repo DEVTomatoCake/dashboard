@@ -1125,6 +1125,11 @@ button span {
 	color: var(--light-text-color);
 }
 
+button:disabled {
+	opacity: 0.75;
+	cursor: not-allowed;
+}
+
 .cookie-container {
 	position: fixed;
 	right: 15px;

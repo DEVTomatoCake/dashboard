@@ -462,14 +462,15 @@ function getCustomHTML(guild) {
 		getCustom(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = json.data.map(bot =>
-						"<div class='integration'>" +
-						"<h2>" + encode(bot.username) + "</h2>" +
-						"<img src='" + encode(bot.avatar) + "' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
-						"</div>"
-					).join("<br>");
-
-					openDialog(document.getElementById("create-dialog"));
+					let text = "<button type='button' class='createForm' onclick='openDialog(document.getElementById(\"create-dialog\"))'>Create custom branded bot</button><br>" +
+						"<div class='integration-container'>" +
+						json.data.map(bot =>
+							"<div class='integration'>" +
+							"<h2>" + encode(bot.username) + "</h2>" +
+							"<img src='" + encode(bot.avatar) + "?size=128' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
+							"</div>"
+						).join("<br>") +
+						"</div>";
 
 					resolve(text);
 				} else handleError(resolve, json.message);

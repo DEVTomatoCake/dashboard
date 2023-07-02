@@ -157,13 +157,6 @@ tr.cmdvisible:nth-child(odd) {
 	background-color: #B71C1C;
 }
 
-button.green {
-	background-color: #47a74f;
-}
-button.green:hover {
-	background-color: #3c9143;
-}
-
 .public-servers {
 	padding: 10px;
 	background-color: var(--tertiary-color);
@@ -1070,7 +1063,7 @@ pre {
 	align-items: center;
 }
 
-.integration .flex {
+.integration .flex, .custom.flex {
 	align-items: center;
 	gap: 7px;
 }
@@ -1123,6 +1116,13 @@ button:hover, button:focus {
 }
 button span {
 	color: var(--light-text-color);
+}
+
+button.green {
+	background-color: #47a74f;
+}
+button.green:hover, button.green:focus {
+	background-color: #3c9143;
 }
 
 button:disabled {

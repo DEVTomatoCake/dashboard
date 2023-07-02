@@ -139,7 +139,7 @@
 
 						<div id="step1">
 							<label for="custom-token">Your bot token</label>
-							<input type="text" minlength="45" maxlength="90" pattern="[a-zA-Z0-9]{20,}\.[a-zA-Z0-9]{5,}\.[a-zA-Z0-9]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" name="custom-token" id="custom-token">
+							<input type="text" minlength="45" maxlength="90" pattern="[-a-zA-Z0-9_]{20,}\.[-a-zA-Z0-9_]{5,}\.[-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" name="custom-token" id="custom-token">
 						</div>
 
 						<div id="step2" hidden>
@@ -201,7 +201,7 @@
 				document.getElementById("forward-button").setAttribute("disabled", "");
 
 				const value = tokenElem.value;
-				if (/[a-z0-9]{20,}\.[a-z0-9]{5,}\.[a-z0-9]{25,}/i.test(value) && value.length <= 90) refresh();
+				if (/^[-a-z0-9_]{20,}\.[-a-z0-9_]{5,}\.[-a-z0-9_]{25,}$/i.test(value) && value.length <= 90) refresh();
 			}
 
 			function addUser() {

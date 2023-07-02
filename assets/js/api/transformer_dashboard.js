@@ -462,7 +462,11 @@ function getCustomHTML(guild) {
 		getCustom(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = "";
+					let text = json.data.map(bot => {
+
+					}).join("<br>");
+
+					openDialog(document.getElementById("create-dialog"));
 
 					resolve(text);
 				} else handleError(resolve, json.message);

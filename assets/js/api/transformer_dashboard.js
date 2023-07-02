@@ -219,7 +219,7 @@ function getReactionrolesHTML(json) {
 				Object.keys(rolecopy).map(key =>
 					setting.role == key ? "<option value='" + key + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
 				) +
-				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove();'></ion-icon><br><br></div>";
+				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove()'></ion-icon><br><br></div>";
 		});
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";

@@ -30,7 +30,8 @@
 		<script src="../../assets/js/api/transformer_dashboard.js"></script>
 
 		<script>
-			const userList = user => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" + encode(user.username) + "</li>"
+			const userList = (user, canDelete = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
+				encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removeUser(\"" + user.id + "\")'></ion-icon>" : "") + "</li>";
 			let socket;
 			let errorToast;
 			let info = {};
@@ -70,8 +71,11 @@
 						console.log(json);
 
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
-						else if (json.action == "ADDED_custom_paying") document.getElementById("bot-paying").innerHTML = json.paying.map(userList).join("");
-						else if (json.action == "RECEIVE_custom") {
+						else if (json.action == "ADDED_custom_paying") {
+							if (json.status == "success") document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") +
+								"</ul><p>Will be invited:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>";
+							else new ToastNotification({type: "ERROR", title: "Unknown user"}).show();
+						} else if (json.action == "RECEIVE_custom") {
 							document.getElementById("root-container").innerHTML = getCustomHTML(json);
 							reloadText();
 						} else if (json.action == "RECEIVE_custom_info") {
@@ -84,7 +88,8 @@
 								document.getElementById("bot-invite").href = "https://discord.com/oauth2/authorize?client_id=" + json.id + "&scope=bot&permissions=1393602981110";
 								document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=128";
 								document.getElementById("bot-access").innerHTML = json.access.map(userList).join("");
-								document.getElementById("bot-paying").innerHTML = json.paying.map(userList).join("");
+								document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul><p>Will be invited:<ul>" +
+									json.payingInvited.map(u => userList(u, true)).join("") + "</ul>";
 								document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("");
 							} else {
 								tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."));
@@ -156,7 +161,7 @@
 							<label for="custom-invite">Invite users to "pay" for the bot</label>
 							<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" name="custom-invite" id="custom-invite">
 							<button type="button" class="createForm" onclick="refresh()">Refresh</button>
-							<ul id="bot-paying"></ul>
+							<div id="bot-paying"></div>
 						</div>
 
 						<div id="step4" hidden>
@@ -199,8 +204,11 @@
 			}
 
 			function addUser() {
-				socket.send({action: "ADD_custom_paying", bot: info.id, user: document.getElementById("custom-invite").value})
+				socket.send({action: "ADD_custom_paying", botToken: tokenElem.value, user: document.getElementById("custom-invite").value})
 				document.getElementById("custom-invite").value = "";
+			}
+			function removeUser(user) {
+				socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
 			}
 
 			function back() {

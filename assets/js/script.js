@@ -201,8 +201,8 @@ function pageLoad(page = "") {
 			"<div class='cookie-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
 			"<p translation='cookie.text'>Our website uses cookies to provide <br>the best possible user experience.</p>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement);' translation='cookie.all'>Accept all</button>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement);' translation='cookie.necessary'>Only essential</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
 			"</div>"
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
 	}

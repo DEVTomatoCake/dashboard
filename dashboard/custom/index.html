@@ -53,9 +53,12 @@
 						<span class="close">&times;</span>
 						<h1>Create a new custom branded bot</h1>
 
-						<div id="bot-data" class="custom flex" hidden>
-							<img id="bot-avatar" width="128" height="128" alt="Bot avatar">
-							<h2 id="bot-name"></h2>
+						<div id="bot-data" class="custom" hidden>
+							<br>
+							<div class="flex">
+								<img id="bot-avatar" width="128" height="128" alt="Bot avatar">
+								<h2 id="bot-name"></h2>
+							</div>
 						</div>
 
 						<div id="step1">
@@ -87,12 +90,12 @@
 
 						<div id="step5" hidden>
 							<h2>Create the bot</h2>
-							<button class="createForm green">Create</button>
+							<button type="submit" class="createForm green">Create</button>
 						</div>
 
 						<br>
-						<button type="submit" id="back-button" class="createForm" onclick="back()" disabled>Back</button>
-						<button type="submit" id="forward-button" class="createForm green" onclick="forward()" disabled>Next</button>
+						<button type="button" id="back-button" class="createForm" onclick="back()" hidden>Back</button>
+						<button type="button" id="forward-button" class="createForm green" onclick="forward()" disabled>Next</button>
 					</div>
 				</div>
 
@@ -108,9 +111,9 @@
 			let step = 1;
 
 			function tokenInput() {
-				step = 0;
+				step = 1;
 				document.getElementById("bot-data").setAttribute("hidden", "");
-				document.getElementById("back-button").setAttribute("hidden");
+				document.getElementById("back-button").setAttribute("hidden", "");
 				document.getElementById("forward-button").setAttribute("disabled", "");
 
 				const value = tokenElem.value;

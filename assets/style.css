@@ -1063,7 +1063,7 @@ pre {
 	align-items: center;
 }
 
-.integration .flex, .custom.flex {
+.integration .flex, .custom .flex {
 	align-items: center;
 	gap: 7px;
 }

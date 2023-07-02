@@ -87,7 +87,7 @@
 				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) return elem.setCustomValidity("Invalid bot token format.");
 
 				const info = await getCustomInfo(value);
-				if (info.status == "success")  {
+				if (info.status == "success") {
 					document.getElementById("bot-data").removeAttribute("hidden");
 					document.getElementById("bot-name").src = encode(info.username);
 					document.getElementById("bot-avatar").src = encode(info.avatar);
@@ -97,7 +97,7 @@
 
 			if (getCookie("token"))
 				getCustomHTML().then(data => {
-					document.getElementById("content").innerHTML = data;
+					document.getElementById("root-container").innerHTML = data;
 					reloadText();
 				});
 			else {

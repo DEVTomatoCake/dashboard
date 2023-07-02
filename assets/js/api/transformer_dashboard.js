@@ -462,9 +462,12 @@ function getCustomHTML(guild) {
 		getCustom(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = json.data.map(bot => {
-
-					}).join("<br>");
+					let text = json.data.map(bot =>
+						"<div class='integration'>" +
+						"<h2>" + encode(bot.username) + "</h2>" +
+						"<img src='" + encode(bot.avatar) + "' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
+						"</div>"
+					).join("<br>");
 
 					openDialog(document.getElementById("create-dialog"));
 

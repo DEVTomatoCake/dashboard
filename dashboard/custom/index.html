@@ -139,7 +139,7 @@
 
 						<div id="step1">
 							<label for="custom-token">Your bot token</label>
-							<input type="text" minlength="45" maxlength="90" pattern="[-a-zA-Z0-9_]{20,}\.[-a-zA-Z0-9_]{5,}\.[-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" name="custom-token" id="custom-token">
+							<input type="text" minlength="45" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" name="custom-token" id="custom-token">
 						</div>
 
 						<div id="step2" hidden>
@@ -165,7 +165,6 @@
 
 						<div id="step4" hidden>
 							<h2>Remaining TODO list</h2>
-							<button type="button" class="createForm" onclick="refresh()">Refresh</button>
 							<ul id="bot-todo"></ul>
 						</div>
 
@@ -192,7 +191,7 @@
 
 		<script>
 			const tokenElem = document.getElementById("custom-token");
-			const refresh = save => socket.send({action: "GET_custom_info", botToken: tokenElem.value, save});
+			const refresh = (force = false, save = false) => socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save});
 
 			function tokenChange() {
 				step = 1;
@@ -228,9 +227,9 @@
 				if (step == 4 && info.todo.length == 0) step++;
 				document.getElementById("step" + step).removeAttribute("hidden");
 
-				if (step == 5) {
-					document.getElementById("forward-button").textContent = "Create bot";
-					document.getElementById("forward-button").onclick = () => refresh(true);
+				if (step >= 4) {
+					document.getElementById("forward-button").textContent = step == 4 ? "Refresh" : "Create bot";
+					document.getElementById("forward-button").onclick = () => refresh(true, step == 5);
 				} else {
 					document.getElementById("forward-button").textContent = "Next";
 					document.getElementById("forward-button").onclick = forward;

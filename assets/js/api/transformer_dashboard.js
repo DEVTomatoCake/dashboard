@@ -240,9 +240,9 @@ const tkbadges = {
 	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy'> Kek",
 	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy'> Old economy system"
 }
-function getDataexportHTML(token) {
+function getDataexportHTML() {
 	return new Promise(resolve => {
-		getDataexport(token)
+		getDataexport()
 			.then(json => {
 				if (json.status == "success") {
 					let badges = "";
@@ -457,25 +457,23 @@ function getModlogsHTML(guild) {
 	});
 }
 
-function getCustomHTML(guild) {
-	return new Promise(resolve => {
-		getCustom(guild)
-			.then(json => {
-				if (json.status == "success") {
-					let text = "<h1>Custom branding bots you have access to</h1>" +
-						"<button type='button' class='createForm' onclick='openDialog(document.getElementById(\"create-dialog\"))'>Create custom branded bot</button><br>" +
-						"<div class='integration-container'>" +
-						json.data.map(bot =>
-							"<div class='integration'>" +
-							"<h2>" + encode(bot.username) + "</h2>" +
-							"<img src='" + encode(bot.avatar) + "?size=128' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
-							"</div>"
-						).join("<br>") +
-						"</div>";
+function getCustomHTML(json) {
+	if (json.status == "success") {
+		let text = "<h1>Custom branded bots you have access to</h1>" +
+			"<button type='button' class='createForm' onclick='openDialog(document.getElementById(\"create-dialog\"))'>Create custom branded bot</button><br>" +
+			"<div class='integration-container'>" +
+			json.data.map(bot =>
+				"<div class='integration'>" +
+				"<h2>" + encode(bot.username) + "</h2>" +
+				"<img src='" + encode(bot.avatar) + "?size=128' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				"</div>"
+			).join("<br>") +
+			"</div>";
 
-					resolve(text);
-				} else handleError(resolve, json.message);
-			})
-			.catch(e => handleError(resolve, e));
-	});
+		resolve(text);
+	} else {
+		return (
+			"<h1>An error occured while handling your request!</h1>" +
+			"<h2>" + json.message + "</h2>");
+	}
 }

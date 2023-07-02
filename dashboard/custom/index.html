@@ -71,7 +71,10 @@
 
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
 						else if (json.action == "ADDED_custom_paying") document.getElementById("bot-paying").innerHTML = json.paying.map(userList).join("");
-						else if (json.action == "RECEIVE_custom_info") {
+						else if (json.action == "RECEIVE_custom") {
+							document.getElementById("root-container").innerHTML = getCustomHTML(json);
+							reloadText();
+						} else if (json.action == "RECEIVE_custom_info") {
 							info = json;
 							if (json.status == "success") {
 								document.getElementById("bot-data").removeAttribute("hidden");

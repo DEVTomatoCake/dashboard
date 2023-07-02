@@ -32,6 +32,7 @@
 		<script>
 			const userList = user => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" + encode(user.username) + "</li>"
 			let socket;
+			let errorToast;
 			let info = {};
 			let step = 1;
 

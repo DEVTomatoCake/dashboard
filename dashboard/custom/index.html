@@ -155,13 +155,13 @@
 
 							<label for="custom-invite">Invite users to "pay" for the bot</label>
 							<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" name="custom-invite" id="custom-invite">
-							<button type="button" class="createForm" onclick="tokenChange()">Refresh</button>
+							<button type="button" class="createForm" onclick="refresh()">Refresh</button>
 							<ul id="bot-paying"></ul>
 						</div>
 
 						<div id="step4" hidden>
 							<h2>Remaining TODO list</h2>
-							<button type="button" class="createForm" onclick="tokenChange()">Refresh</button>
+							<button type="button" class="createForm" onclick="refresh()">Refresh</button>
 							<ul id="bot-todo"></ul>
 						</div>
 
@@ -186,6 +186,7 @@
 
 		<script>
 			const tokenElem = document.getElementById("custom-token");
+			const refresh = () => socket.send({action: "GET_custom_info", botToken: tokenElem.value});
 
 			function tokenChange() {
 				step = 1;
@@ -194,7 +195,7 @@
 				document.getElementById("forward-button").setAttribute("disabled", "");
 
 				const value = tokenElem.value;
-				if (/[a-z0-9]{20,}\.[a-z0-9]{5,}\.[a-z0-9]{25,}/i.test(value) && value.length <= 90) socket.send({action: "GET_custom_info", token: value});
+				if (/[a-z0-9]{20,}\.[a-z0-9]{5,}\.[a-z0-9]{25,}/i.test(value) && value.length <= 90) refresh();
 			}
 
 			function addUser() {

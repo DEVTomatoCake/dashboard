@@ -72,9 +72,9 @@
 
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
 						else if (json.action == "ADDED_custom_paying") {
-							if (json.status == "success") document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") +
-								"</ul><p>Will be invited:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>";
-							else new ToastNotification({type: "ERROR", title: "Unknown user"}).show();
+							if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show();
+							else document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
+								"<p>Will be invited:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 						} else if (json.action == "RECEIVE_custom") {
 							document.getElementById("root-container").innerHTML = getCustomHTML(json);
 							reloadText();
@@ -88,8 +88,8 @@
 								document.getElementById("bot-invite").href = "https://discord.com/oauth2/authorize?client_id=" + json.id + "&scope=bot&permissions=1393602981110";
 								document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=128";
 								document.getElementById("bot-access").innerHTML = json.access.map(userList).join("");
-								document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul><p>Will be invited:<ul>" +
-									json.payingInvited.map(u => userList(u, true)).join("") + "</ul>";
+								document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
+									"<p>Will be invited:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 								document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("");
 							} else {
 								tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."));
@@ -150,7 +150,7 @@
 
 						<div id="step3" hidden>
 							<h2>Select users who pay for the bot</h2>
-							<p>
+							<p id="bot-payingdesc">
 								A list of users who invest their vote credits into this custom bot. This setting allows you to allow your servers members to also vote for the bot to maintain it
 								without giving them access to the bot in the dashboard.
 
@@ -158,9 +158,8 @@
 								If none of them has enough, the bot will send a warning and disable itself some time later (TBD).
 							</p>
 
-							<label for="custom-invite">Invite users to "pay" for the bot</label>
-							<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" name="custom-invite" id="custom-invite">
-							<button type="button" class="createForm" onclick="refresh()">Refresh</button>
+							<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">
+							<br>
 							<div id="bot-paying"></div>
 						</div>
 
@@ -173,6 +172,8 @@
 						<div id="step5" hidden>
 							<h2>You're done!</h2>
 							<p>Click the button below to create the bot internally.</p>
+
+							<br>
 							<h3>Haven't invited the bot yet?</h3>
 							<a id="bot-invite" target="_blank" rel="noopener">Click here to invite your bot to a server</a>
 						</div>
@@ -227,8 +228,15 @@
 				if (step == 4 && info.todo.length == 0) step++;
 				document.getElementById("step" + step).removeAttribute("hidden");
 
-				if (step == 5) document.getElementById("forward-button").textContent = "Create bot";
-				else document.getElementById("forward-button").textContent = "Next";
+				if (step == 5) {
+					document.getElementById("forward-button").textContent = "Create bot";
+					document.getElementById("forward-button").onclick = () => {
+
+					};
+				} else {
+					document.getElementById("forward-button").textContent = "Next";
+					document.getElementById("forward-button").onclick = forward;
+				}
 				document.getElementById("back-button").removeAttribute("hidden");
 			}
 

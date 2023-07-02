@@ -196,6 +196,7 @@
 			function nameExists(elem) {
 				if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("Name already exists.");
 				else elem.setCustomValidity("");
+				elem.reportValidity();
 			}
 
 			function handleIntegration(integration) {

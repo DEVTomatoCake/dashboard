@@ -59,8 +59,6 @@
 
 						<div id="bot-data" hidden>
 							<br>
-							<br>
-
 							<div class="flex">
 								<img id="bot-avatar" width="128" height="128" alt="Bot avatar">
 								<div>
@@ -85,19 +83,20 @@
 		</main>
 
 		<script>
+			const tokenElem = document.getElementById("custom-token");
+
 			function tokenInput() {
 				document.getElementById("bot-data").setAttribute("hidden", "");
 				document.getElementById("bot-create").setAttribute("disabled", "");
 
-				const elem = document.getElementById("custom-token");
-				const value = elem.value;
-				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) return elem.setCustomValidity("Invalid bot token format.");
-				elem.setCustomValidity("");
+				const value = tokenElem.value;
+				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) tokenElem.setCustomValidity("Invalid bot token format.");
+				else tokenElem.setCustomValidity("");
+				tokenElem.reportValidity();
 			}
 
 			async function tokenChange() {
-				const elem = document.getElementById("custom-token");
-				const value = elem.value;
+				const value = tokenElem.value;
 				if (!value || value.length < 45 || value.length > 90 || value.split(".").length != 3) return;
 
 				const info = await getCustomInfo(value);
@@ -105,10 +104,13 @@
 					document.getElementById("bot-data").removeAttribute("hidden");
 					document.getElementById("bot-create").removeAttribute("disabled");
 
-					document.getElementById("bot-name").src = encode(info.username);
+					document.getElementById("bot-name").textContent = encode(info.username);
 					document.getElementById("bot-avatar").src = encode(info.avatar);
-					document.getElementById("bot-access").src = "Users with access:<br><ul>" + info.access.map(user => "<li>" + encode(user) + "</li>").join("") + "</ul>";
-				} else elem.setCustomValidity("Invalid bot token.");
+					document.getElementById("bot-access").textContent = "Users with access:<br><ul>" + info.access.map(user => "<li>" + encode(user) + "</li>").join("") + "</ul>";
+				} else {
+					tokenElem.setCustomValidity("Invalid bot token.");
+					tokenElem.reportValidity();
+				}
 			}
 
 			if (getCookie("token"))

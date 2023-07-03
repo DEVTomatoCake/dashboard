@@ -25,10 +25,11 @@ let socket;
 let errorToast;
 let info = {};
 let step = 1;
+let tokenElem;
 
 function connectWS() {
 	socket = sockette("wss://api.tomatenkuchen.eu/user", {
-		onClose: event => {
+		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
 		},
 		onOpen: event => {
@@ -89,19 +90,13 @@ function connectWS() {
 	});
 }
 
-
-const tokenElem = document.getElementById("custom-token");
-const refresh = (force = false, save = false) => socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save});
-
-function tokenChange() {
-	step = 1;
-	document.getElementById("bot-data").setAttribute("hidden", "");
-	document.getElementById("back-button").setAttribute("hidden", "");
-	document.getElementById("forward-button").setAttribute("disabled", "");
-
-	const value = tokenElem.value;
-	if (/^[-a-z0-9_]{20,}\.[-a-z0-9_]{5,}\.[-a-z0-9_]{25,}$/i.test(value) && value.length <= 90) refresh();
+function createDialog() {
+	step = 2;
+	back();
+	openDialog(document.getElementById("create-dialog"));
+	document.getElementById("custom-token").value = "";
 }
+const refresh = (force = false, save = false) => socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save});
 
 function addUser() {
 	socket.send({action: "ADD_custom_paying", botToken: tokenElem.value, user: document.getElementById("custom-invite").value})
@@ -137,15 +132,22 @@ function forward() {
 	document.getElementById("back-button").removeAttribute("hidden");
 }
 
-function createDialog() {
-	step = 2;
-	back();
-	openDialog(document.getElementById("create-dialog"));
-	document.getElementById("custom-token").value = "";
+function tokenChange() {
+	step = 1;
+	document.getElementById("bot-data").setAttribute("hidden", "");
+	document.getElementById("back-button").setAttribute("hidden", "");
+	document.getElementById("forward-button").setAttribute("disabled", "");
+
+	const value = tokenElem.value;
+	if (/^[-a-z0-9_]{20,}\.[-a-z0-9_]{5,}\.[-a-z0-9_]{25,}$/i.test(value) && value.length <= 90) refresh();
 }
 
-if (getCookie("token")) connectWS();
-else {
-	document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
-	location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
+loadFunc = () => {
+	tokenElem = document.getElementById("custom-token");
+
+	if (getCookie("token")) connectWS();
+	else {
+		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
+		location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
+	}
 }

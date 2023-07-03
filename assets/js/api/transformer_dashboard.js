@@ -346,12 +346,10 @@ function getDataexportHTML() {
 
 						"</div>" +
 
-						"<div style='overflow: auto;'>" +
 						"<div class='userData'>" +
 						"<label for='datajson'><h1 translation='user.json'></h1></label><br>" +
 						"<textarea id='datajson' rows='13' cols='" + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + "' readonly>" +
 							JSON.stringify(json.data, null, 2) + "</textarea>" +
-						"</div>" +
 						"</div>" +
 
 						"</div>";
@@ -455,25 +453,4 @@ function getModlogsHTML(guild) {
 			})
 			.catch(e => handleError(resolve, e));
 	});
-}
-
-function getCustomHTML(json) {
-	if (json.status == "success") {
-		const text = "<h1>Custom branded bots you have access to</h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
-			"<div class='integration-container'>" +
-			json.data.map(bot =>
-				"<div class='integration'>" +
-				"<h2>" + encode(bot.username) + "</h2>" +
-				"<img src='" + encode(bot.avatar) + "?size=128' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
-				"</div>"
-			).join("<br>") +
-			"</div>";
-
-		return text;
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>");
-	}
 }

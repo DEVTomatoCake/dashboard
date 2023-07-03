@@ -25,6 +25,7 @@ function deleteCookie(name) {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;"
 }
 
+let loadFunc = () => {}
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
 
 function handleError(resolve, error) {
@@ -248,6 +249,7 @@ function pageLoad(page = "") {
 		})
 	})
 
-	if (reloadText) reloadText()
+	loadFunc()
+	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

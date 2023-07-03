@@ -146,7 +146,7 @@ function tokenChange() {
 	document.getElementById("forward-button").setAttribute("disabled", "");
 
 	const value = tokenElem.value;
-	if (/^[-a-z0-9_]{20,}\.[-a-z0-9_]{5,}\.[-a-z0-9_]{25,}$/i.test(value) && value.length <= 90) refresh();
+	if (value.length >= 50 && value.length <= 90 && /^[-a-z0-9_]{20,}\.[-a-z0-9_]{5,}\.[-a-z0-9_]{25,}$/i.test(value)) refresh();
 }
 
 loadFunc = () => {

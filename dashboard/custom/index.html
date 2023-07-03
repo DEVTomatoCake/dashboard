@@ -55,7 +55,9 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<h1>Create a new custom branded bot</h1>
-						<h2><a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener">Learn more about custom branding</a></h2>
+						<p>
+							<a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener">Learn more about custom branding</a>
+						</p>
 
 						<div id="bot-data" class="custom" hidden>
 							<br>
@@ -68,12 +70,13 @@
 
 						<div id="step1">
 							<h2>Insert the Discord bot token</h2>
+							<br>
 							<p id="bot-tokendesc">
 								The bot token is needed to allow TomatenKuchen to run the bot. You can create an application on the
 								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord developer portal</a>. Then you fill in the
-								required fields, visit the "Bot" page, reset the token and paste the new one here.
+								required fields, visit the "Bot" page, reset the token and paste the new one here. If you haven't invited the bot yet, no need to do so now, we'll do this later.
 							</p>
-							<input type="text" minlength="45" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">
+							<input type="text" minlength="50" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" oninput="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">
 						</div>
 
 						<div id="step2" hidden>

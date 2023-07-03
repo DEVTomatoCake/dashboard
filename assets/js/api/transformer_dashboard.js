@@ -308,7 +308,7 @@ function getDataexportHTML() {
 							"</div>"
 						: "") +
 
-						(json.data.userProfiles.afk && json.data.userProfiles.afk.text == "" ? "" :
+						(!json.data.userProfiles || !json.data.userProfiles.afk || !json.data.userProfiles.afk.text ? "" :
 							"<div class='userData'>" +
 							"<h1>AFK</h1>" +
 							"<p><b translation='user.reason'></b> " + encode(json.data.userProfiles.afk.text) + "</p>" +

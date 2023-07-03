@@ -215,6 +215,12 @@ function pageLoad(page = "") {
 		sideState = 1
 	}
 
+	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
+	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
+		document.body.classList.replace("dark-theme", "light-theme")
+		setCookie("theme", "light", 365, true)
+	} else document.getElementById("theme-toggle").checked = true
+
 	const username = getCookie("user")
 	if (username) {
 		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!"
@@ -222,19 +228,13 @@ function pageLoad(page = "") {
 		document.getElementById("username-header").textContent = username
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>"// +
-			//"<a href='/dashboard/custom'>Custom bots</a>"
+			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user'>Your profile</a>" +
+			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a><a href='/dashboard/custom'>Custom branding</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
 			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style=\"display:block;\";this.style.display=\"none\";'>"
 	} else document.getElementById("username-avatar").style = "display: block;"
-
-	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
-	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
-		document.body.classList.replace("dark-theme", "light-theme")
-		setCookie("theme", "light", 365, true)
-	} else document.getElementById("theme-toggle").checked = true
 
 	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {

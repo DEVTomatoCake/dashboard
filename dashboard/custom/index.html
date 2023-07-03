@@ -62,19 +62,22 @@
 						<div id="bot-data" class="custom" hidden>
 							<br>
 							<div class="flex">
-								<img id="bot-avatar" width="128" height="128" alt="Bot avatar">
+								<img id="bot-avatar" alt="Bot avatar">
 								<h2 id="bot-name"></h2>
 							</div>
 							<br>
 						</div>
 
 						<div id="step1">
+							<br>
 							<h2>Insert the Discord bot token</h2>
 							<br>
 							<p id="bot-tokendesc">
 								The bot token is needed to allow TomatenKuchen to run the bot. You can create an application on the
 								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord developer portal</a>. Then you fill in the
-								required fields, visit the "Bot" page, reset the token and paste the new one here. If you haven't invited the bot yet, no need to do so now, we'll do this later.
+								required fields, visit the "Bot" page, reset the token and paste the new one here.
+								<br>
+								In case you haven't invited the bot yet, we'll do this later.
 							</p>
 							<input type="text" minlength="50" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" oninput="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">
 						</div>
@@ -82,7 +85,7 @@
 						<div id="step2" hidden>
 							<h2>Confirm users who have access to the bot</h2>
 							<p>
-								The following users have access to the bot and can manage it anytime in the Discord developer portal or on this page. This list might not update automatically.
+								The following users have access to the bot and can manage it anytime in the Discord developer portal or on this page.
 								To add or remove users visit the Discord developer teams page.
 							</p>
 							<br>

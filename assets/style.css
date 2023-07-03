@@ -407,6 +407,12 @@ textarea.code {
 	border-bottom: #d14ff8 2px solid;
 }
 
+#bot-avatar {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+}
+
 .sidebar-container {
 	position: fixed;
 	width: 0;

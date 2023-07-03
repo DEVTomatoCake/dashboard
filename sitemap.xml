@@ -8,82 +8,92 @@
 
 	<url>
 		<loc>https://tomatenkuchen.eu/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>1.0</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/commands/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>1.0</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>1.0</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/settings/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.9</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/invite/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>https://tomatenkuchen.eu/dashboard/user/</loc>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/customcommands/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/reactionroles/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/logs/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/modlogs/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/dashboard/tickets/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
-		<loc>https://tomatenkuchen.eu/dashboard/user/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<loc>https://tomatenkuchen.eu/dashboard/custom/</loc>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
+		<priority>0.7</priority>
+	</url>
+	<url>
+		<loc>https://tomatenkuchen.eu/dashboard/dataexport/</loc>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/giveaway/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/leaderboard/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/stats/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/privacy/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.7</priority>
 	</url>
 	<url>
 		<loc>https://tomatenkuchen.eu/credits/</loc>
-		<lastmod>2023-04-28T08:00:00+00:00</lastmod>
+		<lastmod>2023-07-03T14:00:00+01:00</lastmod>
 		<priority>0.5</priority>
 	</url>
 </urlset>

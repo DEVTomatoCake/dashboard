@@ -28,7 +28,6 @@
 
 		<script>
 			function ticketSearch() {
-				const ticid = document.getElementById("ts-id").value;
 				const tictype = document.getElementById("ts-type").value;
 				const ticmessage = document.getElementById("ts-message").value;
 				const ticcreated = document.getElementById("ts-created").value;
@@ -37,9 +36,8 @@
 					const rows = log.getElementsByTagName("td");
 
 					let hidden = false;
-					if (ticid != "" && !rows[0].textContent.toLowerCase().includes(ticid.toLowerCase())) hidden = true;
-					if (tictype != "" && !rows[1].textContent.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
-					if (ticmessage != "" && !rows[2].textContent.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
+					if (tictype != "" && !rows[0].textContent.toLowerCase().includes(tictype.toLowerCase())) hidden = true;
+					if (ticmessage != "" && !rows[3].textContent.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true;
 
 					if (hidden) {
 						if (log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible");
@@ -65,12 +63,12 @@
 				else if (log.type == "tempban") type = "Tempban";
 
 				document.getElementById("info-dialogText").innerHTML =
-					"<b><span translation='logs.logtype'></span>:</b> " + encode(type) + "<br>" +
-					"<b><span translation='modlogs.user'></span>:</b> " + encode(splitted[0]) + "<br>" +
-					"<b><span translation='modlogs.mod'></span>:</b> " + encode(log.moderator) + "<br>" +
-					"<b><span translation='modlogs.reason'></span>:</b> " + encode(log.reason) + "<br>" +
-					"<b>Modlog created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
-					(log.until ? "<b>Bis:</b> " + new Date(log.until).toLocaleString() + "<br>" : "");
+					"<b><span translation='logs.logtype'></span>:</b> " + encode(type) +
+					"<br><b><span translation='modlogs.user'></span>:</b> " + encode(splitted[0]) +
+					"<br><b><span translation='modlogs.mod'></span>:</b> " + encode(log.moderator) +
+					"<br><b><span translation='modlogs.reason'></span>:</b> " + encode(log.reason) +
+					"<br><b>Modlog created:</b> " + new Date(log.date).toLocaleString() +
+					(log.until ? "<br><b translation='modlogs.activeuntil'></b> " + new Date(log.until).toLocaleString() : "");
 				reloadText();
 			}
 		</script>
@@ -100,13 +98,10 @@
 				<div class="ticketsearch-container" role="search">
 					<h2>Filter modlogs...</h2>
 
-					<label for="ts-id" translation="logs.logid"></label>
-					<input id="ts-id" onkeyup="ticketSearch()">
-
 					<label for="ts-type" translation="logs.logtype"></label>
 					<input id="ts-type" onkeyup="ticketSearch()">
 
-					<label for="ts-message" translation="logs.logmessage"></label>
+					<label for="ts-message" translation="modlogs.reason"></label>
 					<input id="ts-message" onkeyup="ticketSearch()">
 
 					<label for="ts-created" translation="tickets.created"></label>
@@ -116,7 +111,8 @@
 				<div id="info-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h2 style="font-size: 30px;">Information about this modlog</h2>
+						<h1>Information about this modlog</h1>
+						<br>
 						<div id="info-dialogText"></div>
 					</div>
 				</div>

@@ -57,9 +57,8 @@
 				elem.classList.add("active");
 
 				document.getElementById(elem.getAttribute("name")).style.display = "block";
-				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input")) {
+				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input"))
 					if (input.hasAttribute("data-required")) input.required = true;
-				}
 
 				if (elem.getAttribute("data-radio") == "rrtype") for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
 					elem.remove();
@@ -188,8 +187,9 @@
 				});
 			}
 
-			function verifyMsg(elem) {
-				if (!elem.value || !/^[0-9]{17,20}$/.test(elem.value) || !document.getElementById("reactionroles-channel").value) return;
+			function verifyMsg() {
+				const elem = document.getElementById("reactionroles-msg");
+				if (!elem.value || !/^[0-9]{17,21}$/.test(elem.value) || !document.getElementById("reactionroles-channel").value) return;
 
 				socket.send({
 					status: "success",
@@ -234,13 +234,13 @@
 						<span class="dialog-tab active" name="existingmsg" data-radio="existingornew" onclick="changeTab(this)">Zu bestehender Nachricht hinzufügen</span>
 						<span class="dialog-tab" name="newmsg" data-radio="existingornew" onclick="changeTab(this)">Neue Nachricht senden</span>
 
-						<div id="existingmsg" class="tabs">
+						<div id="existingmsg" class="tabs active">
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-							<input type="text" pattern="[0-9]{17,20}" maxlength="20" onchange="verifyMsg(this)" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 						</div>
-						<div id="newmsg" class="tabs" style="display: none;">
+						<div id="newmsg" class="tabs">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
-							<textarea form="create-form" name="reactionroles-content" id="reactionroles-content" maxlength="2000" rows="5" placeholder="Text oder JSON von einem Embed-Editor wie https://embed.tomatenkuchen.eu" data-required="true"></textarea>
+							<textarea form="create-form" name="reactionroles-content" id="reactionroles-content" maxlength="5000" rows="5" placeholder="Text oder JSON von einem Embed-Editor wie https://embed.tomatenkuchen.eu" data-required="true"></textarea>
 						</div>
 
 						<span class="dialog-tab active" name="reaction" data-radio="rrtype" onclick="changeTab(this)">Reactionrole</span>
@@ -251,13 +251,13 @@
 							<label for="reactionroles-role" translation="dashboard.rr.role"></label>
 							<select name="reactionroles-role" id="reactionroles-role"></select>
 
-							<div id="reaction" class="tabs">
+							<div id="reaction" class="tabs active">
 								<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
 								<div>
 									<input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
-							<div id="button" class="tabs" style="display: none;">
+							<div id="button" class="tabs">
 								<label for="reactionroles-buttonstyle">Button-Design</label>
 								<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
 									<option value="primary">Primary (Blurple)</option>
@@ -274,7 +274,7 @@
 									<input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
-							<div id="select" class="tabs" style="display: none;">
+							<div id="select" class="tabs">
 								<label for="reactionroles-selectlabel">Select-Text</label>
 								<input type="text" maxlength="100" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
 

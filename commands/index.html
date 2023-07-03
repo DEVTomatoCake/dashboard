@@ -87,7 +87,7 @@
 
 					if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + command.aliases.join(", ") + "</p>";
 					if (command.options) html += "<p><span translation='commands.args'></span> " + command.options.map(o => (
-						o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span style='color:red;'>*</span>" : "") + " <small title='" + o.desc + "'>" + o.type + "</small>"
+						o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='red-text'>*</span>" : "") + " <small title='" + o.desc + "'>" + o.type + "</small>"
 					)).join(", ") + "</p>";
 
 					elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>";
@@ -135,7 +135,7 @@
 				</div>
 			</header>
 
-			<div class="content" id="content" style="padding-left: 260px;">
+			<div class="content" id="content">
 				<h1 class="greeting" translation="commands.title"></h1>
 
 				<div id="commands-container"></div>

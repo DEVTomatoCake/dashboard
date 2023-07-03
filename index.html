@@ -58,7 +58,7 @@
 				document.getElementById("server" + currentServer).style.opacity = "0";
 				setTimeout(() => {
 					document.getElementById("server" + currentServer).innerHTML =
-						"<img src='" + server.icon + "'>" +
+						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
 						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
@@ -142,7 +142,7 @@
 					</div>
 				</div>
 
-				<h2 style="margin-top:3rem;" translation="main.publicservers">Public servers</h2>
+				<h2 translation="main.publicservers">Public servers</h2>
 				<div class="public-servers">
 					<div id="server1" class="server"></div>
 					<div id="server2" class="server"></div>

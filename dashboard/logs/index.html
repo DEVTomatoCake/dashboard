@@ -56,13 +56,13 @@
 				openDialog(document.getElementById("info-dialog"));
 
 				document.getElementById("info-dialogText").innerHTML =
-					"<b><span translation='logs.logid'></span>:</b> " + log.id + "<br>" +
-					"<b><span translation='logs.logtype'></span>:</b> " + log.type + "<br>" +
-					"<b><span translation='logs.logmessage'></span>:</b> " + log.message + "<br>" +
-					"<b><span translation='logs.amount'></span>:</b> " + log.count + "<br>" +
-					"<b>Log created:</b> " + new Date(log.date).toLocaleString() + "<br>" +
-					(log.lastDate ? "<b>Last occured:</b> " + new Date(log.lastDate).toLocaleString() + "<br>" : "") +
-					"<b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>";
+					"<b><span translation='logs.logid'></span>:</b> " + log.id +
+					"<br><b><span translation='logs.logtype'></span>:</b> " + log.type +
+					"<br><b><span translation='logs.logmessage'></span>:</b> " + log.message +
+					"<br><b><span translation='logs.amount'></span>:</b> " + log.count +
+					"<br><b translation='logs.firstoccured'></b> " + new Date(log.date).toLocaleString() +
+					(log.lastDate ? "<br><b translation='logs.lastoccured'></b> " + new Date(log.lastDate).toLocaleString() : "") +
+					"<br><b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>";
 				reloadText();
 			}
 		</script>
@@ -108,7 +108,8 @@
 				<div id="info-dialog" class="dialog">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h2 style="font-size: 30px;">Information about this log</h2>
+						<h1>Information about this log</h1>
+						<br>
 						<div id="info-dialogText"></div>
 					</div>
 				</div>

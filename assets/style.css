@@ -150,11 +150,14 @@ tr.cmdvisible:nth-child(odd) {
 	background: var(--accent-color-hover);
 }
 
-.categorybutton.red, button.red {
+.red {
 	background-color: #D32F2F;
 }
-.categorybutton.red:hover, button.red:hover {
+.red:hover, .red:focus {
 	background-color: #B71C1C;
+}
+.red-text {
+	color: red;
 }
 
 .public-servers {
@@ -170,8 +173,9 @@ tr.cmdvisible:nth-child(odd) {
 	align-items: center;
 	background-color: var(--secondary-color);
 	border-radius: 10px;
-	padding: 10px;
 	margin: 5px;
+	padding: 8px;
+	font-size: 19px;
 	transition: .7s;
 }
 .public-servers h3 {
@@ -946,6 +950,10 @@ pre {
 	overflow-wrap: break-word;
 }
 
+.tabs:not(.active) {
+	display: none;
+}
+
 .stats-row {
 	display: grid;
 	grid-template-areas: ".";
@@ -1047,6 +1055,10 @@ pre {
 	top: -25px;
 }
 
+.stats-row + h2 {
+	margin-top: 3rem;
+}
+
 .integration-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -1118,10 +1130,10 @@ button span {
 	color: var(--light-text-color);
 }
 
-button.green {
+.green {
 	background-color: #47a74f;
 }
-button.green:hover, button.green:focus {
+.green:hover, .green:focus {
 	background-color: #3c9143;
 }
 

@@ -55,6 +55,7 @@
 					<div class="dialog-content">
 						<span class="close">&times;</span>
 						<h1>Create a new custom branded bot</h1>
+						<h2><a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener">Learn more about custom branding</a></h2>
 
 						<div id="bot-data" class="custom" hidden>
 							<br>
@@ -66,13 +67,22 @@
 						</div>
 
 						<div id="step1">
-							<label for="custom-token">Your bot token</label>
-							<input type="text" minlength="45" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" name="custom-token" id="custom-token">
+							<h2>Insert the Discord bot token</h2>
+							<p id="bot-tokendesc">
+								The bot token is needed to allow TomatenKuchen to run the bot. You can create an application on the
+								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord developer portal</a>. Then you fill in the
+								required fields, visit the "Bot" page, reset the token and paste the new one here.
+							</p>
+							<input type="text" minlength="45" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" onchange="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">
 						</div>
 
 						<div id="step2" hidden>
 							<h2>Confirm users who have access to the bot</h2>
-							<p>The following users have access to the bot and can manage it anytime in the Discord developer dashboard or on this page.</p>
+							<p>
+								The following users have access to the bot and can manage it anytime in the Discord developer portal or on this page. This list might not update automatically.
+								To add or remove users visit the Discord developer teams page.
+							</p>
+							<br>
 							<ul id="bot-access"></ul>
 						</div>
 
@@ -81,8 +91,8 @@
 							<p id="bot-payingdesc">
 								A list of users who invest their vote credits into this custom bot. This setting allows you to allow your servers members to also vote for the bot to maintain it
 								without giving them access to the bot in the dashboard.
-
-								Every time a credits payment is due, the bot will <i>randomly</i> select a user from this list who has enough credits.
+								<br>
+								Every time a credits payment is due, the bot will randomly select a user from this list who has enough credits.
 								If none of them has enough, the bot will send a warning and disable itself some time later (TBD).
 							</p>
 

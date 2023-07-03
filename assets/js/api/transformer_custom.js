@@ -64,7 +64,7 @@ function connectWS() {
 			else if (json.action == "ADDED_custom_paying") {
 				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show();
 				else document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
-					"<p>Will be invited:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
+					"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json);
 				reloadText();
@@ -79,7 +79,7 @@ function connectWS() {
 					document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=128";
 					document.getElementById("bot-access").innerHTML = json.access.map(userList).join("");
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
-						"<p>Will be invited:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
+						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("");
 				} else {
 					tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."));
@@ -96,15 +96,22 @@ function createDialog() {
 	openDialog(document.getElementById("create-dialog"));
 	document.getElementById("custom-token").value = "";
 }
-const refresh = (force = false, save = false) => socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save});
 
-function addUser() {
-	socket.send({action: "ADD_custom_paying", botToken: tokenElem.value, user: document.getElementById("custom-invite").value})
+const refresh = (force = false, save = false) => {
+	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save});
+	if (step == 4) {
+		document.getElementById("forward-button").setAttribute("disabled", "");
+		setTimeout(() => {
+			document.getElementById("forward-button").removeAttribute("disabled");
+		}, 10000);
+	}
+};
+
+const addUser = () => {
+	socket.send({action: "ADD_custom_paying", botToken: tokenElem.value, user: document.getElementById("custom-invite").value});
 	document.getElementById("custom-invite").value = "";
 }
-function removeUser(user) {
-	socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
-}
+const removeUser = user => socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user});
 
 function back() {
 	if (step <= 1) return;

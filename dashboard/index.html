@@ -129,7 +129,7 @@
 						setCookie("avatar", json.avatar, 4);
 
 						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = localStorage.getItem("next");
-						else location.href = "https://" + location.host + "/dashboard/" + (params.has("guild") ? "settings/?guild=" + encode(params.get("guild")) : "");
+						else location.href = "https://" + location.host + "/dashboard/" + (params.has("guild") ? "settings?guild=" + encode(params.get("guild")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
 							"<h1>An error occured while handling your request!</h1>" +

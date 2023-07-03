@@ -41,7 +41,7 @@ class Footer extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<noscript>This website doesn't work without JavaScript.</noscript>" +
+			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
 			"<footer>" +
 			"<a href='/'>" +
 			"<div id='mainlink'>" +
@@ -50,11 +50,11 @@ class Footer extends HTMLElement {
 			"</div>" +
 			"</a>" +
 			"<div class='links'>" +
-				"<a href='/credits/'>Credits</a>" +
-				"<a href='/docs/'>Docs</a>" +
-				"<a href='/invite/'>Invite Bot</a>" +
-				"<a href='/discord/'>Support server</a>" +
-				"<a href='/privacy/'>Privacy/ToS</a>" +
+				"<a href='/credits'>Credits</a>" +
+				"<a href='/docs'>Docs</a>" +
+				"<a href='/invite'>Invite Bot</a>" +
+				"<a href='/discord' target='_blank' rel='noopener'>Support server</a>" +
+				"<a href='/privacy'>Privacy/ToS</a>" +
 			"</div>" +
 			"</footer>"
 	}
@@ -81,11 +81,11 @@ class Sidebar extends HTMLElement {
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +
-					"<a href='/commands/' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
+					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
 						"<ion-icon name='terminal-outline'></ion-icon>" +
 						"<p translation='sidebar.commands'></p>" +
 					"</a>" +
-					"<a href='/dashboard/' class='tab" + (this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
+					"<a href='/dashboard' class='tab" + (this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +

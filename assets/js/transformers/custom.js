@@ -2,11 +2,11 @@ function getCustomHTML(json) {
 	if (json.status == "success") {
 		const text = "<h1>Custom branded bots you have access to</h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
-			"<div class='integration-container'>" +
+			"<br><div class='integration-container'>" +
 			json.data.map(bot =>
 				"<div class='integration'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
-				"<img src='" + encode(bot.avatar) + "?size=128' width='128' height='128' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
 				"</div>"
 			).join("<br>") +
 			"</div>";

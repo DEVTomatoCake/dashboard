@@ -414,7 +414,7 @@ textarea.code {
 	border-bottom: #d14ff8 2px solid;
 }
 
-#bot-avatar {
+.bot-avatar {
 	width: 64px;
 	height: 64px;
 	border-radius: 50%;

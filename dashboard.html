@@ -34,12 +34,11 @@
 
 				for (const link of document.getElementsByClassName("guild")) {
 					const href = link.getAttribute("href").split("/");
-					console.warn(href)
+					const query = link.getAttribute("href").split("?")[1];
+					console.warn(href, query)
 					if (href[1] == "invite") continue;
-					if (target == "stats" || target == "leaderboard") href[0] = "..";
-					else href[0] = ".";
-					href[1] = target;
-					link.setAttribute("href", href.join("/"));
+					if (target == "stats" || target == "leaderboard") link.setAttribute("href", "/" + target + (query ? "?" + query : ""));
+					else link.setAttribute("href", "/dashboard/" + target + (query ? "?" + query : ""));
 				}
 			}
 		</script>

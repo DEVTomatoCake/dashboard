@@ -72,7 +72,7 @@ function connectWS() {
 				info = json;
 				if (json.status == "success") {
 					document.getElementById("bot-data").removeAttribute("hidden");
-					document.getElementById("forward-button").removeAttribute("disabled");
+					if (step == 1) document.getElementById("forward-button").removeAttribute("disabled");
 
 					document.getElementById("bot-name").textContent = encode(json.username);
 					document.getElementById("bot-invite").href = "https://discord.com/oauth2/authorize?client_id=" + json.id + "&scope=bot&permissions=1393602981110";
@@ -81,7 +81,7 @@ function connectWS() {
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("");
-					if (step == 4) forward();
+					if (step == 4 && json.todo.length == 0) forward();
 				} else {
 					tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."));
 					tokenElem.reportValidity();
@@ -95,7 +95,11 @@ function createDialog() {
 	step = 2;
 	back();
 	openDialog(document.getElementById("create-dialog"));
+
 	document.getElementById("custom-token").value = "";
+	document.getElementById("step3").setAttribute("hidden", "");
+	document.getElementById("step4").setAttribute("hidden", "");
+	document.getElementById("step5").setAttribute("hidden", "");
 }
 
 const refresh = (force = false, save = false) => {

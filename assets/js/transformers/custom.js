@@ -46,21 +46,9 @@ function connectWS() {
 				token: getCookie("token")
 			});
 		},
-		onMessage: event => {
-			let json;
-			try {
-				json = JSON.parse(event.data);
-			} catch (e) {
-				console.warn(e, event);
-				return socket.send({
-					status: "error",
-					message: "Invalid json",
-					debug: event.data
-				});
-			}
-			console.log(json);
-
+		onMessage: json => {
 			if (json.action == "NOTIFY") new ToastNotification(json).show();
+			else if (json.action == "SAVED_custom") new ToastNotification({type: "SUCCESS", title: "Custom bot " + json.username + " saved!", timeout: 10}).show()
 			else if (json.action == "ADDED_custom_paying") {
 				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show();
 				else document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
@@ -81,7 +69,10 @@ function connectWS() {
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("");
-					if (step == 4 && json.todo.length == 0) forward();
+					if (step == 4 && json.todo.length == 0) {
+						forward();
+						document.getElementById("forward-button").removeAttribute("disabled");
+					}
 				} else {
 					tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."));
 					tokenElem.reportValidity();

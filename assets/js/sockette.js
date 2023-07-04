@@ -14,7 +14,22 @@ const sockette = (url, opts = {}) => {
 		websocket.onmessage = event => {
 			console.log("Received message: " + event.data)
 
-			if (opts.onMessage) opts.onMessage(event)
+			if (opts.onMessage) {
+				let json
+				try {
+					json = JSON.parse(event.data)
+				} catch (e) {
+					console.error(e, event)
+					return websocket.send({
+						status: "error",
+						message: "Invalid json: " + e,
+						debug: event.data
+					})
+				}
+				console.log(json)
+
+				opts.onMessage(json)
+			}
 		}
 
 		websocket.onopen = event => {

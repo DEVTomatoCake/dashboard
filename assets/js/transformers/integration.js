@@ -12,7 +12,7 @@ function getIntegrationsHTML(json, guild) {
 		if (json.integrations.some(i => i.guild != guild && i.isOwner))
 			text +=
 				"<br><br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
-				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration).join("") +
+				json.integrations.filter(i => i.guild != guild && i.isOwner).map(i => handleIntegration(i, true)).join("") +
 				"</div>";
 
 		if (json.integrations.some(i => i.guild != guild && !i.isOwner))
@@ -92,7 +92,7 @@ function integrationInfo(integrationName) {
 		"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" +
 		(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 		(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
-		(integration.short ? "<h2>" + encode(integration.short) + "</h2><br>" : "") +
+		(integration.short ? "<p>" + encode(integration.short) + "</p><br>" : "") +
 		"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 		(integration.uses ? "<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" : "") +
@@ -103,7 +103,7 @@ function integrationInfo(integrationName) {
 		integration.actions.map(action => (
 			"<p><span translation='integration.trigger'></span>: " + encode(pickerData["action-trigger"][action.trigger].split("<br>")[0]) + "</p>" +
 			"<p>Name: <b>" + encode(action.name) + "</b></p>" +
-			(action.args && action.args[0] ? "<p>Args 1: " + encode(action.args[0]) + "</p>" : "") +
+			(action.args && action.args[0] ? "<p>Argument: " + encode(action.args[0]) + "</p>" : "") +
 			"<br><textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 		)).join("<br><br>") +
 		(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
@@ -197,7 +197,7 @@ function nameExists(elem) {
 	elem.reportValidity();
 }
 
-function handleIntegration(integration) {
+function handleIntegration(integration, isYou = false) {
 	return "<div class='integration'>" +
 		"<div class='flex'>" +
 			(integration.image ? "<img src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
@@ -205,7 +205,7 @@ function handleIntegration(integration) {
 			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
 		"</div>" +
-		"<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>" +
+		(isYou ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
 		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 		"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 		"<div class='flex'>" +
@@ -247,20 +247,7 @@ function connectWS(guild) {
 				token: getCookie("token")
 			});
 		},
-		onMessage: event => {
-			let json;
-			try {
-				json = JSON.parse(event.data);
-			} catch (e) {
-				console.warn(e, event);
-				return socket.send({
-					status: "error",
-					message: "Invalid json",
-					debug: event.data
-				});
-			}
-			console.log(json);
-
+		onMessage: json => {
 			if (json.action == "NOTIFY") new ToastNotification(json).show();
 			else if (json.action == "RECEIVE_integrations") {
 				document.getElementById("linksidebar").innerHTML =
@@ -277,12 +264,12 @@ function connectWS(guild) {
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
 					"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-						"<a class='tab otherlinks' href='../settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
+						"<a class='tab otherlinks' href='./settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
 						"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></div>" +
-						"<a class='tab otherlinks' href='../customcommands/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></a>" +
-						"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
-						"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-						"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
+						"<a class='tab otherlinks' href='./customcommands/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></a>" +
+						"<a class='tab otherlinks' href='./reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
+						"<a class='tab otherlinks' href='../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+						"<a class='tab otherlinks' href='../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 					"</div></div>";
 
 				document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild);

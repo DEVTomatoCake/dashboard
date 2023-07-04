@@ -91,7 +91,7 @@
 				hasLoaded = false;
 
 				socket = sockette("wss://api.tomatenkuchen.eu", {
-					onClose: event => {
+					onClose: () => {
 						errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
 
 						if (hasSavePopup) {
@@ -123,20 +123,7 @@
 							token: getCookie("token")
 						});
 					},
-					onMessage: event => {
-						let json;
-						try {
-							json = JSON.parse(event.data);
-						} catch (e) {
-							console.warn(e, event);
-							return socket.send({
-								status: "error",
-								message: "Invalid json",
-								debug: event.data
-							});
-						}
-						console.log(json);
-
+					onMessage: json => {
 						if (json.action == "NOTIFY") new ToastNotification(json).show();
 						else if (json.action == "RECEIVE_settings") {
 							settingsData = json.data;
@@ -150,10 +137,10 @@
 
 							let sidebarHTML =
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-								"<a class='tab otherlinks' href='../integrations/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
-								"<a class='tab otherlinks' href='../reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
-								"<a class='tab otherlinks' href='../../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-								"<a class='tab otherlinks' href='../../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
+								"<a class='tab otherlinks' href='./integrations/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
+								"<a class='tab otherlinks' href='./reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
+								"<a class='tab otherlinks' href='../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+								"<a class='tab otherlinks' href='../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 								"<hr>";
 
 							rendered.categories.forEach(category => {

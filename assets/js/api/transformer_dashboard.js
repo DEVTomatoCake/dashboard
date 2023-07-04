@@ -290,7 +290,7 @@ function getDataexportHTML() {
 
 						"<div class='userData'>" +
 						"<h1 translation='dashboard.settings'></h1>" +
-						"<p><b>Embed color:</b><p style='background-color: #" + encode(json.data.userProfiles?.settings?.embedcolor) + ";'></p> " + encode(json.data.userProfiles?.settings?.embedcolor) + "</p>" +
+						"<p><b>Embed color:</b> " + encode(json.data.userProfiles?.settings?.embedcolor) + "</p>" +
 						"<p><b translation='user.levelbg'></b><br><a class='accent' target='_blank' ref='noopener' href='" + json.data.userProfiles?.settings?.levelBackground +
 						"'><img src='" + json.data.userProfiles?.settings?.levelBackground + "' loading='lazy' width='350' height='140' alt='Your level background'></a></p>" +
 						"<p><b translation='user.saveticketatt'></b> " + encode(json.data.userProfiles?.settings?.saveTicketAttachments) + "</p>" +

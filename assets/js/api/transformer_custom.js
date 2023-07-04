@@ -76,7 +76,7 @@ function connectWS() {
 
 					document.getElementById("bot-name").textContent = encode(json.username);
 					document.getElementById("bot-invite").href = "https://discord.com/oauth2/authorize?client_id=" + json.id + "&scope=bot&permissions=1393602981110";
-					document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=100";
+					document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=64";
 					document.getElementById("bot-access").innerHTML = json.access.map(userList).join("");
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
@@ -125,8 +125,10 @@ function back() {
 	if (step == 4 && info.todo.length == 0) step--;
 	document.getElementById("step" + step).removeAttribute("hidden");
 
-	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "");
 	document.getElementById("forward-button").removeAttribute("hidden");
+	document.getElementById("forward-button").textContent = "Next";
+	document.getElementById("forward-button").onclick = forward;
+	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "");
 }
 function forward() {
 	document.getElementById("step" + step).setAttribute("hidden", "");

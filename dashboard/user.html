@@ -49,22 +49,10 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
-					<h1>Loading your user data...</h1>
+					<h1>soonTM</h1>
 				</div>
 			</div>
 		</main>
-
-		<script>
-			if (getCookie("token"))
-				getDataexportHTML().then(data => {
-					document.getElementById("content").innerHTML = data;
-					reloadText();
-				});
-			else {
-				document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
-				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
-			}
-		</script>
 
 		<global-footer></global-footer>
 		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>

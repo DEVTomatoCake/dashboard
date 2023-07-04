@@ -12,9 +12,9 @@ function getGuildsHTML() {
 					}).forEach(guild => {
 						text +=
 							"<div class='guilds-container'>" +
-							"<a class='guild' href='" + (guild.active ? "./settings" : "/invite") + "?guild=" + guild.id +
+							"<a class='guild' href='/" + (guild.active ? "dashboard/settings" : "invite") + "?guild=" + guild.id +
 							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w=-]/gi, "") : "") + "'>" +
-							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + guild.id + "' width='128' height='128' title='" + encode(guild.name) + "' src='" + guild.icon + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) + " Server icon' width='128' height='128' title='" + encode(guild.name) + "' src='" + encode(guild.icon) + "'>" +
 							"<div class='text'>" + encode(guild.name) + "</div>" +
 							"</a>" +
 							"</div>";

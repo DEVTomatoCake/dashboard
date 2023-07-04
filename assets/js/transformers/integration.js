@@ -12,6 +12,7 @@ function handleChange(id) {
 	}
 }
 
+const params = new URLSearchParams(location.search);
 function createDialog() {
 	document.getElementById("create-dialog").removeAttribute("data-edit");
 	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9);
@@ -182,7 +183,6 @@ function handleIntegration(integration) {
 		"</div>";
 }
 
-const params = new URLSearchParams(location.search);
 let saving = false;
 let savingToast;
 let errorToast;

@@ -34,6 +34,7 @@
 
 				for (const link of document.getElementsByClassName("guild")) {
 					const href = link.getAttribute("href").split("/");
+					console.warn(href)
 					if (href[1] == "invite") continue;
 					if (target == "stats" || target == "leaderboard") href[0] = "..";
 					else href[0] = ".";
@@ -129,7 +130,7 @@
 						setCookie("avatar", json.avatar, 4);
 
 						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = localStorage.getItem("next");
-						else location.href = "https://" + location.host + "/dashboard/" + (params.has("guild") ? "settings?guild=" + encode(params.get("guild")) : "");
+						else location.href = "https://" + location.host + "/dashboard" + (params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =
 							"<h1>An error occured while handling your request!</h1>" +

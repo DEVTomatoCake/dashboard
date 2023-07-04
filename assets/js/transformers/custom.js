@@ -49,10 +49,8 @@ function connectWS() {
 		onMessage: json => {
 			if (json.action == "NOTIFY") new ToastNotification(json).show();
 			else if (json.action == "SAVED_custom") {
-				new ToastNotification({type: "SUCCESS", title: "Custom bot " + json.username + " saved!", timeout: 3}).show();
-				setTimeout(() => {
-					location.reload();
-				}, 3000);
+				new ToastNotification({type: "SUCCESS", title: "Custom bot " + json.username + " saved!", timeout: 10}).show();
+				socket.send({status: "success", action: "GET_custom"});
 			} else if (json.action == "ADDED_custom_paying") {
 				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show();
 				else document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?

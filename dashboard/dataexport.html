@@ -6,8 +6,8 @@
 		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View your user data here.">
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/dataexport/">
-		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/dataexport/">
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/dataexport">
+		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard/dataexport">
 		<link rel="manifest" href="../../manifest.json">
 
 		<title>TomatenKuchen - User data and settings - Dashboard</title>
@@ -23,8 +23,8 @@
 		<script src="../../assets/js/script.js"></script>
 		<script src="../../assets/js/language.js"></script>
 
-		<script src="../../assets/js/api/api.js"></script>
-		<script src="../../assets/js/api/transformer_dashboard.js"></script>
+		<script src="../../assets/js/api.js"></script>
+		<script src="../../assets/js/transformers/dataexport.js"></script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar page="dashboard"></global-sidebar>
@@ -53,18 +53,6 @@
 				</div>
 			</div>
 		</main>
-
-		<script>
-			if (getCookie("token"))
-				getDataexportHTML().then(data => {
-					document.getElementById("content").innerHTML = data;
-					reloadText();
-				});
-			else {
-				document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
-				location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
-			}
-		</script>
 
 		<global-footer></global-footer>
 		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>

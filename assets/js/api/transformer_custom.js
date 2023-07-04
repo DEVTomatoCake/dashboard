@@ -81,6 +81,7 @@ function connectWS() {
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "");
 					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("");
+					if (step == 4) forward();
 				} else {
 					tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."));
 					tokenElem.reportValidity();

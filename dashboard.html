@@ -33,10 +33,8 @@
 				const target = elem.getAttribute("data-target");
 
 				for (const link of document.getElementsByClassName("guild")) {
-					const href = link.getAttribute("href").split("/");
 					const query = link.getAttribute("href").split("?")[1];
-					console.warn(href, query)
-					if (href[1] == "invite") continue;
+					if (link.getAttribute("href").split("/")[1] == "invite") continue;
 					if (target == "stats" || target == "leaderboard") link.setAttribute("href", "/" + target + (query ? "?" + query : ""));
 					else link.setAttribute("href", "/dashboard/" + target + (query ? "?" + query : ""));
 				}

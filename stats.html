@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View advanced Discord server statistics using TomatenKuchen.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View advanced Discord server statistics without them expiring using TomatenKuchen.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/stats">
@@ -82,11 +82,7 @@
 						plugins: {
 							title: {
 								display: true,
-								text: getLanguage() == "de" ? "Statistiken von " + apiresponse.name : "Statistics of " + apiresponse.name
-							},
-							subtitle: {
-								display: params.get("type") != "members" && params.get("type") != "messages" && params.get("type") != "boosts" && params.get("type") != "chatters" && !params.has("time"),
-								text: "Ein Teil der Mitglieder- und Nachrichtendaten wird nicht angezeigt. Nutze die Query-Parameter \"type\" und \"time\", um sie anzuzeigen."
+								text: (getLanguage() == "de" ? "Statistiken von" : "Statistics of") + " " + apiresponse.name
 							}
 						}
 					}

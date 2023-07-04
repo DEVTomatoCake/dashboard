@@ -151,39 +151,6 @@ function getCustomcommandsHTML(json) {
 	}
 }
 
-function getIntegrationsHTML(json, guild) {
-	if (json.status == "success") {
-		let text = "";
-
-		if (json.integrations.some(i => i.guild == guild))
-			text +=
-				"<br><br><h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
-				json.integrations.filter(i => i.guild == guild).map(handleIntegration).join("") +
-				"</div>";
-		else text += "<div class='integration-container'></div>";
-
-		if (json.integrations.some(i => i.guild != guild && i.isOwner))
-			text +=
-				"<br><br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
-				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration).join("") +
-				"</div>";
-
-		if (json.integrations.some(i => i.guild != guild && !i.isOwner))
-			text +=
-				"<br><br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
-				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration).join("") +
-				"</div>";
-
-		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>";
-		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" + text + "</div>";
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>");
-	}
-}
-
 function getReactionrolesHTML(json) {
 	if (json.status == "success") {
 		let channeloptions = "";

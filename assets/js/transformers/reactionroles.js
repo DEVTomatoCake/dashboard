@@ -1,3 +1,5 @@
+let rolecopy = {};
+
 function getReactionrolesHTML(json) {
 	if (json.status == "success") {
 		let channeloptions = "";
@@ -45,8 +47,6 @@ function getReactionrolesHTML(json) {
 			"<h2>" + json.message + "</h2>");
 	}
 }
-
-let rolecopy = {};
 
 function openForm() {
 	document.getElementById("reactionroles-reaction").value = "";
@@ -204,24 +204,6 @@ function verifyMsg() {
 	});
 }
 
-let amountnew = 0;
-document.getElementById("create-form").addEventListener("submit", e => {
-	e.preventDefault();
-	document.getElementById("create-dialog").classList.add("hidden");
-	if (document.getElementById("no-rr")) document.getElementById("no-rr").remove();
-
-	const newmsg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg";
-	if (newmsg) amountnew++;
-
-	const div = document.createElement("div");
-	let html = "";
-	for (elem of document.getElementsByClassName("reactionrole")) html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
-
-	div.innerHTML = html;
-	document.getElementsByClassName("settingsContent")[0].appendChild(div);
-	saveReactionroles();
-});
-
 function saveReactionroles() {
 	if (!params.has("guild") || saving) return;
 	saving = true;
@@ -254,6 +236,24 @@ function saveReactionroles() {
 }
 
 loadFunc = () => {
+	let amountnew = 0;
+	document.getElementById("create-form").addEventListener("submit", e => {
+		e.preventDefault();
+		document.getElementById("create-dialog").classList.add("hidden");
+		if (document.getElementById("no-rr")) document.getElementById("no-rr").remove();
+
+		const newmsg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg";
+		if (newmsg) amountnew++;
+
+		const div = document.createElement("div");
+		let html = "";
+		for (elem of document.getElementsByClassName("reactionrole")) html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML;
+
+		div.innerHTML = html;
+		document.getElementsByClassName("settingsContent")[0].appendChild(div);
+		saveReactionroles();
+	});
+
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")));
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id");
 	else if (getCookie("token")) {

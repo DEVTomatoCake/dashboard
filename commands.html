@@ -53,11 +53,11 @@
 
 					if ((cmd.textContent.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.classList.add("hidden");
+						cmd.classList.remove("hidden");
 						categories[cmd.getAttribute("data-category")]++;
 					} else {
 						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.classList.remove("hidden");
+						cmd.classList.add("hidden");
 					}
 				}
 
@@ -87,7 +87,7 @@
 
 					if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + command.aliases.join(", ") + "</p>";
 					if (command.options) html += "<p><span translation='commands.args'></span> " + command.options.map(o => (
-						o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='red-text'>*</span>" : "") + " <small title='" + o.desc + "'>" + o.type + "</small>"
+						"<span title='" + o.desc + "'>" + o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='red-text'>*</span>" : "") + " <small>" + o.type + "</small></span>"
 					)).join(", ") + "</p>";
 
 					elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>";

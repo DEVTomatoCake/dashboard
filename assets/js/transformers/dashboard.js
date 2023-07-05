@@ -151,54 +151,6 @@ function getCustomcommandsHTML(json) {
 	}
 }
 
-function getReactionrolesHTML(json) {
-	if (json.status == "success") {
-		let channeloptions = "";
-		Object.keys(json.data.channels).forEach(key => channeloptions += "<option value='" + key + "'>" + json.data.channels[key] + "</option>");
-		document.getElementById("reactionroles-channel").innerHTML = channeloptions;
-
-		let roleoptions = "";
-		Object.keys(json.data.roles).forEach(key => roleoptions += "<option value='" + key + "'>" + json.data.roles[key] + "</option>");
-		document.getElementById("reactionroles-role").innerHTML = roleoptions;
-		rolecopy = json.data.roles;
-
-		let text = "";
-		json.data.reactionroles.forEach(setting => {
-			const type = encode(setting.type);
-			const emoji = encode(setting.reaction || setting.emoji);
-
-			text +=
-				"<div>" +
-				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Role emoji'><br>") : "") +
-				(type == "button" || type == "select" ? "<p><b>" + encode(setting.label) + "</b></p>" : "") +
-				"<select class='setting' data-type='" + type + "' data-msg='" + encode(setting.msg) + "' " +
-				"data-channel='' " +
-				(type == "reaction" ? "data-reaction='" + encode(setting.reaction) + "' " : "") +
-				(type == "button" || type == "select" ?
-					"data-label='" + encode(setting.label) + "' " +
-					"data-emoji='" + encode(setting.emoji) + "' "
-				: "") +
-				(type == "button" && setting.buttonstyle ? "data-buttonstyle='" + encode(setting.buttonstyle) + "' " : "") +
-				(type == "select" && setting.selectdesc ? "data-selectdesc='" + encode(setting.selectdesc) + "' " : "") +
-				(setting.content ? "data-content='" + encode(setting.content) + "' " : "") +
-				"id='" + encode(setting.msg + "-" + (setting.reaction || setting.label)) + "' " +
-				"name='" + encode(setting.msg) + "' disabled>" +
-				Object.keys(rolecopy).map(key =>
-					setting.role == key ? "<option value='" + key + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
-				) +
-				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove()'></ion-icon><br><br></div>";
-		});
-
-		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>";
-		return "<h1 class='center'><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text;
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>");
-	}
-}
-
 function getTicketsHTML(guild) {
 	return new Promise(resolve => {
 		getTickets(guild)

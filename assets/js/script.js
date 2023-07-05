@@ -148,11 +148,11 @@ function sidebar() {
 
 	if (sideState % 2 == 0) {
 		setTimeout(() => {
-			document.getElementById("content").style.paddingLeft = "300px"
+			document.getElementById("content").classList.remove("no-padding")
 			document.getElementById("sidebar-container").classList.toggle("visible")
 		}, 300)
 	} else {
-		document.getElementById("content").style.paddingLeft = "0"
+		document.getElementById("content").classList.add("no-padding")
 
 		document.getElementById("lineTop2").style.transform = "rotate(0)"
 		document.getElementById("lineTop2").style.top = "0"
@@ -170,29 +170,27 @@ function sidebar() {
 	}
 }
 
-function fadeOut(element) {
-	if (!element) return
-	if (!element.style.opacity) element.style.opacity = 1
+function fadeOut(elem) {
+	if (!elem) return
+	if (!elem.style.opacity) elem.style.opacity = 1
 
-	element.style.opacity = parseFloat(element.style.opacity) - 0.05
-	if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25)
-	else element.remove()
+	elem.style.opacity = parseFloat(elem.style.opacity) - 0.05
+	if (elem.style.opacity >= 0) setTimeout(() => fadeOut(elem), 25)
+	else elem.remove()
 }
-function fadeIn(element) {
-	if (!element) return
-	if (!element.style.opacity) element.style.opacity = 0
+function fadeIn(elem) {
+	if (!elem) return
+	if (!elem.style.opacity) elem.style.opacity = 0
 
-	element.style.opacity = parseFloat(element.style.opacity) + 0.05
-	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25)
+	elem.style.opacity = parseFloat(elem.style.opacity) + 0.05
+	if (elem.style.opacity < 1) setTimeout(() => fadeIn(elem), 25)
 }
 
 function openDialog(dialog) {
-	dialog.style.display = "block"
-	dialog.getElementsByClassName("close")[0].onclick = () => {
-		dialog.style.display = "none"
-	}
+	dialog.classList.remove("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
 	window.onclick = event => {
-		if (event.target == dialog) dialog.style.display = "none"
+		if (event.target == dialog) dialog.classList.add("hidden")
 	}
 }
 
@@ -209,9 +207,8 @@ function pageLoad(page = "") {
 	}
 
 	if (screen.width <= 800) {
-		if (page == "commands") document.getElementById("search-box").style.marginLeft = "10px"
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible")
-		document.getElementById("content").style.paddingLeft = "0"
+		document.getElementById("content").classList.add("no-padding")
 		sideState = 1
 	}
 
@@ -233,8 +230,8 @@ function pageLoad(page = "") {
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style=\"display:block;\";this.style.display=\"none\";'>"
-	} else document.getElementById("username-avatar").style = "display: block;"
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.classList.add(\"hidden\")'>"
+	} else document.getElementById("username-avatar").classList.add("visible")
 
 	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {

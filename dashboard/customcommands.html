@@ -77,7 +77,7 @@
 								"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 								"<button type='button' onclick='saveCustomcommands()'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 								"<br><hr><a class='tab otherlinks' href='./settings/?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
-								"<a class='tab otherlinks' href='./integrations/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
+								"<a class='tab otherlinks' href='./integrations/?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
 								"<div class='tab otherlinks active'><ion-icon name='terminal-outline'></ion-icon><p>Customcommands</p></div>" +
 								"<a class='tab otherlinks' href='./reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
 								"<a class='tab otherlinks' href='../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
@@ -146,7 +146,7 @@
 					</form>
 				</div>
 
-				<div class="announcement" style="background-color:#C74E4E">
+				<div class="announcement red">
 					<h2>Customcommands are deprecated!</h2>
 					<p>
 						They are now being replaced by integrations. They offer more and better variables, version support, and much more triggers than only commands!
@@ -163,7 +163,7 @@
 		<script>
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
-				document.getElementById("create-dialog").style.display = "none";
+				document.getElementById("create-dialog").classList.add("hidden");
 				if (document.getElementById("no-cc")) document.getElementById("no-cc").remove();
 
 				const name = encode(document.getElementById("customcommand-name").value);

@@ -47,7 +47,8 @@
 	--dialog-shadow: #00000040;
 	--picker-bg: #C3D8F5;
 	--picker-selected: #8AD6A7;
-	--settings-upsell: #82d3cd;
+	--settings-upsell: #94e9df;
+	--codebg: #d5d5d5;
 }
 
 .dark-theme {
@@ -78,6 +79,7 @@
 	--picker-bg: #203653;
 	--picker-selected: #278B4E;
 	--settings-upsell: #235855;
+	--codebg: #4a4a4a;
 }
 
 * {
@@ -378,6 +380,9 @@ textarea.code {
 #username-avatar {
 	display: none;
 }
+#username-avatar.visible {
+	display: block;
+}
 
 .userdatagrid {
 	width: auto;
@@ -397,11 +402,23 @@ textarea.code {
 	}
 }
 
+code {
+	background-color: var(--codebg);
+	padding: 1px 2px;
+	border-radius: 5px;
+}
+
 .announcement {
 	min-width: 100px;
 	padding: 10px 13px;
 	margin-bottom: 30px;
 	border-radius: 14px;
+}
+.announcement.red {
+	background-color: #C74E4E;
+}
+.announcement.settings {
+	background-color: var(--settings-upsell);
 }
 
 .dialog-tab {
@@ -604,8 +621,12 @@ footer .links {
 	width: 100%;
 }
 
-.settingdiv.hidden {
+.hidden {
 	display: none;
+}
+
+.no-opacity {
+	opacity: 0;
 }
 
 .switch {
@@ -891,6 +912,10 @@ footer .links {
 	transition: .4s;
 	padding: 100px 0 100px 300px;
 }
+.content.no-padding {
+	padding-left: 0;
+}
+
 .accent {
 	color: var(--accent-color);
 }
@@ -1232,6 +1257,12 @@ button:disabled {
 	}
 }
 
+@media only screen and (max-width: 800px) {
+	.search-box {
+		margin-left: 10px;
+	}
+}
+
 @media only screen and (max-width: 700px) {
 	.feature {
 		display: inline-block;
@@ -1299,7 +1330,6 @@ button:disabled {
 	}
 
 	.search-box {
-		margin-left: 10px;
 		margin-right: 20px;
 	}
 

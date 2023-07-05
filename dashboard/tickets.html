@@ -52,10 +52,10 @@
 
 					if (hidden) {
 						if (tic.classList.contains("cmdvisible")) tic.classList.toggle("cmdvisible");
-						tic.style.display = "none";
+						tic.classList.add("hidden");
 					} else {
 						if (!tic.classList.contains("cmdvisible")) tic.classList.toggle("cmdvisible");
-						tic.style.display = "";
+						tic.classList.remove("hidden");
 					}
 				}
 			}

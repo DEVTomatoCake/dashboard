@@ -53,25 +53,25 @@
 
 					if ((cmd.textContent.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "";
+						cmd.classList.add("hidden");
 						categories[cmd.getAttribute("data-category")]++;
 					} else {
 						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
-						cmd.style.display = "none";
+						cmd.classList.remove("hidden");
 					}
 				}
 
 				for (const category of document.getElementById("commands-container").getElementsByClassName("category")) {
 					if (categories[category.id] > 0) {
-						category.style.display = "";
-						document.getElementById(category.id + "tb").style.display = "";
-						document.getElementById(category.id + "title").style.display = "";
-						document.getElementById(category.id + "br").style.display = "";
+						category.classList.remove("hidden");
+						document.getElementById(category.id + "tb").classList.remove("hidden");
+						document.getElementById(category.id + "title").classList.remove("hidden");
+						document.getElementById(category.id + "br").classList.remove("hidden");
 					} else {
-						category.style.display = "none";
-						document.getElementById(category.id + "tb").style.display = "none";
-						document.getElementById(category.id + "title").style.display = "none";
-						document.getElementById(category.id + "br").style.display = "none";
+						category.classList.add("hidden");
+						document.getElementById(category.id + "tb").classList.add("hidden");
+						document.getElementById(category.id + "title").classList.add("hidden");
+						document.getElementById(category.id + "br").classList.add("hidden");
 					}
 				}
 			}
@@ -98,11 +98,11 @@
 			function toggleCategory(category) {
 				const toModify = document.getElementById(category);
 
-				if (toModify.style.display == "none") {
-					toModify.style.display = "table";
+				if (toModify.classList.contains("hidden")) {
+					toModify.classList.remove("hidden");
 					document.getElementById(category + "tb").setAttribute("translation", "commands.hide");
 				} else {
-					toModify.style.display = "none";
+					toModify.classList.add("hidden");
 					document.getElementById(category + "tb").setAttribute("translation", "commands.show");
 				}
 				reloadText();

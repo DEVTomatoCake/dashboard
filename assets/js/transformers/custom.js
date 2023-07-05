@@ -103,7 +103,7 @@ const refresh = (force = false, save = false) => {
 			document.getElementById("forward-button").removeAttribute("disabled");
 		}, 10000);
 	}
-	if (save) document.getElementById("create-dialog").style.display = "none";
+	if (save) document.getElementById("create-dialog").classList.add("hidden");
 };
 
 const addUser = () => {

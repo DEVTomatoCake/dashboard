@@ -55,7 +55,7 @@
 				if (currentIndex >= servers.length) currentIndex = 0;
 				const server = servers[currentIndex];
 
-				document.getElementById("server" + currentServer).style.opacity = "0";
+				document.getElementById("server" + currentServer).classList.add("no-opacity");
 				setTimeout(() => {
 					document.getElementById("server" + currentServer).innerHTML =
 						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
@@ -65,7 +65,7 @@
 						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
 						"</div>";
 
-					document.getElementById("server" + currentServer).style.opacity = "1";
+					document.getElementById("server" + currentServer).classList.remove("no-opacity");
 					reloadText();
 				}, 700);
 			}, 14000);

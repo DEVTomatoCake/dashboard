@@ -44,7 +44,7 @@
 				for (tab of document.getElementsByClassName("dialog-tab")) {
 					if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 						tab.classList.remove("active");
-						document.getElementById(tab.getAttribute("name")).style.display = "none";
+						document.getElementById(tab.getAttribute("name")).classList.add("hidden");
 
 						for (input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
 							if (input.required) {
@@ -56,7 +56,7 @@
 				}
 				elem.classList.add("active");
 
-				document.getElementById(elem.getAttribute("name")).style.display = "block";
+				document.getElementById(elem.getAttribute("name")).classList.remove("hidden");
 				for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input"))
 					if (input.hasAttribute("data-required")) input.required = true;
 
@@ -294,7 +294,7 @@
 			let amountnew = 0;
 			document.getElementById("create-form").addEventListener("submit", e => {
 				e.preventDefault();
-				document.getElementById("create-dialog").style.display = "none";
+				document.getElementById("create-dialog").classList.add("hidden");
 				if (document.getElementById("no-rr")) document.getElementById("no-rr").remove();
 
 				const reaction = encode(document.getElementById("reactionroles-reaction").value);

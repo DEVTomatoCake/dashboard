@@ -111,7 +111,7 @@ function integrationInfo(integrationName) {
 }
 
 function integrationUse(integrationName) {
-	document.getElementById("info-dialog").style.display = "none";
+	document.getElementById("info-dialog").classList.add("hidden");
 	openDialog(document.getElementById("create-dialog"));
 	const integration = integrations.find(e => e.name == integrationName);
 	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!");
@@ -326,7 +326,7 @@ function createIntegration(sourceId = "") {
 	if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!");
 	if (name.length > 32) return alert("The name can be at most 32 characters long!");
 
-	document.getElementById("create-dialog").style.display = "none";
+	document.getElementById("create-dialog").classList.add("hidden");
 	if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
 
 	let input = []

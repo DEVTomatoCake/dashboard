@@ -43,10 +43,10 @@
 
 					if (hidden) {
 						if (log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible");
-						log.style.display = "none";
+						log.classList.add("hidden");
 					} else {
 						if (!log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible");
-						log.style.display = "";
+						log.classList.remove("hidden");
 					}
 				}
 			}

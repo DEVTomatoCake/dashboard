@@ -39,8 +39,8 @@
 						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
-						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
+						"<p><b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
+						"<p class='since'><span translation='main.botsince'></span><br><b>" + server.botsince + "</b></p>" +
 						"</div>";
 				}
 				reloadText();
@@ -61,8 +61,8 @@
 						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
-						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
+						"<p><b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
+						"<p class='since'><span translation='main.botsince'></span><br><b>" + server.botsince + "</b></p>" +
 						"</div>";
 
 					document.getElementById("server" + currentServer).classList.remove("no-opacity");
@@ -93,7 +93,7 @@
 			</header>
 
 			<div class="content" id="content">
-				<h1 class="center">TomatenKuchen is your all-in-one Discord bot for your Discord server!</h1>
+				<h1 class="center">TomatenKuchen is your <b>all-in-one</b> Discord bot for your Discord server!</h1>
 				<h2 id="username-content" class="greeting">Hey!</h2>
 
 				<div class="stats-row">
@@ -159,8 +159,8 @@
 									Advanced moderation features
 								</strong>
 								<br>
-								<span translation="main.features.moderation.description">
-									Useful moderation commands and modlogs combined with <a href="https://discord.com">Discord</a>'s native automod!
+								<span>
+									Useful moderation commands and modlogs combined with Discords native AutoMod, allowing you to punish users for triggering a rule!
 								</span>
 							</p>
 						</div>
@@ -168,12 +168,13 @@
 					<div class="feature">
 						<div>
 							<p>
-								<strong translation="main.features.template.title">
-									Load Discord templates
+								<strong>
+									Load Discord templates and create feature-rich server backups
 								</strong>
 								<br>
-								<span translation="main.features.template.description">
-									Using /template you can load Discord templates onto an existing server
+								<span>
+									Using /template you can load Discord templates onto existing servers. /backup allows you to yeet bots like Xenon as it has way more features and backups pretty much
+									everything Discord allows the bot to :D
 								</span>
 							</p>
 						</div>
@@ -187,8 +188,8 @@
 									Fully customizable ticket system
 								</strong>
 								<br>
-								<span translation="main.features.ticket.description">
-									Multiple ticket categories, ticket embeds and advanced transcripts
+								<span>
+									Multiple ticket categories, ticket embeds and Discord-like transcripts
 								</span>
 							</p>
 						</div>
@@ -196,12 +197,13 @@
 					<div class="feature">
 						<div>
 							<p>
-								<strong translation="main.features.stats.title">
-									Serverstats in channels and categories
+								<strong>
+									Serverstats in channels and categories and on the website
 								</strong>
 								<br>
-								<span translation="main.features.stats.description">
-									In the <a href="https://docs.tomatenkuchen.eu/en/serverstats">Docs</a> you can find tips on how to setup stats
+								<span>
+									In the <a href="https://docs.tomatenkuchen.eu/serverstats">Docs</a> you can find tips on how to setup stats. You can also track member and boost count as well as
+									the messages sent per day and the active chatters - with no expiration!
 								</span>
 							</p>
 						</div>
@@ -220,6 +222,20 @@
 								</span>
 							</p>
 						</div>
+					</div>
+					<div class="feature">
+						<div>
+							<p>
+								<strong>
+									Ever wanted to create custom buttons or selects?
+								</strong>
+								<br>
+								<span>
+									Well check out our <a href="https://docs.tomatenkuchen.eu/integration">integrations</a> which can do exactly that and much more!
+								</span>
+							</p>
+						</div>
+						<img src="./assets/images/tomato_empty.webp" width="160" height="160" alt="Drawn tomato default">
 					</div>
 				</div>
 			</div>

@@ -177,11 +177,14 @@ tr.cmdvisible:nth-child(odd) {
 	border-radius: 10px;
 	margin: 5px;
 	padding: 8px;
-	font-size: 19px;
+	font-size: 19.5px;
 	transition: .7s;
 }
 .public-servers h3 {
 	font-size: 26px;
+}
+.public-servers p.since {
+	font-size: 18px;
 }
 
 .public-servers img {
@@ -1455,7 +1458,6 @@ button:disabled {
 
 .dialog {
 	position: fixed;
-	display: none;
 	z-index: 10;
 	left: 0;
 	top: 0;

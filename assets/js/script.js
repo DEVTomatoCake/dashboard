@@ -217,7 +217,7 @@ function pageLoad(page = "") {
 		document.getElementById("username-header").textContent = username
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user'>Your profile</a>" +
+			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.yourprofile'>Your profile</a>" +
 			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a><a href='/dashboard/custom'>Custom branding</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=

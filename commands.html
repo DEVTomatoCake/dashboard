@@ -82,8 +82,8 @@
 				else {
 					const command = commandData.find(c => c.name == cmd);
 					let html = "<div class='cmd-info'>" +
-						"<p>Category: " + command.category + "</p>" +
-						"<p>Usage: " + command.usage + "</p>";
+						"<p><span translation='commands.category'></span>: " + command.category + "</p>" +
+						"<p><span translation='commands.usage'></span>: " + command.usage + "</p>";
 
 					if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + command.aliases.join(", ") + "</p>";
 					if (command.options) html += "<p><span translation='commands.args'></span> " + command.options.map(o => (

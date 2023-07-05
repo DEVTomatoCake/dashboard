@@ -477,6 +477,15 @@ code {
 	bottom: 0;
 }
 
+.rotated1 {
+	top: 5px;
+	transform: rotate(45deg);
+}
+.rotated2 {
+	bottom: 5px;
+	transform: rotate(-45deg);
+}
+
 .sidebar-container.visible #lineTop2 {
 	transform: rotate(45deg);
 	top: 5px;
@@ -1257,12 +1266,6 @@ button:disabled {
 	}
 }
 
-@media only screen and (max-width: 800px) {
-	.search-box {
-		margin-left: 10px;
-	}
-}
-
 @media only screen and (max-width: 700px) {
 	.feature {
 		display: inline-block;
@@ -1298,6 +1301,7 @@ button:disabled {
 	}
 
 	.search-box ion-icon {
+		margin-left: 10px;
 		font-size: 24px;
 	}
 

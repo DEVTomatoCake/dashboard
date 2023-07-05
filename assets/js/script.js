@@ -136,15 +136,11 @@ let sideState = 0
 function sidebar() {
 	sideState++
 
-	document.getElementById("lineTop2").style.transform = "rotate(45deg)"
-	document.getElementById("lineTop2").style.top = "5px"
-	document.getElementById("lineBottom2").style.transform = "rotate(-45deg)"
-	document.getElementById("lineBottom2").style.bottom = "5px"
+	document.getElementById("lineTop2").classList.add("rotated1")
+	document.getElementById("lineBottom2").classList.add("rotated2")
 
-	document.getElementById("lineTop1").style.transform = "rotate(45deg)"
-	document.getElementById("lineTop1").style.top = "5px"
-	document.getElementById("lineBottom1").style.transform = "rotate(-45deg)"
-	document.getElementById("lineBottom1").style.bottom = "5px"
+	document.getElementById("lineTop1").classList.add("rotated1")
+	document.getElementById("lineBottom1").classList.add("rotated2")
 
 	if (sideState % 2 == 0) {
 		setTimeout(() => {
@@ -154,15 +150,11 @@ function sidebar() {
 	} else {
 		document.getElementById("content").classList.add("no-padding")
 
-		document.getElementById("lineTop2").style.transform = "rotate(0)"
-		document.getElementById("lineTop2").style.top = "0"
-		document.getElementById("lineBottom2").style.transform = "rotate(0)"
-		document.getElementById("lineBottom2").style.bottom = "0"
+		document.getElementById("lineTop2").classList.remove("rotated1")
+		document.getElementById("lineBottom2").classList.remove("rotated2")
 
-		document.getElementById("lineTop1").style.transform = "rotate(0)"
-		document.getElementById("lineTop1").style.top = "0"
-		document.getElementById("lineBottom1").style.transform = "rotate(0)"
-		document.getElementById("lineBottom1").style.bottom = "0"
+		document.getElementById("lineTop1").classList.remove("rotated1")
+		document.getElementById("lineBottom1").classList.remove("rotated2")
 
 		setTimeout(() => {
 			document.getElementById("sidebar-container").classList.toggle("visible")

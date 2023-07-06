@@ -21,6 +21,7 @@
 }
 
 .light-theme {
+	color-scheme: light;
 	--primary-color: #F3F3F8;
 	--primary-color-hover: #FFF;
 	--secondary-color: #bfc2d4;
@@ -52,6 +53,7 @@
 }
 
 .dark-theme {
+	color-scheme: dark;
 	--primary-color: #1d1d27;
 	--primary-color-hover: #000;
 	--secondary-color: #2e3247;
@@ -1111,7 +1113,7 @@ pre {
 
 .integration-container {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 	grid-gap: 5px 20px;
 }
 

@@ -11,33 +11,33 @@ function getDataexportHTML() {
 		getDataexport()
 			.then(json => {
 				if (json.status == "success") {
-					let badges = "";
-					if (json.data.userProfiles?.badges?.length > 0) badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ");
+					let badges = ""
+					if (json.data.userProfiles?.badges?.length > 0) badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ")
 
-					let economyitems = "";
+					let economyitems = ""
 					if (json.data.economy?.shop?.length > 0)
 						economyitems = json.data.economy.shop.map(item => "<p class='badge' title='Erhalten am " + new Date(item.date).toLocaleString() +
-							(item.used > 0 ? ", " + item.used + " mal genutzt" : "") + "'>" + item.name + "</p>").join(", ");
+							(item.used > 0 ? ", " + item.used + " mal genutzt" : "") + "'>" + item.name + "</p>").join(", ")
 
-					let cooldowns = "";
+					let cooldowns = ""
 					if (json.data.economy?.cooldowns?.length > 0)
-						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Runs out: " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ");
+						cooldowns = json.data.economy.cooldowns.map(cooldown => "<p class='badge' title='Runs out: " + new Date(cooldown.time).toLocaleString() + "'>" + cooldown.cmd + "</p>").join(", ")
 
-					let mentions = "";
+					let mentions = ""
 					if (json.data.userProfiles?.afk?.mentions?.length > 0)
-						mentions = json.data.userProfiles.afk.mentions.map(mention => "<a href='" + mention.url + "'><p class='badge'>" + mention.user + "</p></a><br>").join(", ");
-					const afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : "";
+						mentions = json.data.userProfiles.afk.mentions.map(mention => "<a href='" + mention.url + "'><p class='badge'>" + mention.user + "</p></a><br>").join(", ")
+					const afkSince = json.data.userProfiles?.afk?.date ? new Date(json.data.userProfiles?.afk?.date).toLocaleString() : ""
 
-					let reminders = "";
+					let reminders = ""
 					if (json.data.remind?.length > 0)
-						reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ");
+						reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ")
 
-					let tickets = "";
-					if (json.data.ticket?.length > 0) tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ");
+					let tickets = ""
+					if (json.data.ticket?.length > 0) tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ")
 
-					let suggests = "";
+					let suggests = ""
 					if (json.data.suggest?.length > 0)
-						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode("" + suggest.id) + "</p>").join(", ");
+						suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + encode("" + suggest.id) + "</p>").join(", ")
 
 					const text =
 						"<div class='center'>" +
@@ -118,23 +118,23 @@ function getDataexportHTML() {
 							JSON.stringify(json.data, null, 2) + "</textarea>" +
 						"</div>" +
 
-						"</div>";
+						"</div>"
 
-					resolve(text);
-				} else handleError(resolve, json.message);
+					resolve(text)
+				} else handleError(resolve, json.message)
 			})
-			.catch(e => handleError(resolve, e));
-	});
+			.catch(e => handleError(resolve, e))
+	})
 }
 
 loadFunc = () => {
 	if (getCookie("token"))
 		getDataexportHTML().then(data => {
-			document.getElementById("content").innerHTML = data;
-			reloadText();
-		});
+			document.getElementById("content").innerHTML = data
+			reloadText()
+		})
 	else {
-		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
-		location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
+		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
+		location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search)
 	}
 }

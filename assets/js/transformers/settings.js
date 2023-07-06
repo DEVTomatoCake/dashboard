@@ -7,6 +7,15 @@ let saving = false;
 let savingToast;
 let errorToast;
 
+const friendlyCat = {
+	ticket: "Tickets",
+	boost: "Boosts",
+	level: "Leaderboard<br>& level",
+	stats: "Statistics",
+	autonick: "Role nicknames",
+	voting: "Vote messages"
+};
+
 let guildName = "";
 const pickerData = {};
 let socket;
@@ -108,16 +117,6 @@ function getSettingsHTML(json) {
 	}
 }
 
-
-const friendlyCat = {
-	ticket: "Tickets",
-	boost: "Boosts",
-	level: "Leaderboard<br>& level",
-	stats: "Statistics",
-	autonick: "Role nicknames",
-	voting: "Vote messages"
-};
-
 function settingsTab(tab) {
 	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active");
 	document.getElementById("settings-tab-" + tab).classList.add("active");
@@ -125,7 +124,7 @@ function settingsTab(tab) {
 	for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden");
 	document.getElementById("setcat-" + tab).classList.remove("hidden");
 
-	document.body.scrollTo({top: 0, behavior: "smooth"});
+	document.getElementById("root-container").scrollIntoView(/*{behavior: "smooth"}*/);
 	if (screen.width <= 800) sidebar();
 }
 
@@ -137,7 +136,6 @@ function handleChange(id) {
 	if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0]);
 
 	if (!hasSavePopup) {
-		const params = new URLSearchParams(location.search);
 		document.body.insertAdjacentHTML("beforeend",
 			"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +

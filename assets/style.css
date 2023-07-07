@@ -1508,3 +1508,12 @@ button:disabled {
 .close:hover, .close:focus {
 	color: #000;
 }
+
+body.stats-page {
+	background-color: #EEE;
+}
+@media (prefers-color-scheme: light) {
+	body.stats-page {
+		background-color: #FFF;
+	}
+}

@@ -14,17 +14,6 @@
 		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
-		<style>
-			body {
-				background-color: #EEE;
-			}
-			@media (prefers-color-scheme: light) {
-				body {
-					background-color: #FFF;
-				}
-			}
-		</style>
-
 		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
 		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
 
@@ -34,7 +23,7 @@
 		<script src="../assets/js/api.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js" integrity="sha384-YAshAm4KKjf8V01c4sdNbPYiwU0D0Q82fjMHhKw8VvP0ecY4fxXsZAHxC4r4Ei+T" crossorigin="anonymous"></script>
 	</head>
-	<body>
+	<body class="stats-page">
 		<script>
 			const params = new URLSearchParams(location.search);
 			if (params.has("guild")) {

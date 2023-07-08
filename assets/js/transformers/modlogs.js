@@ -33,6 +33,8 @@ function getModlogsHTML(guild) {
 
 function ticketSearch() {
 	const tictype = document.getElementById("ts-type").value
+	const ticuser = document.getElementById("ts-userid").value
+	const ticmod = document.getElementById("ts-modid").value
 	const ticmessage = document.getElementById("ts-message").value
 
 	for (const log of document.getElementById("content").getElementsByClassName("ticket")) {
@@ -40,6 +42,8 @@ function ticketSearch() {
 
 		let hidden = false
 		if (tictype != "" && !rows[0].textContent.toLowerCase().includes(tictype.toLowerCase())) hidden = true
+		if (ticuser != "" && !rows[1].textContent.toLowerCase().includes(ticuser.toLowerCase())) hidden = true
+		if (ticmod != "" && !rows[2].textContent.toLowerCase().includes(ticmod.toLowerCase())) hidden = true
 		if (ticmessage != "" && !rows[3].textContent.toLowerCase().includes(ticmessage.toLowerCase())) hidden = true
 
 		if (hidden) {

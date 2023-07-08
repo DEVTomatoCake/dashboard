@@ -56,7 +56,7 @@
 						<span class="close">&times;</span>
 						<h1>Create a new custom branded bot</h1>
 						<p>
-							<a href="https://youtu.be/dQw4w9WgXcQ" target="_blank" rel="noopener">Learn more about custom branding</a>
+							<a href="/custom" target="_blank" rel="noopener">Learn more about custom branded bots</a>
 						</p>
 
 						<div id="bot-data" class="custom" hidden>
@@ -95,11 +95,12 @@
 						<div id="step3" hidden>
 							<h2>Select users who pay for the bot</h2>
 							<p id="bot-payingdesc">
-								A list of users who invest their vote credits into this custom bot. This setting allows you to allow your servers members to also vote for the bot to maintain it
-								without giving them access to the bot in the dashboard.
+								A list of users who invest their vote credits into this custom bot - check <a href="/custom" target="_blank" rel="noopener">this faq page</a>
+								to learn more about how paying works and how much it costs. This setting allows you to allow your servers members to also vote for the bot to maintain it
+								without giving them access to the bot in the Discord developer dashboard.
 								<br>
 								Every time a credits payment is due, the bot will randomly select a user from this list who has enough credits.
-								If none of them has enough, the bot will send a warning and disable itself some time later (TBD).
+								If none of them has enough, the bot will send a warning, wait two hours and if still no one has enough balance, the bot disables itself. Don't worry, all your data is kept!
 							</p>
 
 							<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">

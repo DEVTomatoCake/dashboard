@@ -218,7 +218,7 @@ function pageLoad(page = "") {
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.yourprofile'>Your profile</a>" +
+			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
 			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a><a href='/dashboard/custom'>Custom branding</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=

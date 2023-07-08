@@ -282,7 +282,7 @@ function connectWS(guild) {
 					"integration-sync": json.sync,
 					"integration-version": json.versions,
 					"action-trigger": json.triggers
-				}
+				};
 
 				[["integration-sync", "safe"], ["integration-version", Object.keys(pickerData["integration-version"]).at(-1)]].forEach(item => {
 					const pickerNode = document.createElement("channel-picker")

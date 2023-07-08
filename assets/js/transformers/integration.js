@@ -1,92 +1,92 @@
 function getIntegrationsHTML(json, guild) {
 	if (json.status == "success") {
-		let text = "";
+		let text = ""
 
 		if (json.integrations.some(i => i.guild == guild))
 			text +=
 				"<br><br><h2 translation='integration.thisserver'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild == guild).map(handleIntegration).join("") +
-				"</div>";
-		else text += "<div class='integration-container'></div>";
+				"</div>"
+		else text += "<div class='integration-container'></div>"
 
 		if (json.integrations.some(i => i.guild != guild && i.isOwner))
 			text +=
 				"<br><br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && i.isOwner).map(i => handleIntegration(i, true)).join("") +
-				"</div>";
+				"</div>"
 
 		if (json.integrations.some(i => i.guild != guild && !i.isOwner))
 			text +=
 				"<br><br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration).join("") +
-				"</div>";
+				"</div>"
 
-		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>";
+		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>"
 		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" + text + "</div>";
+			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" + text + "</div>"
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>");
+			"<h2>" + json.message + "</h2>")
 	}
 }
 
 function handleChange(id) {
 	if (id == "integration-sync") {
-		const inputs = document.querySelectorAll(".action textarea, .action input");
-		const triggers = document.querySelectorAll(".action channel-picker.action-trigger");
+		const inputs = document.querySelectorAll(".action textarea, .action input")
+		const triggers = document.querySelectorAll(".action channel-picker.action-trigger")
 		if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe") {
-			for (const elem of inputs) elem.setAttribute("readonly", "");
-			for (const elem of triggers) elem.classList.add("disabled");
+			for (const elem of inputs) elem.setAttribute("readonly", "")
+			for (const elem of triggers) elem.classList.add("disabled")
 		} else {
-			for (const elem of inputs) elem.removeAttribute("readonly");
-			for (const elem of triggers) elem.classList.remove("disabled");
+			for (const elem of inputs) elem.removeAttribute("readonly")
+			for (const elem of triggers) elem.classList.remove("disabled")
 		}
 	}
 }
 
-const params = new URLSearchParams(location.search);
+const params = new URLSearchParams(location.search)
 function createDialog() {
-	document.getElementById("create-dialog").removeAttribute("data-edit");
-	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9);
-	document.getElementById("integration-name").removeAttribute("readonly");
-	document.getElementById("integration-short").value = "";
-	document.getElementById("integration-image").value = "";
-	document.getElementById("integration-public").checked = false;
-	document.getElementById("actions-container").innerHTML = "";
-	document.getElementById("integration-placeholders").value = "";
-	document.getElementById("integration-input").value = "";
-	document.getElementById("integration-env").value = "";
-	document.getElementById("integration-submit").setAttribute("translation", "integration.create");
+	document.getElementById("create-dialog").removeAttribute("data-edit")
+	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
+	document.getElementById("integration-name").removeAttribute("readonly")
+	document.getElementById("integration-short").value = ""
+	document.getElementById("integration-image").value = ""
+	document.getElementById("integration-public").checked = false
+	document.getElementById("actions-container").innerHTML = ""
+	document.getElementById("integration-placeholders").value = ""
+	document.getElementById("integration-input").value = ""
+	document.getElementById("integration-env").value = ""
+	document.getElementById("integration-submit").setAttribute("translation", "integration.create")
 
-	addAction();
-	openDialog(document.getElementById("create-dialog"));
-	reloadText();
+	addAction()
+	openDialog(document.getElementById("create-dialog"))
+	reloadText()
 }
 
 function addAction(trigger = "command") {
-	const newElem = document.getElementById("actions-template").content.cloneNode(true);
-	newElem.id = "actions-" + Math.random().toString(36).slice(2);
-	const wrapper = document.createElement("div");
-	wrapper.classList.add("action");
-	wrapper.appendChild(newElem);
-	document.getElementById("actions-container").appendChild(wrapper);
+	const newElem = document.getElementById("actions-template").content.cloneNode(true)
+	newElem.id = "actions-" + Math.random().toString(36).slice(2)
+	const wrapper = document.createElement("div")
+	wrapper.classList.add("action")
+	wrapper.appendChild(newElem)
+	document.getElementById("actions-container").appendChild(wrapper)
 
-	const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']");
-	triggerElem.classList.add("selected");
-	wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>";
-	wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"));
+	const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']")
+	triggerElem.classList.add("selected")
+	wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>"
+	wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"))
 
-	return wrapper;
+	return wrapper
 }
 
-let guildName = "";
-let integrations = [];
-let pickerData = {};
+let guildName = ""
+let integrations = []
+let pickerData = {}
 function integrationInfo(integrationName) {
-	openDialog(document.getElementById("info-dialog"));
-	const integration = integrations.find(e => e.name == integrationName);
-	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!");
+	openDialog(document.getElementById("info-dialog"))
+	const integration = integrations.find(e => e.name == integrationName)
+	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!")
 
 	document.getElementById("info-container").innerHTML =
 		"<h1><span translation='integration.infotitle'></span> <b>" + encode(integrationName) + "</b></h1>" +
@@ -106,95 +106,95 @@ function integrationInfo(integrationName) {
 			(action.args && action.args[0] ? "<p>Argument: " + encode(action.args[0]) + "</p>" : "") +
 			"<br><textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 		)).join("<br><br>") +
-		(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>");
-	reloadText();
+		(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>")
+	reloadText()
 }
 
 function integrationUse(integrationName) {
-	document.getElementById("info-dialog").classList.add("hidden");
-	openDialog(document.getElementById("create-dialog"));
-	const integration = integrations.find(e => e.name == integrationName);
-	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!");
+	document.getElementById("info-dialog").classList.add("hidden")
+	openDialog(document.getElementById("create-dialog"))
+	const integration = integrations.find(e => e.name == integrationName)
+	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!")
 
 	document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>" +
 		(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm red' onclick='socket.send({status:\"success\"," +
-			"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"});this.remove()'>Sync integration from original</button>" : "");
-	document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name);
-	document.getElementById("integration-short").value = encode(integration.short);
-	document.getElementById("integration-image").value = encode(integration.image);
-	document.getElementById("integration-public").checked = false;
-	document.getElementById("integration-use-container").removeAttribute("hidden");
-	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName);
+			"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"})this.remove()'>Sync integration from original</button>" : "")
+	document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name)
+	document.getElementById("integration-short").value = encode(integration.short)
+	document.getElementById("integration-image").value = encode(integration.image)
+	document.getElementById("integration-public").checked = false
+	document.getElementById("integration-use-container").removeAttribute("hidden")
+	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName)
 	document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders && integration.placeholders.length > 0 ?
-		"<br><p>Placeholders</p><br>" + integration.placeholders.map(placeholder => "<code>{" + encode(placeholder) + "}</code>").join(" ") : "";
+		"<br><p>Placeholders</p><br>" + integration.placeholders.map(placeholder => "<code>{" + encode(placeholder) + "}</code>").join(" ") : ""
 	if (integration.input && integration.input.length > 0) {
 		document.getElementById("integration-use-inputtext").innerHTML = "<br><p>Variable inputs</p>"
 		document.getElementById("integration-use-input").innerHTML = integration.input.map(e => {
-			const randomId = Math.random().toString(36).slice(2);
-			return "<label for='use-input-" + randomId + "'>" + encode(e.split(";")[1]) + "</label>" +
-				"<input type='text' maxlength='200' id='use-input-" + randomId + "' value='" + (encode(e.split(";")[2]) || "") + "' name='" + encode(e.split(";")[0]) + "' data-desc='" + encode(e.split(";")[1]) + "'>"
-		}).join("<br>");
+			const randomId = Math.random().toString(36).slice(2)
+			return "<label for='use-input-" + randomId + "'>" + encode(e.split("")[1]) + "</label>" +
+				"<input type='text' maxlength='200' id='use-input-" + randomId + "' value='" + (encode(e.split("")[2]) || "") + "' name='" + encode(e.split("")[0]) + "' data-desc='" + encode(e.split("")[1]) + "'>"
+		}).join("<br>")
 	} else {
-		document.getElementById("integration-use-inputtext").innerHTML = "";
-		document.getElementById("integration-use-input").innerHTML = "";
+		document.getElementById("integration-use-inputtext").innerHTML = ""
+		document.getElementById("integration-use-input").innerHTML = ""
 	}
 
-	document.getElementById("actions-container").innerHTML = "";
+	document.getElementById("actions-container").innerHTML = ""
 	integration.actions.forEach(action => {
-		const newElem = addAction(action.trigger);
-		newElem.querySelector(".action-name").value = action.name;
-		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
-		newElem.querySelector(".action-content").value = action.content;
-		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-		handleChange("integration-sync");
-	});
-	reloadText();
+		const newElem = addAction(action.trigger)
+		newElem.querySelector(".action-name").value = action.name
+		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : ""
+		newElem.querySelector(".action-content").value = action.content
+		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
+		handleChange("integration-sync")
+	})
+	reloadText()
 }
 
 function integrationEdit(integrationName) {
-	openDialog(document.getElementById("create-dialog"));
-	const integration = integrations.find(e => e.name == integrationName);
+	openDialog(document.getElementById("create-dialog"))
+	const integration = integrations.find(e => e.name == integrationName)
 
-	document.getElementById("create-dialog").setAttribute("data-edit", "");
-	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>";
-	document.getElementById("integration-name").value = integrationName;
-	document.getElementById("integration-name").setAttribute("readonly", "");
-	document.getElementById("integration-short").value = integration.short || "";
-	document.getElementById("integration-image").value = integration.image || "";
-	document.getElementById("integration-public").checked = integration.public;
-	document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : "";
-	document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2;
-	document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : "";
-	document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2;
-	document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : "";
-	document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2;
-	document.getElementById("integration-use-container").setAttribute("hidden", "");
-	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave");
+	document.getElementById("create-dialog").setAttribute("data-edit", "")
+	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>"
+	document.getElementById("integration-name").value = integrationName
+	document.getElementById("integration-name").setAttribute("readonly", "")
+	document.getElementById("integration-short").value = integration.short || ""
+	document.getElementById("integration-image").value = integration.image || ""
+	document.getElementById("integration-public").checked = integration.public
+	document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : ""
+	document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2
+	document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : ""
+	document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2
+	document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : ""
+	document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2
+	document.getElementById("integration-use-container").setAttribute("hidden", "")
+	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave")
 
-	document.getElementById("actions-container").innerHTML = "";
+	document.getElementById("actions-container").innerHTML = ""
 	integration.actions.forEach(action => {
-		const newElem = addAction(action.trigger);
-		newElem.querySelector(".action-name").value = action.name;
-		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : "";
-		newElem.querySelector(".action-content").value = action.content;
-		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2;
-	});
-	reloadText();
+		const newElem = addAction(action.trigger)
+		newElem.querySelector(".action-name").value = action.name
+		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : ""
+		newElem.querySelector(".action-content").value = action.content
+		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
+	})
+	reloadText()
 }
 
-let socket;
+let socket
 function integrationDelete(elem, integration = "") {
-	const confirmed = confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!");
+	const confirmed = confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")
 	if (confirmed) {
-		elem.parentElement.parentElement.remove();
-		socket.send({status: "success", action: "DELETE_integration", name: integration});
+		elem.parentElement.parentElement.remove()
+		socket.send({status: "success", action: "DELETE_integration", name: integration})
 	}
 }
 
 function nameExists(elem) {
-	if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("Name already exists.");
-	else elem.setCustomValidity("");
-	elem.reportValidity();
+	if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("Name already exists.")
+	else elem.setCustomValidity("")
+	elem.reportValidity()
 }
 
 function handleIntegration(integration, isYou = false) {
@@ -213,25 +213,25 @@ function handleIntegration(integration, isYou = false) {
 			(integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" : "") +
 			(integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
 		"</div>" +
-		"</div>";
+		"</div>"
 }
 
-let saving = false;
-let savingToast;
-let errorToast;
+let saving = false
+let savingToast
+let errorToast
 
 function connectWS(guild) {
 	socket = sockette("wss://api.tomatenkuchen.eu", {
 		onClose: () => {
-			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show();
+			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 		},
 		onOpen: event => {
-			console.log("Connected!", event);
+			console.log("Connected!", event)
 			if (errorToast) {
-				errorToast.setType("SUCCESS");
+				errorToast.setType("SUCCESS")
 				setTimeout(() => {
-					errorToast.close();
-				}, 1000);
+					errorToast.close()
+				}, 1000)
 			}
 			socket.send({
 				status: "success",
@@ -239,16 +239,16 @@ function connectWS(guild) {
 				guild,
 				lang: getLanguage(),
 				token: getCookie("token")
-			});
+			})
 			socket.send({
 				status: "success",
 				action: "GET_emojis",
 				guild,
 				token: getCookie("token")
-			});
+			})
 		},
 		onMessage: json => {
-			if (json.action == "NOTIFY") new ToastNotification(json).show();
+			if (json.action == "NOTIFY") new ToastNotification(json).show()
 			else if (json.action == "RECEIVE_integrations") {
 				document.getElementById("linksidebar").innerHTML =
 					"<a href='/' title='Home' class='tab'>" +
@@ -270,70 +270,70 @@ function connectWS(guild) {
 						"<a class='tab otherlinks' href='./reactionroles/?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
 						"<a class='tab otherlinks' href='../leaderboard/?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
 						"<a class='tab otherlinks' href='../stats/?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
-					"</div></div>";
+					"</div></div>"
 
-				document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild);
-				reloadText();
-				guildName = json.name;
-				integrations = json.integrations;
+				document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild)
+				reloadText()
+				guildName = json.name
+				integrations = json.integrations
 
 				pickerData = {
 					...pickerData,
 					"integration-sync": json.sync,
 					"integration-version": json.versions,
 					"action-trigger": json.triggers
-				};
+				}
 
 				[["integration-sync", "safe"], ["integration-version", Object.keys(pickerData["integration-version"]).at(-1)]].forEach(item => {
-					const pickerNode = document.createElement("channel-picker");
-					pickerNode.setAttribute("id", item[0]);
-					pickerNode.setAttribute("type", item[0]);
-					pickerNode.setAttribute("tabindex", "0");
-					pickerNode.setAttribute("data-unsafe", "1");
-					document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling);
+					const pickerNode = document.createElement("channel-picker")
+					pickerNode.setAttribute("id", item[0])
+					pickerNode.setAttribute("type", item[0])
+					pickerNode.setAttribute("tabindex", "0")
+					pickerNode.setAttribute("data-unsafe", "1")
+					document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling)
 
-					const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']");
-					elem.classList.add("selected");
-					document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>";
-					document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"));
-				});
+					const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']")
+					elem.classList.add("selected")
+					document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>"
+					document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"))
+				})
 
 				if (params.has("info") || params.has("use"))
 					setTimeout(() => {
-						if (params.has("info")) integrationInfo(params.get("info"));
-						else integrationUse(params.get("use"));
-					}, 300);
+						if (params.has("info")) integrationInfo(params.get("info"))
+						else integrationUse(params.get("use"))
+					}, 300)
 			} else if (json.action == "SAVED_integration") {
-				saving = false;
-				savingToast.setType("SUCCESS").setTitle("The integration was saved!");
+				saving = false
+				savingToast.setType("SUCCESS").setTitle("The integration was saved!")
 			} else if (json.action == "RECEIVE_emojis") {
 				pickerData = {
 					...pickerData,
 					emojis: json.emojis,
 					roles: json.roles
-				};
+				}
 			}
 		}
-	});
+	})
 }
 
 function createIntegration(sourceId = "") {
-	if (!params.has("guild") || saving) return;
-	saving = true;
+	if (!params.has("guild") || saving) return
+	saving = true
 
-	const name = encode(document.getElementById("integration-name").value);
-	if (!name) return alert("Enter a name for the integration!");
-	if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!");
-	if (name.length > 32) return alert("The name can be at most 32 characters long!");
+	const name = encode(document.getElementById("integration-name").value)
+	if (!name) return alert("Enter a name for the integration!")
+	if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!")
+	if (name.length > 32) return alert("The name can be at most 32 characters long!")
 
-	document.getElementById("create-dialog").classList.add("hidden");
-	if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove();
+	document.getElementById("create-dialog").classList.add("hidden")
+	if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove()
 
 	let input = []
 	if (sourceId) {
-		const children = document.getElementById("integration-use-input").children;
-		for (const elem of children) input.push(elem.getAttribute("name") + ";" + elem.getAttribute("data-desc") + ";" + elem.value);
-	} else input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e);
+		const children = document.getElementById("integration-use-input").children
+		for (const elem of children) input.push(elem.getAttribute("name") + "" + elem.getAttribute("data-desc") + "" + elem.value)
+	} else input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e)
 
 	const data = {
 		edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
@@ -351,50 +351,50 @@ function createIntegration(sourceId = "") {
 		placeholders: document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e),
 		input,
 		env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)
-	};
+	}
 	if (sourceId) {
-		data.source = sourceId;
-		data.sync = document.getElementById("integration-sync").getAttribute("data-selected");
+		data.source = sourceId
+		data.sync = document.getElementById("integration-sync").getAttribute("data-selected")
 	}
 
-	const actions = document.getElementById("actions-container").getElementsByClassName("action");
+	const actions = document.getElementById("actions-container").getElementsByClassName("action")
 	for (let j = 0; j < actions.length; j++) {
-		const action = actions.item(j);
+		const action = actions.item(j)
 		data.actions.push({
 			name: action.querySelector(".action-name").value,
 			args: action.querySelector(".action-args1").value ? [action.querySelector(".action-args1").value] : [],
 			trigger: action.querySelector(".action-trigger").getAttribute("data-selected"),
 			content: action.querySelector(".action-content").value
-		});
+		})
 	}
-	integrations = integrations.filter(int => int.name != data.name);
-	integrations.push(data);
+	integrations = integrations.filter(int => int.name != data.name)
+	integrations.push(data)
 
 	if (!data.edit) {
-		const div = document.createElement("div");
-		div.innerHTML = handleIntegration(data);
-		document.getElementsByClassName("integration-container")[0].appendChild(div);
-		reloadText();
+		const div = document.createElement("div")
+		div.innerHTML = handleIntegration(data)
+		document.getElementsByClassName("integration-container")[0].appendChild(div)
+		reloadText()
 	}
 
 	socket.send({
 		status: "success",
 		action: "SAVE_integration",
 		data
-	});
+	})
 
-	savingToast = new ToastNotification({type: "LOADING", title: "Saving integration \"" + encode(name) + "\"...", timeout: 7}).show();
+	savingToast = new ToastNotification({type: "LOADING", title: "Saving integration \"" + encode(name) + "\"...", timeout: 7}).show()
 }
 
 loadFunc = () => {
-	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")));
-	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id");
+	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))
+	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {
-		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>";
-		localStorage.setItem("next", location.pathname + location.search);
-		location.href = "../";
+		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>"
+		localStorage.setItem("next", location.pathname + location.search)
+		location.href = "../"
 	} else {
-		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>";
-		location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search);
+		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
+		location.href = "../../login/?next=" + encodeURIComponent(location.pathname + location.search)
 	}
 }

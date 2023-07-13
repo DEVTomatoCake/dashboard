@@ -1,14 +1,23 @@
 function getCustomHTML(json) {
 	if (json.status == "success") {
-		const text = "<h1>Custom branded bots you have access to</h1>" +
+		const text = "<h1>Custom branded bots you have access to or are paying for</h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			json.data.map(bot =>
 				"<div class='integration'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				(bot.hasAccess ?
+					"<button type='button' class='createForm' disabled>Edit</button>" +
+					"<button type='button' class='createForm red' disabled><ion-icon name='trash-outline'></ion-icon></button>" +
+					"<br>" +
+					"<button type='button' class='createForm green' onclick='startBot(\"" + bot.id + "\")'>(Re)Start</button>" +
+					"<button type='button' class='createForm red' onclick='stopBot(\"" + bot.id + "\")'>Stop</button>"
+				:
+					"<button type='button' class='createForm red' onclick='removeYourself(\"" + bot.id + "\")'>Remove yourself from paying users</button>"
+				) +
 				"</div>"
-			).join("<br>") +
+			).join("") +
 			"</div>"
 
 		return text
@@ -111,6 +120,17 @@ const addUser = () => {
 	document.getElementById("custom-invite").value = ""
 }
 const removeUser = user => socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
+
+const startBot = bot => socket.send({action: "START_custom", bot})
+const stopBot = bot => socket.send({action: "STOP_custom", bot})
+const removeYourself = bot => {
+	const confirmed = confirm("Are you sure you want to remove yourself from the paying users of the bot " + encode(bot) + "?")
+	if (confirmed) socket.send({action: "REMOVE_custom_paying_yourself", bot})
+}
+const deleteBot = bot => {
+	const confirmed = confirm("Are you sure you permanently want to delete the bot " + encode(bot) + "?")
+	if (confirmed) socket.send({action: "DELETE_custom", bot})
+}
 
 function back() {
 	if (step <= 1) return

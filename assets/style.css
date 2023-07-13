@@ -946,6 +946,11 @@ h1.greeting, h2.greeting {
 }
 .center {
 	text-align: center;
+	text-wrap: balance;
+}
+
+ul.check {
+	list-style-type: "✅";
 }
 
 .privacy h3, .privacy h4 {

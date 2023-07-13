@@ -133,7 +133,7 @@ tr {
 	background-color: var(--primary-table-bgcolor);
 	transition: .4s;
 }
-tr.cmdvisible:nth-child(odd), table.prices tr:nth-child(odd) {
+tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncredits tbody tr:nth-child(odd) {
 	background-color: var(--secondary-table-bgcolor);
 }
 

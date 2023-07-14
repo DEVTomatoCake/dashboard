@@ -59,6 +59,11 @@
 			"short_name": "Commands",
 			"description": "Check out the bot commands",
 			"url": "/commands?source=pwa"
+		},{
+			"name": "Invite bot",
+			"short_name": "Invite",
+			"description": "Invite TomatenKuchen onto your Discord server",
+			"url": "/invite?source=pwa"
 		}
 	],
 	"description": "Multipurpose multilanguage Discord bot with many features for your Discord server combined with a lot customization options.",

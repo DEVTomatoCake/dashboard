@@ -7,9 +7,9 @@
 		<meta name="theme-color" content="#ed8721">
 
 		<title>TomatenKuchen - View Discord Ticket transcripts</title>
-		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
-		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
-		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+		<link href="./assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="./assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
 		<style>
 			html {
@@ -30,9 +30,9 @@
 		</style>
 		<script>
 			function loadTranscript() {
-				const params = new URLSearchParams(location.search);
-				if (!params.has("id")) location = "/";
-				document.getElementById("transcript").src = "https://api.tomatenkuchen.eu/transcript/" + params.get("id");
+				const params = new URLSearchParams(location.search)
+				if (!params.has("id")) location = "/"
+				document.getElementById("transcript").src = "https://api.tomatenkuchen.eu/transcript/" + params.get("id")
 			}
 		</script>
 	</head>

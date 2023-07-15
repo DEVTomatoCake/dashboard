@@ -3,13 +3,13 @@ function getCustomHTML(json) {
 		let text = "<h1>Custom branded bots you have access to or are paying for</h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
 			"<br><div class='integration-container'>" +
-			json.data.map(bot =>
+			json.bots.map(bot =>
 				"<div class='integration'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
 				"<div>" +
 				(bot.hasAccess ?
-					"<button type='button' class='createForm' disabled>Edit</button>" +
+					"<button type='button' class='createForm' onclick='editDialog(\"" + bot.id + "\")'>Edit</button>" +
 					"<button type='button' class='createForm red' disabled><ion-icon name='trash-outline'></ion-icon></button>" +
 					"<br>" +
 					"<button type='button' class='createForm green' onclick='startBot(\"" + bot.id + "\")'>(Re)Start</button>" +
@@ -23,7 +23,7 @@ function getCustomHTML(json) {
 			"</div>"
 
 		if (json.invited.length > 0) {
-			text += "<br><br><h2>Bots you've been invited to to pay for</h2>" +
+			text += "<br><br><h1>Bots you've been invited to to pay for</h1>" +
 				"<div class='integration-container'>" +
 				json.invited.map(bot =>
 					"<div class='integration'>" +
@@ -109,6 +109,10 @@ function connectWS() {
 			}
 		}
 	})
+}
+
+function editDialog(bot) {
+	openDialog(document.getElementById("edit-dialog"))
 }
 
 function createDialog() {

@@ -1,12 +1,13 @@
 function getCustomHTML(json) {
 	if (json.status == "success") {
-		const text = "<h1>Custom branded bots you have access to or are paying for</h1>" +
+		let text = "<h1>Custom branded bots you have access to or are paying for</h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			json.data.map(bot =>
 				"<div class='integration'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				"<div>" +
 				(bot.hasAccess ?
 					"<button type='button' class='createForm' disabled>Edit</button>" +
 					"<button type='button' class='createForm red' disabled><ion-icon name='trash-outline'></ion-icon></button>" +
@@ -16,9 +17,26 @@ function getCustomHTML(json) {
 				:
 					"<button type='button' class='createForm red' onclick='removeYourself(\"" + bot.id + "\")'>Remove yourself from paying users</button>"
 				) +
+				"</div>" +
 				"</div>"
 			).join("") +
 			"</div>"
+
+		if (json.invited.length > 0) {
+			text += "<br><br><h2>Bots you've been invited to to pay for</h2>" +
+				"<div class='integration-container'>" +
+				json.invited.map(bot =>
+					"<div class='integration'>" +
+					"<h2>" + encode(bot.username) + "</h2>" +
+					"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
+					"<div>" +
+					"<button type='button' class='createForm green' onclick='acceptInvite(\"" + bot.id + "\")'>Accept invite</button>" +
+					"<button type='button' class='createForm red' onclick='declineInvite(\"" + bot.id + "\")'>Decline invite</button>" +
+					"</div>" +
+					"</div>"
+				).join("") +
+				"</div>"
+		}
 
 		return text
 	} else {
@@ -131,6 +149,8 @@ const deleteBot = bot => {
 	const confirmed = confirm("Are you sure you permanently want to delete the bot " + encode(bot) + "?")
 	if (confirmed) socket.send({action: "DELETE_custom", bot})
 }
+const acceptInvite = bot => socket.send({action: "ACCEPT_invite", bot})
+const declineInvite = bot => socket.send({action: "DECLINE_invite", bot})
 
 function back() {
 	if (step <= 1) return

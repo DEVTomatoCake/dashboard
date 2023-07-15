@@ -1,5 +1,7 @@
+let bots = []
 function getCustomHTML(json) {
 	if (json.status == "success") {
+		bots = json.bots
 		let text = "<h1>Custom branded bots you have access to or are paying for</h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
 			"<br><div class='integration-container'>" +
@@ -111,7 +113,9 @@ function connectWS() {
 	})
 }
 
-function editDialog(bot) {
+function editDialog(botId = "") {
+	const bot = bots.find(b => b.id == botId)
+	console.log(bot)
 	openDialog(document.getElementById("edit-dialog"))
 }
 

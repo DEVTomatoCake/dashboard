@@ -105,7 +105,7 @@
 								If none of them has enough, the bot will send a warning, wait two hours and if still no one has enough balance, the bot disables itself. Don't worry, all your data is kept!
 							</p>
 
-							<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">
+							<input type="text" placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">
 							<br>
 							<div id="bot-paying"></div>
 						</div>
@@ -137,7 +137,7 @@
 						<h1>Edit your custom branded bot</h1>
 
 						<h2>Add or remove paying users</h2>
-						<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">
+						<input type="text" placeholder="User ID" pattern="[0-9]{17,21}" id="edit-paying">
 						<br>
 						<div id="bot-edit-paying"></div>
 

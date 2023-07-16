@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View your custom branded bots here.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Create and edit your custom branded bots here.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard/custom">
@@ -133,7 +133,24 @@
 				<div id="edit-dialog" class="dialog hidden">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<div id="edit-content"></div>
+						<br>
+						<h1>Edit your custom branded bot</h1>
+
+						<h2>Add or remove paying users</h2>
+						<input placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">
+						<br>
+						<div id="bot-edit-paying"></div>
+
+						<h2>Enable/disable upgrades</h2>
+						<p>
+							You can see the pricing of these upgrades on <a href="../custom" target="_blank" rel="noopener">the custom branding page</a>
+						</p>
+
+						<label for="upgrade-status">Setze den Botstatus auf eigene Texte</label>
+						<input type="checkbox" name="upgrade-status" id="upgrade-status" disabled>
+
+						<label for="upgrade-respondotherbot">Erlaube dem Bot, auf ausgewählte andere Bots zu reagieren</label>
+						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" disabled>
 					</div>
 				</div>
 

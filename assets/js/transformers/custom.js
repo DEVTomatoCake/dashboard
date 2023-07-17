@@ -12,7 +12,7 @@ function getCustomHTML(json) {
 				"<div>" +
 				(bot.hasAccess ?
 					"<button type='button' class='createForm' onclick='editDialog(\"" + bot.id + "\")'>Edit</button>" +
-					"<button type='button' class='createForm red' disabled><ion-icon name='trash-outline'></ion-icon></button>" +
+					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + bot.id + "\")'><ion-icon name='trash-outline'></ion-icon></button>" +
 					"<br>" +
 					"<button type='button' class='createForm green' onclick='startBot(\"" + bot.id + "\")'>(Re)Start</button>" +
 					"<button type='button' class='createForm red' onclick='stopBot(\"" + bot.id + "\")'>Stop</button>"
@@ -84,6 +84,10 @@ function connectWS() {
 				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show()
 				else document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 					"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
+			} else if (json.action == "EDITED_custom_paying") {
+				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show()
+				else document.getElementById("bot-edit-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
+					"<br><p>Users that can accept the invite on this page after saving:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
 				reloadText()
@@ -113,12 +117,6 @@ function connectWS() {
 	})
 }
 
-function editDialog(botId = "") {
-	const bot = bots.find(b => b.id == botId)
-	console.log(bot)
-	openDialog(document.getElementById("edit-dialog"))
-}
-
 function createDialog() {
 	step = 2
 	back()
@@ -128,6 +126,14 @@ function createDialog() {
 	document.getElementById("step3").setAttribute("hidden", "")
 	document.getElementById("step4").setAttribute("hidden", "")
 	document.getElementById("step5").setAttribute("hidden", "")
+}
+
+function editDialog(botId = "") {
+	openDialog(document.getElementById("edit-dialog"))
+	const bot = bots.find(b => b.id == botId)
+
+	document.getElementById("bot-edit-paying").innerHTML = "<ul>" + bot.paying.map(u => userList(u, true)).join("") + "</ul>" + (bot.payingInvited.length > 0 ?
+		"<br><p>Users that can accept the invite on this page:<ul>" + bot.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
 }
 
 const refresh = (force = false, save = false) => {
@@ -157,8 +163,14 @@ const deleteBot = bot => {
 	const confirmed = confirm("Are you sure you permanently want to delete the bot " + encode(bot) + "?")
 	if (confirmed) socket.send({action: "DELETE_custom", bot})
 }
-const acceptInvite = bot => socket.send({action: "ACCEPT_invite", bot})
-const declineInvite = bot => socket.send({action: "DECLINE_invite", bot})
+const acceptInvite = bot => {
+	socket.send({action: "ACCEPT_invite", bot})
+	setTimeout(connectWS, 3000)
+}
+const declineInvite = bot => {
+	socket.send({action: "DECLINE_invite", bot})
+	setTimeout(connectWS, 3000)
+}
 
 function back() {
 	if (step <= 1) return

@@ -912,9 +912,11 @@ footer .links {
 }
 .hoverdropdown-content.langselect div {
 	display: flex;
+	align-items: center;
 }
 .hoverdropdown-content.langselect img {
 	padding-right: 5px;
+	object-fit: contain;
 }
 
 .content {

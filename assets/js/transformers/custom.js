@@ -7,17 +7,21 @@ function getCustomHTML(json) {
 			"<br><div class='integration-container'>" +
 			json.bots.map(bot =>
 				"<div class='integration'>" +
+				"<div>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
+				"<p>Credit cost per day: <b>" + encode("" + bot.cost) + "</b></p>" +
+				"<p>Balance across all paying users: <b>" + encode("" + bot.balance) + "</b></p>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				"</div>" +
 				"<div>" +
 				(bot.hasAccess ?
-					"<button type='button' class='createForm' onclick='editDialog(\"" + bot.id + "\")'>Edit</button>" +
-					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + bot.id + "\")'><ion-icon name='trash-outline'></ion-icon></button>" +
+					"<button type='button' class='createForm' onclick='editDialog(\"" + encode(bot.id) + "\")'>Edit</button>" +
+					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" +
 					"<br>" +
-					"<button type='button' class='createForm green' onclick='startBot(\"" + bot.id + "\")'>(Re)Start</button>" +
-					"<button type='button' class='createForm red' onclick='stopBot(\"" + bot.id + "\")'>Stop</button>"
+					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'>(Re)Start</button>" +
+					"<button type='button' class='createForm red' onclick='stopBot(\"" + encode(bot.id) + "\")'>Stop</button>"
 				:
-					"<button type='button' class='createForm red' onclick='removeYourself(\"" + bot.id + "\")'>Remove yourself from paying users</button>"
+					"<button type='button' class='createForm red' onclick='removeYourself(\"" + encode(bot.id) + "\")'>Remove yourself from paying users</button>"
 				) +
 				"</div>" +
 				"</div>"
@@ -32,8 +36,8 @@ function getCustomHTML(json) {
 					"<h2>" + encode(bot.username) + "</h2>" +
 					"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
 					"<div>" +
-					"<button type='button' class='createForm green' onclick='acceptInvite(\"" + bot.id + "\")'>Accept invite</button>" +
-					"<button type='button' class='createForm red' onclick='declineInvite(\"" + bot.id + "\")'>Decline invite</button>" +
+					"<button type='button' class='createForm green' onclick='acceptInvite(\"" + encode(bot.id) + "\")'>Accept invite</button>" +
+					"<button type='button' class='createForm red' onclick='declineInvite(\"" + encode(bot.id) + "\")'>Decline invite</button>" +
 					"</div>" +
 					"</div>"
 				).join("") +

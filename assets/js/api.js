@@ -58,6 +58,11 @@ const getLeaderboard = guild => new Promise((resolve, reject) => {
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 
+const getUser = () => new Promise((resolve, reject) => {
+	get("user")
+		.then(d => resolve(d)).catch(e => reject(e))
+})
+
 const getDataexport = () => new Promise((resolve, reject) => {
 	get("users/dataexport")
 		.then(d => resolve(d)).catch(e => reject(e))

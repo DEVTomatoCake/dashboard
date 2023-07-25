@@ -24,7 +24,7 @@
 		<script src="./assets/js/language.js"></script>
 
 		<script src="./assets/js/api.js"></script>
-		<script src="./assets/js/transformers/dashboard.js"></script>
+		<script src="./assets/js/transformers/logs.js"></script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar page="dashboard"></global-sidebar>
@@ -49,9 +49,17 @@
 
 			<div class="content" id="content">
 				<div id="root-container" class="row">
-					<a href="./dashboard/dataexport">Data the bot knows about you</a>
-					<br>
-					<a href="./dashboard/custom">Your custom bots</a>
+					<h1>Your TomatenKuchen account</h1>
+
+					<div class="center">
+						<a href="./dashboard/dataexport">Data the bot stored about you</a>
+						<br>
+						<a href="./dashboard/custom">Your custom bots</a>
+					</div>
+
+					<h2>Voting</h2>
+					<div id="vote-tk" hidden></div>
+					<div id="vote-mb" hidden></div>
 				</div>
 			</div>
 		</main>

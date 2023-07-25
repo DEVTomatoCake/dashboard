@@ -3,9 +3,7 @@ loadFunc = async () => {
 		const json = await getUser()
 
 		if (json.status == "success") {
-			let text =
-				"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-				"<ul>"
+			let text = "<ul>"
 
 			json.data.filter(site => site.status != 0 && !site.mb).forEach(site => {
 				text +=

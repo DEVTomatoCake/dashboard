@@ -7,11 +7,14 @@ function getUserHTML() {
 						"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<ul>"
 
-					json.data.forEach(site => {
+					json.data.filter(site => site.status != 0).forEach(site => {
 						text +=
 							"<li>" +
 							"<a href='" + encode(site.url) + "'>" + encode(site.name) + "</a>" +
-							(site.next ? " <ion-icon name='arrow-forward-outline'></ion-icon> Next vote in <b>" + encode(site.next) + "</b>" : "")
+							(site.status == 1 ? "You can vote now!" : "") +
+							(site.status == 2 ? "You've already voted - thank you!" : "") +
+							(site.status == 3 ? "<small>This site doesn't allow me to display whether you voted or not, however you still receive your credits!</small>" : "") +
+							(site.next ? "<br><ion-icon name='arrow-forward-outline'></ion-icon> Next vote in <b>" + encode(site.next) + "</b>" : "")
 					})
 
 					resolve(text + "</ul>")
@@ -22,9 +25,8 @@ function getUserHTML() {
 }
 
 loadFunc = () => {
-	const params = new URLSearchParams(location.search)
-	if (params.has("guild") && getCookie("token"))
-		getLogsHTML(params.get("guild")).then(data => {
+	if (getCookie("token"))
+		getUserHTML().then(data => {
 			document.getElementById("linksidebar").innerHTML +=
 				"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 				"<a class='tab otherlinks' href='./dashboard/custom'><ion-icon name='settings-outline'></ion-icon><p>Custom branding</p></a>" +

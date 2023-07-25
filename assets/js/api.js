@@ -59,7 +59,7 @@ const getLeaderboard = guild => new Promise((resolve, reject) => {
 })
 
 const getUser = () => new Promise((resolve, reject) => {
-	get("user")
+	get("user?lang=" + getLanguage())
 		.then(d => resolve(d)).catch(e => reject(e))
 })
 

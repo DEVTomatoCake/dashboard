@@ -1201,7 +1201,7 @@ button:disabled {
 	cursor: not-allowed;
 }
 
-.cookie-container {
+.userinfo-container {
 	position: fixed;
 	right: 15px;
 	bottom: 15px;
@@ -1212,7 +1212,7 @@ button:disabled {
 	border-radius: 20px;
 	box-shadow: 0 0 20px rgba(0,0,0,.5);
 }
-.cookie-container button, button.createForm, .create-form button {
+.userinfo-container button, button.createForm, .create-form button {
 	margin: 10px 10px 0 0;
 	border-radius: 13px;
 }
@@ -1297,7 +1297,7 @@ button:disabled {
 		display: none;
 	}
 
-	.cookie-container {
+	.userinfo-container {
 		right: 0;
 		bottom: 0;
 		border-radius: 0;

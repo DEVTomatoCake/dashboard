@@ -189,7 +189,7 @@ function openDialog(dialog) {
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=
-			"<div class='cookie-container' id='cookie-container'>" +
+			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
 			"<p translation='cookie.text'>Our website uses cookies to provide <br>the best possible user experience.</p>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +

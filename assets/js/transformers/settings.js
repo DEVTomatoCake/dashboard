@@ -137,7 +137,7 @@ function handleChange(id) {
 
 	if (!hasSavePopup) {
 		document.body.insertAdjacentHTML("beforeend",
-			"<div class='cookie-container unsaved-container' id='unsaved-container'>" +
+			"<div class='userinfo-container unsaved-container' id='unsaved-container'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
 			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
 			"<button type='button' class='red' onclick='connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +

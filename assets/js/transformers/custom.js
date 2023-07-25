@@ -220,6 +220,6 @@ loadFunc = () => {
 	if (getCookie("token")) connectWS()
 	else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
-		location.href = "/login/?next=" + encodeURIComponent(location.pathname + location.search)
+		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search)
 	}
 }

@@ -33,7 +33,7 @@ function getDataexportHTML() {
 						reminders = json.data.remind.map(reminder => "<p class='badge' title='" + new Date(reminder.time).toLocaleString() + "'>" + encode(reminder.text) + "</p>").join(", ")
 
 					let tickets = ""
-					if (json.data.ticket?.length > 0) tickets = json.data.ticket.map(ticket => "<a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ")
+					if (json.data.ticket?.length > 0) tickets = json.data.ticket.map(ticket => "<a href='/ticket?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a>").join(", ")
 
 					let suggests = ""
 					if (json.data.suggest?.length > 0)

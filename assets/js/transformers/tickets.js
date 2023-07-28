@@ -12,7 +12,7 @@ function getTicketsHTML(guild) {
 					json.data.forEach(ticket => {
 						text +=
 							"<tr class='ticket cmdvisible'>" +
-							"<td><a href='/ticket/?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a></td>" +
+							"<td><a href='/ticket?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a></td>" +
 							"<td>" + encode(ticket.owner) + "</td>" +
 							"<td>" + encode(ticket.users.filter(u => u != ticket.owner).join(", ")) + "</td>" +
 							"<td>" + encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) + "</td>" +

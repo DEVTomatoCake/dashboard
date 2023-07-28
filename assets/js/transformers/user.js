@@ -1,10 +1,9 @@
 const formatVote = site => {
-	return "<li>" +
-		"<a href='" + encode(site.url) + "'>" + encode(site.name) + "</a>" +
+	return "<a href='" + encode(site.url) + "'>" + encode(site.name) + "</a>" +
 		(site.status == 1 ? "<br><ion-icon name='thumbs-up-outline'></ion-icon>You can vote now!" : "") +
 		(site.status == 2 ? "<br><ion-icon name='heart'></ion-icon>You've already voted - thank you!" : "") +
-		(site.status == 3 ? "<br><ion-icon name='warning-outline'></ion-icon><small>This site doesn't allow me to display whether you've voted or not, however you still receive your credits!</small>" : "") +
-		(site.next ? "<br><ion-icon name='arrow-forward-outline'></ion-icon> Next vote in <b>" + encode(site.next) + "</b>" : "")
+		(site.status == 3 ? "<br><small><ion-icon name='warning-outline'></ion-icon>This site doesn't allow me to display whether you've voted or not, however you still receive your credits!</small>" : "") +
+		(site.next ? "<br> <ion-icon name='arrow-forward-outline'></ion-icon>Next vote in <b>" + encode(site.next) + "</b>" : "")
 }
 
 loadFunc = async () => {
@@ -12,8 +11,8 @@ loadFunc = async () => {
 		const json = await getUser()
 
 		if (json.status == "success") {
-			document.getElementById("vote-tk").innerHTML = "<ul>" + json.data.filter(site => site.status != 0 && !site.mb).map(formatVote) + "</ul>"
-			document.getElementById("vote-mb").innerHTML = "<ul>" + json.data.filter(site => site.status != 0 && site.mb).map(formatVote) + "</ul>"
+			document.getElementById("vote-tk").innerHTML = "<ul><li>" + json.data.filter(site => site.status != 0 && !site.mb).map(formatVote).join("</li><li>") + "</li></ul>"
+			document.getElementById("vote-mb").innerHTML = "<ul><li>" + json.data.filter(site => site.status != 0 && site.mb).map(formatVote).join("</li><li>") + "</li></ul>"
 		} else return handleError(resolve, json.message)
 
 		document.getElementById("linksidebar").innerHTML +=

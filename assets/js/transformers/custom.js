@@ -8,10 +8,12 @@ function getCustomHTML(json) {
 			json.bots.map(bot =>
 				"<div class='integration'>" +
 				"<div>" +
-				"<h2>" + encode(bot.username) + "</h2>" +
-				"<p>Credit cost per day: <b>" + encode("" + bot.cost) + "</b></p>" +
-				"<p>Balance across all paying users: <b>" + encode("" + bot.balance) + "</b></p>" +
+				"<div class='flex'>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				"<h2>" + encode(bot.username) + "</h2>" +
+				"</div>" +
+				"<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" +
+				"<p>Balance across all paying users: <b>" + bot.balance.toLocaleString() + "</b></p>" +
 				"</div>" +
 				"<div>" +
 				(bot.hasAccess ?
@@ -94,6 +96,12 @@ function connectWS() {
 					"<br><p>Users that can accept the invite on this page after saving:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
+				document.getElementById("linksidebar").innerHTML +=
+					"<div class='section middle'><p class='title'>Your profile</p>" +
+					"<a class='tab otherlinks active' href='./dashboard/custom'><ion-icon name='construct-outline'></ion-icon><p>Custom branding</p></a>" +
+					"<a class='tab otherlinks' href='./dashboard/dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
+					"</div>"
+
 				reloadText()
 			} else if (json.action == "RECEIVE_custom_info") {
 				info = json

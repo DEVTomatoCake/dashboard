@@ -9,7 +9,7 @@ function getCustomHTML(json) {
 				"<div class='integration'>" +
 				"<div>" +
 				"<div class='flex'>" +
-				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
+				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"</div>" +
 				"<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" +
@@ -17,8 +17,8 @@ function getCustomHTML(json) {
 				"</div>" +
 				"<div>" +
 				(bot.hasAccess ?
-					"<button type='button' class='createForm' onclick='editDialog(\"" + encode(bot.id) + "\")'>Edit</button>" +
-					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" +
+					"<button type='button' class='createForm' onclick='editDialog(\"" + encode(bot.id) + "\")'><ion-icon name='build-outline'></ion-icon>Edit</button>" +
+					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon>Delete</button>" +
 					"<br>" +
 					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'>(Re)Start</button>" +
 					"<button type='button' class='createForm red' onclick='stopBot(\"" + encode(bot.id) + "\")'>Stop</button>"
@@ -98,14 +98,16 @@ function connectWS() {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
 				document.getElementById("linksidebar").innerHTML +=
 					"<div class='section middle'><p class='title'>Your profile</p>" +
-					"<a class='tab otherlinks active' href='./dashboard/custom'><ion-icon name='construct-outline'></ion-icon><p>Custom branding</p></a>" +
-					"<a class='tab otherlinks' href='./dashboard/dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
+					"<a class='tab otherlinks active' href='./custom'><ion-icon name='construct-outline'></ion-icon><p>Custom branding</p></a>" +
+					"<a class='tab otherlinks' href='./dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
 					"</div>"
 
 				reloadText()
 			} else if (json.action == "RECEIVE_custom_info") {
 				info = json
 				if (json.status == "success") {
+					tokenElem.setCustomValidity("")
+					tokenElem.reportValidity()
 					document.getElementById("bot-data").removeAttribute("hidden")
 					if (step == 1) document.getElementById("forward-button").removeAttribute("disabled")
 

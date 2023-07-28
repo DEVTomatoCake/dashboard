@@ -200,7 +200,7 @@ function nameExists(elem) {
 function handleIntegration(integration, isYou = false) {
 	return "<div class='integration'>" +
 		"<div class='flex'>" +
-			(integration.image ? "<img crossorigin='anonymous' src='https://api.tomatenkuchen.eu/image-proxy?url=" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
+			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='https://api.tomatenkuchen.eu/image-proxy?url=" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
 			"<h2>" + encode(integration.name) + "</h2>" +
 			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +

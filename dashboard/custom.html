@@ -72,9 +72,11 @@
 							<h2>Insert the Discord bot token</h2>
 							<br>
 							<p id="bot-tokendesc">
-								The bot token is needed to allow TomatenKuchen to run the bot. You can create an application on the
-								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord developer portal</a>. Then you fill in the
-								required fields, visit the "Bot" page, reset the token and paste the new one here.
+								The bot token is needed to allow TomatenKuchen to run the bot. <b>Never share your token with anyone!</b>
+								<br>
+								You can create an application on the
+								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord Developer Portal</a> using the button
+								on the top right. Then you fill in the required fields, visit the "Bot" page, reset the token (you may have to enter a 2FA code), and paste the new one here.
 								<br>
 								In case you haven't invited the bot yet, we'll do this later.
 							</p>
@@ -85,8 +87,8 @@
 						<div id="step2" hidden>
 							<h2>Confirm users who have access to the bot</h2>
 							<p>
-								The following users have access to the bot and can manage it anytime in the Discord developer portal or on this page.
-								To add or remove users visit the Discord developer teams page.
+								The following users have access to the bot and can manage it anytime in the Discord Developer Portal or on this page.
+								To add or remove users, visit the Discord Developer teams page.
 							</p>
 							<br>
 							<ul id="bot-access"></ul>
@@ -95,16 +97,15 @@
 						<div id="step3" hidden>
 							<h2>Select users who pay for the bot</h2>
 							<p id="bot-payingdesc">
-								A list of users who invest their vote credits into this custom bot - check <a href="/custom" target="_blank" rel="noopener">this faq page</a>
-								to learn more about how paying works and how much it costs <b>per day</b>. This setting allows you to allow your servers members to also vote for the bot to maintain it
+								A list of users who invest their vote credits into this custom bot. Check this <a href="/custom" target="_blank" rel="noopener">custom branding info</a> page
+								to learn more about how paying works and how much it costs <b>per day</b>. This setting allows you to allow your server members to also vote for the bot to maintain it
 								without giving them access to the bot in the Discord developer dashboard.
 								<br>
-								Note that prices are not final, they may increase or decrease at any time.
-								<br>
-								Every time a credits payment is due, the bot will randomly select a user from this list who has enough credits.
-								If none of them has enough, the bot will send a warning, wait two hours and if still no one has enough balance, the bot disables itself. Don't worry, all your data is kept!
+								Every time a credit payment is due, the bot will randomly select a user from this list who has enough credits.
+								If none of them has enough, the bot will send a warning, wait two hours, and if still no one has enough balance, disable itself. Don't worry, all your data is kept!
 							</p>
 
+							<br>
 							<input type="text" placeholder="User ID" pattern="[0-9]{17,21}" onchange="addUser()" aria-describedby="bot-payingdesc" id="custom-invite">
 							<br>
 							<div id="bot-paying"></div>

@@ -1138,7 +1138,7 @@ pre {
 	align-items: center;
 	gap: 7px;
 }
-.integration img {
+img.integration-image {
 	border-radius: 5px;
 	width: 130px;
 	max-height: 80px;

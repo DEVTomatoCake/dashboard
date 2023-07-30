@@ -6,7 +6,7 @@ function getCustomHTML(json) {
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			json.bots.map(bot =>
-				"<div class='integration'>" +
+				"<div id='bot-" + bot.id + "' class='integration'>" +
 				"<div>" +
 				"<div class='flex'>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy'>" +
@@ -20,10 +20,10 @@ function getCustomHTML(json) {
 					"<button type='button' class='createForm' onclick='editDialog(\"" + encode(bot.id) + "\")'><ion-icon name='build-outline'></ion-icon>Edit</button>" +
 					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon>Delete</button>" +
 					"<br>" +
-					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'>(Re)Start</button>" +
+					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'>Start/Restart</button>" +
 					"<button type='button' class='createForm red' onclick='stopBot(\"" + encode(bot.id) + "\")'>Stop</button>"
 				:
-					"<button type='button' class='createForm red' onclick='removeYourself(\"" + encode(bot.id) + "\")'>Remove yourself from paying users</button>"
+					"<button type='button' class='createForm red' onclick='removeYourself(\"" + encode(bot.id) + "\")'>Remove yourself as paying user</button>"
 				) +
 				"</div>" +
 				"</div>"
@@ -94,6 +94,12 @@ function connectWS() {
 				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show()
 				else document.getElementById("bot-edit-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 					"<br><p>Users that can accept the invite on this page after saving:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
+			} else if (json.action == "RECEIVE_REMOVE_paying_custom") {
+				new ToastNotification({type: "SUCCESS", title: json.message, timeout: 15}).show()
+				document.getElementById("bot-" + json.bot).remove()
+			} else if (json.action == "RECEIVE_DELETE_custom") {
+				new ToastNotification({type: json.status == "success" ? "SUCCESS" : "ERROR", title: json.message, timeout: 15}).show()
+				if (json.status == "success") document.getElementById("bot-" + json.bot).remove()
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
 				document.getElementById("linksidebar").innerHTML +=
@@ -142,12 +148,17 @@ function createDialog() {
 	document.getElementById("step5").setAttribute("hidden", "")
 }
 
+let editingBot = {}
 function editDialog(botId = "") {
 	openDialog(document.getElementById("edit-dialog"))
-	const bot = bots.find(b => b.id == botId)
+	editingBot = bots.find(b => b.id == botId)
 
-	document.getElementById("bot-edit-paying").innerHTML = "<ul>" + bot.paying.map(u => userList(u, true)).join("") + "</ul>" + (bot.payingInvited.length > 0 ?
-		"<br><p>Users that can accept the invite on this page:<ul>" + bot.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
+	document.getElementById("bot-edit-paying").innerHTML = "<ul>" + editingBot.paying.map(u => userList(u, true)).join("") + "</ul>" + (editingBot.payingInvited.length > 0 ?
+		"<br><p>Users that can accept the invite on this page:<ul>" + editingBot.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
+}
+const addPayingEdit = () => {
+	socket.send({action: "ADD_custom_paying", bot: editingBot.id, user: document.getElementById("custom-invite").value})
+	document.getElementById("custom-invite").value = ""
 }
 
 const refresh = (force = false, save = false) => {

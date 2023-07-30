@@ -27,16 +27,16 @@
 
 		<script>
 			function changePage(elem) {
-				const pages = document.getElementsByClassName("page-select")[0].children;
-				for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current");
-				elem.classList.add("current");
-				const target = elem.getAttribute("data-target");
+				const pages = document.getElementsByClassName("page-select")[0].children
+				for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current")
+				elem.classList.add("current")
+				const target = elem.getAttribute("data-target")
 
 				for (const link of document.getElementsByClassName("guild")) {
-					const query = link.getAttribute("href").split("?")[1];
-					if (link.getAttribute("href").split("/")[1] == "invite") continue;
-					if (target == "stats" || target == "leaderboard") link.setAttribute("href", "/" + target + (query ? "?" + query : ""));
-					else link.setAttribute("href", "/dashboard/" + target + (query ? "?" + query : ""));
+					if (link.getAttribute("href").split("/")[1] == "invite") continue
+					const query = link.getAttribute("href").split("?")[1]
+					if (target == "stats" || target == "leaderboard") link.setAttribute("href", encode("/" + target + (query ? "?" + query : "")))
+					else link.setAttribute("href", encode("/dashboard/" + target + (query ? "?" + query : "")))
 				}
 			}
 		</script>
@@ -124,7 +124,7 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = localStorage.getItem("next");
+						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = "https://tomatenkuchen.eu/" + localStorage.getItem("next").replace("/", "");
 						else location.href = "https://" + location.host + "/dashboard" + (params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =

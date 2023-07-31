@@ -23,7 +23,7 @@
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
 		<script src="./assets/js/api.js"></script>
-		<script src="./assets/js/transformers/other.js"></script>
+		<script src="./assets/js/transformers/leaderboard.js"></script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar></global-sidebar>
@@ -50,20 +50,6 @@
 				<div id="root-container"></div>
 			</div>
 		</main>
-
-		<script>
-			const rootContainer = document.getElementById("root-container");
-			const params = new URLSearchParams(location.search);
-
-			if (params.has("guild")) getLeaderboardHTML(params.get("guild")).then(html => {
-				rootContainer.innerHTML = html
-				reloadText();
-			});
-			else {
-				rootContainer.innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>";
-				reloadText();
-			}
-		</script>
 
 		<global-footer></global-footer>
 		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>

@@ -95,3 +95,8 @@ const getModlogs = guild => new Promise((resolve, reject) => {
 	get("modlogs/" + guild)
 		.then(d => resolve(d)).catch(e => reject(e))
 })
+
+const getForm = form => new Promise((resolve, reject) => {
+	get("forms/" + form + "?lang=" + getLanguage())
+		.then(d => resolve(d)).catch(e => reject(e))
+})

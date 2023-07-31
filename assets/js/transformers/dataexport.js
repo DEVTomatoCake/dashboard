@@ -133,7 +133,7 @@ loadFunc = () => {
 			document.getElementById("content").innerHTML = data
 			document.getElementById("linksidebar").innerHTML +=
 				"<div class='section middle'><p class='title'>Your profile</p>" +
-				"<a class='tab otherlinks' href='./custom'><ion-icon name='construct-outline'></ion-icon><p>Custom branding</p></a>" +
+				"<a class='tab otherlinks' href='./custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom branding</p></a>" +
 				"<a class='tab otherlinks active' href='./dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
 				"</div>"
 

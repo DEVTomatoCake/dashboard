@@ -630,7 +630,7 @@ footer #mainlink img {
 
 footer .links {
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 	grid-gap: 0 15px;
 	width: 100%;
 }
@@ -1283,6 +1283,10 @@ button:disabled {
 		display: inline-block;
 		margin-top: 60px;
 	}
+
+	footer #mainlink span {
+		font-size: 22px;
+	}
 }
 
 @media only screen and (max-width: 600px) {
@@ -1301,6 +1305,11 @@ button:disabled {
 		right: 0;
 		bottom: 0;
 		border-radius: 0;
+	}
+
+	footer #mainlink span {
+		font-size: 20px;
+		padding: 0 25px 0 10px;
 	}
 }
 
@@ -1329,11 +1338,6 @@ button:disabled {
 	.stats-row .data h3 {
 		font-size: 20px;
 		transition: .2s;
-	}
-
-	footer #mainlink span {
-		font-size: 20px;
-		padding: 0 25px 0 10px
 	}
 }
 
@@ -1374,6 +1378,10 @@ button:disabled {
 	.stats-row .data h3 {
 		font-size: 15px;
 		transition: .3s;
+	}
+
+	footer #mainlink span {
+		font-size: 18px;
 	}
 }
 

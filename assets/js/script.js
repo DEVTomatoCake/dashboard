@@ -50,11 +50,12 @@ class Footer extends HTMLElement {
 			"</div>" +
 			"</a>" +
 			"<div class='links'>" +
-				"<a href='/credits'>Credits</a>" +
-				"<a href='/docs'>Docs</a>" +
-				"<a href='/invite'>Invite Bot</a>" +
-				"<a href='/discord' target='_blank' rel='noopener'>Support server</a>" +
-				"<a href='/privacy'>Privacy/ToS</a>" +
+				"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom branding</a>" +
+				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
+				"<a href='/docs' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
+				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
+				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
+				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy/ToS</a>" +
 			"</div>" +
 			"</footer>"
 	}

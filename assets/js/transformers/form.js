@@ -10,6 +10,7 @@ function getFormHTML(guild) {
 							"' placeholder='" + encode(field.placeholder) + "' value='" + field.value + "'>"
 						if (field.type == "long") return "<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label>" +
 							"<textarea id='field-" + encode(field.name) + "' name='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" + field.value + "</textarea>"
+						return "<i>Unable to display field type <code>" + encode(field.type) + "</code></i>"
 					}).join("")
 					resolve(text)
 				} else handleError(resolve, json.message)

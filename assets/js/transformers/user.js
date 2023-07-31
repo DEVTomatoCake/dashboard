@@ -1,5 +1,5 @@
 const formatVote = site => {
-	return "<a href='" + encode(site.url) + "'>" + encode(site.name) + "</a>" +
+	return "<a href='" + encode(site.url) + "' target='_blank' rel='noopener'>" + encode(site.name) + "</a>" +
 		(site.status == 1 ? "<br><ion-icon name='thumbs-up-outline'></ion-icon>You can vote now!" : "") +
 		(site.status == 2 ? "<br><ion-icon name='heart'></ion-icon>You've already voted - thank you!" : "") +
 		(site.status == 3 ? "<br><small><ion-icon name='warning-outline'></ion-icon>This site doesn't allow me to display whether you've voted or not, however you still receive your credits!</small>" : "") +
@@ -17,7 +17,7 @@ loadFunc = async () => {
 
 		document.getElementById("linksidebar").innerHTML +=
 			"<div class='section middle'><p class='title'>Your profile</p>" +
-			"<a class='tab otherlinks' href='./dashboard/custom'><ion-icon name='construct-outline'></ion-icon><p>Custom branding</p></a>" +
+			"<a class='tab otherlinks' href='./dashboard/custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom branding</p></a>" +
 			"<a class='tab otherlinks' href='./dashboard/dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
 			"</div>"
 

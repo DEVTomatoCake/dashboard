@@ -45,8 +45,7 @@ function getCustomcommandsHTML(json) {
 
 		if (text == "") text = "<p id='no-cc'><b translation='dashboard.cc.nocc'></b></p>";
 		return "<h1 class='center'><span translation='dashboard.cc.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<p translation='dashboard.cc.delete'></p>" +
-			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.cc.create'></button><br><br>" + text;
+			"<p translation='dashboard.cc.delete'></p><br><br>" + text;
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +

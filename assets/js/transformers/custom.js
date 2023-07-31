@@ -6,22 +6,23 @@ function getCustomHTML(json) {
 			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			json.bots.map(bot =>
-				"<div id='bot-" + bot.id + "' class='integration'>" +
+				"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
 				"<div>" +
 				"<div class='flex'>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"</div>" +
 				"<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" +
-				"<p>Balance across all paying users: <b>" + bot.balance.toLocaleString() + "</b></p>" +
+				"<p>Balance across all paying users (<b>" + bot.paying.length + "</b>): <b>" + bot.balance.toLocaleString() + "</b></p>" +
+				(bot.payingInvited.length > 0 ? "<p>Users invited to pay for the bot: <b>" + bot.payingInvited.length + "</b></p>" : "") +
 				"</div>" +
 				"<div>" +
 				(bot.hasAccess ?
 					"<button type='button' class='createForm' onclick='editDialog(\"" + encode(bot.id) + "\")'><ion-icon name='build-outline'></ion-icon>Edit</button>" +
-					"<button type='button' class='createForm red' disabled onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon>Delete</button>" +
+					"<button type='button' class='createForm red' onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon>Delete</button>" +
 					"<br>" +
-					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'>Start/Restart</button>" +
-					"<button type='button' class='createForm red' onclick='stopBot(\"" + encode(bot.id) + "\")'>Stop</button>"
+					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'><ion-icon name='caret-up-outline'></ion-icon>Start/Restart</button>" +
+					"<button type='button' class='createForm red' onclick='stopBot(\"" + encode(bot.id) + "\")'><ion-icon name='caret-down-outline'></ion-icon>Stop</button>"
 				:
 					"<button type='button' class='createForm red' onclick='removeYourself(\"" + encode(bot.id) + "\")'>Remove yourself as paying user</button>"
 				) +
@@ -34,7 +35,7 @@ function getCustomHTML(json) {
 			text += "<br><br><h1>Bots you've been invited to to pay for</h1>" +
 				"<div class='integration-container'>" +
 				json.invited.map(bot =>
-					"<div class='integration'>" +
+					"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
 					"<h2>" + encode(bot.username) + "</h2>" +
 					"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
 					"<div>" +
@@ -104,7 +105,7 @@ function connectWS() {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
 				document.getElementById("linksidebar").innerHTML +=
 					"<div class='section middle'><p class='title'>Your profile</p>" +
-					"<a class='tab otherlinks active' href='./custom'><ion-icon name='construct-outline'></ion-icon><p>Custom branding</p></a>" +
+					"<a class='tab otherlinks active' href='./custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom branding</p></a>" +
 					"<a class='tab otherlinks' href='./dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
 					"</div>"
 
@@ -185,16 +186,16 @@ const removeYourself = bot => {
 	if (confirmed) socket.send({action: "REMOVE_custom_paying_yourself", bot})
 }
 const deleteBot = bot => {
-	const confirmed = confirm("Are you sure you permanently want to delete the bot " + encode(bot) + "?")
+	const confirmed = confirm("Are you sure you permanently want to delete the bot " + encode(bot) + "? There's no going back and ALL data will be lost immediately!")
 	if (confirmed) socket.send({action: "DELETE_custom", bot})
 }
 const acceptInvite = bot => {
 	socket.send({action: "ACCEPT_invite", bot})
-	setTimeout(connectWS, 3000)
+	setTimeout(connectWS, 2000)
 }
 const declineInvite = bot => {
 	socket.send({action: "DECLINE_invite", bot})
-	setTimeout(connectWS, 3000)
+	document.getElementById("bot-" + bot).remove()
 }
 
 function back() {

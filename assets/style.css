@@ -629,10 +629,10 @@ footer #mainlink img {
 }
 
 footer .links {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-	grid-gap: 0 15px;
-	width: 100%;
+	display: flex;
+	grid-gap: 5px 30px;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
 .hidden {
@@ -941,7 +941,7 @@ summary {
 }
 
 h1.greeting, h2.greeting {
-	font-size: 55px;
+	font-size: 50px;
 	text-align: center;
 	padding-bottom: 35px;
 	margin: 0 auto;
@@ -1189,6 +1189,11 @@ button span {
 	color: var(--light-text-color);
 }
 
+button:has(ion-icon) {
+	display: inline-flex;
+	align-items: center;
+}
+
 .green {
 	background-color: #47a74f;
 }
@@ -1245,13 +1250,13 @@ button:disabled {
 	vertical-align: middle;
 }
 .feature strong {
-	font-size: 27px;
+	font-size: 25px;
 }
 .feature p {
-	font-size: 21px;
+	font-size: 20px;
 	word-break: break-word;
 }
-.feature a {
+.feature a, .blue-text {
 	color: var(--blue);
 	text-decoration: none;
 }
@@ -1418,7 +1423,7 @@ button:disabled {
 }
 
 .credits h1 {
-	font-size: 60px;
+	font-size: 55px;
 	text-transform: uppercase;
 }
 .credits h2 {

@@ -150,10 +150,35 @@
 						</p>
 
 						<label for="upgrade-status">Be able to set custom bot status</label>
-						<input type="checkbox" name="upgrade-status" id="upgrade-status" disabled>
+						<input type="checkbox" name="upgrade-status" id="upgrade-status">
+						<div id="status-container" hidden>
+							<h3>List of status to cycle through</h3>
+							<input type="text" placeholder="Activity text" id="status-text">
+							<select id="status-status">
+								<option value="online" selected>Online</option>
+								<option value="idle">Idle</option>
+								<option value="dnd">Do Not Disturb</option>
+								<option value="offline">Offline</option>
+							</select>
+							<select id="status-activity">
+								<option value="playing" selected>Playing</option>
+								<option value="streaming">Streaming (include Twitch link in status text, will be removed automatically)</option>
+								<option value="listening">Listening</option>
+								<option value="watching">Watching</option>
+								<option value="competing">Competing</option>
+							</select>
+							<br>
+							<div id="status-list"></div>
+						</div>
 
 						<label for="upgrade-respondotherbot">Allow the bot to respond to specified other bots</label>
-						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" disabled>
+						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot">
+						<div id="respondotherbot-container" hidden>
+							<h3>List of bots to respond to</h3>
+							<input type="text" placeholder="Bot ID" pattern="[0-9]{17,21}" onchange="addRespondBot()" id="respondotherbot-id">
+							<br>
+							<div id="respondotherbot-list"></div>
+						</div>
 					</div>
 				</div>
 

@@ -144,6 +144,7 @@ function createDialog() {
 	openDialog(document.getElementById("create-dialog"))
 
 	document.getElementById("custom-token").value = ""
+	document.getElementById("custom-invite").value = ""
 	document.getElementById("step3").setAttribute("hidden", "")
 	document.getElementById("step4").setAttribute("hidden", "")
 	document.getElementById("step5").setAttribute("hidden", "")

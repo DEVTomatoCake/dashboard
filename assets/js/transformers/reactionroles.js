@@ -168,7 +168,19 @@ function connectWS(guild) {
 		onMessage: json => {
 			if (json.action == "NOTIFY") new ToastNotification(json).show()
 			else if (json.action == "RECEIVE_reactionroles") {
-				document.getElementById("linksidebar").innerHTML +=
+				document.getElementById("linksidebar").innerHTML =
+					"<a href='/' title='Home' class='tab'>" +
+						"<ion-icon name='home-outline'></ion-icon>" +
+						"<p translation='sidebar.home'></p>" +
+					"</a>" +
+					"<a href='/commands' title='Bot commands' class='tab'>" +
+						"<ion-icon name='terminal-outline'></ion-icon>" +
+						"<p translation='sidebar.commands'></p>" +
+					"</a>" +
+					"<a href='/dashboard' class='tab active'>" +
+						"<ion-icon name='settings-outline'></ion-icon>" +
+						"<p translation='sidebar.dashboard'></p>" +
+					"</a>" +
 					"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
 					"<button type='button' onclick='saveReactionroles()'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
 					"<br><hr><a class='tab otherlinks' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +

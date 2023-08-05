@@ -55,8 +55,8 @@ function getCustomHTML(json) {
 	}
 }
 
-const userList = (user, canDelete = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
-	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removeUser(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
+const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
+	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removePaying" + (isEditing ? "Edit" : "") + "(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
 let socket
 let errorToast
 let info = {}
@@ -103,7 +103,19 @@ function connectWS() {
 				if (json.status == "success") document.getElementById("bot-" + json.bot).remove()
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
-				document.getElementById("linksidebar").innerHTML +=
+				document.getElementById("linksidebar").innerHTML =
+					"<a href='/' title='Home' class='tab'>" +
+						"<ion-icon name='home-outline'></ion-icon>" +
+						"<p translation='sidebar.home'></p>" +
+					"</a>" +
+					"<a href='/commands' title='Bot commands' class='tab'>" +
+						"<ion-icon name='terminal-outline'></ion-icon>" +
+						"<p translation='sidebar.commands'></p>" +
+					"</a>" +
+					"<a href='/dashboard' class='tab'>" +
+						"<ion-icon name='settings-outline'></ion-icon>" +
+						"<p translation='sidebar.dashboard'></p>" +
+					"</a>" +
 					"<div class='section middle'><p class='title'>Your profile</p>" +
 					"<a class='tab otherlinks active' href='./custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom branding</p></a>" +
 					"<a class='tab otherlinks' href='./dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
@@ -155,13 +167,29 @@ function editDialog(botId = "") {
 	openDialog(document.getElementById("edit-dialog"))
 	editingBot = bots.find(b => b.id == botId)
 
-	document.getElementById("bot-edit-paying").innerHTML = "<ul>" + editingBot.paying.map(u => userList(u, true)).join("") + "</ul>" + (editingBot.payingInvited.length > 0 ?
-		"<br><p>Users that can accept the invite on this page:<ul>" + editingBot.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
+	document.getElementById("bot-edit-paying").innerHTML = "<ul>" + editingBot.paying.map(u => userList(u, true, true)).join("") + "</ul>" + (editingBot.payingInvited.length > 0 ?
+		"<br><p>Users that can accept the invite on this page:<ul>" + editingBot.payingInvited.map(u => userList(u, true, true)).join("") + "</ul>": "")
+
+	if (editingBot.canStatus) {
+		document.getElementById("upgrade-status").setAttribute("checked", "")
+		document.getElementById("status-container").removeAttribute("hidden")
+	} else {
+		document.getElementById("upgrade-status").removeAttribute("checked")
+		document.getElementById("status-container").setAttribute("hidden", "")
+	}
+	if (editingBot.canOtherBot) {
+		document.getElementById("upgrade-respondotherbot").setAttribute("checked", "")
+		document.getElementById("respondotherbot-container").removeAttribute("hidden")
+	} else {
+		document.getElementById("upgrade-respondotherbot").removeAttribute("checked")
+		document.getElementById("respondotherbot-container").setAttribute("hidden", "")
+	}
 }
 const addPayingEdit = () => {
 	socket.send({action: "ADD_custom_paying", bot: editingBot.id, user: document.getElementById("custom-invite").value})
 	document.getElementById("custom-invite").value = ""
 }
+const removePayingEdit = user => socket.send({action: "REMOVE_custom_paying", bot: editingBot.id, user})
 
 const refresh = (force = false, save = false) => {
 	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save})
@@ -174,11 +202,11 @@ const refresh = (force = false, save = false) => {
 	if (save) document.getElementById("create-dialog").classList.add("hidden")
 }
 
-const addUser = () => {
+const addPaying = () => {
 	socket.send({action: "ADD_custom_paying", botToken: tokenElem.value, user: document.getElementById("custom-invite").value})
 	document.getElementById("custom-invite").value = ""
 }
-const removeUser = user => socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
+const removePaying = user => socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
 
 const startBot = bot => socket.send({action: "START_custom", bot})
 const stopBot = bot => socket.send({action: "STOP_custom", bot})

@@ -15,7 +15,19 @@ loadFunc = async () => {
 			document.getElementById("vote-mb").innerHTML = "<ul><li>" + json.data.filter(site => site.status != 0 && site.mb).map(formatVote).join("</li><li>") + "</li></ul>"
 		} else return handleError(resolve, json.message)
 
-		document.getElementById("linksidebar").innerHTML +=
+		document.getElementById("linksidebar").innerHTML =
+			"<a href='/' title='Home' class='tab'>" +
+				"<ion-icon name='home-outline'></ion-icon>" +
+				"<p translation='sidebar.home'></p>" +
+			"</a>" +
+			"<a href='/commands' title='Bot commands' class='tab'>" +
+				"<ion-icon name='terminal-outline'></ion-icon>" +
+				"<p translation='sidebar.commands'></p>" +
+			"</a>" +
+			"<a href='/dashboard' class='tab'>" +
+				"<ion-icon name='settings-outline'></ion-icon>" +
+				"<p translation='sidebar.dashboard'></p>" +
+			"</a>" +
 			"<div class='section middle'><p class='title'>Your profile</p>" +
 			"<a class='tab otherlinks' href='./dashboard/custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom branding</p></a>" +
 			"<a class='tab otherlinks' href='./dashboard/dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +

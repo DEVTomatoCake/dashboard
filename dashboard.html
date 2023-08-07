@@ -6,8 +6,8 @@
 		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Manage the bot on and invite the bot to servers.">
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/dashboard">
-		<link rel="canonical" href="https://tomatenkuchen.eu/dashboard">
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/dashboard">
+		<link rel="canonical" href="https://tomatenkuchen.com/dashboard">
 		<link rel="manifest" href="./manifest.json">
 
 		<title>TomatenKuchen - Server settings - Dashboard</title>
@@ -124,7 +124,7 @@
 						setCookie("user", json.user, 4);
 						setCookie("avatar", json.avatar, 4);
 
-						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = "https://tomatenkuchen.eu/" + localStorage.getItem("next").replace("/", "");
+						if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = "https://tomatenkuchen.com/" + localStorage.getItem("next").replace("/", "");
 						else location.href = "https://" + location.host + "/dashboard" + (params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "");
 					} else {
 						document.getElementById("root-container").innerHTML =

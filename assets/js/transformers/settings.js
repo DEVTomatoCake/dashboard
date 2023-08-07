@@ -29,7 +29,7 @@ function getSettingsHTML(json) {
 
 		json.data.forEach(setting => {
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
-				(setting.docs ? " <a href='https://docs.tomatenkuchen.eu/" + (getLanguage() == "de" ? "de/" : "") + setting.docs + "' target='_blank' rel='noopener'><small>Docs</small></a>" : "") + "<br>"
+				(setting.docs ? " <a href='https://docs.tomatenkuchen.com/" + (getLanguage() == "de" ? "de/" : "") + setting.docs + "' target='_blank' rel='noopener'><small>Docs</small></a>" : "") + "<br>"
 
 			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible

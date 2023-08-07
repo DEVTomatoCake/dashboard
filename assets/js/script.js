@@ -7,7 +7,7 @@ function setCookie(name, value, days, global) {
 		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days)
 		cookie += "expires=" + date.toUTCString() + ";"
 	}
-	if (global) cookie += "domain=.tomatenkuchen.eu;"
+	if (global) cookie += "domain=.tomatenkuchen.com;"
 
 	document.cookie = cookie
 }
@@ -22,7 +22,7 @@ function getCookie(name) {
 }
 function deleteCookie(name) {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;"
-	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;"
+	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
 let loadFunc = () => {}
@@ -220,7 +220,8 @@ function pageLoad(page = "") {
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
 			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
-			"<a href='/dashboard/custom'>Custom branding</a><a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
+			//"<a href='/dashboard/custom'>Custom branding</a>" +
+			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +

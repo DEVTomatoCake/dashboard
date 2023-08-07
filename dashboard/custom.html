@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Create and edit your custom branded bots here.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/dashboard/custom">
+		<link rel="canonical" href="https://tomatenkuchen.com/dashboard/custom">
+		<link rel="manifest" href="../manifest.json">
+
+		<title>TomatenKuchen - Custom branded bots - Dashboard</title>
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="../assets/style.css" rel="stylesheet" type="text/css">
+
+		<link href="../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../assets/js/toasts.js"></script>
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
+
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
+
+		<script src="../assets/js/sockette.js"></script>
+		<script src="../assets/js/transformers/custom.js"></script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="create-dialog" class="dialog hidden">
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1>Create a new custom branded bot</h1>
+						<p>
+							<a href="../custom" target="_blank" rel="noopener">Learn more about custom branded bots</a>
+						</p>
+
+						<div id="bot-data" class="custom" hidden>
+							<br>
+							<div class="flex">
+								<img id="bot-avatar" class="bot-avatar" alt="Bot avatar">
+								<h2 id="bot-name"></h2>
+							</div>
+							<br>
+						</div>
+
+						<div id="step1">
+							<h2>Insert the Discord bot token</h2>
+							<br>
+							<p id="bot-tokendesc">
+								The bot token is needed to allow TomatenKuchen to run the bot. <b>Never share your token with anyone!</b>
+								<br>
+								You can create an application on the
+								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord Developer Portal</a> using the button
+								on the top right. Then you fill in the required fields, visit the "Bot" page, reset the token (you may have to enter a 2FA code), and paste the new one here.
+								<br>
+								In case you haven't invited the bot yet, we'll do this later.
+							</p>
+							<br>
+							<input type="text" minlength="50" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" oninput="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">
+						</div>
+
+						<div id="step2" hidden>
+							<h2>Confirm users who have access to the bot</h2>
+							<p>
+								The following users have access to the bot and can manage it anytime in the Discord Developer Portal or on this page.
+								To add or remove users, visit the Discord Developer teams page.
+							</p>
+							<br>
+							<ul id="bot-access"></ul>
+						</div>
+
+						<div id="step3" hidden>
+							<h2>Select users who pay for the bot</h2>
+							<p id="bot-payingdesc">
+								A list of users who invest their vote credits into this custom bot. Check this <a href="../custom" target="_blank" rel="noopener">custom branding info</a> page
+								to learn more about how paying works and how much it costs <b>per day</b>. This setting allows you to allow your server members to also vote for the bot to maintain it
+								without giving them access to the bot in the Discord developer dashboard.
+								<br>
+								Every time a credit payment is due, the bot will randomly select a user from this list who has enough credits.
+								If none of them has enough, the bot will send a warning, wait two hours, and if still no one has enough balance, disable itself. Don't worry, all your data is kept!
+							</p>
+
+							<br>
+							<input type="text" placeholder="User ID" pattern="[0-9]{17,21}" onchange="addPaying()" aria-describedby="bot-payingdesc" id="custom-invite">
+							<br>
+							<div id="bot-paying"></div>
+						</div>
+
+						<div id="step4" hidden>
+							<h2>Remaining TODO list</h2>
+							<ul id="bot-todo"></ul>
+						</div>
+
+						<div id="step5" hidden>
+							<h2>You're done!</h2>
+							<p>Click the button below to create your custom branded bot.</p>
+
+							<br>
+							<h3>Haven't invited the bot yet?</h3>
+							<a id="bot-invite" target="_blank" rel="noopener">Click here to invite your bot to a server</a>
+						</div>
+
+						<br>
+						<button type="button" id="back-button" class="createForm" onclick="back()" hidden>Back</button>
+						<button type="button" id="forward-button" class="createForm green" onclick="forward()" disabled>Next</button>
+					</div>
+				</div>
+
+				<div id="edit-dialog" class="dialog hidden">
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1>Edit your custom branded bot</h1>
+
+						<br>
+						<h2>Add or remove paying users</h2>
+						<input type="text" placeholder="User ID" pattern="[0-9]{17,21}" onchange="addPayingEdit()" id="edit-paying">
+						<br>
+						<div id="bot-edit-paying"></div>
+
+						<br>
+						<br>
+						<h2>Enable/disable upgrades</h2>
+						<p>
+							<ion-icon name="cash-outline"></ion-icon>
+							You can see the pricing of these upgrades on the <a href="../custom#upgrades" target="_blank" rel="noopener">custom branding page</a>
+						</p>
+
+						<label for="upgrade-status">Be able to set custom bot status</label>
+						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="document.getElementById('status-container').toggleAttributes('hidden')">
+						<div id="status-container" hidden>
+							<h3>List of status to cycle through</h3>
+							<input type="text" placeholder="Activity text" id="status-text">
+							<select id="status-status">
+								<option value="online" selected>Online</option>
+								<option value="idle">Idle</option>
+								<option value="dnd">Do Not Disturb</option>
+								<option value="offline">Offline</option>
+							</select>
+							<select id="status-activity">
+								<option value="playing" selected>Playing</option>
+								<option value="streaming">Streaming (must include Twitch link in activity text)</option>
+								<option value="listening">Listening</option>
+								<option value="watching">Watching</option>
+								<option value="competing">Competing</option>
+							</select>
+							<br>
+							<div id="status-list"></div>
+							<br>
+						</div>
+
+						<label for="upgrade-respondotherbot">Allow the bot to respond to specified other bots</label>
+						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" onclick="document.getElementById('respondotherbot-container').toggleAttributes('hidden')">
+						<div id="respondotherbot-container" hidden>
+							<h3>List of bots to respond to</h3>
+							<input type="text" placeholder="Bot ID" pattern="[0-9]{17,21}" onchange="addRespondBot()" id="respondotherbot-id">
+							<br>
+							<div id="respondotherbot-list"></div>
+						</div>
+					</div>
+				</div>
+
+				<div id="root-container" class="row">
+					<h1>Loading your custom branded bots...</h1>
+				</div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+	</body>
+</html>

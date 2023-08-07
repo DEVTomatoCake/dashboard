@@ -26,8 +26,8 @@
 			"sizes": "1024x1024"
 		}
 	],
-	"id": "/?source=pwa",
-	"start_url": "/dashboard/?source=pwa",
+	"id": "/",
+	"start_url": "/dashboard",
 	"background_color": "#ED8721",
 	"display_override": ["window-control-overlay", "minimal-ui"],
 	"display": "standalone",
@@ -38,27 +38,32 @@
 			"name": "View your servers",
 			"short_name": "Server list",
 			"description": "View your servers or invite the bot",
-			"url": "/dashboard/?source=pwa"
+			"url": "/dashboard"
 		},{
 			"name": "Edit server settings",
 			"short_name": "Settings",
 			"description": "Modify the settings of a server",
-			"url": "/dashboard/settings/?source=pwa"
+			"url": "/dashboard/settings"
 		},{
 			"name": "Manage integrations",
 			"short_name": "Integrations",
 			"description": "Create and modify integrations of a server",
-			"url": "/dashboard/integrations/?source=pwa"
+			"url": "/dashboard/integrations"
 		},{
 			"name": "Manage reaction, button and select roles",
 			"short_name": "Reactionroles",
 			"description": "Create and modify reaction, button and select roles of a server",
-			"url": "/dashboard/reactionroles/?source=pwa"
+			"url": "/dashboard/reactionroles"
 		},{
 			"name": "View bot commands",
 			"short_name": "Commands",
-			"description": "Check the commands of the bot",
-			"url": "/commands/?source=pwa"
+			"description": "Check out the bot commands",
+			"url": "/commands"
+		},{
+			"name": "Invite bot",
+			"short_name": "Invite",
+			"description": "Invite TomatenKuchen onto your Discord server",
+			"url": "/invite"
 		}
 	],
 	"description": "Multipurpose multilanguage Discord bot with many features for your Discord server combined with a lot customization options.",

@@ -6,8 +6,8 @@
 		<meta name="description" content="TomatenKuchen is a multipurpose Discord bot with many common and innovative features for your server. It features multiple languages, custom commands, reaction roles and much more.">
 		<meta name="theme-color" content="#ed8721">
 
-		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.eu/">
-		<link rel="canonical" href="https://tomatenkuchen.eu/">
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com">
+		<link rel="canonical" href="https://tomatenkuchen.com">
 
 		<title>TomatenKuchen - Multipurpose Discord bot - Home</title>
 		<link href="./assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
@@ -21,8 +21,8 @@
 
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
-		<script src="./assets/js/api/api.js"></script>
-		<script src="./assets/js/api/transformer_other.js"></script>
+		<script src="./assets/js/api.js"></script>
+		<script src="./assets/js/transformers/other.js"></script>
 
 		<script>
 			let servers = [];
@@ -39,8 +39,8 @@
 						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
-						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
+						"<p><b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
+						"<p class='since'><span translation='main.botsince'></span><br><b>" + server.botsince + "</b></p>" +
 						"</div>";
 				}
 				reloadText();
@@ -55,17 +55,17 @@
 				if (currentIndex >= servers.length) currentIndex = 0;
 				const server = servers[currentIndex];
 
-				document.getElementById("server" + currentServer).style.opacity = "0";
+				document.getElementById("server" + currentServer).classList.add("no-opacity");
 				setTimeout(() => {
 					document.getElementById("server" + currentServer).innerHTML =
-						"<img src='" + server.icon + "'>" +
+						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
 						"<div>" +
 						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members + "</b> <span translation='main.members'></span></p>" +
-						"<p><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
+						"<p><b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
+						"<p class='since'><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
 						"</div>";
 
-					document.getElementById("server" + currentServer).style.opacity = "1";
+					document.getElementById("server" + currentServer).classList.remove("no-opacity");
 					reloadText();
 				}, 700);
 			}, 14000);
@@ -87,13 +87,15 @@
 						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
 					</div>
 					<div class="hoverdropdown-content">
-						<a href="/login/" translation="global.login"></a>
+						<a href="/login" translation="global.login"></a>
 					</div>
 				</div>
 			</header>
 
 			<div class="content" id="content">
-				<h1 class="center">TomatenKuchen is your all-in-one Discord bot for your Discord server!</h1>
+				<h1 class="center">
+					TomatenKuchen is your <span class="blue-text">all-in-one</span> Discord bot for your server!
+				</h1>
 				<h2 id="username-content" class="greeting">Hey!</h2>
 
 				<div class="stats-row">
@@ -102,7 +104,7 @@
 							<ion-icon name="server-outline"></ion-icon>
 							<p class="title" translation="main.servers">Servers</p>
 
-							<a class="linkicon" href="https://beta.statcord.com/bot/685166801394335819" title="Statcord bot statistics" target="_blank" rel="noopener">
+							<a class="linkicon" href="https://disstat.numselli.xyz/bots/685166801394335819" title="DisStat bot statistics" target="_blank" rel="noopener">
 								<ion-icon name="open-outline" class="open"></ion-icon>
 							</a>
 						</div>
@@ -114,7 +116,7 @@
 							<ion-icon name="game-controller-outline"></ion-icon>
 							<p class="title" translation="main.uptime">Uptime</p>
 
-							<a class="linkicon" href="https://vanillaminigames.instatus.com/" title="Bot uptime data" target="_blank" rel="noopener">
+							<a class="linkicon" href="https://vanillaminigames.instatus.com" title="Bot uptime data" target="_blank" rel="noopener">
 								<ion-icon name="open-outline" class="open"></ion-icon>
 							</a>
 						</div>
@@ -142,7 +144,7 @@
 					</div>
 				</div>
 
-				<h2 style="margin-top:3rem;" translation="main.publicservers">Public servers</h2>
+				<h2 translation="main.publicservers">Public servers</h2>
 				<div class="public-servers">
 					<div id="server1" class="server"></div>
 					<div id="server2" class="server"></div>
@@ -159,8 +161,8 @@
 									Advanced moderation features
 								</strong>
 								<br>
-								<span translation="main.features.moderation.description">
-									Useful moderation commands and modlogs combined with <a href="https://discord.com">Discord</a>'s native automod!
+								<span>
+									Useful moderation commands and modlogs combined with Discords native AutoMod, allowing you to punish users for triggering a rule!
 								</span>
 							</p>
 						</div>
@@ -169,11 +171,12 @@
 						<div>
 							<p>
 								<strong translation="main.features.template.title">
-									Load Discord templates
+									Load Discord templates and create feature-rich server backups
 								</strong>
 								<br>
-								<span translation="main.features.template.description">
-									Using /template you can load Discord templates onto an existing server
+								<span>
+									Using /template you can load Discord templates onto existing servers. /backup allows you to yeet bots like Xenon as it has way more features and backups pretty much
+									everything Discord allows the bot to :D
 								</span>
 							</p>
 						</div>
@@ -188,7 +191,7 @@
 								</strong>
 								<br>
 								<span translation="main.features.ticket.description">
-									Multiple ticket categories, ticket embeds and advanced transcripts
+									Multiple ticket categories, ticket embeds and Discord-like transcripts
 								</span>
 							</p>
 						</div>
@@ -197,11 +200,12 @@
 						<div>
 							<p>
 								<strong translation="main.features.stats.title">
-									Serverstats in channels and categories
+									Serverstats in channel and category names and on the website
 								</strong>
 								<br>
 								<span translation="main.features.stats.description">
-									In the <a href="https://docs.tomatenkuchen.eu/en/serverstats">Docs</a> you can find tips on how to setup stats
+									In the <a href="https://docs.tomatenkuchen.com/serverstats">Docs</a> you can find tips on how to setup stats. You can also track member and boost count as well as
+									the messages sent per day and the active chatters - with no expiration!
 								</span>
 							</p>
 						</div>
@@ -220,6 +224,20 @@
 								</span>
 							</p>
 						</div>
+					</div>
+					<div class="feature">
+						<div>
+							<p>
+								<strong translation="main.features.components.title">
+									Ever wanted to create custom buttons or selects?
+								</strong>
+								<br>
+								<span>
+									Check out our <a href="https://docs.tomatenkuchen.com/integrations">integrations</a> which can do exactly that and much more!
+								</span>
+							</p>
+						</div>
+						<img src="./assets/images/tomato_empty.webp" width="160" height="160" alt="Drawn tomato default">
 					</div>
 				</div>
 			</div>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View your user data here.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/user">
+		<link rel="canonical" href="https://tomatenkuchen.com/user">
+		<link rel="manifest" href="./manifest.json">
+
+		<title>TomatenKuchen - User data and settings - Dashboard</title>
+		<link href="./assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="./assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="./assets/style.css" rel="stylesheet" type="text/css">
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
+
+		<script src="./assets/js/script.js"></script>
+		<script src="./assets/js/language.js"></script>
+
+		<script src="./assets/js/api.js"></script>
+		<script src="./assets/js/transformers/user.js"></script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar page="dashboard"></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="root-container" class="row">
+					<h1 class="greeting">Your TomatenKuchen profile</h1>
+					<h2 class="center">Check the sidebar to visit other user pages!</h2>
+
+					<br>
+					<h2>Vote for the bot</h2>
+					<div id="vote-tk"></div>
+
+					<br>
+					<details>
+						<summary>Manage Bot vote links</summary>
+						<div id="vote-mb"></div>
+					</details>
+				</div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+	</body>
+</html>

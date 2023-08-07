@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server, like unlimited reactionroles.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/dashboard/reactionroles">
+		<link rel="canonical" href="https://tomatenkuchen.com/dashboard/reactionroles">
+		<link rel="manifest" href="/manifest.json">
+
+		<title>TomatenKuchen - Reactionroles settings - Dashboard</title>
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="../assets/style.css" rel="stylesheet" type="text/css">
+
+		<link href="../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../assets/js/toasts.js"></script>
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
+
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
+		<script src="../assets/js/sockette.js"></script>
+		<script src="../assets/js/transformers/reactionroles.js"></script>
+
+		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/index.js" integrity="sha384-K6agUzbeMc1GXMXkIluupxooxm0lI/miwK1KgDxZqBS19dXN9xTv3eEg8qOjpQ2q" crossorigin="anonymous"></script>
+		<script src="../assets/js/emojipicker.js"></script>
+		<link href="../assets/emojipicker.css" rel="stylesheet" type="text/css">
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar page="dashboard"></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="create-dialog" class="dialog hidden">
+					<form id="create-form" class="dialog-content">
+						<span class="close">&times;</span>
+						<h1 translation="dashboard.rr.create"></h1>
+
+						<label for="reactionroles-channel" translation="dashboard.channel"></label>
+						<select name="reactionroles-channel" id="reactionroles-channel"></select>
+
+						<br>
+						<span class="dialog-tab active" name="existingmsg" data-radio="existingornew" onclick="changeTab(this)">Zu bestehender Nachricht hinzufügen</span>
+						<span class="dialog-tab" name="newmsg" data-radio="existingornew" onclick="changeTab(this)">Neue Nachricht senden</span>
+
+						<div id="existingmsg" class="tabs active">
+							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
+							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+						</div>
+						<div id="newmsg" class="tabs">
+							<label for="reactionroles-content">Inhalt der Nachricht</label>
+							<textarea form="create-form" name="reactionroles-content" id="reactionroles-content" maxlength="5000" rows="5" placeholder="Text oder JSON von einem Embed-Editor wie https://embed.tomatenkuchen.com" data-required="true"></textarea>
+						</div>
+
+						<span class="dialog-tab active" name="reaction" data-radio="rrtype" onclick="changeTab(this)">Reactionrole</span>
+						<span class="dialog-tab" name="button" data-radio="rrtype" onclick="changeTab(this)">Buttonrole</span>
+						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Selectrole</span>
+
+						<div id="rr-currentmsg">
+							<label for="reactionroles-role" translation="dashboard.rr.role"></label>
+							<select name="reactionroles-role" id="reactionroles-role"></select>
+
+							<div id="reaction" class="tabs active">
+								<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
+								<div>
+									<input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
+								</div>
+							</div>
+							<div id="button" class="tabs">
+								<label for="reactionroles-buttonstyle">Button-Design</label>
+								<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
+									<option value="primary">Primary (Blurple)</option>
+									<option value="secondary">Secondary (Gray)</option>
+									<option value="success">Success (Green)</option>
+									<option value="danger">Danger (Red)</option>
+								</select>
+
+								<label for="reactionroles-buttonlabel">Button-Text</label>
+								<input type="text" maxlength="80" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
+
+								<label for="reactionroles-buttonemoji">Button-Emoji</label>
+								<div>
+									<input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
+								</div>
+							</div>
+							<div id="select" class="tabs">
+								<label for="reactionroles-selectlabel">Select-Text</label>
+								<input type="text" maxlength="100" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
+
+								<label for="reactionroles-selectdesc">Select-Beschreibung</label>
+								<input type="text" maxlength="100" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
+
+								<label for="reactionroles-selectemoji">Select-Emoji</label>
+								<div>
+									<input type="text" maxlength="50" name="reactionroles-selectemoji" id="reactionroles-selectemoji" onclick="cEmoPic(this, true)" readonly>
+								</div>
+							</div>
+
+							<button type="submit" onclick="addRR(event)" translation="dashboard.rr.add"></button>
+							<br>
+						</div>
+
+						<br>
+						<button type="submit" class="categorybutton" translation="dashboard.rr.create"></button>
+						<button type="reset" class="categorybutton red" onclick="clearInputs(true)">Felder leeren</button>
+					</form>
+				</div>
+
+				<div id="root-container" class="row">
+					<h1>Loading reactionroles...</h1>
+				</div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+	</body>
+</html>

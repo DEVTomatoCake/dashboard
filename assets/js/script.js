@@ -7,7 +7,7 @@ function setCookie(name, value, days, global) {
 		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days)
 		cookie += "expires=" + date.toUTCString() + ";"
 	}
-	if (global) cookie += "domain=.tomatenkuchen.eu;"
+	if (global) cookie += "domain=.tomatenkuchen.com;"
 
 	document.cookie = cookie
 }
@@ -22,9 +22,10 @@ function getCookie(name) {
 }
 function deleteCookie(name) {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;"
-	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.eu;"
+	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
+let loadFunc = () => {}
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
 
 function handleError(resolve, error) {
@@ -40,7 +41,7 @@ class Footer extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<noscript>This website doesn't work without JavaScript.</noscript>" +
+			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
 			"<footer>" +
 			"<a href='/'>" +
 			"<div id='mainlink'>" +
@@ -49,11 +50,12 @@ class Footer extends HTMLElement {
 			"</div>" +
 			"</a>" +
 			"<div class='links'>" +
-				"<a href='/credits/'>Credits</a>" +
-				"<a href='/docs/'>Docs</a>" +
-				"<a href='/invite/'>Invite Bot</a>" +
-				"<a href='/discord/'>Support server</a>" +
-				"<a href='/privacy/'>Privacy/ToS</a>" +
+				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom branding</a>" +
+				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
+				"<a href='/docs' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
+				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
+				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
+				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy/ToS</a>" +
 			"</div>" +
 			"</footer>"
 	}
@@ -80,11 +82,11 @@ class Sidebar extends HTMLElement {
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +
-					"<a href='/commands/' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
+					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
 						"<ion-icon name='terminal-outline'></ion-icon>" +
 						"<p translation='sidebar.commands'></p>" +
 					"</a>" +
-					"<a href='/dashboard/' class='tab" + (this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
+					"<a href='/dashboard' class='tab" + (this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
@@ -135,33 +137,25 @@ let sideState = 0
 function sidebar() {
 	sideState++
 
-	document.getElementById("lineTop2").style.transform = "rotate(45deg)"
-	document.getElementById("lineTop2").style.top = "5px"
-	document.getElementById("lineBottom2").style.transform = "rotate(-45deg)"
-	document.getElementById("lineBottom2").style.bottom = "5px"
+	document.getElementById("lineTop2").classList.add("rotated1")
+	document.getElementById("lineBottom2").classList.add("rotated2")
 
-	document.getElementById("lineTop1").style.transform = "rotate(45deg)"
-	document.getElementById("lineTop1").style.top = "5px"
-	document.getElementById("lineBottom1").style.transform = "rotate(-45deg)"
-	document.getElementById("lineBottom1").style.bottom = "5px"
+	document.getElementById("lineTop1").classList.add("rotated1")
+	document.getElementById("lineBottom1").classList.add("rotated2")
 
 	if (sideState % 2 == 0) {
 		setTimeout(() => {
-			document.getElementById("content").style.paddingLeft = "300px"
+			document.getElementById("content").classList.remove("no-padding")
 			document.getElementById("sidebar-container").classList.toggle("visible")
 		}, 300)
 	} else {
-		document.getElementById("content").style.paddingLeft = "0"
+		document.getElementById("content").classList.add("no-padding")
 
-		document.getElementById("lineTop2").style.transform = "rotate(0)"
-		document.getElementById("lineTop2").style.top = "0"
-		document.getElementById("lineBottom2").style.transform = "rotate(0)"
-		document.getElementById("lineBottom2").style.bottom = "0"
+		document.getElementById("lineTop2").classList.remove("rotated1")
+		document.getElementById("lineBottom2").classList.remove("rotated2")
 
-		document.getElementById("lineTop1").style.transform = "rotate(0)"
-		document.getElementById("lineTop1").style.top = "0"
-		document.getElementById("lineBottom1").style.transform = "rotate(0)"
-		document.getElementById("lineBottom1").style.bottom = "0"
+		document.getElementById("lineTop1").classList.remove("rotated1")
+		document.getElementById("lineBottom1").classList.remove("rotated2")
 
 		setTimeout(() => {
 			document.getElementById("sidebar-container").classList.toggle("visible")
@@ -169,71 +163,70 @@ function sidebar() {
 	}
 }
 
-function fadeOut(element) {
-	if (!element) return
-	if (!element.style.opacity) element.style.opacity = 1
+function fadeOut(elem) {
+	if (!elem) return
+	if (!elem.style.opacity) elem.style.opacity = 1
 
-	element.style.opacity = parseFloat(element.style.opacity) - 0.05
-	if (element.style.opacity >= 0) setTimeout(() => fadeOut(element), 25)
-	else element.remove()
+	elem.style.opacity = parseFloat(elem.style.opacity) - 0.05
+	if (elem.style.opacity >= 0) setTimeout(() => fadeOut(elem), 25)
+	else elem.remove()
 }
-function fadeIn(element) {
-	if (!element) return
-	if (!element.style.opacity) element.style.opacity = 0
+function fadeIn(elem) {
+	if (!elem) return
+	if (!elem.style.opacity) elem.style.opacity = 0
 
-	element.style.opacity = parseFloat(element.style.opacity) + 0.05
-	if (element.style.opacity < 1) setTimeout(() => fadeIn(element), 25)
+	elem.style.opacity = parseFloat(elem.style.opacity) + 0.05
+	if (elem.style.opacity < 1) setTimeout(() => fadeIn(elem), 25)
 }
 
 function openDialog(dialog) {
-	dialog.style.display = "block"
-	dialog.getElementsByClassName("close")[0].onclick = () => {
-		dialog.style.display = "none"
-	}
+	dialog.classList.remove("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
 	window.onclick = event => {
-		if (event.target == dialog) dialog.style.display = "none"
+		if (event.target == dialog) dialog.classList.add("hidden")
 	}
 }
 
 function pageLoad(page = "") {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=
-			"<div class='cookie-container' id='cookie-container'>" +
+			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
 			"<p translation='cookie.text'>Our website uses cookies to provide <br>the best possible user experience.</p>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement);' translation='cookie.all'>Accept all</button>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement);' translation='cookie.necessary'>Only essential</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
 			"</div>"
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
 	}
 
 	if (screen.width <= 800) {
-		if (page == "commands") document.getElementById("search-box").style.marginLeft = "10px"
 		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible")
-		document.getElementById("content").style.paddingLeft = "0"
+		document.getElementById("content").classList.add("no-padding")
 		sideState = 1
 	}
-
-	const username = getCookie("user")
-	if (username) {
-		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!"
-		document.getElementById("username-header").removeAttribute("translation")
-		document.getElementById("username-header").textContent = username
-
-		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/dashboard/user' translation='global.viewdataexport'>View own data</a>"// +
-			//"<a href='/dashboard/custom'>Custom bots</a>"
-
-		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
-			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").style=\"display:block;\";this.style.display=\"none\";'>"
-	} else document.getElementById("username-avatar").style = "display: block;"
 
 	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
 	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
 		document.body.classList.replace("dark-theme", "light-theme")
 		setCookie("theme", "light", 365, true)
 	} else document.getElementById("theme-toggle").checked = true
+
+	const username = getCookie("user")
+	if (username) {
+		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!"
+		document.getElementById("username-header").removeAttribute("translation")
+		document.getElementById("username-header").textContent = username
+		document.getElementsByClassName("account")[0].removeAttribute("onclick")
+
+		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
+			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
+			//"<a href='/dashboard/custom'>Custom branding</a>" +
+			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
+
+		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
+			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.classList.add(\"hidden\")'>"
+	} else document.getElementById("username-avatar").classList.add("visible")
 
 	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {
@@ -248,6 +241,7 @@ function pageLoad(page = "") {
 		})
 	})
 
-	if (reloadText) reloadText()
+	loadFunc()
+	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

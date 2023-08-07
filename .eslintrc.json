@@ -10,8 +10,7 @@
 			"parser": "@html-eslint/parser",
 			"extends": ["plugin:@html-eslint/recommended"],
 			"rules": {
-				"@html-eslint/no-multiple-h1": 0,
-				"@html-eslint/element-newline": 1
+				"@html-eslint/no-multiple-h1": 0
 			}
 		}
 	],
@@ -36,7 +35,7 @@
 		"key-spacing": 2,
 		"keyword-spacing": 2,
 		"max-statements-per-line": 2,
-		"max-len": [2, { "code": 310 }],
+		"max-len": [2, { "code": 300 }],
 		"new-cap": 2,
 		"new-parens": 2,
 		"no-array-constructor": 2,

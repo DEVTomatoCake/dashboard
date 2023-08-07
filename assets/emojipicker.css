@@ -140,3 +140,7 @@ channel-picker .list div {
 channel-picker .list ion-icon {
 	font-size: 27px;
 }
+
+.pic-role {
+	padding-right: 2px;
+}

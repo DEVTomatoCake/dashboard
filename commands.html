@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View and search all commands of the bot here.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/commands">
+		<link rel="canonical" href="https://tomatenkuchen.com/commands">
+		<link rel="manifest" href="./manifest.json">
+
+		<title>TomatenKuchen - View all commands of the Discord bot</title>
+		<link href="./assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="./assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="./assets/style.css" rel="stylesheet" type="text/css">
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.eu">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu">
+
+		<script src="./assets/js/script.js"></script>
+		<script src="./assets/js/language.js"></script>
+		<script src="./assets/js/api.js"></script>
+		<script src="./assets/js/transformers/other.js"></script>
+
+		<script>
+			let commandData = [];
+			getCommandsHTML().then(html => {
+				document.getElementById("linksidebar").innerHTML +=
+					"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
+					"<div class='tab' onclick='cmdSearch(\"ticket\")'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"fun\")'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"suggest\")'><ion-icon name='settings-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"economy\")'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"moderation\")'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"info\")'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"admin\")'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
+					"</div>";
+
+				document.getElementById("commands-container").innerHTML = html;
+				reloadText();
+			});
+
+			function cmdSearch(search = "") {
+				if (search) document.getElementById("cmd-search").value = "";
+				else search = document.getElementById("cmd-search").value.toLowerCase();
+
+				const categories = {};
+				for (const cmd of document.getElementById("commands-container").getElementsByClassName("command")) {
+					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
+
+					if ((cmd.textContent.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
+						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.classList.remove("hidden");
+						categories[cmd.getAttribute("data-category")]++;
+					} else {
+						if (cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
+						cmd.classList.add("hidden");
+					}
+				}
+
+				for (const category of document.getElementById("commands-container").getElementsByClassName("category")) {
+					if (categories[category.id] > 0) {
+						category.classList.remove("hidden");
+						document.getElementById(category.id + "tb").classList.remove("hidden");
+						document.getElementById(category.id + "title").classList.remove("hidden");
+						document.getElementById(category.id + "br").classList.remove("hidden");
+					} else {
+						category.classList.add("hidden");
+						document.getElementById(category.id + "tb").classList.add("hidden");
+						document.getElementById(category.id + "title").classList.add("hidden");
+						document.getElementById(category.id + "br").classList.add("hidden");
+					}
+				}
+			}
+
+			function cmdInfo(elem, cmd) {
+				const info = elem.querySelector(".cmd-info");
+				if (info) info.remove();
+				else {
+					const command = commandData.find(c => c.name == cmd);
+					let html = "<div class='cmd-info'>" +
+						"<p><span translation='commands.category'></span>: " + command.category + "</p>" +
+						"<p><span translation='commands.usage'></span>: " + command.usage + "</p>";
+
+					if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + command.aliases.join(", ") + "</p>";
+					if (command.options) html += "<p><span translation='commands.args'></span> " + command.options.map(o => (
+						"<span title='" + o.desc + "'>" + o.name + (o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='red-text'>*</span>" : "") + " <small>" + o.type + "</small></span>"
+					)).join(", ") + "</p>";
+
+					elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>";
+					reloadText();
+				}
+			}
+
+			function toggleCategory(category) {
+				const toModify = document.getElementById(category);
+
+				if (toModify.classList.contains("hidden")) {
+					toModify.classList.remove("hidden");
+					document.getElementById(category + "tb").setAttribute("translation", "commands.hide");
+				} else {
+					toModify.classList.add("hidden");
+					document.getElementById(category + "tb").setAttribute("translation", "commands.show");
+				}
+				reloadText();
+			}
+		</script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar page="commands"></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div id="search-box" class="search-box">
+					<input type="text" id="cmd-search" onkeyup="cmdSearch()" placeholder="Search commands..." role="searchbox">
+					<ion-icon name="search"></ion-icon>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<h1 class="greeting" translation="commands.title"></h1>
+
+				<div id="commands-container"></div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+	</body>
+</html>

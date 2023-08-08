@@ -158,7 +158,7 @@ function connectWS(guild) {
 	}
 	hasLoaded = false
 
-	socket = sockette("wss://api.tomatenkuchen.eu", {
+	socket = sockette("wss://api.tomatenkuchen.com", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 

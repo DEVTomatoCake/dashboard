@@ -16,8 +16,8 @@
 
 		<link href="./assets/style.css" rel="stylesheet" type="text/css">
 
-		<link rel="preconnect" href="https://api.tomatenkuchen.eu/api/stats">
-		<link rel="dns-prefetch" href="https://api.tomatenkuchen.eu/api/stats">
+		<link rel="preconnect" href="https://api.tomatenkuchen.com/api/stats">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.com/api/stats">
 
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
@@ -36,11 +36,11 @@
 				for (let i = 1; i <= 3; i++) {
 					const server = servers[i - 1];
 					document.getElementById("server" + i).innerHTML =
-						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
+						"<img src='" + encode(server.icon) + "' alt='Server icon of " + encode(server.name) + "'>" +
 						"<div>" +
-						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
-						"<p class='since'><span translation='main.botsince'></span><br><b>" + server.botsince + "</b></p>" +
+						"<h3>" + encode(server.name) + "</h3>" +
+						"<p>🟢 <b>" + server.online?.toLocaleString() + "</b> online⠀🔘 <b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
+						"<p class='since'><span translation='main.botsince'></span><br><b>" + encode(server.botsince) + "</b></p>" +
 						"</div>";
 				}
 				reloadText();
@@ -58,11 +58,11 @@
 				document.getElementById("server" + currentServer).classList.add("no-opacity");
 				setTimeout(() => {
 					document.getElementById("server" + currentServer).innerHTML =
-						"<img src='" + server.icon + "' alt='Server icon of " + server.name + "'>" +
+						"<img src='" + encode(server.icon) + "' alt='Server icon of " + encode(server.name) + "'>" +
 						"<div>" +
-						"<h3>" + server.name + "</h3>" +
-						"<p><b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
-						"<p class='since'><span translation='main.botsince'></span> <b>" + server.botsince + "</b></p>" +
+						"<h3>" + encode(server.name) + "</h3>" +
+						"<p>🟢 <b>" + server.online?.toLocaleString() + "</b> online⠀🔘 <b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +
+						"<p class='since'><span translation='main.botsince'></span> <b>" + encode(server.botsince) + "</b></p>" +
 						"</div>";
 
 					document.getElementById("server" + currentServer).classList.remove("no-opacity");

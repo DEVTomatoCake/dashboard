@@ -24,7 +24,7 @@ const loadLangFile = async language => {
 	}
 	console.warn("Couldn't load lang file from GitHub")
 
-	const resbackup = await fetch("https://api.tomatenkuchen.eu/dashboard/" + language + ".json").catch(() => {})
+	const resbackup = await fetch("https://api.tomatenkuchen.com/dashboard/" + language + ".json").catch(() => {})
 	if (resbackup?.ok) {
 		const json = await resbackup.json()
 		return json

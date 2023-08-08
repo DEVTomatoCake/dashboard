@@ -200,7 +200,7 @@ function nameExists(elem) {
 function handleIntegration(integration, isYou = false) {
 	return "<div class='integration'>" +
 		"<div class='flex'>" +
-			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='https://api.tomatenkuchen.eu/image-proxy?url=" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
+			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='https://api.tomatenkuchen.com/image-proxy?url=" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
 			"<h2>" + encode(integration.name) + "</h2>" +
 			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
@@ -221,7 +221,7 @@ let savingToast
 let errorToast
 
 function connectWS(guild) {
-	socket = sockette("wss://api.tomatenkuchen.eu", {
+	socket = sockette("wss://api.tomatenkuchen.com", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 		},

@@ -64,7 +64,7 @@ let step = 1
 let tokenElem
 
 function connectWS() {
-	socket = sockette("wss://api.tomatenkuchen.eu/user", {
+	socket = sockette("wss://api.tomatenkuchen.com/user", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 		},

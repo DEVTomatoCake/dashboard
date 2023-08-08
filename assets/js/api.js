@@ -1,4 +1,4 @@
-const url = "https://api.tomatenkuchen.eu/api/"
+const url = "https://api.tomatenkuchen.com/api/"
 async function get(component, auth = true, method = "GET", body = null) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
 		method,

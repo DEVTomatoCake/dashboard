@@ -186,7 +186,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	font-size: 26px;
 }
 .public-servers p.since {
-	font-size: 18px;
+	font-size: 17.5px;
 }
 
 .public-servers img {

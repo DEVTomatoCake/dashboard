@@ -191,6 +191,23 @@ const addPayingEdit = () => {
 }
 const removePayingEdit = user => socket.send({action: "REMOVE_custom_paying", bot: editingBot.id, user})
 
+const statusEmoji = {
+	online: "🟢",
+	idle: "🟡",
+	dnd: "🔴",
+	offline: "⚫"
+}
+const addStatus = () => {
+	socket.send({action: "ADD_custom_status", bot: editingBot.id, text: document.getElementById("status-text").value, status: document.getElementById("status-status").value, activity: document.getElementById("status-activity").value})
+	document.getElementById("status-text").value = ""
+
+	document.getElementById("status-list").innerHTML +=
+		"<div>" +
+		"<p>" + statusEmoji[document.getElementById("status-status").value] + " " + encode(document.getElementById("status-activity").value) + "</p>" +
+		"<ion-icon name='trash-outline'></ion-icon>" +
+		"</div>"
+}
+
 const refresh = (force = false, save = false) => {
 	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save})
 	if (step == 4) {

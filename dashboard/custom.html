@@ -151,7 +151,7 @@
 						</p>
 
 						<label for="upgrade-status">Be able to set custom bot status</label>
-						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="document.getElementById('status-container').toggleAttributes('hidden')">
+						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="document.getElementById('status-container').toggleAttribute('hidden')">
 						<div id="status-container" hidden>
 							<h3>List of status to cycle through</h3>
 							<input type="text" placeholder="Activity text" id="status-text">
@@ -169,12 +169,14 @@
 								<option value="competing">Competing</option>
 							</select>
 							<br>
+							<button type="button" onclick="addStatus()">Add status</button>
+							<br>
 							<div id="status-list"></div>
 							<br>
 						</div>
 
 						<label for="upgrade-respondotherbot">Allow the bot to respond to specified other bots</label>
-						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" onclick="document.getElementById('respondotherbot-container').toggleAttributes('hidden')">
+						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" onclick="document.getElementById('respondotherbot-container').toggleAttribute('hidden')">
 						<div id="respondotherbot-container" hidden>
 							<h3>List of bots to respond to</h3>
 							<input type="text" placeholder="Bot ID" pattern="[0-9]{17,21}" onchange="addRespondBot()" id="respondotherbot-id">

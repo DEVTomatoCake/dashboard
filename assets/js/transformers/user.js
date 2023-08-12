@@ -12,8 +12,8 @@ loadFunc = async () => {
 		const json = await getUser()
 
 		if (json.status == "success") {
-			document.getElementById("vote-tk").innerHTML = "<p>In total, you've voted <b>" + json.totalVotes + "</b> times for TomatenKuchen.<br>" +
-				"Also, you currently have <b>" + json.credits + "</b> credits.</p>" +
+			document.getElementById("vote-tk").innerHTML = "<p>In total, you've voted <b>" + json.totalVotes.toLocaleString() + "</b> times for TomatenKuchen.<br>" +
+				"Also, you currently have <b>" + json.credits.toLocaleString() + " credits</b>.</p><br><h3>Vote links</h3>" +
 				"<ul>" + json.votes.filter(site => site.status != 0 && !site.mb).map(formatVote).join("") + "</ul>"
 			document.getElementById("vote-mb").innerHTML = "<ul>" + json.votes.filter(site => site.status != 0 && site.mb).map(formatVote).join("") + "</ul>"
 		} else return handleError(resolve, json.message)

@@ -186,10 +186,10 @@ function editDialog(botId = "") {
 	}
 }
 const addPayingEdit = () => {
-	socket.send({action: "ADD_custom_paying", bot: editingBot.id, user: document.getElementById("custom-invite").value})
-	document.getElementById("custom-invite").value = ""
+	socket.send({action: "ADD_EDIT_custom_paying", bot: editingBot.id, user: document.getElementById("edit-paying").value})
+	document.getElementById("edit-paying").value = ""
 }
-const removePayingEdit = user => socket.send({action: "REMOVE_custom_paying", bot: editingBot.id, user})
+const removePayingEdit = user => socket.send({action: "REMOVE_EDIT_custom_paying", bot: editingBot.id, user})
 
 const statusEmoji = {
 	online: "🟢",
@@ -197,15 +197,32 @@ const statusEmoji = {
 	dnd: "🔴",
 	offline: "⚫"
 }
+const statusActivity = {
+	custom: "Custom",
+	playing: "Playing",
+	streaming: "Streaming",
+	listening: "Listening",
+	watching: "Watching",
+	competing: "Competing"
+}
 const addStatus = () => {
+	if (!document.getElementById("status-text").value) return new ToastNotification({type: "ERROR", title: "You must set status text!", timeout: 10}).show()
+	if (document.getElementById("status-activity").value == "streaming" && !document.getElementById("status-text").value.includes("twitch.tv/"))
+		return new ToastNotification({type: "ERROR", title: "You must include a Twitch.tv link in the Status text when using the Streaming activity!", timeout: 10}).show()
+
 	socket.send({action: "ADD_custom_status", bot: editingBot.id, text: document.getElementById("status-text").value, status: document.getElementById("status-status").value, activity: document.getElementById("status-activity").value})
 	document.getElementById("status-text").value = ""
 
 	document.getElementById("status-list").innerHTML +=
-		"<div>" +
-		"<p>" + statusEmoji[document.getElementById("status-status").value] + " " + encode(document.getElementById("status-activity").value) + "</p>" +
-		"<ion-icon name='trash-outline'></ion-icon>" +
+		"<div><br>" +
+		"<p>" + encode(statusEmoji[document.getElementById("status-status").value] + " " + statusActivity[document.getElementById("status-activity").value] +": " +
+		document.getElementById("status-text").value) + "</p>" +
+		"<ion-icon name='trash-outline' class='userData' onclick='removeStatus(this)'></ion-icon>" +
 		"</div>"
+}
+const removeStatus = elem => {
+	//socket.send({action: "REMOVE_custom_status", bot: editingBot.id})
+	elem.parentElement.remove()
 }
 
 const refresh = (force = false, save = false) => {

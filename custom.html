@@ -19,8 +19,23 @@
 
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
+
+		<script>
+			function calcCredits() {
+				const elem = document.getElementById("calc-credits")
+				const value = parseInt(elem.value || elem.getAttribute("placeholder"))
+				if (value <= 2) return
+
+				let cost = 60 + value * 0.4
+				if (value >= 3000) cost = 330 + value * 0.4
+				else if (value >= 500) cost = 240 + value * 0.45
+				else if (value >= 30) cost = 140 + value * 0.5
+				document.getElementById("calc-result").innerHTML = "<b>" + (Math.round(cost) == cost ? cost : cost.toFixed(1)) + "</b> credits per day - that's just <b>" +
+					Math.ceil(cost / 28) + "</b> votes every 24 hours <small>(and less if members vote more often)</small>!"
+			}
+		</script>
 	</head>
-	<body class="dark-theme" onload="pageLoad()">
+	<body class="dark-theme" onload="pageLoad('custom-info')">
 		<global-sidebar page="custom"></global-sidebar>
 
 		<main class="main" id="main">
@@ -72,31 +87,44 @@
 					<table cellpadding="10" cellspacing="0" class="prices">
 						<thead>
 							<tr>
-								<th>
-									Credit cost <b>per day</b>
+								<th title="If the bot is invited to multiple servers, the user count is added together.">
+									Total user count<br>across servers
 								</th>
-								<th title="If the bot is invited to multiple servers, the member count is added together.">Member count</th>
+								<th>Minimum credit cost per day</th>
+								<th>
+									Additional percentage relative<br>to the total user count the bot sees
+								</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
-								<td>70</td>
 								<td>2-29</td>
+								<td>60</td>
+								<td>45% × user count</td>
 							</tr>
 							<tr>
-								<td>100</td>
-								<td>30-99</td>
+								<td>30-499</td>
+								<td>140</td>
+								<td>50% × user count</td>
 							</tr>
 							<tr>
-								<td>200</td>
-								<td>100-999</td>
+								<td>500-2999</td>
+								<td>240</td>
+								<td>45% × user count</td>
 							</tr>
 							<tr>
-								<td>500</td>
-								<td>1000+</td>
+								<td>3000+</td>
+								<td>330</td>
+								<td>40% × user count</td>
 							</tr>
 						</tbody>
 					</table>
+
+					<br>
+					<h3>Calculate the credit cost of your custom branded bot:</h3>
+					<label for="calc-credits">Member count:</label>
+					<input id="calc-credits" type="number" min="2" max="3000000" placeholder="150" oninput="calcCredits()">
+					<p id="calc-result"></p>
 
 					<br>
 					<br>

@@ -207,9 +207,12 @@ const statusActivity = {
 	competing: "Competing"
 }
 const addStatus = () => {
-	if (!document.getElementById("status-text").value) return new ToastNotification({type: "ERROR", title: "You must set status text!", timeout: 10}).show()
+	if (!document.getElementById("status-text").value) return new ToastNotification({type: "ERROR", timeout: 10, title: "You must set a status text!"}).show()
 	if (document.getElementById("status-activity").value == "streaming" && !document.getElementById("status-text").value.includes("twitch.tv/"))
-		return new ToastNotification({type: "ERROR", title: "You must include a Twitch.tv link in the Status text when using the Streaming activity!", timeout: 10}).show()
+		return new ToastNotification({
+			type: "ERROR", timeout: 10, title: "You must include a Twitch.tv/<user> url in the Status text when using the Streaming activity!",
+			tag: "The first occurrence of it won't be shown in the status later."
+		}).show()
 
 	socket.send({
 		action: "ADD_custom_status", bot: editingBot.id,

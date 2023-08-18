@@ -153,8 +153,11 @@
 						<label for="upgrade-status">Be able to set custom bot status</label>
 						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="document.getElementById('status-container').toggleAttribute('hidden')">
 						<div id="status-container" hidden>
+							<label for="status-interval">How often to switch the status to the next one, at least <code>3m</code></label>
+							<input type="text" name="status-interval" id="status-interval" value="5m">
+
 							<h3>List of status to cycle through</h3>
-							<input type="text" placeholder="Activity text" id="status-text">
+							<input type="text" placeholder="Activity text" id="status-text" minlength="1" maxlength="128">
 							<select id="status-status">
 								<option value="online" selected>Online</option>
 								<option value="idle">Idle</option>
@@ -164,7 +167,7 @@
 							<select id="status-activity">
 								<option value="custom" selected>Custom</option>
 								<option value="playing">Playing</option>
-								<option value="streaming">Streaming (must include Twitch link in activity text)</option>
+								<option value="streaming">Streaming (include Twitch url in activity text)</option>
 								<option value="listening">Listening</option>
 								<option value="watching">Watching</option>
 								<option value="competing">Competing</option>

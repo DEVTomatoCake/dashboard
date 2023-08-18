@@ -30,20 +30,20 @@
 			getCommandsHTML().then(html => {
 				document.getElementById("linksidebar").innerHTML +=
 					"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
-					"<div class='tab' onclick='cmdSearch(\"ticket\")'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"fun\")'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"suggest\")'><ion-icon name='settings-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"economy\")'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"moderation\")'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"info\")'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
-					"<div class='tab' onclick='cmdSearch(\"admin\")'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='chatbox-ellipses-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
+					"<div class='tab' onclick='cmdSearch(\"admin\", true)'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
 					"</div>";
 
 				document.getElementById("commands-container").innerHTML = html;
 				reloadText();
 			});
 
-			function cmdSearch(search = "") {
+			function cmdSearch(search = "", onlyCategories = false) {
 				if (search) document.getElementById("cmd-search").value = "";
 				else search = document.getElementById("cmd-search").value.toLowerCase();
 
@@ -51,7 +51,7 @@
 				for (const cmd of document.getElementById("commands-container").getElementsByClassName("command")) {
 					if (!categories[cmd.getAttribute("data-category")]) categories[cmd.getAttribute("data-category")] = 0;
 
-					if ((cmd.textContent.toLowerCase().includes(search) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
+					if (((!onlyCategories && cmd.textContent.toLowerCase().includes(search)) || cmd.getAttribute("data-category").includes(search)) && cmd.getAttribute("data-category") != "owner") {
 						if (!cmd.classList.contains("cmdvisible")) cmd.classList.toggle("cmdvisible");
 						cmd.classList.remove("hidden");
 						categories[cmd.getAttribute("data-category")]++;

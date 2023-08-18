@@ -211,7 +211,10 @@ const addStatus = () => {
 	if (document.getElementById("status-activity").value == "streaming" && !document.getElementById("status-text").value.includes("twitch.tv/"))
 		return new ToastNotification({type: "ERROR", title: "You must include a Twitch.tv link in the Status text when using the Streaming activity!", timeout: 10}).show()
 
-	socket.send({action: "ADD_custom_status", bot: editingBot.id, text: document.getElementById("status-text").value, status: document.getElementById("status-status").value, activity: document.getElementById("status-activity").value})
+	socket.send({
+		action: "ADD_custom_status", bot: editingBot.id,
+		text: document.getElementById("status-text").value, status: document.getElementById("status-status").value, activity: document.getElementById("status-activity").value
+	})
 	document.getElementById("status-text").value = ""
 
 	document.getElementById("status-list").innerHTML +=
@@ -222,7 +225,10 @@ const addStatus = () => {
 		"</div>"
 }
 const removeStatus = elem => {
-	//socket.send({action: "REMOVE_custom_status", bot: editingBot.id})
+	socket.send({
+		action: "REMOVE_custom_status", bot: editingBot.id,
+		text: elem.parentElement.querySelector("p").textContent
+	})
 	elem.parentElement.remove()
 }
 

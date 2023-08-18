@@ -3,7 +3,9 @@ function getFormHTML(guild) {
 		getForm(guild)
 			.then(json => {
 				if (json.status == "success") {
-					let text = "<h1 class='greeting'>Formular ausfüllen</h1><h2>" + encode(json.title) + "</h2>"
+					if (json.fields.length == 0) return resolve("<p>Das Formular mit dem Titel <b>" + encode(json.title) + "</b> existiert, aber hat keine Felder, die du ausfüllen könntest!</p>")
+
+					let text = "<h1 class='center'>Formular ausfüllen: " + encode(json.title) + "</h1>"
 					text += json.fields.map(field => {
 						if (field.type == "short" || field.type == "password" || field.type == "number" || field.type == "range" || field.type == "color")
 							return "<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label><br>" +
@@ -14,7 +16,7 @@ function getFormHTML(guild) {
 							encode(field.value) + "</textarea>"
 						return "<i>Unable to display field type <code>" + encode(field.type) + "</code></i>"
 					}).join("<br><br>")
-					resolve(text)
+					resolve(text + "<br><br><button class='green'>Absenden</button>")
 				} else handleError(resolve, json.message)
 			})
 			.catch(e => handleError(resolve, e))

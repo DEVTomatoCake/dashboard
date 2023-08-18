@@ -21,8 +21,9 @@ function getCustomHTML(json) {
 					"<button type='button' class='createForm' onclick='editDialog(\"" + encode(bot.id) + "\")'><ion-icon name='build-outline'></ion-icon>Edit</button>" +
 					"<button type='button' class='createForm red' onclick='deleteBot(\"" + encode(bot.id) + "\")'><ion-icon name='trash-outline'></ion-icon>Delete</button>" +
 					"<br>" +
-					"<button type='button' class='createForm green' onclick='startBot(\"" + encode(bot.id) + "\")'><ion-icon name='caret-up-outline'></ion-icon>Start/Restart</button>" +
-					"<button type='button' class='createForm red' onclick='stopBot(\"" + encode(bot.id) + "\")'><ion-icon name='caret-down-outline'></ion-icon>Stop</button>"
+					"<button type='button' class='createForm green' id='startbutton-" + encode(bot.id) + "' onclick='startBot(\"" + encode(bot.id) + "\")'><ion-icon name='caret-up-outline'></ion-icon>Start/Restart</button>" +
+					"<button type='button' class='createForm red' id='stopbutton-" + encode(bot.id) + "' onclick='stopBot(\"" + encode(bot.id) + "\")'" +
+					(bot.online ? "" : " disabled title='Bot is offline already'") + "><ion-icon name='caret-down-outline'></ion-icon>Stop</button>"
 				:
 					"<button type='button' class='createForm red' onclick='removeYourself(\"" + encode(bot.id) + "\")'>Remove yourself as paying user</button>"
 				) +
@@ -94,7 +95,7 @@ function connectWS() {
 			} else if (json.action == "EDITED_custom_paying") {
 				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show()
 				else document.getElementById("bot-edit-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
-					"<br><p>Users that can accept the invite on this page after saving:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
+					"<br><p>Users that can accept the invite on this page:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
 			} else if (json.action == "RECEIVE_REMOVE_paying_custom") {
 				new ToastNotification({type: "SUCCESS", title: json.message, timeout: 15}).show()
 				document.getElementById("bot-" + json.bot).remove()
@@ -242,8 +243,26 @@ const addPaying = () => {
 }
 const removePaying = user => socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
 
-const startBot = bot => socket.send({action: "START_custom", bot})
-const stopBot = bot => socket.send({action: "STOP_custom", bot})
+const startBot = bot => {
+	socket.send({action: "START_custom", bot})
+	document.getElementById("startbutton-" + bot).setAttribute("disabled", "")
+	document.getElementById("stopbutton-" + bot).setAttribute("disabled", "")
+
+	setTimeout(() => {
+		document.getElementById("startbutton-" + bot).removeAttribute("disabled")
+		document.getElementById("stopbutton-" + bot).removeAttribute("disabled")
+	}, 20000)
+}
+const stopBot = bot => {
+	socket.send({action: "STOP_custom", bot})
+	document.getElementById("startbutton-" + bot).setAttribute("disabled", "")
+	document.getElementById("stopbutton-" + bot).setAttribute("disabled", "")
+
+	setTimeout(() => {
+		document.getElementById("startbutton-" + bot).removeAttribute("disabled")
+	}, 20000)
+}
+
 const removeYourself = bot => {
 	const confirmed = confirm("Are you sure you want to remove yourself from the paying users of the bot " + encode(bot) + "?")
 	if (confirmed) socket.send({action: "REMOVE_custom_paying_yourself", bot})

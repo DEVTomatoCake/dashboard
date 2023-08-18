@@ -52,7 +52,7 @@ class Footer extends HTMLElement {
 			"<div class='links'>" +
 				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom branding</a>" +
 				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
-				"<a href='/docs' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
+				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
 				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
 				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
 				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy/ToS</a>" +

@@ -57,6 +57,7 @@ function createDialog() {
 	document.getElementById("integration-placeholders").value = ""
 	document.getElementById("integration-input").value = ""
 	document.getElementById("integration-env").value = ""
+	document.getElementById("integration-use-container").setAttribute("hidden", "")
 	document.getElementById("integration-submit").setAttribute("translation", "integration.create")
 
 	addAction()

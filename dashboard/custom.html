@@ -151,7 +151,7 @@
 						</p>
 
 						<label for="upgrade-status">Be able to set custom bot status</label>
-						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="document.getElementById('status-container').toggleAttribute('hidden')">
+						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="toggleStatus()">
 						<div id="status-container" hidden>
 							<label for="status-interval">How often to switch the status to the next one, at least <code>3m</code></label>
 							<input type="text" name="status-interval" id="status-interval" value="5m">
@@ -180,7 +180,7 @@
 						</div>
 
 						<label for="upgrade-respondotherbot">Allow the bot to respond to specified other bots</label>
-						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" onclick="document.getElementById('respondotherbot-container').toggleAttribute('hidden')">
+						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" onclick="toggleOtherBots()">
 						<div id="respondotherbot-container" hidden>
 							<h3>List of bots to respond to</h3>
 							<input type="text" placeholder="Bot ID" pattern="[0-9]{17,21}" onchange="addRespondBot()" id="respondotherbot-id">

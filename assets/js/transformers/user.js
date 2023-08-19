@@ -1,8 +1,8 @@
 const formatVote = site => {
 	return "<li><a href='" + encode(site.url) + "' target='_blank' rel='noopener'>" + encode(site.name) + "</a>" +
-		(site.status == 1 ? "<br><ion-icon name='thumbs-up-outline'></ion-icon>You can vote now!" : "") +
-		(site.status == 2 ? "<br><ion-icon name='heart'></ion-icon>You've already voted - thank you!" : "") +
-		(site.status == 3 ? "<br><small><ion-icon name='warning-outline'></ion-icon>This site doesn't allow me to display whether you've voted or not, however you still receive your credits!</small>" : "") +
+		(site.status == 1 ? "<br><ion-icon name='thumbs-up-outline'></ion-icon><span translation='user.canvote'></span>" : "") +
+		(site.status == 2 ? "<br><ion-icon name='heart'></ion-icon><span translation='user.voted'></span>" : "") +
+		(site.status == 3 ? "<br><small><ion-icon name='warning-outline'></ion-icon><span translation='user.voteunknown'></span></small>" : "") +
 		(site.next ? "<br> <ion-icon name='arrow-forward-outline'></ion-icon>Next vote in <b>" + encode(site.next) + "</b>" : "") +
 		"</li>"
 }
@@ -13,7 +13,7 @@ loadFunc = async () => {
 
 		if (json.status == "success") {
 			document.getElementById("vote-tk").innerHTML = "<p>In total, you've voted <b>" + json.totalVotes.toLocaleString() + "</b> times for TomatenKuchen.<br>" +
-				"Also, you currently have <b>" + json.credits.toLocaleString() + " credits</b>.</p><br><h3>Vote links</h3>" +
+				"Also, you currently have <b>" + json.credits.toLocaleString() + " credits</b>.</p><br><h3 translation='user.votelinks'></h3>" +
 				"<ul>" + json.votes.filter(site => site.status != 0 && !site.mb).map(formatVote).join("") + "</ul>"
 			document.getElementById("vote-mb").innerHTML = "<ul>" + json.votes.filter(site => site.status != 0 && site.mb).map(formatVote).join("") + "</ul>"
 		} else return handleError(resolve, json.message)

@@ -228,11 +228,35 @@ const addStatus = () => {
 		"</div>"
 }
 const removeStatus = elem => {
-	socket.send({
-		action: "REMOVE_custom_status", bot: editingBot.id,
-		text: elem.parentElement.querySelector("p").textContent
-	})
+	socket.send({action: "REMOVE_custom_status", bot: editingBot.id, text: elem.parentElement.querySelector("p").textContent})
 	elem.parentElement.remove()
+}
+
+const addRespondBot = () => {
+	if (!document.getElementById("respondotherbot-id").value || document.getElementById("respondotherbot-id").value.length < 17 || document.getElementById("respondotherbot-id").value.length > 21)
+		return new ToastNotification({type: "ERROR", timeout: 10, title: "You must enter a valid bot ID!"}).show()
+
+	socket.send({action: "ADD_custom_status", bot: editingBot.id, text: document.getElementById("respondotherbot-id").value})
+	document.getElementById("respondotherbot-id").value = ""
+
+	document.getElementById("respondotherbot-list").innerHTML +=
+		"<div><br>" +
+		"<p>" + encode(document.getElementById("respondotherbot-id").value) + "</p>" +
+		"<ion-icon name='trash-outline' class='userData' onclick='removeRespondBot(this)'></ion-icon>" +
+		"</div>"
+}
+const removeRespondBot = elem => {
+	socket.send({action: "REMOVE_custom_otherbot", bot: editingBot.id, text: elem.parentElement.querySelector("p").textContent})
+	elem.parentElement.remove()
+}
+
+const toggleStatus = () => {
+	socket.send({action: "TOGGLE_custom_status", bot: editingBot.id, enabled: document.getElementById("upgrade-status").checked})
+	document.getElementById("status-container").toggleAttribute("hidden")
+}
+const toggleOtherBots = () => {
+	socket.send({action: "TOGGLE_custom_otherbot", bot: editingBot.id, enabled: document.getElementById("upgrade-respondotherbot").checked})
+	document.getElementById("respondotherbot-container").toggleAttribute("hidden")
 }
 
 const refresh = (force = false, save = false) => {

@@ -37,7 +37,7 @@ function changePage(elem) {
 	for (const link of document.getElementsByClassName("guild")) {
 		if (link.getAttribute("href").split("/")[1] == "invite") continue
 		const query = link.getAttribute("href").split("?")[1]
-		link.setAttribute("href", encode("/" + (target == "stats" || target == "leaderboard" ? "" : "dashboard/") + target + (query ? "?" + query : "")))
+		link.setAttribute("href", encode("/" + (target == "stats" || target == "leaderboard" ? "" : "dashboard/") + target) + (query ? "?" + query : ""))
 	}
 }
 

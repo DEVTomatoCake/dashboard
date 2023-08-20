@@ -67,7 +67,8 @@ loadFunc = () => {
 
 			if (localStorage.getItem("next")) {
 				const pages = document.getElementsByClassName("page-select")[0]
-				const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2] + "']") || pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1] + "']")
+				const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2].split("?")[0] + "']") ||
+					pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1].split("?")[0] + "']")
 				if (elem) changePage(elem)
 				localStorage.removeItem("next")
 			}

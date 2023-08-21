@@ -67,9 +67,10 @@ function changeTab(elem) {
 			}
 		}
 	}
-	elem.classList.add("active")
 
+	elem.classList.add("active")
 	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
+
 	for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input"))
 		if (input.hasAttribute("data-required")) input.required = true
 

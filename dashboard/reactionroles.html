@@ -70,7 +70,7 @@
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
 							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
 						</div>
-						<div id="newmsg" class="tabs">
+						<div id="newmsg" class="tabs hidden">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
 							<textarea form="create-form" name="reactionroles-content" id="reactionroles-content" maxlength="5000" rows="5" placeholder="Text oder JSON von einem Embed-Editor wie https://embed.tomatenkuchen.com" data-required="true"></textarea>
 						</div>
@@ -89,7 +89,7 @@
 									<input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
-							<div id="button" class="tabs">
+							<div id="button" class="tabs hidden">
 								<label for="reactionroles-buttonstyle">Button-Design</label>
 								<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
 									<option value="primary">Primary (Blurple)</option>
@@ -106,7 +106,7 @@
 									<input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
-							<div id="select" class="tabs">
+							<div id="select" class="tabs hidden">
 								<label for="reactionroles-selectlabel">Select label</label>
 								<input type="text" maxlength="100" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
 

@@ -83,6 +83,9 @@ function addRR(e) {
 	const emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value
 	const msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "createnew_" + Math.random().toString(36).slice(2) : document.getElementById("reactionroles-msg").value
 
+	document.getElementById("reactionroles-buttonlabel").required = false
+	document.getElementById("reactionroles-buttonlabel").dataset.required = false
+
 	const newelem = document.createElement("div")
 	newelem.classList.add("reactionrole")
 	newelem.innerHTML =

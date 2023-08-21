@@ -1009,10 +1009,6 @@ pre {
 	overflow-wrap: break-word;
 }
 
-.tabs:not(.active) {
-	display: none;
-}
-
 .stats-row {
 	display: grid;
 	grid-template-areas: ".";

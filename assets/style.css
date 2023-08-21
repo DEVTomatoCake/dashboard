@@ -140,7 +140,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 .categorybutton {
 	border: none;
 	padding: 7px 12px;
-	border-radius: 20px;
+	border-radius: 18px;
 	font-size: 20px;
 	display: flex;
 	align-items: center;
@@ -1172,7 +1172,7 @@ button {
 	padding: 8px;
 	border: none;
 	transition: var(--transition-buttons);
-	border-radius: 7px;
+	border-radius: 9px;
 	font-size: 19px;
 	cursor: pointer;
 	color: var(--light-text-color);

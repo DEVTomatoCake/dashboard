@@ -336,7 +336,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 			if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key)
 		}
 	}
-	html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove()handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
+	html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
 		"</div>"
 
 	if (parent) {

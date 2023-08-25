@@ -82,8 +82,9 @@ loadFunc = () => {
 				setCookie("user", json.user, 4)
 				setCookie("avatar", json.avatar, 4)
 
-				if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = "https://tomatenkuchen.com/" + localStorage.getItem("next").replace("/", "")
-				else location.href = "https://" + location.host + "/dashboard" + (params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "")
+				if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = location.protocol + "//" + location.host + "/" + localStorage.getItem("next").replace("/", "")
+				else location.href = location.protocol + "//" + location.host + "/dashboard" +
+					(params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "")
 			} else {
 				document.getElementById("root-container").innerHTML =
 					"<h1>An error occured while handling your request!</h1>" +

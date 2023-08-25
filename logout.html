@@ -28,7 +28,7 @@
 				if (getCookie("user")) deleteCookie("user");
 				if (getCookie("avatar")) deleteCookie("avatar");
 
-				if (json.status == "success") location.href = "https://" + location.host + "/";
+				if (json.status == "success") location.href = location.protocol + "//" + location.host + "/";
 				else {
 					document.body.innerHTML =
 						"<div class='center'>" +
@@ -38,7 +38,7 @@
 						"</div>";
 
 					setTimeout(() => {
-						location.href = "https://" + location.host + "/";
+						location.href = location.protocol + "//" + location.host + "/";
 					}, 4000);
 				}
 			});

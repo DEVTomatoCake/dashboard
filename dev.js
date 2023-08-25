@@ -28,12 +28,14 @@ app.get("*", async (req, res) => {
 		return res.sendFile(req.url, { root: ".", lastModified: false, dotfiles: "deny", maxAge: req.query.nocache ? 0 : 60000 })
 
 	if (req.url == "/") req.url = "/index"
+	const path = "." + req.url.replace(/\.[^/.]+$/, "").split("?")[0].split("#")[0] + ".html"
+
 	try {
-		const file = await fs.readFile("." + req.url.replace(/\.[^/.]+$/, "") + ".html", "utf8")
+		const file = await fs.readFile(path, "utf8")
 		res.send(file + wsRestart)
 	} catch (e) {
 		console.log(e)
-		res.status(404).send({status: "error", message: "Unable to find file: ." + req.url.replace(/\.[^/.]+$/, "") + ".html"})
+		res.status(404).send({status: "error", message: "Unable to find file: " + path})
 	}
 })
 

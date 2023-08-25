@@ -36,7 +36,8 @@ const getStats = guild => new Promise((resolve, reject) => {
 const login = code => {
 	const params = new URLSearchParams(location.search)
 	return new Promise((resolve, reject) => {
-		get("auth/login?code=" + encodeURIComponent(code) + (params.get("state") ? "&dcState=" + params.get("state") : "") + (getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.hostname.startsWith("beta.") ? "&beta=true" : ""), false)
+		get("auth/login?code=" + encodeURIComponent(code) + (params.get("state") ? "&dcState=" + params.get("state") : "") +
+			(getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.host == "tomatenkuchen.com" ? "" : "&host=" + location.host), false)
 			.then(d => {
 				deleteCookie("clientState")
 				resolve(d)

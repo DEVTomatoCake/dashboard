@@ -212,7 +212,8 @@ function connectWS(guild) {
 					"<hr>"
 
 				rendered.categories.forEach(category => {
-					sidebarHTML += "<div class='tab small' id='settings-tab-" + category + "' onclick='settingsTab(\"" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>"
+					sidebarHTML += "<div class='tab small' id='settings-tab-" + category + "' onclick='settingsTab(\"" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" +
+						(friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>"
 				})
 
 				document.getElementById("linksidebar").innerHTML =

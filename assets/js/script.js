@@ -1,4 +1,4 @@
-function setCookie(name, value, days, global) {
+function setCookie(name, value, days, global = false) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 
 	let cookie = name + "=" + (value || "") + ";path=/;Secure;"
@@ -7,7 +7,7 @@ function setCookie(name, value, days, global) {
 		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days)
 		cookie += "expires=" + date.toUTCString() + ";"
 	}
-	if (global) cookie += "domain=.tomatenkuchen.com;"
+	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
 
 	document.cookie = cookie
 }

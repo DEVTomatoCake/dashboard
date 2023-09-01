@@ -54,7 +54,6 @@ function createDialog() {
 	document.getElementById("integration-image").value = ""
 	document.getElementById("integration-public").checked = false
 	document.getElementById("actions-container").innerHTML = ""
-	document.getElementById("integration-placeholders").value = ""
 	document.getElementById("integration-input").value = ""
 	document.getElementById("integration-env").value = ""
 	document.getElementById("integration-use-container").setAttribute("hidden", "")
@@ -126,8 +125,6 @@ function integrationUse(integrationName) {
 	document.getElementById("integration-public").checked = false
 	document.getElementById("integration-use-container").removeAttribute("hidden")
 	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName)
-	document.getElementById("integration-use-placeholders").innerHTML = integration.placeholders && integration.placeholders.length > 0 ?
-		"<br><p>Placeholders</p><br>" + integration.placeholders.map(placeholder => "<code>{" + encode(placeholder) + "}</code>").join(" ") : ""
 	if (integration.input && integration.input.length > 0) {
 		document.getElementById("integration-use-inputtext").innerHTML = "<br><p>Variable inputs</p>"
 		document.getElementById("integration-use-input").innerHTML = integration.input.map(e => {
@@ -163,8 +160,6 @@ function integrationEdit(integrationName) {
 	document.getElementById("integration-short").value = integration.short || ""
 	document.getElementById("integration-image").value = integration.image || ""
 	document.getElementById("integration-public").checked = integration.public
-	document.getElementById("integration-placeholders").value = integration.placeholders ? integration.placeholders.join("\n") : ""
-	document.getElementById("integration-placeholders").rows = (integration.placeholders ? integration.placeholders.length : 0) + 2
 	document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : ""
 	document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2
 	document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : ""
@@ -349,7 +344,6 @@ function createIntegration(sourceId = "") {
 		public: document.getElementById("integration-public").checked,
 		version: document.getElementById("integration-version").getAttribute("data-selected"),
 		actions: [],
-		placeholders: document.getElementById("integration-placeholders").value.split("\n").map(e => e.trim()).filter(e => e),
 		input,
 		env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)
 	}

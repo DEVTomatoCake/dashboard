@@ -127,7 +127,6 @@ function connectWS() {
 				info = json
 				if (json.status == "success") {
 					tokenElem.setCustomValidity("")
-					tokenElem.reportValidity()
 					document.getElementById("bot-data").removeAttribute("hidden")
 					if (step == 1) document.getElementById("forward-button").removeAttribute("disabled")
 
@@ -142,16 +141,14 @@ function connectWS() {
 						forward()
 						document.getElementById("forward-button").removeAttribute("disabled")
 					}
-				} else {
-					tokenElem.setCustomValidity("Invalid bot" + (info.message ? ": " + info.message : " token."))
-					tokenElem.reportValidity()
-				}
+				} else tokenElem.setCustomValidity("Invalid bot" + (json.message ? ": " + json.message : " token."))
+				tokenElem.reportValidity()
 			}
 		}
 	})
 }
 
-function createDialog() {
+const createDialog = () => {
 	step = 2
 	back()
 	openDialog(document.getElementById("create-dialog"))
@@ -164,7 +161,7 @@ function createDialog() {
 }
 
 let editingBot = {}
-function editDialog(botId = "") {
+const editDialog = (botId = "") => {
 	openDialog(document.getElementById("edit-dialog"))
 	editingBot = bots.find(b => b.id == botId)
 
@@ -210,7 +207,7 @@ const addStatus = () => {
 	if (!document.getElementById("status-text").value) return new ToastNotification({type: "ERROR", timeout: 10, title: "You must set a status text!"}).show()
 	if (document.getElementById("status-activity").value == "streaming" && !document.getElementById("status-text").value.includes("twitch.tv/"))
 		return new ToastNotification({
-			type: "ERROR", timeout: 10, title: "You must include a Twitch.tv/<user> url in the Status text when using the Streaming activity!",
+			type: "ERROR", timeout: 10, title: "You must include a twitch.tv/<user> url in the Status text when using the Streaming activity!",
 			tag: "The first occurrence of it won't be shown in the status later."
 		}).show()
 
@@ -218,14 +215,14 @@ const addStatus = () => {
 		action: "ADD_custom_status", bot: editingBot.id,
 		text: document.getElementById("status-text").value, status: document.getElementById("status-status").value, activity: document.getElementById("status-activity").value
 	})
-	document.getElementById("status-text").value = ""
 
 	document.getElementById("status-list").innerHTML +=
 		"<div><br>" +
 		"<p>" + encode(statusEmoji[document.getElementById("status-status").value] + " " + statusActivity[document.getElementById("status-activity").value] +": " +
 		document.getElementById("status-text").value) + "</p>" +
-		"<ion-icon name='trash-outline' class='userData' onclick='removeStatus(this)'></ion-icon>" +
+		"<ion-icon name='trash-outline' onclick='removeStatus(this)'></ion-icon>" +
 		"</div>"
+	document.getElementById("status-text").value = ""
 }
 const removeStatus = elem => {
 	socket.send({action: "REMOVE_custom_status", bot: editingBot.id, text: elem.parentElement.querySelector("p").textContent})
@@ -236,14 +233,14 @@ const addRespondBot = () => {
 	if (!document.getElementById("respondotherbot-id").value || document.getElementById("respondotherbot-id").value.length < 17 || document.getElementById("respondotherbot-id").value.length > 21)
 		return new ToastNotification({type: "ERROR", timeout: 10, title: "You must enter a valid bot ID!"}).show()
 
-	socket.send({action: "ADD_custom_status", bot: editingBot.id, text: document.getElementById("respondotherbot-id").value})
-	document.getElementById("respondotherbot-id").value = ""
+	socket.send({action: "ADD_custom_otherbot", bot: editingBot.id, text: document.getElementById("respondotherbot-id").value})
 
 	document.getElementById("respondotherbot-list").innerHTML +=
 		"<div><br>" +
 		"<p>" + encode(document.getElementById("respondotherbot-id").value) + "</p>" +
-		"<ion-icon name='trash-outline' class='userData' onclick='removeRespondBot(this)'></ion-icon>" +
+		"<ion-icon name='trash-outline' onclick='removeRespondBot(this)'></ion-icon>" +
 		"</div>"
+	document.getElementById("respondotherbot-id").value = ""
 }
 const removeRespondBot = elem => {
 	socket.send({action: "REMOVE_custom_otherbot", bot: editingBot.id, text: elem.parentElement.querySelector("p").textContent})

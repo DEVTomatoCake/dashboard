@@ -11,9 +11,9 @@ wss.on("connection", ws => {
 
 const wsRestart =
 	"<script>" +
-	"const socket = new WebSocket('ws://localhost:6942');" +
-	"socket.onclose = () => location.reload();" +
-	"socket.onmessage = () => location.reload();" +
+	"const devSocket = new WebSocket('ws://localhost:6942');" +
+	"devSocket.onclose = () => location.reload();" +
+	"devSocket.onmessage = () => location.reload();" +
 	"</script>"
 
 const fs = require("node:fs").promises

@@ -49,6 +49,7 @@ function getFormHTML(formId) {
 	})
 }
 
+const params = new URLSearchParams(location.search)
 function fs() {
 	const results = {}
 	form.fields.forEach(field => {
@@ -58,12 +59,18 @@ function fs() {
 			elem.setCustomValidity("This field is required")
 			return elem.reportValidity()
 		}
-		if (field.min && elem.value.length < field.min) {
+		if (field.type != "number" && field.type != "range" && field.min && elem.value.length < field.min) {
 			elem.setCustomValidity("This field must be at least " + field.min + " characters long")
 			return elem.reportValidity()
+		} else if ((field.type == "number" || field.type == "range") && field.min && elem.value < field.min) {
+			elem.setCustomValidity("This field must be at least " + field.min)
+			return elem.reportValidity()
 		}
-		if (field.max && elem.value.length > field.max) {
+		if (field.type != "number" && field.type != "range" && field.max && elem.value.length > field.max) {
 			elem.setCustomValidity("This field must be at most " + field.max + " characters long")
+			return elem.reportValidity()
+		} else if ((field.type == "number" || field.type == "range") && field.max && elem.value < field.max) {
+			elem.setCustomValidity("This field must be at most " + field.max)
 			return elem.reportValidity()
 		}
 		if (field.pattern && !new RegExp(field.pattern).test(elem.value)) {
@@ -71,16 +78,18 @@ function fs() {
 			return elem.reportValidity()
 		}
 
-		results[encode(field.name)] = elem.value
+		if (field.type == "select" && elem.hasAttribute("multiple")) {
+			results[encode(field.name)] = []
+			for (const child of elem.children) if (child.selected) results[encode(field.name)].push(child.value)
+		} else results[encode(field.name)] = elem.value
 	})
 
-	if (Object.keys(results).length == form.fields.length) get("forms/" + form.id + "/submit", true, "POST", results)
+	if (Object.keys(results).length == form.fields.length) get("forms/" + params.get("id") + "/submit", true, "POST", results)
 }
 
 loadFunc = () => {
 	if (getCookie("token")) {
 		const rootContainer = document.getElementById("root-container")
-		const params = new URLSearchParams(location.search)
 
 		if (params.has("id")) getFormHTML(params.get("id")).then(html => {
 			rootContainer.innerHTML = html

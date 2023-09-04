@@ -65,7 +65,7 @@ loadFunc = () => {
 			document.getElementById("guilds-container").innerHTML = html
 			reloadText()
 
-			if (localStorage.getItem("next")) {
+			if (localStorage.getItem("next") && localStorage.getItem("next") != "/dashboard") {
 				const pages = document.getElementsByClassName("page-select")[0]
 				const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2].split("?")[0] + "']") ||
 					pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1].split("?")[0] + "']")

@@ -1,4 +1,6 @@
 let form = {}
+const selectData = {}
+const pickerData = {}
 
 function getFormHTML(formId) {
 	return new Promise(resolve => {
@@ -23,15 +25,20 @@ function getFormHTML(formId) {
 						else if (field.type == "long") text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
 								encode(field.value) + "</textarea>"
 						else if (field.type == "checkbox") text += "<input id='field-" + encode(field.name) + "' type='radio'>"
-						else if (field.type == "select")
-							text += "<select id='field-" + encode(field.name) + "' " + (field.min <= 1 && field.max <= 1 ? "" : "multiple") + ">" +
+						else if (field.type == "select") {
+							pickerData[field.name] = field.options
+							console.log(pickerData)
+							text += /*"<select id='field-" + encode(field.name) + "' " + (field.min <= 1 && field.max <= 1 ? "" : "multiple") + ">" +
 								(
 									field.options.map(option =>
 										"<option value='" + encode(option) + "'>" + encode(option) + "</option>"
 									).join("")
 								) +
-								"</select>"
-						else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ")</i>"
+								(*/
+									"<channel-picker id='field-" + encode(field.name) + "' data-multi='1' type='" + encode(field.name) + "'></channel-picker>"
+								/*) +
+								"</select>"*/
+						} else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ")</i>"
 
 						text += "<br><br>"
 					})
@@ -62,14 +69,14 @@ function fs() {
 		if (field.type != "number" && field.type != "range" && field.min && elem.value.length < field.min) {
 			elem.setCustomValidity("This field must be at least " + field.min + " characters long")
 			return elem.reportValidity()
-		} else if ((field.type == "number" || field.type == "range") && field.min && elem.value < field.min) {
+		} else if ((field.type == "number" || field.type == "range") && field.min && parseFloat(elem.value) < field.min) {
 			elem.setCustomValidity("This field must be at least " + field.min)
 			return elem.reportValidity()
 		}
 		if (field.type != "number" && field.type != "range" && field.max && elem.value.length > field.max) {
 			elem.setCustomValidity("This field must be at most " + field.max + " characters long")
 			return elem.reportValidity()
-		} else if ((field.type == "number" || field.type == "range") && field.max && elem.value < field.max) {
+		} else if ((field.type == "number" || field.type == "range") && field.max && parseFloat(elem.value) > field.max) {
 			elem.setCustomValidity("This field must be at most " + field.max)
 			return elem.reportValidity()
 		}
@@ -78,13 +85,18 @@ function fs() {
 			return elem.reportValidity()
 		}
 
+		elem.setCustomValidity("")
+		elem.reportValidity()
+
 		if (field.type == "select" && elem.hasAttribute("multiple")) {
 			results[encode(field.name)] = []
 			for (const child of elem.children) if (child.selected) results[encode(field.name)].push(child.value)
-		} else results[encode(field.name)] = elem.value
+		} else if (field.type == "check") results[encode(field.name)] = elem.checked
+		else if (field.type == "number" || field.type == "range") results[encode(field.name)] = parseFloat(elem.value)
+		else results[encode(field.name)] = elem.value
 	})
 
-	if (Object.keys(results).length == form.fields.length) get("forms/" + params.get("id") + "/submit", true, "POST", results)
+	if (Object.keys(results).length == form.fields.length) get("forms/" + params.get("id"), true, "POST", results)
 }
 
 loadFunc = () => {

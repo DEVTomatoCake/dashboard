@@ -94,6 +94,7 @@ class ChannelRolePicker extends HTMLElement {
 		super()
 	}
 	connectedCallback() {
+		console.log(pickerData)
 		let toSelect = pickerData[this.getAttribute("type")]
 		if (this.getAttribute("data-multi") == 1 && this.getAttribute("type") != "role") {
 			toSelect = {

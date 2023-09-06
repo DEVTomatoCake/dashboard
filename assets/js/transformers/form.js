@@ -1,6 +1,7 @@
 let form = {}
 const selectData = {}
 const pickerData = {}
+let queue = []
 
 function getFormHTML(formId) {
 	return new Promise(resolve => {
@@ -24,20 +25,16 @@ function getFormHTML(formId) {
 								(field.value ? "' value='" + encode(field.value) : "") + "'>"
 						else if (field.type == "long") text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
 								encode(field.value) + "</textarea>"
-						else if (field.type == "checkbox") text += "<input id='field-" + encode(field.name) + "' type='radio'>"
+						else if (field.type == "checkbox") text += "<input id='field-" + encode(field.name) + "' name='" + encode(field.name) + "' type='radio'>"
 						else if (field.type == "select") {
 							pickerData[field.name] = field.options
-							console.log(pickerData)
-							text += /*"<select id='field-" + encode(field.name) + "' " + (field.min <= 1 && field.max <= 1 ? "" : "multiple") + ">" +
-								(
-									field.options.map(option =>
-										"<option value='" + encode(option) + "'>" + encode(option) + "</option>"
-									).join("")
-								) +
-								(*/
-									"<channel-picker id='field-" + encode(field.name) + "' data-multi='1' type='" + encode(field.name) + "'></channel-picker>"
-								/*) +
-								"</select>"*/
+							selectData[field.name] = { value: [] }
+							text += "<channel-picker data-form='1' id='field-" + encode(field.name) + "' " +
+							(field.min <= 1 && field.max <= 1 ? "" : "data-multi='1' ") + "type='" + encode(field.name) + "'></channel-picker>"
+							queue.push(() => {
+								document.getElementById("field-" + encode(field.name)).querySelector(".list").innerHTML =
+									"<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+							})
 						} else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ")</i>"
 
 						text += "<br><br>"
@@ -70,14 +67,14 @@ function fs() {
 			elem.setCustomValidity("This field must be at least " + field.min + " characters long")
 			return elem.reportValidity()
 		} else if ((field.type == "number" || field.type == "range") && field.min && parseFloat(elem.value) < field.min) {
-			elem.setCustomValidity("This field must be at least " + field.min)
+			elem.setCustomValidity("This value must be at least " + field.min)
 			return elem.reportValidity()
 		}
 		if (field.type != "number" && field.type != "range" && field.max && elem.value.length > field.max) {
 			elem.setCustomValidity("This field must be at most " + field.max + " characters long")
 			return elem.reportValidity()
 		} else if ((field.type == "number" || field.type == "range") && field.max && parseFloat(elem.value) > field.max) {
-			elem.setCustomValidity("This field must be at most " + field.max)
+			elem.setCustomValidity("This value must be at most " + field.max)
 			return elem.reportValidity()
 		}
 		if (field.pattern && !new RegExp(field.pattern).test(elem.value)) {
@@ -85,8 +82,10 @@ function fs() {
 			return elem.reportValidity()
 		}
 
-		elem.setCustomValidity("")
-		elem.reportValidity()
+		if (field.type != "select") {
+			elem.setCustomValidity("")
+			elem.reportValidity()
+		}
 
 		if (field.type == "select" && elem.hasAttribute("multiple")) {
 			results[encode(field.name)] = []
@@ -105,6 +104,8 @@ loadFunc = () => {
 
 		if (params.has("id")) getFormHTML(params.get("id")).then(html => {
 			rootContainer.innerHTML = html
+			queue.forEach(f => f())
+			queue = []
 			reloadText()
 		})
 		else {

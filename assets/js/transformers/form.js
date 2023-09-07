@@ -2,6 +2,7 @@ let form = {}
 const selectData = {}
 const pickerData = {}
 let queue = []
+const handleChange = () => {}
 
 function getFormHTML(formId) {
 	return new Promise(resolve => {
@@ -25,10 +26,10 @@ function getFormHTML(formId) {
 								(field.value ? "' value='" + encode(field.value) : "") + "'>"
 						else if (field.type == "long") text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
 								encode(field.value) + "</textarea>"
-						else if (field.type == "checkbox") text += "<input id='field-" + encode(field.name) + "' name='" + encode(field.name) + "' type='radio'>"
+						else if (field.type == "check") text += "<input id='field-" + encode(field.name) + "' name='" + encode(field.name) + "' type='radio'>"
 						else if (field.type == "select") {
-							pickerData[field.name] = field.options
-							selectData[field.name] = { value: [] }
+							pickerData[encode(field.name)] = field.options
+							selectData["field-" + encode(field.name)] = {value: []}
 							text += "<channel-picker data-form='1' id='field-" + encode(field.name) + "' " +
 							(field.min <= 1 && field.max <= 1 ? "" : "data-multi='1' ") + "type='" + encode(field.name) + "'></channel-picker>"
 							queue.push(() => {
@@ -59,18 +60,18 @@ function fs() {
 	form.fields.forEach(field => {
 		const elem = document.getElementById("field-" + encode(field.name))
 
-		if (field.required && (!elem.value || elem.value.trim() == "")) {
+		if (field.required && field.type != "select" && (!elem.value || elem.value.trim() == "")) {
 			elem.setCustomValidity("This field is required")
 			return elem.reportValidity()
 		}
-		if (field.type != "number" && field.type != "range" && field.min && elem.value.length < field.min) {
+		if (field.type != "number" && field.type != "range" && field.type != "select" && field.min && elem.value.length < field.min) {
 			elem.setCustomValidity("This field must be at least " + field.min + " characters long")
 			return elem.reportValidity()
 		} else if ((field.type == "number" || field.type == "range") && field.min && parseFloat(elem.value) < field.min) {
 			elem.setCustomValidity("This value must be at least " + field.min)
 			return elem.reportValidity()
 		}
-		if (field.type != "number" && field.type != "range" && field.max && elem.value.length > field.max) {
+		if (field.type != "number" && field.type != "range" && field.type != "select" && field.max && elem.value.length > field.max) {
 			elem.setCustomValidity("This field must be at most " + field.max + " characters long")
 			return elem.reportValidity()
 		} else if ((field.type == "number" || field.type == "range") && field.max && parseFloat(elem.value) > field.max) {
@@ -87,9 +88,9 @@ function fs() {
 			elem.reportValidity()
 		}
 
-		if (field.type == "select" && elem.hasAttribute("multiple")) {
-			results[encode(field.name)] = []
-			for (const child of elem.children) if (child.selected) results[encode(field.name)].push(child.value)
+		if (field.type == "select") {
+			console.warn(selectData[encode(field.name)])
+			results[encode(field.name)] = selectData[encode(field.name)].value
 		} else if (field.type == "check") results[encode(field.name)] = elem.checked
 		else if (field.type == "number" || field.type == "range") results[encode(field.name)] = parseFloat(elem.value)
 		else results[encode(field.name)] = elem.value

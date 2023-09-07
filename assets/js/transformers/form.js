@@ -24,14 +24,18 @@ function getFormHTML(formId) {
 								(field.step ? "' step='" + field.step : "") + (field.pattern ? "' pattern='" + encode(field.pattern) : "") +
 								(field.placeholder ? "' placeholder='" + encode(field.placeholder) : "") +
 								(field.value ? "' value='" + encode(field.value) : "") + "'>"
-						else if (field.type == "long") text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
+						else if (field.type == "long")
+							text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
 								encode(field.value) + "</textarea>"
 						else if (field.type == "check") text += "<input id='field-" + encode(field.name) + "' name='" + encode(field.name) + "' type='radio'>"
 						else if (field.type == "select") {
-							pickerData[encode(field.name)] = field.options
+							const optionObj = {}
+							field.options.forEach(option => optionObj[option] = option)
+							pickerData[encode(field.name)] = optionObj
 							selectData["field-" + encode(field.name)] = {value: []}
+
 							text += "<channel-picker data-form='1' id='field-" + encode(field.name) + "' " +
-							(field.min <= 1 && field.max <= 1 ? "" : "data-multi='1' ") + "type='" + encode(field.name) + "'></channel-picker>"
+								(field.min <= 1 && field.max <= 1 ? "" : "data-multi='1' ") + "type='" + encode(field.name) + "'></channel-picker>"
 							queue.push(() => {
 								document.getElementById("field-" + encode(field.name)).querySelector(".list").innerHTML =
 									"<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
@@ -43,7 +47,7 @@ function getFormHTML(formId) {
 
 					text += "<br>" +
 						(json.anonymous ? "<p>Antworten auf dieses Formular sind anonym - Servermitglieder sehen nicht, wer du bist.</p>" : "") +
-						(json.cooldown ? "<p>Du kannst nur alle <b>" + json.cooldown + "</b> eine Antwort absenden.</p>" : "") +
+						(json.cooldown ? "<p>Du kannst nur alle <b>" + encode(json.cooldown) + "</b> eine Antwort absenden.</p>" : "") +
 						"<button class='green' translation='form.submit' onclick='fs()'></button><br><br>" +
 						"<p>This form is not verified by or associated with TomatenKuchen. Never submit passwords or other sensitive information. " +
 						"<a href='./discord' target='_blank' rel='noopener'>Report abuse</a></p>"
@@ -88,10 +92,8 @@ function fs() {
 			elem.reportValidity()
 		}
 
-		if (field.type == "select") {
-			console.warn(selectData[encode(field.name)])
-			results[encode(field.name)] = selectData[encode(field.name)].value
-		} else if (field.type == "check") results[encode(field.name)] = elem.checked
+		if (field.type == "select") results[encode(field.name)] = selectData["field-" + encode(field.name)].value
+		else if (field.type == "check") results[encode(field.name)] = elem.checked
 		else if (field.type == "number" || field.type == "range") results[encode(field.name)] = parseFloat(elem.value)
 		else results[encode(field.name)] = elem.value
 	})

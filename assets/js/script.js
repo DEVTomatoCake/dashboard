@@ -76,7 +76,7 @@ class Sidebar extends HTMLElement {
 					"<div class='line' id='lineBottom2'></div>" +
 				"</div>" +
 
-				"<button type='button' onclick='location = \"/invite/\"' translation='sidebar.invite'></button>" +
+				"<button type='button' onclick='location = \"/invite\"' translation='sidebar.invite'></button>" +
 
 				"<div id='linksidebar' class='section'>" +
 					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active" : "") + "'>" +
@@ -210,7 +210,7 @@ function pageLoad(page = "") {
 	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
 		document.body.classList.replace("dark-theme", "light-theme")
 		setCookie("theme", "light", 365, true)
-	} else document.getElementById("theme-toggle").checked = true
+	} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
 
 	const username = getCookie("user")
 	if (username) {

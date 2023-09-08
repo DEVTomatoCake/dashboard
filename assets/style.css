@@ -1039,7 +1039,7 @@ pre {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	width: 235px;
+	width: 245px;
 	height: 160px;
 }
 
@@ -1291,6 +1291,10 @@ button:disabled {
 }
 
 @media only screen and (max-width: 600px) {
+	.linkicon {
+		display: none;
+	}
+
 	.content {
 		gap: 20px;
 		margin-left: 50px;
@@ -1298,10 +1302,6 @@ button:disabled {
 }
 
 @media only screen and (max-width: 550px) {
-	.linkicon {
-		display: none;
-	}
-
 	.userinfo-container {
 		right: 0;
 		bottom: 0;

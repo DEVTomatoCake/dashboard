@@ -277,7 +277,7 @@ loadFunc = () => {
 	else if (getCookie("token")) {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>"
 		localStorage.setItem("next", location.pathname)
-		location.href = "./"
+		location.href = "../dashboard"
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search)

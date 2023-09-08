@@ -59,7 +59,7 @@ function getFormHTML(formId) {
 }
 
 const params = new URLSearchParams(location.search)
-function fs() {
+const fs = () => {
 	const results = {}
 	form.fields.forEach(field => {
 		const elem = document.getElementById("field-" + encode(field.name))

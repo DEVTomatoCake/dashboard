@@ -1,9 +1,9 @@
 const params = new URLSearchParams(location.search)
 const verifyDone = async token => {
-	const json = await get("dc-verify?token=" + token)
+	const json = await get("dc-verify?response=" + token)
 
 	if (json.status == "success") {
-		document.getElementById("root-container").innerHTML = "<h1>You've been verified successfully and can close this window.</h1>"
+		document.getElementById("root-container").innerHTML = "<h1>You verified yourself successfully and can now return to Discord.</h1>"
 
 		setTimeout(() => {
 			location.href = "https://tomatenkuchen.com"

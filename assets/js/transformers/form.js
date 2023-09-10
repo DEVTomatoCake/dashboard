@@ -48,7 +48,7 @@ function getFormHTML(formId) {
 					text += "<br>" +
 						(json.anonymous ? "<p>Antworten auf dieses Formular sind anonym - Servermitglieder sehen nicht, wer du bist.</p>" : "") +
 						(json.cooldown ? "<p>Du kannst nur alle <b>" + encode(json.cooldown) + "</b> eine Antwort absenden.</p>" : "") +
-						"<button class='green' translation='form.submit' onclick='fs()'></button><br><br>" +
+						"<button class='green' translation='form.submit' onclick='fs()' id='submit-button'></button><br><br>" +
 						"<p>This form is not verified by or associated with TomatenKuchen. Never submit passwords or other sensitive information. " +
 						"<a href='./discord' target='_blank' rel='noopener'>Report abuse</a></p>"
 					resolve(text)
@@ -59,7 +59,7 @@ function getFormHTML(formId) {
 }
 
 const params = new URLSearchParams(location.search)
-const fs = () => {
+const fs = async () => {
 	const results = {}
 	form.fields.forEach(field => {
 		const elem = document.getElementById("field-" + encode(field.name))
@@ -98,7 +98,20 @@ const fs = () => {
 		else results[encode(field.name)] = elem.value
 	})
 
-	if (Object.keys(results).length == form.fields.length) get("forms/" + params.get("id"), true, "POST", results)
+	if (Object.keys(results).length == form.fields.length) {
+		const json = await get("forms/" + params.get("id"), true, "POST", results)
+		if (json.status == "success") document.getElementById("root-container").innerHTML = "<h1>Form submitted successfully!</h1>"
+		else {
+			const error = document.createElement("h1")
+			error.innerText = "Your form couldn't be submitted: " + encode(json.message)
+			document.insertBefore(document.getElementById("submit-button"), error)
+
+			document.getElementById("submit-button").setAttribute("disabled", "")
+			setTimeout(() => {
+				document.getElementById("submit-button").removeAttribute("disabled")
+			}, 10000)
+		}
+	}
 }
 
 loadFunc = () => {

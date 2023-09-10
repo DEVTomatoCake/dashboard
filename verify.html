@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. Prevent bots from joining your Discord server using TomatenKuchen verification.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/verify">
+		<link rel="canonical" href="https://tomatenkuchen.com/verify">
+		<link rel="manifest" href="./manifest.json">
+
+		<title>TomatenKuchen - Filling out a user form</title>
+		<link href="./assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="./assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="./assets/style.css" rel="stylesheet" type="text/css">
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.com">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.com">
+
+		<script src="./assets/js/script.js"></script>
+		<script src="./assets/js/language.js"></script>
+		<script src="./assets/js/api.js"></script>
+		<script src="./assets/js/transformers/verify.js"></script>
+
+		<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onloadTurnstile" async defer></script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="root-container" class="center"></div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+	</body>
+</html>

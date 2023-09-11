@@ -32,6 +32,7 @@ app.get("*", async (req, res) => {
 
 	try {
 		const file = await fs.readFile(path, "utf8")
+		res.setHeader("Cache-Control", "no-cache")
 		res.send(file + wsRestart)
 	} catch (e) {
 		console.log(e)

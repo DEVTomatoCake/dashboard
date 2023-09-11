@@ -24,11 +24,21 @@ function getFormHTML(formId) {
 								(field.step ? "' step='" + field.step : "") + (field.pattern ? "' pattern='" + encode(field.pattern) : "") +
 								(field.placeholder ? "' placeholder='" + encode(field.placeholder) : "") +
 								(field.value ? "' value='" + encode(field.value) : "") + "'>"
+						else if (field.type == "date" || field.type == "time")
+							text += "<input id='field-" + encode(field.name) + "' type='" + encode(field.type) +
+								(field.min ? "' min='" + field.min : "") +
+								(field.max ? "' max='" + field.max : "") +
+								(field.value ? "' value='" + encode(field.value) : "") + "'>"
 						else if (field.type == "long")
 							text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
 								encode(field.value) + "</textarea>"
-						else if (field.type == "check") text += "<input id='field-" + encode(field.name) + "' name='" + encode(field.name) + "' type='radio'>"
-						else if (field.type == "select") {
+						else if (field.type == "checkbox") {
+							text += field.options.map(option => {
+								const id = Math.random().toString(36).substring(5)
+								return "<input id='field-" + encode(field.name) + "-" + id + "' name='" + encode(field.name) + "' type='radio' data-value='" + encode(option) + "'>" +
+									"<label for='field-" + encode(field.name) + "-" + id + "'>" + encode(option) + "</label>"
+							}).join("<br>")
+						} else if (field.type == "select") {
 							const optionObj = {}
 							field.options.forEach(option => optionObj[option] = option)
 							pickerData[encode(field.name)] = optionObj
@@ -39,6 +49,7 @@ function getFormHTML(formId) {
 							queue.push(() => {
 								document.getElementById("field-" + encode(field.name)).querySelector(".list").innerHTML =
 									"<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+								togglePicker(document.getElementById("field-" + encode(field.name)).querySelector(".list"))
 							})
 						} else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ")</i>"
 
@@ -62,40 +73,61 @@ const params = new URLSearchParams(location.search)
 const fs = async () => {
 	const results = {}
 	form.fields.forEach(field => {
-		const elem = document.getElementById("field-" + encode(field.name))
+		if (field.type == "checkbox") {
+			const elem = document.querySelector("input[name='" + encode(field.name) + "']:checked")
+			if (field.required && !elem) {
+				const checkElem = document.querySelector("input[name='" + encode(field.name) + "']")
+				checkElem.setCustomValidity("One checkbox is required to be checked")
+				return checkElem.reportValidity()
+			}
+			results[encode(field.name)] = elem.getAttribute("data-value")
+		} else {
+			const elem = document.getElementById("field-" + encode(field.name))
 
-		if (field.required && field.type != "select" && (!elem.value || elem.value.trim() == "")) {
-			elem.setCustomValidity("This field is required")
-			return elem.reportValidity()
-		}
-		if (field.type != "number" && field.type != "range" && field.type != "select" && field.min && elem.value.length < field.min) {
-			elem.setCustomValidity("This field must be at least " + field.min + " characters long")
-			return elem.reportValidity()
-		} else if ((field.type == "number" || field.type == "range") && field.min && parseFloat(elem.value) < field.min) {
-			elem.setCustomValidity("This value must be at least " + field.min)
-			return elem.reportValidity()
-		}
-		if (field.type != "number" && field.type != "range" && field.type != "select" && field.max && elem.value.length > field.max) {
-			elem.setCustomValidity("This field must be at most " + field.max + " characters long")
-			return elem.reportValidity()
-		} else if ((field.type == "number" || field.type == "range") && field.max && parseFloat(elem.value) > field.max) {
-			elem.setCustomValidity("This value must be at most " + field.max)
-			return elem.reportValidity()
-		}
-		if (field.pattern && !new RegExp(field.pattern).test(elem.value)) {
-			elem.setCustomValidity("This field must match the pattern " + field.pattern)
-			return elem.reportValidity()
-		}
+			if (field.required && field.type != "select" && (!elem.value || elem.value.trim() == "")) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				elem.setCustomValidity("This field is required")
+				return elem.reportValidity()
+			}
+			if (field.type != "number" && field.type != "range" && field.type != "select" && field.min && elem.value.length < field.min) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				elem.setCustomValidity("This field must be at least " + field.min + " characters long")
+				return elem.reportValidity()
+			} else if ((field.type == "number" || field.type == "range") && field.min && parseFloat(elem.value) < field.min) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				elem.setCustomValidity("This value must be at least " + field.min)
+				return elem.reportValidity()
+			} else if (field.type == "select" && field.min && selectData["field-" + encode(field.name)].value.length < field.min) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				return elem.title = "This value must be at least " + field.min
+			}
+			if (field.type != "number" && field.type != "range" && field.type != "select" && field.max && elem.value.length > field.max) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				elem.setCustomValidity("This field must be at most " + field.max + " characters long")
+				return elem.reportValidity()
+			} else if ((field.type == "number" || field.type == "range") && field.max && parseFloat(elem.value) > field.max) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				elem.setCustomValidity("This value must be at most " + field.max)
+				return elem.reportValidity()
+			} else if (field.type == "select" && field.max && selectData["field-" + encode(field.name)].value.length > field.max) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				return elem.title = "This value must be at most " + field.max
+			}
+			if (field.pattern && !new RegExp(field.pattern).test(elem.value)) {
+				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
+				elem.setCustomValidity("This field must match the pattern " + field.pattern)
+				return elem.reportValidity()
+			}
 
-		if (field.type != "select") {
-			elem.setCustomValidity("")
-			elem.reportValidity()
-		}
+			if (field.type != "select") {
+				elem.setCustomValidity("")
+				elem.reportValidity()
+			}
 
-		if (field.type == "select") results[encode(field.name)] = selectData["field-" + encode(field.name)].value
-		else if (field.type == "check") results[encode(field.name)] = elem.checked
-		else if (field.type == "number" || field.type == "range") results[encode(field.name)] = parseFloat(elem.value)
-		else results[encode(field.name)] = elem.value
+			if (field.type == "select") results[encode(field.name)] = selectData["field-" + encode(field.name)].value
+			else if (field.type == "number" || field.type == "range") results[encode(field.name)] = parseFloat(elem.value)
+			else results[encode(field.name)] = elem.value
+		}
 	})
 
 	if (Object.keys(results).length == form.fields.length) {
@@ -104,7 +136,7 @@ const fs = async () => {
 		else {
 			const error = document.createElement("h1")
 			error.innerText = "Your form couldn't be submitted: " + encode(json.message)
-			document.insertBefore(document.getElementById("submit-button"), error)
+			document.getElementById("root-container").insertBefore(error, document.getElementById("submit-button"))
 
 			document.getElementById("submit-button").setAttribute("disabled", "")
 			setTimeout(() => {

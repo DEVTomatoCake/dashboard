@@ -959,7 +959,7 @@ ul.check {
 	padding-top: 20px;
 }
 
-input:not(#cmd-search):not([type="checkbox"]) {
+input:not(#cmd-search):not([type="checkbox"]):not([type="radio"]) {
 	border-radius: 8px;
 	border-width: 1px;
 	outline: none;
@@ -974,7 +974,7 @@ input:invalid, input:out-of-range, input.invalid {
 	border: red solid 2px;
 }
 
-input[type="checkbox"]:not(#theme-toggle) {
+input[type="checkbox"]:not(#theme-toggle), input[type="radio"] {
 	width: 20px;
 	height: 20px;
 	margin: 2px 5px;

@@ -45,3 +45,15 @@ function getGiveawayHTML(giveaway) {
 			.catch(e => handleError(resolve, e))
 	})
 }
+
+const params = new URLSearchParams(location.search)
+loadFunc = () => {
+	if (params.has("id")) getGiveawayHTML(params.get("id")).then(html => {
+		document.getElementById("root-container").innerHTML = html
+		reloadText()
+	})
+	else {
+		document.getElementById("root-container").innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>"
+		reloadText()
+	}
+}

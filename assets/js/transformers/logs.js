@@ -20,8 +20,8 @@ function getLogsHTML(guild) {
 							"<td>" + encode("" + log.count) + "</td>" +
 							"<td>" +
 								"<button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
-								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='categorybutton red' onclick='const c=confirm(\"Do you really want to delete the log \\\"" +
-								encode(log.id) + "\\\"?\");if(c){deleteLog(\"" + encode(guild) + "\",\"" + encode(log.id) + "\");this.parentElement.parentElement.remove();}' translation='logs.delete'></button>" : "") +
+								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='categorybutton red' " +
+								"onclick='confirmDelete(this, \"" + encode(log.id) + "\")' translation='logs.delete'></button>" : "") +
 							"</td>" +
 							"</tr>"
 					})
@@ -31,6 +31,15 @@ function getLogsHTML(guild) {
 			})
 			.catch(e => handleError(resolve, e))
 	})
+}
+
+const params = new URLSearchParams(location.search)
+const confirmDelete = (elem, log) => {
+	const c = confirm("Do you really want to delete the log \"" + log + "\"?")
+	if (c) {
+		deleteLog(params.get("guild"), log)
+		elem.parentElement.parentElement.remove()
+	}
 }
 
 function ticketSearch() {
@@ -72,7 +81,6 @@ function info(id) {
 }
 
 loadFunc = () => {
-	const params = new URLSearchParams(location.search)
 	if (params.has("guild") && getCookie("token"))
 		getLogsHTML(params.get("guild")).then(data => {
 			const encodedGuild = encode(params.get("guild"))

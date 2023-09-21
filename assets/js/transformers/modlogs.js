@@ -8,18 +8,19 @@ function getModlogsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'><thead>" +
-						"<tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th><th translation='logs.moreinfo'></th></tr>" +
+						"<tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th>" +
+						"<th translation='logs.actions'></th></tr>" +
 						"</thead><tbody>"
 
 					json.data.forEach(log => {
 						log.cases?.forEach(i => {
 							text +=
 								"<tr class='ticket cmdvisible'>" +
-								"<td>" + encode(i.type.charAt(0).toUpperCase() + i.type.slice(1)) + "</td>" +
-								"<td>" + encode(log.user) + "</td>" +
-								"<td>" + encode(i.moderator) + "</td>" +
+								"<td>" + encode(i.type) + "</td>" +
+								"<td>" + encode(log.userName || "") + " <br><small>(" + encode(log.userId) + ")</small></td>" +
+								"<td>" + encode(i.modName || "") + " <br><small>(" + encode(i.modId) + ")</small></td>" +
 								"<td class='overflow'>" + encode(i.reason) + "</td>" +
-								"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.user + "-" + i.date) + "\")' translation='logs.moreinfo'></button></td>" +
+								"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.userId) + "\",\"" + encode("" + i.date) + "\")' translation='logs.moreinfo'></button></td>" +
 								"</tr>"
 						})
 					})
@@ -56,26 +57,18 @@ function ticketSearch() {
 	}
 }
 
-function info(id) {
-	const splitted = id.split("-")
-	const log = logs.find(l => l.user == splitted[0] && l.cases.find(c => c.date == parseInt(splitted[1]))).cases?.find(c => c.date == parseInt(splitted[1]))
+const info = (user, date) => {
+	const log = logs.find(l => l.userId == user && l.cases.find(c => c.date == parseInt(date)))
+	const entry = log.cases?.find(c => c.date == parseInt(date))
 	openDialog(document.getElementById("info-dialog"))
 
-	let type = log.type
-	if (log.type == "warning") type = "Warn"
-	else if (log.type == "mute") type = "Mute"
-	else if (log.type == "unmute") type = "Unmute"
-	else if (log.type == "ban") type = "Ban"
-	else if (log.type == "kick") type = "Kick"
-	else if (log.type == "tempban") type = "Tempban"
-
 	document.getElementById("info-dialogText").innerHTML =
-		"<b><span translation='logs.logtype'></span>:</b> " + encode(type) +
-		"<br><b><span translation='modlogs.user'></span>:</b> " + encode(splitted[0]) +
-		"<br><b><span translation='modlogs.mod'></span>:</b> " + encode(log.moderator) +
-		"<br><b><span translation='modlogs.reason'></span>:</b> " + encode(log.reason) +
-		"<br><b>Modlog created:</b> " + new Date(log.date).toLocaleString() +
-		(log.until ? "<br><b translation='modlogs.activeuntil'></b> " + new Date(log.until).toLocaleString() : "")
+		"<b><span translation='logs.logtype'></span>:</b> " + encode(entry.type) +
+		"<br><b><span translation='modlogs.user'></span>:</b> " + encode(log.userName || "") + " <small>(" + encode(log.userId) + ")</small>" +
+		"<br><b><span translation='modlogs.mod'></span>:</b> " + encode(entry.modName || "") + " <small>(" + encode(entry.modId) + ")</small>" +
+		"<br><b><span translation='modlogs.reason'></span>:</b> " + encode(entry.reason) +
+		"<br><b>Modlog created:</b> " + new Date(entry.date).toLocaleString() +
+		(log.until ? "<br><b translation='modlogs.activeuntil'></b> " + new Date(entry.until).toLocaleString() : "")
 	reloadText()
 }
 

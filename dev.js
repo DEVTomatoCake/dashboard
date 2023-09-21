@@ -20,19 +20,27 @@ const fs = require("node:fs").promises
 const express = require("express")
 const app = express()
 
+app.disable("x-powered-by")
+app.disable("etag")
+app.disable("view cache")
+
 app.listen(4269)
 console.log("http://localhost:4269")
 
 app.get("*", async (req, res) => {
 	if (req.url.includes("/assets/") || req.url.endsWith(".js") || req.url.endsWith(".json") || req.url.endsWith(".txt") || req.url.endsWith(".xml"))
-		return res.sendFile(req.url, { root: ".", lastModified: false, dotfiles: "deny", maxAge: req.query.nocache ? 0 : 60000 })
+		return res.sendFile(req.url, { root: ".", lastModified: false, dotfiles: "deny", maxAge: req.query.cache ? (isNaN(parseInt(req.query.cache)) ? 30000 : parseInt(req.query.cache)) : 0 })
 
 	if (req.url == "/") req.url = "/index"
 	const path = "." + req.url.replace(/\.[^/.]+$/, "").split("?")[0].split("#")[0] + ".html"
 
 	try {
 		const file = await fs.readFile(path, "utf8")
-		res.setHeader("Cache-Control", "no-cache")
+		res.set({
+			"Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+			Pragma: "no-cache",
+			Expires: 0
+		})
 		res.send(file + wsRestart)
 	} catch (e) {
 		console.log(e)

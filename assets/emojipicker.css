@@ -136,6 +136,7 @@ channel-picker .list div {
 	border-radius: 7px;
 	background-color: var(--picker-selected);
 	cursor: pointer;
+	color: var(--textarea-color);
 }
 channel-picker .list ion-icon {
 	font-size: 27px;

@@ -46,9 +46,9 @@
 	--link-visited: #5c1681;
 	--dialog-bg: #EEE;
 	--dialog-shadow: #00000040;
-	--picker-bg: #C3D8F5;
-	--picker-selected: #8AD6A7;
-	--settings-upsell: #94e9df;
+	--picker-bg: #DBEAFF;
+	--picker-selected: #9AE7B8;
+	--settings-upsell: #94E9DF;
 	--codebg: #dadada;
 }
 
@@ -78,8 +78,8 @@
 	--link-visited: #a381cf;
 	--dialog-bg: #222;
 	--dialog-shadow: #000000bf;
-	--picker-bg: #203653;
-	--picker-selected: #278B4E;
+	--picker-bg: #212849;
+	--picker-selected: #2B6341;
 	--settings-upsell: #235855;
 	--codebg: #3e3e3f;
 }

@@ -366,8 +366,8 @@ textarea.code {
 
 .badge {
 	background-color: var(--select-hover);
-	margin: 2px;
-	padding: 2px;
+	margin: 2px 0;
+	padding: 1px 2px;
 	border-radius: 5px;
 	color: var(--primary-text-color);
 	display: inline-block;
@@ -391,20 +391,8 @@ textarea.code {
 
 .userdatagrid {
 	width: auto;
-	display: grid;
-	grid-template-areas: ". . .";
-	overflow: auto;
-	color: var(--primary-text-color);
-}
-@media (max-width: 1450px) {
-	.userdatagrid {
-		grid-template-areas: ". .";
-	}
-}
-@media (max-width: 1200px) {
-	.userdatagrid {
-		grid-template-areas: ".";
-	}
+	display: flex;
+	flex-wrap: wrap;
 }
 
 code {

@@ -27,6 +27,7 @@ function deleteCookie(name) {
 
 let loadFunc = () => {}
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
+const assertInt = int => typeof int == "number" ? int : encode(int)
 
 function handleError(resolve, error) {
 	if (typeof error != "string") console.error(error)

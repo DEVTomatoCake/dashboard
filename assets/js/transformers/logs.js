@@ -17,7 +17,7 @@ function getLogsHTML(guild) {
 							"<td>" + encode(log.id) + "</td>" +
 							"<td>" + encode(log.type) + "</td>" +
 							"<td class='overflow'>" + encode(log.message) + "</td>" +
-							"<td>" + encode("" + log.count) + "</td>" +
+							"<td>" + assertInt(log.count) + "</td>" +
 							"<td>" +
 								"<button type='button' class='categorybutton' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
 								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='categorybutton red' " +

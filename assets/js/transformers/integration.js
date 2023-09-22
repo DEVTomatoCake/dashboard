@@ -95,7 +95,7 @@ function integrationInfo(integrationName) {
 		(integration.short ? "<p>" + encode(integration.short) + "</p><br>" : "") +
 		"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
-		(integration.uses ? "<p><span translation='integration.usedby'></span> <b>" + encode("" + integration.uses) + "</b></p>" : "") +
+		(integration.uses ? "<p><span translation='integration.usedby'></span> <b>" + assertInt(integration.uses) + "</b></p>" : "") +
 		(integration.source ? "<p>Source: <b>" + encode(integration.source) + "</b></p>" : "") +
 		"<p><span translation='integration.version'></span>: <code>" + encode(integration.version) + "</code></p>" +
 		"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +

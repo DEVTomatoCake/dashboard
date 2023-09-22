@@ -56,19 +56,25 @@ function getCustomHTML(json) {
 	}
 }
 
-const back = () => {
-	if (step <= 1) return
-	document.getElementById("step" + step).setAttribute("hidden", "")
-	step--
-	if (step == 4 && info.todo.length == 0) step--
-	document.getElementById("step" + step).removeAttribute("hidden")
+const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
+	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removePaying" + (isEditing ? "Edit" : "") + "(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
+let socket
+let errorToast
+let step = 1
+let info = {}
+let tokenElem
 
-	document.getElementById("forward-button").removeAttribute("hidden")
-	document.getElementById("forward-button").textContent = "Next"
-	document.getElementById("forward-button").onclick = forward
-	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "")
-	document.getElementById("setup-progress").value = step
+const refresh = (force = false, save = false) => {
+	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save})
+	if (step == 4) {
+		document.getElementById("forward-button").setAttribute("disabled", "")
+		setTimeout(() => {
+			document.getElementById("forward-button").removeAttribute("disabled")
+		}, 10000)
+	}
+	if (save) document.getElementById("create-dialog").classList.add("hidden")
 }
+
 const forward = () => {
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step++
@@ -85,14 +91,19 @@ const forward = () => {
 	document.getElementById("back-button").removeAttribute("hidden")
 	document.getElementById("setup-progress").value = step
 }
+const back = () => {
+	if (step <= 1) return
+	document.getElementById("step" + step).setAttribute("hidden", "")
+	step--
+	if (step == 4 && info.todo.length == 0) step--
+	document.getElementById("step" + step).removeAttribute("hidden")
 
-const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
-	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removePaying" + (isEditing ? "Edit" : "") + "(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
-let socket
-let errorToast
-let info = {}
-let step = 1
-let tokenElem
+	document.getElementById("forward-button").removeAttribute("hidden")
+	document.getElementById("forward-button").textContent = "Next"
+	document.getElementById("forward-button").onclick = forward
+	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "")
+	document.getElementById("setup-progress").value = step
+}
 
 function connectWS() {
 	socket = sockette("wss://api.tomatenkuchen.com/user", {
@@ -284,17 +295,6 @@ const toggleStatus = () => {
 const toggleOtherBots = () => {
 	socket.send({action: "TOGGLE_custom_otherbot", bot: editingBot.id, enabled: document.getElementById("upgrade-respondotherbot").checked})
 	document.getElementById("respondotherbot-container").toggleAttribute("hidden")
-}
-
-const refresh = (force = false, save = false) => {
-	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save})
-	if (step == 4) {
-		document.getElementById("forward-button").setAttribute("disabled", "")
-		setTimeout(() => {
-			document.getElementById("forward-button").removeAttribute("disabled")
-		}, 10000)
-	}
-	if (save) document.getElementById("create-dialog").classList.add("hidden")
 }
 
 const addPaying = () => {

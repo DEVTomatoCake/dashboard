@@ -56,6 +56,36 @@ function getCustomHTML(json) {
 	}
 }
 
+const back = () => {
+	if (step <= 1) return
+	document.getElementById("step" + step).setAttribute("hidden", "")
+	step--
+	if (step == 4 && info.todo.length == 0) step--
+	document.getElementById("step" + step).removeAttribute("hidden")
+
+	document.getElementById("forward-button").removeAttribute("hidden")
+	document.getElementById("forward-button").textContent = "Next"
+	document.getElementById("forward-button").onclick = forward
+	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "")
+	document.getElementById("setup-progress").value = step
+}
+const forward = () => {
+	document.getElementById("step" + step).setAttribute("hidden", "")
+	step++
+	if (step == 4 && info.todo.length == 0) step++
+	document.getElementById("step" + step).removeAttribute("hidden")
+
+	if (step >= 4) {
+		document.getElementById("forward-button").textContent = step == 4 ? "Refresh" : "Create bot"
+		document.getElementById("forward-button").onclick = () => refresh(true, step == 5)
+	} else {
+		document.getElementById("forward-button").textContent = "Next"
+		document.getElementById("forward-button").onclick = forward
+	}
+	document.getElementById("back-button").removeAttribute("hidden")
+	document.getElementById("setup-progress").value = step
+}
+
 const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
 	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removePaying" + (isEditing ? "Edit" : "") + "(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
 let socket
@@ -141,7 +171,7 @@ function connectWS() {
 						forward()
 						document.getElementById("forward-button").removeAttribute("disabled")
 					}
-				} else tokenElem.setCustomValidity(json.message) // TODO: davor war "Invalid bot: " (davor)
+				} else tokenElem.setCustomValidity(json.message)
 				tokenElem.reportValidity()
 			}
 		}
@@ -308,36 +338,6 @@ const acceptInvite = bot => {
 const declineInvite = bot => {
 	socket.send({action: "DECLINE_invite", bot})
 	document.getElementById("bot-" + bot).remove()
-}
-
-const back = () => {
-	if (step <= 1) return
-	document.getElementById("step" + step).setAttribute("hidden", "")
-	step--
-	if (step == 4 && info.todo.length == 0) step--
-	document.getElementById("step" + step).removeAttribute("hidden")
-
-	document.getElementById("forward-button").removeAttribute("hidden")
-	document.getElementById("forward-button").textContent = "Next"
-	document.getElementById("forward-button").onclick = forward
-	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "")
-	document.getElementById("setup-progress").value = step
-}
-const forward = () => {
-	document.getElementById("step" + step).setAttribute("hidden", "")
-	step++
-	if (step == 4 && info.todo.length == 0) step++
-	document.getElementById("step" + step).removeAttribute("hidden")
-
-	if (step >= 4) {
-		document.getElementById("forward-button").textContent = step == 4 ? "Refresh" : "Create bot"
-		document.getElementById("forward-button").onclick = () => refresh(true, step == 5)
-	} else {
-		document.getElementById("forward-button").textContent = "Next"
-		document.getElementById("forward-button").onclick = forward
-	}
-	document.getElementById("back-button").removeAttribute("hidden")
-	document.getElementById("setup-progress").value = step
 }
 
 function tokenChange() {

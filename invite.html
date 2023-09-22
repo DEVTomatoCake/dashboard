@@ -14,9 +14,11 @@
 		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
 		<script>
-			const params = new URLSearchParams(location.search)
-			location.href = "https://discord.com/oauth2/authorize?client_id=685166801394335819&redirect_uri=" + encodeURIComponent(location.protocol + "//" + location.host + "/dashboard/settings") +
-				"&response_type=code&scope=identify+guilds+bot&permissions=1393602981110" + (params.has("guild") ? "&guild_id=" + encodeURIComponent(params.get("guild")) : "")
+			const params = new URLSearchParams(location.search) // TODO: whitelisten & testen ob custom?id=<ID> geht
+			location.href = "https://discord.com/oauth2/authorize?client_id=" + (params.has("bot") ? params.get("bot") : "685166801394335819") + "&redirect_uri=" +
+				encodeURIComponent(location.protocol + "//" + location.host + "/dashboard/" + (params.has("bot") ? "custom" : "settings")) +
+				"&response_type=code&scope=identify+guilds+bot&permissions=1393602981110" +
+				(params.has("guild") ? "&guild_id=" + encodeURIComponent(params.get("guild")) : "")
 		</script>
 	</head>
 </html>

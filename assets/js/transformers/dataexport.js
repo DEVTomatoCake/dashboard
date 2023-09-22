@@ -11,6 +11,8 @@ function getDataexportHTML() {
 		getDataexport()
 			.then(json => {
 				if (json.status == "success") {
+					// TODO: Prüfen, welche Daten noch gerendert werden müssen
+					// TODO: Design verbessern, sodass nicht mehr als 100 % der Seite genutzt wird
 					let badges = ""
 					if (json.data.userProfiles?.badges?.length > 0) badges = json.data.userProfiles.badges.map(badge => "<div class='badge'>" + tkbadges[badge] + "</div>").join(", ")
 
@@ -68,7 +70,7 @@ function getDataexportHTML() {
 							"<p><b>Wallet:</b> " + json.data.economy.wallet.toLocaleString() + "🍅</p>" +
 							"<p><b>Bank:</b> " + json.data.economy.bank.toLocaleString() + "🍅</p>" +
 							"<p><b>Skill:</b> " + json.data.economy.skill.toFixed(1) + "</p>" +
-							"<p><b>School:</b> " + json.data.economy.school + "</p>" +
+							"<p><b>School:</b> " + encode(json.data.economy.school) + "</p>" +
 							(economyitems ? "<p><b>Items:</b> " + economyitems + "</p>" : "") +
 							(cooldowns ? "<p><b>Cooldowns:</b> " + cooldowns + "</p>" : "") +
 							"</div>"
@@ -106,7 +108,7 @@ function getDataexportHTML() {
 
 						(json.data.backup && json.data.backups ?
 							"<div class='userData'>" +
-							"<h1>" + json.data.backups.length + "Backups</h1>" +
+							"<h1>" + json.data.backups.length + " Backups</h1>" +
 							"</div>"
 						: "") +
 
@@ -115,7 +117,7 @@ function getDataexportHTML() {
 						"<div class='userData'>" +
 						"<label for='datajson'><h1 translation='user.json'></h1></label><br>" +
 						"<textarea id='datajson' rows='13' cols='" + (Math.round(screen.width / 11) > 120 ? 120 : Math.round(screen.width / 11)) + "' readonly>" +
-							JSON.stringify(json.data, null, 2) + "</textarea>" +
+							JSON.stringify(json.data, null, 2) + "</textarea>" + // TODO: cols weg? width = 100 % wäre besser
 						"</div>" +
 
 						"</div>"

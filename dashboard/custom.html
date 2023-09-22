@@ -66,6 +66,9 @@
 								<h2 id="bot-name"></h2>
 							</div>
 							<br>
+							<label for="setup-progress">Setup progress:</label>
+							<progress id="setup-progress" max="5"></progress>
+							<br>
 						</div>
 
 						<div id="step1">
@@ -80,8 +83,6 @@
 								<br>
 								TomatenKuchen uses the bot token to start and control the bot. Without it, custom bots cannot work. Whenever you or someone else resets it, make sure
 								to update it here or your custom bot will go offline. Also avoid using the token for another bot as this may cause issues.
-								<br>
-								In case you haven't invited the bot yet, we'll do this later.
 							</p>
 							<br>
 							<input type="text" minlength="50" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" oninput="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">
@@ -130,11 +131,12 @@
 
 						<div id="step5" hidden>
 							<h2>You're done!</h2>
-							<p>Click the button below to create your custom branded bot.</p>
+							<p>Click the button below to finish the setup and start the bot.</p>
 
 							<br>
-							<h3>Haven't invited the bot yet?</h3>
-							<a id="bot-invite" target="_blank" rel="noopener">Click here to invite your bot to a server</a>
+							<h3>Invite the bot</h3>
+							<a id="bot-invite" target="_blank" rel="noopener">Click here to invite your bot to a server</a> - using this invite ensures
+							the bot has all needed permissions.
 						</div>
 
 						<br>

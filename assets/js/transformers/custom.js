@@ -131,7 +131,7 @@ function connectWS() {
 					if (step == 1) document.getElementById("forward-button").removeAttribute("disabled")
 
 					document.getElementById("bot-name").textContent = encode(json.username)
-					document.getElementById("bot-invite").href = "https://discord.com/oauth2/authorize?client_id=" + json.id + "&scope=bot&permissions=1393602981110"
+					document.getElementById("bot-invite").href = "https://tomatenkuchen.com/invite?bot=" + json.id
 					document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=64"
 					document.getElementById("bot-access").innerHTML = json.access.map(userList).join("")
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
@@ -141,7 +141,7 @@ function connectWS() {
 						forward()
 						document.getElementById("forward-button").removeAttribute("disabled")
 					}
-				} else tokenElem.setCustomValidity("Invalid bot" + (json.message ? ": " + json.message : " token."))
+				} else tokenElem.setCustomValidity(json.message) // TODO: davor war "Invalid bot: " (davor)
 				tokenElem.reportValidity()
 			}
 		}
@@ -310,7 +310,7 @@ const declineInvite = bot => {
 	document.getElementById("bot-" + bot).remove()
 }
 
-function back() {
+const back = () => {
 	if (step <= 1) return
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step--
@@ -321,8 +321,9 @@ function back() {
 	document.getElementById("forward-button").textContent = "Next"
 	document.getElementById("forward-button").onclick = forward
 	if (step == 1) document.getElementById("back-button").setAttribute("hidden", "")
+	document.getElementById("setup-progress").value = step
 }
-function forward() {
+const forward = () => {
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step++
 	if (step == 4 && info.todo.length == 0) step++
@@ -336,6 +337,7 @@ function forward() {
 		document.getElementById("forward-button").onclick = forward
 	}
 	document.getElementById("back-button").removeAttribute("hidden")
+	document.getElementById("setup-progress").value = step
 }
 
 function tokenChange() {

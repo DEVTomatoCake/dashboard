@@ -60,7 +60,7 @@
 						<h1 translation="dashboard.rr.create"></h1>
 
 						<label for="reactionroles-channel" translation="dashboard.channel"></label>
-						<select name="reactionroles-channel" id="reactionroles-channel"></select>
+						<select id="reactionroles-channel"></select>
 
 						<br>
 						<span class="dialog-tab active" name="existingmsg" data-radio="existingornew" onclick="changeTab(this)">Zu bestehender Nachricht hinzufügen</span>
@@ -68,7 +68,7 @@
 
 						<div id="existingmsg" class="tabs active">
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" name="reactionroles-msg" id="reactionroles-msg" autocomplete="off" required>
+							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" id="reactionroles-msg" autocomplete="off" required>
 						</div>
 						<div id="newmsg" class="tabs hidden">
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
@@ -81,17 +81,17 @@
 
 						<div id="rr-currentmsg">
 							<label for="reactionroles-role" translation="dashboard.rr.role"></label>
-							<select name="reactionroles-role" id="reactionroles-role"></select>
+							<select id="reactionroles-role"></select>
 
 							<div id="reaction" class="tabs active">
 								<label for="reactionroles-reaction" translation="dashboard.reaction"></label>
 								<div>
-									<input type="text" maxlength="50" name="reactionroles-reaction" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
+									<input type="text" maxlength="50" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
 							<div id="button" class="tabs hidden">
 								<label for="reactionroles-buttonstyle">Button-Design</label>
-								<select name="reactionroles-buttonstyle" id="reactionroles-buttonstyle">
+								<select id="reactionroles-buttonstyle">
 									<option value="primary">Primary (Blurple)</option>
 									<option value="secondary">Secondary (Gray)</option>
 									<option value="success">Success (Green)</option>
@@ -99,23 +99,23 @@
 								</select>
 
 								<label for="reactionroles-buttonlabel">Button label</label>
-								<input type="text" maxlength="80" name="reactionroles-buttonlabel" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
+								<input type="text" maxlength="80" id="reactionroles-buttonlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-buttonemoji">Button emoji</label>
 								<div>
-									<input type="text" maxlength="50" name="reactionroles-buttonemoji" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
+									<input type="text" maxlength="50" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
 							<div id="select" class="tabs hidden">
 								<label for="reactionroles-selectlabel">Select label</label>
-								<input type="text" maxlength="100" name="reactionroles-selectlabel" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
+								<input type="text" maxlength="100" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
 
 								<label for="reactionroles-selectdesc">Select description</label>
-								<input type="text" maxlength="100" name="reactionroles-selectdesc" id="reactionroles-selectdesc" autocomplete="off">
+								<input type="text" maxlength="100" id="reactionroles-selectdesc" autocomplete="off">
 
 								<label for="reactionroles-selectemoji">Select emoji</label>
 								<div>
-									<input type="text" maxlength="50" name="reactionroles-selectemoji" id="reactionroles-selectemoji" onclick="cEmoPic(this, true)" readonly>
+									<input type="text" maxlength="50" id="reactionroles-selectemoji" onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
 
@@ -124,8 +124,8 @@
 						</div>
 
 						<br>
-						<button type="submit" class="categorybutton" translation="dashboard.rr.create"></button>
-						<button type="reset" class="categorybutton red" onclick="clearInputs(true)">Felder leeren</button>
+						<button type="submit" class="green" translation="dashboard.rr.create"></button>
+						<button type="reset" class="red" onclick="clearInputs(true)">Felder leeren</button>
 					</form>
 				</div>
 

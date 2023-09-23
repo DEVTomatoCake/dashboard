@@ -166,13 +166,13 @@
 						</p>
 
 						<label for="upgrade-status">Be able to set custom bot status</label>
-						<input type="checkbox" name="upgrade-status" id="upgrade-status" onclick="toggleStatus()">
+						<input type="checkbox" id="upgrade-status" onclick="toggleStatus()">
 						<div id="status-container" hidden>
 							<h3>Status configuration</h3>
 							<label for="status-interval">
 								How often to switch the status to the next one, cannot be less than <code>1m</code> (one minute)
 							</label>
-							<input type="text" name="status-interval" id="status-interval" value="5m">
+							<input type="text" id="status-interval" value="5m">
 
 							<h4>List of status to cycle through</h4>
 							<input type="text" placeholder="Activity text" id="status-text" minlength="1" maxlength="128">
@@ -198,7 +198,7 @@
 						</div>
 
 						<label for="upgrade-respondotherbot">Allow the bot to respond to specified other bots</label>
-						<input type="checkbox" name="upgrade-respondotherbot" id="upgrade-respondotherbot" onclick="toggleOtherBots()">
+						<input type="checkbox" id="upgrade-respondotherbot" onclick="toggleOtherBots()">
 						<div id="respondotherbot-container" hidden>
 							<h3>List of bots to respond to</h3>
 							<p>Note that not every feature of the bot supports other bots, e.g. leveling and some AutoMod features as they are subject to abuse.</p>

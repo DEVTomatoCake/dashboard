@@ -20,7 +20,7 @@ function getModlogsHTML(guild) {
 								"<td>" + encode(log.userName || "") + " <br><small>(" + encode(log.userId) + ")</small></td>" +
 								"<td>" + encode(i.modName || "") + " <br><small>(" + encode(i.modId) + ")</small></td>" +
 								"<td class='overflow'>" + encode(i.reason) + "</td>" +
-								"<td><button type='button' class='categorybutton' onclick='info(\"" + encode(log.userId) + "\",\"" + assertInt(i.date) + "\")' translation='logs.moreinfo'></button></td>" +
+								"<td><button type='button' onclick='info(\"" + encode(log.userId) + "\",\"" + assertInt(i.date) + "\")' translation='logs.moreinfo'></button></td>" +
 								"</tr>"
 						})
 					})

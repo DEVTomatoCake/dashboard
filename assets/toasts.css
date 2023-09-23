@@ -47,7 +47,7 @@
 	flex-shrink: 0;
 	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
 	border-radius: 5px;
-	z-index: 3;
+	z-index: 11;
 	overflow: hidden;
 	animation-fill-mode: both;
 	animation-timing-function: cubic-bezier(0.7, 0.06, 0.48, 1.42);

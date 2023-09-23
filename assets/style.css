@@ -6,14 +6,6 @@
 	src: url(./fonts/gfonts_bevietmanpro_latin.woff2) format('woff2');
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-@font-face {
-	font-family: "Roboto Condensed";
-	font-style: normal;
-	font-weight: 400;
-	font-display: swap;
-	src: url(./fonts/gfonts_robotocondensed_latin.woff2) format('woff2');
-	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
 
 :root {
 	--light-text-color: #e6e7f1;
@@ -137,23 +129,6 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	background-color: var(--secondary-table-bgcolor);
 }
 
-.categorybutton {
-	border: none;
-	padding: 7px 12px;
-	border-radius: 18px;
-	font-size: 20px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: var(--button-accent-color);
-	cursor: pointer;
-	color: var(--light-text-color);
-	transition: var(--transition-buttons);
-}
-.categorybutton:hover {
-	background: var(--accent-color-hover);
-}
-
 .red {
 	background-color: #D32F2F;
 }
@@ -161,7 +136,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	background-color: #B71C1C;
 }
 .red-text {
-	color: red;
+	color: #f00;
 }
 
 .public-servers {
@@ -452,13 +427,13 @@ code {
 }
 
 .sidebar-container.visible {
-	width: 290px;
+	width: 260px;
 	z-index: 3;
 	border-right: 1px solid var(--tertiary-color);
 }
 
 .sidebar-container.visible .sidebar {
-	width: 290px;
+	width: 260px;
 }
 
 #lineTop1 {
@@ -540,22 +515,17 @@ code {
 }
 
 .sidebar button {
-	border: none;
-	width: 220px;
-	height: 50px;
-	border-radius: 30px;
-	font-size: 20px;
+	width: 205px;
+	height: 45px;
+	border-radius: 23px;
+	font-size: 19px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	margin-left: auto;
 	margin-right: auto;
-	background: var(--button-accent-color);
-	cursor: pointer;
-	color: var(--light-text-color);
 	transition: var(--transition-buttons);
-	font-family: "Roboto Condensed", sans-serif;
-	letter-spacing: 2px;
+	letter-spacing: .5px;
 }
 
 .sidebar button:hover, .sidebar button:focus {
@@ -565,7 +535,7 @@ code {
 
 .sidebar button ion-icon {
 	--ionicon-stroke-width: 56px;
-	margin-right: 7px;
+	margin-right: 6px;
 }
 
 .sidebar .section {
@@ -705,7 +675,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 5px 35px 0 0;
+	margin: 5px 25px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -726,26 +696,26 @@ footer .links {
 }
 
 .sidebar .section .tab ion-icon {
-	font-size: 32px;
+	font-size: 28px;
 	transition: var(--transition-buttons);
 }
 
 .sidebar .section .tab:hover ion-icon {
-	transform: rotate(20deg);
+	transform: rotate(15deg);
 }
 
 .sidebar .section .tab p {
-	font-size: 24px;
+	font-size: 22px;
 }
 
 .sidebar .section .tab.small {
-	padding: 2px 20px;
+	padding: 3px 20px;
 }
 .sidebar .section .tab.small p {
 	font-size: 20px;
 }
 .sidebar .section .tab.small ion-icon {
-	font-size: 26px;
+	font-size: 24px;
 }
 
 .sidebar .section .tab.otherlinks p {
@@ -1156,18 +1126,18 @@ img.integration-image {
 }
 
 button {
-	margin: 2px;
-	padding: 8px;
+	margin: 3px 0;
+	padding: 5px 9px;
 	border: none;
-	transition: var(--transition-buttons);
-	border-radius: 9px;
+	border-radius: 10px;
 	font-size: 19px;
 	cursor: pointer;
 	color: var(--light-text-color);
 	background-color: var(--button-accent-color);
+	transition: var(--transition-buttons);
 }
 button:hover, button:focus {
-	background-color: var(--accent-color);
+	background-color: var(--accent-color-hover);
 }
 button span {
 	color: var(--light-text-color);
@@ -1483,7 +1453,7 @@ button:disabled {
 .dialog-content {
 	position: relative;
 	margin: auto;
-	width: 75%;
+	width: 80%;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	animation-name: animateDialog;
@@ -1498,7 +1468,7 @@ button:disabled {
 
 @keyframes animateDialog {
 	from {width: 0; opacity: 0;}
-	to {width: 75%; opacity: 1;}
+	to {width: 80%; opacity: 1;}
 }
 
 .close {

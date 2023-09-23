@@ -97,14 +97,13 @@ function integrationInfo(integrationName) {
 		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 		(integration.uses ? "<p><span translation='integration.usedby'></span> <b>" + assertInt(integration.uses) + "</b></p>" : "") +
 		(integration.source ? "<p>Source: <b>" + encode(integration.source) + "</b></p>" : "") +
-		"<p><span translation='integration.version'></span>: <code>" + encode(integration.version) + "</code></p>" +
 		"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
 		"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleString() + "</p><br><h2 translation='integration.actions'></h2>" +
-		integration.actions.map(action => (
+		integration.actions.map((action, i) => (
 			"<p><span translation='integration.trigger'></span>: " + encode(pickerData["action-trigger"][action.trigger].split("<br>")[0]) + "</p>" +
 			"<p>Name: <b>" + encode(action.name) + "</b></p>" +
 			(action.args && action.args[0] ? "<p>Argument: " + encode(action.args[0]) + "</p>" : "") +
-			"<br><textarea class='code' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
+			"<br><textarea class='code' id='info-content" + i + "' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 		)).join("<br><br>") +
 		(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>")
 	reloadText()
@@ -275,24 +274,21 @@ function connectWS(guild) {
 				pickerData = {
 					...pickerData,
 					"integration-sync": json.sync,
-					"integration-version": json.versions,
 					"action-trigger": json.triggers
 				}
 
-				const defaultSelected = [["integration-sync", "safe"], ["integration-version", Object.keys(pickerData["integration-version"]).at(-1)]]
-				defaultSelected.forEach(item => {
-					const pickerNode = document.createElement("channel-picker")
-					pickerNode.setAttribute("id", item[0])
-					pickerNode.setAttribute("type", item[0])
-					pickerNode.setAttribute("tabindex", "0")
-					pickerNode.setAttribute("data-unsafe", "1")
-					document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling)
+				const item = ["integration-sync", "safe"]
+				const pickerNode = document.createElement("channel-picker")
+				pickerNode.setAttribute("id", item[0])
+				pickerNode.setAttribute("type", item[0])
+				pickerNode.setAttribute("tabindex", "0")
+				pickerNode.setAttribute("data-unsafe", "1")
+				document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling)
 
-					const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']")
-					elem.classList.add("selected")
-					document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>"
-					document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"))
-				})
+				const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']")
+				elem.classList.add("selected")
+				document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>"
+				document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"))
 
 				if (params.has("info") || params.has("use"))
 					setTimeout(() => {
@@ -342,7 +338,6 @@ function createIntegration(sourceId = "") {
 		short: document.getElementById("integration-short").value,
 		image: document.getElementById("integration-image").value,
 		public: document.getElementById("integration-public").checked,
-		version: document.getElementById("integration-version").getAttribute("data-selected"),
 		actions: [],
 		input,
 		env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)

@@ -10,6 +10,8 @@ function getTicketsHTML(guild) {
 						"</thead><tbody>"
 
 					json.data.forEach(ticket => {
+						if (!ticket.users) ticket.users = []
+
 						text +=
 							"<tr class='ticket cmdvisible'>" +
 							"<td><a href='/ticket?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a></td>" +

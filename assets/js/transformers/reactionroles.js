@@ -31,11 +31,12 @@ function getReactionrolesHTML(json) {
 				(type == "select" && setting.selectdesc ? "data-selectdesc='" + encode(setting.selectdesc) + "' " : "") +
 				(setting.content ? "data-content='" + encode(setting.content) + "' " : "") +
 				"id='" + encode(setting.msg + "-" + (setting.reaction || setting.label)) + "' " +
-				"name='" + encode(setting.msg) + "' disabled>" +
+				"name='" + encode(setting.msg) + "'>" +
+				"<option value=''>- Delete this self role -</option>" +
 				Object.keys(rolecopy).map(key =>
-					setting.role == key ? "<option value='" + key + "' selected>" + encode(rolecopy[key]) + "</option>" : ""
+					"<option value='" + encode(key) + "'" + (setting.role == key ? " selected" : "") + ">" + encode(rolecopy[key]) + "</option>"
 				) +
-				"</select><ion-icon name='trash-outline' onclick='this.parentElement.remove()'></ion-icon><br><br></div>"
+				"</select><br><br></div>"
 		})
 
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>"
@@ -257,6 +258,8 @@ loadFunc = () => {
 	let amountnew = 0
 	document.getElementById("create-form").addEventListener("submit", e => {
 		e.preventDefault()
+		if (document.getElementsByClassName("reactionrole").length == 0) return new ToastNotification({type: "ERROR", title: "You must add at least one reactionrole using the button above!", timeout: 10}).show()
+
 		document.getElementById("create-dialog").classList.add("hidden")
 		if (document.getElementById("no-rr")) document.getElementById("no-rr").remove()
 

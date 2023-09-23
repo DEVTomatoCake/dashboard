@@ -24,7 +24,7 @@ const getCommandsHTML = () => {
 					categories.forEach(category => {
 						text +=
 							"<h2 id='" + encode(category) + "title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
-							"<button type='button' class='categorybutton' id='" + encode(category) + "tb' onclick='toggleCategory(\"" +
+							"<button type='button' id='" + encode(category) + "tb' onclick='toggleCategory(\"" +
 							encode(category) + "\")' translation='commands.hide'></button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + encode(category) + "'>" +
 							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>"

@@ -32,7 +32,7 @@ function changePage(elem) {
 	elem.classList.add("current")
 	const target = elem.getAttribute("data-target")
 
-	for (const link of document.getElementsByClassName("guild")) {
+	for (const link of document.getElementsByClassName("guild-select")) {
 		if (link.getAttribute("href").split("/")[1] == "invite") continue
 		const query = link.getAttribute("href").split("?")[1]
 		link.setAttribute("href", encode("/" + (target == "stats" || target == "leaderboard" ? "" : "dashboard/") + target) + (query ? "?" + query : ""))

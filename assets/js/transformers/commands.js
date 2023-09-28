@@ -5,7 +5,8 @@ const getCommandsHTML = () => {
 		getCommands()
 			.then(json => {
 				if (json.status == "success") {
-					let text = "<center>"
+					commandData = json.data
+					let text = "<div class='center'>"
 					const categories = []
 					const categoryData = []
 
@@ -23,8 +24,8 @@ const getCommandsHTML = () => {
 
 					categories.forEach(category => {
 						text +=
-							"<h2 id='" + encode(category) + "title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
-							"<button type='button' id='" + encode(category) + "tb' onclick='toggleCategory(\"" +
+							"<h2 id='" + encode(category) + "_title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
+							"<button type='button' id='" + encode(category) + "_tb' onclick='toggleCategory(\"" +
 							encode(category) + "\")' translation='commands.hide'></button>" +
 							"<table cellpadding='8' cellspacing='0' class='category' id='" + encode(category) + "'>" +
 							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>"
@@ -32,11 +33,10 @@ const getCommandsHTML = () => {
 						categoryData.forEach(data => {
 							if (category == data[0]) text += data[1]
 						})
-						text += "</tbody></table><br id='" + encode(category) + "br'>"
+						text += "</tbody></table><br id='" + encode(category) + "_br'>"
 					})
 
-					commandData = json.data
-					resolve(text + "</center>")
+					resolve(text + "</div>")
 				} else handleError(resolve, json.message)
 			})
 			.catch(e => handleError(resolve, e))
@@ -73,14 +73,14 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 	for (const category of document.getElementById("commands-container").getElementsByClassName("category")) {
 		if (categories[category.id]) {
 			category.classList.remove("hidden")
-			document.getElementById(category.id + "tb").classList.remove("hidden")
-			document.getElementById(category.id + "title").classList.remove("hidden")
-			document.getElementById(category.id + "br").classList.remove("hidden")
+			document.getElementById(category.id + "_tb").classList.remove("hidden")
+			document.getElementById(category.id + "_title").classList.remove("hidden")
+			document.getElementById(category.id + "_br").classList.remove("hidden")
 		} else {
 			category.classList.add("hidden")
-			document.getElementById(category.id + "tb").classList.add("hidden")
-			document.getElementById(category.id + "title").classList.add("hidden")
-			document.getElementById(category.id + "br").classList.add("hidden")
+			document.getElementById(category.id + "_tb").classList.add("hidden")
+			document.getElementById(category.id + "_title").classList.add("hidden")
+			document.getElementById(category.id + "_br").classList.add("hidden")
 		}
 	}
 }
@@ -110,10 +110,10 @@ const toggleCategory = category => {
 
 	if (toModify.classList.contains("hidden")) {
 		toModify.classList.remove("hidden")
-		document.getElementById(category + "tb").setAttribute("translation", "commands.hide")
+		document.getElementById(category + "_tb").setAttribute("translation", "commands.hide")
 	} else {
 		toModify.classList.add("hidden")
-		document.getElementById(category + "tb").setAttribute("translation", "commands.show")
+		document.getElementById(category + "_tb").setAttribute("translation", "commands.show")
 	}
 	reloadText()
 }

@@ -119,7 +119,12 @@ tr.command {
 
 .category {
 	padding: 10px 0;
+	margin: 0 auto;
 }
+.category tbody {
+	text-align: start;
+}
+
 tr {
 	color: var(--primary-text-color);
 	background-color: var(--primary-table-bgcolor);
@@ -229,7 +234,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 .page-select {
 	display: flex;
 	flex-wrap: wrap;
-	margin-bottom: 25px;
+	margin-bottom: 35px;
 }
 .page-select button {
 	padding: 5px 10px;

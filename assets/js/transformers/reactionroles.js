@@ -132,7 +132,7 @@ function clearInputs(clearTabs = false) {
 	document.getElementById("reactionroles-selectdesc").value = ""
 	document.getElementById("reactionroles-selectemoji").value = ""
 
-	if (clearTabs) for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove()
+	if (clearTabs) for (const elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove()
 }
 
 let guildName = ""

@@ -20,22 +20,10 @@
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
 
-		<script>
-			function calcCredits() {
-				const elem = document.getElementById("calc-credits")
-				const value = parseInt(elem.value || elem.getAttribute("placeholder"))
-				if (value <= 2) return
-
-				let cost = 50 + value * 0.55
-				if (value >= 3000) cost = 180 + value * 0.55
-				else if (value >= 500) cost = 140 + value * 0.65
-				else if (value >= 30) cost = 90 + value * 0.6
-				document.getElementById("calc-result").innerHTML = "<b>" + (Math.round(cost) == cost ? cost : cost.toFixed(1)) + "</b> credits per day - that's just <b>" +
-					Math.ceil(cost / 28) + "</b> votes every 24 hours <small>(and less if members vote more often)</small>!"
-			}
-		</script>
+		<script src="./assets/js/api.js"></script>
+		<script src="./assets/js/transformers/custom.js"></script>
 	</head>
-	<body class="dark-theme" onload="pageLoad('custom-info')">
+	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar page="custom"></global-sidebar>
 
 		<main class="main" id="main">
@@ -70,7 +58,7 @@
 					<h2>TomatenKuchen custom branding allows you to...</h2>
 					<ul class="check">
 						<li>Change the username, avatar and About Me of the bot</li>
-						<li>Be able to use most of the TomatenKuchen features without any changes</li>
+						<li>Be able to use most of TomatenKuchens features without manual work</li>
 						<li>Invite your custom branded bot to multiple servers</li>
 						<li>Remove the main TomatenKuchen bot from your server</li>
 						<ul>
@@ -86,7 +74,9 @@
 					<br>
 					<h2 id="pricing">"Pricing"</h2>
 					<p>
-						You pay for your custom bot(s) using credits. You can earn them by voting for TomatenKuchen and Manage Bot (a bot for managing Pterodactyl servers on Discord),
+						You pay for your custom bot(s) using credits.
+						<br>
+						You can earn them by voting for TomatenKuchen and Manage Bot (a bot for managing Pterodactyl servers on Discord),
 						by using the economy system of TomatenKuchen and by participating in giveaways and events on the <a href="./discord" target="_blank" rel="noopener">TomatenKuchen Discord server</a>.
 					</p>
 
@@ -99,38 +89,17 @@
 								</th>
 								<th>Minimum credit cost per day</th>
 								<th>
-									Additional percentage relative<br>to the total user count the bot sees
+									Additional cost relative to<br>the bots total user count
 								</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>2-29</td>
-								<td>50</td>
-								<td>55% × user count</td>
-							</tr>
-							<tr>
-								<td>30-499</td>
-								<td>90</td>
-								<td>60% × user count</td>
-							</tr>
-							<tr>
-								<td>500-2999</td>
-								<td>140</td>
-								<td>65% × user count</td>
-							</tr>
-							<tr>
-								<td>3000+</td>
-								<td>180</td>
-								<td>55% × user count</td>
-							</tr>
-						</tbody>
+						<tbody id="tiers-cost"></tbody>
 					</table>
 
 					<br>
 					<h3>Calculate the credit cost of your custom branded bot:</h3>
 					<label for="calc-credits" title="If the bot is invited to multiple servers, the user count is added together.">Total user count:</label>
-					<input id="calc-credits" type="number" min="2" max="3000000" placeholder="150" oninput="calcCredits()">
+					<input id="calc-credits" type="number" min="2" max="5000000" placeholder="150" oninput="calcCredits()">
 					<p id="calc-result"></p>
 
 					<br>
@@ -179,16 +148,7 @@
 								<th>Feature</th>
 							</tr>
 						</thead>
-						<tbody>
-							<tr>
-								<td>20</td>
-								<td>Be able to customize the bot status</td>
-							</tr>
-							<tr>
-								<td>100</td>
-								<td>Make the bot be able to respond to other bots</td>
-							</tr>
-						</tbody>
+						<tbody id="tiers-upgrade"></tbody>
 					</table>
 				</div>
 			</div>

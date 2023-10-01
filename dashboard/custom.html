@@ -27,7 +27,7 @@
 		<script src="../assets/js/language.js"></script>
 
 		<script src="../assets/js/sockette.js"></script>
-		<script src="../assets/js/transformers/custom.js"></script>
+		<script src="../assets/js/transformers/custom_dashboard.js"></script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar></global-sidebar>
@@ -81,8 +81,9 @@
 								<a href="https://discord.com/developers/applications?new#:~:text=New%20Application" target="_blank" rel="noopener">Discord Developer Portal</a> using the button
 								on the top right. Then you fill in the required fields, visit the "Bot" page, reset the token (you may have to enter a 2FA code), and paste the new one here.
 								<br>
-								TomatenKuchen uses the bot token to start and control the bot. Without it, custom bots cannot work. Whenever you or someone else resets it, make sure
-								to update it here or your custom bot will go offline. Also avoid using the token for another bot as this may cause issues.
+								<br>
+								TomatenKuchen uses the bot token to start and control the bot. Without it, custom bots cannot work. Whenever someone resets it, make sure
+								to update it here or your bot will go offline. Avoid using the token for other bots as this may cause issues.
 							</p>
 							<br>
 							<input type="text" minlength="50" maxlength="90" pattern="[\-a-zA-Z0-9_]{20,}\.[\-a-zA-Z0-9_]{5,}\.[\-a-zA-Z0-9_]{25,}" placeholder="Bot token from Discord" oninput="tokenChange()" aria-describedby="bot-tokendesc" id="custom-token">

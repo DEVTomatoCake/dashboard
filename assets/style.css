@@ -1133,7 +1133,7 @@ button:disabled {
 }
 .userinfo-container button, button.createForm, .create-form button {
 	margin: 10px 10px 0 0;
-	border-radius: 13px;
+	border-radius: 12px;
 }
 
 .unsaved-container {

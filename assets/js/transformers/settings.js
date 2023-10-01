@@ -263,6 +263,10 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 			image: "{image}",
 			footer: "{domain}"
 		}
+	else if (parent && setting.key == "twitchFeed")
+		value = {
+			trigger: "stream.online"
+		}
 
 	let possible = setting.possible || {}
 	if (typeof setting.possible == "string") possible = pickerData[possible]

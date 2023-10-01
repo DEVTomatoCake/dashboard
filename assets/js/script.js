@@ -230,7 +230,6 @@ function pageLoad(page = "") {
 			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.classList.add(\"hidden\")'>"
 		else document.getElementById("username-avatar").classList.add("visible")
 	} else document.getElementById("username-avatar").classList.add("visible")
-	if (page == "custom-info") calcCredits()
 
 	document.getElementById("theme-toggle").addEventListener("change", () => {
 		if (document.body.classList.contains("light-theme")) {

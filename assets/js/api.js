@@ -101,3 +101,8 @@ const getForm = form => new Promise((resolve, reject) => {
 	get("forms/" + form + "?lang=" + getLanguage())
 		.then(d => resolve(d)).catch(e => reject(e))
 })
+
+const getCustomTiers = () => new Promise((resolve, reject) => {
+	get("custom-tiers", false)
+		.then(d => resolve(d)).catch(e => reject(e))
+})

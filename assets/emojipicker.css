@@ -108,8 +108,8 @@ channel-picker .element {
 	display: flex;
 	align-items: center;
 	border-radius: 7px;
-	margin: 2px;
-	padding: 3px;
+	margin: 1px;
+	padding: 2px 4px;
 	cursor: pointer;
 }
 channel-picker .element.child {
@@ -131,8 +131,8 @@ channel-picker .list {
 channel-picker .list div {
 	display: flex;
 	align-items: center;
-	padding: 5px 10px;
-	margin: 5px 10px 5px 0;
+	padding: 3px 5px;
+	margin: 3px 5px 3px 0;
 	border-radius: 7px;
 	background-color: var(--picker-selected);
 	cursor: pointer;

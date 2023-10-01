@@ -83,20 +83,11 @@
 					</p>
 
 					<br>
-					<table cellpadding="10" cellspacing="0" class="prices">
-						<thead>
-							<tr>
-								<th title="If the bot is invited to multiple servers, the user count is added together.">
-									Total user count<br>across servers
-								</th>
-								<th>Minimum credit cost per day</th>
-								<th>
-									Additional cost relative to<br>the bots total user count
-								</th>
-							</tr>
-						</thead>
-						<tbody id="tiers-cost"></tbody>
-					</table>
+					<p>
+						The formula used for calculating the daily cost is <code>Math.pow(50 * (userCount + 100), 0.6) - 115</code>.
+						<br>
+						<code>userCount</code> is the total user count of all servers the custom bot is on.
+					</p>
 
 					<br>
 					<h3>Calculate the credit cost of your custom branded bot:</h3>

@@ -55,12 +55,12 @@ function openForm() {
 	openDialog(document.getElementById("create-dialog"))
 }
 function changeTab(elem) {
-	for (tab of document.getElementsByClassName("dialog-tab")) {
+	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")
 			document.getElementById(tab.getAttribute("name")).classList.add("hidden")
 
-			for (input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
+			for (const input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
 				if (input.required) {
 					input.required = false
 					input.dataset.required = true
@@ -72,7 +72,7 @@ function changeTab(elem) {
 	elem.classList.add("active")
 	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
 
-	for (input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input"))
+	for (const input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input"))
 		if (input.hasAttribute("data-required")) input.required = true
 
 	if (elem.getAttribute("data-radio") == "rrtype") for (elem of document.querySelectorAll("#rr-currentmsg .reactionrole"))
@@ -268,7 +268,7 @@ loadFunc = () => {
 
 		const div = document.createElement("div")
 		let html = ""
-		for (elem of document.getElementsByClassName("reactionrole")) html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML
+		for (const elem of document.getElementsByClassName("reactionrole")) html += newmsg ? elem.innerHTML.replace(/createnew_[a-z0-9]+/g, "createnew_" + amountnew) : elem.innerHTML
 
 		div.innerHTML = html
 		document.getElementsByClassName("settingsContent")[0].appendChild(div)

@@ -51,7 +51,7 @@ class Footer extends HTMLElement {
 			"</div>" +
 			"</a>" +
 			"<div class='links'>" +
-				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom branding</a>" +
+				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom bots</a>" +
 				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
 				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
 				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
@@ -222,7 +222,7 @@ function pageLoad(page = "") {
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
 			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
-			//"<a href='/dashboard/custom'>Custom branding</a>" +
+			//"<a href='/dashboard/custom'>Custom bots</a>" +
 			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=

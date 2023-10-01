@@ -2,8 +2,9 @@ let bots = []
 function getCustomHTML(json) {
 	if (json.status == "success") {
 		bots = json.bots
-		let text = "<h1>Custom branded bots you have access to or are paying for</h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Create custom branded bot</button><br>" +
+		let text = "<h1>Your custom bots</h1>" +
+			"<p>This list includes all custom bots you have access to or you're paying for.</p><br>" +
+			"<button type='button' class='createForm' onclick='createDialog()'>Create a custom bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			json.bots.map(bot =>
 				"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
@@ -159,7 +160,7 @@ function connectWS() {
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
 					"<div class='section middle'><p class='title'>Your profile</p>" +
-					"<a class='tab otherlinks active' href='./custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom branding</p></a>" +
+					"<a class='tab otherlinks active' href='./custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
 					"<a class='tab otherlinks' href='./dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
 					"</div>"
 

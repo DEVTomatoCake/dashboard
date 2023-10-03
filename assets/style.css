@@ -840,9 +840,6 @@ footer .links {
 .content {
 	margin: 40px 30px 50px 30px;
 	min-height: calc(100vh - 140px - 100px - 100px - 40px - 50px);
-	flex-direction: column;
-	align-items: center;
-	gap: 50px;
 	transition: .4s;
 	padding: 100px 0 100px 300px;
 }
@@ -1059,7 +1056,7 @@ img.integration-image {
 }
 
 .integration ion-icon, #info-container ion-icon {
-	font-size: 36px;
+	font-size: 32px;
 }
 .integration button ion-icon {
 	font-size: 22px;
@@ -1212,11 +1209,6 @@ button:disabled {
 	.linkicon {
 		display: none;
 	}
-
-	.content {
-		gap: 20px;
-		margin-left: 50px;
-	}
 }
 
 @media only screen and (max-width: 550px) {
@@ -1247,6 +1239,7 @@ button:disabled {
 
 	.content {
 		margin-left: 20px;
+		margin-left: 50px;
 	}
 
 	.content h1.greeting {

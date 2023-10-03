@@ -12,7 +12,7 @@ function getIntegrationsHTML(json, guild) {
 		if (json.integrations.some(i => i.guild != guild && i.isOwner))
 			text +=
 				"<br><br><h2 translation='integration.yours'></h2><div class='integration-container'>" +
-				json.integrations.filter(i => i.guild != guild && i.isOwner).map(i => handleIntegration(i, true)).join("") +
+				json.integrations.filter(i => i.guild != guild && i.isOwner).map(handleIntegration).join("") +
 				"</div>"
 
 		if (json.integrations.some(i => i.guild != guild && !i.isOwner))
@@ -192,15 +192,17 @@ function nameExists(elem) {
 	elem.reportValidity()
 }
 
-function handleIntegration(integration, isYou = false) {
+function handleIntegration(integration) {
 	return "<div class='integration'>" +
 		"<div class='flex'>" +
 			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='https://api.tomatenkuchen.com/image-proxy?url=" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
-			"<h2>" + encode(integration.name) + "</h2>" +
+			"<h3>" + encode(integration.name) + "</h3>" +
 			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
 		"</div>" +
-		(isYou ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
+		(integration.short ? "<p>" + encode(integration.short.substring(0, 100)) + "</p>" : "") +
+		"<br>" +
+		(integration.isOwner ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
 		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 		"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 		"<div class='flex'>" +

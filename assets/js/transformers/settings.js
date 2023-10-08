@@ -350,7 +350,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 		queue = []
 		for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
 
-		if (parent && Array.isArray(setting.value)) {
+		if (Array.isArray(setting.value)) {
 			const buttons = parent.querySelectorAll("button.createForm")
 			if (buttons.length > 1) buttons[1].remove()
 			if (parent.childElementCount > 3)

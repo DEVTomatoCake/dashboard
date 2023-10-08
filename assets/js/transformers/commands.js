@@ -49,8 +49,7 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 
 	const categories = {}
 	const filtered = new Set(commandData.filter(c =>
-		c.category != "owner" &&
-		(
+		c.category != "owner" && (
 			c.category.toLowerCase().includes(search) ||
 			(!onlyCategories && (c.name.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search)))
 		)
@@ -58,7 +57,7 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 
 	for (const cmd of document.getElementById("commands-container").getElementsByClassName("command")) {
 		const cat = cmd.getAttribute("data-category")
-		if (!categories[cat] && categories[cat] != false) categories[cat] = false
+		categories[cat] = categories[cat] || false
 
 		if (filtered.has(commandData.find(c => c.name == cmd.querySelector("td").innerText))) {
 			cmd.classList.add("cmdvisible")

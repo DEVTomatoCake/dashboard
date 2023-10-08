@@ -14,7 +14,7 @@ getBotstats().then(json => {
 	document.getElementById("stats-users").textContent = Math.round(json.users / 1000) + "k"
 
 	servers = json.public_guilds
-	for (let i = 1; i <= 3; i++) {
+	for (let i = 1; i <= 2; i++) {
 		const server = servers[i - 1]
 		document.getElementById("server" + i).innerHTML = formatServer(server)
 	}
@@ -22,11 +22,11 @@ getBotstats().then(json => {
 })
 
 let currentServer = 0
-let currentIndex = 2
+let currentIndex = 1
 setInterval(() => {
 	currentServer++
 	currentIndex++
-	if (currentServer > 3) currentServer = 1
+	if (currentServer > 2) currentServer = 1
 	if (currentIndex >= servers.length) currentIndex = 0
 
 	document.getElementById("server" + currentServer).classList.add("no-opacity")
@@ -34,5 +34,5 @@ setInterval(() => {
 		document.getElementById("server" + currentServer).innerHTML = formatServer(servers[currentIndex])
 		document.getElementById("server" + currentServer).classList.remove("no-opacity")
 		reloadText()
-	}, 700)
-}, 13000)
+	}, 500)
+}, 10000)

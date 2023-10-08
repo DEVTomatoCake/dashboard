@@ -145,7 +145,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 }
 
 .public-servers {
-	padding: 10px;
+	padding: 7px;
 	background-color: var(--tertiary-color);
 	border-radius: 15px;
 	display: flex;
@@ -158,15 +158,15 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	background-color: var(--secondary-color);
 	border-radius: 10px;
 	margin: 5px;
-	padding: 8px;
-	font-size: 19.5px;
+	padding: 1px 5px;
+	font-size: 19px;
 	transition: .7s;
 }
 .public-servers h3 {
-	font-size: 26px;
+	font-size: 22px;
 }
 .public-servers p.since {
-	font-size: 17.5px;
+	font-size: 17px;
 }
 
 .public-servers img {
@@ -856,7 +856,7 @@ summary {
 }
 
 h1.greeting, h2.greeting {
-	font-size: 50px;
+	font-size: 48px;
 	text-align: center;
 	padding-bottom: 35px;
 	margin: 0 auto;
@@ -1026,7 +1026,7 @@ pre {
 }
 
 .stats-row + h2 {
-	margin-top: 3rem;
+	margin: 40px 0 5px;
 }
 
 .integration-container {
@@ -1146,14 +1146,14 @@ button:disabled {
 }
 
 .featurelist {
-	margin-top: 3rem;
+	margin-top: 40px;
 }
 .featurelist h2 {
-	font-size: 36px;
+	font-size: 40px;
 }
 
 .feature {
-	margin-top: 30px;
+	margin-top: 20px;
 	display: grid;
 	grid-template-columns: auto auto;
 	gap: 15px;
@@ -1161,10 +1161,10 @@ button:disabled {
 	vertical-align: middle;
 }
 .feature strong {
-	font-size: 25px;
+	font-size: 23px;
 }
 .feature p {
-	font-size: 20px;
+	font-size: 19px;
 	word-break: break-word;
 }
 .feature a, .blue-text {
@@ -1238,12 +1238,11 @@ button:disabled {
 	}
 
 	.content {
-		margin-left: 20px;
-		margin-left: 50px;
+		margin-left: 15px;
 	}
 
-	.content h1.greeting {
-		font-size: 40px;
+	h1.greeting, h2.greeting {
+		font-size: 35px;
 		margin: 10px;
 	}
 
@@ -1272,10 +1271,6 @@ button:disabled {
 
 	.sidebar .hamburger {
 		margin-top: 13px;
-	}
-
-	.content {
-		margin-left: 15px;
 	}
 
 	.stats-row .data ion-icon {

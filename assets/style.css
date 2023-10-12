@@ -310,11 +310,11 @@ textarea.code {
 
 .userData {
 	background-color: var(--secondary-color);
-	padding: 20px;
+	padding: 17px;
 	border-radius: 10px;
-	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22);
+	box-shadow: 0 10px 18px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22);
 	width: fit-content;
-	margin: 20px;
+	margin: 13px;
 }
 
 #username-avatar {
@@ -864,6 +864,9 @@ h1.greeting, h2.greeting {
 .center {
 	text-align: center;
 	text-wrap: balance;
+}
+.vmiddle {
+	vertical-align: middle;
 }
 
 ul.check {

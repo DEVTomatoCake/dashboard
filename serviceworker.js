@@ -1,7 +1,17 @@
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
 		const cache = await caches.open("offline")
-		await cache.addAll(["/offline", "/", "/assets/style.css", "/assets/js/script.js"])
+		await cache.addAll([
+			"/offline",
+			"/assets/style.css",
+			"/assets/js/script.js",
+			"/",
+
+			"/dashboard",
+			"/dashboard/settings",
+			"/assets/emojipicker.css",
+			"/assets/toasts.css"
+		])
 	})())
 })
 self.addEventListener("activate", event => {

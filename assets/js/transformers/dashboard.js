@@ -3,23 +3,25 @@ function getGuildsHTML() {
 		getGuilds()
 			.then(json => {
 				if (json.status == "success") {
+					if (json.data.length == 0) return resolve("<h1 translation='dashboard.noservers'></h1>")
+					document.querySelector("p.hidden[translation='dashboard.selectpage']").classList.remove("hidden")
+					document.getElementsByClassName("page-select")[0].classList.remove("hidden")
+
 					const target = localStorage.getItem("next")
-					let text = ""
-					json.data.sort((a, b) => {
+					const text = json.data.sort((a, b) => {
 						if (a.active && b.active) return 0
 						if (!a.active && b.active) return 1
 						return -1
-					}).forEach(guild => {
-						text +=
+					}).map(guild => {
+						return "" +
 							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") + "?guild=" + guild.id +
 							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w=-]/gi, "") : "") + "'>" +
 							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) + " Server icon' width='128' height='128' src='" + encode(guild.icon) + "'>" +
 							"<p>" + encode(guild.name) + "</p>" +
 							"</a>"
-					})
+					}).join("")
 
-					if (text == "") resolve("<h1 translation='dashboard.noservers'></h1>")
-					else resolve(text)
+					resolve(text)
 				} else handleError(resolve, json.message)
 			})
 			.catch(e => handleError(resolve, e))

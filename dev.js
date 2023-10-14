@@ -9,7 +9,6 @@ wss.on("connection", ws => {
 	}, 45000)
 })
 
-const cachingEnabled = process.argv.includes("-c") || process.argv.includes("--cache")
 const wsRestart =
 	"<script>" +
 	"const devSocket = new WebSocket('ws://localhost:6942');" +
@@ -22,17 +21,15 @@ const express = require("express")
 const app = express()
 
 app.disable("x-powered-by")
-if (!cachingEnabled) {
-	app.disable("etag")
-	app.disable("view cache")
-}
+app.disable("etag")
+app.disable("view cache")
 
 app.listen(4269)
-console.log("http://localhost:4269 with" + (cachingEnabled ? "" : "out") + " caching")
+console.log("Started server on http://localhost:4269")
 
 app.get("*", async (req, res) => {
 	if (req.url.includes("/assets/") || req.url.endsWith(".js") || req.url.endsWith(".json") || req.url.endsWith(".txt") || req.url.endsWith(".xml"))
-		return res.sendFile(req.url, { root: ".", lastModified: false, dotfiles: "deny", maxAge: cachingEnabled ? (!req.query.cache || isNaN(req.query.cache) ? 120000 : parseInt(req.query.cache)) : 0 })
+		return res.sendFile(req.url, { root: ".", lastModified: false, dotfiles: "deny", maxAge: 0 })
 
 	if (req.url == "/") req.url = "/index"
 	const path = "." + req.url.replace(/\.[^/.]+$/, "").split("?")[0].split("#")[0] + ".html"

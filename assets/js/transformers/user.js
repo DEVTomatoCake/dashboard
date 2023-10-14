@@ -7,12 +7,9 @@ const formatVote = site => {
 		"</li>"
 }
 
-let sites = []
 loadFunc = async () => {
 	if (getCookie("token")) {
 		const json = await getUser()
-		sites = json.votes
-
 		if (json.status == "success") {
 			document.getElementById("vote-tk").innerHTML = "<p>In total, you've voted <b>" + json.totalVotes.toLocaleString() + "</b> times for TomatenKuchen.<br>" +
 				"You currently have <b>" + json.credits.toLocaleString() + " credits</b>.</p><br><h3 translation='user.votelinks'></h3>" +

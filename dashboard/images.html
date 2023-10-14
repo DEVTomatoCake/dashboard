@@ -51,40 +51,43 @@
 			</header>
 
 			<div class="content" id="content">
-				<div id="create-dialog" class="dialog hidden">
+				<div id="edit-dialog" class="dialog hidden">
 					<div class="dialog-content">
 						<span class="close">&times;</span>
-						<h1 id="create-title">Bild erstellen oder bearbeiten</h1>
+						<h1 id="create-title">Create a dynamic image</h1>
+
+						<label for="image-name">A user-friendly name for this image</label>
+						<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome image" id="image-name">
 
 						<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Layer hinzufügen</button>
 						<template id="layer-template">
-							<label for="action-trigger">Type</label>
-							<channel-picker class="action-trigger" type="action-trigger" id="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
+							<label for="layer-type">Type</label>
+							<channel-picker class="layer-type" type="layer-type" id="layer-type" data-unsafe="1" tabindex="0"></channel-picker>
 
-							<label for="action-name">Action name</label>
-							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" id="action-name" class="action-name">
+							<label for="layer-name">Layer name</label>
+							<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="User avatar" id="layer-name" class="layer-name">
 
-							<label for="action-args1">Argument</label>
-							<input type="text" maxlength="100" placeholder="Variable input" id="action-args1" class="action-args1" title="Depending on the trigger this can be ommited or is required for it to work.">
+							<label for="layer-text">Text</label>
+							<input type="text" maxlength="100" placeholder="Hello World!" id="layer-text" class="layer-text">
+
+							<label for="image-opacity">Opacity</label>
+							<input type="range" id="image-opacity" min="0" max="1">
+
+							<label for="image-bold">Bold</label>
+							<input type="checkbox" id="image-bold">
+							<label for="image-italic">Italic</label>
+							<input type="checkbox" id="image-italic">
+							<label for="image-underline">Underline</label>
+							<input type="checkbox" id="image-underline">
+							<label for="image-strikethrough">Strikethrough</label>
+							<input type="checkbox" id="image-strikethrough">
 
 							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
 						</template>
 						<div id="layer-container"></div>
-						<button type="button" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
+						<button type="button" class="createForm" onclick="addLayer()">Add layer</button>
 
-						<label for="image-bold">Bold</label>
-						<input type="checkbox" id="image-bold">
-						<label for="image-italic">Italic</label>
-						<input type="checkbox" id="image-italic">
-						<label for="image-underline">Underline</label>
-						<input type="checkbox" id="image-underline">
-						<label for="image-bold">Strikethrough</label>
-						<input type="checkbox" id="image-bold">
-
-						<label for="integration-short" translation="integration.shortdesc"></label>
-						<input type="text" maxlength="300" placeholder="Description" id="integration-short">
-
-						<button type="submit" id="integration-submit" class="createForm green" onclick="createIntegration()">Speichern</button>
+						<button type="submit" id="image-submit" class="createForm green" onclick="saveImage()">Speichern</button>
 					</div>
 				</div>
 

@@ -5,9 +5,9 @@ function getImagesHTML(json, guild) {
 			json.images.filter(i => i.guild == guild).map(handleIntegration).join("") +
 			"</div>"
 
-		if (text == "<div class='image-container'></div>") text += "<p id='no-images'><b>There are no dynamic images on this server!</b></p>"
+		if (text == "<div class='image-container'></div>") text += "<br><p id='no-images'><b>There are no dynamic images on this server!</b></p>"
 		return "<h1 class='center'><span>Dynamic images of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Bild erstellen</button>" + text + "</div>"
+			"<button type='button' class='createForm' onclick='createDialog()'>Create dynamic image</button>" + text + "</div>"
 	} else {
 		return (
 			"<h1>An error occured while handling your request!</h1>" +
@@ -31,27 +31,24 @@ function handleChange(id) {
 
 const params = new URLSearchParams(location.search)
 function createDialog() {
-	document.getElementById("create-dialog").removeAttribute("data-edit")
-	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
-	document.getElementById("integration-name").removeAttribute("readonly")
-	document.getElementById("integration-short").value = ""
-	document.getElementById("integration-public").checked = false
-	document.getElementById("actions-container").innerHTML = ""
-	document.getElementById("integration-use-container").setAttribute("hidden", "")
-	document.getElementById("integration-submit").setAttribute("translation", "integration.create")
+	document.getElementById("image-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
+	document.getElementById("image-name").removeAttribute("readonly")
+	document.getElementById("image-short").value = ""
+	document.getElementById("layers-container").innerHTML = ""
+	document.getElementById("image-submit").setAttribute("translation", "integration.create")
 
 	addLayer()
-	openDialog(document.getElementById("create-dialog"))
+	openDialog(document.getElementById("edit-dialog"))
 	reloadText()
 }
 
 function addLayer(trigger = "command") {
-	const newElem = document.getElementById("actions-template").content.cloneNode(true)
-	newElem.id = "actions-" + Math.random().toString(36).slice(2)
+	const newElem = document.getElementById("layer-template").content.cloneNode(true)
+	newElem.id = "layer-" + Math.random().toString(36).slice(2)
 	const wrapper = document.createElement("div")
 	wrapper.classList.add("action")
 	wrapper.appendChild(newElem)
-	document.getElementById("actions-container").appendChild(wrapper)
+	document.getElementById("layer-container").appendChild(wrapper)
 
 	const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']")
 	triggerElem.classList.add("selected")

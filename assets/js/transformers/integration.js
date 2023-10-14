@@ -182,6 +182,7 @@ function integrationDelete(elem, integration = "") {
 	const confirmed = confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")
 	if (confirmed) {
 		elem.parentElement.parentElement.remove()
+		integrations = integrations.filter(int => int.name != integration)
 		socket.send({status: "success", action: "DELETE_integration", name: integration})
 	}
 }
@@ -296,7 +297,7 @@ function connectWS(guild) {
 					setTimeout(() => {
 						if (params.has("info")) integrationInfo(params.get("info"))
 						else integrationUse(params.get("use"))
-					}, 300)
+					}, 250)
 			} else if (json.action == "SAVED_integration") {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("The integration was saved!")

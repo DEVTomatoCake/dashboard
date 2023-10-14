@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server, including feature-rich dynamic image generation.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/dashboard/images">
+		<link rel="canonical" href="https://tomatenkuchen.com/dashboard/images">
+		<link rel="manifest" href="/manifest.json">
+
+		<title>TomatenKuchen - Images - Dashboard</title>
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="../assets/style.css" rel="stylesheet" type="text/css">
+
+		<link href="../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../assets/js/toasts.js"></script>
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.com">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.com">
+
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
+
+		<script src="../assets/js/sockette.js"></script>
+		<script src="../assets/js/transformers/image.js"></script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar page="dashboard"></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="create-dialog" class="dialog hidden">
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1 id="create-title">Bild erstellen oder bearbeiten</h1>
+
+						<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Layer hinzufügen</button>
+						<template id="layer-template">
+							<label for="action-trigger">Type</label>
+							<channel-picker class="action-trigger" type="action-trigger" id="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
+
+							<label for="action-name">Action name</label>
+							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" id="action-name" class="action-name">
+
+							<label for="action-args1">Argument</label>
+							<input type="text" maxlength="100" placeholder="Variable input" id="action-args1" class="action-args1" title="Depending on the trigger this can be ommited or is required for it to work.">
+
+							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
+						</template>
+						<div id="layer-container"></div>
+						<button type="button" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
+
+						<label for="image-bold">Bold</label>
+						<input type="checkbox" id="image-bold">
+						<label for="image-italic">Italic</label>
+						<input type="checkbox" id="image-italic">
+						<label for="image-underline">Underline</label>
+						<input type="checkbox" id="image-underline">
+						<label for="image-bold">Strikethrough</label>
+						<input type="checkbox" id="image-bold">
+
+						<label for="integration-short" translation="integration.shortdesc"></label>
+						<input type="text" maxlength="300" placeholder="Description" id="integration-short">
+
+						<button type="submit" id="integration-submit" class="createForm green" onclick="createIntegration()">Speichern</button>
+					</div>
+				</div>
+
+				<div id="root-container" class="row">
+					<h1>Loading images...</h1>
+				</div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+	</body>
+</html>

@@ -2,7 +2,7 @@ function getImagesHTML(json, guild) {
 	if (json.status == "success") {
 		let text =
 			"<div class='image-container'>" +
-			json.images.filter(i => i.guild == guild).map(handleIntegration).join("") +
+			json.images.filter(i => i.guild == guild).map(handleImage).join("") +
 			"</div>"
 
 		if (text == "<div class='image-container'></div>") text += "<br><p id='no-images'><b>There are no dynamic images on this server!</b></p>"
@@ -29,8 +29,11 @@ function handleChange(id) {
 const params = new URLSearchParams(location.search)
 function createDialog() {
 	document.getElementById("image-name").value = ""
-	document.getElementById("image-width").value = "512"
-	document.getElementById("image-height").value = 512
+	document.getElementById("image-width").value = 500
+	document.getElementById("image-height").value = 250
+	document.getElementById("layer-text").value = ""
+	document.getElementById("layer-image").value = ""
+	document.getElementById("layer-form").value = ""
 	document.getElementById("layer-container").innerHTML = ""
 	document.getElementById("image-submit").setAttribute("translation", "integration.create")
 
@@ -39,7 +42,7 @@ function createDialog() {
 	reloadText()
 }
 
-function addLayer(trigger = "command") {
+function addLayer() {
 	const newElem = document.getElementById("layer-template").content.cloneNode(true)
 	newElem.id = "layer-" + Math.random().toString(36).slice(2)
 	const wrapper = document.createElement("div")
@@ -50,7 +53,6 @@ function addLayer(trigger = "command") {
 	return wrapper
 }
 
-let guildName = ""
 let images = []
 let pickerData = {}
 function imageEdit(imageId) {
@@ -81,7 +83,7 @@ function imageDelete(elem, imageId = "") {
 	}
 }
 
-function handleIntegration(image) {
+function handleImage(image) {
 	return "<div class='integration'>" +
 		"<h3>" + encode(image.name) + "</h3>" +
 		"<p><span translation='integration.lastupdate'></span> " + new Date(image.lastUpdate).toLocaleDateString() + "</p>" +
@@ -143,12 +145,11 @@ function connectWS(guild) {
 
 				document.getElementById("root-container").innerHTML = getImagesHTML(json, guild)
 				reloadText()
-				guildName = json.name
 				image = json.image
 
 				pickerData = {
 					...pickerData,
-					"possible-form-types": json.formTypes
+					"form-type": json.formTypes
 				}
 
 				const item = ["form-type", "text"]
@@ -223,7 +224,7 @@ function saveImage() {
 
 	if (!data.edit) {
 		const div = document.createElement("div")
-		div.innerHTML = handleIntegration(data)
+		div.innerHTML = handleImage(data)
 		document.getElementsByClassName("integration-container")[0].appendChild(div)
 		reloadText()
 	}

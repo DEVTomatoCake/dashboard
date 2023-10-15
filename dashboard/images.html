@@ -92,7 +92,15 @@
 
 							<div id="text" class="tabs active">
 								<label for="layer-text">Text</label>
-								<input type="text" maxlength="256" placeholder="Hello World!" id="layer-text" class="layer-text">
+								<input type="text" maxlength="500" placeholder="Hello World!" id="layer-text" class="layer-text">
+
+								<label for="layer-color-text">Text color</label>
+								<input type="color" id="layer-color-text">
+
+								<label for="layer-fontfamily">Font family</label>
+								<input type="text" maxlength="32" pattern="[\w\-]+" value="Arial" id="layer-fontfamily" class="layer-fontfamily">
+								<label for="layer-fontsize">Font size</label>
+								<input type="number" id="layer-fontsize" min="1" max="50" value="12">
 
 								<label for="text-bold">Bold</label>
 								<input type="checkbox" id="text-bold" class="text-bold">
@@ -105,11 +113,17 @@
 							</div>
 							<div id="image" class="tabs hidden">
 								<label for="layer-image">Image URL or variable</label>
-								<input type="text" maxlength="256" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp" id="layer-image" class="layer-image">
+								<input type="text" maxlength="500" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp" id="layer-image" class="layer-image">
+
+								<label for="image-border-radius">Border radius</label>
+								<input type="range" id="image-border-radius" min="0" max="1">
 							</div>
 							<div id="form" class="tabs hidden">
-								<label for="layer-image">Form type</label>
-								<input type="text" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp" id="layer-image" class="layer-image">
+								<label for="layer-form">Form type</label>
+								<input type="text" id="layer-form" class="layer-form">
+
+								<label for="layer-color-form">Form color</label>
+								<input type="color" id="layer-color-form">
 							</div>
 
 							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
@@ -117,7 +131,7 @@
 						<div id="layer-container"></div>
 						<button type="button" class="createForm" onclick="addLayer()">Add layer</button>
 
-						<button type="submit" id="image-submit" class="createForm green" onclick="saveImage()">Speichern</button>
+						<button type="submit" id="image-submit" class="createForm green" onclick="saveImage()">Create image</button>
 					</div>
 				</div>
 

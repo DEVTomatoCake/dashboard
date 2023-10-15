@@ -18,23 +18,20 @@ function getImagesHTML(json, guild) {
 function handleChange(id) {
 	if (id == "integration-sync") {
 		const inputs = document.querySelectorAll(".action textarea, .action input")
-		const triggers = document.querySelectorAll(".action channel-picker.action-trigger")
 		if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe") {
 			for (const elem of inputs) elem.setAttribute("readonly", "")
-			for (const elem of triggers) elem.classList.add("disabled")
 		} else {
 			for (const elem of inputs) elem.removeAttribute("readonly")
-			for (const elem of triggers) elem.classList.remove("disabled")
 		}
 	}
 }
 
 const params = new URLSearchParams(location.search)
 function createDialog() {
-	document.getElementById("image-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
-	document.getElementById("image-name").removeAttribute("readonly")
-	document.getElementById("image-short").value = ""
-	document.getElementById("layers-container").innerHTML = ""
+	document.getElementById("image-name").value = ""
+	document.getElementById("image-width").value = "512"
+	document.getElementById("image-height").value = 512
+	document.getElementById("layer-container").innerHTML = ""
 	document.getElementById("image-submit").setAttribute("translation", "integration.create")
 
 	addLayer()
@@ -46,14 +43,9 @@ function addLayer(trigger = "command") {
 	const newElem = document.getElementById("layer-template").content.cloneNode(true)
 	newElem.id = "layer-" + Math.random().toString(36).slice(2)
 	const wrapper = document.createElement("div")
-	wrapper.classList.add("action")
+	wrapper.classList.add("layer")
 	wrapper.appendChild(newElem)
 	document.getElementById("layer-container").appendChild(wrapper)
-
-	const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']")
-	triggerElem.classList.add("selected")
-	wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>"
-	wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"))
 
 	return wrapper
 }
@@ -61,15 +53,15 @@ function addLayer(trigger = "command") {
 let guildName = ""
 let images = []
 let pickerData = {}
-function imageEdit(integrationName) {
+function imageEdit(imageId) {
 	openDialog(document.getElementById("create-dialog"))
-	const image = images.find(e => e.name == integrationName)
+	const image = images.find(e => e.id == imageId)
 
-	document.getElementById("create-dialog").setAttribute("data-edit", "")
-	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>"
-	document.getElementById("integration-name").value = integrationName
-	document.getElementById("integration-use-container").setAttribute("hidden", "")
-	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave")
+	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(image.name) + "</b>"
+	document.getElementById("image-name").value = image.name
+	document.getElementById("image-width").value = image.width
+	document.getElementById("image-height").value = image.height
+	document.getElementById("image-submit").setAttribute("translation", "integration.editsave")
 
 	document.getElementById("actions-container").innerHTML = ""
 	image.actions.forEach(action => {
@@ -156,14 +148,10 @@ function connectWS(guild) {
 
 				pickerData = {
 					...pickerData,
-					"possible-types": {
-						image: "Load image from URL",
-						text: "Display text",
-						form: "Display form"
-					}
+					"possible-form-types": json.formTypes
 				}
 
-				const item = ["possible-types", "text"]
+				const item = ["form-type", "text"]
 				const pickerNode = document.createElement("channel-picker")
 				pickerNode.setAttribute("id", item[0])
 				pickerNode.setAttribute("type", item[0])
@@ -181,6 +169,18 @@ function connectWS(guild) {
 			}
 		}
 	})
+}
+
+function changeTab(elem) {
+	for (const tab of document.getElementsByClassName("dialog-tab")) {
+		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
+			tab.classList.remove("active")
+			document.getElementById(tab.getAttribute("name")).classList.add("hidden")
+		}
+	}
+
+	elem.classList.add("active")
+	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
 }
 
 function saveImage() {

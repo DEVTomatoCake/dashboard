@@ -59,28 +59,58 @@
 						<label for="image-name">A user-friendly name for this image</label>
 						<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome image" id="image-name">
 
-						<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Layer hinzufügen</button>
+						<label for="image-width">Image width</label>
+						<input type="number" id="image-width" min="1" max="1024">
+						<label for="image-height">Image height</label>
+						<input type="number" id="image-height" min="1" max="1024">
+
+						<br>
+						<br>
+						<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Add layer</button>
 						<template id="layer-template">
-							<label for="layer-type">Type</label>
-							<channel-picker class="layer-type" type="layer-type" id="layer-type" data-unsafe="1" tabindex="0"></channel-picker>
-
 							<label for="layer-name">Layer name</label>
-							<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="User avatar" id="layer-name" class="layer-name">
-
-							<label for="layer-text">Text</label>
-							<input type="text" maxlength="100" placeholder="Hello World!" id="layer-text" class="layer-text">
+							<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome text" id="layer-name" class="layer-name">
 
 							<label for="image-opacity">Opacity</label>
 							<input type="range" id="image-opacity" min="0" max="1">
 
-							<label for="image-bold">Bold</label>
-							<input type="checkbox" id="image-bold">
-							<label for="image-italic">Italic</label>
-							<input type="checkbox" id="image-italic">
-							<label for="image-underline">Underline</label>
-							<input type="checkbox" id="image-underline">
-							<label for="image-strikethrough">Strikethrough</label>
-							<input type="checkbox" id="image-strikethrough">
+							<label for="layer-x">Layer X position</label>
+							<input type="number" id="layer-x" min="1" max="1024">
+							<label for="layer-y">Layer Y position</label>
+							<input type="number" id="layer-y" min="1" max="1024">
+
+							<label for="layer-width">Image width</label>
+							<input type="number" id="layer-width" min="1" max="1024">
+							<label for="layer-height">Image height</label>
+							<input type="number" id="layer-height" min="1" max="1024">
+
+							<br>
+							<br>
+							<span class="dialog-tab active" name="text" data-radio="imgtype" onclick="changeTab(this)">Text</span>
+							<span class="dialog-tab" name="image" data-radio="imgtype" onclick="changeTab(this)">Image</span>
+							<span class="dialog-tab" name="form" data-radio="imgtype" onclick="changeTab(this)">Form</span>
+
+							<div id="text" class="tabs active">
+								<label for="layer-text">Text</label>
+								<input type="text" maxlength="256" placeholder="Hello World!" id="layer-text" class="layer-text">
+
+								<label for="text-bold">Bold</label>
+								<input type="checkbox" id="text-bold" class="text-bold">
+								<label for="text-italic">Italic</label>
+								<input type="checkbox" id="text-italic" class="text-italic">
+								<label for="text-underline">Underline</label>
+								<input type="checkbox" id="text-underline" class="text-underline">
+								<label for="text-strikethrough">Strikethrough</label>
+								<input type="checkbox" id="text-strikethrough" class="text-strikethrough">
+							</div>
+							<div id="image" class="tabs hidden">
+								<label for="layer-image">Image URL or variable</label>
+								<input type="text" maxlength="256" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp" id="layer-image" class="layer-image">
+							</div>
+							<div id="form" class="tabs hidden">
+								<label for="layer-image">Form type</label>
+								<input type="text" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp" id="layer-image" class="layer-image">
+							</div>
 
 							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
 						</template>

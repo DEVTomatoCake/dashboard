@@ -877,7 +877,7 @@ ul.check {
 	padding-top: 20px;
 }
 
-input:not(#cmd-search):not([type="checkbox"]):not([type="radio"]) {
+input:not(#cmd-search):not([type="checkbox"]):not([type="radio"]):not([type="color"]) {
 	border-radius: 8px;
 	border-width: 1px;
 	outline: none;
@@ -1382,7 +1382,8 @@ button:disabled {
 	z-index: 10;
 	left: 0;
 	top: 0;
-	padding-top: 100px;
+	padding-top: 80px;
+	padding-bottom: 20px;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
@@ -1390,7 +1391,7 @@ button:disabled {
 	transition: .3s;
 }
 
-.dialog input:not([type=checkbox]) {
+.dialog input:not([type="checkbox"]):not([type="color"]) {
 	font-size: 15px;
 	width: 550px;
 }
@@ -1398,7 +1399,7 @@ button:disabled {
 .dialog-content {
 	position: relative;
 	margin: auto;
-	width: 80%;
+	width: 85%;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	animation-name: animateDialog;
@@ -1413,7 +1414,7 @@ button:disabled {
 
 @keyframes animateDialog {
 	from {width: 0; opacity: 0;}
-	to {width: 80%; opacity: 1;}
+	to {width: 85%; opacity: 1;}
 }
 
 .close {

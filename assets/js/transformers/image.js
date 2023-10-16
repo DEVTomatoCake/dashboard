@@ -26,35 +26,30 @@ function handleChange(id) {
 	}
 }
 
-const params = new URLSearchParams(location.search)
 function createDialog() {
 	document.getElementById("image-name").value = ""
 	document.getElementById("image-width").value = 500
 	document.getElementById("image-height").value = 250
-	document.getElementById("layer-text").value = ""
-	document.getElementById("layer-image").value = ""
-	document.getElementById("layer-form").value = ""
 	document.getElementById("layer-container").innerHTML = ""
-	document.getElementById("image-submit").setAttribute("translation", "integration.create")
+	document.getElementById("image-submit").innerText = "Create dynamic image"
 
 	addLayer()
 	openDialog(document.getElementById("edit-dialog"))
 	reloadText()
 }
 
+let currentLayer = {}
 function addLayer() {
-	const newElem = document.getElementById("layer-template").content.cloneNode(true)
-	newElem.id = "layer-" + Math.random().toString(36).slice(2)
-	const wrapper = document.createElement("div")
-	wrapper.classList.add("layer")
-	wrapper.appendChild(newElem)
-	document.getElementById("layer-container").appendChild(wrapper)
+	currentLayer = {}
 
-	return wrapper
+	document.getElementById("layer-text").value = ""
+	document.getElementById("layer-image").value = ""
+	document.getElementById("layer-form").value = ""
+	document.getElementById("image-border-radius").value = "0"
+	document.getElementById("layer-opacity").value = "1"
 }
 
 let images = []
-let pickerData = {}
 function imageEdit(imageId) {
 	openDialog(document.getElementById("create-dialog"))
 	const image = images.find(e => e.id == imageId)
@@ -63,16 +58,17 @@ function imageEdit(imageId) {
 	document.getElementById("image-name").value = image.name
 	document.getElementById("image-width").value = image.width
 	document.getElementById("image-height").value = image.height
-	document.getElementById("image-submit").setAttribute("translation", "integration.editsave")
+	document.getElementById("image-submit").innerText = "Save dynamic image"
 
-	document.getElementById("actions-container").innerHTML = ""
-	image.actions.forEach(action => {
-		const newElem = addAction(action.trigger)
-		newElem.querySelector(".action-name").value = action.name
+	document.getElementById("layer-container").innerHTML = ""
+	image.layers.forEach(layer => {
+		const newElem = addLayer()
+		newElem.querySelector(".layer-name").value = layer.name
 	})
 	reloadText()
 }
 
+const params = new URLSearchParams(location.search)
 let socket
 function imageDelete(elem, imageId = "") {
 	const confirmed = confirm("Are you sure you want to delete the image \"" + images.find(img => img.id == imageId).name + "\"? This cannot be undone!")
@@ -146,24 +142,6 @@ function connectWS(guild) {
 				document.getElementById("root-container").innerHTML = getImagesHTML(json, guild)
 				reloadText()
 				image = json.image
-
-				pickerData = {
-					...pickerData,
-					"form-type": json.formTypes
-				}
-
-				const item = ["form-type", "text"]
-				const pickerNode = document.createElement("channel-picker")
-				pickerNode.setAttribute("id", item[0])
-				pickerNode.setAttribute("type", item[0])
-				pickerNode.setAttribute("tabindex", "0")
-				pickerNode.setAttribute("data-unsafe", "1")
-				document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling)
-
-				const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']")
-				elem.classList.add("selected")
-				document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>"
-				document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"))
 			} else if (json.action == "SAVED_image") {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("The image was saved!")

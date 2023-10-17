@@ -56,96 +56,104 @@
 						<span class="close">&times;</span>
 						<h1 id="create-title">Create a dynamic image</h1>
 
-						<label for="image-name">A user-friendly name for this image</label>
-						<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome image" id="image-name">
+						<div class="image-container flex">
+							<div>
+								<label for="image-name">A user-friendly name for this image</label>
+								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome image" id="image-name">
 
-						<label for="image-width">Image width</label>
-						<input type="number" id="image-width" min="1" max="1024">
-						<label for="image-height">Image height</label>
-						<input type="number" id="image-height" min="1" max="1024">
+								<label for="image-width">Image width</label>
+								<input type="number" id="image-width" min="1" max="1024">
+								<label for="image-height">Image height</label>
+								<input type="number" id="image-height" min="1" max="1024">
 
-						<br>
-						<br>
-						<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Add layer</button>
-						<div id="layer-container"></div>
+								<br>
+								<br>
+								<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Add layer</button>
+								<div id="layer-container"></div>
 
-						<br>
-						<span class="dialog-tab active" name="text" data-radio="imgtype" onclick="changeTab(this)">Text</span>
-						<span class="dialog-tab" name="image" data-radio="imgtype" onclick="changeTab(this)">Image</span>
-						<span class="dialog-tab" name="form" data-radio="imgtype" onclick="changeTab(this)">Form</span>
+								<br>
+								<span class="dialog-tab active" name="text" data-radio="imgtype" onclick="changeTab(this)">Text</span>
+								<span class="dialog-tab" name="image" data-radio="imgtype" onclick="changeTab(this)">Image</span>
+								<span class="dialog-tab" name="form" data-radio="imgtype" onclick="changeTab(this)">Form</span>
 
-						<div id="text" class="tabs active">
-							<label for="layer-text">Text</label>
-							<input type="text" maxlength="500" placeholder="Hello World!" id="layer-text">
+								<div id="text" class="tabs active">
+									<label for="layer-text">Text</label>
+									<input type="text" maxlength="500" placeholder="Hello World!" id="layer-text">
 
-							<label for="layer-color-text">Text color</label>
-							<input type="color" id="layer-color-text" value="#000000">
+									<label for="layer-color-text">Text color</label>
+									<input type="color" id="layer-color-text" value="#000000">
 
-							<label for="layer-fontfamily">Font family</label>
-							<input type="text" maxlength="32" pattern="[\w\-]+" value="Arial" id="layer-fontfamily">
-							<label for="layer-fontsize">Font size</label>
-							<input type="number" id="layer-fontsize" min="1" max="50" value="12">
+									<label for="layer-fontfamily">Font family</label>
+									<input type="text" maxlength="32" pattern="[\w\-]+" value="Arial" id="layer-fontfamily">
+									<label for="layer-fontsize">Font size</label>
+									<input type="number" id="layer-fontsize" min="1" max="50" value="12">
 
-							<div class="flex">
-								<label for="text-bold">Bold</label>
-								<input type="checkbox" id="text-bold">
-								<label for="text-italic">Italic</label>
-								<input type="checkbox" id="text-italic">
-								<label for="text-underline">Underline</label>
-								<input type="checkbox" id="text-underline">
-								<label for="text-strikethrough">Strikethrough</label>
-								<input type="checkbox" id="text-strikethrough">
+									<div class="image-text flex">
+										<label for="text-bold">Bold</label>
+										<input type="checkbox" id="text-bold">
+										<label for="text-italic">Italic</label>
+										<input type="checkbox" id="text-italic">
+										<label for="text-underline">Underline</label>
+										<input type="checkbox" id="text-underline">
+										<label for="text-strikethrough">Strikethrough</label>
+										<input type="checkbox" id="text-strikethrough">
+									</div>
+
+									<label for="text-align">Text horizontal align</label>
+									<select id="text-align">
+										<option value="start" selected>Start</option>
+										<option value="end">End</option>
+										<option value="center">Center</option>
+										<option value="left">Left</option>
+										<option value="right">Right</option>
+									</select>
+
+									<label for="text-baseline">Text baseline/vertical align</label>
+									<select id="text-baseline">
+										<option value="alphabetic" selected>Alphabetic</option>
+										<option value="top">Top</option>
+										<option value="hanging">Hanging</option>
+										<option value="middle">Middle</option>
+										<option value="ideographic">Ideographic</option>
+										<option value="bottom">Bottom</option>
+									</select>
+								</div>
+								<div id="image" class="tabs hidden">
+									<label for="layer-image">Image URL or variable</label>
+									<input type="text" id="layer-image" maxlength="500" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp">
+
+									<label for="image-border-radius">Border radius</label>
+									<input type="range" id="image-border-radius" min="0" max="100" step="1">
+								</div>
+								<div id="form" class="tabs hidden">
+									<label for="layer-form">Type</label>
+									<select id="layer-form"></select>
+
+									<label for="layer-color-form">Color</label>
+									<input type="color" id="layer-color-form">
+								</div>
+
+								<hr>
+
+								<label for="layer-name">Layer name</label>
+								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Unnamed" id="layer-name">
+
+								<label for="layer-opacity">Opacity</label>
+								<input type="range" id="layer-opacity" min="0" max="1" step="0.01">
+
+								<label for="layer-x">Layer X position</label>
+								<input type="number" id="layer-x" min="1" max="1024">
+								<label for="layer-y">Layer Y position</label>
+								<input type="number" id="layer-y" min="1" max="1024">
+
+								<label for="layer-width">Width</label>
+								<input type="number" id="layer-width" min="1" max="1024">
+								<label for="layer-height">Height</label>
+								<input type="number" id="layer-height" min="1" max="1024">
 							</div>
 
-							<label for="text-align">Text horizontal align</label>
-							<select id="text-align">
-								<option value="start" selected>Start</option>
-								<option value="end">End</option>
-								<option value="center">Center</option>
-								<option value="left">Left</option>
-								<option value="right">Right</option>
-							</select>
-
-							<label for="text-baseline">Text baseline/vertical align</label>
-							<select id="text-baseline">
-								<option value="alphabetic" selected>Alphabetic</option>
-								<option value="top">Top</option>
-								<option value="hanging">Hanging</option>
-								<option value="middle">Middle</option>
-								<option value="ideographic">Ideographic</option>
-								<option value="bottom">Bottom</option>
-							</select>
+							<canvas id="image-preview" width="500" height="250" style="width: 500px; height: 250px; background-color: white;"></canvas>
 						</div>
-						<div id="image" class="tabs hidden">
-							<label for="layer-image">Image URL or variable</label>
-							<input type="text" id="layer-image" maxlength="500" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp">
-
-							<label for="image-border-radius">Border radius</label>
-							<input type="range" id="image-border-radius" min="0" max="100" step="1">
-						</div>
-						<div id="form" class="tabs hidden">
-							<label for="layer-form">Form type</label>
-							<select id="layer-form"></select>
-
-							<label for="layer-color-form">Form color</label>
-							<input type="color" id="layer-color-form">
-						</div>
-
-						<label for="layer-name">Layer name</label>
-						<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome text" id="layer-name">
-
-						<label for="layer-opacity">Opacity</label>
-						<input type="range" id="layer-opacity" min="0" max="1" step="0.01">
-
-						<label for="layer-x">Layer X position</label>
-						<input type="number" id="layer-x" min="1" max="1024">
-						<label for="layer-y">Layer Y position</label>
-						<input type="number" id="layer-y" min="1" max="1024">
-
-						<label for="layer-width">Layer width</label>
-						<input type="number" id="layer-width" min="1" max="1024">
-						<label for="layer-height">Layer height</label>
-						<input type="number" id="layer-height" min="1" max="1024">
 
 						<br>
 						<br>
@@ -160,6 +168,6 @@
 		</main>
 
 		<global-footer></global-footer>
-		<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" integrity="sha384-xyQ/Vpt1cq1pdPYlRaT/QkcSj2vrYyWI3WOhxGBzqnP1vgvsS2yrhWXe3/wIoCr5" crossorigin="anonymous"></script>
+		<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.2.0/dist/ionicons/ionicons.esm.js" integrity="sha384-zM76IY+3I2OTF49JR8mjLWUeugc/Q9wVzLMiSITfvgmdy8nQtAhci8m8IsdnTl3q" crossorigin="anonymous"></script>
 	</body>
 </html>

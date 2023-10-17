@@ -1032,6 +1032,15 @@ pre {
 	margin: 40px 0 5px;
 }
 
+.flex {
+	display: flex;
+}
+
+.image-container.flex {
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
 .integration-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -1048,7 +1057,7 @@ pre {
 	align-items: center;
 }
 
-.integration .flex, .custom .flex {
+.integration .flex, .custom .flex, .image-text.flex {
 	align-items: center;
 	gap: 7px;
 }
@@ -1079,10 +1088,6 @@ img.integration-image {
 }
 .action label[for="action-trigger"] {
 	margin-top: unset !important;
-}
-
-.flex {
-	display: flex;
 }
 
 button {

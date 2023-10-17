@@ -15,6 +15,7 @@ function getImagesHTML(json, guild) {
 	}
 }
 
+let ctx
 function handleChange(id) {
 	if (id == "integration-sync") {
 		const inputs = document.querySelectorAll(".action textarea, .action input")
@@ -217,6 +218,9 @@ function saveImage() {
 }
 
 loadFunc = () => {
+	const canvas = document.getElementById("image-preview")
+	ctx = canvas.getContext("2d")
+
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {

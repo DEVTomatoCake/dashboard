@@ -219,13 +219,8 @@ const editDialog = (botId = "") => {
 		document.getElementById("upgrade-status").removeAttribute("checked")
 		document.getElementById("status-container").setAttribute("hidden", "")
 	}
-	if (editingBot.canOtherBot) {
-		document.getElementById("upgrade-respondotherbot").setAttribute("checked", "")
-		document.getElementById("respondotherbot-container").removeAttribute("hidden")
-	} else {
-		document.getElementById("upgrade-respondotherbot").removeAttribute("checked")
-		document.getElementById("respondotherbot-container").setAttribute("hidden", "")
-	}
+	if (editingBot.canOtherBot) document.getElementById("upgrade-respondotherbot").setAttribute("checked", "")
+	else document.getElementById("upgrade-respondotherbot").removeAttribute("checked")
 }
 const addPayingEdit = () => {
 	socket.send({action: "ADD_EDIT_custom_paying", bot: editingBot.id, user: document.getElementById("edit-paying").value})
@@ -273,31 +268,12 @@ const removeStatus = elem => {
 	elem.parentElement.remove()
 }
 
-const addRespondBot = () => {
-	if (!document.getElementById("respondotherbot-id").value || document.getElementById("respondotherbot-id").value.length < 17 || document.getElementById("respondotherbot-id").value.length > 21)
-		return new ToastNotification({type: "ERROR", timeout: 10, title: "You must enter a valid bot ID!"}).show()
-
-	socket.send({action: "ADD_custom_otherbot", bot: editingBot.id, text: document.getElementById("respondotherbot-id").value})
-
-	document.getElementById("respondotherbot-list").innerHTML +=
-		"<div><br>" +
-		"<p>" + encode(document.getElementById("respondotherbot-id").value) + "</p>" +
-		"<ion-icon name='trash-outline' onclick='removeRespondBot(this)'></ion-icon>" +
-		"</div>"
-	document.getElementById("respondotherbot-id").value = ""
-}
-const removeRespondBot = elem => {
-	socket.send({action: "REMOVE_custom_otherbot", bot: editingBot.id, text: elem.parentElement.querySelector("p").textContent})
-	elem.parentElement.remove()
-}
-
 const toggleStatus = () => {
 	socket.send({action: "TOGGLE_custom_status", bot: editingBot.id, enabled: document.getElementById("upgrade-status").checked})
 	document.getElementById("status-container").toggleAttribute("hidden")
 }
-const toggleOtherBots = () => {
+const toggleOtherBot = () => {
 	socket.send({action: "TOGGLE_custom_otherbot", bot: editingBot.id, enabled: document.getElementById("upgrade-respondotherbot").checked})
-	document.getElementById("respondotherbot-container").toggleAttribute("hidden")
 }
 
 const addPaying = () => {

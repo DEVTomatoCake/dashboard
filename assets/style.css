@@ -22,7 +22,7 @@
 	--accent-color-hover: #414c9b;
 	--button-accent-color: #4752a7;
 	--primary-text-color: #10121d;
-	--secondary-text-color: #3d404e;
+	--secondary-text-color: #3a3c46;
 	--blue: #4B57C9;
 	--green: #1B5E20;
 	--purple: #7D2A97;
@@ -54,7 +54,7 @@
 	--accent-color-hover: #5141ac;
 	--button-accent-color: #373992;
 	--primary-text-color: #E6E7F1;
-	--secondary-text-color: #C1C4DB;
+	--secondary-text-color: #caccdb;
 	--blue: #8596f7;
 	--green: #B9F6CA;
 	--purple: #B388FF;
@@ -910,9 +910,9 @@ input[type="checkbox"]:not(#theme-toggle), input[type="radio"] {
 .ticketsearch-container label, .dialog label {
 	display: block;
 	color: var(--secondary-text-color);
-	font-size: 18px;
+	font-size: 17px;
 	text-transform: uppercase;
-	margin-top: 20px;
+	margin-top: 18px;
 }
 .ticketsearch-container input, .dialog input {
 	background: var(--primary-color);
@@ -1039,6 +1039,13 @@ pre {
 .image-container.flex {
 	flex-wrap: wrap;
 	justify-content: space-between;
+}
+
+#image-preview {
+	background-color: white;
+	position: sticky;
+	right: 0;
+	top: 0;
 }
 
 .integration-container {

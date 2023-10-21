@@ -15,18 +15,6 @@ function getImagesHTML(json, guild) {
 	}
 }
 
-let ctx
-function handleChange(id) {
-	if (id == "integration-sync") {
-		const inputs = document.querySelectorAll(".action textarea, .action input")
-		if (document.getElementById("integration-sync").getAttribute("data-selected") == "auto" || document.getElementById("integration-sync").getAttribute("data-selected") == "safe") {
-			for (const elem of inputs) elem.setAttribute("readonly", "")
-		} else {
-			for (const elem of inputs) elem.removeAttribute("readonly")
-		}
-	}
-}
-
 function createDialog() {
 	document.getElementById("image-name").value = ""
 	document.getElementById("image-width").value = 500
@@ -39,15 +27,37 @@ function createDialog() {
 	reloadText()
 }
 
+let currentImage = {
+	name: "New image",
+	layers: []
+}
 let currentLayer = {}
+let ctx
+
+function handleChange(elem) {
+	if (elem.id == "image-border-radius") {
+		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
+		currentLayer.borderRadius = elem.value
+	} else if (elem.id == "layer-opacity") {
+		document.getElementById("layer-opacity-text").innerText = "Opacity: " + elem.value + "%"
+		currentLayer.opacity = elem.value
+	}
+
+	currentImage.layers[currentImage.layers.find(layer => layer.id == currentLayer.id)] = currentLayer
+	renderImage(ctx, currentImage)
+}
+
 function addLayer() {
-	currentLayer = {}
+	currentImage.layers.push(currentLayer)
+	currentLayer = {
+		id: Math.random().toString(36).slice(2)
+	}
 
 	document.getElementById("layer-text").value = ""
 	document.getElementById("layer-image").value = ""
 	document.getElementById("layer-form").value = ""
-	document.getElementById("image-border-radius").value = "0"
-	document.getElementById("layer-opacity").value = "1"
+	document.getElementById("image-border-radius").value = 0
+	document.getElementById("layer-opacity").value = 1
 }
 
 let images = []

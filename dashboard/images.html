@@ -28,6 +28,8 @@
 
 		<script src="../assets/js/sockette.js"></script>
 		<script src="../assets/js/transformers/image.js"></script>
+
+		<script src="https://api.tomatenkuchen.com/image_renderer.js" crossorigin="anonymous"></script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar page="dashboard"></global-sidebar>
@@ -122,8 +124,8 @@
 									<label for="layer-image">Image URL or variable</label>
 									<input type="text" id="layer-image" maxlength="500" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp">
 
-									<label for="image-border-radius">Border radius</label>
-									<input type="range" id="image-border-radius" min="0" max="100" step="1">
+									<label id="image-border-radius-text" for="image-border-radius">Border radius: 0%</label>
+									<input type="range" id="image-border-radius" min="0" max="100" step="1" oninput="handleChange(this)">
 								</div>
 								<div id="form" class="tabs hidden">
 									<label for="layer-form">Type</label>
@@ -133,13 +135,14 @@
 									<input type="color" id="layer-color-form">
 								</div>
 
+								<br>
 								<hr>
 
 								<label for="layer-name">Layer name</label>
 								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Unnamed" id="layer-name">
 
-								<label for="layer-opacity">Opacity</label>
-								<input type="range" id="layer-opacity" min="0" max="1" step="0.01">
+								<label id="layer-opacity-text" for="layer-opacity">Opacity: 1%</label>
+								<input type="range" id="layer-opacity" min="0" max="1" step="0.01" oninput="handleChange(this)">
 
 								<label for="layer-x">Layer X position</label>
 								<input type="number" id="layer-x" min="1" max="1024">
@@ -152,7 +155,7 @@
 								<input type="number" id="layer-height" min="1" max="1024">
 							</div>
 
-							<canvas id="image-preview" width="500" height="250" style="width: 500px; height: 250px; background-color: white;"></canvas>
+							<canvas id="image-preview" width="500" height="250" style="width:500px; height:250px;"></canvas>
 						</div>
 
 						<br>

@@ -239,6 +239,11 @@ function connectWS(guild) {
 				guildName = json.name
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
 				hasLoaded = true
+
+				if (json.perms.length > 0) {
+					document.getElementById("missing-perms-warning").removeAttribute("hidden")
+					document.getElementById("missing-perms-list").innerHTML = json.perms.map(perm => "<li>" + perm + "</li>").join("")
+				}
 			} else if (json.action == "SAVED_settings") {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("Saved settings!")

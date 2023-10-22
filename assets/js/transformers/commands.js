@@ -47,6 +47,8 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 	if (search) document.getElementById("cmd-search").value = ""
 	else search = document.getElementById("cmd-search").value.toLowerCase()
 
+	if (onlyCategories && screen.width <= 800) sidebar()
+
 	const categories = {}
 	const filtered = new Set(commandData.filter(c =>
 		c.category != "owner" && (
@@ -82,6 +84,9 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 			document.getElementById(category.id + "_br").classList.add("hidden")
 		}
 	}
+
+	if (filtered.size == 0) document.getElementById("no-cmds-found").removeAttribute("hidden")
+	else document.getElementById("no-cmds-found").setAttribute("hidden", "")
 }
 
 const cmdInfo = (elem, cmd) => {

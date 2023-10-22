@@ -198,16 +198,8 @@
 							<br>
 						</div>
 
-						<label for="upgrade-respondotherbot">Allow the bot to respond to specified other bots</label>
-						<input type="checkbox" id="upgrade-respondotherbot" onclick="toggleOtherBots()">
-						<div id="respondotherbot-container" hidden>
-							<h3>List of bots to respond to</h3>
-							<p>Note that not every feature of the bot supports other bots, e.g. leveling and some AutoMod features as they are subject to abuse.</p>
-
-							<input type="text" placeholder="Bot ID" pattern="[0-9]{17,21}" onchange="addRespondBot()" id="respondotherbot-id">
-							<br>
-							<div id="respondotherbot-list"></div>
-						</div>
+						<label for="upgrade-respondotherbot">Allow the bot to respond to other bots</label>
+						<input type="checkbox" id="upgrade-respondotherbot" onclick="toggleOtherBot()">
 					</div>
 				</div>
 

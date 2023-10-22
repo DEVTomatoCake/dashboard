@@ -4,20 +4,22 @@ function getLogsHTML(guild) {
 		getLogs(guild)
 			.then(json => {
 				if (json.status == "success") {
-					logs = json.data
-					let text =
-						"<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+					let text = "<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>"
+					if (json.data.length == 0) return resolve(text + "<p>There are no logs for this server!</p>")
+
+					text +=
 						"<table cellpadding='8' cellspacing='0'><thead>" +
 						"<tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr>" +
 						"</thead><tbody>"
 
-					json.data.forEach(log => {
+					logs = json.data
+					logs.forEach(log => {
 						text +=
 							"<tr class='ticket cmdvisible'>" +
 							"<td>" + encode(log.id) + "</td>" +
 							"<td>" + encode(log.type) + "</td>" +
 							"<td class='overflow'>" + encode(log.message) + "</td>" +
-							"<td>" + assertInt(log.count).toLocaleString() + "</td>" +
+							"<td>" + (log.source == "dashboard" ? "" : assertInt(log.count).toLocaleString()) + "</td>" +
 							"<td>" +
 								"<button type='button' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
 								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +

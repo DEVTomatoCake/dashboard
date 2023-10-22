@@ -1,3 +1,13 @@
+const getLocalIpAddress = () => {
+	const interfaces = require("os").networkInterfaces()
+	for (const iface of Object.values(interfaces)) {
+		for (const info of iface) {
+			if (!info.internal && info.family == "IPv4") return info.address
+		}
+	}
+	return null
+}
+
 const { WebSocketServer } = require("ws")
 const wss = new WebSocketServer({port: 6942})
 
@@ -25,7 +35,10 @@ app.disable("etag")
 app.disable("view cache")
 
 app.listen(4269)
-console.log("Started server on http://localhost:4269")
+
+const localIP = getLocalIpAddress()
+app.listen(4269, localIP)
+console.log("Running on http://" + localIP + ":4269 (no backend) and http://localhost:4269")
 
 app.get("*", async (req, res) => {
 	if (req.url.includes("/assets/") || req.url.endsWith(".js") || req.url.endsWith(".json") || req.url.endsWith(".txt") || req.url.endsWith(".xml"))

@@ -61,7 +61,7 @@
 						<div class="image-container flex">
 							<div>
 								<label for="image-name">A user-friendly name for this image</label>
-								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome image" id="image-name">
+								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="New image" id="image-name">
 
 								<label for="image-width">Image width</label>
 								<input type="number" id="image-width" min="1" max="1024">
@@ -129,7 +129,9 @@
 								</div>
 								<div id="form" class="tabs hidden">
 									<label for="layer-form">Type</label>
-									<select id="layer-form"></select>
+									<select id="layer-form">
+										<option value="rect" selected>Rectangle</option>
+									</select>
 
 									<label for="layer-color-form">Color</label>
 									<input type="color" id="layer-color-form">
@@ -139,10 +141,7 @@
 								<hr>
 
 								<label for="layer-name">Layer name</label>
-								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Unnamed" id="layer-name">
-
-								<label id="layer-opacity-text" for="layer-opacity">Opacity: 1%</label>
-								<input type="range" id="layer-opacity" min="0" max="1" step="0.01">
+								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="New layer" id="layer-name">
 
 								<label for="layer-x">Layer X position</label>
 								<input type="number" id="layer-x" min="1" max="1024">
@@ -153,6 +152,9 @@
 								<input type="number" id="layer-width" min="1" max="1024">
 								<label for="layer-height">Height</label>
 								<input type="number" id="layer-height" min="1" max="1024">
+
+								<label id="layer-opacity-text" for="layer-opacity">Opacity: 1%</label>
+								<input type="range" id="layer-opacity" min="0" max="1" step="0.01">
 							</div>
 
 							<canvas id="image-preview" width="500" height="250" style="width:500px; height:250px;"></canvas>

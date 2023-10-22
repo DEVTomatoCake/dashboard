@@ -15,6 +15,8 @@ function getImagesHTML(json, guild) {
 	}
 }
 
+let dialog
+let currentImage = {}
 function createDialog() {
 	document.getElementById("image-name").value = ""
 	document.getElementById("image-width").value = 500
@@ -22,19 +24,23 @@ function createDialog() {
 	document.getElementById("layer-container").innerHTML = ""
 	document.getElementById("image-submit").innerText = "Create dynamic image"
 
+	currentImage = {
+		name: "New image",
+		width: 500,
+		height: 250,
+		layers: []
+	}
+
 	addLayer()
-	openDialog(document.getElementById("edit-dialog"))
+	dialog.classList.remove("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
+
 	reloadText()
-	for (const elem of document.querySelector("div.image-container").getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
+	for (const elem of document.getElementsByClassName("image-container")[0].getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
 }
 
-let currentImage = {
-	name: "New image",
-	layers: []
-}
 let currentLayer = {}
 let ctx
-
 function handleChange(elem) {
 	if (elem.id == "image-border-radius") {
 		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
@@ -45,42 +51,62 @@ function handleChange(elem) {
 	}
 
 	currentImage.layers[currentImage.layers.find(layer => layer.id == currentLayer.id)] = currentLayer
+
+	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 	renderImage(ctx, currentImage)
 }
 
 function addLayer() {
-	currentImage.layers.push(currentLayer)
+	if (Object.keys(currentLayer).length > 0) currentImage.layers.push(currentLayer)
+
 	currentLayer = {
-		id: Math.random().toString(36).slice(2)
+		id: Math.random().toString(36).slice(2),
+		name: "New layer",
+		x: 0,
+		y: 0,
+		width: 100,
+		height: 100,
+		opacity: 1,
+		content: ""
 	}
 
 	document.getElementById("layer-text").value = ""
-	document.getElementById("layer-image").value = ""
+
 	document.getElementById("layer-form").value = ""
+
+	document.getElementById("layer-image").value = ""
 	document.getElementById("image-border-radius").value = 0
+
+	document.getElementById("layer-name").value = ""
+	document.getElementById("layer-x").value = 0
+	document.getElementById("layer-y").value = 0
+	document.getElementById("layer-width").value = 100
+	document.getElementById("layer-height").value = 100
 	document.getElementById("layer-opacity").value = 1
 }
 
 let images = []
 function imageEdit(imageId) {
-	const image = images.find(e => e.id == imageId)
+	currentImage = images.find(e => e.id == imageId)
 
-	document.getElementById("create-title").innerHTML = "Edit dynamic image: <b>" + encode(image.name) + "</b>"
-	document.getElementById("image-name").value = image.name
-	document.getElementById("image-width").value = image.width
-	document.getElementById("image-height").value = image.height
+	document.getElementById("create-title").innerHTML = "Edit dynamic image: <b>" + encode(currentImage.name) + "</b>"
+	document.getElementById("image-name").value = currentImage.name
+	document.getElementById("image-width").value = currentImage.width
+	document.getElementById("image-height").value = currentImage.height
 	document.getElementById("image-submit").innerText = "Save dynamic image"
 
 	document.getElementById("layer-container").innerHTML = ""
-	image.layers.forEach(layer => {
+	currentImage.layers.forEach(layer => {
 		const newElem = document.createElement("p")
 		newElem.innerText = layer.name
 		document.getElementById("layer-container").appendChild(newElem)
 	})
 
-	openDialog(document.getElementById("create-dialog"))
+	dialog.classList.remove("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
+
 	reloadText()
-	for (const elem of document.querySelector("div.image-container").getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
+	for (const elem of document.getElementsByClassName("image-container")[0].getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
 }
 
 const params = new URLSearchParams(location.search)
@@ -234,6 +260,7 @@ function saveImage() {
 loadFunc = () => {
 	const canvas = document.getElementById("image-preview")
 	ctx = canvas.getContext("2d")
+	dialog = document.getElementById("edit-dialog")
 
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")

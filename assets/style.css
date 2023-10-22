@@ -22,7 +22,7 @@
 	--accent-color-hover: #414c9b;
 	--button-accent-color: #4752a7;
 	--primary-text-color: #10121d;
-	--secondary-text-color: #3d404e;
+	--secondary-text-color: #3a3c46;
 	--blue: #4B57C9;
 	--green: #1B5E20;
 	--purple: #7D2A97;
@@ -54,7 +54,7 @@
 	--accent-color-hover: #5141ac;
 	--button-accent-color: #373992;
 	--primary-text-color: #E6E7F1;
-	--secondary-text-color: #C1C4DB;
+	--secondary-text-color: #caccdb;
 	--blue: #8596f7;
 	--green: #B9F6CA;
 	--purple: #B388FF;
@@ -877,7 +877,7 @@ ul.check {
 	padding-top: 20px;
 }
 
-input:not(#cmd-search):not([type="checkbox"]):not([type="radio"]) {
+input:not(#cmd-search):not([type="checkbox"]):not([type="radio"]):not([type="color"]) {
 	border-radius: 8px;
 	border-width: 1px;
 	outline: none;
@@ -910,9 +910,9 @@ input[type="checkbox"]:not(#theme-toggle), input[type="radio"] {
 .ticketsearch-container label, .dialog label {
 	display: block;
 	color: var(--secondary-text-color);
-	font-size: 18px;
+	font-size: 17px;
 	text-transform: uppercase;
-	margin-top: 20px;
+	margin-top: 18px;
 }
 .ticketsearch-container input, .dialog input {
 	background: var(--primary-color);
@@ -1032,6 +1032,22 @@ pre {
 	margin: 40px 0 5px;
 }
 
+.flex {
+	display: flex;
+}
+
+.image-container.flex {
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+#image-preview {
+	background-color: white;
+	position: sticky;
+	right: 0;
+	top: 0;
+}
+
 .integration-container {
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
@@ -1048,7 +1064,7 @@ pre {
 	align-items: center;
 }
 
-.integration .flex, .custom .flex {
+.integration .flex, .custom .flex, .image-text.flex {
 	align-items: center;
 	gap: 7px;
 }
@@ -1079,10 +1095,6 @@ img.integration-image {
 }
 .action label[for="action-trigger"] {
 	margin-top: unset !important;
-}
-
-.flex {
-	display: flex;
 }
 
 button {
@@ -1378,7 +1390,8 @@ button:disabled {
 	z-index: 10;
 	left: 0;
 	top: 0;
-	padding-top: 100px;
+	padding-top: 80px;
+	padding-bottom: 20px;
 	width: 100%;
 	height: 100%;
 	overflow: auto;
@@ -1386,7 +1399,7 @@ button:disabled {
 	transition: .3s;
 }
 
-.dialog input:not([type=checkbox]) {
+.dialog input:not([type="checkbox"]):not([type="color"]) {
 	font-size: 15px;
 	width: 550px;
 }
@@ -1394,7 +1407,7 @@ button:disabled {
 .dialog-content {
 	position: relative;
 	margin: auto;
-	width: 80%;
+	width: 85%;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	animation-name: animateDialog;
@@ -1409,7 +1422,7 @@ button:disabled {
 
 @keyframes animateDialog {
 	from {width: 0; opacity: 0;}
-	to {width: 80%; opacity: 1;}
+	to {width: 85%; opacity: 1;}
 }
 
 .close {

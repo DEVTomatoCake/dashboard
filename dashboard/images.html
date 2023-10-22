@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server, including feature-rich dynamic image generation.">
+		<meta name="theme-color" content="#ed8721">
+
+		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/dashboard/images">
+		<link rel="canonical" href="https://tomatenkuchen.com/dashboard/images">
+		<link rel="manifest" href="/manifest.json">
+
+		<title>TomatenKuchen - Images - Dashboard</title>
+		<link href="../assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon">
+		<link href="../assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
+		<link href="../assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
+
+		<link href="../assets/style.css" rel="stylesheet" type="text/css">
+
+		<link href="../assets/toasts.css" rel="stylesheet" type="text/css">
+		<script src="../assets/js/toasts.js"></script>
+
+		<link rel="preconnect" href="https://api.tomatenkuchen.com">
+		<link rel="dns-prefetch" href="https://api.tomatenkuchen.com">
+
+		<script src="../assets/js/script.js"></script>
+		<script src="../assets/js/language.js"></script>
+
+		<script src="../assets/js/sockette.js"></script>
+		<script src="../assets/js/transformers/image.js"></script>
+
+		<script src="https://api.tomatenkuchen.com/image_renderer.js" crossorigin="anonymous"></script>
+	</head>
+	<body class="dark-theme" onload="pageLoad()">
+		<global-sidebar page="dashboard"></global-sidebar>
+
+		<main class="main" id="main">
+			<header class="top">
+				<div class="hamburger" onclick="sidebar()">
+					<div class="line" id="lineTop1"></div>
+					<div class="line" id="lineBottom1"></div>
+				</div>
+
+				<div class="hoverdropdown">
+					<div class="account" onclick="location='/login'">
+						<p id="username-header" translation="global.account">Account</p>
+						<ion-icon id="username-avatar" name="person-circle-outline"></ion-icon>
+					</div>
+					<div class="hoverdropdown-content">
+						<a href="/login" translation="global.login"></a>
+					</div>
+				</div>
+			</header>
+
+			<div class="content" id="content">
+				<div id="edit-dialog" class="dialog hidden">
+					<div class="dialog-content">
+						<span class="close">&times;</span>
+						<h1 id="create-title">Create a dynamic image</h1>
+
+						<div class="image-container flex">
+							<div>
+								<label for="image-name">A user-friendly name for this image</label>
+								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Welcome image" id="image-name">
+
+								<label for="image-width">Image width</label>
+								<input type="number" id="image-width" min="1" max="1024">
+								<label for="image-height">Image height</label>
+								<input type="number" id="image-height" min="1" max="1024">
+
+								<br>
+								<br>
+								<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Add layer</button>
+								<div id="layer-container"></div>
+
+								<br>
+								<span class="dialog-tab active" name="text" data-radio="imgtype" onclick="changeTab(this)">Text</span>
+								<span class="dialog-tab" name="image" data-radio="imgtype" onclick="changeTab(this)">Image</span>
+								<span class="dialog-tab" name="form" data-radio="imgtype" onclick="changeTab(this)">Form</span>
+
+								<div id="text" class="tabs active">
+									<label for="layer-text">Text</label>
+									<input type="text" maxlength="500" placeholder="Hello World!" id="layer-text">
+
+									<label for="layer-color-text">Text color</label>
+									<input type="color" id="layer-color-text" value="#000000">
+
+									<label for="layer-fontfamily">Font family</label>
+									<input type="text" maxlength="32" pattern="[\w\-]+" value="Arial" id="layer-fontfamily">
+									<label for="layer-fontsize">Font size</label>
+									<input type="number" id="layer-fontsize" min="1" max="50" value="12">
+
+									<div class="image-text flex">
+										<label for="text-bold">Bold</label>
+										<input type="checkbox" id="text-bold">
+										<label for="text-italic">Italic</label>
+										<input type="checkbox" id="text-italic">
+										<label for="text-underline">Underline</label>
+										<input type="checkbox" id="text-underline">
+										<label for="text-strikethrough">Strikethrough</label>
+										<input type="checkbox" id="text-strikethrough">
+									</div>
+
+									<label for="text-align">Text horizontal align</label>
+									<select id="text-align">
+										<option value="start" selected>Start</option>
+										<option value="end">End</option>
+										<option value="center">Center</option>
+										<option value="left">Left</option>
+										<option value="right">Right</option>
+									</select>
+
+									<label for="text-baseline">Text baseline/vertical align</label>
+									<select id="text-baseline">
+										<option value="alphabetic" selected>Alphabetic</option>
+										<option value="top">Top</option>
+										<option value="hanging">Hanging</option>
+										<option value="middle">Middle</option>
+										<option value="ideographic">Ideographic</option>
+										<option value="bottom">Bottom</option>
+									</select>
+								</div>
+								<div id="image" class="tabs hidden">
+									<label for="layer-image">Image URL or variable</label>
+									<input type="text" id="layer-image" maxlength="500" placeholder="https://cdn.tomatenkuchen.com/avatar_64.webp">
+
+									<label id="image-border-radius-text" for="image-border-radius">Border radius: 0%</label>
+									<input type="range" id="image-border-radius" min="0" max="100" step="1" oninput="handleChange(this)">
+								</div>
+								<div id="form" class="tabs hidden">
+									<label for="layer-form">Type</label>
+									<select id="layer-form"></select>
+
+									<label for="layer-color-form">Color</label>
+									<input type="color" id="layer-color-form">
+								</div>
+
+								<br>
+								<hr>
+
+								<label for="layer-name">Layer name</label>
+								<input type="text" maxlength="32" pattern="[\w\-]+" placeholder="Unnamed" id="layer-name">
+
+								<label id="layer-opacity-text" for="layer-opacity">Opacity: 1%</label>
+								<input type="range" id="layer-opacity" min="0" max="1" step="0.01" oninput="handleChange(this)">
+
+								<label for="layer-x">Layer X position</label>
+								<input type="number" id="layer-x" min="1" max="1024">
+								<label for="layer-y">Layer Y position</label>
+								<input type="number" id="layer-y" min="1" max="1024">
+
+								<label for="layer-width">Width</label>
+								<input type="number" id="layer-width" min="1" max="1024">
+								<label for="layer-height">Height</label>
+								<input type="number" id="layer-height" min="1" max="1024">
+							</div>
+
+							<canvas id="image-preview" width="500" height="250" style="width:500px; height:250px;"></canvas>
+						</div>
+
+						<br>
+						<br>
+						<button type="submit" id="image-submit" class="createForm green" onclick="saveImage()">Create image</button>
+					</div>
+				</div>
+
+				<div id="root-container" class="row">
+					<h1>Loading images...</h1>
+				</div>
+			</div>
+		</main>
+
+		<global-footer></global-footer>
+		<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.2.0/dist/ionicons/ionicons.esm.js" integrity="sha384-zM76IY+3I2OTF49JR8mjLWUeugc/Q9wVzLMiSITfvgmdy8nQtAhci8m8IsdnTl3q" crossorigin="anonymous"></script>
+	</body>
+</html>

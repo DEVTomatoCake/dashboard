@@ -19,7 +19,7 @@ function getLogsHTML(guild) {
 							"<td>" + encode(log.id) + "</td>" +
 							"<td>" + encode(log.type) + "</td>" +
 							"<td class='overflow'>" + encode(log.message) + "</td>" +
-							"<td>" + (log.source == "dashboard" ? "" : assertInt(log.count)) + "</td>" +
+							"<td>" + (log.source == "dashboard" ? "" : assertInt(log.count).toLocaleString()) + "</td>" +
 							"<td>" +
 								"<button type='button' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
 								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +
@@ -75,10 +75,10 @@ function info(id) {
 		"<b><span translation='logs.logid'></span>:</b> " + log.id +
 		"<br><b><span translation='logs.logtype'></span>:</b> " + log.type +
 		"<br><b><span translation='logs.logmessage'></span>:</b> " + log.message +
-		"<br><b><span translation='logs.amount'></span>:</b> " + log.count +
+		"<br><b><span translation='logs.amount'></span>:</b> " + log.count.toLocaleString() +
 		"<br><b translation='logs.firstoccured'></b> " + new Date(log.date).toLocaleString() +
 		(log.lastDate ? "<br><b translation='logs.lastoccured'></b> " + new Date(log.lastDate).toLocaleString() : "") +
-		"<br><b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, 4)) + "</pre>"
+		"<br><b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, "\t")) + "</pre>"
 	reloadText()
 }
 

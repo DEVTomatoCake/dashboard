@@ -25,6 +25,7 @@ function createDialog() {
 	addLayer()
 	openDialog(document.getElementById("edit-dialog"))
 	reloadText()
+	for (const elem of document.querySelector("div.image-container").getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
 }
 
 let currentImage = {
@@ -62,10 +63,9 @@ function addLayer() {
 
 let images = []
 function imageEdit(imageId) {
-	openDialog(document.getElementById("create-dialog"))
 	const image = images.find(e => e.id == imageId)
 
-	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(image.name) + "</b>"
+	document.getElementById("create-title").innerHTML = "Edit dynamic image: <b>" + encode(image.name) + "</b>"
 	document.getElementById("image-name").value = image.name
 	document.getElementById("image-width").value = image.width
 	document.getElementById("image-height").value = image.height
@@ -73,10 +73,14 @@ function imageEdit(imageId) {
 
 	document.getElementById("layer-container").innerHTML = ""
 	image.layers.forEach(layer => {
-		const newElem = addLayer()
-		newElem.querySelector(".layer-name").value = layer.name
+		const newElem = document.createElement("p")
+		newElem.innerText = layer.name
+		document.getElementById("layer-container").appendChild(newElem)
 	})
+
+	openDialog(document.getElementById("create-dialog"))
 	reloadText()
+	for (const elem of document.querySelector("div.image-container").getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
 }
 
 const params = new URLSearchParams(location.search)

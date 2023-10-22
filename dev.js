@@ -1,5 +1,5 @@
 const getLocalIpAddress = () => {
-	const interfaces = require("os").networkInterfaces()
+	const interfaces = require("node:os").networkInterfaces()
 	for (const iface of Object.values(interfaces)) {
 		for (const info of iface) {
 			if (!info.internal && info.family == "IPv4") return info.address

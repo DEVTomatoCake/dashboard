@@ -44,11 +44,14 @@ let ctx
 function handleChange(elem) {
 	if (elem.id == "image-border-radius") {
 		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
-		currentLayer.borderRadius = elem.value
+		currentLayer.borderRadius = parseInt(elem.value)
 	} else if (elem.id == "layer-opacity") {
 		document.getElementById("layer-opacity-text").innerText = "Opacity: " + elem.value + "%"
 		currentLayer.opacity = elem.value
-	}
+	} else if (elem.id == "layer-text" || elem.id == "layer-image" || elem.id == "layer-form") currentLayer.content = elem.value
+	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
+	else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
+	else console.log("Unknown element: " + elem.id)
 
 	currentImage.layers[currentImage.layers.find(layer => layer.id == currentLayer.id)] = currentLayer
 
@@ -189,42 +192,18 @@ function saveImage() {
 
 	const name = encode(document.getElementById("image-name").value)
 	if (!name) return alert("Enter a name for the image!")
-	if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!")
 	if (name.length > 32) return alert("The name can be at most 32 characters long!")
 
 	document.getElementById("create-dialog").classList.add("hidden")
 	if (document.getElementById("no-images")) document.getElementById("no-images").remove()
 
-	const data = {
-		edit: document.getElementById("create-dialog").hasAttribute("data-edit"),
-		guild: params.get("guild"),
-		owner: getCookie("user") || "You",
-		isOwner: true,
-		created: Date.now(),
-		lastUpdate: Date.now(),
-		name,
-		short: document.getElementById("integration-short").value,
-		public: document.getElementById("integration-public").checked,
-		actions: []
-	}
-
-	const actions = document.getElementById("actions-container").getElementsByClassName("action")
-	for (let j = 0; j < actions.length; j++) {
-		const action = actions.item(j)
-		data.actions.push({
-			name: action.querySelector(".action-name").value,
-			args: action.querySelector(".action-args1").value ? [action.querySelector(".action-args1").value] : [],
-			trigger: action.querySelector(".action-trigger").getAttribute("data-selected"),
-			content: action.querySelector(".action-content").value
-		})
-	}
-	images = images.filter(int => int.name != data.name)
-	images.push(data)
+	images = images.filter(int => int.name != currentImage.name)
+	images.push(currentImage)
 
 	if (!data.edit) {
 		const div = document.createElement("div")
 		div.innerHTML = handleImage(data)
-		document.getElementsByClassName("integration-container")[0].appendChild(div)
+		document.getElementsByClassName("image-container")[0].appendChild(div)
 		reloadText()
 	}
 

@@ -17,24 +17,6 @@ loadFunc = async () => {
 			document.getElementById("vote-mb").innerHTML = "<ul>" + json.votes.filter(site => site.status != 0 && site.mb).map(formatVote).join("") + "</ul>"
 		} else return handleError(resolve, json.message)
 
-		document.getElementById("linksidebar").innerHTML =
-			"<a href='/' title='Home' class='tab'>" +
-				"<ion-icon name='home-outline'></ion-icon>" +
-				"<p translation='sidebar.home'></p>" +
-			"</a>" +
-			"<a href='/commands' title='Bot commands' class='tab'>" +
-				"<ion-icon name='terminal-outline'></ion-icon>" +
-				"<p translation='sidebar.commands'></p>" +
-			"</a>" +
-			"<a href='/dashboard' class='tab'>" +
-				"<ion-icon name='settings-outline'></ion-icon>" +
-				"<p translation='sidebar.dashboard'></p>" +
-			"</a>" +
-			"<div class='section middle'><p class='title'>Your profile</p>" +
-			//"<a class='tab otherlinks' href='./dashboard/custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
-			"<a class='tab otherlinks' href='./dashboard/dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
-			"</div>"
-
 		reloadText()
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"

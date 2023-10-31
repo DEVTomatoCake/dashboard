@@ -194,6 +194,8 @@ function connectWS(guild) {
 		onMessage: json => {
 			if (json.action == "NOTIFY") new ToastNotification(json).show()
 			else if (json.action == "RECEIVE_settings") {
+				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
+
 				settingsData = json.data
 				pickerData.role = json.constant.role
 				pickerData.textchannel = json.constant.textchannel
@@ -203,33 +205,15 @@ function connectWS(guild) {
 				pickerData.announcementchannel = json.data.find(setting => setting.type == "announcementchannel").possible
 				const rendered = getSettingsHTML(json)
 
-				let sidebarHTML =
-					"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-					"<a class='tab otherlinks' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
-					"<a class='tab otherlinks' href='./reactionroles?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
-					"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-					"<a class='tab otherlinks' href='../stats?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
-					"<hr>"
+				document.querySelector(".sidebar .section.middle").classList.add("no-margin")
+				let sidebarHTML = "<div class='section middle'><hr>"
 
 				rendered.categories.forEach(category => {
 					sidebarHTML += "<div class='tab small' id='settings-tab-" + category + "' onclick='settingsTab(\"" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" +
 						(friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>"
 				})
 
-				document.getElementById("linksidebar").innerHTML =
-					"<a href='/' title='Home' class='tab'>" +
-						"<ion-icon name='home-outline'></ion-icon>" +
-						"<p translation='sidebar.home'></p>" +
-					"</a>" +
-					"<a href='/commands' title='Bot commands' class='tab'>" +
-						"<ion-icon name='terminal-outline'></ion-icon>" +
-						"<p translation='sidebar.commands'></p>" +
-					"</a>" +
-					"<a href='/dashboard' class='tab active'>" +
-						"<ion-icon name='settings-outline'></ion-icon>" +
-						"<p translation='sidebar.dashboard'></p>" +
-					"</a>" +
-					sidebarHTML + "</div>"
+				document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>"
 
 				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>"
 				queue.forEach(f => f())

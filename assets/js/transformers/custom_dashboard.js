@@ -146,24 +146,6 @@ function connectWS() {
 				if (json.status == "success") document.getElementById("bot-" + json.bot).remove()
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
-				document.getElementById("linksidebar").innerHTML =
-					"<a href='/' title='Home' class='tab'>" +
-						"<ion-icon name='home-outline'></ion-icon>" +
-						"<p translation='sidebar.home'></p>" +
-					"</a>" +
-					"<a href='/commands' title='Bot commands' class='tab'>" +
-						"<ion-icon name='terminal-outline'></ion-icon>" +
-						"<p translation='sidebar.commands'></p>" +
-					"</a>" +
-					"<a href='/dashboard' class='tab'>" +
-						"<ion-icon name='settings-outline'></ion-icon>" +
-						"<p translation='sidebar.dashboard'></p>" +
-					"</a>" +
-					"<div class='section middle'><p class='title'>Your profile</p>" +
-					"<a class='tab otherlinks active' href='./custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
-					"<a class='tab otherlinks' href='./dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>Your user data</p></a>" +
-					"</div>"
-
 				reloadText()
 			} else if (json.action == "RECEIVE_custom_info") {
 				info = json

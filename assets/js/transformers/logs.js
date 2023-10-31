@@ -85,16 +85,7 @@ function info(id) {
 loadFunc = () => {
 	if (params.has("guild") && getCookie("token"))
 		getLogsHTML(params.get("guild")).then(data => {
-			const encodedGuild = encode(params.get("guild"))
-			document.getElementById("linksidebar").innerHTML +=
-				"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-				"<a class='tab otherlinks' href='./settings?guild=" + encodedGuild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
-				"<a class='tab otherlinks' href='./integrations?guild=" + encodedGuild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
-				"<a class='tab otherlinks' href='./reactionroles?guild=" + encodedGuild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
-				"<a class='tab otherlinks' href='../leaderboard?guild=" + encodedGuild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-				"<a class='tab otherlinks' href='../stats?guild=" + encodedGuild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
-				"</div>"
-
+			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
 			document.getElementById("root-container").innerHTML = data
 			reloadText()
 		})

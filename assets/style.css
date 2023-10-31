@@ -506,8 +506,12 @@ code {
 	overflow-y: auto;
 }
 
-.sidebar .section.middle {
-	padding-bottom: 100px;
+.sidebar .section.middle:not(.no-margin) {
+	margin-bottom: 80px;
+}
+.sidebar .section.middle summary {
+	padding: 7px 12px 0;
+	font-size: 18px;
 }
 
 .sidebar .section.bottom {
@@ -638,7 +642,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 5px 25px 0 0;
+	margin: 3px 25px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;

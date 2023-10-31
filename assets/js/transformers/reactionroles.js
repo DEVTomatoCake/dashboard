@@ -175,28 +175,7 @@ function connectWS(guild) {
 		onMessage: json => {
 			if (json.action == "NOTIFY") new ToastNotification(json).show()
 			else if (json.action == "RECEIVE_reactionroles") {
-				document.getElementById("linksidebar").innerHTML =
-					"<a href='/' title='Home' class='tab'>" +
-						"<ion-icon name='home-outline'></ion-icon>" +
-						"<p translation='sidebar.home'></p>" +
-					"</a>" +
-					"<a href='/commands' title='Bot commands' class='tab'>" +
-						"<ion-icon name='terminal-outline'></ion-icon>" +
-						"<p translation='sidebar.commands'></p>" +
-					"</a>" +
-					"<a href='/dashboard' class='tab active'>" +
-						"<ion-icon name='settings-outline'></ion-icon>" +
-						"<p translation='sidebar.dashboard'></p>" +
-					"</a>" +
-					"<div class='section middle'><p class='title' translation='dashboard.settings'></p>" +
-					"<button type='button' onclick='saveReactionroles()'><ion-icon name='save-outline'></ion-icon> <span class='save' translation='dashboard.save'></span></button>" +
-					"<br><hr><a class='tab otherlinks' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
-					"<a class='tab otherlinks' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
-					"<div class='tab otherlinks active'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></div>" +
-					"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "'><ion-icon name='speedometer-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-					"<a class='tab otherlinks' href='../stats?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
-					"</div>"
-
+				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>"
 				reloadText()
 				guildName = json.name

@@ -38,8 +38,8 @@
 						if (typeof res != "string") console.error(res)
 						document.body.innerHTML =
 							"<div class='center'>" +
-							"<h1>Es gab einen Fehler beim Verarbeiten der API-Abfrage!</h1>" +
-							"<h2>" + (typeof res == "string" ? res : "Guck in deine Browserkonsole, um mehr zu erfahren!") + "</h2>" +
+							"<h1>An error occured while executing the API request!</h1>" +
+							"<h2>" + (typeof res == "string" ? res : "Check the browser console to find out more!") + "</h2>" +
 							"</div>"
 					}
 				})
@@ -49,31 +49,38 @@
 			}
 
 			function createChart(apiresponse) {
+				const datasets = []
+
+				if (apiresponse.data.members.length > 0) datasets.push({
+					label: getLanguage() == "de" ? "Mitglieder" : "Members",
+					backgroundColor: "rgb(255, 99, 132)",
+					borderColor: "rgb(255, 99, 132)",
+					data: apiresponse.data.members.split(",")
+				})
+				if (apiresponse.data.messages.length > 0) datasets.push({
+					label: getLanguage() == "de" ? "Nachrichten pro Tag" : "Messages per day",
+					backgroundColor: "rgb(110, 255, 180)",
+					borderColor: "rgb(110, 255, 180)",
+					data: apiresponse.data.messages.split(",")
+				})
+				if (apiresponse.data.boosts.length > 0) datasets.push({
+					label: "Boosts",
+					backgroundColor: "rgb(244, 127, 255)",
+					borderColor: "rgb(244, 127, 255)",
+					data: apiresponse.data.boosts.split(",")
+				})
+				if (apiresponse.data.chatters.length > 0) datasets.push({
+					label: getLanguage() == "de" ? "Aktive Chatter" : "Active Chatters",
+					backgroundColor: "rgb(2, 129, 247)",
+					borderColor: "rgb(2, 129, 247)",
+					data: apiresponse.data.chatters.split(",")
+				})
+
 				const config = {
 					type: "line",
 					data: {
 						labels: apiresponse.data.labels.split(","),
-						datasets: [{
-							label: getLanguage() == "de" ? "Mitglieder" : "Members",
-							backgroundColor: "rgb(255, 99, 132)",
-							borderColor: "rgb(255, 99, 132)",
-							data: apiresponse.data.members.split(",")
-						},{
-							label: getLanguage() == "de" ? "Nachrichten pro Tag" : "Messages per day",
-							backgroundColor: "rgb(110, 255, 180)",
-							borderColor: "rgb(110, 255, 180)",
-							data: apiresponse.data.messages.split(",")
-						},{
-							label: "Boosts",
-							backgroundColor: "rgb(244, 127, 255)",
-							borderColor: "rgb(244, 127, 255)",
-							data: apiresponse.data.boosts.split(",")
-						},{
-							label: getLanguage() == "de" ? "Chatter" : "Chatters",
-							backgroundColor: "rgb(2, 129, 247)",
-							borderColor: "rgb(2, 129, 247)",
-							data: apiresponse.data.chatters.split(",")
-						}]
+						datasets
 					},
 					options: {
 						plugins: {

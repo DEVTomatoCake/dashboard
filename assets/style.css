@@ -145,7 +145,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 }
 
 .public-servers {
-	padding: 7px;
+	padding: 2px;
 	background-color: var(--tertiary-color);
 	border-radius: 15px;
 	display: flex;
@@ -157,13 +157,16 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	align-items: center;
 	background-color: var(--secondary-color);
 	border-radius: 10px;
-	margin: 5px;
+	margin: 4px;
 	padding: 1px 5px;
 	font-size: 19px;
 	transition: .7s;
 }
 .public-servers h3 {
-	font-size: 22px;
+	font-size: 20px;
+}
+.public-servers p.members {
+	font-size: 18px;
 }
 .public-servers p.since {
 	font-size: 17px;
@@ -958,7 +961,7 @@ pre {
 	justify-content: center;
 	align-items: center;
 	width: 245px;
-	height: 160px;
+	height: 150px;
 }
 
 .stats-row .container {
@@ -970,7 +973,7 @@ pre {
 }
 
 .stats-row ion-icon {
-	font-size: 32px;
+	font-size: 28px;
 	color: var(--primary-color);
 	padding: 10px;
 	border-radius: 50%;
@@ -1025,7 +1028,7 @@ pre {
 .stats-row p.value {
 	position: relative;
 	font-size: 50px;
-	top: -25px;
+	top: -15px;
 }
 
 .stats-row + h2 {

@@ -215,9 +215,6 @@ function pageLoad(page = "") {
 
 	const username = getCookie("user")
 	if (username) {
-		if (page == "main") document.getElementById("username-content").innerHTML = "Hey, <span class='accent'>" + username + "</span>!"
-		document.getElementById("username-header").removeAttribute("translation")
-		document.getElementById("username-header").textContent = username
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =

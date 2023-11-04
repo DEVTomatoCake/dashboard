@@ -46,24 +46,27 @@ function handleChange(elem) {
 		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
 		currentLayer.borderRadius = parseInt(elem.value)
 	} else if (elem.id == "layer-opacity") {
-		document.getElementById("layer-opacity-text").innerText = "Opacity: " + elem.value + "%"
+		document.getElementById("layer-opacity-text").innerText = "Opacity: " + (elem.value * 100) + "%"
 		currentLayer.opacity = elem.value
 	} else if (elem.id == "layer-text" || elem.id == "layer-image" || elem.id == "layer-form") currentLayer.content = elem.value
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
 	else console.log("Unknown element: " + elem.id)
 
-	currentImage.layers[currentImage.layers.find(layer => layer.id == currentLayer.id)] = currentLayer
+	currentImage.layers[currentImage.layers.indexOf(currentImage.layers.find(layer => layer.id == currentLayer.id))] = currentLayer
+
+	if (elem.id == "layer-name") document.getElementById("layer-" + currentLayer.id).getElementsByTagName("p")[0].innerText = encode(elem.value)
 
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
 	renderImage(ctx, currentImage)
 }
 
 function addLayer() {
-	if (Object.keys(currentLayer).length > 0) currentImage.layers.push(currentLayer)
+	if (currentLayer.name.length > 32) return alert("The layer name can be at most 32 characters long!")
 
 	currentLayer = {
 		id: Math.random().toString(36).slice(2),
+		type: "text",
 		name: "New layer",
 		x: 0,
 		y: 0,
@@ -72,13 +75,14 @@ function addLayer() {
 		opacity: 1,
 		content: ""
 	}
+	currentImage.layers.push(currentLayer)
 
 	document.getElementById("layer-text").value = ""
 
-	document.getElementById("layer-form").value = ""
-
 	document.getElementById("layer-image").value = ""
 	document.getElementById("image-border-radius").value = 0
+
+	document.getElementById("layer-form").value = ""
 
 	document.getElementById("layer-name").value = ""
 	document.getElementById("layer-x").value = 0
@@ -86,6 +90,11 @@ function addLayer() {
 	document.getElementById("layer-width").value = 100
 	document.getElementById("layer-height").value = 100
 	document.getElementById("layer-opacity").value = 1
+
+	document.getElementById("layer-container").innerHTML +=
+		"<div class='cmd-info image-layer' id='layer-" + currentLayer.id + "'>" +
+		"<p>" + encode(currentLayer.name) + "</p>" +
+		"</div>"
 }
 
 let images = []
@@ -184,6 +193,9 @@ function changeTab(elem) {
 
 	elem.classList.add("active")
 	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
+
+	currentLayer.type = elem.getAttribute("name")
+	handleChange(elem)
 }
 
 function saveImage() {

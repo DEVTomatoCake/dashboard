@@ -16,7 +16,7 @@ function getGuildsHTML() {
 						return "" +
 							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") + "?guild=" + guild.id +
 							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w=-]/gi, "") : "") + "'>" +
-							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) + " Server icon' width='128' height='128' src='" + encode(guild.icon) + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) + " Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
 							"<p>" + encode(guild.name) + "</p>" +
 							"</a>"
 					}).join("")

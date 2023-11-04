@@ -252,7 +252,7 @@ function pageLoad(page = "") {
 			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
-			"<img src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
+			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
 			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.classList.add(\"hidden\")'>"
 		else document.getElementById("username-avatar").classList.add("visible")
 	} else document.getElementById("username-avatar").classList.add("visible")

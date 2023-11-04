@@ -510,7 +510,7 @@ code {
 	margin-bottom: 80px;
 }
 .sidebar .section.middle summary {
-	padding: 7px 12px 0;
+	padding: 2px 15px 0;
 	font-size: 18px;
 }
 
@@ -736,8 +736,7 @@ footer .links {
 	height: 45px;
 	border: none;
 	outline: none;
-	padding-left: 15px;
-	padding-right: 50px;
+	padding: 0 50px 0 15px;
 	font-size: 19px;
 	transition: var(--transition-buttons);
 	background: var(--primary-color);

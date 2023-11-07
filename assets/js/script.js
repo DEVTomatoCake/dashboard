@@ -218,7 +218,7 @@ function openDialog(dialog) {
 	}
 }
 
-function pageLoad(page = "") {
+function pageLoad() {
 	if (!getCookie("cookie-dismiss")) {
 		document.body.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
@@ -257,18 +257,20 @@ function pageLoad(page = "") {
 		else document.getElementById("username-avatar").classList.add("visible")
 	} else document.getElementById("username-avatar").classList.add("visible")
 
-	document.getElementById("theme-toggle").addEventListener("change", () => {
-		if (document.body.classList.contains("light-theme")) {
-			document.body.classList.replace("light-theme", "dark-theme")
-			setCookie("theme", "dark", 365, true)
-		} else {
-			document.body.classList.replace("dark-theme", "light-theme")
-			setCookie("theme", "light", 365, true)
-		}
-		document.querySelectorAll("emoji-picker").forEach(picker => {
-			picker.classList.toggle("light")
+	setTimeout(() => {
+		document.getElementById("theme-toggle").addEventListener("change", () => {
+			if (document.body.classList.contains("light-theme")) {
+				document.body.classList.replace("light-theme", "dark-theme")
+				setCookie("theme", "dark", 365, true)
+			} else {
+				document.body.classList.replace("dark-theme", "light-theme")
+				setCookie("theme", "light", 365, true)
+			}
+			document.querySelectorAll("emoji-picker").forEach(picker => {
+				picker.classList.toggle("light")
+			})
 		})
-	})
+	}, 300)
 
 	loadFunc()
 	reloadText()

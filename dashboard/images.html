@@ -73,7 +73,6 @@
 								<button type="button" id="image-addlayer" class="createForm" onclick="addLayer()">Add layer</button>
 								<div id="layer-container"></div>
 
-								<br>
 								<span class="dialog-tab active" name="text" data-radio="imgtype" onclick="changeTab(this)">Text</span>
 								<span class="dialog-tab" name="image" data-radio="imgtype" onclick="changeTab(this)">Image</span>
 								<span class="dialog-tab" name="form" data-radio="imgtype" onclick="changeTab(this)">Form</span>
@@ -85,10 +84,10 @@
 									<label for="layer-color-text">Text color</label>
 									<input type="color" id="layer-color-text" value="#000000">
 
-									<label for="layer-fontfamily">Font family</label>
-									<input type="text" maxlength="32" pattern="[\w ,]+" value="Arial" id="layer-fontfamily">
-									<label for="layer-fontsize">Font size</label>
-									<input type="number" id="layer-fontsize" min="1" max="75" value="16">
+									<label for="layer-fontFamily">Font family</label>
+									<input type="text" maxlength="50" pattern="[\w\- ,]+" value="Arial" id="layer-fontFamily">
+									<label for="layer-fontSize">Font size</label>
+									<input type="number" id="layer-fontSize" min="1" max="75" value="16">
 
 									<div class="image-text flex">
 										<label for="text-bold">Bold</label>

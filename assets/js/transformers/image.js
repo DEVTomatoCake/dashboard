@@ -42,6 +42,8 @@ function createDialog() {
 let currentLayer = {}
 let ctx
 function handleChange(elem) {
+	if (!elem.id) return
+
 	if (elem.id == "image-border-radius") {
 		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
 		currentLayer.borderRadius = parseInt(elem.value)
@@ -49,6 +51,9 @@ function handleChange(elem) {
 		document.getElementById("layer-opacity-text").innerText = "Opacity: " + (elem.value * 100) + "%"
 		currentLayer.opacity = elem.value
 	} else if (elem.id == "layer-text" || elem.id == "layer-image" || elem.id == "layer-form") currentLayer.content = elem.value
+	else if (elem.id.split("-")[1] == "color") currentLayer[elem.id.split("-")[1]] = elem.value.replace("#", "").padStart(6, "0")
+	else if (elem.id.startsWith("text-")) currentLayer[elem.id.split("-")[1]] = elem.checked
+	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id == "layer-width" || elem.id == "layer-height") currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
 	else console.log("Unknown element: " + elem.id)
@@ -61,8 +66,33 @@ function handleChange(elem) {
 	renderImage(ctx, currentImage)
 }
 
+function editLayer(id = "") {
+	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
+	document.getElementById("layer-" + id).classList.add("active")
+
+	currentLayer = currentImage.layers.find(layer => layer.id == id)
+
+	document.getElementById("layer-text").value = currentLayer.content
+	document.getElementById("text-bold").value = currentLayer.bold
+	document.getElementById("text-italic").value = currentLayer.italic
+	document.getElementById("text-underline").value = currentLayer.underline
+	document.getElementById("text-strikethrough").value = currentLayer.strikethrough
+
+	document.getElementById("layer-image").value = currentLayer.content
+	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
+
+	document.getElementById("layer-form").value = currentLayer.content
+
+	document.getElementById("layer-name").value = currentLayer.name
+	document.getElementById("layer-x").value = currentLayer.x
+	document.getElementById("layer-y").value = currentLayer.y
+	document.getElementById("layer-width").value = currentLayer.width
+	document.getElementById("layer-height").value = currentLayer.height
+	document.getElementById("layer-opacity").value = currentLayer.opacity
+}
+
 function addLayer() {
-	if (currentLayer.name.length > 32) return alert("The layer name can be at most 32 characters long!")
+	if (currentLayer.id && currentLayer.name.length > 32) return alert("The layer name can be at most 32 characters long!")
 
 	currentLayer = {
 		id: Math.random().toString(36).slice(2),
@@ -78,6 +108,10 @@ function addLayer() {
 	currentImage.layers.push(currentLayer)
 
 	document.getElementById("layer-text").value = ""
+	document.getElementById("text-bold").value = false
+	document.getElementById("text-italic").value = false
+	document.getElementById("text-underline").value = false
+	document.getElementById("text-strikethrough").value = false
 
 	document.getElementById("layer-image").value = ""
 	document.getElementById("image-border-radius").value = 0
@@ -91,8 +125,9 @@ function addLayer() {
 	document.getElementById("layer-height").value = 100
 	document.getElementById("layer-opacity").value = 1
 
+	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
 	document.getElementById("layer-container").innerHTML +=
-		"<div class='cmd-info image-layer' id='layer-" + currentLayer.id + "'>" +
+		"<div class='image-layer active' id='layer-" + currentLayer.id + "' onclick='editLayer(\"" + currentLayer.id + "\")'>" +
 		"<p>" + encode(currentLayer.name) + "</p>" +
 		"</div>"
 }

@@ -49,7 +49,7 @@
 	--primary-color: #1d1d27;
 	--primary-color-hover: #000;
 	--secondary-color: #2e3247;
-	--tertiary-color: #4f5269;
+	--tertiary-color: #4c4f68;
 	--accent-color: #7966e9;
 	--accent-color-hover: #5141ac;
 	--button-accent-color: #373992;
@@ -1101,6 +1101,16 @@ img.integration-image {
 }
 .action label[for="action-trigger"] {
 	margin-top: unset !important;
+}
+
+.image-layer {
+	padding: 3px 5px;
+	background-color: var(--picker-bg);
+	border-radius: 4px;
+	cursor: pointer;
+}
+.image-layer.active {
+	border-bottom: #d14ff8 2px solid;
 }
 
 button {

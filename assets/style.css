@@ -185,8 +185,8 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 
 .user-image {
 	border-radius: 50%;
-	width: 28px;
-	height: 28px;
+	width: 26px;
+	height: 26px;
 }
 .leaderboard {
 	padding: 5px;

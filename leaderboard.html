@@ -47,7 +47,11 @@
 			</header>
 
 			<div class="content" id="content">
-				<div id="root-container"></div>
+				<span class="dialog-tab active" name="leveling" data-radio="lbtype" onclick="changeTab(this)">Leveling</span>
+				<span class="dialog-tab" name="counting" data-radio="lbtype" onclick="changeTab(this)">Counting</span>
+
+				<div id="leveling"></div>
+				<div id="counting" class="hidden"></div>
 			</div>
 		</main>
 

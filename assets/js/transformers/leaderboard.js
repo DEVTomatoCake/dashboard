@@ -48,6 +48,8 @@ loadFunc = () => {
 		document.getElementById("leveling").innerHTML = html.leveling
 		document.getElementById("counting").innerHTML = html.counting
 		reloadText()
+
+		if (location.hash == "#counting") changeTab(document.querySelector(".dialog-tab[name='counting']"))
 	})
 	else {
 		document.getElementById("content").innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>"

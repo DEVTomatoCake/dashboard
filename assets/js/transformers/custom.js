@@ -1,7 +1,7 @@
 const calcCredits = () => {
 	const elem = document.getElementById("calc-credits")
 	const userCount = Math.abs(parseInt(elem.value || elem.getAttribute("placeholder")))
-	if (userCount < 2 || userCount > 5000000) return
+	if (userCount < 2 || userCount > 9999999) return
 
 	const cost = (Math.pow(28 * (userCount + 90), 0.6) - 105).toFixed(1)
 	document.getElementById("calc-result").innerHTML = "<b>" + parseFloat(cost).toLocaleString() + "</b> credits per day - that's just voting <b>" +
@@ -14,7 +14,7 @@ loadFunc = async () => {
 	const json = await getCustomTiers()
 	if (json.status == "success") {
 		document.getElementById("tiers-upgrade").innerHTML = json.upgrades.map(tier =>
-			"<tr><td>" + tier.cost.toLocaleString() + "</td><td>" + encode(tier.text) + "</td></tr>"
+			"<tr><td>" + tier.cost.toLocaleString() + "</td><td>" + tier.text + "</td></tr>"
 		).join("")
 	} else document.getElementById("tiers-upgrade").innerHTML = "<tr><td colspan='2'>Failed to load upgrades</td></tr>"
 }

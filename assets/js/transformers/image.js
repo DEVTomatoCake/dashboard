@@ -73,15 +73,19 @@ function editLayer(id = "") {
 	currentLayer = currentImage.layers.find(layer => layer.id == id)
 
 	document.getElementById("layer-text").value = currentLayer.content
+	document.getElementById("layer-color-text").value = currentLayer.color
 	document.getElementById("text-bold").value = currentLayer.bold
 	document.getElementById("text-italic").value = currentLayer.italic
 	document.getElementById("text-underline").value = currentLayer.underline
 	document.getElementById("text-strikethrough").value = currentLayer.strikethrough
+	document.getElementById("text-textAlign").value = currentLayer.textAlign
+	document.getElementById("text-textBaseline").value = currentLayer.textBaseline
 
 	document.getElementById("layer-image").value = currentLayer.content
 	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
 
 	document.getElementById("layer-form").value = currentLayer.content
+	document.getElementById("layer-color-form").value = currentLayer.color
 
 	document.getElementById("layer-name").value = currentLayer.name
 	document.getElementById("layer-x").value = currentLayer.x
@@ -98,8 +102,8 @@ function addLayer() {
 		id: Math.random().toString(36).slice(2),
 		type: "text",
 		name: "New layer",
-		x: 0,
-		y: 0,
+		x: Math.floor(currentImage.width / 2),
+		y: Math.floor(currentImage.height / 2),
 		width: 100,
 		height: 100,
 		opacity: 1,
@@ -108,22 +112,26 @@ function addLayer() {
 	currentImage.layers.push(currentLayer)
 
 	document.getElementById("layer-text").value = ""
+	document.getElementById("layer-color-text").value = "#000000"
 	document.getElementById("text-bold").value = false
 	document.getElementById("text-italic").value = false
 	document.getElementById("text-underline").value = false
 	document.getElementById("text-strikethrough").value = false
+	document.getElementById("text-textAlign").value = "start"
+	document.getElementById("text-textBaseline").value = "alphabetic"
 
 	document.getElementById("layer-image").value = ""
 	document.getElementById("image-border-radius").value = 0
 
 	document.getElementById("layer-form").value = ""
+	document.getElementById("layer-color-form").value = "#000000"
 
 	document.getElementById("layer-name").value = ""
-	document.getElementById("layer-x").value = 0
-	document.getElementById("layer-y").value = 0
-	document.getElementById("layer-width").value = 100
-	document.getElementById("layer-height").value = 100
-	document.getElementById("layer-opacity").value = 1
+	document.getElementById("layer-x").value = currentLayer.x
+	document.getElementById("layer-y").value = currentLayer.y
+	document.getElementById("layer-width").value = currentLayer.width
+	document.getElementById("layer-height").value = currentLayer.height
+	document.getElementById("layer-opacity").value = currentLayer.opacity
 
 	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
 	document.getElementById("layer-container").innerHTML +=

@@ -1,15 +1,20 @@
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
-		const cache = await caches.open("offline")
+		const cache = await caches.open("IYjo3M")
 		await cache.addAll([
 			"/offline",
 			"/assets/style.css",
 			"/assets/js/script.js",
 			"/assets/js/language.js",
+
 			"/",
+			"/credits",
+			"/privacy",
+			"/legal",
+			"/invite",
 			"/commands",
-			"/dashboard",
 			"/manifest.json",
+			"/assets/fonts/gfonts_bevietmanpro_latin.woff2",
 			"/assets/images/favicon.ico",
 			"/assets/images/buttonroles.webp",
 			"/assets/images/tomato_ban.webp",
@@ -32,10 +37,10 @@ self.addEventListener("activate", event => {
 })
 
 self.addEventListener("fetch", event => {
-	if (event.request.method == "GET" && (event.request.mode == "navigate" || event.request.mode == "no-cors" || event.request.mode == "cors")) {
+	const url = new URL(event.request.url)
+	if (event.request.method == "GET" && url.protocol == "https:" && (event.request.mode == "navigate" || event.request.mode == "no-cors" || event.request.mode == "cors")) {
 		event.respondWith((async () => {
-			const url = new URL(event.request.url)
-			const cache = await caches.open("offline")
+			const cache = await caches.open("IYjo3M")
 
 			try {
 				const preloadResponse = await event.preloadResponse
@@ -52,5 +57,5 @@ self.addEventListener("fetch", event => {
 				return cachedResponse
 			}
 		})())
-	} else console.log(event.request.mode + " -> " + event.request.method + " " + event.request.url)
+	}
 })

@@ -7,8 +7,8 @@ function getLeaderboardHTML(guild) {
 						json.level.map((entry, i) => {
 							const user = json.users[entry.u]
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-								"<img class='user-image' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
-								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' loading='lazy'>" +
+								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 								encode(user.name) + " <b>" + entry.points.toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + entry.level.toLocaleString() + "</b>)</p>"
 						}).join("")
 
@@ -16,8 +16,8 @@ function getLeaderboardHTML(guild) {
 						json.counting.map((entry, i) => {
 							const user = json.users[entry.u]
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-								"<img class='user-image' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
-								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' loading='lazy'>" +
+								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 								encode(user.name) + " <b>" + entry.points.toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
 								(entry.pointsCur ? " (Current run: <b>" + entry.pointsCur.toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
 						}).join("")

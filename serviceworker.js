@@ -36,6 +36,7 @@ self.addEventListener("fetch", event => {
 		event.respondWith((async () => {
 			const url = new URL(event.request.url)
 			console.log(event.request.url)
+			const cache = await caches.open("offline")
 			try {
 				const preloadResponse = await event.preloadResponse
 				if (preloadResponse) return preloadResponse
@@ -46,7 +47,6 @@ self.addEventListener("fetch", event => {
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)
 
-				const cache = await caches.open("offline")
 				const cachedResponse = await cache.match(event.request)
 				if (!cachedResponse) return await caches.match("/offline")
 				return cachedResponse

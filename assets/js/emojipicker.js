@@ -130,10 +130,10 @@ class ChannelRolePicker extends HTMLElement {
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +
 					(current.parent ? " child" : "") + "' tabindex='0'>" +
-					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt=''>" : "") +
-					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt=''>" : "") +
-					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt=''>" : "") +
-					(current.type == "role" ? "<img class='pic-role' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt=''>" : "") +
+					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +
+					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +
+					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +
+					(current.type == "role" ? "<img class='pic-role' src='https://cdn.discordapp.com/emojis/1013338522830250014.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +
 					"<span>" +
 					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
 					"</span></div>"

@@ -1,4 +1,3 @@
-// Modified from https://booky.dev/assets/js/language.js
 const langCache = {}
 
 const getLanguage = () => {
@@ -16,7 +15,7 @@ const resolveValue = (obj, keySplit) => {
 const loadLangFile = async language => {
 	if (langCache[language]) return langCache[language]
 
-	const resgh = await fetch("https://raw.githubusercontent.com/DEVTomatoCake/TomatenKuchen-i18n/website/" + language + ".json").catch(() => {})
+	const resgh = await fetch("https://raw.githubusercontent.com/DEVTomatoCake/i18n/tomatenkuchen-web/" + language + ".json").catch(() => {})
 	if (resgh?.ok) {
 		const json = await resgh.json()
 		langCache[language] = json

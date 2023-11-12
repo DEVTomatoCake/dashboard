@@ -10,7 +10,7 @@ function getCustomHTML(json) {
 				"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
 				"<div>" +
 				"<div class='flex'>" +
-				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy'>" +
+				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy' crossorigin='anonymous'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"</div>" +
 				"<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" +
@@ -38,8 +38,8 @@ function getCustomHTML(json) {
 				"<div class='integration-container'>" +
 				json.invited.map(bot =>
 					"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
+					"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy' crossorigin='anonymous'>" +
 					"<h2>" + encode(bot.username) + "</h2>" +
-					"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "'>" +
 					"<div>" +
 					"<button type='button' class='createForm green' onclick='acceptInvite(\"" + encode(bot.id) + "\")'>Accept invite</button>" +
 					"<button type='button' class='createForm red' onclick='declineInvite(\"" + encode(bot.id) + "\")'>Decline invite</button>" +
@@ -57,7 +57,8 @@ function getCustomHTML(json) {
 	}
 }
 
-const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) + "'>" +
+const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) +
+	"' loading='lazy' crossorigin='anonymous'>" +
 	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removePaying" + (isEditing ? "Edit" : "") + "(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
 let socket
 let errorToast

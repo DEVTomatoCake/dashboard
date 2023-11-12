@@ -129,7 +129,7 @@ class ChannelRolePicker extends HTMLElement {
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")"
 				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +
-					(current.parent ? " child" : "") + "' tabindex='0'>" +
+					(current.parent ? " child" : "") + "' tabindex='0'>" + // TODO: Store emojis in assets instead of using Discord CDN
 					(current.type == "text" ? "<img src='https://cdn.discordapp.com/emojis/1013330953038475355.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +
 					(current.type == "voice" ? "<img src='https://cdn.discordapp.com/emojis/1013333740187033671.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +
 					(current.type == "category" ? "<img src='https://cdn.discordapp.com/emojis/1013339254593687592.webp?size=32' width='25' height='25' alt='' crossorigin='anonymous'>" : "") +

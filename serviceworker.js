@@ -42,7 +42,7 @@ self.addEventListener("fetch", event => {
 				if (preloadResponse) return preloadResponse
 
 				const response = await fetch(event.request)
-				if (!url.search.includes("guild=")) cache.add(event.request, response.clone())
+				if (url.host != "static.cloudflareinsights.com" && !url.search.includes("guild=")) cache.add(event.request, response.clone())
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)
@@ -52,5 +52,5 @@ self.addEventListener("fetch", event => {
 				return cachedResponse
 			}
 		})())
-	}
+	} else console.log(event.request.mode + " -> " + event.request.method + " " + event.request.url)
 })

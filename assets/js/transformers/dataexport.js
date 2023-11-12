@@ -6,6 +6,7 @@ const tkbadges = {
 	kek: "<img src='https://cdn.discordapp.com/emojis/858221941017280522.webp?size=24' width='24' height='24' alt='' loading='lazy' crossorigin='anonymous'> Kek",
 	oldeconomy: "<img src='https://cdn.discordapp.com/emojis/960027591115407370.gif?size=24' width='24' height='24' alt='' loading='lazy' crossorigin='anonymous'> Old economy system"
 }
+
 function getDataexportHTML() {
 	return new Promise(resolve => {
 		getDataexport()

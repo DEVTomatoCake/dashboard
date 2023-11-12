@@ -9,8 +9,8 @@ function getGiveawayHTML(giveaway) {
 						(json.data.winners.length > 0 ?
 							"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + " (<b>" + json.data.winnerLength + "</b>):<br>" +
 							(json.data.winners.map(user =>
-								"<img class='user-image' src='https://cdn.discordapp.com/" +
-								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' crossorigin='anonymous' loading='lazy' " +
+								"<img class='user-image' crossorigin='anonymous' loading='lazy' src='https://cdn.discordapp.com/" +
+								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' " +
 								"alt='Avatar: " + encode(user.name) + "'> " + encode(user.name) + "<br>"
 							)).join("")
 						: "<span translation='giveaway.nowinner'></span>") + "</b></p><br><br><br>"
@@ -25,8 +25,8 @@ function getGiveawayHTML(giveaway) {
 						"<p><span translation='giveaway.winneramount'></span>: <b>" + json.data.winnerCount + "</b></p>" +
 						"<p><span translation='giveaway.users'></span> (<b>" + json.data.userLength + "</b>):</p>" +
 						(json.data.users.map(user =>
-							"<img class='user-image' src='https://cdn.discordapp.com/" +
-							(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' crossorigin='anonymous' loading='lazy' " +
+							"<img class='user-image' crossorigin='anonymous' loading='lazy' src='https://cdn.discordapp.com/" +
+							(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' " +
 							"alt='Avatar: " + encode(user.name) + "'> " + encode(user.name) + "<br>"
 						)).join("")
 

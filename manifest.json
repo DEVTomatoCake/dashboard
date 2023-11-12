@@ -62,7 +62,7 @@
 		},{
 			"name": "Invite bot",
 			"short_name": "Invite",
-			"description": "Invite TomatenKuchen onto your Discord server",
+			"description": "Invite TomatenKuchen to your Discord server",
 			"url": "/invite"
 		}
 	],

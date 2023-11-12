@@ -28,20 +28,20 @@ self.addEventListener("activate", event => {
 		if ("navigationPreload" in self.registration) await self.registration.navigationPreload.enable()
 	})())
 
-	console.log("Service worker activated")
 	self.clients.claim()
 })
 
 self.addEventListener("fetch", event => {
-	if (event.request.method == "GET" && event.request.mode == "navigate") {
+	if (event.request.method == "GET" && (event.request.mode == "navigate" || event.request.mode == "cors")) {
 		event.respondWith((async () => {
+			const url = new URL(event.request.url)
 			console.log(event.request.url)
 			try {
 				const preloadResponse = await event.preloadResponse
 				if (preloadResponse) return preloadResponse
 
 				const response = await fetch(event.request)
-				cache.add(event.request, response.clone())
+				if (!url.search.includes("guild=")) cache.add(event.request, response.clone())
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)
@@ -52,5 +52,5 @@ self.addEventListener("fetch", event => {
 				return cachedResponse
 			}
 		})())
-	} else if (event.request.mode != "navigate") console.log(event.request.mode + " -> " + event.request.url)
+	}
 })

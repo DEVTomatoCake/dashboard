@@ -28,6 +28,7 @@ self.addEventListener("activate", event => {
 		if ("navigationPreload" in self.registration) await self.registration.navigationPreload.enable()
 	})())
 
+	console.log("Service worker activated")
 	self.clients.claim()
 })
 
@@ -51,5 +52,5 @@ self.addEventListener("fetch", event => {
 				return cachedResponse
 			}
 		})())
-	}
+	} else if (event.request.mode != "navigate") console.log(event.request.mode + " -> " + event.request.url)
 })

@@ -32,17 +32,17 @@ self.addEventListener("activate", event => {
 })
 
 self.addEventListener("fetch", event => {
-	if (event.request.method == "GET" && (event.request.mode == "navigate" || event.request.mode == "cors")) {
+	if (event.request.method == "GET" && (event.request.mode == "navigate" || event.request.mode == "no-cors" || event.request.mode == "cors")) {
 		event.respondWith((async () => {
 			const url = new URL(event.request.url)
-			console.log(event.request.url)
 			const cache = await caches.open("offline")
+
 			try {
 				const preloadResponse = await event.preloadResponse
 				if (preloadResponse) return preloadResponse
 
 				const response = await fetch(event.request)
-				if (url.host != "static.cloudflareinsights.com" && !url.search.includes("guild=")) cache.add(event.request, response.clone())
+				if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("guild=")) cache.add(event.request, response.clone())
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)

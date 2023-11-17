@@ -24,11 +24,12 @@ function getIntegrationsHTML(json, guild) {
 		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>"
 		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()' translation='integration.create'></button>" + text + "</div>"
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>")
 	}
+
+	return (
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + json.message + "</h2>"
+	)
 }
 
 function handleChange(id) {

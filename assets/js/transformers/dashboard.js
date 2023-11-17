@@ -56,7 +56,7 @@ loadFunc = () => {
 				document.getElementById("root-container").innerHTML = "<h1>The linked role connection was updated!</h1>"
 			} else {
 				document.getElementById("root-container").innerHTML =
-					"<h1>An error occured while handling your request!</h1>" +
+					"<h1>An error occured while handling your request:</h1>" +
 					"<h2>" + json.message + "</h2>"
 			}
 		})
@@ -87,7 +87,7 @@ loadFunc = () => {
 					(params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "")
 			} else {
 				document.getElementById("root-container").innerHTML =
-					"<h1>An error occured while handling your request!</h1>" +
+					"<h1>An error occured while handling your request:</h1>" +
 					"<h2>" + json.message + "</h2>"
 			}
 		})

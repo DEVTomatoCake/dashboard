@@ -50,11 +50,12 @@ function getCustomHTML(json) {
 		}
 
 		return text
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>")
 	}
+
+	return (
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + json.message + "</h2>"
+	)
 }
 
 const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) +

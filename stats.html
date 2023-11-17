@@ -32,16 +32,13 @@
 				if (params.has("time")) filters.push("time=" + params.get("time"))
 				if (params.has("type")) filters.push("type=" + params.get("type"))
 
-				getStats(params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(res => {
-					if (res.status == "success") createChart(res)
-					else {
-						if (typeof res != "string") console.error(res)
-						document.body.innerHTML =
-							"<div class='center'>" +
-							"<h1>An error occured while executing the API request!</h1>" +
-							"<h2>" + (typeof res == "string" ? res : "Check the browser console to find out more!") + "</h2>" +
-							"</div>"
-					}
+				getStats(params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
+					if (json.status == "success") createChart(json)
+					else document.body.innerHTML =
+						"<div class='center'>" +
+						"<h1>An error occured while executing the API request:</h1>" +
+						"<h2>" + json.message + "</h2>" +
+						"</div>"
 				})
 			} else {
 				localStorage.setItem("next", location.pathname)

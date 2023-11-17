@@ -42,11 +42,12 @@ function getReactionrolesHTML(json) {
 		if (text == "") text = "<p id='no-rr'><b translation='dashboard.rr.norr'></b></p>"
 		return "<h1 class='center'><span translation='dashboard.rr.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='openForm()' translation='dashboard.rr.create'></button><br><br>" + text
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>")
 	}
+
+	return (
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + json.message + "</h2>"
+	)
 }
 
 function openForm() {

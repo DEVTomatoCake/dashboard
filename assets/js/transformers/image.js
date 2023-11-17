@@ -8,11 +8,12 @@ function getImagesHTML(json, guild) {
 		if (text == "<div class='image-container'></div>") text += "<br><p id='no-images'><b>There are no dynamic images on this server!</b></p>"
 		return "<h1 class='center'><span>Dynamic images of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create dynamic image</button>" + text + "</div>"
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>")
 	}
+
+	return (
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + json.message + "</h2>"
+	)
 }
 
 let dialog

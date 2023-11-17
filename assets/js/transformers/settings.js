@@ -111,11 +111,12 @@ function getSettingsHTML(json) {
 			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" + text,
 			categories
 		}
-	} else {
-		return (
-			"<h1>An error occured while handling your request!</h1>" +
-			"<h2>" + json.message + "</h2>")
 	}
+
+	return (
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + json.message + "</h2>"
+	)
 }
 
 function settingsTab(tab) {

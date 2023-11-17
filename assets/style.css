@@ -1103,14 +1103,18 @@ img.integration-image {
 	margin-top: unset !important;
 }
 
-.image-layer {
-	padding: 3px 5px;
+#layer-container {
 	background-color: var(--picker-bg);
+	padding: 3px;
+}
+
+.image-layer {
+	padding: 2px 3px;
 	border-radius: 4px;
 	cursor: pointer;
 }
 .image-layer.active {
-	border-bottom: #d14ff8 2px solid;
+	background-color: var(--picker-selected);
 }
 
 button {

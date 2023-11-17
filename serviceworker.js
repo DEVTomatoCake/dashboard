@@ -1,19 +1,15 @@
+const version = "7h3jO"
+
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
-		const cache = await caches.open("IYjo3M")
-		await cache.addAll([
-			"/offline",
-			"/assets/style.css",
-			"/assets/js/script.js",
-			"/assets/js/language.js",
+		const cacheNames = await caches.keys()
+		cacheNames.forEach(cacheName => {
+			if (cacheName != "static" + version && cacheName != "fallback" + version) caches.delete(cacheName)
+		})
 
-			"/",
-			"/credits",
-			"/privacy",
-			"/legal",
-			"/invite",
-			"/commands",
-			"/manifest.json",
+		const static = await caches.open("static" + version)
+		await static.addAll([
+			"/offline",
 			"/assets/fonts/gfonts_bevietmanpro_latin.woff2",
 			"/assets/images/favicon.ico",
 			"/assets/images/buttonroles.webp",
@@ -24,6 +20,22 @@ self.addEventListener("install", event => {
 			"/assets/images/wikimedia_flagfr.svg",
 			"/assets/images/wikimedia_flaghu.svg",
 			"/assets/images/wikimedia_flagja.svg"
+		])
+
+		const fallback = await caches.open("fallback" + version)
+		await fallback.addAll([
+			"/assets/style.css",
+			"/assets/js/script.js",
+			"/assets/js/language.js",
+
+			"/",
+			"/credits",
+			"/custom",
+			"/privacy",
+			"/legal",
+			"/invite",
+			"/commands",
+			"/manifest.json"
 		])
 	})())
 })
@@ -40,19 +52,22 @@ self.addEventListener("fetch", event => {
 	const url = new URL(event.request.url)
 	if (event.request.method == "GET" && url.protocol == "https:" && (event.request.mode == "navigate" || event.request.mode == "no-cors" || event.request.mode == "cors")) {
 		event.respondWith((async () => {
-			const cache = await caches.open("IYjo3M")
+			const preloadResponse = await event.preloadResponse
+			if (preloadResponse) return preloadResponse
 
+			const static = await caches.open("static" + version)
+			const assetResponse = await static.match(event.request)
+			if (assetResponse) return assetResponse
+
+			const fallback = await caches.open("fallback" + version)
 			try {
-				const preloadResponse = await event.preloadResponse
-				if (preloadResponse) return preloadResponse
-
 				const response = await fetch(event.request)
-				if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("guild=")) cache.add(event.request, response.clone())
+				if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("id=") && !url.search.includes("guild=")) fallback.add(event.request, response.clone())
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)
 
-				const cachedResponse = await cache.match(event.request)
+				const cachedResponse = await fallback.match(event.request)
 				if (!cachedResponse) return await caches.match("/offline")
 				return cachedResponse
 			}

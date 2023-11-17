@@ -48,8 +48,9 @@ function handleChange(elem) {
 		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
 		currentLayer.borderRadius = parseInt(elem.value)
 	} else if (elem.id == "layer-opacity") {
-		document.getElementById("layer-opacity-text").innerText = "Opacity: " + (elem.value * 100) + "%"
-		currentLayer.opacity = elem.value
+		const value = Math.round(elem.value * 100)
+		document.getElementById("layer-opacity-text").innerText = "Opacity: " + value + "%"
+		currentLayer.opacity = value / 100
 	} else if (elem.id == "layer-text" || elem.id == "layer-image" || elem.id == "layer-form") currentLayer.content = elem.value
 	else if (elem.id.split("-")[1] == "color") currentLayer[elem.id.split("-")[1]] = elem.value.replace("#", "").padStart(6, "0")
 	else if (elem.id.startsWith("text-")) currentLayer[elem.id.split("-")[1]] = elem.checked
@@ -73,19 +74,19 @@ function editLayer(id = "") {
 	currentLayer = currentImage.layers.find(layer => layer.id == id)
 
 	document.getElementById("layer-text").value = currentLayer.content
-	document.getElementById("layer-color-text").value = currentLayer.color
-	document.getElementById("text-bold").value = currentLayer.bold
-	document.getElementById("text-italic").value = currentLayer.italic
-	document.getElementById("text-underline").value = currentLayer.underline
-	document.getElementById("text-strikethrough").value = currentLayer.strikethrough
-	document.getElementById("text-textAlign").value = currentLayer.textAlign
-	document.getElementById("text-textBaseline").value = currentLayer.textBaseline
+	document.getElementById("layer-color-text").value = currentLayer.color || "#000000"
+	document.getElementById("text-bold").checked = currentLayer.bold || false
+	document.getElementById("text-italic").checked = currentLayer.italic || false
+	document.getElementById("text-underline").checked = currentLayer.underline || false
+	document.getElementById("text-strikethrough").checked = currentLayer.strikethrough || false
+	document.getElementById("text-textAlign").value = currentLayer.textAlign || "start"
+	document.getElementById("text-textBaseline").value = currentLayer.textBaseline || "alphabetic"
 
 	document.getElementById("layer-image").value = currentLayer.content
 	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
 
 	document.getElementById("layer-form").value = currentLayer.content
-	document.getElementById("layer-color-form").value = currentLayer.color
+	document.getElementById("layer-color-form").value = currentLayer.color || "#000000"
 
 	document.getElementById("layer-name").value = currentLayer.name
 	document.getElementById("layer-x").value = currentLayer.x
@@ -113,10 +114,10 @@ function addLayer() {
 
 	document.getElementById("layer-text").value = ""
 	document.getElementById("layer-color-text").value = "#000000"
-	document.getElementById("text-bold").value = false
-	document.getElementById("text-italic").value = false
-	document.getElementById("text-underline").value = false
-	document.getElementById("text-strikethrough").value = false
+	document.getElementById("text-bold").checked = false
+	document.getElementById("text-italic").checked = false
+	document.getElementById("text-underline").checked = false
+	document.getElementById("text-strikethrough").checked = false
 	document.getElementById("text-textAlign").value = "start"
 	document.getElementById("text-textBaseline").value = "alphabetic"
 

@@ -28,8 +28,7 @@ function getLeaderboardHTML(guild) {
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
 								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
 								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-								encode(user.name) + " <b>" + entry.points.toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
-								(entry.pointsCur ? " (Current run: <b>" + entry.pointsCur.toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
+								encode(user.name) + " <b>" + entry.fails.toLocaleString() + "</b> Fail" + (entry.fails == 1 ? "" : "s") + "</p>"
 						}).join("")
 
 					const botVote = "<h1 class='greeting'>Bot vote leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
@@ -81,7 +80,7 @@ loadFunc = () => {
 	if (params.has("guild")) getLeaderboardHTML(params.get("guild")).then(html => {
 		Object.keys(html).forEach(key => {
 			if (html[key]) document.getElementById(key).innerHTML = html[key]
-			else document.getElementById("button-" + key).classList.add("hidden")
+			else document.getElementById("button-" + key).remove()
 		})
 		reloadText()
 

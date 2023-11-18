@@ -49,7 +49,7 @@ async function mentionPicker(parent = document.body, roles = []) {
 	if (getCookie("theme") == "light") picker.classList.add("light")
 
 	picker.innerHTML = roles.map(mention => (
-		"<span class='element'" + (mention.color ? " style='color:#" + mention.color.toString(16) + ";'" : "") +
+		"<span class='element'" + (mention.color ? " style='background-color:#" + mention.color.toString(16).padStart(6, "0") + ";'" : "") +
 		" onclick='insertMention(this, \"" + mention.id + "\")'>@" + mention.name + "</span>"
 	)).join("")
 	parent.appendChild(picker)

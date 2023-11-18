@@ -42,6 +42,7 @@
 	--picker-selected: #9ae9b8;
 	--settings-upsell: #94E9DF;
 	--codebg: #dadada;
+	--custompicker-bg: #dee4f5;
 }
 
 .dark-theme {
@@ -49,10 +50,10 @@
 	--primary-color: #1d1d27;
 	--primary-color-hover: #000;
 	--secondary-color: #2e3247;
-	--tertiary-color: #4c4f68;
+	--tertiary-color: #4e505f;
 	--accent-color: #7966e9;
 	--accent-color-hover: #5141ac;
-	--button-accent-color: #373992;
+	--button-accent-color: #3d3f91;
 	--primary-text-color: #E6E7F1;
 	--secondary-text-color: #caccdb;
 	--blue: #7186ff;
@@ -63,7 +64,7 @@
 	--textarea-color: #FFF;
 	--textarea-background: #000;
 	--textarea-background-focus: #090909;
-	--select-background: #24265A;
+	--select-background: #27284d;
 	--select-hover: #8076da;
 	--select-border: var(--secondary-text-color);
 	--link: #afaff3;
@@ -73,7 +74,8 @@
 	--picker-bg: #212849;
 	--picker-selected: #2d6b46;
 	--settings-upsell: #24504e;
-	--codebg: #3e3e3f;
+	--codebg: #3f3f42;
+	--custompicker-bg: #3c4250;
 }
 
 * {
@@ -642,11 +644,11 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 3px 25px 0 0;
+	margin: 5px 25px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
-	padding: 6px 15px 6px 18px;
+	padding: 5px 15px 5px 18px;
 	color: var(--primary-text-color);
 }
 

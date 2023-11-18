@@ -22,7 +22,41 @@ function getLeaderboardHTML(guild) {
 								(entry.pointsCur ? " (Current run: <b>" + entry.pointsCur.toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
 						}).join("")
 
-					resolve({leveling, counting})
+					const countingFail = "<h1 class='greeting'>Counting fail leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						json.countingFail.map((entry, i) => {
+							const user = json.users[entry.u]
+							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
+								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
+								encode(user.name) + " <b>" + entry.points.toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
+								(entry.pointsCur ? " (Current run: <b>" + entry.pointsCur.toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
+						}).join("")
+
+					const botVote = "<h1 class='greeting'>Bot vote leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						json.botVote.map((entry, i) => {
+							const user = json.users[entry.u]
+							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
+								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
+								encode(user.name) + " <b>" + entry.votes.toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
+						}).join("")
+
+					const serverVote = "<h1 class='greeting'>Server vote leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+						json.serverVote.map((entry, i) => {
+							const user = json.users[entry.u]
+							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
+								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
+								encode(user.name) + " <b>" + entry.votes.toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
+						}).join("")
+
+					resolve({
+						leveling: json.level.length > 0 ? leveling : void 0,
+						counting: json.counting.length > 0 ? counting : void 0,
+						countingfail: json.countingFail.length > 0 ? countingFail : void 0,
+						botvote: json.botVote.length > 0 ? botVote : void 0,
+						servervote: json.serverVote.length > 0 ? serverVote : void 0
+					})
 				} else handleError(resolve, json.message)
 			})
 			.catch(e => handleError(resolve, e))
@@ -45,11 +79,16 @@ loadFunc = () => {
 	const params = new URLSearchParams(location.search)
 
 	if (params.has("guild")) getLeaderboardHTML(params.get("guild")).then(html => {
-		document.getElementById("leveling").innerHTML = html.leveling
-		document.getElementById("counting").innerHTML = html.counting
+		Object.keys(html).forEach(key => {
+			if (html[key]) document.getElementById(key).innerHTML = html[key]
+			else document.getElementById("button-" + key).classList.add("hidden")
+		})
 		reloadText()
 
-		if (location.hash == "#counting") changeTab(document.querySelector(".dialog-tab[name='counting']"))
+		if (location.hash == "#counting") changeTab(document.getElementById("button-counting"))
+		else if (location.hash == "#countingfail") changeTab(document.getElementById("button-countingfail"))
+		else if (location.hash == "#botvote") changeTab(document.getElementById("button-botvote"))
+		else if (location.hash == "#servervote") changeTab(document.getElementById("button-servervote"))
 	})
 	else {
 		document.getElementById("content").innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>"

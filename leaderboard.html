@@ -47,11 +47,17 @@
 			</header>
 
 			<div class="content" id="content">
-				<span class="dialog-tab active" name="leveling" data-radio="lbtype" onclick="changeTab(this)">Leveling</span>
-				<span class="dialog-tab" name="counting" data-radio="lbtype" onclick="changeTab(this)">Counting</span>
+				<span class="dialog-tab active" id="button-leveling" name="leveling" data-radio="lbtype" onclick="changeTab(this)">Leveling</span>
+				<span class="dialog-tab" id="button-counting" name="counting" data-radio="lbtype" onclick="changeTab(this)">Counting</span>
+				<span class="dialog-tab" id="button-countingfail" name="countingfail" data-radio="lbtype" onclick="changeTab(this)">Counting fails</span>
+				<span class="dialog-tab" id="button-botvote" name="botvote" data-radio="lbtype" onclick="changeTab(this)">Bot vote</span>
+				<span class="dialog-tab" id="button-servervote" name="servervote" data-radio="lbtype" onclick="changeTab(this)">Server vote</span>
 
 				<div id="leveling"></div>
 				<div id="counting" class="hidden"></div>
+				<div id="countingfail" class="hidden"></div>
+				<div id="botvote" class="hidden"></div>
+				<div id="servervote" class="hidden"></div>
 			</div>
 		</main>
 

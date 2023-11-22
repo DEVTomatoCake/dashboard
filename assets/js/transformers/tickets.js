@@ -1,3 +1,4 @@
+let tickets = []
 function getTicketsHTML(guild) {
 	return new Promise(resolve => {
 		getTickets(guild)
@@ -6,18 +7,23 @@ function getTicketsHTML(guild) {
 					let text =
 						"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
 						"<table cellpadding='8' cellspacing='0'><thead>" +
-						"<tr><th>ID/Transcript</th><th translation='tickets.table.user'></th><th translation='tickets.table.otherusers'></th><th translation='tickets.table.state'></th></tr>" +
+						"<tr><th>ID & Transcript</th><th translation='tickets.table.user'></th><th>Creation date</th><th translation='tickets.table.state'></th><th translation='logs.actions'></th></tr>" +
 						"</thead><tbody>"
 
+					tickets = json.data
 					json.data.forEach(ticket => {
-						if (!ticket.users) ticket.users = []
-
 						text +=
 							"<tr class='ticket cmdvisible'>" +
-							"<td><a href='/ticket?id=" + encode(ticket.id) + "'>" + encode(ticket.id) + "</a></td>" +
-							"<td>" + encode(ticket.owner) + "</td>" +
-							"<td>" + encode(ticket.users.filter(u => u != ticket.owner).join(", ")) + "</td>" +
-							"<td>" + encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) + "</td>" +
+							"<td><a href='/ticket?id=" + encode(ticket.id) + "'>" + (ticket.ticketid ? assertInt(ticket.ticketid) : encode(ticket.id)) + "</a></td>" +
+							"<td>" + (ticket.username ? encode(ticket.username) + "<br><small>(" : "") + encode(ticket.owner) + (ticket.username ? "</small>)" : "") + "</td>" +
+							"<td title='" + new Date(ticket.createdAt).toLocaleString() + "'>" + new Date(ticket.createdAt).toLocaleDateString() + "</td>" +
+							"<td" + (ticket.deletedAt || ticket.closedAt ? " title='" + new Date(ticket.deletedAt || ticket.closedAt).toLocaleString() + "'" : "") + ">" +
+								encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) +
+								(ticket.deletedAt || ticket.closedAt ? " (" + new Date(ticket.deletedAt || ticket.closedAt).toLocaleDateString() + ")" : "") +
+							"</td>" +
+							"<td>" +
+								"<button type='button' onclick='info(\"" + encode(ticket.id) + "\")' translation='logs.moreinfo'></button>" +
+							"</td>" +
 							"</tr>"
 					})
 
@@ -57,6 +63,22 @@ async function ticketSearch() {
 			tic.classList.remove("hidden")
 		}
 	}
+}
+
+function info(id) {
+	const ticket = tickets.find(l => l.id == id)
+	openDialog(document.getElementById("info-dialog"))
+
+	document.getElementById("info-dialogText").innerHTML =
+		"<b>Ticket ID:</b> " + encode(ticket.id) +
+		(ticket.ticketid ? "<br><b>Ticket ID:</b> " + assertInt(ticket.ticketid) : "") +
+		"<br><br><b>Creator:</b> " + (ticket.username ? encode(ticket.username) + " <small>(" : "") + encode(ticket.owner) + (ticket.username ? "</small>)" : "") +
+		(ticket.users ? "<br><b>Users:</b> " + ticket.users.map(u => encode(u)).join(", ") : "") +
+		"<br><br><b>Current state:</b> " + encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) +
+		"<br><b>Created at:</b> " + new Date(ticket.createdAt).toLocaleString() +
+		(ticket.closedAt ? "<br><b>Closed at:</b> " + new Date(ticket.closedAt).toLocaleString() : "") +
+		(ticket.deletedAt ? "<br><b>Deleted at:</b> " + new Date(ticket.deletedAt).toLocaleString() : "")
+	reloadText()
 }
 
 loadFunc = () => {

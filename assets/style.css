@@ -138,6 +138,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 
 .red {
 	background-color: #D32F2F;
+	transition: .2s;
 }
 .red:hover, .red:focus {
 	background-color: #B71C1C;
@@ -256,7 +257,7 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	overflow-wrap: anywhere;
 	font-size: 20px;
 	border: none;
-	border-radius: 7px;
+	border-radius: 8px;
 	padding: 5px;
 	color: var(--primary-text-color);
 	background-color: var(--select-background);
@@ -1178,8 +1179,12 @@ button:disabled {
 }
 
 .removeItem {
-	color: var(--select-border);
+	color: #D32F2F;
 	cursor: pointer;
+	transition: .2s;
+}
+.removeItem:hover, .removeItem:focus {
+	color: #B71C1C;
 }
 
 .featurelist {

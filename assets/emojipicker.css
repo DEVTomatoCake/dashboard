@@ -66,6 +66,8 @@ emoji-picker.light {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 7px;
+	max-height: 200px;
+	overflow: auto;
 }
 
 .custom-picker .element {

@@ -37,7 +37,7 @@ function createDialog() {
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
 
 	reloadText()
-	for (const elem of document.getElementsByClassName("image-container")[0].getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
+	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
 }
 
 let currentLayer = {}
@@ -54,10 +54,14 @@ function handleChange(elem) {
 		currentLayer.opacity = value / 100
 	} else if (elem.id == "layer-text" || elem.id == "layer-image" || elem.id == "layer-form") currentLayer.content = elem.value
 	else if (elem.id.split("-")[1] == "color") currentLayer[elem.id.split("-")[1]] = elem.value.replace("#", "").padStart(6, "0")
+	else if (elem.id == "text-textAlign" || elem.id == "text-textBaseline") currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id.startsWith("text-")) currentLayer[elem.id.split("-")[1]] = elem.checked
 	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id == "layer-width" || elem.id == "layer-height") currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
-	else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
+	else if (elem.id == "image-width" || elem.id == "image-height") {
+		currentImage[elem.id.split("-")[1]] = parseInt(elem.value)
+		ctx.canvas[elem.id.split("-")[1]] = parseInt(elem.value)
+	} else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
 	else console.log("Unknown element: " + elem.id)
 
 	currentImage.layers[currentImage.layers.indexOf(currentImage.layers.find(layer => layer.id == currentLayer.id))] = currentLayer
@@ -163,7 +167,7 @@ function imageEdit(imageId) {
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
 
 	reloadText()
-	for (const elem of document.getElementsByClassName("image-container")[0].getElementsByTagName("input")) elem.oninput = () => handleChange(elem)
+	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
 }
 
 const params = new URLSearchParams(location.search)

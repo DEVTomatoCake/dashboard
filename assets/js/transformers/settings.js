@@ -333,6 +333,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	}
 	html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
 		"</div>"
+	handleChange(setting.key + "_" + key)
 
 	if (parent) {
 		parent.insertAdjacentHTML("beforeend", html)

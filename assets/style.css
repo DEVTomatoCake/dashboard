@@ -110,7 +110,7 @@ a:visited {
 #commands-container {
 	overflow-x: auto;
 }
-tr.command {
+tr.command, th.sortable, summary {
 	cursor: pointer;
 }
 .cmd-info {
@@ -866,10 +866,6 @@ footer .links {
 
 .accent {
 	color: var(--accent-color);
-}
-
-summary {
-	cursor: pointer;
 }
 
 h1.greeting, h2.greeting {

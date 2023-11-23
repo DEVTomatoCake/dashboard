@@ -119,7 +119,7 @@ function getSettingsHTML(json) {
 	)
 }
 
-function settingsTab(tab) {
+const settingsTab = tab => {
 	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active")
 	document.getElementById("settings-tab-" + tab).classList.add("active")
 

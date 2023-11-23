@@ -147,6 +147,14 @@ tr.cmdvisible:nth-child(odd), table.prices tbody tr:nth-child(odd), table.earncr
 	color: #f00;
 }
 
+.green {
+	background-color: #47a74f;
+	transition: .2s;
+}
+.green:hover, .green:focus {
+	background-color: #3c9143;
+}
+
 .public-servers {
 	padding: 2px;
 	background-color: var(--tertiary-color);
@@ -1141,13 +1149,6 @@ button span {
 a:has(ion-icon), button:has(ion-icon) {
 	display: inline-flex;
 	align-items: center;
-}
-
-.green {
-	background-color: #47a74f;
-}
-.green:hover, .green:focus {
-	background-color: #3c9143;
 }
 
 button:disabled {

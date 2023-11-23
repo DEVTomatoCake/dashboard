@@ -28,7 +28,7 @@ function getGuildsHTML() {
 	})
 }
 
-function changePage(elem) {
+const changePage = elem => {
 	const pages = document.getElementsByClassName("page-select")[0].children
 	for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current")
 	elem.classList.add("current")

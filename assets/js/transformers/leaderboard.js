@@ -62,7 +62,7 @@ function getLeaderboardHTML(guild) {
 	})
 }
 
-function changeTab(elem) {
+const changeTab = elem => {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")

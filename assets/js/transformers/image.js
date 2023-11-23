@@ -172,7 +172,7 @@ function imageEdit(imageId) {
 
 const params = new URLSearchParams(location.search)
 let socket
-function imageDelete(elem, imageId = "") {
+const imageDelete = (elem, imageId = "") => {
 	const confirmed = confirm("Are you sure you want to delete the image \"" + images.find(img => img.id == imageId).name + "\"? This cannot be undone!")
 	if (confirmed) {
 		elem.parentElement.parentElement.remove()

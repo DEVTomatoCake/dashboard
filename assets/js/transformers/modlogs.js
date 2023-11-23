@@ -32,7 +32,7 @@ function getModlogsHTML(guild) {
 	})
 }
 
-function ticketSearch() {
+const ticketSearch = () => {
 	const tictype = document.getElementById("ts-type").value
 	const ticuser = document.getElementById("ts-userid").value
 	const ticmod = document.getElementById("ts-modid").value

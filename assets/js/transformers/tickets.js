@@ -1,4 +1,21 @@
 let tickets = []
+
+const info = id => {
+	const ticket = tickets.find(l => l.id == id)
+	openDialog(document.getElementById("info-dialog"))
+
+	document.getElementById("info-dialogText").innerHTML =
+		"<b>Ticket ID:</b> " + encode(ticket.id) +
+		(ticket.ticketid ? "<br><b>Ticket ID:</b> " + assertInt(ticket.ticketid) : "") +
+		"<br><br><b>Creator:</b> " + (ticket.username ? encode(ticket.username) + " <small>(" : "") + encode(ticket.owner) + (ticket.username ? "</small>)" : "") +
+		(ticket.users ? "<br><b>Users:</b> " + ticket.users.map(u => encode(u)).join(", ") : "") +
+		"<br><br><b>Current state:</b> " + encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) +
+		"<br><b>Created at:</b> " + new Date(ticket.createdAt).toLocaleString() +
+		(ticket.closedAt ? "<br><b>Closed at:</b> " + new Date(ticket.closedAt).toLocaleString() : "") +
+		(ticket.deletedAt ? "<br><b>Deleted at:</b> " + new Date(ticket.deletedAt).toLocaleString() : "")
+	reloadText()
+}
+
 function getTicketsHTML(guild) {
 	return new Promise(resolve => {
 		getTickets(guild)
@@ -63,22 +80,6 @@ async function ticketSearch() {
 			tic.classList.remove("hidden")
 		}
 	}
-}
-
-function info(id) {
-	const ticket = tickets.find(l => l.id == id)
-	openDialog(document.getElementById("info-dialog"))
-
-	document.getElementById("info-dialogText").innerHTML =
-		"<b>Ticket ID:</b> " + encode(ticket.id) +
-		(ticket.ticketid ? "<br><b>Ticket ID:</b> " + assertInt(ticket.ticketid) : "") +
-		"<br><br><b>Creator:</b> " + (ticket.username ? encode(ticket.username) + " <small>(" : "") + encode(ticket.owner) + (ticket.username ? "</small>)" : "") +
-		(ticket.users ? "<br><b>Users:</b> " + ticket.users.map(u => encode(u)).join(", ") : "") +
-		"<br><br><b>Current state:</b> " + encode(ticket.state.charAt(0).toUpperCase() + ticket.state.slice(1)) +
-		"<br><b>Created at:</b> " + new Date(ticket.createdAt).toLocaleString() +
-		(ticket.closedAt ? "<br><b>Closed at:</b> " + new Date(ticket.closedAt).toLocaleString() : "") +
-		(ticket.deletedAt ? "<br><b>Deleted at:</b> " + new Date(ticket.deletedAt).toLocaleString() : "")
-	reloadText()
 }
 
 loadFunc = () => {

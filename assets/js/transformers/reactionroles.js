@@ -1,5 +1,10 @@
 let rolecopy = {}
 
+const openForm = () => {
+	document.getElementById("reactionroles-reaction").value = ""
+	document.getElementById("reactionroles-msg").value = ""
+	openDialog(document.getElementById("create-dialog"))
+}
 function getReactionrolesHTML(json) {
 	if (json.status == "success") {
 		let channeloptions = ""
@@ -50,11 +55,6 @@ function getReactionrolesHTML(json) {
 	)
 }
 
-function openForm() {
-	document.getElementById("reactionroles-reaction").value = ""
-	document.getElementById("reactionroles-msg").value = ""
-	openDialog(document.getElementById("create-dialog"))
-}
 function changeTab(elem) {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {

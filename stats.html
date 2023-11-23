@@ -26,26 +26,8 @@
 	</head>
 	<body class="stats-page">
 		<script>
-			const params = new URLSearchParams(location.search)
-			if (params.has("guild")) {
-				const filters = []
-				if (params.has("time")) filters.push("time=" + params.get("time"))
-				if (params.has("type")) filters.push("type=" + params.get("type"))
 
-				getStats(params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
-					if (json.status == "success") createChart(json)
-					else document.body.innerHTML =
-						"<div class='center'>" +
-						"<h1>An error occured while executing the API request:</h1>" +
-						"<h2>" + json.message + "</h2>" +
-						"</div>"
-				})
-			} else {
-				localStorage.setItem("next", location.pathname)
-				location.href = "./dashboard"
-			}
-
-			function createChart(apiresponse) {
+			const createChart = apiresponse => {
 				const datasets = []
 
 				if (apiresponse.data.members.length > 0) datasets.push({
@@ -90,6 +72,25 @@
 				}
 
 				new Chart(document.getElementById("stats"), config)
+			}
+
+			const params = new URLSearchParams(location.search)
+			if (params.has("guild")) {
+				const filters = []
+				if (params.has("time")) filters.push("time=" + params.get("time"))
+				if (params.has("type")) filters.push("type=" + params.get("type"))
+
+				getStats(params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
+					if (json.status == "success") createChart(json)
+					else document.body.innerHTML =
+						"<div class='center'>" +
+						"<h1>An error occured while executing the API request:</h1>" +
+						"<h2>" + json.message + "</h2>" +
+						"</div>"
+				})
+			} else {
+				localStorage.setItem("next", location.pathname)
+				location.href = "./dashboard"
 			}
 		</script>
 		<canvas id="stats"></canvas>

@@ -46,12 +46,12 @@ function handleChange(elem) {
 	if (!elem.id) return
 
 	if (elem.id == "image-border-radius") {
-		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
 		currentLayer.borderRadius = parseInt(elem.value)
+		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
 	} else if (elem.id == "layer-opacity") {
 		const value = Math.round(elem.value * 100)
-		document.getElementById("layer-opacity-text").innerText = "Opacity: " + value + "%"
 		currentLayer.opacity = value / 100
+		document.getElementById("layer-opacity-text").innerText = "Opacity: " + value + "%"
 	} else if (elem.id == "layer-text" || elem.id == "layer-image" || elem.id == "layer-form") currentLayer.content = elem.value
 	else if (elem.id.split("-")[1] == "color") currentLayer[elem.id.split("-")[1]] = elem.value.replace("#", "").padStart(6, "0")
 	else if (elem.id == "text-textAlign" || elem.id == "text-textBaseline") currentLayer[elem.id.split("-")[1]] = elem.value
@@ -61,6 +61,7 @@ function handleChange(elem) {
 	else if (elem.id == "image-width" || elem.id == "image-height") {
 		currentImage[elem.id.split("-")[1]] = parseInt(elem.value)
 		ctx.canvas[elem.id.split("-")[1]] = parseInt(elem.value)
+		document.getElementById("image-preview").style[elem.id.split("-")[1]] = elem.value + "px"
 	} else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
 	else console.log("Unknown element: " + elem.id)
 
@@ -89,6 +90,7 @@ function editLayer(id = "") {
 
 	document.getElementById("layer-image").value = currentLayer.content
 	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
+	document.getElementById("image-border-radius-text").innerText = "Border radius: " + (currentLayer.borderRadius || 0) + "%"
 
 	document.getElementById("layer-form").value = currentLayer.content
 	document.getElementById("layer-color-form").value = currentLayer.color || "#000000"
@@ -99,21 +101,23 @@ function editLayer(id = "") {
 	document.getElementById("layer-width").value = currentLayer.width
 	document.getElementById("layer-height").value = currentLayer.height
 	document.getElementById("layer-opacity").value = currentLayer.opacity
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity + "%"
 }
 
+let layerCount = 1
 function addLayer() {
 	if (currentLayer.id && currentLayer.name.length > 32) return alert("The layer name can be at most 32 characters long!")
 
 	currentLayer = {
 		id: Math.random().toString(36).slice(2),
 		type: "text",
-		name: "New layer",
+		name: "Layer " + layerCount++,
+		content: "",
 		x: Math.floor(currentImage.width / 2),
 		y: Math.floor(currentImage.height / 2),
 		width: 100,
 		height: 100,
-		opacity: 1,
-		content: ""
+		opacity: 1
 	}
 	currentImage.layers.push(currentLayer)
 
@@ -128,6 +132,7 @@ function addLayer() {
 
 	document.getElementById("layer-image").value = ""
 	document.getElementById("image-border-radius").value = 0
+	document.getElementById("image-border-radius-text").innerText = "Border radius: 0%"
 
 	document.getElementById("layer-form").value = ""
 	document.getElementById("layer-color-form").value = "#000000"
@@ -138,6 +143,7 @@ function addLayer() {
 	document.getElementById("layer-width").value = currentLayer.width
 	document.getElementById("layer-height").value = currentLayer.height
 	document.getElementById("layer-opacity").value = currentLayer.opacity
+	document.getElementById("layer-opacity-text").innerText = "Opacity: 0%"
 
 	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
 	document.getElementById("layer-container").innerHTML +=
@@ -148,7 +154,9 @@ function addLayer() {
 
 let images = []
 function imageEdit(imageId) {
+	layerCount = 1
 	currentImage = images.find(e => e.id == imageId)
+	currentImage.edit = true
 
 	document.getElementById("create-title").innerHTML = "Edit dynamic image: <b>" + encode(currentImage.name) + "</b>"
 	document.getElementById("image-name").value = currentImage.name
@@ -255,18 +263,17 @@ function saveImage() {
 	if (!name) return alert("Enter a name for the image!")
 	if (name.length > 32) return alert("The name can be at most 32 characters long!")
 
-	document.getElementById("create-dialog").classList.add("hidden")
+	document.getElementById("edit-dialog").classList.add("hidden")
 	if (document.getElementById("no-images")) document.getElementById("no-images").remove()
 
-	images = images.filter(int => int.name != currentImage.name)
-	images.push(currentImage)
-
-	if (!data.edit) {
+	if (currentImage.edit) images = images.filter(int => int.name != currentImage.name)
+	else {
 		const div = document.createElement("div")
 		div.innerHTML = handleImage(data)
 		document.getElementsByClassName("image-container")[0].appendChild(div)
 		reloadText()
 	}
+	images.push(currentImage)
 
 	socket.send({
 		status: "success",

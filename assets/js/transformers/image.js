@@ -26,6 +26,7 @@ function createDialog() {
 	document.getElementById("image-submit").innerText = "Create dynamic image"
 
 	currentImage = {
+		id: Math.random().toString(36).slice(2),
 		name: "New image",
 		width: 500,
 		height: 250,
@@ -143,7 +144,7 @@ function addLayer() {
 	document.getElementById("layer-width").value = currentLayer.width
 	document.getElementById("layer-height").value = currentLayer.height
 	document.getElementById("layer-opacity").value = currentLayer.opacity
-	document.getElementById("layer-opacity-text").innerText = "Opacity: 0%"
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity + "%"
 
 	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
 	document.getElementById("layer-container").innerHTML +=
@@ -269,7 +270,7 @@ function saveImage() {
 	if (currentImage.edit) images = images.filter(int => int.name != currentImage.name)
 	else {
 		const div = document.createElement("div")
-		div.innerHTML = handleImage(data)
+		div.innerHTML = handleImage(currentImage)
 		document.getElementsByClassName("image-container")[0].appendChild(div)
 		reloadText()
 	}

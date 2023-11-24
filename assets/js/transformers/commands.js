@@ -47,7 +47,11 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 	if (search) document.getElementById("cmd-search").value = ""
 	else search = document.getElementById("cmd-search").value.toLowerCase()
 
-	if (onlyCategories && screen.width <= 800) sidebar()
+	if (onlyCategories) {
+		for (const elem of document.querySelector("#linksidebar .section.middle").getElementsByClassName("tab")) elem.classList.remove("active")
+		document.getElementById("tab-" + search).classList.add("active")
+		if (screen.width <= 800) sidebar()
+	}
 
 	const categories = {}
 	const filtered = new Set(commandData.filter(c =>
@@ -61,7 +65,7 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 		const cat = cmd.getAttribute("data-category")
 		categories[cat] = categories[cat] || false
 
-		if (filtered.has(commandData.find(c => c.name == cmd.querySelector("td").innerText))) {
+		if (filtered.has(commandData.find(c => c.name == cmd.querySelector("td").textContent))) {
 			cmd.classList.add("cmdvisible")
 			cmd.classList.remove("hidden")
 			categories[cat] = true
@@ -83,6 +87,7 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 			document.getElementById(category.id + "_title").classList.add("hidden")
 			document.getElementById(category.id + "_br").classList.add("hidden")
 		}
+		if (onlyCategories) document.getElementById(category.id + "_tb").classList.add("hidden")
 	}
 
 	if (filtered.size == 0) document.getElementById("no-cmds-found").removeAttribute("hidden")
@@ -126,13 +131,13 @@ loadFunc = () => {
 	getCommandsHTML().then(html => {
 		document.getElementById("linksidebar").innerHTML +=
 			"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
-			"<div class='tab' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
-			"<div class='tab' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-			"<div class='tab' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='chatbox-ellipses-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
-			"<div class='tab' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
-			"<div class='tab' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
-			"<div class='tab' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
-			"<div class='tab' onclick='cmdSearch(\"admin\", true)'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
+			"<div class='tab' id='tab-ticket' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
+			"<div class='tab' id='tab-fun' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
+			"<div class='tab' id='tab-suggest' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='chatbox-ellipses-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+			"<div class='tab' id='tab-economy' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
+			"<div class='tab' id='tab-moderation' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
+			"<div class='tab' id='tab-info' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
+			"<div class='tab' id='tab-admin' onclick='cmdSearch(\"admin\", true)'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
 			"</div>"
 
 		document.getElementById("commands-container").innerHTML = html

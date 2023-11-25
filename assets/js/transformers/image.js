@@ -57,7 +57,7 @@ function handleChange(elem) {
 	else if (elem.id.split("-")[1] == "color") currentLayer[elem.id.split("-")[1]] = elem.value.replace("#", "").padStart(6, "0")
 	else if (elem.id == "text-textAlign" || elem.id == "text-textBaseline") currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id.startsWith("text-")) currentLayer[elem.id.split("-")[1]] = elem.checked
-	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id == "layer-width" || elem.id == "layer-height") currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
+	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id.startsWith("layer-width") || elem.id.startsWith("layer-height")) currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id == "image-width" || elem.id == "image-height") {
 		currentImage[elem.id.split("-")[1]] = parseInt(elem.value)
@@ -70,8 +70,10 @@ function handleChange(elem) {
 
 	if (elem.id == "layer-name") document.getElementById("layer-" + currentLayer.id).getElementsByTagName("p")[0].innerText = encode(elem.value)
 
-	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
-	renderImage(ctx, currentImage)
+	if (elem.id != "image-name") {
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+		renderImage(ctx, currentImage)
+	}
 }
 
 function editLayer(id = "") {
@@ -82,6 +84,7 @@ function editLayer(id = "") {
 
 	document.getElementById("layer-text").value = currentLayer.content
 	document.getElementById("layer-color-text").value = currentLayer.color || "#000000"
+	document.getElementById("layer-width-text").value = currentLayer.width
 	document.getElementById("text-bold").checked = currentLayer.bold || false
 	document.getElementById("text-italic").checked = currentLayer.italic || false
 	document.getElementById("text-underline").checked = currentLayer.underline || false
@@ -90,17 +93,19 @@ function editLayer(id = "") {
 	document.getElementById("text-textBaseline").value = currentLayer.textBaseline || "alphabetic"
 
 	document.getElementById("layer-image").value = currentLayer.content
+	document.getElementById("layer-width-image").value = currentLayer.width
+	document.getElementById("layer-height-image").value = currentLayer.height
 	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
 	document.getElementById("image-border-radius-text").innerText = "Border radius: " + (currentLayer.borderRadius || 0) + "%"
 
 	document.getElementById("layer-form").value = currentLayer.content
+	document.getElementById("layer-width-form").value = currentLayer.width
+	document.getElementById("layer-height-form").value = currentLayer.height
 	document.getElementById("layer-color-form").value = currentLayer.color || "#000000"
 
 	document.getElementById("layer-name").value = currentLayer.name
 	document.getElementById("layer-x").value = currentLayer.x
 	document.getElementById("layer-y").value = currentLayer.y
-	document.getElementById("layer-width").value = currentLayer.width
-	document.getElementById("layer-height").value = currentLayer.height
 	document.getElementById("layer-opacity").value = currentLayer.opacity
 	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity + "%"
 }
@@ -116,14 +121,13 @@ function addLayer() {
 		content: "",
 		x: Math.floor(currentImage.width / 2),
 		y: Math.floor(currentImage.height / 2),
-		width: 100,
-		height: 100,
 		opacity: 1
 	}
 	currentImage.layers.push(currentLayer)
 
 	document.getElementById("layer-text").value = ""
 	document.getElementById("layer-color-text").value = "#000000"
+	document.getElementById("layer-width-text").value = 800
 	document.getElementById("text-bold").checked = false
 	document.getElementById("text-italic").checked = false
 	document.getElementById("text-underline").checked = false
@@ -132,17 +136,19 @@ function addLayer() {
 	document.getElementById("text-textBaseline").value = "alphabetic"
 
 	document.getElementById("layer-image").value = ""
+	document.getElementById("layer-width-image").value = 300
+	document.getElementById("layer-height-image").value = 300
 	document.getElementById("image-border-radius").value = 0
 	document.getElementById("image-border-radius-text").innerText = "Border radius: 0%"
 
 	document.getElementById("layer-form").value = ""
+	document.getElementById("layer-width-form").value = 100
+	document.getElementById("layer-height-form").value = 100
 	document.getElementById("layer-color-form").value = "#000000"
 
 	document.getElementById("layer-name").value = ""
 	document.getElementById("layer-x").value = currentLayer.x
 	document.getElementById("layer-y").value = currentLayer.y
-	document.getElementById("layer-width").value = currentLayer.width
-	document.getElementById("layer-height").value = currentLayer.height
 	document.getElementById("layer-opacity").value = currentLayer.opacity
 	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity + "%"
 

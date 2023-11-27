@@ -179,7 +179,7 @@ function sidebar() {
 	if (sideState % 2 == 0) {
 		setTimeout(() => {
 			document.getElementById("content").classList.remove("no-padding")
-			document.getElementById("sidebar-container").classList.toggle("visible")
+			document.getElementById("sidebar-container").classList.add("visible")
 		}, 300)
 	} else {
 		document.getElementById("content").classList.add("no-padding")
@@ -191,7 +191,7 @@ function sidebar() {
 		document.getElementById("lineBottom1").classList.remove("rotated2")
 
 		setTimeout(() => {
-			document.getElementById("sidebar-container").classList.toggle("visible")
+			document.getElementById("sidebar-container").classList.remove("visible")
 		}, 100)
 	}
 }

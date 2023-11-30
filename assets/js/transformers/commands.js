@@ -6,7 +6,7 @@ const getCommandsHTML = () => {
 			.then(json => {
 				if (json.status == "success") {
 					commandData = json.data
-					let text = "<div class='center'>"
+					let text = ""
 					const categories = []
 					const categoryData = []
 
@@ -36,7 +36,7 @@ const getCommandsHTML = () => {
 						text += "</tbody></table><br id='" + encode(category) + "_br'>"
 					})
 
-					resolve(text + "</div>")
+					resolve(text)
 				} else handleError(resolve, json.message)
 			})
 			.catch(e => handleError(resolve, e))
@@ -100,14 +100,16 @@ const cmdInfo = (elem, cmd) => {
 	else {
 		const command = commandData.find(c => c.name == cmd)
 		let html = "<div class='cmd-info'>" +
-			"<p><span translation='commands.category'></span>: " + encode(command.category) + "</p>" +
+			"<p><span translation='commands.category'></span>: " + encode(command.category.charAt(0).toUpperCase() + command.category.slice(1)) + "</p>" +
 			"<p><span translation='commands.usage'></span>: " + encode(command.usage) + "</p>"
 
 		if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + encode(command.aliases.join(", ")) + "</p>"
-		if (command.options) html += "<p><span translation='commands.args'></span> " + command.options.map(o => (
-			"<span title='" + encode(o.desc) + "'>" + encode(o.name) +
-			(o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='red-text'>*</span>" : "") + " <small>" + encode(o.type) + "</small></span>"
-		)).join(", ") + "</p>"
+		if (command.options) html += "<p><span translation='commands.args'></span><ul>" + command.options.map(o => (
+			"<li>" + encode(o.name) +
+			(o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='" + (o.required ? "red" : "blue") + "-text'>*</span>" : "") +
+			(o.type.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o.type) + "</small>") +
+			": " + encode(o.desc) + "</li>"
+		)).join("") + "</ul></p>"
 
 		elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>"
 		reloadText()

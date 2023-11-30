@@ -1138,7 +1138,7 @@ button {
 button:hover, button:focus {
 	background-color: var(--accent-color-hover);
 }
-button span {
+button span, button b {
 	color: var(--light-text-color);
 }
 

@@ -52,7 +52,7 @@ function createDialog() {
 	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
 	document.getElementById("integration-name").removeAttribute("readonly")
 	document.getElementById("integration-short").value = ""
-	document.getElementById("integration-image").value = ""
+	document.getElementById("integration-image").setAttribute("hidden", "")
 	document.getElementById("integration-public").checked = false
 	document.getElementById("actions-container").innerHTML = ""
 	document.getElementById("integration-input").value = ""
@@ -121,7 +121,6 @@ function integrationUse(integrationName) {
 			"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"})this.remove()'>Sync integration from original</button>" : "")
 	document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name)
 	document.getElementById("integration-short").value = encode(integration.short)
-	document.getElementById("integration-image").value = encode(integration.image)
 	document.getElementById("integration-public").checked = false
 	document.getElementById("integration-use-container").removeAttribute("hidden")
 	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName)
@@ -167,6 +166,9 @@ function integrationEdit(integrationName) {
 	document.getElementById("integration-use-container").setAttribute("hidden", "")
 	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave")
 
+	if (integration.image) document.getElementById("integration-image").removeAttribute("hidden")
+	else document.getElementById("integration-image").setAttribute("hidden", "")
+
 	document.getElementById("actions-container").innerHTML = ""
 	integration.actions.forEach(action => {
 		const newElem = addAction(action.trigger)
@@ -197,7 +199,7 @@ function nameExists(elem) {
 function handleIntegration(integration) {
 	return "<div class='integration'>" +
 		"<div class='flex'>" +
-			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='https://api.tomatenkuchen.com/image-proxy?url=" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
+			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
 			"<h3>" + encode(integration.name) + "</h3>" +
 			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
@@ -320,7 +322,6 @@ function createIntegration(sourceId = "") {
 		lastUpdate: Date.now(),
 		name,
 		short: document.getElementById("integration-short").value,
-		image: document.getElementById("integration-image").value,
 		public: document.getElementById("integration-public").checked,
 		actions: [],
 		input,

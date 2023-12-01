@@ -106,9 +106,15 @@ const cmdInfo = (elem, cmd) => {
 		if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + encode(command.aliases.join(", ")) + "</p>"
 		if (command.options) html += "<p><span translation='commands.args'></span><ul>" + command.options.map(o => (
 			"<li>" + encode(o.name) +
-			(o.required || o.type.startsWith("SUB_COMMAND") ? "<span class='" + (o.required ? "red" : "blue") + "-text'>*</span>" : "") +
+			(o.required ? "<span class='red-text'>*</span>" : "") +
 			(o.type.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o.type) + "</small>") +
-			": " + encode(o.desc) + "</li>"
+			": " + encode(o.desc) + "</li>" +
+			(o.options ? "<ul>" + o.options.map(o2 => (
+				"<li>" + encode(o2.name) +
+				(o2.required ? "<span class='red-text'>*</span>" : "") +
+				(o2.type.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o2.type) + "</small>") +
+				": " + encode(o2.desc) + "</li>"
+			)).join("") + "</ul>" : "")
 		)).join("") + "</ul></p>"
 
 		elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>"

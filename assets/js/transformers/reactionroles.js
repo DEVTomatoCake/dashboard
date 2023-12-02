@@ -234,6 +234,7 @@ function saveReactionroles() {
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving reactionroles...", timeout: 7}).show()
 }
 
+const handleChange = () => {}
 loadFunc = () => {
 	let amountnew = 0
 	document.getElementById("create-form").addEventListener("submit", e => {

@@ -293,7 +293,9 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 					(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "'><br>"
 				if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key)
 			} else {
-				html += "<div class='emoji-container'><textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + setKey + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
+				html +=
+					"<div class='emoji-container'>" +
+					"<textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + setKey + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
 					(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>"

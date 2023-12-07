@@ -109,15 +109,21 @@ class Sidebar extends HTMLElement {
 					: "") +
 					(guild ?
 						"<div class='section middle'><p class='title' translation='sidebar.dashboard'></p>" +
-						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon><p translation='dashboard.settings'>Settings</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon><p translation='dashboard.integrations'>Integrations</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon>" +
+							"<p translation='dashboard.settings'>Settings</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
+							"<p translation='dashboard.integrations'>Integrations</p></a>" +
 						"<details>" +
 						"<summary>More pages</summary>" +
-						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon><p>Reactionroles</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "'><ion-icon name='warning-outline'></ion-icon><p translation='dashboard.logs'>Logs</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon>" +
+						"<p>Reactionroles</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "'><ion-icon name='warning-outline'></ion-icon>" +
+							"<p translation='dashboard.logs'>Logs</p></a>" +
 						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "'><ion-icon name='shield-half-outline'></ion-icon><p translation='dashboard.modlogs'>Modlogs</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "'><ion-icon name='ticket-outline'></ion-icon><p translation='dashboard.tickets'>Tickets</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "'><ion-icon name='shield-half-outline'></ion-icon>" +
+							"<p translation='dashboard.modlogs'>Modlogs</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "'><ion-icon name='ticket-outline'></ion-icon>" +
+							"<p translation='dashboard.tickets'>Tickets</p></a>" +
 						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
 						"<a class='tab otherlinks' href='../stats?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 						"</details>" +

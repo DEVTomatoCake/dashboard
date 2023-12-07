@@ -82,7 +82,8 @@ function changeTab(elem) {
 
 function addRR(e) {
 	e.preventDefault()
-	if (!document.getElementById("reactionroles-buttonlabel") || document.getElementById("reactionroles-buttonlabel").length > 80) return new ToastNotification({type: "ERROR", title: "You must enter a 1-80 character long button label!", timeout: 10}).show()
+	if (!document.getElementById("reactionroles-buttonlabel") || document.getElementById("reactionroles-buttonlabel").length > 80)
+		return new ToastNotification({type: "ERROR", title: "You must enter a 1-80 character long button label!", timeout: 10}).show()
 
 	const type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name")
 	const emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value

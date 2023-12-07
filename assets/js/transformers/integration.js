@@ -106,7 +106,10 @@ function integrationInfo(integrationName) {
 			(action.args && action.args[0] ? "<p>Argument: " + encode(action.args[0]) + "</p>" : "") +
 			"<br><textarea class='code' id='info-content" + i + "' rows='" + (Math.round(action.content.split("\n").length * 1.2) + 2) + "' readonly>" + encode(action.content) + "</textarea>"
 		)).join("<br><br>") +
-		(integration.guild == params.get("guild") ? "" : "<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" + encode(guildName) + "</b></button>")
+		(integration.guild == params.get("guild") ? "" :
+			"<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" +
+			encode(guildName) + "</b></button>"
+		)
 	reloadText()
 }
 

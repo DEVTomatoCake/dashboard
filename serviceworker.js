@@ -62,7 +62,8 @@ self.addEventListener("fetch", event => {
 			const fallback = await caches.open("fallback" + version)
 			try {
 				const response = await fetch(event.request)
-				if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("id=") && !url.search.includes("guild=")) fallback.add(event.request, response.clone())
+				if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("id=") && !url.search.includes("guild=") && !url.search.includes("token="))
+					fallback.add(event.request, response.clone())
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)

@@ -1,4 +1,5 @@
 let settingsData = {}
+let categoriesData = {}
 let selectData = {}
 let queue = []
 
@@ -6,16 +7,6 @@ const params = new URLSearchParams(location.search)
 let saving = false
 let savingToast
 let errorToast
-
-const friendlyCat = {
-	ticket: "Tickets",
-	level: "Leaderboard<br>& level",
-	stats: "Statistics",
-	boost: "Boost messages",
-	autonick: "Role nicknames",
-	voting: "Vote messages",
-	customrole: "Custom roles"
-}
 
 let guildName = ""
 const pickerData = {}
@@ -100,7 +91,8 @@ function getSettingsHTML(json) {
 		})
 
 		categories.forEach(category => {
-			text += "<div id='setcat-" + category + "' class='settingdiv'><h2 id='" + category + "'>" + (friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>"
+			text += "<div id='setcat-" + category + "' class='settingdiv'><h2 id='" + category + "'>" +
+				(categoriesData[category] && categoriesData[category].name ? categoriesData[category].name : category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>"
 			categoryData.forEach(data => {
 				if (category == data[0]) text += data[1]
 			})
@@ -121,7 +113,7 @@ function getSettingsHTML(json) {
 
 const settingsTab = tab => {
 	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active")
-	document.getElementById("settings-tab-" + tab).classList.add("active")
+	document.getElementById("settab-" + tab).classList.add("active")
 
 	for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden")
 	document.getElementById("setcat-" + tab).classList.remove("hidden")
@@ -198,6 +190,7 @@ function connectWS(guild) {
 				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 
 				settingsData = json.data
+				categoriesData = json.categories
 				pickerData.role = json.constant.role
 				pickerData.textchannel = json.constant.textchannel
 				pickerData.leveltextchannel = {here: "Current channel", ...pickerData.textchannel}
@@ -210,8 +203,10 @@ function connectWS(guild) {
 				let sidebarHTML = "<div class='section middle'><hr>"
 
 				rendered.categories.forEach(category => {
-					sidebarHTML += "<div class='tab small' id='settings-tab-" + category + "' onclick='settingsTab(\"" + category + "\")'><ion-icon name='settings-outline'></ion-icon><p>" +
-						(friendlyCat[category] || category.charAt(0).toUpperCase() + category.slice(1)) + "</p></div>"
+					sidebarHTML += "<div class='tab small' id='settab-" + category + "' onclick='settingsTab(\"" + category + "\")'>" +
+						"<ion-icon name='" + (json.categories[category] && json.categories[category].name ? json.categories[category].name : "settings-outline") + "'></ion-icon><p>" +
+						(json.categories[category] && json.categories[category].name ? json.categories[category].name : category.charAt(0).toUpperCase() + category.slice(1)) +
+						"</p></div>"
 				})
 
 				document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>"

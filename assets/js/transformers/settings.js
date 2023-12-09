@@ -204,7 +204,7 @@ function connectWS(guild) {
 
 				rendered.categories.forEach(category => {
 					sidebarHTML += "<div class='tab small' id='settab-" + category + "' onclick='settingsTab(\"" + category + "\")'>" +
-						"<ion-icon name='" + (json.categories[category] && json.categories[category].name ? json.categories[category].name : "settings-outline") + "'></ion-icon><p>" +
+						"<ion-icon name='" + (json.categories[category] && json.categories[category].icon ? json.categories[category].icon : "settings-outline") + "'></ion-icon><p>" +
 						(json.categories[category] && json.categories[category].name ? json.categories[category].name : category.charAt(0).toUpperCase() + category.slice(1)) +
 						"</p></div>"
 				})

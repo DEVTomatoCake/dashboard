@@ -1157,15 +1157,18 @@ button:disabled {
 	right: 15px;
 	bottom: 15px;
 	background-color: var(--secondary-color);
-	padding: 15px;
+	padding: 13px;
 	opacity: 0;
 	z-index: 5;
-	border-radius: 20px;
-	box-shadow: 0 0 20px rgba(0,0,0,.5);
+	border-radius: 15px;
+	box-shadow: 0 3px 15px rgba(0,0,0,.5);
 }
 .userinfo-container button, button.createForm, .create-form button {
 	margin: 10px 10px 0 0;
 	border-radius: 12px;
+}
+#cookie-container {
+	max-width: 750px;
 }
 
 .unsaved-container {

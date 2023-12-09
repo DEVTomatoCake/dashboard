@@ -231,7 +231,10 @@ function pageLoad() {
 		document.body.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
-			"<p translation='cookie.text'>Our website uses cookies to provide <br>the best possible user experience.</p>" +
+			"<p>We use the following cookies on this website to handle authentification and improve user experience.<br>Essential cookies:</p>" +
+			"<ul><li><code>token</code> & <code>user</code>: Discord login</li><li><code>cookie-dismiss</code>: Remember cookie consent</li></ul>" +
+			"<p>Optional cookies:</p>" +
+			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>avatar</code>: Display Discord user avatar</li></ul>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
 			"</div>"

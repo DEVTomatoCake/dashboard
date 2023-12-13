@@ -3,7 +3,7 @@ const calcCredits = () => {
 	const userCount = Math.abs(parseInt(elem.value || elem.getAttribute("placeholder")))
 	if (userCount < 2 || userCount > 9999999) return
 
-	const cost = (Math.pow(28 * (userCount + 90), 0.6) - 105).toFixed(1)
+	const cost = (Math.pow(21 * (userCount + 95), 0.6) - 90).toFixed(1)
 	document.getElementById("calc-result").innerHTML = "<b>" + parseFloat(cost).toLocaleString() + "</b> credits per day - that's just voting <b>" +
 		Math.ceil(cost / 28).toLocaleString() + "</b> times every 24 hours <small>(and less if members vote more often)</small>!"
 }

@@ -603,7 +603,7 @@ footer .links {
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: var(--secondary-color);
+	background-color: var(--accent-color);
 	border-radius: 20px;
 }
 
@@ -630,9 +630,13 @@ footer .links {
 	content: "🌙";
 }
 
-.switch input + .slider {
-	background-color: var(--accent-color);
+.switch[data-type="bool"] .slider:before {
+	content: "❌";
 }
+.switch[data-type="bool"] input:checked + .slider:before {
+	content: "✅";
+}
+
 .switch input:checked + .slider:before {
 	transform: translateX(26px);
 }

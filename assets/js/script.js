@@ -285,5 +285,5 @@ function pageLoad() {
 
 	loadFunc()
 	reloadText()
-	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
+	if ("serviceWorker" in navigator && location.protocol == "https:") navigator.serviceWorker.register("/serviceworker.js")
 }

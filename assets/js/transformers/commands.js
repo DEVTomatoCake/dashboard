@@ -141,7 +141,7 @@ loadFunc = () => {
 			"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
 			"<div class='tab' id='tab-ticket' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
 			"<div class='tab' id='tab-fun' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-			"<div class='tab' id='tab-suggest' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='chatbox-ellipses-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+			"<div class='tab' id='tab-suggest' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
 			"<div class='tab' id='tab-economy' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
 			"<div class='tab' id='tab-moderation' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
 			"<div class='tab' id='tab-info' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +

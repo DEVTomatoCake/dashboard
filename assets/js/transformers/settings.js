@@ -60,11 +60,15 @@ function getSettingsHTML(json) {
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>"
 					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value))
-				} else {
+				} else if (setting.type == "bool")
+					temp += "<div class='switch' data-type='bool'>" +
+						"<input type='checkbox' class='setting' id='" + setting.key + "'" + (setting.value ? " checked" : "") + ">" +
+						"<span class='slider' onclick='document.getElementById(\"" + setting.key + "\").click()'></span>" +
+						"</div><br>"
+				else {
 					temp += "<select class='setting' id='" + setting.key + "'>"
 					Object.keys(possible).forEach(key => {
-						if (setting.type == "bool") temp += "<option value='" + key + "'" + ((setting.value && key == "true") || (!setting.value && key != "true") ? " selected" : "") + ">" + possible[key] + "</option>"
-						else temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>"
+						temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>"
 					})
 					temp += "</select><br>"
 				}
@@ -275,11 +279,15 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 			else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
 				html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>"
 				queue.push(() => updateSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]))
-			} else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
+			} else if (setting.type[setKey] == "bool")
+				html += "<div class='switch' data-type='bool'>" +
+					"<input type='checkbox' class='setting' id='" + setting.key + "_" + setKey + "_" + key + "'" + (value[setKey] ? " checked" : "") + ">" +
+					"<span class='slider' onclick='document.getElementById(\"" + setting.key + "_" + setKey + "_" + key + "\").click()'></span></div>" +
+					"<br>"
+			else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 				html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>"
 				Object.keys(possible[setKey]).forEach(posKey => {
-					if (setting.type[setKey] == "bool") html += "<option value='" + posKey + "'" + ((value[setKey] && key == "true") || (!value[setKey] && key != "true") ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
-					else if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+					if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 					else html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>"
 				})
 				html += "</select><br>"
@@ -309,7 +317,12 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 		else if (type == "role" || type.endsWith("channel")) {
 			html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>"
 			queue.push(() => updateSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value))
-		} else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
+		} else if (type == "bool")
+			html += "<div class='switch' data-type='bool'>" +
+				"<input type='checkbox' class='setting' id='" + setting.key + "_" + key + "'" + (value ? " checked" : "") + ">" +
+				"<span class='slider' onclick='document.getElementById(\"" + setting.key + "_" + key + "\").click()'></span></div>" +
+				"<br>"
+		else if (typeof type == "string" && possible[key] && Object.keys(possible[key]).length > 0) {
 			html += "<select class='settingcopy' id='" + setting.key + "_" + key + "'>"
 			Object.keys(possible[key]).forEach(posKey => {
 				if (type == "bool") html += "<option value='" + posKey + "'" + ((value && key == "true") || (!value && key != "true") ? " selected" : "") + ">" + possible[key][posKey] + "</option>"
@@ -363,7 +376,7 @@ function saveSettings() {
 			Object.keys(setting.type).forEach(key => {
 				const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]")
 
-				if (setting.type[key] == "bool") entry[key] = child.value == "true"
+				if (setting.type[key] == "bool") entry[key] = child.checked
 				else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = parseFloat(child.value)
 				else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = parseInt(child.value)
 				else if (child.hasAttribute("data-selected")) entry[key] = child.getAttribute("data-selected")
@@ -378,7 +391,7 @@ function saveSettings() {
 					Object.keys(setting.type).forEach(key => {
 						for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
 							let value = objchild.value
-							if (setting.type[key] == "bool") value = objchild.value == "true"
+							if (setting.type[key] == "bool") value = objchild.checked
 							else if (setting.type[key] == "number" || setting.type[key].type == "number") value = parseFloat(objchild.value)
 							else if (setting.type[key] == "int" || setting.type[key].type == "int") value = parseInt(objchild.value)
 							else if (objchild.hasAttribute("data-selected")) value = objchild.getAttribute("data-selected")
@@ -390,7 +403,7 @@ function saveSettings() {
 					if (Object.keys(temp).length > 0) entry.push(temp)
 				}
 			} else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select,channel-picker")) entry.push(objchild.value)
-		} else if (setting.type == "bool") entry = document.getElementById(setting.key).value == "true"
+		} else if (setting.type == "bool") entry = document.getElementById(setting.key).checked
 		else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value)
 		else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value)
 		else if (document.getElementById(setting.key).hasAttribute("data-selected")) entry = document.getElementById(setting.key).getAttribute("data-selected")

@@ -4,7 +4,9 @@ module.exports = {
 			preset: "lighthouse:recommended"
 		},
 		collect: {
-			staticDistDir: "./"
+			url: ["http://localhost:4269"],
+			startServerCommand: "node dev.js"
+			//staticDistDir: "./"
 		},
 		upload: {
 			// Longterm: https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/getting-started.md#the-lighthouse-ci-server

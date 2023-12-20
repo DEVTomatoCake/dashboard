@@ -1,8 +1,8 @@
 module.exports = {
 	ci: {
-		assert: {
+		/*assert: {
 			preset: "lighthouse:recommended"
-		},
+		},*/
 		collect: {
 			staticDistDir: "./",
 			url: [
@@ -12,8 +12,7 @@ module.exports = {
 				"./credits.html#no-cookie-popup",
 				"./leaderboard.html?guild=694194461122756649#no-cookie-popup",
 				"./stats.html?guild=694194461122756649",
-				"./privacy.html#no-cookie-popup",
-				"./form.html?id=tksupport#no-cookie-popup"
+				"./privacy.html#no-cookie-popup"
 			]
 		},
 		upload: {

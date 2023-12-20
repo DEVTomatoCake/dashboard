@@ -940,8 +940,30 @@ td.overflow {
 }
 
 pre {
-    white-space: pre-wrap;
+	white-space: pre-wrap;
 	overflow-wrap: break-word;
+}
+
+span[tooltip] {
+	position: relative;
+}
+span[tooltip]:hover:before {
+	opacity: 1;
+}
+
+span[tooltip]:before {
+	content: attr(tooltip);
+	opacity: 0;
+	position: absolute;
+	top: 30px;
+	transition: .2s;
+	right: -90px;
+	max-width: 200px;
+	font-size: 16px;
+	padding: 10px;
+	color: var(--primary-text-color);
+	background-color: var(--secondary-color);
+	border-radius: 5px;
 }
 
 .stats-row {

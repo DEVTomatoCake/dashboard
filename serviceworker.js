@@ -1,4 +1,4 @@
-const version = "7h3jO"
+const version = 1
 
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
@@ -14,7 +14,7 @@ self.addEventListener("install", event => {
 			"/assets/images/favicon.ico",
 			"/assets/images/buttonroles.webp",
 			"/assets/images/tomato_ban.webp",
-			"/assets/images/tomato_empty.webp",
+			"/assets/images/tomato_empty_160.webp",
 			"/assets/images/wikimedia_flagde.svg",
 			"/assets/images/wikimedia_flagen.svg",
 			"/assets/images/wikimedia_flagfr.svg",

@@ -4,15 +4,15 @@ module.exports = {
 			preset: "lighthouse:recommended"
 		},
 		collect: {
-			/*url: ["http://localhost:4269"],
-			startServerCommand: "node dev.js",
-			startServerReadyPattern: "^Running on .+",
-			startServerReadyTimeout: 15000*/
 			staticDistDir: "./",
 			url: [
-				"./index.html",
-				"./commands.html",
-				"./privacy.html"
+				"./index.html#no-cookie-popup",
+				"./commands.html#no-cookie-popup",
+				"./custom.html#no-cookie-popup",
+				"./credits.html#no-cookie-popup",
+				"./leaderboard.html?guild=694194461122756649#no-cookie-popup",
+				"./stats.html?guild=694194461122756649",
+				"./privacy.html#no-cookie-popup"
 			]
 		},
 		upload: {

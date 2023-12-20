@@ -18,9 +18,6 @@ jobs:
           node-version: 20
           cache: "npm"
 
-      - name: "🛸 install dev npm packages"
-        run: npm i --omit=optional --include=dev --no-fund --progress=false
-
       - name: "🛳️ run Lighthouse CI"
         run: |
           npm install -g @lhci/cli@0.13.x

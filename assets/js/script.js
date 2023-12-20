@@ -48,7 +48,7 @@ class Footer extends HTMLElement {
 			"<footer>" +
 			"<a href='/'>" +
 			"<div id='mainlink'>" +
-				"<img src='/assets/images/background_192.webp' width='64' height='64' alt='TomatenKuchen Logo'>" +
+				"<img src='/assets/images/background_64.webp' width='64' height='64' alt='TomatenKuchen Logo'>" +
 				"<span>TomatenKuchen</span>" +
 			"</div>" +
 			"</a>" +
@@ -227,7 +227,7 @@ function openDialog(dialog) {
 }
 
 function pageLoad() {
-	if (!getCookie("cookie-dismiss")) {
+	if (!getCookie("cookie-dismiss") && location.hash != "#no-cookie-popup") {
 		document.body.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +

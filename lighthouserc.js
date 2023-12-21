@@ -1,8 +1,5 @@
 module.exports = {
 	ci: {
-		/*assert: {
-			preset: "lighthouse:recommended"
-		},*/
 		collect: {
 			staticDistDir: "./",
 			url: [
@@ -16,8 +13,8 @@ module.exports = {
 			]
 		},
 		upload: {
-			// Longterm: https://github.com/GoogleChrome/lighthouse-ci/blob/main/docs/getting-started.md#the-lighthouse-ci-server
-			target: "temporary-public-storage"
+			target: "lhci",
+			serverBaseUrl: "https://lhci.tomatenkuchen.com/"
 		}
 	}
 }

@@ -1,6 +1,8 @@
 name: "Lighthouse"
 
 on:
+  schedule:
+    - cron: '39 12 * * *'
   workflow_dispatch:
   pull_request:
 
@@ -24,3 +26,4 @@ jobs:
           lhci autorun --collect.numberOfRuns=1
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+          LHCI_TOKEN: ${{ secrets.LHCI_TOKEN }}

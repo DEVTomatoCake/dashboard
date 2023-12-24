@@ -28,7 +28,7 @@ function getIntegrationsHTML(json, guild) {
 
 	return (
 		"<h1>An error occured while handling your request:</h1>" +
-		"<h2>" + json.message + "</h2>"
+		"<h2>" + encode(json.message) + "</h2>"
 	)
 }
 
@@ -373,6 +373,6 @@ loadFunc = () => {
 		location.href = "../dashboard"
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
-		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search)
+		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
 }

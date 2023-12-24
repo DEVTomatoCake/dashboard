@@ -14,8 +14,8 @@ function getGuildsHTML() {
 						return -1
 					}).map(guild => {
 						return "" +
-							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") + "?guild=" + guild.id +
-							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w=-]/gi, "") : "") + "'>" +
+							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") + "?guild=" + encode(guild.id +
+							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w&#=-]/gi, "") : "")) + "'>" +
 							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) + " Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
 							"<p>" + encode(guild.name) + "</p>" +
 							"</a>"
@@ -57,7 +57,7 @@ loadFunc = () => {
 			} else {
 				document.getElementById("root-container").innerHTML =
 					"<h1>An error occured while handling your request:</h1>" +
-					"<h2>" + json.message + "</h2>"
+					"<h2>" + encode(json.message) + "</h2>"
 			}
 		})
 	} else if (getCookie("token")) {
@@ -82,17 +82,16 @@ loadFunc = () => {
 				setCookie("user", json.user, 4)
 				setCookie("avatar", json.avatar, 4)
 
-				if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = location.protocol + "//" + location.host + "/" + localStorage.getItem("next").replace("/", "")
-				else location.href = location.protocol + "//" + location.host + "/dashboard" +
-					(params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "")
+				if (localStorage.getItem("next") && localStorage.getItem("next").startsWith("/")) location.href = location.protocol + "//" + location.host + "/" + localStorage.getItem("next").replace(/[./]/g, "")
+				else location.href = "/dashboard" + (params.has("guild") || params.has("guild_id") ? "/settings?guild=" + encode(params.get("guild") || params.get("guild_id")) : "")
 			} else {
 				document.getElementById("root-container").innerHTML =
 					"<h1>An error occured while handling your request:</h1>" +
-					"<h2>" + json.message + "</h2>"
+					"<h2>" + encode(json.message) + "</h2>"
 			}
 		})
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
-		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search)
+		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
 }

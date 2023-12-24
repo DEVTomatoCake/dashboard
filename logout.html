@@ -33,7 +33,7 @@
 					document.body.innerHTML =
 						"<div class='center'>" +
 						"<h1>An error occured while handling your request:</h1>" +
-						"<h2>" + json.message + "</h2>" +
+						"<h2>" + encode(json.message) + "</h2>" +
 						"<h3>You still were logged out in the browser.</h3>" +
 						"</div>"
 

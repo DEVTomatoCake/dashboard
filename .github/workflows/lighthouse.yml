@@ -1,8 +1,6 @@
 name: "Lighthouse"
 
 on:
-  schedule:
-    - cron: '39 12 * * *'
   workflow_dispatch:
   pull_request:
 

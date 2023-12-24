@@ -111,7 +111,7 @@ function getSettingsHTML(json) {
 
 	return (
 		"<h1>An error occured while handling your request:</h1>" +
-		"<h2>" + json.message + "</h2>"
+		"<h2>" + encode(json.message) + "</h2>"
 	)
 }
 
@@ -218,7 +218,12 @@ function connectWS(guild) {
 				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>"
 				queue.forEach(f => f())
 				queue = []
-				if (location.hash != "") document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true)
+
+				if (location.hash != "" && document.getElementById(location.hash.slice(1))) {
+					document.querySelector("label[for='" + location.hash.slice(1) + "']").classList.add("highlight")
+					setTimeout(() => document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true), 100)
+				}
+
 				reloadText()
 				guildName = json.name
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
@@ -432,10 +437,10 @@ loadFunc = () => {
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>"
-		localStorage.setItem("next", location.pathname)
+		localStorage.setItem("next", location.pathname + location.search + location.hash)
 		location.href = "../dashboard"
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
-		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search)
+		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
 }

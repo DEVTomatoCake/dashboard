@@ -51,7 +51,7 @@ function getReactionrolesHTML(json) {
 
 	return (
 		"<h1>An error occured while handling your request:</h1>" +
-		"<h2>" + json.message + "</h2>"
+		"<h2>" + encode(json.message) + "</h2>"
 	)
 }
 
@@ -261,10 +261,10 @@ loadFunc = () => {
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>"
-		localStorage.setItem("next", location.pathname)
+		localStorage.setItem("next", location.pathname + location.search + location.hash)
 		location.href = "../dashboard"
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
-		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search)
+		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
 }

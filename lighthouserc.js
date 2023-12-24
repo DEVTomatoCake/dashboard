@@ -13,8 +13,9 @@ module.exports = {
 			]
 		},
 		upload: {
-			target: "lhci",
-			serverBaseUrl: "https://lhci.tomatenkuchen.com/"
+			/*target: "lhci",
+			serverBaseUrl: "https://lhci.tomatenkuchen.com/"*/
+			target: "temporary-public-storage"
 		}
 	}
 }

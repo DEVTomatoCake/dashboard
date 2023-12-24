@@ -9,7 +9,7 @@ function getLeaderboardHTML(guild) {
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
 								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
 								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-								encode(user.name) + " <b>" + entry.points.toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + entry.level.toLocaleString() + "</b>)</p>"
+								encode(user.name) + " <b>" + assertInt(entry.points).toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + assertInt(entry.level).toLocaleString() + "</b>)</p>"
 						}).join("")
 
 					const counting = "<h1 class='greeting'><span translation='leaderboard.countingtitle'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
@@ -18,8 +18,8 @@ function getLeaderboardHTML(guild) {
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
 								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
 								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-								encode(user.name) + " <b>" + entry.points.toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
-								(entry.pointsCur ? " (Current run: <b>" + entry.pointsCur.toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
+								encode(user.name) + " <b>" + assertInt(entry.points).toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
+								(entry.pointsCur ? " (Current run: <b>" + assertInt(entry.pointsCur).toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
 						}).join("")
 
 					const countingFail = "<h1 class='greeting'>Counting fail leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
@@ -28,7 +28,7 @@ function getLeaderboardHTML(guild) {
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
 								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
 								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-								encode(user.name) + " <b>" + entry.fails.toLocaleString() + "</b> Fail" + (entry.fails == 1 ? "" : "s") + "</p>"
+								encode(user.name) + " <b>" + assertInt(entry.fails).toLocaleString() + "</b> Fail" + (entry.fails == 1 ? "" : "s") + "</p>"
 						}).join("")
 
 					const botVote = "<h1 class='greeting'>Bot vote leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
@@ -37,7 +37,7 @@ function getLeaderboardHTML(guild) {
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
 								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
 								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-								encode(user.name) + " <b>" + entry.votes.toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
+								encode(user.name) + " <b>" + assertInt(entry.votes).toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
 						}).join("")
 
 					const serverVote = "<h1 class='greeting'>Server vote leaderboard of <span class='accent'>" + encode(json.guild) + "</span></h1>" +
@@ -46,7 +46,7 @@ function getLeaderboardHTML(guild) {
 							return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
 								"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
 								(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-								encode(user.name) + " <b>" + entry.votes.toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
+								encode(user.name) + " <b>" + assertInt(entry.votes).toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
 						}).join("")
 
 					resolve({

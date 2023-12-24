@@ -81,7 +81,7 @@ class Sidebar extends HTMLElement {
 		const user = this.getAttribute("user")
 
 		this.innerHTML =
-			"<div class='sidebar-container visible' id='sidebar-container'>" +
+			"<div class='sidebar-container " + (screen.width > 600 ? "visible" : "") + "' id='sidebar-container'>" +
 			"<nav class='sidebar' id='sidebar'>" +
 				"<div class='hamburger' onclick='sidebar()'>" +
 					"<div class='line' id='lineTop2'></div>" +
@@ -234,7 +234,7 @@ function pageLoad() {
 		document.body.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
-			"<p>We use the following cookies on this website to handle authentification and improve user experience.<br>Essential cookies:</p>" +
+			"<p>We only use the following cookies on this website - it's your choice.<br>Essential cookies:</p>" +
 			"<ul><li><code>token</code> & <code>user</code>: Discord login</li><li><code>cookie-dismiss</code>: Remember cookie consent</li></ul>" +
 			"<p>Optional cookies:</p>" +
 			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>avatar</code>: Display Discord user avatar</li></ul>" +
@@ -244,8 +244,7 @@ function pageLoad() {
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
 	}
 
-	if (screen.width <= 800) {
-		if (document.getElementById("sidebar-container")) document.getElementById("sidebar-container").classList.toggle("visible")
+	if (screen.width <= 600) {
 		document.getElementById("content").classList.add("no-padding")
 		sideState = 1
 	}

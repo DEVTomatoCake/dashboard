@@ -864,8 +864,14 @@ footer .links {
 	transition: .4s;
 	padding: 100px 0 100px 300px;
 }
+
 .content.no-padding {
 	padding-left: 0;
+}
+@media only screen and (max-width: 600px) {
+	.content {
+		padding-left: 0;
+	}
 }
 
 .accent {

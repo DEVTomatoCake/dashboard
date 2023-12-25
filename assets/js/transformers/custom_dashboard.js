@@ -162,8 +162,8 @@ function connectWS() {
 					document.getElementById("bot-access").innerHTML = json.access.map(userList).join("")
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
-					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("") +
-						(json.info.length > 0 ? "</ul><br><ul>" + json.info.map(i => "<li>" + i + "</li>").join("") : "")
+					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("")
+					if (json.info.length > 0) document.getElementById("bot-todo-info").innerHTML = json.info.map(i => "<li>" + i + "</li>").join("")
 
 					if (step == 4 && json.todo.length == 0) {
 						forward()
@@ -303,14 +303,23 @@ const declineInvite = bot => {
 	document.getElementById("bot-" + bot).remove()
 }
 
+let lastChange = 0
+let lastChangeTimeout
 function tokenChange() {
+	if (lastChange + 1800 > Date.now()) {
+		clearTimeout(lastChangeTimeout)
+		lastChangeTimeout = setTimeout(tokenChange, 1800)
+		return
+	}
+	lastChange = Date.now()
+
 	step = 1
 	document.getElementById("bot-data").setAttribute("hidden", "")
 	document.getElementById("back-button").setAttribute("hidden", "")
 	document.getElementById("forward-button").setAttribute("disabled", "")
 
 	const value = tokenElem.value
-	if (value.length >= 50 && value.length <= 90 && /^[-a-z0-9_]{20,}\.[-a-z0-9_]{5,}\.[-a-z0-9_]{25,}$/i.test(value)) refresh()
+	if (value.length >= 50 && value.length <= 90 && /^[-\w]{20,}\.[-\w]{5,}\.[-\w]{25,}$/.test(value)) refresh()
 }
 
 loadFunc = () => {

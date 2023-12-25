@@ -51,7 +51,7 @@ class Footer extends HTMLElement {
 			"<footer>" +
 			"<a href='/'>" +
 			"<div id='mainlink'>" +
-				"<img src='/assets/images/background_64.webp' width='64' height='64' alt='TomatenKuchen Logo'>" +
+				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo'>" +
 				"<span>TomatenKuchen</span>" +
 			"</div>" +
 			"</a>" +
@@ -287,5 +287,5 @@ function pageLoad() {
 
 	loadFunc()
 	reloadText()
-	if ("serviceWorker" in navigator && location.protocol == "https:") navigator.serviceWorker.register("/serviceworker.js")
+	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

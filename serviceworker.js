@@ -1,4 +1,4 @@
-const version = 1
+const version = 2
 
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
@@ -62,8 +62,9 @@ self.addEventListener("fetch", event => {
 			const fallback = await caches.open("fallback" + version)
 			try {
 				const response = await fetch(event.request)
-				if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("id=") && !url.search.includes("guild=") && !url.search.includes("token="))
-					fallback.add(event.request, response.clone())
+				if (url.href.startsWith("https://cdn.jsdelivr.net/npm/ionicons@")) static.put(event.request, response.clone())
+				else if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("guild=") && !url.search.includes("token="))
+					fallback.put(event.request, response.clone())
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)

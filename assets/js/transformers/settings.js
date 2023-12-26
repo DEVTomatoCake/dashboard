@@ -104,7 +104,9 @@ function getSettingsHTML(json) {
 		})
 
 		return {
-			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" + text,
+			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span>" +
+				(json.premium ? "<ion-icon name='star-outline' class='yellow' title='This server has TomatenKuchen premium.'></ion-icon>" : "") +
+				"</h1>" + text,
 			categories
 		}
 	}

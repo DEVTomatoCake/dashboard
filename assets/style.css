@@ -963,14 +963,14 @@ pre {
 	}
 }
 
-span[tooltip] {
+[tooltip] {
 	position: relative;
 }
-span[tooltip]:hover:before {
+[tooltip]:hover:before {
 	opacity: 1;
 }
 
-span[tooltip]:before {
+[tooltip]:before {
 	content: attr(tooltip);
 	opacity: 0;
 	position: absolute;

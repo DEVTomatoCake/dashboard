@@ -61,7 +61,9 @@ function handleChange(elem) {
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id == "image-width" || elem.id == "image-height") {
 		currentImage[elem.id.split("-")[1]] = parseInt(elem.value)
-		ctx.canvas[elem.id.split("-")[1]] = parseInt(elem.value)
+
+		ctx.canvas.width = currentImage.width
+		ctx.canvas.height = currentImage.height
 		document.getElementById("image-preview").style[elem.id.split("-")[1]] = elem.value + "px"
 	} else if (elem.id.startsWith("image-")) currentImage[elem.id.split("-")[1]] = elem.value
 	else console.log("Unknown element: " + elem.id)
@@ -83,8 +85,9 @@ function editLayer(id = "") {
 	currentLayer = currentImage.layers.find(layer => layer.id == id)
 
 	document.getElementById("layer-text").value = currentLayer.content
-	document.getElementById("layer-color-text").value = currentLayer.color || "#000000"
-	document.getElementById("layer-width-text").value = currentLayer.width
+	document.getElementById("layer-color-text").value = currentLayer.color ? (currentLayer.color.length == 6 ? "#" + currentLayer.color : currentLayer.color) : "#000000"
+	document.getElementById("layer-width-text").value = currentLayer.width || 800
+	document.getElementById("layer-fontSize").value = currentLayer.fontSize || 16
 	document.getElementById("text-bold").checked = currentLayer.bold || false
 	document.getElementById("text-italic").checked = currentLayer.italic || false
 	document.getElementById("text-underline").checked = currentLayer.underline || false
@@ -107,7 +110,7 @@ function editLayer(id = "") {
 	document.getElementById("layer-x").value = currentLayer.x
 	document.getElementById("layer-y").value = currentLayer.y
 	document.getElementById("layer-opacity").value = currentLayer.opacity
-	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity + "%"
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity * 100 + "%"
 }
 
 let layerCount = 1
@@ -128,6 +131,7 @@ function addLayer() {
 	document.getElementById("layer-text").value = ""
 	document.getElementById("layer-color-text").value = "#000000"
 	document.getElementById("layer-width-text").value = 800
+	document.getElementById("layer-fontSize").value = 16
 	document.getElementById("text-bold").checked = false
 	document.getElementById("text-italic").checked = false
 	document.getElementById("text-underline").checked = false
@@ -150,7 +154,7 @@ function addLayer() {
 	document.getElementById("layer-x").value = currentLayer.x
 	document.getElementById("layer-y").value = currentLayer.y
 	document.getElementById("layer-opacity").value = currentLayer.opacity
-	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity + "%"
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity * 100 + "%"
 
 	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
 	document.getElementById("layer-container").innerHTML +=
@@ -161,9 +165,9 @@ function addLayer() {
 
 let images = []
 function imageEdit(imageId) {
-	layerCount = 1
 	currentImage = images.find(e => e.id == imageId)
 	currentImage.edit = true
+	layerCount = currentImage.layers.length + 1
 
 	document.getElementById("create-title").innerHTML = "Edit dynamic image: <b>" + encode(currentImage.name) + "</b>"
 	document.getElementById("image-name").value = currentImage.name
@@ -171,12 +175,16 @@ function imageEdit(imageId) {
 	document.getElementById("image-height").value = currentImage.height
 	document.getElementById("image-submit").innerText = "Save dynamic image"
 
-	document.getElementById("layer-container").innerHTML = ""
-	currentImage.layers.forEach(layer => {
-		const newElem = document.createElement("p")
-		newElem.innerText = layer.name
-		document.getElementById("layer-container").appendChild(newElem)
+	document.getElementById("layer-container").innerHTML = currentImage.layers.map(layer => {
+		layer.id = Math.random().toString(36).slice(2)
+		return "" +
+			"<div class='image-layer' id='layer-" + layer.id + "' onclick='editLayer(\"" + layer.id + "\")'>" +
+			"<p>" + encode(layer.name) + "</p>" +
+			"</div>"
 	})
+
+	currentLayer = currentImage.layers[0]
+	editLayer(currentLayer.id)
 
 	dialog.classList.remove("hidden")
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
@@ -238,7 +246,7 @@ function connectWS(guild) {
 				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 				document.getElementById("root-container").innerHTML = getImagesHTML(json, guild)
 				reloadText()
-				image = json.image
+				images = json.images
 			} else if (json.action == "SAVED_image") {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("The image was saved!")
@@ -264,12 +272,14 @@ function changeTab(elem) {
 
 function saveImage() {
 	if (!params.has("guild") || saving) return
-	saving = true
 
 	const name = encode(document.getElementById("image-name").value)
 	if (!name) return alert("Enter a name for the image!")
 	if (name.length > 32) return alert("The name can be at most 32 characters long!")
+	if (!currentImage.edit && images.some(image => image.name == name)) return alert("An image with this name already exists!")
+	if (currentImage.layers.length == 0) return alert("You need to add at least one layer to the image!")
 
+	saving = true
 	document.getElementById("edit-dialog").classList.add("hidden")
 	if (document.getElementById("no-images")) document.getElementById("no-images").remove()
 
@@ -285,7 +295,7 @@ function saveImage() {
 	socket.send({
 		status: "success",
 		action: "SAVE_image",
-		data
+		data: currentImage
 	})
 
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving image \"" + encode(name) + "\"...", timeout: 7}).show()

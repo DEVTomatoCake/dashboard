@@ -459,7 +459,7 @@ code {
 	display: flex;
 	flex-direction: column;
 	gap: 5px;
-	padding: 10px;
+	padding: 5px;
 	margin: 8px;
 	width: 30px;
 	cursor: pointer;
@@ -726,7 +726,7 @@ footer .links {
 	position: fixed;
 	z-index: 2;
 	width: 100%;
-	padding: 10px;
+	padding: 5px;
 	display: flex;
 	align-items: center;
 	box-shadow: 0 0 8px 2px var(--primary-color);
@@ -787,10 +787,10 @@ footer .links {
 	display: flex;
 	align-items: center;
 	margin-left: auto;
-	margin-right: 30px;
+	margin-right: 22px;
 	font-size: 18px;
-	border-radius: 10px;
-	padding: 5px;
+	border-radius: 12px;
+	padding: 5px 7px;
 	background: var(--primary-color);
 	color: var(--primary-text-color);
 	transition: var(--transition-buttons);
@@ -798,6 +798,7 @@ footer .links {
 
 .hoverdropdown.lang .text {
 	background: var(--secondary-color);
+	border-radius: 9px;
 }
 .hoverdropdown.lang .text ion-icon {
 	font-size: 24px;
@@ -966,7 +967,7 @@ pre {
 [tooltip] {
 	position: relative;
 }
-[tooltip]:hover:before {
+[tooltip]:hover:before, [tooltip]:focus:before {
 	opacity: 1;
 }
 
@@ -975,39 +976,23 @@ pre {
 	opacity: 0;
 	position: absolute;
 	top: 30px;
-	transition: .2s;
-	right: -90px;
-	max-width: 200px;
-	font-size: 16px;
-	padding: 10px;
+	transition: .3s;
+	max-width: 250px;
+	font-size: 17px;
+	padding: 7px 3px;
+	border-radius: 7px;
 	color: var(--primary-text-color);
 	background-color: var(--secondary-color);
-	border-radius: 5px;
 }
 
 .stats-row {
-	display: grid;
-	grid-template-areas: ".";
+	display: flex;
+	flex-wrap: wrap;
 	gap: 20px;
-	width: 100%;
-}
-@media screen and (min-width: 800px) {
-	.stats-row {
-		grid-template-areas: ". .";
-	}
-}
-@media screen and (min-width: 1080px) {
-	.stats-row {
-		grid-template-areas: ". . .";
-	}
-}
-@media screen and (min-width: 1320px) {
-	.stats-row {
-		grid-template-areas: ". . . .";
-	}
+	justify-content: space-around;
 }
 
-.stats-row .data {
+.stats-row > div {
 	border-radius: 20px;
 	background-color: var(--secondary-color);
 	box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.22);
@@ -1039,9 +1024,7 @@ pre {
 	background: transparent !important;
 	cursor: pointer;
 	transition: var(--transition-buttons);
-	margin-left: auto;
-	margin-right: 20px;
-	margin-top: -35px;
+	margin: -35px 20px 0 auto;
 	position: relative;
 	right: 0;
 	top: 0;
@@ -1240,7 +1223,7 @@ button:disabled {
 }
 
 .feature {
-	margin-top: 20px;
+	margin-top: 25px;
 	display: grid;
 	grid-template-columns: auto auto;
 	gap: 15px;
@@ -1262,26 +1245,14 @@ button:disabled {
 	border-radius: 5px;
 }
 
-@media only screen and (max-width: 1300px) {
-	.sidebar-container.visible + .stats-row {
-		flex-direction: column;
-	}
-}
-
 @media only screen and (max-width: 1100px) {
-	.stats-row .data.large {
+	.stats-row .large {
 		width: 500px;
 		height: auto;
 	}
 }
 
-@media only screen and (max-width: 1000px) {
-	.stats-row {
-		flex-direction: column;
-	}
-}
-
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 750px) {
 	.feature {
 		display: inline-block;
 		margin-top: 60px;
@@ -1333,7 +1304,7 @@ button:disabled {
 		margin: 10px;
 	}
 
-	.stats-row .data h3 {
+	.stats-row h3 {
 		font-size: 20px;
 		transition: .2s;
 	}
@@ -1356,16 +1327,16 @@ button:disabled {
 		margin-top: 13px;
 	}
 
-	.stats-row .data ion-icon {
+	.stats-row ion-icon {
 		top: 20px;
 		left: -55px;
 	}
-	.stats-row .data ion-icon.open {
+	.stats-row ion-icon.open {
 		top: -65px;
 		left: 5px;
 	}
 
-	.stats-row .data h3 {
+	.stats-row h3 {
 		font-size: 15px;
 		transition: .3s;
 	}

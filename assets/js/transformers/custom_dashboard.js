@@ -69,7 +69,7 @@ let tokenElem
 
 const refresh = (force = false, save = false) => {
 	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save})
-	if (step == 4) {
+	if (step == 3) {
 		document.getElementById("forward-button").setAttribute("disabled", "")
 		setTimeout(() => {
 			document.getElementById("forward-button").removeAttribute("disabled")
@@ -81,12 +81,12 @@ const refresh = (force = false, save = false) => {
 const forward = () => {
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step++
-	if (step == 4 && info.todo.length == 0) step++
+	if (step == 3 && info.todo.length == 0) step++
 	document.getElementById("step" + step).removeAttribute("hidden")
 
-	if (step >= 4) {
-		document.getElementById("forward-button").textContent = step == 4 ? "Refresh" : "Create bot"
-		document.getElementById("forward-button").onclick = () => refresh(true, step == 5)
+	if (step >= 3) {
+		document.getElementById("forward-button").textContent = step == 3 ? "Refresh" : "Create bot"
+		document.getElementById("forward-button").onclick = () => refresh(true, step == 4)
 	} else {
 		document.getElementById("forward-button").textContent = "Next"
 		document.getElementById("forward-button").onclick = forward
@@ -98,7 +98,7 @@ const back = () => {
 	if (step <= 1) return
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step--
-	if (step == 4 && info.todo.length == 0) step--
+	if (step == 3 && info.todo.length == 0) step--
 	document.getElementById("step" + step).removeAttribute("hidden")
 
 	document.getElementById("forward-button").removeAttribute("hidden")
@@ -159,13 +159,12 @@ function connectWS() {
 					document.getElementById("bot-name").textContent = encode(json.username)
 					document.getElementById("bot-invite").href = "https://tomatenkuchen.com/invite?bot=" + json.id
 					document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=64"
-					document.getElementById("bot-access").innerHTML = json.access.map(userList).join("")
 					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
 						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
 					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("")
 					if (json.info.length > 0) document.getElementById("bot-todo-info").innerHTML = json.info.map(i => "<li>" + i + "</li>").join("")
 
-					if (step == 4 && json.todo.length == 0) {
+					if (step == 3 && json.todo.length == 0) {
 						forward()
 						document.getElementById("forward-button").removeAttribute("disabled")
 					}
@@ -185,7 +184,6 @@ const createDialog = () => {
 	document.getElementById("custom-invite").value = ""
 	document.getElementById("step3").setAttribute("hidden", "")
 	document.getElementById("step4").setAttribute("hidden", "")
-	document.getElementById("step5").setAttribute("hidden", "")
 }
 
 let editingBot = {}

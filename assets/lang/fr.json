@@ -7,6 +7,7 @@
 		"description": "Description",
 		"hide": "Cacher",
 		"name": "Nom",
+		"nocmds": "Aucune commande trouvée !",
 		"show": "Afficher",
 		"title": "Commandes de <span class=\"accent\">TomatenKuchen</span>",
 		"usage": "Utilisation"
@@ -141,6 +142,10 @@
 	"main": {
 		"botsince": "J'utilise le robot depuis",
 		"features": {
+			"autoupdate": {
+				"description": "Sur la gauche, vous pouvez voir <a href=\"https://docs.tomatenkuchen.com/autoupdate\">des messages mis à jour automatiquement</a>, avec un classement personnalisé, des anniversaires fictifs et une liste de membres AFK.\nVous pouvez également afficher les prochains événements du serveur ou simplement des statistiques générales !",
+				"title": "Mise à jour automatique des messages"
+			},
 			"components": {
 				"description": "En utilisant <a href=\"https://docs.tomatenkuchen.com/integrations\">intégrations</a> vous pouvez faire cela et bien plus encore, comme exécuter une action lorsqu'un utilisateur viole une règle AutoMod !",
 				"title": "Vous avez toujours voulu créer des boutons ou des menus de sélection personnalisés ?"
@@ -148,6 +153,9 @@
 			"moderation": {
 				"description": "Commandes de modération et modlogs utiles combinés à l'automod natif de <a href=\"https://discord.com\">Discord</a> !",
 				"title": "Fonctionnalités de modération avancées"
+			},
+			"muchmore": {
+				"title": "...et bien <i>plus encore</i> !"
 			},
 			"rr": {
 				"description": "Créez un nombre illimité de rôles de réaction classiques, ou utilisez le bouton moderne et sélectionnez des rôles pour permettre à vos membres de sélectionner des rôles !",
@@ -183,6 +191,12 @@
 	"privacy": {
 		"deleteowndata": "Vous pouvez supprimer vous-même une fraction de vos données :",
 		"requestdata": "Demander des données"
+	},
+	"profile": {
+		"sidebar": "Consultez la barre latérale pour visiter les pages des autres utilisateurs !",
+		"title": "Votre profil TomatenKuchen",
+		"vote": "Votez pour le robot",
+		"votemb": "Gérer les liens de vote des robots"
 	},
 	"sidebar": {
 		"commands": "Commandes",

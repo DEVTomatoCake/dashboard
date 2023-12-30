@@ -7,6 +7,7 @@
 		"description": "Beschreibung",
 		"hide": "Verstecken",
 		"name": "Name",
+		"nocmds": "Keine Befehle gefunden!",
 		"show": "Zeigen",
 		"title": "Befehle von <span class=\"accent\">TomatenKuchen</span>",
 		"usage": "Verwendung"
@@ -141,6 +142,10 @@
 	"main": {
 		"botsince": "Verwenden den Bot seit",
 		"features": {
+			"autoupdate": {
+				"description": "Auf der linken Seite kannst du <a href=\"https://docs.tomatenkuchen.com/autoupdate\">sich automatisch aktualisierende Nachrichten</a> sehen, welche ein eigenes Leaderboard, fiktive Geburtstage und eine Liste aller AFK-Servermitglieder angezeigt.\nDu kannst auch die nächsten Serverevents oder einfach allgemeine Statistiken anzeigen lassen!",
+				"title": "Sich automatisch aktualisierende Nachrichten"
+			},
 			"components": {
 				"description": "Mithilfe von <a href=\"https://docs.tomatenkuchen.com/de/integrations\">Integrationen</a> kannst du das und vieles mehr machen, z. B. eine Aktion ausführen, wenn ein Nutzer gegen eine AutoMod-Regel verstößt!",
 				"title": "Du wolltest schon immer mal eigene Buttons oder Selectmenüs erstellen?"
@@ -148,6 +153,9 @@
 			"moderation": {
 				"description": "Nützliche Moderationsbefehle und mit <a href=\"https://discord.com\">Discord</a>'s Automod kombinierte Modlogs!",
 				"title": "Fortgeschrittene Moderationsfunktionen"
+			},
+			"muchmore": {
+				"title": "…und viel, <i>viel</i> mehr!"
 			},
 			"rr": {
 				"description": "Erstelle unbegrenzt viele klassische Reactionroles, oder nutze die modernen Button- und Selectroles, um deine Mitglieder Rollen auswählen zu lassen!",
@@ -183,6 +191,12 @@
 	"privacy": {
 		"deleteowndata": "Du kannst einen Teil deiner Daten selbst löschen:",
 		"requestdata": "Daten anfordern"
+	},
+	"profile": {
+		"sidebar": "Nutze die Seitenleiste, um andere Profilseiten zu besuchen!",
+		"title": "Dein TomatenKuchen-Profil",
+		"vote": "Vote für den Bot",
+		"votemb": "Manage Bot Votelinks"
 	},
 	"sidebar": {
 		"commands": "Befehle",

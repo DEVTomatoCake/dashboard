@@ -141,6 +141,10 @@
 	"main": {
 		"botsince": "Been using the bot for",
 		"features": {
+			"autoupdate": {
+				"description": "On the left you can see <a href=\"https://docs.tomatenkuchen.com/autoupdate\">auto updating messages</a>, featuring a custom leaderboard, fictive birthdays and a list of AFK members.\nYou could also list the next servers events or just general statistics!",
+				"title": "Auto updating messages"
+			},
 			"components": {
 				"description": "Using <a href=\"https://docs.tomatenkuchen.com/integrations\">integrations</a> you can do that and much more, like executing an action when a user violates an AutoMod rule!",
 				"title": "Ever wanted to create custom buttons or selects?"
@@ -148,6 +152,9 @@
 			"moderation": {
 				"description": "Useful moderation commands and modlogs combined with <a href=\"https://discord.com\">Discord</a>'s native automod!",
 				"title": "Advanced moderation features"
+			},
+			"muchmore": {
+				"title": "…and much, <i>much</i> more!"
 			},
 			"rr": {
 				"description": "Create an unlimited amount of classical reaction roles, or use the modern button and select roles to let your members select roles!",

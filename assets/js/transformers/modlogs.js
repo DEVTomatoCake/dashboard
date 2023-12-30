@@ -69,7 +69,7 @@ const info = (user, date) => {
 		"<br><b><span translation='modlogs.reason'></span>:</b> " + encode(entry.reason) +
 		"<br><b>Modlog created:</b> " + new Date(entry.date).toLocaleString() +
 		(log.until ? "<br><b translation='modlogs.activeuntil'></b> " + new Date(entry.until).toLocaleString() : "")
-	reloadText()
+	//reloadText()
 }
 
 loadFunc = () => {
@@ -78,7 +78,7 @@ loadFunc = () => {
 		getModlogsHTML(params.get("guild")).then(data => {
 			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
 			document.getElementById("root-container").innerHTML = data
-			reloadText()
+			//reloadText()
 		})
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {

@@ -154,11 +154,11 @@ loadFunc = () => {
 			rootContainer.innerHTML = html
 			queue.forEach(f => f())
 			queue = []
-			reloadText()
+			//reloadText()
 		})
 		else {
 			rootContainer.innerHTML = "<h1 class='greeting' translation='form.missing'></h1>"
-			reloadText()
+			//reloadText()
 		}
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"

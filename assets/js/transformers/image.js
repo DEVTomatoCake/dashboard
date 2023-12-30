@@ -37,7 +37,7 @@ function createDialog() {
 	dialog.removeAttribute("hidden")
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
-	reloadText()
+	//reloadText()
 	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
 }
 
@@ -189,7 +189,7 @@ function imageEdit(imageId) {
 	dialog.removeAttribute("hidden")
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
-	reloadText()
+	//reloadText()
 	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
 }
 
@@ -245,7 +245,7 @@ function connectWS(guild) {
 			else if (json.action == "RECEIVE_images") {
 				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 				document.getElementById("root-container").innerHTML = getImagesHTML(json, guild)
-				reloadText()
+				//reloadText()
 				images = json.images
 			} else if (json.action == "SAVED_image") {
 				saving = false
@@ -288,7 +288,7 @@ function saveImage() {
 		const div = document.createElement("div")
 		div.innerHTML = handleImage(currentImage)
 		document.getElementsByClassName("image-container")[0].appendChild(div)
-		reloadText()
+		//reloadText()
 	}
 	images.push(currentImage)
 

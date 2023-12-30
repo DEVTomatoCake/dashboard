@@ -62,7 +62,7 @@ function createDialog() {
 
 	addAction()
 	openDialog(document.getElementById("create-dialog"))
-	reloadText()
+	//reloadText()
 }
 
 function addAction(trigger = "command") {
@@ -110,7 +110,7 @@ function integrationInfo(integrationName) {
 			"<br><br><button type='button' class='createForm' onclick='integrationUse(\"" + encode(integrationName) + "\")'><span translation='integration.use'></span> <b>" +
 			encode(guildName) + "</b></button>"
 		)
-	reloadText()
+	//reloadText()
 }
 
 function integrationUse(integrationName) {
@@ -148,7 +148,7 @@ function integrationUse(integrationName) {
 		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
 		handleChange("integration-sync")
 	})
-	reloadText()
+	//reloadText()
 }
 
 function integrationEdit(integrationName) {
@@ -180,7 +180,7 @@ function integrationEdit(integrationName) {
 		newElem.querySelector(".action-content").value = action.content
 		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
 	})
-	reloadText()
+	//reloadText()
 }
 
 let socket
@@ -256,7 +256,7 @@ function connectWS(guild) {
 			else if (json.action == "RECEIVE_integrations") {
 				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 				document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild)
-				reloadText()
+				//reloadText()
 				guildName = json.name
 				integrations = json.integrations
 
@@ -352,7 +352,7 @@ function createIntegration(sourceId = "") {
 		const div = document.createElement("div")
 		div.innerHTML = handleIntegration(data)
 		document.getElementsByClassName("integration-container")[0].appendChild(div)
-		reloadText()
+		//reloadText()
 	}
 
 	socket.send({

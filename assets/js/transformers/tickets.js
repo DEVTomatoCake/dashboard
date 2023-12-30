@@ -13,7 +13,7 @@ const info = id => {
 		"<br><b>Created at:</b> " + new Date(ticket.createdAt).toLocaleString() +
 		(ticket.closedAt ? "<br><b>Closed at:</b> " + new Date(ticket.closedAt).toLocaleString() : "") +
 		(ticket.deletedAt ? "<br><b>Deleted at:</b> " + new Date(ticket.deletedAt).toLocaleString() : "")
-	reloadText()
+	//reloadText()
 }
 
 const ticketTable = data =>
@@ -48,7 +48,7 @@ const sortTable = prop => {
 		if (document.getElementById("sort-" + prop).classList.contains("asc")) return bValue - aValue
 		return aValue - bValue
 	}))
-	reloadText()
+	//reloadText()
 }
 
 function getTicketsHTML(guild) {
@@ -115,7 +115,7 @@ loadFunc = () => {
 		getTicketsHTML(params.get("guild")).then(data => {
 			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
 			document.getElementById("root-container").innerHTML = data
-			reloadText()
+			//reloadText()
 		})
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {

@@ -144,7 +144,7 @@ function handleChange(id) {
 			"</div>"
 		)
 		fadeIn(document.getElementById("unsaved-container"))
-		reloadText()
+		//reloadText()
 		hasSavePopup = true
 	}
 }
@@ -226,7 +226,7 @@ function connectWS(guild) {
 					setTimeout(() => document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true), 100)
 				}
 
-				reloadText()
+				//reloadText()
 				guildName = json.name
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
 				hasLoaded = true
@@ -364,7 +364,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 			if (parent.childElementCount > 3)
 				parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>")
 		}
-		reloadText()
+		//reloadText()
 	} else return html
 }
 

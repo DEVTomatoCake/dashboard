@@ -19,7 +19,7 @@ getBotstats().then(json => {
 
 	document.getElementById("server1").innerHTML = formatServer(servers[currentIndex++])
 	document.getElementById("server2").innerHTML = formatServer(servers[currentIndex])
-	reloadText()
+	//reloadText()
 })
 
 let currentServer = 0
@@ -33,6 +33,6 @@ setInterval(() => {
 	setTimeout(() => {
 		document.getElementById("server" + currentServer).innerHTML = formatServer(servers[currentIndex])
 		document.getElementById("server" + currentServer).classList.remove("no-opacity")
-		reloadText()
+		//reloadText()
 	}, 500)
 }, 8300)

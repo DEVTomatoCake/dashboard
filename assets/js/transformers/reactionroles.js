@@ -179,7 +179,7 @@ function connectWS(guild) {
 			else if (json.action == "RECEIVE_reactionroles") {
 				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>"
-				reloadText()
+				//reloadText()
 				guildName = json.name
 			} else if (json.action == "SAVED_reactionroles") {
 				saving = false

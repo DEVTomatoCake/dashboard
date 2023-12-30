@@ -2,6 +2,7 @@ name: ESLint
 
 on:
   push:
+    paths: ["*.html", "*.js", "*.css", ".eslintrc.json"]
 
 jobs:
   lint:

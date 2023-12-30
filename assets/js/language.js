@@ -15,23 +15,10 @@ const resolveValue = (obj, keySplit) => {
 const loadLangFile = async language => {
 	if (langCache[language]) return langCache[language]
 
-	const resgh = await fetch("https://raw.githubusercontent.com/DEVTomatoCake/i18n/tomatenkuchen-web/" + language + ".json").catch(() => {})
-	if (resgh?.ok) {
-		const json = await resgh.json()
-		langCache[language] = json
-		return json
-	}
-	console.warn("Couldn't load lang file from GitHub")
-
-	const resbackup = await fetch("https://api.tomatenkuchen.com/dashboard/" + language + ".json").catch(() => {})
-	if (resbackup?.ok) {
-		const json = await resbackup.json()
-		langCache[language] = json
-		return json
-	}
-
-	console.error("Couldn't load lang file from backup url")
-	alert("The lang file couldn't be loaded, the site might not work probably. Try again later!")
+	const res = await fetch("/assets/lang/" + language + ".json")
+	const json = await res.json()
+	langCache[language] = json
+	return json
 }
 
 const reloadText = async language => {

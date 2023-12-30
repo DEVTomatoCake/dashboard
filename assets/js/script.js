@@ -102,13 +102,10 @@ class Footer2 extends HTMLElement {
 customElements.define("global-footer2", Footer2)
 
 window.onscroll = () => {
-	const scrollPosition = window.pageYOffset || document.documentElement.scrollTop
-	document.getElementById("scrollPositionDisplay").innerHTML = scrollPosition + "px"
+	document.getElementById("scrollPositionDisplay").textContent = window.pageYOffset + "px | " + document.documentElement.scrollTop + "px"
 }
-
 setInterval(() => {
-	const scrollPosition = window.pageYOffset || document.documentElement.scrollTop
-	document.getElementById("scrollPositionDisplay").innerHTML = scrollPosition + "px"
+	document.getElementById("scrollPositionDisplay").textContent = window.pageYOffset + "px | " + document.documentElement.scrollTop + "px"
 }, 100)
 
 

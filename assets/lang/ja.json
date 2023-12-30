@@ -7,6 +7,7 @@
 		"description": "説明",
 		"hide": "匿う",
 		"name": "名前",
+		"nocmds": "コマンドが見つかりません！",
 		"show": "みせる",
 		"title": "<span class=\"accent\">TomatenKuchen</span>からのコマンドです",
 		"usage": "使用"
@@ -42,6 +43,7 @@
 		"integrations": "統合",
 		"leaderboard": "リーダーボード",
 		"logs": "過去ログ",
+		"modlogs": "モデラートーレンのログブック",
 		"noservers": "お客様からサーバーが見つかりませんでした！",
 		"reaction": "反応",
 		"reactionroles": "反応、ボタン、選択の役割",
@@ -95,6 +97,7 @@
 		"addaction": "アクションの追加",
 		"additionalpublic": "公開統合のための追加設定",
 		"create": "統合",
+		"createsource": "統合から統合を生み出す",
 		"edit": "編集",
 		"editsave": "変更を保存する",
 		"edittitle": "統合を編集する：",
@@ -109,9 +112,16 @@
 		"shortdesc": "簡単な説明",
 		"syncmode": "オリジナルからの同期モード",
 		"thisserver": "このサーバーの統合",
-		"title": "からの統合"
+		"title": "からの統合",
+		"trigger": "トリガー",
+		"use": "統合を利用する",
+		"usedby": "利用される：",
+		"version": "パーサー・バージョン",
+		"viewuse": "表示",
+		"yours": "他のサーバーからの統合"
 	},
 	"leaderboard": {
+		"countingtitle": "のリーダーボードを数える：",
 		"missingguild": "サーバーを指定してください！",
 		"title": "リーダーボードより"
 	},
@@ -119,6 +129,10 @@
 		"actions": "アクション",
 		"amount": "番号",
 		"delete": "削除",
+		"filter": "ログをフィルタリング…",
+		"firstoccured": "最初の出来事：",
+		"infotitle": "このログ・エントリに関する情報",
+		"lastoccured": "最終開催日：",
 		"logid": "ログID",
 		"logmessage": "ログメッセージ",
 		"logtype": "ログタイプ",
@@ -126,10 +140,22 @@
 		"title": "からのログ"
 	},
 	"main": {
+		"botsince": "ボットをずっと使っている：",
 		"features": {
+			"autoupdate": {
+				"description": "左側には、<a href=\"https://docs.tomatenkuchen.com/autoupdate\">自動更新メッセージ</a>、カスタムリーダーボード、架空の誕生日、AFKメンバーのリストが表示されます。\nまた、次のサーバーのイベントや一般的な統計をリストアップすることもできる！",
+				"title": "メッセージの自動更新"
+			},
+			"components": {
+				"description": "<a href=\"https://docs.tomatenkuchen.com/integrations\">インテグレーション</a>を使用すると、ユーザーがAutoModルールに違反したときにアクションを実行するなど、それ以上のことができます！",
+				"title": "カスタムボタンやセレクトを作りたいと思ったことはありませんか？"
+			},
 			"moderation": {
 				"description": "<a href=\"https://discord.com\">Discord</a>のAutomodと組み合わせた便利なモデレーションコマンドとモドログです！",
 				"title": "高度なモデレーション機能"
+			},
+			"muchmore": {
+				"title": "...そして、もっと<i>もっと</i>！"
 			},
 			"rr": {
 				"description": "クラシックなリアクションロールを無制限に作成したり、モダンなボタンやセレクトロールを使って、メンバーに役割を選ばせたりすることもできます！",
@@ -149,11 +175,14 @@
 			}
 		},
 		"headline": "TomatenKuchenは、あなたのDiscordサーバーのためのオールインワンDiscordボットです！",
+		"members": "メンバー",
 		"publicservers": "公開サーバー",
 		"servers": "サーバー",
+		"uptime": "アップタイム",
 		"users": "ユーザー"
 	},
 	"modlogs": {
+		"activeuntil": "まで現役：",
 		"mod": "司会",
 		"reason": "理由",
 		"title": "からのログ",
@@ -162,6 +191,12 @@
 	"privacy": {
 		"deleteowndata": "お客様ご自身でデータの一部を削除することができます：",
 		"requestdata": "リクエストデータ"
+	},
+	"profile": {
+		"sidebar": "サイドバーをチェックして、他のユーザーのページを訪問する！",
+		"title": "あなたのTomatenKuchenプロフィール",
+		"vote": "ボットに投票する",
+		"votemb": "ボット投票リンクの管理"
 	},
 	"sidebar": {
 		"commands": "コマンド",
@@ -195,6 +230,9 @@
 		"title": "未保存の変更点"
 	},
 	"user": {
+		"badges": "バッジ：",
+		"birthday": "誕生日だ：",
+		"canvote": "今すぐ投票できる！",
 		"general": "一般",
 		"json": "JSON形式のデータです：",
 		"levelbg": "レベル背景です：",
@@ -203,6 +241,9 @@
 		"saveticketatt": "チケットにアバターと添付ファイルを保存する：",
 		"since": "以来です：",
 		"suggestions": "プロポーザル",
-		"title": "データ引用元"
+		"title": "データ引用元",
+		"voted": "すでに投票済みですね、ありがとうございます！",
+		"votelinks": "投票リンク",
+		"voteunknown": "このサイトは、あなたが投票したかどうかを教えてくれません！"
 	}
 }

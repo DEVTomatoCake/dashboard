@@ -75,13 +75,6 @@ class Footer2 extends HTMLElement {
 	}
 	connectedCallback() {
 		this.innerHTML =
-			"<footer>" +
-			"<a href='/'>" +
-			"<div id='mainlink'>" +
-				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo'>" +
-				"<span>TomatenKuchen</span>" +
-			"</div>" +
-			"</a>" +
 			"<div class='links'>" +
 				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
 				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
@@ -89,8 +82,7 @@ class Footer2 extends HTMLElement {
 				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
 				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy & ToS</a>" +
 				"<a href='/legal'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
-			"</div>" +
-			"</footer>"
+			"</div>"
 	}
 }
 customElements.define("global-footer2", Footer2)

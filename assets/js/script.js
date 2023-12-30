@@ -69,13 +69,14 @@ class Footer extends HTMLElement {
 }
 customElements.define("global-footer", Footer)
 
-let counter = 0
+let hasLoaded = false
 class Footer2 extends HTMLElement {
 	constructor() {
 		super()
 	}
 	connectedCallback() {
-		counter++
+		if (hasLoaded) return
+
 		this.innerHTML =
 			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
 			"<footer>" +
@@ -91,14 +92,25 @@ class Footer2 extends HTMLElement {
 				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
 				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
 				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
-				(counter > 1 ? "<h1>debug " + counter + "</h1>" : "") +
 				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy & ToS</a>" +
 				"<a href='/legal'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
 			"</div>" +
 			"</footer>"
+		hasLoaded = true
 	}
 }
 customElements.define("global-footer2", Footer2)
+
+window.onscroll = () => {
+	const scrollPosition = window.pageYOffset || document.documentElement.scrollTop
+	document.getElementById("scrollPositionDisplay").innerHTML = scrollPosition + "px"
+}
+
+setInterval(() => {
+	const scrollPosition = window.pageYOffset || document.documentElement.scrollTop
+	document.getElementById("scrollPositionDisplay").innerHTML = scrollPosition + "px"
+}, 100)
+
 
 class Sidebar extends HTMLElement {
 	static observedAttributes = ["page", "dashboard", "user", "guild"]

@@ -67,27 +67,27 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 
 		if (filtered.has(commandData.find(c => c.name == cmd.querySelector("td").textContent))) {
 			cmd.classList.add("cmdvisible")
-			cmd.classList.remove("hidden")
+			cmd.removeAttribute("hidden")
 			categories[cat] = true
 		} else {
 			cmd.classList.remove("cmdvisible")
-			cmd.classList.add("hidden")
+			cmd.setAttribute("hidden", "")
 		}
 	}
 
 	for (const category of document.getElementById("commands-container").getElementsByClassName("category")) {
 		if (categories[category.id]) {
-			category.classList.remove("hidden")
-			document.getElementById(category.id + "_tb").classList.remove("hidden")
-			document.getElementById(category.id + "_title").classList.remove("hidden")
-			document.getElementById(category.id + "_br").classList.remove("hidden")
+			category.removeAttribute("hidden")
+			document.getElementById(category.id + "_tb").removeAttribute("hidden")
+			document.getElementById(category.id + "_title").removeAttribute("hidden")
+			document.getElementById(category.id + "_br").removeAttribute("hidden")
 		} else {
-			category.classList.add("hidden")
-			document.getElementById(category.id + "_tb").classList.add("hidden")
-			document.getElementById(category.id + "_title").classList.add("hidden")
-			document.getElementById(category.id + "_br").classList.add("hidden")
+			category.setAttribute("hidden", "")
+			document.getElementById(category.id + "_tb").setAttribute("hidden", "")
+			document.getElementById(category.id + "_title").setAttribute("hidden", "")
+			document.getElementById(category.id + "_br").setAttribute("hidden", "")
 		}
-		if (onlyCategories) document.getElementById(category.id + "_tb").classList.add("hidden")
+		if (onlyCategories) document.getElementById(category.id + "_tb").setAttribute("hidden", "")
 	}
 
 	if (filtered.size == 0) document.getElementById("no-cmds-found").removeAttribute("hidden")
@@ -125,11 +125,11 @@ const cmdInfo = (elem, cmd) => {
 const toggleCategory = category => {
 	const toModify = document.getElementById(category)
 
-	if (toModify.classList.contains("hidden")) {
-		toModify.classList.remove("hidden")
+	if (toModify.hasAttribute("hidden")) {
+		toModify.removeAttribute("hidden")
 		document.getElementById(category + "_tb").setAttribute("translation", "commands.hide")
 	} else {
-		toModify.classList.add("hidden")
+		toModify.setAttribute("hidden", "")
 		document.getElementById(category + "_tb").setAttribute("translation", "commands.show")
 	}
 	reloadText()

@@ -66,12 +66,12 @@ const changeTab = elem => {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")
-			document.getElementById(tab.getAttribute("name")).classList.add("hidden")
+			document.getElementById(tab.getAttribute("name")).setAttribute("hidden", "")
 		}
 	}
 
 	elem.classList.add("active")
-	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
+	document.getElementById(elem.getAttribute("name")).removeAttribute("hidden")
 }
 
 loadFunc = () => {

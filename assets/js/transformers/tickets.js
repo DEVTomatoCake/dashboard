@@ -101,10 +101,10 @@ async function ticketSearch() {
 
 		if (hidden) {
 			if (tic.classList.contains("cmdvisible")) tic.classList.toggle("cmdvisible")
-			tic.classList.add("hidden")
+			tic.setAttribute("hidden", "")
 		} else {
 			if (!tic.classList.contains("cmdvisible")) tic.classList.toggle("cmdvisible")
-			tic.classList.remove("hidden")
+			tic.removeAttribute("hidden")
 		}
 	}
 }

@@ -54,7 +54,7 @@
 			</header>
 
 			<div class="content" id="content">
-				<div id="create-dialog" class="dialog hidden">
+				<div id="create-dialog" class="dialog" hidden>
 					<form id="create-form" class="dialog-content">
 						<span class="close">&times;</span>
 						<h1 translation="dashboard.rr.create"></h1>
@@ -70,7 +70,7 @@
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
 							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" id="reactionroles-msg" autocomplete="off" required>
 						</div>
-						<div id="newmsg" class="tabs hidden">
+						<div id="newmsg" class="tabs" hidden>
 							<label for="reactionroles-content">Inhalt der Nachricht</label>
 							<textarea
 								form="create-form" name="reactionroles-content" id="reactionroles-content" maxlength="5000" rows="5"
@@ -92,7 +92,7 @@
 									<input type="text" maxlength="50" id="reactionroles-reaction" required onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
-							<div id="button" class="tabs hidden">
+							<div id="button" class="tabs" hidden>
 								<label for="reactionroles-buttonstyle">Button-Design</label>
 								<select id="reactionroles-buttonstyle">
 									<option value="primary">Primary (Blurple)</option>
@@ -109,7 +109,7 @@
 									<input type="text" maxlength="50" id="reactionroles-buttonemoji" onclick="cEmoPic(this, true)" readonly>
 								</div>
 							</div>
-							<div id="select" class="tabs hidden">
+							<div id="select" class="tabs" hidden>
 								<label for="reactionroles-selectlabel">Select label</label>
 								<input type="text" maxlength="100" id="reactionroles-selectlabel" autocomplete="off" data-required="true">
 

@@ -59,7 +59,7 @@ function changeTab(elem) {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")
-			document.getElementById(tab.getAttribute("name")).classList.add("hidden")
+			document.getElementById(tab.getAttribute("name")).setAttribute("hidden", "")
 
 			for (const input of document.getElementById(tab.getAttribute("name")).getElementsByTagName("input")) {
 				if (input.required) {
@@ -71,7 +71,7 @@ function changeTab(elem) {
 	}
 
 	elem.classList.add("active")
-	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
+	document.getElementById(elem.getAttribute("name")).removeAttribute("hidden")
 
 	for (const input of document.getElementById(elem.getAttribute("name")).getElementsByTagName("input"))
 		if (input.hasAttribute("data-required")) input.required = true
@@ -242,7 +242,7 @@ loadFunc = () => {
 		e.preventDefault()
 		if (document.getElementsByClassName("reactionrole").length == 0) return new ToastNotification({type: "ERROR", title: "You must add at least one reactionrole using the button above!", timeout: 10}).show()
 
-		document.getElementById("create-dialog").classList.add("hidden")
+		document.getElementById("create-dialog").setAttribute("hidden", "")
 		if (document.getElementById("no-rr")) document.getElementById("no-rr").remove()
 
 		const newmsg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg"

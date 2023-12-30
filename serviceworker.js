@@ -1,4 +1,4 @@
-const version = 2
+const version = 3
 
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
@@ -13,6 +13,8 @@ self.addEventListener("install", event => {
 			"/assets/fonts/gfonts_bevietmanpro_latin.woff2",
 			"/assets/images/favicon.ico",
 			"/assets/images/buttonroles.webp",
+			"/assets/images/autoupdate.webp",
+			"/assets/images/integrations.webp",
 			"/assets/images/tomato_ban.webp",
 			"/assets/images/tomato_empty_160.webp",
 			"/assets/images/wikimedia_flagde.svg",

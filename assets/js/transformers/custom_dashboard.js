@@ -75,7 +75,7 @@ const refresh = (force = false, save = false) => {
 			document.getElementById("forward-button").removeAttribute("disabled")
 		}, 10000)
 	}
-	if (save) document.getElementById("create-dialog").classList.add("hidden")
+	if (save) document.getElementById("create-dialog").setAttribute("hidden", "")
 }
 
 const forward = () => {

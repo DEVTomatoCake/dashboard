@@ -4,8 +4,8 @@ function getGuildsHTML() {
 			.then(json => {
 				if (json.status == "success") {
 					if (json.data.length == 0) return resolve("<h1 translation='dashboard.noservers'></h1>")
-					document.querySelector("p.hidden[translation='dashboard.selectpage']").classList.remove("hidden")
-					document.getElementsByClassName("page-select")[0].classList.remove("hidden")
+					document.querySelector("p[translation='dashboard.selectpage']").removeAttribute("hidden")
+					document.getElementsByClassName("page-select")[0].removeAttribute("hidden")
 
 					const target = localStorage.getItem("next")
 					const text = json.data.sort((a, b) => {

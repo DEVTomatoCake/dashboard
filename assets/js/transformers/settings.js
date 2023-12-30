@@ -121,8 +121,8 @@ const settingsTab = tab => {
 	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active")
 	document.getElementById("settab-" + tab).classList.add("active")
 
-	for (const elem of document.getElementsByClassName("settingdiv")) elem.classList.add("hidden")
-	document.getElementById("setcat-" + tab).classList.remove("hidden")
+	for (const elem of document.getElementsByClassName("settingdiv")) elem.setAttribute("hidden", "")
+	document.getElementById("setcat-" + tab).removeAttribute("hidden")
 
 	document.getElementById("root-container").scrollIntoView()
 	if (screen.width <= 800) sidebar()

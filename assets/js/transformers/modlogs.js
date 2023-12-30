@@ -49,10 +49,10 @@ const ticketSearch = () => {
 
 		if (hidden) {
 			if (log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible")
-			log.classList.add("hidden")
+			log.setAttribute("hidden", "")
 		} else {
 			if (!log.classList.contains("cmdvisible")) log.classList.toggle("cmdvisible")
-			log.classList.remove("hidden")
+			log.removeAttribute("hidden")
 		}
 	}
 }

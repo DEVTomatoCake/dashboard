@@ -222,10 +222,10 @@ function fadeIn(elem) {
 }
 
 function openDialog(dialog) {
-	dialog.classList.remove("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
+	dialog.removeAttribute("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 	window.onclick = event => {
-		if (event.target == dialog) dialog.classList.add("hidden")
+		if (event.target == dialog) dialog.setAttribute("hidden", "")
 	}
 }
 
@@ -266,7 +266,7 @@ function pageLoad() {
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.classList.add(\"hidden\")'>"
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
 		else document.getElementById("username-avatar").classList.add("visible")
 	} else document.getElementById("username-avatar").classList.add("visible")
 

@@ -35,4 +35,4 @@ setInterval(() => {
 		document.getElementById("server" + currentServer).classList.remove("no-opacity")
 		reloadText()
 	}, 500)
-}, 8500)
+}, 8300)

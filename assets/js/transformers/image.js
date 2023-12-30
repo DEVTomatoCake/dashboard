@@ -34,8 +34,8 @@ function createDialog() {
 	}
 
 	addLayer()
-	dialog.classList.remove("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
+	dialog.removeAttribute("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
 	reloadText()
 	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
@@ -186,8 +186,8 @@ function imageEdit(imageId) {
 	currentLayer = currentImage.layers[0]
 	editLayer(currentLayer.id)
 
-	dialog.classList.remove("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => dialog.classList.add("hidden")
+	dialog.removeAttribute("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
 	reloadText()
 	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
@@ -259,12 +259,12 @@ function changeTab(elem) {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")
-			document.getElementById(tab.getAttribute("name")).classList.add("hidden")
+			document.getElementById(tab.getAttribute("name")).setAttribute("hidden", "")
 		}
 	}
 
 	elem.classList.add("active")
-	document.getElementById(elem.getAttribute("name")).classList.remove("hidden")
+	document.getElementById(elem.getAttribute("name")).removeAttribute("hidden")
 
 	currentLayer.type = elem.getAttribute("name")
 	handleChange(elem)
@@ -280,7 +280,7 @@ function saveImage() {
 	if (currentImage.layers.length == 0) return alert("You need to add at least one layer to the image!")
 
 	saving = true
-	document.getElementById("edit-dialog").classList.add("hidden")
+	document.getElementById("edit-dialog").setAttribute("hidden", "")
 	if (document.getElementById("no-images")) document.getElementById("no-images").remove()
 
 	if (currentImage.edit) images = images.filter(int => int.name != currentImage.name)

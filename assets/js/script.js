@@ -102,12 +102,18 @@ class Footer2 extends HTMLElement {
 customElements.define("global-footer2", Footer2)
 
 window.onscroll = () => {
-	document.getElementById("scrollPositionDisplay").textContent = window.pageYOffset + "px | " + document.documentElement.scrollTop + "px"
+	document.getElementById("scrollPositionDisplay").textContent = window.pageYOffset + "px | " + document.documentElement.scrollTop + "px | " + document.documentElement.scrollHeight + "px" + " | " + document.documentElement.clientHeight + "px"
 }
 setInterval(() => {
-	document.getElementById("scrollPositionDisplay").textContent = window.pageYOffset + "px | " + document.documentElement.scrollTop + "px"
+	document.getElementById("scrollPositionDisplay").textContent = window.pageYOffset + "px | " + document.documentElement.scrollTop + "px | " + document.documentElement.scrollHeight + "px" + " | " + document.documentElement.clientHeight + "px"
 }, 100)
 
+
+const obs = new MutationObserver(() => {
+	document.querySelectorAll("footer").forEach(footer => {
+		document.getElementById("temp").textContent += "[" + new Date().toLocaleTimeString() + "] " + footer.innerHTML + "<br><br>"
+	})
+})
 
 class Sidebar extends HTMLElement {
 	static observedAttributes = ["page", "dashboard", "user", "guild"]

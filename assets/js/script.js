@@ -285,7 +285,7 @@ function pageLoad() {
 		})
 	}, 300)
 
-	loadFunc()
+	//loadFunc()
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

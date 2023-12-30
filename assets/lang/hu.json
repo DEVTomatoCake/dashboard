@@ -7,6 +7,7 @@
 		"description": "Leírás",
 		"hide": "Elrejt",
 		"name": "Név",
+		"nocmds": "Nem találtunk parancsot!",
 		"show": "Mutasd meg a",
 		"title": "A <span class=\"accent\">TomatenKuchen</span> parancsai",
 		"usage": "Használat"
@@ -141,6 +142,10 @@
 	"main": {
 		"botsince": "Már használom a botot",
 		"features": {
+			"autoupdate": {
+				"description": "A bal oldalon <a href=\"https://docs.tomatenkuchen.com/autoupdate\">automatikusan frissülő üzenetek</a> láthatók, amelyekben egyéni ranglistát, fiktív születésnapokat és az AFK-tagok listáját találod.\nA következő szerver eseményeit vagy csak általános statisztikákat is felsorolhatod!",
+				"title": "Üzenetek automatikus frissítése"
+			},
 			"components": {
 				"description": "A <a href=\"https://docs.tomatenkuchen.com/integrations\">Integrációk</a> segítségével ezt és még sok mást is megtehet, például egy műveletet hajthat végre, ha egy felhasználó megsérti az AutoMod szabályt!",
 				"title": "Szeretett volna már valaha egyéni gombokat vagy kiválasztásokat létrehozni?"
@@ -148,6 +153,9 @@
 			"moderation": {
 				"description": "Hasznos moderálási parancsok és modlogok a <a href=\"https://discord.com\">Discord</a> natív automodjával kombinálva!",
 				"title": "Speciális moderálási funkciók"
+			},
+			"muchmore": {
+				"title": "...és még sok, <i>sok</i> más!"
 			},
 			"rr": {
 				"description": "Hozzon létre korlátlan számú klasszikus reakciós szerepet, vagy használja a modern gombot és válassza ki a szerepeket, hogy a tagok kiválaszthassák a szerepeket!",
@@ -183,6 +191,12 @@
 	"privacy": {
 		"deleteowndata": "Adatainak egy részét saját maga is törölheti:",
 		"requestdata": "Kérjen adatokat"
+	},
+	"profile": {
+		"sidebar": "Nézd meg az oldalsávot, hogy meglátogasd a többi felhasználó oldalát!",
+		"title": "Az Ön TomatenKuchen profilja",
+		"vote": "Szavazz a botra",
+		"votemb": "Bot szavazási linkek kezelése"
 	},
 	"sidebar": {
 		"commands": "Parancsok",

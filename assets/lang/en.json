@@ -7,6 +7,7 @@
 		"description": "Description",
 		"hide": "Hide",
 		"name": "Name",
+		"nocmds": "No commands found!",
 		"show": "Show",
 		"title": "Commands of <span class=\"accent\">TomatenKuchen</span>",
 		"usage": "Usage"
@@ -190,6 +191,12 @@
 	"privacy": {
 		"deleteowndata": "You can delete a fraction of your data yourself:",
 		"requestdata": "Request data"
+	},
+	"profile": {
+		"sidebar": "Check the sidebar to visit other user pages!",
+		"title": "Your TomatenKuchen profile",
+		"vote": "Vote for the bot",
+		"votemb": "Manage Bot vote links"
 	},
 	"sidebar": {
 		"commands": "Commands",

@@ -1,0 +1,171 @@
+function setCookie(name, value, days, global = false) {
+	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
+
+	let cookie = name + "=" + (value || "") + ";path=/;Secure;"
+	if (days) {
+		const date = new Date()
+		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days)
+		cookie += "expires=" + date.toUTCString() + ";"
+	}
+	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
+
+	document.cookie = cookie
+}
+function getCookie(name) {
+	const cookies = document.cookie.split(";")
+
+	for (const rawCookie of cookies) {
+		const cookie = rawCookie.trim()
+		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
+	}
+	return void 0
+}
+function deleteCookie(name) {
+	document.cookie = name + "=;Max-Age=-99999999;path=/;"
+	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
+}
+
+let loadFunc = () => {}
+const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
+const assertInt = int => {
+	if (typeof int == "number") return int
+	throw new Error("Not an integer: " + int)
+}
+
+function handleError(resolve, error) {
+	if (typeof error != "string") console.error(error)
+	resolve(
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + (typeof error == "string" ? error : error.toString()) + "</h2>" +
+		(typeof error == "string" ? "" : "<h3>Check your browser console to find out more!</h3>")
+	)
+}
+
+class Footer extends HTMLElement {
+	constructor() {
+		super()
+	}
+	connectedCallback() {
+		this.innerHTML =
+			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
+			"<footer>" +
+			"<a href='/'>" +
+			"<div id='mainlink'>" +
+				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo'>" +
+				"<span>TomatenKuchen</span>" +
+			"</div>" +
+			"</a>" +
+			"<div class='links'>" +
+				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom bots</a>" +
+				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
+				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
+				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
+				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
+				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy & ToS</a>" +
+				"<a href='/legal'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
+			"</div>" +
+			"</footer>"
+	}
+}
+customElements.define("global-footer", Footer)
+
+class Sidebar extends HTMLElement {
+	static observedAttributes = ["page", "dashboard", "user", "guild"]
+
+	constructor() {
+		super()
+	}
+	attributeChangedCallback() {
+		this.innerHTML = ""
+	}
+}
+customElements.define("global-sidebar", Sidebar)
+
+let sideState = 0
+function sidebar() {
+}
+
+function fadeOut(elem) {
+	if (!elem) return
+	if (!elem.style.opacity) elem.style.opacity = 1
+
+	elem.style.opacity = parseFloat(elem.style.opacity) - 0.05
+	if (elem.style.opacity >= 0) setTimeout(() => fadeOut(elem), 25)
+	else elem.remove()
+}
+function fadeIn(elem) {
+	if (!elem) return
+	if (!elem.style.opacity) elem.style.opacity = 0
+
+	elem.style.opacity = parseFloat(elem.style.opacity) + 0.05
+	if (elem.style.opacity < 1) setTimeout(() => fadeIn(elem), 25)
+}
+
+function openDialog(dialog) {
+	dialog.removeAttribute("hidden")
+	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
+	window.onclick = event => {
+		if (event.target == dialog) dialog.setAttribute("hidden", "")
+	}
+}
+
+function pageLoad() {
+	if (!getCookie("cookie-dismiss") && location.hash != "#no-cookie-popup") {
+		document.body.innerHTML +=
+			"<div class='userinfo-container' id='cookie-container'>" +
+			"<h2 translation='cookie.title'>Cookie information</h2>" +
+			"<p>We only use the following cookies on this website - it's your choice.<br>Essential cookies:</p>" +
+			"<ul><li><code>token</code> & <code>user</code>: Discord login</li><li><code>cookie-dismiss</code>: Remember cookie consent</li></ul>" +
+			"<p>Optional cookies:</p>" +
+			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>avatar</code>: Display Discord user avatar</li></ul>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
+			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
+			"</div>"
+		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
+	}
+
+	if (screen.width <= 600) {
+		document.getElementById("content").classList.add("no-padding")
+		sideState = 1
+	}
+
+	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
+	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
+		document.body.classList.replace("dark-theme", "light-theme")
+		setCookie("theme", "light", 365, true)
+	} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
+
+	const username = getCookie("user")
+	if (username) {
+		document.getElementsByClassName("account")[0].removeAttribute("onclick")
+
+		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
+			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
+			//"<a href='/dashboard/custom'>Custom bots</a>" +
+			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
+
+		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
+			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
+		else document.getElementById("username-avatar").classList.add("visible")
+	} else document.getElementById("username-avatar").classList.add("visible")
+
+	setTimeout(() => {
+		document.getElementById("theme-toggle").addEventListener("change", () => {
+			if (document.body.classList.contains("light-theme")) {
+				document.body.classList.replace("light-theme", "dark-theme")
+				setCookie("theme", "dark", 365, true)
+			} else {
+				document.body.classList.replace("dark-theme", "light-theme")
+				setCookie("theme", "light", 365, true)
+			}
+			document.querySelectorAll("emoji-picker").forEach(picker => {
+				picker.classList.toggle("light")
+			})
+		})
+	}, 300)
+
+	loadFunc()
+	reloadText()
+	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
+}

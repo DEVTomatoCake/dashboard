@@ -69,24 +69,6 @@ class Footer extends HTMLElement {
 }
 customElements.define("global-footer", Footer)
 
-class Footer2 extends HTMLElement {
-	constructor() {
-		super()
-	}
-	connectedCallback() {
-		this.innerHTML =
-			"<div class='links'>" +
-				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
-				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
-				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
-				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
-				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy & ToS</a>" +
-				"<a href='/legal'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
-			"</div>"
-	}
-}
-customElements.define("global-footer2", Footer2)
-
 class Sidebar extends HTMLElement {
 	static observedAttributes = ["page", "dashboard", "user", "guild"]
 
@@ -303,5 +285,7 @@ function pageLoad() {
 		})
 	}, 300)
 
+	loadFunc()
+	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

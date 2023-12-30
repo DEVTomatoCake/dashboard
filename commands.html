@@ -23,7 +23,7 @@
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
 		<script src="./assets/js/api.js"></script>
-		<script src="./assets/js/transformers/frontpage.js"></script>
+		<script src="./assets/js/transformers/commands.js"></script>
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar page="commands"></global-sidebar>
@@ -52,63 +52,10 @@
 			</header>
 
 			<div class="content" id="content">
-				<h1 class="center">
-					TomatenKuchen is your <span class="red-text">free</span>
-					<span class="blue-text">all-in-one</span> Discord bot for your server!
-				</h1>
-				<br>
+				<h1 class="greeting" translation="commands.title"></h1>
 
-				<div class="stats-row">
-					<div class="servers">
-						<div class="container">
-							<ion-icon name="analytics-outline"></ion-icon>
-							<p class="title" translation="main.servers">Servers</p>
-
-							<a class="linkicon" href="https://disstat.pages.dev/b/tk" title="DisStat bot statistics" target="_blank" rel="noopener">
-								<ion-icon name="open-outline" class="open"></ion-icon>
-							</a>
-						</div>
-						<p id="stats-guilds" class="value">Loading...</p>
-					</div>
-
-					<div class="uptime">
-						<div class="container">
-							<ion-icon name="alert-outline"></ion-icon>
-							<p class="title" translation="main.uptime">Uptime</p>
-
-							<a class="linkicon" href="https://vanillaminigames.instatus.com" title="Bot uptime data" target="_blank" rel="noopener">
-								<ion-icon name="open-outline" class="open"></ion-icon>
-							</a>
-						</div>
-						<p id="stats-uptime" class="value">Loading...</p>
-					</div>
-
-					<div class="tickets">
-						<div class="container">
-							<ion-icon name="ticket-outline"></ion-icon>
-							<p class="title" translation="dashboard.tickets">Tickets</p>
-						</div>
-						<p id="stats-tickets" class="value">Loading...</p>
-					</div>
-
-					<div class="users">
-						<div class="container">
-							<ion-icon name="people-outline"></ion-icon>
-							<p class="title" translation="main.users">Users</p>
-
-							<a class="linkicon" href="https://disstat.pages.dev/b/tk" title="DisStat bot statistics" target="_blank" rel="noopener">
-								<ion-icon name="open-outline" class="open"></ion-icon>
-							</a>
-						</div>
-						<p id="stats-users" class="value">Loading...</p>
-					</div>
-				</div>
-
-				<h2 translation="main.publicservers">Public servers</h2>
-				<div class="public-servers">
-					<div id="server1" class="server"></div>
-					<div id="server2" class="server"></div>
-				</div>
+				<p id="no-cmds-found" class="center" hidden translation="commands.nocmds"></p>
+				<div id="commands-container" class="center"></div>
 
 				<div class="featurelist">
 					<h2 class="center">Features</h2>

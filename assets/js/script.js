@@ -224,19 +224,9 @@ function sidebar() {
 }
 
 function fadeOut(elem) {
-	if (!elem) return
-	if (!elem.style.opacity) elem.style.opacity = 1
-
-	elem.style.opacity = parseFloat(elem.style.opacity) - 0.05
-	if (elem.style.opacity >= 0) setTimeout(() => fadeOut(elem), 25)
-	else elem.remove()
+	elem.remove()
 }
 function fadeIn(elem) {
-	if (!elem) return
-	if (!elem.style.opacity) elem.style.opacity = 0
-
-	elem.style.opacity = parseFloat(elem.style.opacity) + 0.05
-	if (elem.style.opacity < 1) setTimeout(() => fadeIn(elem), 25)
 }
 
 function openDialog(dialog) {
@@ -248,62 +238,10 @@ function openDialog(dialog) {
 }
 
 function pageLoad() {
-	if (!getCookie("cookie-dismiss") && location.hash != "#no-cookie-popup") {
-		document.body.innerHTML +=
-			"<div class='userinfo-container' id='cookie-container'>" +
-			"<h2 translation='cookie.title'>Cookie information</h2>" +
-			"<p>We only use the following cookies on this website - it's your choice.<br>Essential cookies:</p>" +
-			"<ul><li><code>token</code> & <code>user</code>: Discord login</li><li><code>cookie-dismiss</code>: Remember cookie consent</li></ul>" +
-			"<p>Optional cookies:</p>" +
-			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>avatar</code>: Display Discord user avatar</li></ul>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
-			"</div>"
-		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
-	}
-
-	if (screen.width <= 600) {
-		document.getElementById("content").classList.add("no-padding")
-		sideState = 1
-	}
-
-	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
-	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
+	if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
 		document.body.classList.replace("dark-theme", "light-theme")
 		setCookie("theme", "light", 365, true)
-	} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
-
-	const username = getCookie("user")
-	if (username) {
-		document.getElementsByClassName("account")[0].removeAttribute("onclick")
-
-		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
-			//"<a href='/dashboard/custom'>Custom bots</a>" +
-			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
-
-		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
-			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
-		else document.getElementById("username-avatar").classList.add("visible")
-	} else document.getElementById("username-avatar").classList.add("visible")
-
-	setTimeout(() => {
-		document.getElementById("theme-toggle").addEventListener("change", () => {
-			if (document.body.classList.contains("light-theme")) {
-				document.body.classList.replace("light-theme", "dark-theme")
-				setCookie("theme", "dark", 365, true)
-			} else {
-				document.body.classList.replace("dark-theme", "light-theme")
-				setCookie("theme", "light", 365, true)
-			}
-			document.querySelectorAll("emoji-picker").forEach(picker => {
-				picker.classList.toggle("light")
-			})
-		})
-	}, 300)
-
+	}
 	loadFunc()
 	reloadText()
-	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 }

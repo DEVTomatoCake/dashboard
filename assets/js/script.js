@@ -104,7 +104,6 @@ customElements.define("global-footer2", Footer2)
 const obs = new MutationObserver((records, observer) => {
 	document.getElementById("temp").textContent += "<br><br>" + JSON.stringify(records[0].target)
 })
-obs.observe(document.querySelector("footer"), {childList: true})
 
 class Sidebar extends HTMLElement {
 	static observedAttributes = ["page", "dashboard", "user", "guild"]
@@ -280,6 +279,7 @@ function pageLoad() {
 			"</div>"
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
 	}
+	obs.observe(document.querySelector("footer"), {childList: true})
 
 	if (screen.width <= 600) {
 		document.getElementById("content").classList.add("no-padding")

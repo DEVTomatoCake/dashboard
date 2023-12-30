@@ -63,7 +63,7 @@ loadFunc = () => {
 	} else if (getCookie("token")) {
 		getGuildsHTML().then(html => {
 			document.getElementById("guilds-container").innerHTML = html
-			//reloadText()
+			reloadText()
 
 			if (localStorage.getItem("next") && localStorage.getItem("next") != "/dashboard") {
 				const pages = document.getElementsByClassName("page-select")[0]

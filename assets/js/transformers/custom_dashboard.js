@@ -148,7 +148,7 @@ function connectWS() {
 				if (json.status == "success") document.getElementById("bot-" + json.bot).remove()
 			} else if (json.action == "RECEIVE_custom") {
 				document.getElementById("root-container").innerHTML = getCustomHTML(json)
-				//reloadText()
+				reloadText()
 			} else if (json.action == "RECEIVE_custom_info") {
 				info = json
 				if (json.status == "success") {

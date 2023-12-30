@@ -82,7 +82,7 @@ loadFunc = () => {
 			if (html[key]) document.getElementById(key).innerHTML = html[key]
 			else document.getElementById("button-" + key).remove()
 		})
-		//reloadText()
+		reloadText()
 
 		if (location.hash == "#counting") changeTab(document.getElementById("button-counting"))
 		else if (location.hash == "#countingfail") changeTab(document.getElementById("button-countingfail"))
@@ -91,6 +91,6 @@ loadFunc = () => {
 	})
 	else {
 		document.getElementById("content").innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>"
-		//reloadText()
+		reloadText()
 	}
 }

@@ -119,7 +119,7 @@ const cmdInfo = (elem, cmd) => {
 		)).join("") + "</ul></p>"
 
 		elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>"
-		//reloadText()
+		reloadText()
 	}
 }
 
@@ -133,7 +133,7 @@ const toggleCategory = category => {
 		toModify.setAttribute("hidden", "")
 		document.getElementById(category + "_tb").setAttribute("translation", "commands.show")
 	}
-	//reloadText()
+	reloadText()
 }
 
 loadFunc = () => {
@@ -150,6 +150,6 @@ loadFunc = () => {
 			"</div>"
 
 		document.getElementById("commands-container").innerHTML = html
-		//reloadText()
+		reloadText()
 	})
 }

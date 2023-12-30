@@ -17,7 +17,7 @@ loadFunc = async () => {
 			document.getElementById("vote-mb").innerHTML = "<ul>" + json.votes.filter(site => site.status != 0 && site.mb).map(formatVote).join("") + "</ul>"
 		} else return handleError(resolve, json.message)
 
-		//reloadText()
+		reloadText()
 	} else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)

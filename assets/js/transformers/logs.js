@@ -79,7 +79,7 @@ function info(id) {
 		"<br><b translation='logs.firstoccured'></b> " + new Date(log.date).toLocaleString() +
 		(log.lastDate ? "<br><b translation='logs.lastoccured'></b> " + new Date(log.lastDate).toLocaleString() : "") +
 		"<br><b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, "\t")) + "</pre>"
-	//reloadText()
+	reloadText()
 }
 
 loadFunc = () => {
@@ -87,7 +87,7 @@ loadFunc = () => {
 		getLogsHTML(params.get("guild")).then(data => {
 			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
 			document.getElementById("root-container").innerHTML = data
-			//reloadText()
+			reloadText()
 		})
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {

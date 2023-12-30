@@ -175,7 +175,7 @@ loadFunc = () => {
 	if (getCookie("token"))
 		getDataexportHTML().then(data => {
 			document.getElementById("content").innerHTML = data
-			//reloadText()
+			reloadText()
 		})
 	else {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"

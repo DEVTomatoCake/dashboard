@@ -69,16 +69,12 @@ class Footer extends HTMLElement {
 }
 customElements.define("global-footer", Footer)
 
-let hasLoaded = false
 class Footer2 extends HTMLElement {
 	constructor() {
 		super()
 	}
 	connectedCallback() {
-		if (hasLoaded) return
-
 		this.innerHTML =
-			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
 			"<footer>" +
 			"<a href='/'>" +
 			"<div id='mainlink'>" +
@@ -87,7 +83,6 @@ class Footer2 extends HTMLElement {
 			"</div>" +
 			"</a>" +
 			"<div class='links'>" +
-				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom bots</a>" +
 				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
 				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
 				"<a href='/discord' target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
@@ -96,14 +91,9 @@ class Footer2 extends HTMLElement {
 				"<a href='/legal'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
 			"</div>" +
 			"</footer>"
-		hasLoaded = true
 	}
 }
 customElements.define("global-footer2", Footer2)
-
-const obs = new MutationObserver((records, observer) => {
-	document.getElementById("temp").textContent += "<br><br>" + JSON.stringify(records[0].target)
-})
 
 class Sidebar extends HTMLElement {
 	static observedAttributes = ["page", "dashboard", "user", "guild"]
@@ -279,7 +269,6 @@ function pageLoad() {
 			"</div>"
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
 	}
-	obs.observe(document.querySelector("footer"), {childList: true})
 
 	if (screen.width <= 600) {
 		document.getElementById("content").classList.add("no-padding")

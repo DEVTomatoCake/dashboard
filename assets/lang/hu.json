@@ -1,0 +1,235 @@
+{
+	"commands": {
+		"aliases": "Álnevek:",
+		"args": "Érvek:",
+		"categories": "KATEGÓRIÁK",
+		"category": "Kategória",
+		"description": "Leírás",
+		"hide": "Elrejt",
+		"name": "Név",
+		"show": "Mutasd meg a",
+		"title": "A <span class=\"accent\">TomatenKuchen</span> parancsai",
+		"usage": "Használat"
+	},
+	"cookie": {
+		"all": "Mindent elfogad",
+		"necessary": "Elfogadja az alapvető",
+		"title": "Cookie információk"
+	},
+	"credits": {
+		"contributors": "Hozzájárulók",
+		"other": "Egyéb",
+		"otherdesc": "például. Fordítások, Promóció",
+		"sitedesign": "Weboldal tervezés"
+	},
+	"custom": {
+		"additionalupgrades": "További fejlesztések",
+		"creditamount": "A kreditek összege",
+		"dependseconomy": "A jövedelemtől függ"
+	},
+	"dashboard": {
+		"add": "Add",
+		"cancel": "Megszünteti",
+		"cc": {
+			"create": "Hozzon létre egyéni parancsot",
+			"delete": "Ha egy mezőt üresen hagy, az egyéni parancs törlődik.",
+			"nocc": "Nincsenek egyéni parancsok!",
+			"slashdesc": "Slashcommand leírás",
+			"title": "Egyéni parancsok"
+		},
+		"channel": "Csatorna",
+		"content": "Tartalom",
+		"integrations": "Integrációk",
+		"leaderboard": "Leaderboard",
+		"logs": "Naplók",
+		"modlogs": "Modlogok",
+		"noservers": "Nem találhatók Öntől származó szerverek!",
+		"reaction": "Reakció",
+		"reactionroles": "Reakció, gomb és szerepek kiválasztása",
+		"rr": {
+			"add": "Szerep hozzáadása",
+			"create": "Reakció létrehozása, gomb vagy szerepkör kiválasztása",
+			"msgid": "Üzenet azonosítója",
+			"norr": "Nincsenek reakciószerepek!",
+			"role": "Szerepvállalás",
+			"title": "Reakciói szerepei"
+		},
+		"save": "Mentés",
+		"selectpage": "Válassza ki a céloldalt:",
+		"settings": "Beállítások",
+		"stats": "Statisztikák",
+		"tickets": "Tickets",
+		"title": "Beállítások",
+		"type": "Típus"
+	},
+	"form": {
+		"missing": "Egy űrlap slug-ot vagy egy űrlap azonosítót kell hozzáadni a lekérdezés paramétereként!",
+		"submit": "Küldje be a"
+	},
+	"giveaway": {
+		"anyrole": "Bármelyik szerep",
+		"ended": "Giveaway véget ért",
+		"ends": "Véget ér a",
+		"hostedby": "Házigazda",
+		"minaccage": "Minimális számlaéletkor",
+		"minleaderboardpoints": "Minimális pontszámok a ranglistán",
+		"minmemberage": "Minimális idő a szerveren",
+		"notrole": "Egyik szerep sem",
+		"nowinner": "Senki sem nyert!",
+		"requirements": "Követelmények",
+		"started": "Elkezdődött a",
+		"thoseroles": "Mindezek a szerepek",
+		"title": "Ajándékozás a",
+		"users": "Felhasználók a nyereményjátékban",
+		"winneramount": "A nyertesek száma"
+	},
+	"global": {
+		"account": "Profil",
+		"language": "Nyelv",
+		"login": "Belépés",
+		"logout": "Kijelentkezés",
+		"viewdataexport": "Saját adatok megtekintése",
+		"yourprofile": "Az Ön profilja"
+	},
+	"integration": {
+		"actions": "Tevékenységek",
+		"addaction": "Művelet hozzáadása",
+		"additionalpublic": "További beállítások a nyilvános integrációkhoz",
+		"create": "Integráció létrehozása",
+		"createsource": "Integráció létrehozása integrációból integráció",
+		"edit": "Szerkesztés",
+		"editsave": "Változások mentése",
+		"edittitle": "Integráció szerkesztése:",
+		"imageurl": "Kép URL",
+		"infotitle": "Integrációs információk:",
+		"lastupdate": "Utolsó frissítés:",
+		"longdesc": "Hosszú leírás",
+		"none": "Nincsenek integrációk!",
+		"otherpublic": "Egyéb nyilvános integrációk",
+		"owner": "Alkotó:",
+		"public": "Nyilvános",
+		"shortdesc": "Rövid leírás",
+		"syncmode": "Szinkronizálási mód az eredetitől",
+		"thisserver": "A szerver integrációi",
+		"title": "Integrációk",
+		"trigger": "Trigger",
+		"use": "Használja az integrációt a",
+		"usedby": "Használta:",
+		"version": "Parser verzió",
+		"viewuse": "Megtekintés",
+		"yours": "Az Ön integrációi más szerverekről"
+	},
+	"leaderboard": {
+		"countingtitle": "Számláló ranglista a",
+		"missingguild": "Hozzá kell adni a szervert!",
+		"title": "Szint ranglistája a"
+	},
+	"logs": {
+		"actions": "Tevékenységek",
+		"amount": "Összeg",
+		"delete": "Töröl",
+		"filter": "Naplók szűrése…",
+		"firstoccured": "Először történt:",
+		"infotitle": "Információ erről a naplóbejegyzésről",
+		"lastoccured": "Utoljára történt:",
+		"logid": "Napló ID",
+		"logmessage": "Naplóüzenet",
+		"logtype": "Napló típusa",
+		"moreinfo": "További információ",
+		"title": "Naplók a"
+	},
+	"main": {
+		"botsince": "Már használom a botot",
+		"features": {
+			"components": {
+				"description": "A <a href=\"https://docs.tomatenkuchen.com/integrations\">Integrációk</a> segítségével ezt és még sok mást is megtehet, például egy műveletet hajthat végre, ha egy felhasználó megsérti az AutoMod szabályt!",
+				"title": "Szeretett volna már valaha egyéni gombokat vagy kiválasztásokat létrehozni?"
+			},
+			"moderation": {
+				"description": "Hasznos moderálási parancsok és modlogok a <a href=\"https://discord.com\">Discord</a> natív automodjával kombinálva!",
+				"title": "Speciális moderálási funkciók"
+			},
+			"rr": {
+				"description": "Hozzon létre korlátlan számú klasszikus reakciós szerepet, vagy használja a modern gombot és válassza ki a szerepeket, hogy a tagok kiválaszthassák a szerepeket!",
+				"title": "Reakció, gomb és szerepek kiválasztása"
+			},
+			"stats": {
+				"description": "A <a href=\"https://docs.tomatenkuchen.com/serverstats\">Dokumentumok</a> oldalon tippeket talál a statisztikák beállításához. A tagok és a boostok számát, valamint a naponta elküldött üzeneteket és az aktív csevegőket is nyomon követheti - lejárat nélkül!",
+				"title": "Szerverstatisztikák a csatornák és kategóriák neveiben és a weboldalon"
+			},
+			"template": {
+				"description": "A <code>template</code> használatával Discord sablonokat tölthetsz meglévő szerverekre.\n<code>backup</code> lehetővé teszi, hogy eltávolítson más botokat, mint a Xenon, mint TomatenKuchen sokkal több funkcióval rendelkezik, és mentést szinte mindent, amit a Discord lehetővé teszi a bot :D",
+				"title": "Discord sablonok betöltése és funkciógazdag szerver biztonsági mentések készítése"
+			},
+			"ticket": {
+				"description": "Több jegykategória, jegybeágyazás és Discord-szerű átiratok",
+				"title": "Teljesen testreszabható jegyrendszer"
+			}
+		},
+		"headline": "A TomatenKuchen az All-in-One Discord botod a Discord szerveredhez!",
+		"members": "Tagok",
+		"publicservers": "Nyilvános szerverek",
+		"servers": "Szerverek",
+		"uptime": "Üzemidő",
+		"users": "Felhasználók"
+	},
+	"modlogs": {
+		"activeuntil": "Aktív, amíg:",
+		"mod": "Moderátor",
+		"reason": "Ok",
+		"title": "Modlogok a",
+		"user": "Felhasználók"
+	},
+	"privacy": {
+		"deleteowndata": "Adatainak egy részét saját maga is törölheti:",
+		"requestdata": "Kérjen adatokat"
+	},
+	"sidebar": {
+		"commands": "Parancsok",
+		"dashboard": "Irányítópult",
+		"docs": "Dokumentumok",
+		"home": "Itthon",
+		"invite": "<ion-icon name=\"add\"></ion-icon> BOT MEGHÍVÁS",
+		"support": "Támogatás"
+	},
+	"tickets": {
+		"all": "Összes",
+		"closed": "Zárva",
+		"contentwarning": "Megjegyzés: Az átiratok tartalmának keresése. A HTML-kód miatt nem megfelelőket jeleníthet meg.",
+		"created": "Létrehozva",
+		"deleted": "Törölve",
+		"message": "Jegyüzenet",
+		"open": "Nyisd ki",
+		"state": "Jegy állapota",
+		"table": {
+			"state": "Állapot",
+			"user": "Teremtő"
+		},
+		"ticketid": "Jegyazonosító",
+		"title": "Jegyek a",
+		"userid": "Felhasználói azonosító",
+		"username": "Felhasználónév"
+	},
+	"unsaved": {
+		"revert": "Vissza",
+		"save": "Változások mentése",
+		"title": "Nem mentett módosítások"
+	},
+	"user": {
+		"badges": "Jelvények:",
+		"birthday": "Születésnap:",
+		"canvote": "Most szavazhatsz!",
+		"general": "Tábornok",
+		"json": "Adatok JSON-ként:",
+		"levelbg": "Szint háttér:",
+		"reason": "Ok:",
+		"reminders": "Emlékeztetők",
+		"saveticketatt": "Avatar és mellékletek mentése jegyekbe:",
+		"since": "Mivel:",
+		"suggestions": "Javaslatok",
+		"title": "Adatai",
+		"voted": "Ön már szavazott - köszönjük!",
+		"votelinks": "Szavazz linkek",
+		"voteunknown": "Ez az oldal nem mondja meg, hogy szavaztál-e vagy sem - a krediteket azonban így is megkapod!"
+	}
+}

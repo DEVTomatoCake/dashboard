@@ -8,7 +8,6 @@ module.exports = {
 				"./custom.html#no-cookie-popup",
 				"./credits.html#no-cookie-popup",
 				"./leaderboard.html?guild=694194461122756649#no-cookie-popup",
-				"./stats.html?guild=694194461122756649",
 				"./privacy.html#no-cookie-popup"
 			]
 		},

@@ -1,0 +1,235 @@
+{
+	"commands": {
+		"aliases": "Aliase:",
+		"args": "Argumente:",
+		"categories": "KATEGORIEN",
+		"category": "Kategorie",
+		"description": "Beschreibung",
+		"hide": "Verstecken",
+		"name": "Name",
+		"show": "Zeigen",
+		"title": "Befehle von <span class=\"accent\">TomatenKuchen</span>",
+		"usage": "Verwendung"
+	},
+	"cookie": {
+		"all": "Alle akzeptieren",
+		"necessary": "Nur notwendige",
+		"title": "Cookie-Information"
+	},
+	"credits": {
+		"contributors": "Mitwirkende",
+		"other": "Sonstige",
+		"otherdesc": "z. B. Übersetzungen, Werbung",
+		"sitedesign": "Websiten-Design"
+	},
+	"custom": {
+		"additionalupgrades": "Zusätzliche Upgrades",
+		"creditamount": "Anzahl der Credits",
+		"dependseconomy": "Je nach Einkommen"
+	},
+	"dashboard": {
+		"add": "Hinzufügen",
+		"cancel": "Abbrechen",
+		"cc": {
+			"create": "Customcommand erstellen",
+			"delete": "Wenn du ein Feld leer lässt wird der Customcommand gelöscht.",
+			"nocc": "Es sind keine Customcommands vorhanden!",
+			"slashdesc": "Slashcommand-Beschreibung",
+			"title": "Customcommands von"
+		},
+		"channel": "Kanal",
+		"content": "Inhalt",
+		"integrations": "Integrationen",
+		"leaderboard": "Leaderboard",
+		"logs": "Logs",
+		"modlogs": "Modlogs",
+		"noservers": "Es wurden keine Server von dir gefunden!",
+		"reaction": "Reaktion",
+		"reactionroles": "Reaction-, Button- und Selectrollen",
+		"rr": {
+			"add": "Rolle übernehmen",
+			"create": "Reaction-, Button- oder Selectrole erstellen",
+			"msgid": "Nachrichten-ID",
+			"norr": "Es sind keine Reactionroles vorhanden!",
+			"role": "Rolle",
+			"title": "Reactionroles von"
+		},
+		"save": "Speichern",
+		"selectpage": "Wähle deine Zielseite aus:",
+		"settings": "Einstellungen",
+		"stats": "Statistiken",
+		"tickets": "Tickets",
+		"title": "Einstellungen von",
+		"type": "Typ"
+	},
+	"form": {
+		"missing": "Du musst einen Form-Slug oder eine Form-ID als Queryparameter angeben!",
+		"submit": "Absenden"
+	},
+	"giveaway": {
+		"anyrole": "Irgendeine dieser Rollen",
+		"ended": "Giveaway beendet",
+		"ends": "Endet am",
+		"hostedby": "Erstellt von",
+		"minaccage": "Mindestaccountalter",
+		"minleaderboardpoints": "Mindestleaderboardpunkte",
+		"minmemberage": "Mindestzeit auf dem Server",
+		"notrole": "Keine dieser Rollen",
+		"nowinner": "Keiner hat gewonnen!",
+		"requirements": "Bedingungen",
+		"started": "Gestartet",
+		"thoseroles": "Alle diese Rollen",
+		"title": "Giveaway auf",
+		"users": "Nutzer im Giveaway",
+		"winneramount": "Anzahl der Gewinner"
+	},
+	"global": {
+		"account": "Account",
+		"language": "Sprache",
+		"login": "Anmelden",
+		"logout": "Abmelden",
+		"viewdataexport": "Eigene Daten ansehen",
+		"yourprofile": "Dein Profil"
+	},
+	"integration": {
+		"actions": "Aktionen",
+		"addaction": "Aktion hinzufügen",
+		"additionalpublic": "Zusätzliche Einstellungen für öffentliche Integrationen",
+		"create": "Integration erstellen",
+		"createsource": "Integration erstellen von Integration",
+		"edit": "Bearbeiten",
+		"editsave": "Änderungen speichern",
+		"edittitle": "Integration bearbeiten:",
+		"imageurl": "Bild-URL",
+		"infotitle": "Integrations-Info:",
+		"lastupdate": "Letzte Änderung:",
+		"longdesc": "Lange Beschreibung",
+		"none": "Es gibt keine Integrationen!",
+		"otherpublic": "Andere, öffentliche Integrationen",
+		"owner": "Ersteller:",
+		"public": "Öffentlich",
+		"shortdesc": "Kurze Beschreibung",
+		"syncmode": "Synchronisations-Modus vom Original",
+		"thisserver": "Integrationen dieses Servers",
+		"title": "Integrationen von",
+		"trigger": "Auslöser",
+		"use": "Integration verwenden auf",
+		"usedby": "Verwendet von:",
+		"version": "Parserversion",
+		"viewuse": "Ansehen",
+		"yours": "Deine Integrationen von anderen Servern"
+	},
+	"leaderboard": {
+		"countingtitle": "Counting-Leaderboard von",
+		"missingguild": "Bitte gib den Server mit an!",
+		"title": "Level-Leaderboard von"
+	},
+	"logs": {
+		"actions": "Aktionen",
+		"amount": "Anzahl",
+		"delete": "Löschen",
+		"filter": "Logs filtern…",
+		"firstoccured": "Zuerst aufgetreten:",
+		"infotitle": "Informationen über diesen Logeintrag",
+		"lastoccured": "Zuletzt aufgetreten:",
+		"logid": "Log-ID",
+		"logmessage": "Lognachricht",
+		"logtype": "Log-Typ",
+		"moreinfo": "Mehr Informationen",
+		"title": "Logs von"
+	},
+	"main": {
+		"botsince": "Verwenden den Bot seit",
+		"features": {
+			"components": {
+				"description": "Mithilfe von <a href=\"https://docs.tomatenkuchen.com/de/integrations\">Integrationen</a> kannst du das und vieles mehr machen, z. B. eine Aktion ausführen, wenn ein Nutzer gegen eine AutoMod-Regel verstößt!",
+				"title": "Du wolltest schon immer mal eigene Buttons oder Selectmenüs erstellen?"
+			},
+			"moderation": {
+				"description": "Nützliche Moderationsbefehle und mit <a href=\"https://discord.com\">Discord</a>'s Automod kombinierte Modlogs!",
+				"title": "Fortgeschrittene Moderationsfunktionen"
+			},
+			"rr": {
+				"description": "Erstelle unbegrenzt viele klassische Reactionroles, oder nutze die modernen Button- und Selectroles, um deine Mitglieder Rollen auswählen zu lassen!",
+				"title": "Reaction-, Button- und Selectroles"
+			},
+			"stats": {
+				"description": "In den <a href=\"https://docs.tomatenkuchen.com/de/serverstats\">Docs</a> findest du Tipps, wie man die Stats einrichtet. Du kannst auch die Mitgliederzahl und die Anzahl der Boosts sowie die gesendeten Nachrichten pro Tag und die Anzahl der aktiven Chatter - ohne Stats-Ablaufdatum!",
+				"title": "Serverstatistiken in Kanal- und Kategorienamen und auf der Website"
+			},
+			"template": {
+				"description": "Mit <code>template</code> kannst du Discord-Servervorlagen auf vorhandenen Servern laden.\n<code>backup</code> erlaubt dir, andere Bots, wie z. B. Xenon, zu entfernen, da TomatenKuchen viel mehr Funktionen hat und so ziemlich alles backupt, was Discord dem Bot erlaubt :D",
+				"title": "Discord-Templates laden und vollumfängliche Serverbackups erstellen"
+			},
+			"ticket": {
+				"description": "Verschiedene Ticketkategorien, Ticketembeds und Transkripte wie auf Discord",
+				"title": "Komplett konfigurierbares Ticketsystem"
+			}
+		},
+		"headline": "TomatenKuchen ist dein All-in-One Discord-Bot für deinen Discord-Server!",
+		"members": "Mitglieder",
+		"publicservers": "Öffentliche Server",
+		"servers": "Server",
+		"uptime": "Uptime",
+		"users": "Nutzer"
+	},
+	"modlogs": {
+		"activeuntil": "Aktiv bis:",
+		"mod": "Moderator",
+		"reason": "Grund",
+		"title": "Modlogs von",
+		"user": "Nutzer"
+	},
+	"privacy": {
+		"deleteowndata": "Du kannst einen Teil deiner Daten selbst löschen:",
+		"requestdata": "Daten anfordern"
+	},
+	"sidebar": {
+		"commands": "Befehle",
+		"dashboard": "Dashboard",
+		"docs": "Docs",
+		"home": "Startseite",
+		"invite": "<ion-icon name=\"add\"></ion-icon> BOT EINLADEN",
+		"support": "Support"
+	},
+	"tickets": {
+		"all": "Alle",
+		"closed": "Geschlossen",
+		"contentwarning": "Hinweis: Durchsucht den Inhalt der Transcripte. Zeigt möglicherweise unpassende aufgrund dem HTML-Code an.",
+		"created": "Erstellt",
+		"deleted": "Gelöscht",
+		"message": "Ticketnachricht",
+		"open": "Offen",
+		"state": "Ticketstatus",
+		"table": {
+			"state": "Status",
+			"user": "Ersteller"
+		},
+		"ticketid": "Ticket-ID",
+		"title": "Tickets von",
+		"userid": "Benutzer-ID",
+		"username": "Benutzername"
+	},
+	"unsaved": {
+		"revert": "Rückgängig machen",
+		"save": "Speichern",
+		"title": "Nicht gespeicherte Änderungen"
+	},
+	"user": {
+		"badges": "Badges:",
+		"birthday": "Geburtstag:",
+		"canvote": "Du kannst jetzt voten!",
+		"general": "Allgemein",
+		"json": "Daten im JSON-Format:",
+		"levelbg": "Level-Hintergrund:",
+		"reason": "Grund:",
+		"reminders": "Erinnerungen",
+		"saveticketatt": "Avatar und Anhänge in Tickets speichern:",
+		"since": "Seit:",
+		"suggestions": "Vorschläge",
+		"title": "Daten von",
+		"voted": "Du hast schon gevoted - vielen Dank!",
+		"votelinks": "Votelinks",
+		"voteunknown": "Diese Seite lässt mich nicht herausfinden, ob du gevoted hast - du erhältst aber trotzdem deine Credits!"
+	}
+}

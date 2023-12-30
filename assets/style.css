@@ -442,7 +442,7 @@ code {
 }
 
 .sidebar .hamburger {
-	margin: 20px;
+	margin: 16px;
 	transition-duration: .5s;
 }
 .sidebar .hamburger:hover {
@@ -496,10 +496,10 @@ code {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-left: auto;
-	margin-right: auto;
+	margin: 0 auto;
 	transition: var(--transition-buttons);
 	letter-spacing: .5px;
+	box-shadow: unset;
 }
 
 .sidebar button:hover, .sidebar button:focus {
@@ -857,9 +857,15 @@ footer .links {
 
 .content {
 	margin: 40px 30px 50px 30px;
-	min-height: calc(100vh - 140px - 100px - 100px - 40px - 50px);
+	padding: 70px 0 90px 260px;
+	min-height: calc(100vh - 140px - 70px - 90px - 40px - 50px);
 	transition: .4s;
-	padding: 100px 0 100px 260px;
+}
+
+@media only screen and (min-width: 1500px) {
+	.content {
+		padding: 100px 100px 100px 360px;
+	}
 }
 
 .content.no-padding {
@@ -1160,9 +1166,15 @@ button {
 	transition: var(--transition-buttons);
 	box-shadow: inset 0px -1px 2px rgba(17,24,39,.15),0 0 0 0 transparent;
 }
+
 button:hover, button:focus {
 	background-color: var(--accent-color-hover);
 }
+button:disabled {
+	opacity: 0.75;
+	cursor: not-allowed;
+}
+
 button span, button b {
 	color: var(--light-text-color);
 }
@@ -1170,11 +1182,6 @@ button span, button b {
 a:has(ion-icon), button:has(ion-icon) {
 	display: inline-flex;
 	align-items: center;
-}
-
-button:disabled {
-	opacity: 0.75;
-	cursor: not-allowed;
 }
 
 .userinfo-container {

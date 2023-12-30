@@ -10,16 +10,16 @@ const getCommandsHTML = () => {
 					const categories = []
 					const categoryData = []
 
-					json.data.forEach(command => {
+					json.data.filter(cmd => cmd.category != "owner").forEach(cmd => {
 						const temp =
-							"<tr class='command cmdvisible' data-category='" + encode(command.category) +
-							"' onclick='cmdInfo(this, \"" + encode(command.name) + "\")'>" +
-							"<td>" + encode(command.name) + "</td>" +
-							"<td>" + encode(command.desc) + "</td>" +
+							"<tr class='command cmdvisible' data-category='" + encode(cmd.category) +
+							"' onclick='cmdInfo(this, \"" + encode(cmd.name) + "\")'>" +
+							"<td>" + encode(cmd.name) + "</td>" +
+							"<td>" + encode(cmd.desc) + "</td>" +
 							"</tr>"
 
-						if (!categories.includes(command.category)) categories.push(command.category)
-						categoryData.push([command.category, temp])
+						if (!categories.includes(cmd.category)) categories.push(cmd.category)
+						categoryData.push([cmd.category, temp])
 					})
 
 					categories.forEach(category => {
@@ -43,21 +43,22 @@ const getCommandsHTML = () => {
 	}))
 }
 
-const cmdSearch = (search = "", onlyCategories = false) => {
-	if (search) document.getElementById("cmd-search").value = ""
-	else search = document.getElementById("cmd-search").value.toLowerCase()
+const cmdSearch = search => {
+	for (const elem of document.querySelector("#linksidebar .section.middle").getElementsByClassName("tab")) elem.classList.remove("active")
 
-	if (onlyCategories) {
-		for (const elem of document.querySelector("#linksidebar .section.middle").getElementsByClassName("tab")) elem.classList.remove("active")
-		document.getElementById("tab-" + search).classList.add("active")
+	const input = search || document.getElementById("cmd-search").value.toLowerCase()
+	if (search) {
+		document.getElementById("cmd-search").value = ""
+
+		document.getElementById("tab-" + input).classList.add("active")
 		if (screen.width <= 800) sidebar()
 	}
 
 	const categories = {}
 	const filtered = new Set(commandData.filter(c =>
 		c.category != "owner" && (
-			c.category.toLowerCase().includes(search) ||
-			(!onlyCategories && (c.name.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search)))
+			c.category.toLowerCase().includes(input) ||
+			(!search && (c.name.toLowerCase().includes(input) || c.desc.toLowerCase().includes(input)))
 		)
 	))
 
@@ -87,7 +88,7 @@ const cmdSearch = (search = "", onlyCategories = false) => {
 			document.getElementById(category.id + "_title").setAttribute("hidden", "")
 			document.getElementById(category.id + "_br").setAttribute("hidden", "")
 		}
-		if (onlyCategories) document.getElementById(category.id + "_tb").setAttribute("hidden", "")
+		if (search) document.getElementById(category.id + "_tb").setAttribute("hidden", "")
 	}
 
 	if (filtered.size == 0) document.getElementById("no-cmds-found").removeAttribute("hidden")
@@ -103,7 +104,7 @@ const cmdInfo = (elem, cmd) => {
 			"<p><span translation='commands.category'></span>: " + encode(command.category.charAt(0).toUpperCase() + command.category.slice(1)) + "</p>" +
 			"<p><span translation='commands.usage'></span>: " + encode(command.usage) + "</p>"
 
-		if (command.aliases[0] != command.name) html += "<p><span translation='commands.aliases'></span> " + encode(command.aliases.join(", ")) + "</p>"
+		if (command.aliases.length > 0) html += "<p><span translation='commands.aliases'></span> " + encode(command.aliases.join(", ")) + "</p>"
 		if (command.options) html += "<p><span translation='commands.args'></span><ul>" + command.options.map(o => (
 			"<li>" + encode(o.name) +
 			(o.required ? "<span class='red-text'>*</span>" : "") +

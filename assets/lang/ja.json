@@ -1,0 +1,208 @@
+{
+	"commands": {
+		"aliases": "別名:",
+		"args": "論拠：",
+		"categories": "カテゴリー",
+		"category": "カテゴリー",
+		"description": "説明",
+		"hide": "匿う",
+		"name": "名前",
+		"show": "みせる",
+		"title": "<span class=\"accent\">TomatenKuchen</span>からのコマンドです",
+		"usage": "使用"
+	},
+	"cookie": {
+		"all": "すべて受け入れる",
+		"necessary": "必要なものだけ",
+		"title": "クッキー情報"
+	},
+	"credits": {
+		"contributors": "貢献",
+		"other": "その他",
+		"otherdesc": "z. 例：翻訳、広告",
+		"sitedesign": "ウェブサイトデザイン"
+	},
+	"custom": {
+		"additionalupgrades": "追加アップグレード",
+		"creditamount": "単位数",
+		"dependseconomy": "収入による"
+	},
+	"dashboard": {
+		"add": "付ける",
+		"cancel": "キャンセルする",
+		"cc": {
+			"create": "独自のコマンドを作成する",
+			"delete": "フィールドを空白にすると、カスタムコマンドは削除されます。",
+			"nocc": "カスタムコマンドは用意されていません！",
+			"slashdesc": "スラッシュコマンドの説明",
+			"title": "からのカスタムコマンド"
+		},
+		"channel": "チャンネル",
+		"content": "内容",
+		"integrations": "統合",
+		"leaderboard": "リーダーボード",
+		"logs": "過去ログ",
+		"noservers": "お客様からサーバーが見つかりませんでした！",
+		"reaction": "反応",
+		"reactionroles": "反応、ボタン、選択の役割",
+		"rr": {
+			"add": "役割を受け入れる",
+			"create": "リアクション、ボタン、セレクトロールの作成",
+			"msgid": "メッセージID",
+			"norr": "リアクションロールは用意されていません！",
+			"role": "ロール",
+			"title": "からのリアクションロール"
+		},
+		"save": "保存する",
+		"selectpage": "対象ページを選択します：",
+		"settings": "設定方法",
+		"stats": "統計情報",
+		"tickets": "チケット",
+		"title": "からの設定",
+		"type": "タイプ"
+	},
+	"form": {
+		"missing": "クエリーパラメーターとして、フォームのスラッグまたはフォームIDを指定する必要があります！",
+		"submit": "投稿する"
+	},
+	"giveaway": {
+		"anyrole": "いずれかの役割",
+		"ended": "プレゼント企画は終了しました",
+		"ends": "で終了",
+		"hostedby": "作成者",
+		"minaccage": "最低口座年齢",
+		"minleaderboardpoints": "ミニマムリーダーボードポイント",
+		"minmemberage": "サーバーの最低利用時間",
+		"notrole": "これらの役割はありません",
+		"nowinner": "誰も勝っていない！",
+		"requirements": "条件",
+		"started": "発売開始",
+		"thoseroles": "これらの役割はすべて",
+		"title": "でのプレゼント",
+		"users": "プレゼントの対象ユーザー",
+		"winneramount": "受賞者数"
+	},
+	"global": {
+		"account": "アカウント",
+		"language": "言語",
+		"login": "ログイン",
+		"logout": "ログアウト",
+		"viewdataexport": "自分のデータを見る",
+		"yourprofile": "プロフィール"
+	},
+	"integration": {
+		"actions": "アクション",
+		"addaction": "アクションの追加",
+		"additionalpublic": "公開統合のための追加設定",
+		"create": "統合",
+		"edit": "編集",
+		"editsave": "変更を保存する",
+		"edittitle": "統合を編集する：",
+		"imageurl": "画像URL",
+		"infotitle": "統合情報：",
+		"lastupdate": "最後の変更：",
+		"longdesc": "長い説明",
+		"none": "統合はない！",
+		"otherpublic": "その他、公開統合",
+		"owner": "クリエイター：",
+		"public": "パブリック",
+		"shortdesc": "簡単な説明",
+		"syncmode": "オリジナルからの同期モード",
+		"thisserver": "このサーバーの統合",
+		"title": "からの統合"
+	},
+	"leaderboard": {
+		"missingguild": "サーバーを指定してください！",
+		"title": "リーダーボードより"
+	},
+	"logs": {
+		"actions": "アクション",
+		"amount": "番号",
+		"delete": "削除",
+		"logid": "ログID",
+		"logmessage": "ログメッセージ",
+		"logtype": "ログタイプ",
+		"moreinfo": "詳細はこちら",
+		"title": "からのログ"
+	},
+	"main": {
+		"features": {
+			"moderation": {
+				"description": "<a href=\"https://discord.com\">Discord</a>のAutomodと組み合わせた便利なモデレーションコマンドとモドログです！",
+				"title": "高度なモデレーション機能"
+			},
+			"rr": {
+				"description": "クラシックなリアクションロールを無制限に作成したり、モダンなボタンやセレクトロールを使って、メンバーに役割を選ばせたりすることもできます！",
+				"title": "リアクション、ボタン、セレクトロール"
+			},
+			"stats": {
+				"description": "統計情報の設定方法については、<a href=\"https://docs.tomatenkuchen.com/serverstats\">ドキュメンテーション</a>をご覧ください！",
+				"title": "チャンネル名とカテゴリー名でのサーバー統計"
+			},
+			"template": {
+				"description": "<code>template</code>を使用すると、既存のサーバーにDiscordテンプレートをロードすることができます。\n<code>backup</code>はXenonのような他のボットを削除することができます。TomatenKuchenはより多くの機能を持ち、Discordがボットに許可するほぼすべてのものをバックアップします :D",
+				"title": "Discordテンプレート搭載"
+			},
+			"ticket": {
+				"description": "異なるチケットカテゴリー、チケットエンベッド、エクステンデッドトランスクリプト",
+				"title": "完全に設定可能なチケットシステム"
+			}
+		},
+		"headline": "TomatenKuchenは、あなたのDiscordサーバーのためのオールインワンDiscordボットです！",
+		"publicservers": "公開サーバー",
+		"servers": "サーバー",
+		"users": "ユーザー"
+	},
+	"modlogs": {
+		"mod": "司会",
+		"reason": "理由",
+		"title": "からのログ",
+		"user": "ユーザー"
+	},
+	"privacy": {
+		"deleteowndata": "お客様ご自身でデータの一部を削除することができます：",
+		"requestdata": "リクエストデータ"
+	},
+	"sidebar": {
+		"commands": "コマンド",
+		"dashboard": "ダッシュボード",
+		"docs": "ドキュメンテーション",
+		"home": "ホームページ",
+		"invite": "<ion-icon name=\"add\"></ion-icon> INVITEボット",
+		"support": "サポート"
+	},
+	"tickets": {
+		"all": "すべて",
+		"closed": "終了しました",
+		"contentwarning": "注）トランスクリプトの内容を検索します。HTMLコードの関係で、不適切なものが表示される可能性があります。",
+		"created": "作成された",
+		"deleted": "削除された",
+		"message": "チケットメッセージ",
+		"open": "オープン",
+		"state": "チケット状況",
+		"table": {
+			"state": "ステータス",
+			"user": "クリエイター"
+		},
+		"ticketid": "チケットID",
+		"title": "からのチケット",
+		"userid": "ユーザーID",
+		"username": "ユーザー名"
+	},
+	"unsaved": {
+		"revert": "アンドゥ",
+		"save": "セーブ",
+		"title": "未保存の変更点"
+	},
+	"user": {
+		"general": "一般",
+		"json": "JSON形式のデータです：",
+		"levelbg": "レベル背景です：",
+		"reason": "理由：",
+		"reminders": "思い出の品",
+		"saveticketatt": "チケットにアバターと添付ファイルを保存する：",
+		"since": "以来です：",
+		"suggestions": "プロポーザル",
+		"title": "データ引用元"
+	}
+}

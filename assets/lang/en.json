@@ -1,0 +1,235 @@
+{
+	"commands": {
+		"aliases": "Aliases:",
+		"args": "Arguments:",
+		"categories": "CATEGORIES",
+		"category": "Category",
+		"description": "Description",
+		"hide": "Hide",
+		"name": "Name",
+		"show": "Show",
+		"title": "Commands of <span class=\"accent\">TomatenKuchen</span>",
+		"usage": "Usage"
+	},
+	"cookie": {
+		"all": "Accept all",
+		"necessary": "Accept essential",
+		"title": "Cookie information"
+	},
+	"credits": {
+		"contributors": "Contributors",
+		"other": "Other",
+		"otherdesc": "e.g. Translations, Promotion",
+		"sitedesign": "Website design"
+	},
+	"custom": {
+		"additionalupgrades": "Additional upgrades",
+		"creditamount": "Amount of credits",
+		"dependseconomy": "Depends on income"
+	},
+	"dashboard": {
+		"add": "Add",
+		"cancel": "Cancel",
+		"cc": {
+			"create": "Create customcommand",
+			"delete": "If you leave a field empty the customcommand will be deleted.",
+			"nocc": "There are no customcommands!",
+			"slashdesc": "Slashcommand description",
+			"title": "Customcommands of"
+		},
+		"channel": "Channel",
+		"content": "Content",
+		"integrations": "Integrations",
+		"leaderboard": "Leaderboard",
+		"logs": "Logs",
+		"modlogs": "Modlogs",
+		"noservers": "No servers have been found from you!",
+		"reaction": "Reaction",
+		"reactionroles": "Reaction, button and select roles",
+		"rr": {
+			"add": "Add role",
+			"create": "Create reaction, button or select role",
+			"msgid": "Message ID",
+			"norr": "There are no reactionroles!",
+			"role": "Role",
+			"title": "Reactionroles of"
+		},
+		"save": "Save",
+		"selectpage": "Select your target page:",
+		"settings": "Settings",
+		"stats": "Statistics",
+		"tickets": "Tickets",
+		"title": "Settings of",
+		"type": "Type"
+	},
+	"form": {
+		"missing": "You must add a form slug or a form ID as query param!",
+		"submit": "Submit"
+	},
+	"giveaway": {
+		"anyrole": "Any of those roles",
+		"ended": "Giveaway ended",
+		"ends": "Ends on",
+		"hostedby": "Hosted by",
+		"minaccage": "Minimum account age",
+		"minleaderboardpoints": "Minimum leaderboard points",
+		"minmemberage": "Minimum time on the server",
+		"notrole": "None of those roles",
+		"nowinner": "No one won!",
+		"requirements": "Requirements",
+		"started": "Started",
+		"thoseroles": "All of those roles",
+		"title": "Giveaway on",
+		"users": "Users in the giveaway",
+		"winneramount": "Amount of winners"
+	},
+	"global": {
+		"account": "Account",
+		"language": "Language",
+		"login": "Login",
+		"logout": "Logout",
+		"viewdataexport": "View own data",
+		"yourprofile": "Your profile"
+	},
+	"integration": {
+		"actions": "Actions",
+		"addaction": "Add action",
+		"additionalpublic": "Additional settings for public integrations",
+		"create": "Create integration",
+		"createsource": "Create integration from integration",
+		"edit": "Edit",
+		"editsave": "Save changes",
+		"edittitle": "Edit integration:",
+		"imageurl": "Image URL",
+		"infotitle": "Integration info:",
+		"lastupdate": "Last update:",
+		"longdesc": "Long description",
+		"none": "There are no integrations!",
+		"otherpublic": "Other public integrations",
+		"owner": "Creator:",
+		"public": "Public",
+		"shortdesc": "Short description",
+		"syncmode": "Synchronisation mode from original",
+		"thisserver": "Integrations of this server",
+		"title": "Integrations of",
+		"trigger": "Trigger",
+		"use": "Use integration on",
+		"usedby": "Used by:",
+		"version": "Parser version",
+		"viewuse": "View",
+		"yours": "Your integrations from other servers"
+	},
+	"leaderboard": {
+		"countingtitle": "Counting leaderboard of",
+		"missingguild": "You have to add the server!",
+		"title": "Level leaderboard of"
+	},
+	"logs": {
+		"actions": "Actions",
+		"amount": "Amount",
+		"delete": "Delete",
+		"filter": "Filter logs…",
+		"firstoccured": "First occurred:",
+		"infotitle": "Information about this log entry",
+		"lastoccured": "Last occurred:",
+		"logid": "Log ID",
+		"logmessage": "Log message",
+		"logtype": "Log type",
+		"moreinfo": "More information",
+		"title": "Logs of"
+	},
+	"main": {
+		"botsince": "Been using the bot for",
+		"features": {
+			"components": {
+				"description": "Using <a href=\"https://docs.tomatenkuchen.com/integrations\">integrations</a> you can do that and much more, like executing an action when a user violates an AutoMod rule!",
+				"title": "Ever wanted to create custom buttons or selects?"
+			},
+			"moderation": {
+				"description": "Useful moderation commands and modlogs combined with <a href=\"https://discord.com\">Discord</a>'s native automod!",
+				"title": "Advanced moderation features"
+			},
+			"rr": {
+				"description": "Create an unlimited amount of classical reaction roles, or use the modern button and select roles to let your members select roles!",
+				"title": "Reaction, button and select roles"
+			},
+			"stats": {
+				"description": "In the <a href=\"https://docs.tomatenkuchen.com/serverstats\">Docs</a> you can find tips on how to setup stats. You can also track member and boost count as well as the messages sent per day and the active chatters - with no expiration!",
+				"title": "Serverstats in channel and category names and on the website"
+			},
+			"template": {
+				"description": "Using <code>template</code> you can load Discord templates onto existing servers.\n<code>backup</code> allows you to remove other bots like Xenon, as TomatenKuchen has way more features and backups almost everything which Discord allows the bot to :D",
+				"title": "Load Discord templates and create feature-rich server backups"
+			},
+			"ticket": {
+				"description": "Multiple ticket categories, ticket embeds and Discord-like transcripts",
+				"title": "Fully customizable ticket system"
+			}
+		},
+		"headline": "TomatenKuchen is your All-in-One Discord bot for your Discord server!",
+		"members": "Members",
+		"publicservers": "Public servers",
+		"servers": "Servers",
+		"uptime": "Uptime",
+		"users": "Users"
+	},
+	"modlogs": {
+		"activeuntil": "Active until:",
+		"mod": "Moderator",
+		"reason": "Reason",
+		"title": "Modlogs of",
+		"user": "Users"
+	},
+	"privacy": {
+		"deleteowndata": "You can delete a fraction of your data yourself:",
+		"requestdata": "Request data"
+	},
+	"sidebar": {
+		"commands": "Commands",
+		"dashboard": "Dashboard",
+		"docs": "Docs",
+		"home": "Home",
+		"invite": "<ion-icon name=\"add\"></ion-icon> BOT INVITE",
+		"support": "Support"
+	},
+	"tickets": {
+		"all": "All",
+		"closed": "Closed",
+		"contentwarning": "Note: Searches the contents of transcripts. May display unfitting ones because of the HTML code.",
+		"created": "Created",
+		"deleted": "Deleted",
+		"message": "Ticketmessage",
+		"open": "Open",
+		"state": "Ticket state",
+		"table": {
+			"state": "State",
+			"user": "Creator"
+		},
+		"ticketid": "Ticket ID",
+		"title": "Tickets of",
+		"userid": "User ID",
+		"username": "Username"
+	},
+	"unsaved": {
+		"revert": "Revert",
+		"save": "Save",
+		"title": "Unsaved changes"
+	},
+	"user": {
+		"badges": "Badges:",
+		"birthday": "Birthday:",
+		"canvote": "You can vote now!",
+		"general": "General",
+		"json": "Data as JSON:",
+		"levelbg": "Level background:",
+		"reason": "Reason:",
+		"reminders": "Reminders",
+		"saveticketatt": "Save avatar and attachments in tickets:",
+		"since": "Since:",
+		"suggestions": "Suggestions",
+		"title": "Data of",
+		"voted": "You've already voted - thank you!",
+		"votelinks": "Vote links",
+		"voteunknown": "This site doesn't tell me whether you've voted or not - you however still receive your credits!"
+	}
+}

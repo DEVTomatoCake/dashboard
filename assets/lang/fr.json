@@ -1,0 +1,235 @@
+{
+	"commands": {
+		"aliases": "Alias :",
+		"args": "Arguments :",
+		"categories": "CATEGORIES",
+		"category": "Catégorie",
+		"description": "Description",
+		"hide": "Cacher",
+		"name": "Nom",
+		"show": "Afficher",
+		"title": "Commandes de <span class=\"accent\">TomatenKuchen</span>",
+		"usage": "Utilisation"
+	},
+	"cookie": {
+		"all": "Accepter tout",
+		"necessary": "Accepter l'essentiel",
+		"title": "Informations sur les cookies"
+	},
+	"credits": {
+		"contributors": "Les contributeurs",
+		"other": "Autres",
+		"otherdesc": "Par exemple, traductions, promotion",
+		"sitedesign": "Conception du site Web"
+	},
+	"custom": {
+		"additionalupgrades": "Améliorations supplémentaires",
+		"creditamount": "Montant des crédits",
+		"dependseconomy": "Dépend du revenu"
+	},
+	"dashboard": {
+		"add": "Ajouter",
+		"cancel": "Annuler",
+		"cc": {
+			"create": "Créer une commande personnalisée",
+			"delete": "Si vous laissez un champ vide, la commande customcommand est supprimée.",
+			"nocc": "Il n'y a pas de commandes personnalisées !",
+			"slashdesc": "Description de la commande Slash",
+			"title": "Commandes personnalisées de"
+		},
+		"channel": "Chenal",
+		"content": "Contenu",
+		"integrations": "Intégrations",
+		"leaderboard": "Leaderboard",
+		"logs": "Journaux",
+		"modlogs": "Modlogs",
+		"noservers": "Aucun serveur n'a été trouvé chez vous !",
+		"reaction": "Réaction",
+		"reactionroles": "Rôles de réaction, de bouton et de sélection",
+		"rr": {
+			"add": "Ajouter un rôle",
+			"create": "Créer une réaction, un bouton ou sélectionner un rôle",
+			"msgid": "ID du message",
+			"norr": "Il n'y a pas de rôle de réaction !",
+			"role": "Rôle",
+			"title": "Réactionrôles de"
+		},
+		"save": "Enregistrer",
+		"selectpage": "Sélectionnez votre page cible :",
+		"settings": "Paramètres",
+		"stats": "Statistiques",
+		"tickets": "Tickets",
+		"title": "Paramètres de",
+		"type": "Type"
+	},
+	"form": {
+		"missing": "Vous devez ajouter un nom de formulaire ou un identifiant de formulaire en tant que paramètre de requête !",
+		"submit": "Soumettre"
+	},
+	"giveaway": {
+		"anyrole": "L'un ou l'autre de ces rôles",
+		"ended": "Cadeau terminé",
+		"ends": "Se termine",
+		"hostedby": "Accueillie par",
+		"minaccage": "Âge minimum du compte",
+		"minleaderboardpoints": "Nombre minimum de points au classement",
+		"minmemberage": "Durée minimale de présence sur le serveur",
+		"notrole": "Aucun de ces rôles",
+		"nowinner": "Personne n'a gagné !",
+		"requirements": "Exigences",
+		"started": "Commencé le",
+		"thoseroles": "Tous ces rôles",
+		"title": "Offre sur",
+		"users": "Utilisateurs de l'offre",
+		"winneramount": "Nombre de gagnants"
+	},
+	"global": {
+		"account": "Compte",
+		"language": "Langue",
+		"login": "Connexion",
+		"logout": "Déconnexion",
+		"viewdataexport": "Afficher ses propres données",
+		"yourprofile": "Votre profil"
+	},
+	"integration": {
+		"actions": "Actions",
+		"addaction": "Ajouter une action",
+		"additionalpublic": "Paramètres supplémentaires pour les intégrations publiques",
+		"create": "Créer l'intégration",
+		"createsource": "Créer une intégration à partir d'une intégration",
+		"edit": "Editer",
+		"editsave": "Enregistrer les modifications",
+		"edittitle": "Modifier l'intégration :",
+		"imageurl": "URL de l'image",
+		"infotitle": "Informations sur l'intégration :",
+		"lastupdate": "Dernière mise à jour :",
+		"longdesc": "Description détaillée",
+		"none": "Il n'y a pas d'intégration !",
+		"otherpublic": "Autres intégrations publiques",
+		"owner": "Créateur :",
+		"public": "Public",
+		"shortdesc": "Brève description",
+		"syncmode": "Mode de synchronisation par rapport à l'original",
+		"thisserver": "Intégrations de ce serveur",
+		"title": "Intégrations de",
+		"trigger": "Déclencheur",
+		"use": "Utiliser l'intégration sur",
+		"usedby": "Utilisé par :",
+		"version": "Version de l'analyseur",
+		"viewuse": "Vue",
+		"yours": "Vos intégrations à partir d'autres serveurs"
+	},
+	"leaderboard": {
+		"countingtitle": "Tableau de classement de",
+		"missingguild": "Il faut ajouter le serveur !",
+		"title": "Classement des niveaux de"
+	},
+	"logs": {
+		"actions": "Actions",
+		"amount": "Montant",
+		"delete": "Supprimer",
+		"filter": "Filtrer les journaux…",
+		"firstoccured": "Le premier a eu lieu :",
+		"infotitle": "Informations sur cette entrée de journal",
+		"lastoccured": "La dernière fois que cela s'est produit :",
+		"logid": "ID journal",
+		"logmessage": "Enregistrer le message",
+		"logtype": "Type de journal",
+		"moreinfo": "Plus d'informations",
+		"title": "Journaux de"
+	},
+	"main": {
+		"botsince": "J'utilise le robot depuis",
+		"features": {
+			"components": {
+				"description": "En utilisant <a href=\"https://docs.tomatenkuchen.com/integrations\">intégrations</a> vous pouvez faire cela et bien plus encore, comme exécuter une action lorsqu'un utilisateur viole une règle AutoMod !",
+				"title": "Vous avez toujours voulu créer des boutons ou des menus de sélection personnalisés ?"
+			},
+			"moderation": {
+				"description": "Commandes de modération et modlogs utiles combinés à l'automod natif de <a href=\"https://discord.com\">Discord</a> !",
+				"title": "Fonctionnalités de modération avancées"
+			},
+			"rr": {
+				"description": "Créez un nombre illimité de rôles de réaction classiques, ou utilisez le bouton moderne et sélectionnez des rôles pour permettre à vos membres de sélectionner des rôles !",
+				"title": "Rôles de réaction, de bouton et de sélection"
+			},
+			"stats": {
+				"description": "Dans le <a href=\"https://docs.tomatenkuchen.com/serverstats\">Docs</a>, vous trouverez des conseils sur la façon de configurer les statistiques. Vous pouvez également suivre le nombre de membres et de boost, ainsi que les messages envoyés par jour et les chatteurs actifs - sans expiration !",
+				"title": "Serverstats dans les noms de canaux et de catégories et sur le site web"
+			},
+			"template": {
+				"description": "En utilisant le <code>template</code>, vous pouvez charger des templates Discord sur des serveurs existants.\n<code>backup</code> vous permet de supprimer d'autres bots comme Xenon, car TomatenKuchen a bien plus de fonctionnalités et sauvegarde presque tout ce que Discord permet au bot :D",
+				"title": "Charger des modèles Discord et créer des sauvegardes de serveur riches en fonctionnalités"
+			},
+			"ticket": {
+				"description": "Catégories de tickets multiples, embeds de tickets et transcriptions de type Discord",
+				"title": "Système de ticket entièrement personnalisable"
+			}
+		},
+		"headline": "TomatenKuchen est votre bot Discord tout-en-un pour votre serveur Discord !",
+		"members": "Members",
+		"publicservers": "Serveurs publics",
+		"servers": "Serveurs",
+		"uptime": "Uptime",
+		"users": "Utilisateurs"
+	},
+	"modlogs": {
+		"activeuntil": "Actif jusqu'à :",
+		"mod": "Modérateur",
+		"reason": "Motif",
+		"title": "Modlogs de",
+		"user": "Utilisateurs"
+	},
+	"privacy": {
+		"deleteowndata": "Vous pouvez supprimer vous-même une fraction de vos données :",
+		"requestdata": "Demander des données"
+	},
+	"sidebar": {
+		"commands": "Commandes",
+		"dashboard": "Tableau de bord",
+		"docs": "Documents",
+		"home": "Accueil",
+		"invite": "<ion-icon name=\"add\"></ion-icon> BOT INVITE",
+		"support": "Appuyer"
+	},
+	"tickets": {
+		"all": "Tout",
+		"closed": "Fermé",
+		"contentwarning": "Note : Recherche dans le contenu des transcriptions. Peut afficher des transcriptions qui ne conviennent pas en raison du code HTML.",
+		"created": "Créé",
+		"deleted": "Supprimé",
+		"message": "Ticketmessage",
+		"open": "Ouvert",
+		"state": "État du ticket",
+		"table": {
+			"state": "État",
+			"user": "Créateur"
+		},
+		"ticketid": "ID de ticket",
+		"title": "Tickets de",
+		"userid": "ID utilisateur",
+		"username": "Nom d'utilisateur"
+	},
+	"unsaved": {
+		"revert": "Revenir en arrière",
+		"save": "Enregistrer les modifications",
+		"title": "Modifications non sauvegardées"
+	},
+	"user": {
+		"badges": "Badges :",
+		"birthday": "Anniversaire :",
+		"canvote": "Vous pouvez voter maintenant !",
+		"general": "Généralités",
+		"json": "Données en JSON :",
+		"levelbg": "Arrière-plan du niveau :",
+		"reason": "Raison :",
+		"reminders": "Rappels",
+		"saveticketatt": "Enregistrer l'avatar et les pièces jointes dans les tickets :",
+		"since": "Depuis :",
+		"suggestions": "Suggestions",
+		"title": "Données de",
+		"voted": "Vous avez déjà voté - merci !",
+		"votelinks": "Liens de vote",
+		"voteunknown": "Ce site ne me dit pas si vous avez voté ou non - vous recevrez néanmoins vos crédits !"
+	}
+}

@@ -132,7 +132,7 @@ const fs = async () => {
 
 	if (Object.keys(results).length == form.fields.length) {
 		const json = await get("forms/" + params.get("id"), true, "POST", results)
-		if (json.status == "success") document.getElementById("root-container").innerHTML = "<h1>Form submitted successfully!</h1>"
+		if (json.status == "success") document.getElementById("root-container").innerHTML = "<h1>Form submitted successfully!</h1>" + (form.submitMessage ? "<br><p>" + encode(form.submitMessage) + "</p>" : "")
 		else {
 			const error = document.createElement("h1")
 			error.innerText = "Your form couldn't be submitted: " + encode(json.message)

@@ -45,7 +45,7 @@ const params = new URLSearchParams(location.search)
 loadFunc = () => {
 	if (getCookie("token") && (params.has("guild") || params.has("guild_id"))) {
 		document.getElementById("root-container").innerHTML = "<h1>Loading server settings...</h1>"
-		location.href = "./dashboard/settings?guild=" + encode(params.get("guild") || params.get("guild_id"))
+		location.href = "/dashboard/settings?guild=" + encode(params.get("guild") || params.get("guild_id"))
 	} else if (params.has("code") && params.has("state") && params.get("state").startsWith("linked-role-")) {
 		document.getElementById("root-container").innerHTML = "<h1>Updating the linked role connection...</h1>"
 

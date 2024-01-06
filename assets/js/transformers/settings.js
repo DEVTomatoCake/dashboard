@@ -35,15 +35,16 @@ function getSettingsHTML(json) {
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>"
 					queue.push(() => {
-						if (selectData[setting.key].value.length == 0) document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
-						else {
-							selectData[setting.key].value.forEach(v => {
-								const elem = document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']")
-								if (!elem) return
-								elem.classList.toggle("selected")
-								document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>"
-							})
-						}
+						document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+						selectData[setting.key].value.forEach(v => {
+							const elem = document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']")
+							if (!elem) {
+								selectData[setting.key].value = selectData[setting.key].value.filter(val => val != v)
+								return
+							}
+							elem.classList.toggle("selected")
+							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>"
+						})
 					})
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>"

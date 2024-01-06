@@ -79,13 +79,10 @@ const updateMultiSelected = (elem, key, value) => {
 	if (elem.classList.contains("selected")) selectData[key].value.push(value)
 	else selectData[key].value.splice(selectData[key].value.indexOf(value), 1)
 
-	if (selectData[key].value.length == 0) elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
-	else {
-		elem.parentElement.parentElement.querySelector(".list").innerHTML = ""
-		selectData[key].value.forEach(v => {
-			elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>"
-		})
-	}
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+	selectData[key].value.forEach(v => {
+		elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>"
+	})
 	handleChange(elem.parentElement.parentElement.id)
 }
 

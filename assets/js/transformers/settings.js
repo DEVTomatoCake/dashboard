@@ -151,8 +151,9 @@ const threadClick = value => {
 	currentInteract.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected")
 	})
-	currentInteract.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='reorder-three-outline'></ion-icon> " +
-		pickerData.threads.find(t => t.id == value).name + "<br><small>(Thread in " + pickerData.textchannel[currentInteract.getAttribute("data-id")].name + ")</small></div>"
+	currentInteract.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>" +
+		"<div class='element'><ion-icon name='reorder-three-outline'></ion-icon> " +
+		pickerData.threads.find(t => t.id == value).name + " (Thread in " + pickerData.textchannel[currentInteract.getAttribute("data-id")].name + ")</div>"
 	handleChange(currentInteract.parentElement.parentElement.id)
 
 	document.getElementById("thread-dialog").setAttribute("hidden", "")
@@ -269,11 +270,12 @@ function connectWS(guild) {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("Saved settings!")
 			} else if (json.action == "GETRES_threads") {
-				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads have been found in this channel.</h2>"
+				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads/posts have been found in this channel!</h2>" +
+					"<p>If you're using private channels, make sure TomatenKuchen is added to them and they're not archived.</p>"
 				pickerData.threads = json.threads
 
 				document.getElementById("thread-container").innerHTML = "<ul>" + json.threads.map(thread => (
-					"<li onclick='threadClick(\"" + thread.id + "\")'>" +
+					"<li onclick='threadClick(\"" + thread.id + "\")' title='Click here to select this thread'>" +
 					"<p>" + encode(thread.name) + "</p>" +
 					"<small>Created <b>" + encode(thread.created) + "</b> ago</small>" +
 					"</li>"

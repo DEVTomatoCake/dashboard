@@ -1506,6 +1506,10 @@ body.stats-page {
 	}
 }
 
+#thread-container ul li p {
+	cursor: pointer;
+}
+
 .loader {
 	margin: 0 auto;
 	padding-top: 20px;

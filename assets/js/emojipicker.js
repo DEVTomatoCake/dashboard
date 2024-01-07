@@ -72,7 +72,7 @@ const updateSelected = (elem, value = "") => {
 	})
 	handleChange(elem.parentElement.parentElement.id)
 
-	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline']")
+	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline'][title]")
 	for (const icon of threadIcons) icon.remove()
 }
 const updateMultiSelected = (elem, key, value) => {
@@ -88,8 +88,8 @@ const updateMultiSelected = (elem, key, value) => {
 	})
 	handleChange(elem.parentElement.parentElement.id)
 
-	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline']")
-	for (const icon of threadIcons) icon.parentElement.remove()
+	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline'][title]")
+	for (const icon of threadIcons) icon.remove()
 }
 
 class ChannelRolePicker extends HTMLElement {
@@ -130,18 +130,19 @@ class ChannelRolePicker extends HTMLElement {
 				if (this.getAttribute("data-multi") == 1 && channel == "") return ""
 				const current = toSelect[channel]
 				const func = this.getAttribute("data-multi") == 1 ? "updateMultiSelected(this, this.parentElement.parentElement.id, \"" + channel + "\")" : "updateSelected(this, \"" + channel + "\")"
-				return "<div data-id='" + channel + "' onkeyup='if(event.key==\"Enter\")" + func + "' " +
+				return "<div data-id='" + channel + "'" + (current.hidden ? " hidden" : "") + " onkeyup='if(event.key==\"Enter\")" + func + "' " +
 					"onclick='" + func + "' class='element" +
 					(current.parent ? " child" : "") + "' tabindex='0'>" +
 					(current.type == "text" ? "<img src='/assets/images/channel.webp' width='25' height='25' alt=''>" : "") +
 					(current.type == "voice" ? "<img src='/assets/images/voice.webp' width='25' height='25' alt=''>" : "") +
 					(current.type == "category" ? "<img src='/assets/images/category.webp' width='25' height='25' alt=''>" : "") +
 					(current.type == "role" ? "<img class='pic-role' src='/assets/images/mention.webp' width='25' height='25' alt=''>" : "") +
+					(current.type == "thread" ? "<ion-icon name='reorder-three-outline'></ion-icon>" : "") +
 					"<span>" +
 					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
 					"</span>" +
 					(this.id.startsWith("logChannels_") && current.type == "text" ?
-						"<ion-icon name='reorder-three-outline' title='Click here to select a thread' onclick='threadSelect(this)'></ion-icon>"
+						"<ion-icon name='reorder-three-outline' title='Select a thread within this channel' onclick='threadSelect(this)'></ion-icon>"
 					: "") +
 					"</div>"
 			}).join("") +

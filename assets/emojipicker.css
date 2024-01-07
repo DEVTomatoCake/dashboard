@@ -108,6 +108,10 @@ channel-picker .element.selected {
 	background-color: var(--picker-selected);
 }
 
+channel-picker .element[hidden] {
+	display: none;
+}
+
 channel-picker.disabled .element, channel-picker.disabled .list {
 	cursor: not-allowed;
 }

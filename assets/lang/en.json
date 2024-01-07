@@ -64,8 +64,10 @@
 		"type": "Type"
 	},
 	"form": {
+		"anonymous": "Responses to this form are anonymous - server members cannot see who you are.",
 		"missing": "You must add a form slug or a form ID as query param!",
-		"submit": "Submit"
+		"submit": "Submit",
+		"unverified": "This form is not verified by or associated with TomatenKuchen. Never submit passwords or other sensitive information. <a href=\"/discord\" target=\"_blank\" rel=\"noopener\">Report abuse</a>"
 	},
 	"giveaway": {
 		"anyrole": "Any of those roles",

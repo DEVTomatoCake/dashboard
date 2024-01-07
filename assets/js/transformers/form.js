@@ -1,4 +1,6 @@
 let form = {}
+let currentPage = 1
+let maxPage = 1
 const selectData = {}
 const pickerData = {}
 let queue = []
@@ -11,23 +13,25 @@ function getFormHTML(formId) {
 				if (json.status == "success") {
 					if (json.fields.length == 0) return resolve("<p>Das Formular mit dem Titel <b>" + encode(json.title) + "</b> existiert, aber hat keine Felder, die du ausfüllen könntest!</p>")
 					form = json
+					maxPage = Math.max(...json.fields.map(field => field.page || 1))
 
 					let text = "<h1 class='center'>Formular ausfüllen: " + encode(json.title) + "</h1><br>"
 					json.fields.forEach(field => {
+						text += "<div id='field-" + encode(field.name) + "-container'" + (field.page && field.page > 1 ? " hidden" : "") + ">"
 						text += "<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label>" +
 							(field.required ? "<span class='red-text'>*</span>" : "") + "<br>"
 
 						if (field.type == "short" || field.type == "password" || field.type == "number" || field.type == "range" || field.type == "color")
 							text += "<input id='field-" + encode(field.name) + "' type='" + (field.type == "short" ? "text" : encode(field.type)) +
-								(field.min ? "' min='" + field.min + "' minlength='" + field.min : "") +
-								(field.max ? "' max='" + field.max + "' maxlength='" + field.max : "") +
-								(field.step ? "' step='" + field.step : "") + (field.pattern ? "' pattern='" + encode(field.pattern) : "") +
+								(field.min ? "' min='" + assertInt(field.min) + "' minlength='" + assertInt(field.min) : "") +
+								(field.max ? "' max='" + assertInt(field.max) + "' maxlength='" + assertInt(field.max) : "") +
+								(field.step ? "' step='" + assertInt(field.step) : "") + (field.pattern ? "' pattern='" + encode(field.pattern) : "") +
 								(field.placeholder ? "' placeholder='" + encode(field.placeholder) : "") +
 								(field.value ? "' value='" + encode(field.value) : "") + "'>"
 						else if (field.type == "date" || field.type == "time")
 							text += "<input id='field-" + encode(field.name) + "' type='" + encode(field.type) +
-								(field.min ? "' min='" + field.min : "") +
-								(field.max ? "' max='" + field.max : "") +
+								(field.min ? "' min='" + assertInt(field.min) : "") +
+								(field.max ? "' max='" + assertInt(field.max) : "") +
 								(field.value ? "' value='" + encode(field.value) : "") + "'>"
 						else if (field.type == "long")
 							text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
@@ -35,7 +39,8 @@ function getFormHTML(formId) {
 						else if (field.type == "checkbox") {
 							text += field.options.map(option => {
 								const id = Math.random().toString(36).substring(5)
-								return "<input id='field-" + encode(field.name) + "-" + id + "' name='" + encode(field.name) + "' type='radio' data-value='" + encode(option) + "'>" +
+								return "<input id='field-" + encode(field.name) + "-" + id + "' name='" + encode(field.name) + "' " +
+									"type='radio' data-value='" + encode(option) + "'>" +
 									"<label for='field-" + encode(field.name) + "-" + id + "'>" + encode(option) + "</label>"
 							}).join("<br>")
 						} else if (field.type == "select") {
@@ -51,21 +56,50 @@ function getFormHTML(formId) {
 									"<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
 								togglePicker(document.getElementById("field-" + encode(field.name)).querySelector(".list"))
 							})
-						} else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ")</i>"
+						} else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ") - please report this!</i>"
 
-						text += "<br><br>"
+						text += "<br><br></div>"
 					})
 
 					text += "<br>" +
-						(json.anonymous ? "<p>Antworten auf dieses Formular sind anonym - Servermitglieder sehen nicht, wer du bist.</p>" : "") +
+						(json.anonymous ? "<p translation='form.anonymous'></p>" : "") +
 						(json.cooldown ? "<p>Du kannst nur alle <b>" + encode(json.cooldown) + "</b> eine Antwort absenden.</p>" : "") +
-						"<button class='green' translation='form.submit' onclick='fs()' id='submit-button'></button><br><br>" +
-						"<p>This form is not verified by or associated with TomatenKuchen. Never submit passwords or other sensitive information. " +
-						"<a href='./discord' target='_blank' rel='noopener'>Report abuse</a></p>"
+						(json.fields.some(field => field.page && field.page > 1) ?
+							"<button class='green' onclick='pageBack()' id='back-button' hidden>Back</button>" +
+							"<button class='green' onclick='pageNext()' id='next-button'>Next</button>" : ""
+						) +
+						"<button class='green' translation='form.submit' onclick='fs()' id='submit-button'" + (json.fields.some(field => field.page && field.page > 1) ? " hidden" : "") + "></button>" +
+						(maxPage > 1 ? "<br><small>" + maxPage + " pages</small>" : "") +
+						"<br><br>" +
+						"<p translation='form.unverified'></p>"
 					resolve(text)
 				} else handleError(resolve, json.message)
 			})
 			.catch(e => handleError(resolve, e))
+	})
+}
+
+const pageBack = () => {
+	currentPage--
+	document.getElementById("next-button").removeAttribute("hidden")
+	if (currentPage == 1) document.getElementById("back-button").setAttribute("hidden", "")
+
+	form.fields.forEach(field => {
+		if (field.page == currentPage || (!field.page && currentPage <= 1)) document.getElementById("field-" + encode(field.name) + "-container").removeAttribute("hidden")
+		else document.getElementById("field-" + encode(field.name) + "-container").setAttribute("hidden", "")
+	})
+}
+const pageNext = () => {
+	currentPage++
+	document.getElementById("back-button").removeAttribute("hidden")
+	if (currentPage == maxPage) {
+		document.getElementById("next-button").setAttribute("hidden", "")
+		document.getElementById("submit-button").removeAttribute("hidden")
+	}
+
+	form.fields.forEach(field => {
+		if (field.page == currentPage || (!field.page && currentPage <= 1)) document.getElementById("field-" + encode(field.name) + "-container").removeAttribute("hidden")
+		else document.getElementById("field-" + encode(field.name) + "-container").setAttribute("hidden", "")
 	})
 }
 

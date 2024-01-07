@@ -1129,6 +1129,9 @@ img.integration-image {
 .integration ion-icon[name="refresh-outline"], #info-container ion-icon[name="refresh-outline"] {
 	color: #4585ce;
 }
+.integration ion-icon[name="close-circle-outline"], #info-container ion-icon[name="close-circle-outline"] {
+	color: #F00;
+}
 
 .action {
 	margin: 3px;

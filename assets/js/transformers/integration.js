@@ -52,8 +52,8 @@ function createDialog() {
 	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
 	document.getElementById("integration-name").removeAttribute("readonly")
 	document.getElementById("integration-short").value = ""
-	document.getElementById("integration-image").setAttribute("hidden", "")
 	document.getElementById("integration-public").checked = false
+	document.getElementById("integration-disabled").checked = false
 	document.getElementById("actions-container").innerHTML = ""
 	document.getElementById("integration-input").value = ""
 	document.getElementById("integration-env").value = ""
@@ -96,6 +96,7 @@ function integrationInfo(integrationName) {
 		(integration.short ? "<p>" + encode(integration.short) + "</p><br>" : "") +
 		"<p><span translation='integration.owner'></span> <b>" + encode(integration.owner) + "</b></p>" +
 		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
+		"<p><span>Disabled on the creating server</span>: " + (integration.disabled ? "✅" : "❌") + "</p>" +
 		(integration.uses ? "<p><span translation='integration.usedby'></span> <b>" + assertInt(integration.uses) + "</b></p>" : "") +
 		(integration.source ? "<p>Source: <b>" + encode(integration.source) + "</b></p>" : "") +
 		"<p><span translation='tickets.created'></span>: " + new Date(integration.created).toLocaleString() + "</p>" +
@@ -125,6 +126,7 @@ function integrationUse(integrationName) {
 	document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name)
 	document.getElementById("integration-short").value = encode(integration.short)
 	document.getElementById("integration-public").checked = false
+	document.getElementById("integration-disabled").checked = false
 	document.getElementById("integration-use-container").removeAttribute("hidden")
 	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName)
 	if (integration.input && integration.input.length > 0) {
@@ -160,17 +162,14 @@ function integrationEdit(integrationName) {
 	document.getElementById("integration-name").value = integrationName
 	document.getElementById("integration-name").setAttribute("readonly", "")
 	document.getElementById("integration-short").value = integration.short || ""
-	document.getElementById("integration-image").value = integration.image || ""
 	document.getElementById("integration-public").checked = integration.public
+	document.getElementById("integration-disabled").checked = integration.disabled
 	document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : ""
 	document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2
 	document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : ""
 	document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2
 	document.getElementById("integration-use-container").setAttribute("hidden", "")
 	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave")
-
-	if (integration.image) document.getElementById("integration-image").removeAttribute("hidden")
-	else document.getElementById("integration-image").setAttribute("hidden", "")
 
 	document.getElementById("actions-container").innerHTML = ""
 	integration.actions.forEach(action => {
@@ -206,6 +205,7 @@ function handleIntegration(integration) {
 			"<h3>" + encode(integration.name) + "</h3>" +
 			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
+			(integration.disabled ? " <ion-icon name='close-circle-outline' title='Disabled on the creating server'></ion-icon>" : "") +
 		"</div>" +
 		(integration.short ? "<p>" + encode(integration.short.substring(0, 100)) + "</p>" : "") +
 		"<br>" +
@@ -326,6 +326,7 @@ function createIntegration(sourceId = "") {
 		name,
 		short: document.getElementById("integration-short").value,
 		public: document.getElementById("integration-public").checked,
+		disabled: document.getElementById("integration-disabled").checked,
 		actions: [],
 		input,
 		env: document.getElementById("integration-env").value.split("\n").map(e => e.trim()).filter(e => e)

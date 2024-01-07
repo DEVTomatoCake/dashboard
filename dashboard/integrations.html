@@ -106,11 +106,11 @@
 							<label for="integration-public" translation="integration.public"></label>
 							<input type="checkbox" id="integration-public">
 
+							<label for="integration-disabled">Disable this integration on your server (not synced when using an integration)</label>
+							<input type="checkbox" id="integration-disabled">
+
 							<label for="integration-short" translation="integration.shortdesc"></label>
 							<input type="text" maxlength="300" placeholder="Description" id="integration-short">
-
-							<label for="integration-image" translation="integration.imageurl"></label>
-							<input type="text" maxlength="300" placeholder="Image URL" id="integration-image" title="Create a ticket on Discord if you want to change the image!" hidden readonly>
 
 							<label for="integration-input">Input variables, one per line</label>
 							<textarea class="code" maxlength="300" placeholder="url;Your GitHub URL;https://github.com/DEVTomatoCake" id="integration-input" rows="2"></textarea>
@@ -130,6 +130,14 @@
 						<div id="info-container"></div>
 					</div>
 				</div>
+
+				<p>
+					Integrations are pretty much just advanced custom commands: You can reply when a command is used, but also when something else happens on your server,
+					like an AutoMod rule triggers, a user joins your server, someone levels up, creates a forum post, ...
+					<br>
+					<a href="https://docs.tomatenkuchen.com/integrations" target="_blank" rel="noopener">Learn more in the docs!</a>
+				</p>
+				<br>
 
 				<div id="root-container">
 					<h1>Loading integrations...</h1>

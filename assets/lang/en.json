@@ -97,7 +97,7 @@
 	"integration": {
 		"actions": "Actions",
 		"addaction": "Add action",
-		"additionalpublic": "Additional settings for public integrations",
+		"additionalpublic": "Advanced settings, esp. for public integrations",
 		"create": "Create integration",
 		"createsource": "Create integration from integration",
 		"edit": "Edit",

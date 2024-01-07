@@ -1507,6 +1507,8 @@ body.stats-page {
 }
 
 .loader {
+	margin: 0 auto;
+	padding-top: 20px;
 	width: 40px;
 	height: 20px;
 	--c: no-repeat radial-gradient(farthest-side,#000 93%,#0000);

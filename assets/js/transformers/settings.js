@@ -20,7 +20,7 @@ function getSettingsHTML(json) {
 
 		json.data.forEach(setting => {
 			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
-				(setting.docs ? " <a href='https://docs.tomatenkuchen.com/" + (getLanguage() == "de" ? "de/" : "") + setting.docs + "' target='_blank' rel='noopener'><small>Docs</small></a>" : "") + "<br>"
+				(setting.docs ? " <a href='https://docs.tomatenkuchen.com/" + (getLanguage() == "de" ? "de/" : "") + encode(setting.docs) + "' target='_blank' rel='noopener'><small>Docs</small></a>" : "") + "<br>"
 
 			if (setting.possible || typeof setting.value == "object") {
 				let possible = setting.possible
@@ -33,7 +33,7 @@ function getSettingsHTML(json) {
 
 				selectData[setting.key] = setting
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
-					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + setting.type + "'></channel-picker>"
+					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + encode(setting.type) + "'></channel-picker>"
 					queue.push(() => {
 						document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
 						selectData[setting.key].value.forEach(v => {
@@ -59,7 +59,7 @@ function getSettingsHTML(json) {
 					}
 					temp += "</div><br>"
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
-					temp += "<channel-picker id='" + setting.key + "' type='" + setting.type + "'></channel-picker>"
+					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"
 					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value))
 				} else if (setting.type == "bool")
 					temp += "<div class='switch' data-type='bool'>" +
@@ -75,7 +75,7 @@ function getSettingsHTML(json) {
 				}
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
-					"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='setting' id='" + setting.key +
+					"<input type='number' min='" + assertInt(setting.min || 0) + "' max='" + assertInt(setting.max || 10000) + "' step='" + assertInt(setting.step || 1) + "' class='setting' id='" + setting.key +
 					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>"
 				else if (setting.type == "time" || setting.type == "singlestring") {
 					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>"
@@ -129,20 +129,33 @@ const settingsTab = tab => {
 	if (screen.width <= 800) sidebar()
 }
 
+let currentInteract
 const threadSelect = elem => {
-	const channel = pickerData.textchannel[elem.parentElement.getAttribute("data-id")] || pickerData.voicechannel[elem.parentElement.getAttribute("data-id")]
-	console.log(channel)
+	currentInteract = elem.parentElement
+	const channel = pickerData.textchannel[currentInteract.getAttribute("data-id")]
 
 	socket.send({
 		status: "success",
 		action: "GET_threads",
 		guild: params.get("guild"),
 		token: getCookie("token"),
-		channel: elem.parentElement.getAttribute("data-id")
+		channel: currentInteract.getAttribute("data-id")
 	})
 
 	openDialog(document.getElementById("thread-dialog"))
-	document.getElementById("thread-container").innerHTML = "<h1>Thread select: " + encode(channel.name) + "</h1><div class='loader' title='Credits to css-loaders.com - The Dots vs Bars #6'></div>"
+	document.getElementById("thread-header").textContent = "Thread select: " + encode(channel.name)
+	document.getElementById("thread-container").innerHTML = "<div class='loader' title='Source: css-loaders.com - The Dots vs Bars #6'></div>"
+}
+const threadClick = value => {
+	currentInteract.parentElement.parentElement.setAttribute("data-selected", value)
+	currentInteract.parentElement.querySelectorAll(".element").forEach(e => {
+		e.classList.remove("selected")
+	})
+	currentInteract.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='reorder-three-outline'></ion-icon> " +
+		pickerData.threads.find(t => t.id == value).name + "<br><small>(Thread in " + pickerData.textchannel[currentInteract.getAttribute("data-id")].name + ")</small></div>"
+	handleChange(currentInteract.parentElement.parentElement.id)
+
+	document.getElementById("thread-dialog").setAttribute("hidden", "")
 }
 
 let changed = []
@@ -255,6 +268,16 @@ function connectWS(guild) {
 			} else if (json.action == "SAVED_settings") {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("Saved settings!")
+			} else if (json.action == "GETRES_threads") {
+				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads have been found in this channel.</h2>"
+				pickerData.threads = json.threads
+
+				document.getElementById("thread-container").innerHTML = "<ul>" + json.threads.map(thread => (
+					"<li onclick='threadClick(\"" + thread.id + "\")'>" +
+					"<p>" + encode(thread.name) + "</p>" +
+					"<small>Created <b>" + encode(thread.created) + "</b> ago</small>" +
+					"</li>"
+				)).join("") + "</ul>"
 			} else if (json.action == "RECEIVE_emojis") {
 				pickerData.emojis = json.emojis
 				pickerData.roles = json.roles

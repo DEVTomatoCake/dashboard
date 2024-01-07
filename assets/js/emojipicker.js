@@ -63,7 +63,7 @@ const updateSelected = (elem, value = "") => {
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		e.classList.remove("selected")
 	})
-	elem.parentElement.parentElement.querySelector(".list").innerHTML = ""
+	elem.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
 	elem.parentElement.querySelectorAll(".element").forEach(e => {
 		if (e.getAttribute("data-id") == value) {
 			e.classList.add("selected")
@@ -140,9 +140,9 @@ class ChannelRolePicker extends HTMLElement {
 					"<span>" +
 					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
 					"</span>" +
-					/*(this.id.startsWith("logChannels_") && current.type == "text" ?
+					(this.id.startsWith("logChannels_") && current.type == "text" ?
 						"<ion-icon name='reorder-three-outline' title='Click here to select a thread' onclick='threadSelect(this)'></ion-icon>"
-					: "") +*/ // TODO thread selection
+					: "") +
 					"</div>"
 			}).join("") +
 			"</div>"

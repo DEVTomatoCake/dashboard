@@ -64,8 +64,10 @@
 		"type": "Typ"
 	},
 	"form": {
+		"anonymous": "Antworten auf dieses Formular sind anonym - Servermitglieder sehen nicht, wer du bist.",
 		"missing": "Du musst einen Form-Slug oder eine Form-ID als Queryparameter angeben!",
-		"submit": "Absenden"
+		"submit": "Absenden",
+		"unverified": "Dieses Formular ist nicht von TomatenKuchen verifiziert oder anderweitig verbunden. Gib niemals Passwörter oder andere sensitive Daten ein. <a href=\"/discord\" target=\"_blank\" rel=\"noopener\">Abuse melden</a>"
 	},
 	"giveaway": {
 		"anyrole": "Irgendeine dieser Rollen",

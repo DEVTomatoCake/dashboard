@@ -71,6 +71,9 @@ const updateSelected = (elem, value = "") => {
 		}
 	})
 	handleChange(elem.parentElement.parentElement.id)
+
+	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline']")
+	for (const icon of threadIcons) icon.remove()
 }
 const updateMultiSelected = (elem, key, value) => {
 	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"))
@@ -84,6 +87,9 @@ const updateMultiSelected = (elem, key, value) => {
 		elem.parentElement.parentElement.querySelector(".list").innerHTML += "<div>" + elem.parentElement.querySelector("div[data-id='" + v + "']").innerHTML + "</div>"
 	})
 	handleChange(elem.parentElement.parentElement.id)
+
+	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline']")
+	for (const icon of threadIcons) icon.parentElement.remove()
 }
 
 class ChannelRolePicker extends HTMLElement {
@@ -133,7 +139,11 @@ class ChannelRolePicker extends HTMLElement {
 					(current.type == "role" ? "<img class='pic-role' src='/assets/images/mention.webp' width='25' height='25' alt=''>" : "") +
 					"<span>" +
 					(channel ? (this.getAttribute("data-unsafe") ? current.name || current : encode(current.name || current)) : "No " + (this.getAttribute("type") == "role" ? "role" : "channel")) +
-					"</span></div>"
+					"</span>" +
+					/*(this.id.startsWith("logChannels_") && current.type == "text" ?
+						"<ion-icon name='reorder-three-outline' title='Click here to select a thread' onclick='threadSelect(this)'></ion-icon>"
+					: "") +*/ // TODO thread selection
+					"</div>"
 			}).join("") +
 			"</div>"
 	}

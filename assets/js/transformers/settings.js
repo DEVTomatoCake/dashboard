@@ -106,7 +106,7 @@ function getSettingsHTML(json) {
 
 		return {
 			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span>" +
-				(json.premium ? "<ion-icon name='star-outline' class='yellow' title='This server has TomatenKuchen premium.'></ion-icon>" : "") +
+				(json.premium ? "<ion-icon name='star-outline' class='yellow-text' title='This server has TomatenKuchen premium.'></ion-icon>" : "") +
 				"</h1>" + text,
 			categories
 		}
@@ -127,6 +127,22 @@ const settingsTab = tab => {
 
 	document.getElementById("root-container").scrollIntoView()
 	if (screen.width <= 800) sidebar()
+}
+
+const threadSelect = elem => {
+	const channel = pickerData.textchannel[elem.parentElement.getAttribute("data-id")] || pickerData.voicechannel[elem.parentElement.getAttribute("data-id")]
+	console.log(channel)
+
+	socket.send({
+		status: "success",
+		action: "GET_threads",
+		guild: params.get("guild"),
+		token: getCookie("token"),
+		channel: elem.parentElement.getAttribute("data-id")
+	})
+
+	openDialog(document.getElementById("thread-dialog"))
+	document.getElementById("thread-container").innerHTML = "<h1>Thread select: " + encode(channel.name) + "</h1><div class='loader' title='Credits to css-loaders.com - The Dots vs Bars #6'></div>"
 }
 
 let changed = []

@@ -13,9 +13,8 @@ function getCustomHTML(json) {
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy' crossorigin='anonymous'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"</div>" +
-				"<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" +
-				"<p>Balance across all paying users (<b>" + bot.paying.length + "</b>): <b>" + bot.balance.toLocaleString() + "</b></p>" +
-				(bot.payingInvited.length > 0 ? "<p>Users invited to pay for the bot: <b>" + bot.payingInvited.length + "</b></p>" : "") +
+				"<p>Credit cost per day: <b>" + (bot.cost == 0 ? "Free" : bot.cost.toLocaleString()) + "</b></p>" +
+				"<p>Current balance (<b>" + assertInt(bot.donations) + "</b> total donations): <b>" + bot.balance.toLocaleString() + "</b></p>" +
 				"</div>" +
 				"<div>" +
 				(bot.hasAccess ?

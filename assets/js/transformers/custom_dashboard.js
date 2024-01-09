@@ -2,8 +2,8 @@ let bots = []
 function getCustomHTML(json) {
 	if (json.status == "success") {
 		bots = json.bots
-		let text = "<h1>Your custom bots</h1>" +
-			"<p>This list includes all custom bots you have access to or you're paying for.</p><br>" +
+		return "<h1>Your custom bots</h1>" +
+			"<p>This list includes all custom bots you have access to.</p><br>" +
 			"<button type='button' class='createForm' onclick='createDialog()'>Create a custom bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			json.bots.map(bot =>
@@ -24,31 +24,11 @@ function getCustomHTML(json) {
 					"<button type='button' class='createForm green' id='startbutton-" + encode(bot.id) + "' onclick='startBot(\"" + encode(bot.id) + "\")'><ion-icon name='caret-up-outline'></ion-icon>Start/Restart</button>" +
 					"<button type='button' class='createForm red' id='stopbutton-" + encode(bot.id) + "' onclick='stopBot(\"" + encode(bot.id) + "\")'" +
 					(bot.online ? "" : " disabled title='Bot is offline already'") + "><ion-icon name='caret-down-outline'></ion-icon>Stop</button>"
-				:
-					"<button type='button' class='createForm red' onclick='removeYourself(\"" + encode(bot.id) + "\")'>Remove yourself as paying user</button>"
-				) +
+				: "") +
 				"</div>" +
 				"</div>"
 			).join("") +
 			"</div>"
-
-		if (json.invited.length > 0) {
-			text += "<br><br><h1>Bots you've been invited to to pay for</h1>" +
-				"<div class='integration-container'>" +
-				json.invited.map(bot =>
-					"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
-					"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy' crossorigin='anonymous'>" +
-					"<h2>" + encode(bot.username) + "</h2>" +
-					"<div>" +
-					"<button type='button' class='createForm green' onclick='acceptInvite(\"" + encode(bot.id) + "\")'>Accept invite</button>" +
-					"<button type='button' class='createForm red' onclick='declineInvite(\"" + encode(bot.id) + "\")'>Decline invite</button>" +
-					"</div>" +
-					"</div>"
-				).join("") +
-				"</div>"
-		}
-
-		return text
 	}
 
 	return (
@@ -57,9 +37,6 @@ function getCustomHTML(json) {
 	)
 }
 
-const userList = (user, canDelete = false, isEditing = false) => "<li><img src='" + user.avatar + "?size=32' width='32' height='32' alt='User avatar of " + encode(user.username) +
-	"' loading='lazy' crossorigin='anonymous'>" +
-	encode(user.username) + (canDelete ? "<ion-icon name='trash-outline' onclick='removePaying" + (isEditing ? "Edit" : "") + "(\"" + user.id + "\")'></ion-icon>" : "") + "</li>"
 let socket
 let errorToast
 let step = 1
@@ -68,7 +45,7 @@ let tokenElem
 
 const refresh = (force = false, save = false) => {
 	socket.send({action: "GET_custom_info", botToken: tokenElem.value, force, save})
-	if (step == 3) {
+	if (step == 2) {
 		document.getElementById("forward-button").setAttribute("disabled", "")
 		setTimeout(() => {
 			document.getElementById("forward-button").removeAttribute("disabled")
@@ -80,12 +57,12 @@ const refresh = (force = false, save = false) => {
 const forward = () => {
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step++
-	if (step == 3 && info.todo.length == 0) step++
+	if (step == 2 && info.todo.length == 0) step++
 	document.getElementById("step" + step).removeAttribute("hidden")
 
-	if (step >= 3) {
-		document.getElementById("forward-button").textContent = step == 3 ? "Refresh" : "Create bot"
-		document.getElementById("forward-button").onclick = () => refresh(true, step == 4)
+	if (step >= 2) {
+		document.getElementById("forward-button").textContent = step == 2 ? "Refresh" : "Create bot"
+		document.getElementById("forward-button").onclick = () => refresh(true, step == 3)
 	} else {
 		document.getElementById("forward-button").textContent = "Next"
 		document.getElementById("forward-button").onclick = forward
@@ -97,7 +74,7 @@ const back = () => {
 	if (step <= 1) return
 	document.getElementById("step" + step).setAttribute("hidden", "")
 	step--
-	if (step == 3 && info.todo.length == 0) step--
+	if (step == 2 && info.todo.length == 0) step--
 	document.getElementById("step" + step).removeAttribute("hidden")
 
 	document.getElementById("forward-button").removeAttribute("hidden")
@@ -131,17 +108,6 @@ function connectWS() {
 			else if (json.action == "SAVED_custom") {
 				new ToastNotification({type: "SUCCESS", title: "Custom bot " + json.username + " saved!", timeout: 10}).show()
 				socket.send({status: "success", action: "GET_custom"})
-			} else if (json.action == "ADDED_custom_paying") {
-				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show()
-				else document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
-					"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
-			} else if (json.action == "EDITED_custom_paying") {
-				if (json.status == "failed") new ToastNotification({type: "ERROR", title: json.message || "Unknown user!"}).show()
-				else document.getElementById("bot-edit-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
-					"<br><p>Users that can accept the invite on this page:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
-			} else if (json.action == "RECEIVE_REMOVE_paying_custom") {
-				new ToastNotification({type: "SUCCESS", title: json.message, timeout: 15}).show()
-				document.getElementById("bot-" + json.bot).remove()
 			} else if (json.action == "RECEIVE_DELETE_custom") {
 				new ToastNotification({type: json.status == "success" ? "SUCCESS" : "ERROR", title: json.message, timeout: 15}).show()
 				if (json.status == "success") document.getElementById("bot-" + json.bot).remove()
@@ -158,12 +124,10 @@ function connectWS() {
 					document.getElementById("bot-name").textContent = encode(json.username)
 					document.getElementById("bot-invite").href = "https://tomatenkuchen.com/invite?bot=" + json.id
 					document.getElementById("bot-avatar").src = encode(json.avatar) + "?size=64"
-					document.getElementById("bot-paying").innerHTML = "<ul>" + json.paying.map(u => userList(u, true)).join("") + "</ul>" + (json.payingInvited.length > 0 ?
-						"<br><p>Users that can accept the invite on this page after creation:<ul>" + json.payingInvited.map(u => userList(u, true)).join("") + "</ul>": "")
 					document.getElementById("bot-todo").innerHTML = json.todo.map(i => "<li>" + i + "</li>").join("")
 					if (json.info.length > 0) document.getElementById("bot-todo-info").innerHTML = json.info.map(i => "<li>" + i + "</li>").join("")
 
-					if (step == 3 && json.todo.length == 0) {
+					if (step == 2 && json.todo.length == 0) {
 						forward()
 						document.getElementById("forward-button").removeAttribute("disabled")
 					}
@@ -182,16 +146,12 @@ const createDialog = () => {
 	document.getElementById("custom-token").value = ""
 	document.getElementById("custom-invite").value = ""
 	document.getElementById("step3").setAttribute("hidden", "")
-	document.getElementById("step4").setAttribute("hidden", "")
 }
 
 let editingBot = {}
 const editDialog = (botId = "") => {
 	openDialog(document.getElementById("edit-dialog"))
 	editingBot = bots.find(b => b.id == botId)
-
-	document.getElementById("bot-edit-paying").innerHTML = "<ul>" + editingBot.paying.map(u => userList(u, true, true)).join("") + "</ul>" + (editingBot.payingInvited.length > 0 ?
-		"<br><p>Users that can accept the invite on this page:<ul>" + editingBot.payingInvited.map(u => userList(u, true, true)).join("") + "</ul>": "")
 
 	if (editingBot.canStatus) {
 		document.getElementById("upgrade-status").setAttribute("checked", "")
@@ -200,14 +160,7 @@ const editDialog = (botId = "") => {
 		document.getElementById("upgrade-status").removeAttribute("checked")
 		document.getElementById("status-container").setAttribute("hidden", "")
 	}
-	if (editingBot.canOtherBot) document.getElementById("upgrade-respondotherbot").setAttribute("checked", "")
-	else document.getElementById("upgrade-respondotherbot").removeAttribute("checked")
 }
-const addPayingEdit = () => {
-	socket.send({action: "ADD_EDIT_custom_paying", bot: editingBot.id, user: document.getElementById("edit-paying").value})
-	document.getElementById("edit-paying").value = ""
-}
-const removePayingEdit = user => socket.send({action: "REMOVE_EDIT_custom_paying", bot: editingBot.id, user})
 
 const statusEmoji = {
 	online: "🟢",
@@ -257,12 +210,6 @@ const toggleOtherBot = () => {
 	socket.send({action: "TOGGLE_custom_otherbot", bot: editingBot.id, enabled: document.getElementById("upgrade-respondotherbot").checked})
 }
 
-const addPaying = () => {
-	socket.send({action: "ADD_custom_paying", botToken: tokenElem.value, user: document.getElementById("custom-invite").value})
-	document.getElementById("custom-invite").value = ""
-}
-const removePaying = user => socket.send({action: "REMOVE_custom_paying", botToken: tokenElem.value, user})
-
 const startBot = bot => {
 	socket.send({action: "START_custom", bot})
 	document.getElementById("startbutton-" + bot).setAttribute("disabled", "")
@@ -283,21 +230,9 @@ const stopBot = bot => {
 	}, 20000)
 }
 
-const removeYourself = bot => {
-	const confirmed = confirm("Are you sure you want to remove yourself from the paying users of the bot " + encode(bot) + "?")
-	if (confirmed) socket.send({action: "REMOVE_custom_paying_yourself", bot})
-}
 const deleteBot = bot => {
 	const confirmed = confirm("Are you sure you permanently want to delete the bot " + encode(bot) + "? There's no going back and ALL data will be lost immediately!")
 	if (confirmed) socket.send({action: "DELETE_custom", bot})
-}
-const acceptInvite = bot => {
-	socket.send({action: "ACCEPT_invite", bot})
-	setTimeout(connectWS, 2000)
-}
-const declineInvite = bot => {
-	socket.send({action: "DECLINE_invite", bot})
-	document.getElementById("bot-" + bot).remove()
 }
 
 let lastChange = 0

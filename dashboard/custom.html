@@ -67,7 +67,7 @@
 							</div>
 							<br>
 							<label for="setup-progress">Setup progress:</label>
-							<progress id="setup-progress" max="4"></progress>
+							<progress id="setup-progress" max="3"></progress>
 							<br>
 						</div>
 
@@ -93,26 +93,6 @@
 						</div>
 
 						<div id="step2" hidden>
-							<h2>Select users who pay for the bot</h2>
-							<p id="bot-payingdesc">
-								A list of users who invest their vote credits into this custom bot. Check this <a href="../custom" target="_blank" rel="noopener">custom bot info</a> page
-								to learn more about how paying works and how much it costs <b>per day</b>. This setting allows you to allow your server members to also vote for the bot to maintain it
-								without giving them access to the bot in the Discord developer dashboard.
-								<br>
-								Every time a credit payment is due, the bot will randomly select a user from this list who has enough credits.
-								If none of them has enough, the bot will pick random users and add their balance together until enough credits are available.
-								If this value is still too low, the bot will send a warning and disable itself. Don't worry, all your data is kept!
-								<br>
-								If the bot notices that the balance is enough for the current payment, but not for the one tomorrow, it'll send a warning.
-							</p>
-
-							<br>
-							<input type="text" placeholder="User ID" pattern="[0-9]{17,21}" onchange="addPaying()" aria-describedby="bot-payingdesc" id="custom-invite">
-							<br>
-							<div id="bot-paying"></div>
-						</div>
-
-						<div id="step3" hidden>
 							<h2>TODO list</h2>
 							<p>
 								Almost finished! Complete these tasks and click "Reload" once done. If you have any questions, feel free to join our
@@ -122,7 +102,7 @@
 							<ul id="bot-todo-info"></ul>
 						</div>
 
-						<div id="step4" hidden>
+						<div id="step3" hidden>
 							<h2>You're done!</h2>
 							<p>Click the button below to finish the setup and start the bot.</p>
 
@@ -151,7 +131,7 @@
 						<br>
 						<h2>Custom donate URL</h2>
 						<span>https://tomatenkuchen.com/custom-donate?bot=</span>
-						<input type="text" placeholder="Leave empty to keep the current one" maxlength="30" pattern="^\w+$" id="edit-donate-url">
+						<input type="text" placeholder="Leave empty to keep the current one" maxlength="30" pattern="^[-\w]+$" id="edit-donate-url">
 						<br>
 
 						<br>

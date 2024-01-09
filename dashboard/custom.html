@@ -143,10 +143,12 @@
 							Note that the price will only update if the bot is online.
 						</p>
 
-						<label for="upgrade-status">Be able to set custom bot status</label>
+						<label for="upgrade-status">Enable a custom and cycling bot status</label>
 						<input type="checkbox" id="upgrade-status" onclick="toggleStatus()">
 						<div id="status-container" hidden>
 							<h3>Status configuration</h3>
+							<a href="https://docs.tomatenkuchen.com/custom-bot/status" target="_blank" rel="noopener">Learn more about the status options</a>
+
 							<label for="status-interval">
 								How often to switch the status to the next one, cannot be less than <code>1m</code> (one minute)
 							</label>
@@ -175,8 +177,9 @@
 							<br>
 						</div>
 
-						<label for="upgrade-respondotherbot">Allow the bot to respond to other bots</label>
-						<input type="checkbox" id="upgrade-respondotherbot" onclick="toggleOtherBot()">
+						<label for="upgrade-respondotherbot">Allow your bot to respond to these bots</label>
+						<input type="text" id="upgrade-respondotherbot" placeholder="Bot IDs separated by spaces or commas" onchange="editOtherBot()">
+						<p>The price depends on the amount of actions these bots caused, e.g. when running a command.</p>
 					</div>
 				</div>
 

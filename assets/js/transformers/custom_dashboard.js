@@ -185,8 +185,11 @@ const addStatus = () => {
 		}).show()
 
 	socket.send({
-		action: "ADD_custom_status", bot: editingBot.id,
-		text: document.getElementById("status-text").value, status: document.getElementById("status-status").value, activity: document.getElementById("status-activity").value
+		action: "ADD_custom_status",
+		bot: editingBot.id,
+		text: document.getElementById("status-text").value,
+		status: document.getElementById("status-status").value,
+		activity: document.getElementById("status-activity").value
 	})
 
 	document.getElementById("status-list").innerHTML +=
@@ -206,8 +209,8 @@ const toggleStatus = () => {
 	socket.send({action: "TOGGLE_custom_status", bot: editingBot.id, enabled: document.getElementById("upgrade-status").checked})
 	document.getElementById("status-container").toggleAttribute("hidden")
 }
-const toggleOtherBot = () => {
-	socket.send({action: "TOGGLE_custom_otherbot", bot: editingBot.id, enabled: document.getElementById("upgrade-respondotherbot").checked})
+const editOtherBot = () => {
+	socket.send({action: "EDIT_custom_otherbot", bot: editingBot.id, selected: document.getElementById("upgrade-respondotherbot").value})
 }
 
 const startBot = bot => {

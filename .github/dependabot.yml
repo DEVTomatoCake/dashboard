@@ -8,3 +8,7 @@ updates:
       html-parser-eslint:
         patterns:
         - "@html-parser/*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"

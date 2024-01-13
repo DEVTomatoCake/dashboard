@@ -61,15 +61,18 @@ function getFormHTML(formId) {
 						text += "<br><br></div>"
 					})
 
+					const hasMultiple = json.fields.some(field => field.page && field.page > 1)
 					text += "<br>" +
-						(json.anonymous ? "<p translation='form.anonymous'></p>" : "") +
-						(json.cooldown ? "<p>Du kannst nur alle <b>" + encode(json.cooldown) + "</b> eine Antwort absenden.</p>" : "") +
-						(json.fields.some(field => field.page && field.page > 1) ?
-							"<button class='green' onclick='pageBack()' id='back-button' hidden>Back</button>" +
+						(json.anonymous == "always" ? "<p translation='form.anonymous'></p>" : "") +
+						(json.anonymous == "optional" ? "<p id='submit-anonymous'" + (hasMultiple ? " hidden" : "") + "><label title='If checked, no one on the server is able to see "+
+							"who submitted this form.'>You can decide whether you want to remain anonymous to the server team: <input type='checkbox' id='form-anonymous' checked></label></p>" : "") +
+						(json.cooldown ? "<p id='submit-cooldown'" + (hasMultiple ? " hidden" : "") + ">You can only submit something every <b>" + encode(json.cooldown) + "</b>.</p>" : "") +
+						(hasMultiple ?
+							"<button onclick='pageBack()' id='back-button' hidden>Back</button>" +
 							"<button class='green' onclick='pageNext()' id='next-button'>Next</button>" : ""
 						) +
-						"<button class='green' translation='form.submit' onclick='fs()' id='submit-button'" + (json.fields.some(field => field.page && field.page > 1) ? " hidden" : "") + "></button>" +
-						(maxPage > 1 ? "<br><small>" + maxPage + " pages</small>" : "") +
+						"<button class='green' translation='form.submit' onclick='fs()' id='submit-button'" + (hasMultiple ? " hidden" : "") + "></button>" +
+						(maxPage > 1 ? "<br><small>Page <span id='current-page'>1</span> out of " + maxPage + " pages</small>" : "") +
 						"<br><br>" +
 						"<p translation='form.unverified'></p>"
 					resolve(text)
@@ -81,8 +84,14 @@ function getFormHTML(formId) {
 
 const pageBack = () => {
 	currentPage--
+	document.getElementById("current-page").innerText = currentPage
 	document.getElementById("next-button").removeAttribute("hidden")
 	if (currentPage == 1) document.getElementById("back-button").setAttribute("hidden", "")
+	if (currentPage != maxPage) {
+		document.getElementById("submit-button").setAttribute("hidden", "")
+		document.getElementById("submit-anonymous").setAttribute("hidden", "")
+		document.getElementById("submit-cooldown").setAttribute("hidden", "")
+	}
 
 	form.fields.forEach(field => {
 		if (field.page == currentPage || (!field.page && currentPage <= 1)) document.getElementById("field-" + encode(field.name) + "-container").removeAttribute("hidden")
@@ -91,10 +100,13 @@ const pageBack = () => {
 }
 const pageNext = () => {
 	currentPage++
+	document.getElementById("current-page").innerText = currentPage
 	document.getElementById("back-button").removeAttribute("hidden")
 	if (currentPage == maxPage) {
 		document.getElementById("next-button").setAttribute("hidden", "")
 		document.getElementById("submit-button").removeAttribute("hidden")
+		document.getElementById("submit-anonymous").removeAttribute("hidden")
+		document.getElementById("submit-cooldown").removeAttribute("hidden")
 	}
 
 	form.fields.forEach(field => {
@@ -165,7 +177,10 @@ const fs = async () => {
 	})
 
 	if (Object.keys(results).length == form.fields.length) {
-		const json = await get("forms/" + params.get("id"), true, "POST", results)
+		const json = await get("forms/" + params.get("id"), true, "POST", {
+			fields: results,
+			wantAnonymous: document.getElementById("form-anonymous") && document.getElementById("form-anonymous").checked
+		})
 		if (json.status == "success") document.getElementById("root-container").innerHTML = "<h1>Form submitted successfully!</h1>" + (form.submitMessage ? "<br><p>" + encode(form.submitMessage) + "</p>" : "")
 		else {
 			const error = document.createElement("h1")

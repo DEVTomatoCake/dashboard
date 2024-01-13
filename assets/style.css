@@ -478,7 +478,7 @@ code {
 	height: 30px;
 }
 
-.top .hamburger:hover {
+header .hamburger:hover {
 	animation: wide 0.3s;
 }
 
@@ -724,7 +724,7 @@ footer .links {
 	background: var(--tertiary-color);
 }
 
-.top {
+header {
 	background: var(--secondary-color);
 	top: 0;
 	position: fixed;
@@ -734,6 +734,11 @@ footer .links {
 	display: flex;
 	align-items: center;
 	box-shadow: 0 0 8px 2px var(--primary-color);
+	transition: top 0.5s cubic-bezier(0.87, 0, 0.13, 1);
+}
+
+header.scroll-down:not(:focus-within) {
+	top: -100%;
 }
 
 .search-box {
@@ -779,10 +784,10 @@ footer .links {
 	color: var(--primary-text-color);
 }
 
-.top .account ion-icon {
+header .account ion-icon {
 	font-size: 35px;
 }
-.top .account img {
+header .account img {
 	padding-left: 5px;
 	border-radius: 50%;
 }
@@ -1328,10 +1333,10 @@ a:has(ion-icon), button:has(ion-icon) {
 }
 
 @media only screen and (max-width: 400px) {
-	.top .account {
+	header .account {
 		margin-right: 20px;
 	}
-	.top .account p {
+	header .account p {
 		display: none;
 	}
 

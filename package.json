@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint . --ext .html,.js --report-unused-disable-directives",
     "dev": "nodemon --delay 10ms -e js,html,css,png,webp",
-    "minify": "uglifyjs --verbose --warn --compress --mangle --webkit --output ./assets/js/script.js -- ./assets/js/script.js"
+    "minify": "node minify.js"
   },
   "dependencies": {
     "uglify-js": "^3.17.4"

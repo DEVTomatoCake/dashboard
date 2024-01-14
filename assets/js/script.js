@@ -281,8 +281,7 @@ function pageLoad() {
 		})
 	}, 300)
 
-	const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduced)")
-	if (!reducedMotion.matches && screen.height <= 600) document.body.addEventListener("scroll", () => {
+	if (!window.matchMedia("(prefers-reduced-motion: reduced)").matches && screen.height <= 600) document.body.addEventListener("scroll", () => {
 		if (!headerTimeout) headerTimeout = setTimeout(() => {
 			if (document.body.scrollTop > prevScroll) document.getElementsByTagName("header")[0].classList.add("scroll-down")
 			else document.getElementsByTagName("header")[0].classList.remove("scroll-down")

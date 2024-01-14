@@ -31,7 +31,6 @@ async function main() {
 	if (result.error) throw result.error
 	if (result.warnings) console.log(result.warnings)
 
-	console.log(process.env)
 	if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile("./assets/js/script.js", result.code)
 		await fsPromises.writeFile("./assets/js/script.js.map", result.map)

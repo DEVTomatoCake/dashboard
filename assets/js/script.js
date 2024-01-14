@@ -1,20 +1,14 @@
-function setCookie(name, value, days, global = false) {
+function setCookie(name, value = "", days, global = false) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 
-	let cookie = name + "=" + (value || "") + ";path=/;Secure;"
-	if (days) {
-		const date = new Date()
-		date.setTime(date.getTime() + 1000 * 60 * 60 * 24 * days)
-		cookie += "expires=" + date.toUTCString() + ";"
-	}
+	let cookie = name + "=" + value + ";path=/;Secure;"
+	if (days) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
 	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
 
 	document.cookie = cookie
 }
 function getCookie(name) {
-	const cookies = document.cookie.split(";")
-
-	for (const rawCookie of cookies) {
+	for (const rawCookie of document.cookie.split(";")) {
 		const cookie = rawCookie.trim()
 		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
 	}
@@ -258,8 +252,7 @@ function pageLoad() {
 		setCookie("theme", "light", 365, true)
 	} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
 
-	const username = getCookie("user")
-	if (username) {
+	if (getCookie("user")) {
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =

@@ -149,7 +149,7 @@ function getDataexportHTML() {
 							"<div class='userData'>" +
 							"<h1>" + json.data.backup.backups.length + " backups</h1>" +
 							json.data.backup.backups.map(backup =>
-								"<code title='Size: " + assertInt(backup.size) + "; created: " + new Date(backup.date).toLocaleString() + "'>" + encode(backup.code) + "</code>"
+								"<code title='Size: " + encode(backup.size) + "; created: " + new Date(backup.date).toLocaleString() + "'>" + encode(backup.code) + "</code>"
 							).join(", ") +
 							"</div>"
 						: "") +

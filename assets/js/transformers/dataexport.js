@@ -9,7 +9,7 @@ const tkbadges = {
 
 function getDataexportHTML() {
 	return new Promise(resolve => {
-		getDataexport()
+		get("users/dataexport")
 			.then(json => {
 				if (json.status == "success") {
 					let badges = ""

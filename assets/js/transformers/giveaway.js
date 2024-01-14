@@ -1,6 +1,6 @@
 function getGiveawayHTML(giveaway) {
 	return new Promise(resolve => {
-		getGiveaway(giveaway)
+		get("giveaways/" + giveaway)
 			.then(json => {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'><span translation='giveaway.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>"

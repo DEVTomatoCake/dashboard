@@ -1,7 +1,7 @@
 let logs = []
 function getModlogsHTML(guild) {
 	return new Promise(resolve => {
-		getModlogs(guild)
+		get("modlogs/" + guild)
 			.then(json => {
 				if (json.status == "success") {
 					logs = json.data

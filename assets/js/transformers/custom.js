@@ -11,7 +11,7 @@ const calcCredits = () => {
 loadFunc = async () => {
 	calcCredits()
 
-	const json = await getCustomTiers()
+	const json = await get("custom-tiers", false)
 	if (json.status == "success") {
 		document.getElementById("tiers-upgrade").innerHTML = json.upgrades.map(tier =>
 			"<tr><td>" + tier.cost.toLocaleString() + "</td><td>" + tier.text + "</td></tr>"

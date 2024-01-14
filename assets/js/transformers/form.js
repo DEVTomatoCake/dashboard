@@ -8,7 +8,7 @@ const handleChange = () => {}
 
 function getFormHTML(formId) {
 	return new Promise(resolve => {
-		getForm(formId)
+		get("forms/" + formId + "?lang=" + getLanguage())
 			.then(json => {
 				if (json.status == "success") {
 					if (json.fields.length == 0) return resolve("<p>Das Formular mit dem Titel <b>" + encode(json.title) + "</b> existiert, aber hat keine Felder, die du ausfüllen könntest!</p>")

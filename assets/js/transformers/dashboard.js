@@ -1,6 +1,6 @@
 function getGuildsHTML() {
 	return new Promise(resolve => {
-		getGuilds()
+		get("guilds")
 			.then(json => {
 				if (json.status == "success") {
 					if (json.data.length == 0) return resolve("<h1 translation='dashboard.noservers'></h1>")
@@ -39,6 +39,22 @@ const changePage = elem => {
 		const query = link.getAttribute("href").split("?")[1]
 		link.setAttribute("href", encode("/" + (target == "stats" || target == "leaderboard" ? "" : "dashboard/") + target) + (query ? "?" + query : ""))
 	}
+}
+
+const login = code => {
+	const params = new URLSearchParams(location.search)
+	return new Promise((resolve, reject) => {
+		get("auth/login?code=" + encodeURIComponent(code) + (params.get("state") ? "&dcState=" + params.get("state") : "") +
+			(getCookie("clientState") ? "&state=" + getCookie("clientState") : "") + (location.host == "tomatenkuchen.com" ? "" : "&host=" + location.host), false)
+			.then(d => {
+				deleteCookie("clientState")
+				resolve(d)
+			})
+			.catch(e => {
+				deleteCookie("clientState")
+				reject(e)
+			})
+	})
 }
 
 const params = new URLSearchParams(location.search)

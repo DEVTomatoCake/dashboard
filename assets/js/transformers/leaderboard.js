@@ -1,6 +1,6 @@
 function getLeaderboardHTML(guild) {
 	return new Promise(resolve => {
-		getLeaderboard(guild)
+		get("leaderboard/" + guild)
 			.then(json => {
 				if (json.status == "success") {
 					const leveling = "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +

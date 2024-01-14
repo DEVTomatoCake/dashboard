@@ -15,7 +15,6 @@
 		<link href="./assets/style.css" rel="stylesheet" type="text/css">
 
 		<script src="./assets/js/script.js"></script>
-		<script src="./assets/js/api.js"></script>
 	</head>
 	<body class="dark-theme">
 		<div class="center">
@@ -23,7 +22,7 @@
 			<h2>You'll be redirected to the home page automatically after success.</h2>
 		</div>
 		<script>
-			logout().then(json => {
+			get("auth/logout").then(json => {
 				if (getCookie("token")) deleteCookie("token")
 				if (getCookie("user")) deleteCookie("user")
 				if (getCookie("avatar")) deleteCookie("avatar")

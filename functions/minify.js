@@ -1,27 +1,40 @@
-const fs = require("node:fs")
 const fsPromises = require("node:fs").promises
 const UglifyJS = require("uglify-js")
 
-async function main() {
-	const jsFiles = [...await fsPromises.readdir("./assets/js"), ...(await fsPromises.readdir("./assets/js/transformers")).map(file => "transformers/" + file)]
-		.filter(file => file.endsWith(".js")).map(file => "./assets/js/" + file)
-	const fileContents = {}
-	for (const file of jsFiles) {
-		fileContents[file] = await fsPromises.readFile(file, "utf8")
-	}
+//(await fsPromises.readdir("./assets/js/transformers")).filter(file => file.endsWith(".js")).map(file => "./assets/js/transformers/" + file)
+const nameCache = {}
 
-	const result = UglifyJS.minify(fileContents, {
-		compress: false,
-		mangle: false,
+async function main() {
+	const result = UglifyJS.minify({
+		"script.js": await fsPromises.readFile("./assets/js/script.js", "utf8")
+	}, {
+		warnings: "verbose",
 		sourceMap: {
-			filename: "minified.js",
 			root: "https://tomatenkuchen.com/assets/js/",
-			url: "minified.js.map"
-		}
+			filename: "script.js",
+			url: "script.js.map"
+		},
+		parse: {
+			shebang: false
+		},
+		compress: {
+			passes: 2,
+			unsafe: true,
+			unsafe_Function: true,
+			unsafe_math: true,
+			unsafe_proto: true,
+			unsafe_regexp: true
+		},
+		mangle: true,
+		nameCache
 	})
-	console.log(result.code)
-	console.log(result.map)
-	await fsPromises.writeFile("./assets/js/minified.js", result.code)
-	await fsPromises.writeFile("./assets/js/minified.js.map", result.map)
+	if (result.error) throw result.error
+	if (result.warnings) console.log(result.warnings)
+
+	console.log(process.env)
+	if (process.env.MINIFY_ENABLED) {
+		await fsPromises.writeFile("./assets/js/script.js", result.code)
+		await fsPromises.writeFile("./assets/js/script.js.map", result.map)
+	}
 }
 main()

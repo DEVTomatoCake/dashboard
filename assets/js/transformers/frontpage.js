@@ -8,7 +8,7 @@ const formatServer = server => "" +
 
 let servers = []
 let currentIndex = 1
-getBotstats().then(json => {
+get("stats?lang=" + getLanguage() + "&publicServers=1", false).then(json => {
 	document.getElementById("stats-guilds").textContent = json.guilds
 	document.getElementById("stats-uptime").textContent = json.uptime_ratio.toFixed(2) + (getLanguage() == "de" ? " " : "") + "%"
 	document.getElementById("stats-tickets").textContent = json.tickets.toLocaleString()

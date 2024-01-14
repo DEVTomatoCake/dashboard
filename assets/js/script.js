@@ -1,3 +1,18 @@
+const url = "https://api.tomatenkuchen.com/api/"
+async function get(component, auth = true, method = "GET", body = null) {
+	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
+		method,
+		headers: {
+			"Content-Type": "application/json"
+		},
+		body: body ? JSON.stringify(body) : null
+	})
+
+	const json = await res.json()
+	console.log("Response for \"" + url + component + "\": " + JSON.stringify(json))
+	return json
+}
+
 function setCookie(name, value = "", days, global = false) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 

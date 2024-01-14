@@ -21,7 +21,6 @@
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
 
-		<script src="./assets/js/api.js"></script>
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js" integrity="sha512-SIMGYRUjwY8+gKg7nn9EItdD8LCADSDfJNutF9TPrvEo86sQmFMh6MyralfIyhADlajSxqc7G0gs7+MwWF/ogQ=="
 			crossorigin="anonymous" referrerpolicy="no-referrer"
@@ -83,7 +82,7 @@
 				if (params.has("time")) filters.push("time=" + params.get("time"))
 				if (params.has("type")) filters.push("type=" + params.get("type"))
 
-				getStats(params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
+				get("stats/" + params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
 					if (json.status == "success") createChart(json)
 					else document.body.innerHTML =
 						"<div class='center'>" +

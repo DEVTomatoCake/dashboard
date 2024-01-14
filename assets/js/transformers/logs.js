@@ -1,7 +1,7 @@
 let logs = []
 function getLogsHTML(guild) {
 	return new Promise(resolve => {
-		getLogs(guild)
+		get("logs/" + guild)
 			.then(json => {
 				if (json.status == "success") {
 					let text = "<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>"
@@ -39,7 +39,7 @@ const params = new URLSearchParams(location.search)
 const confirmDelete = (elem, log) => {
 	const c = confirm("Do you really want to delete the log \"" + log + "\"?")
 	if (c) {
-		deleteLog(params.get("guild"), log)
+		get("logs/" + params.get("guild") + "/" + log, true, "DELETE")
 		elem.parentElement.parentElement.remove()
 	}
 }

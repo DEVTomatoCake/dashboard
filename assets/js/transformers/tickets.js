@@ -53,7 +53,7 @@ const sortTable = prop => {
 
 function getTicketsHTML(guild) {
 	return new Promise(resolve => {
-		getTickets(guild)
+		get("tickets/" + guild)
 			.then(json => {
 				if (json.status == "success") {
 					tickets = json.data
@@ -87,7 +87,7 @@ async function ticketSearch() {
 	let includeContent = []
 	if (ticcontent != "" && ticcontent.length > 2) {
 		const params = new URLSearchParams(location.search)
-		includeContent = (await searchTickets(params.get("guild"), ticcontent)).data
+		includeContent = (await get("ticketsearch/" + params.get("guild") + "?search=" + encodeURIComponent(ticcontent))).data
 	}
 
 	for (const tic of document.getElementById("content").getElementsByClassName("ticket")) {

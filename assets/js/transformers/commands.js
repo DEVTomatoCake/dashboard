@@ -2,7 +2,7 @@ let commandData = []
 
 const getCommandsHTML = () => {
 	return new Promise((resolve => {
-		getCommands()
+		get("commands?lang=" + getLanguage(), false)
 			.then(json => {
 				if (json.status == "success") {
 					commandData = json.data

@@ -113,14 +113,13 @@ function editLayer(id = "") {
 	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity * 100 + "%"
 }
 
-let layerCount = 1
 function addLayer() {
 	if (currentLayer.id && currentLayer.name.length > 32) return alert("The layer name can be at most 32 characters long!")
 
 	currentLayer = {
 		id: Math.random().toString(36).slice(2),
 		type: "text",
-		name: "Layer " + layerCount++,
+		name: "Layer " + (currentImage.layers.length + 1),
 		content: "",
 		x: Math.floor(currentImage.width / 2),
 		y: Math.floor(currentImage.height / 2),
@@ -167,7 +166,6 @@ let images = []
 function imageEdit(imageId) {
 	currentImage = images.find(e => e.id == imageId)
 	currentImage.edit = true
-	layerCount = currentImage.layers.length + 1
 
 	document.getElementById("create-title").innerHTML = "Edit dynamic image: <b>" + encode(currentImage.name) + "</b>"
 	document.getElementById("image-name").value = currentImage.name
@@ -196,8 +194,7 @@ function imageEdit(imageId) {
 const params = new URLSearchParams(location.search)
 let socket
 const imageDelete = (elem, imageId = "") => {
-	const confirmed = confirm("Are you sure you want to delete the image \"" + images.find(img => img.id == imageId).name + "\"? This cannot be undone!")
-	if (confirmed) {
+	if (confirm("Are you sure you want to delete the image \"" + images.find(img => img.id == imageId).name + "\"? This cannot be undone!")) {
 		elem.parentElement.parentElement.remove()
 		images = images.filter(img => img.id != imageId)
 		socket.send({status: "success", action: "DELETE_image", id: imageId})

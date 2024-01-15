@@ -277,9 +277,9 @@ function pageLoad() {
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"username-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
-		else document.getElementById("username-avatar").classList.add("visible")
-	} else document.getElementById("username-avatar").classList.add("visible")
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"user-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
+		else document.getElementById("user-avatar").classList.add("visible")
+	} else document.getElementById("user-avatar").classList.add("visible")
 
 	setTimeout(() => {
 		document.getElementById("theme-toggle").addEventListener("change", () => {

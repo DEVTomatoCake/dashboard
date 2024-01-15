@@ -2,13 +2,12 @@ const version = 3
 
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
-		const cacheNames = await caches.keys()
-		cacheNames.forEach(cacheName => {
+		(await caches.keys()).forEach(cacheName => {
 			if (cacheName != "static" + version && cacheName != "fallback" + version) caches.delete(cacheName)
 		})
 
 		const static = await caches.open("static" + version)
-		await static.addAll([
+		static.addAll([
 			"/offline",
 			"/assets/fonts/gfonts_bevietmanpro_latin.woff2",
 			"/assets/images/favicon.ico",
@@ -25,10 +24,11 @@ self.addEventListener("install", event => {
 		])
 
 		const fallback = await caches.open("fallback" + version)
-		await fallback.addAll([
+		fallback.addAll([
 			"/assets/style.css",
 			"/assets/js/script.js",
 			"/assets/js/language.js",
+			"/assets/lang/en.json",
 
 			"/",
 			"/credits",
@@ -70,10 +70,7 @@ self.addEventListener("fetch", event => {
 				return response
 			} catch (e) {
 				console.warn("Cannot fetch " + event.request.url + ", serving from cache", e)
-
-				const cachedResponse = await fallback.match(event.request)
-				if (!cachedResponse) return await caches.match("/offline")
-				return cachedResponse
+				return await fallback.match(event.request) || await caches.match("/offline")
 			}
 		})())
 	}

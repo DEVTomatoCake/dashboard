@@ -95,17 +95,17 @@ const cmdSearch = search => {
 	else document.getElementById("no-cmds-found").setAttribute("hidden", "")
 }
 
-const cmdInfo = (elem, cmd) => {
+const cmdInfo = (elem, command) => {
 	const info = elem.querySelector(".cmd-info")
 	if (info) info.remove()
 	else {
-		const command = commandData.find(c => c.name == cmd)
+		const cmd = commandData.find(c => c.name == command)
 		let html = "<div class='cmd-info'>" +
-			"<p><span translation='commands.category'></span>: " + encode(command.category.charAt(0).toUpperCase() + command.category.slice(1)) + "</p>" +
-			"<p><span translation='commands.usage'></span>: " + encode(command.usage) + "</p>"
+			"<p><span translation='commands.category'></span>: " + encode(cmd.category.charAt(0).toUpperCase() + cmd.category.slice(1)) + "</p>" +
+			"<p><span translation='commands.usage'></span>: " + encode(cmd.usage) + "</p>"
 
-		if (command.aliases.length > 0) html += "<p><span translation='commands.aliases'></span> " + encode(command.aliases.join(", ")) + "</p>"
-		if (command.options) html += "<p><span translation='commands.args'></span><ul>" + command.options.map(o => (
+		if (cmd.aliases.length > 0) html += "<p><span translation='commands.aliases'></span> " + encode(cmd.aliases.join(", ")) + "</p>"
+		if (cmd.options) html += "<p><span translation='commands.args'></span><ul>" + cmd.options.map(o => (
 			"<li>" + encode(o.name) +
 			(o.required ? "<span class='red-text'>*</span>" : "") +
 			(o.type.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o.type) + "</small>") +

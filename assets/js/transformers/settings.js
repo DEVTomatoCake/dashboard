@@ -132,7 +132,6 @@ const settingsTab = tab => {
 let currentInteract
 const threadSelect = elem => {
 	currentInteract = elem.parentElement
-	const channel = pickerData.textchannel[currentInteract.getAttribute("data-id")]
 
 	socket.send({
 		status: "success",
@@ -143,7 +142,7 @@ const threadSelect = elem => {
 	})
 
 	openDialog(document.getElementById("thread-dialog"))
-	document.getElementById("thread-header").textContent = "Thread select: " + encode(channel.name)
+	document.getElementById("thread-header").textContent = "Thread select: " + encode(pickerData.textchannel[currentInteract.getAttribute("data-id")].name)
 	document.getElementById("thread-container").innerHTML = "<div class='loader' title='Source: css-loaders.com - The Dots vs Bars #6'></div>"
 }
 const threadClick = value => {
@@ -402,7 +401,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 
 		if (Array.isArray(setting.value)) {
 			const buttons = parent.querySelectorAll("button.createForm")
-			if (buttons.length > 1) buttons[1].remove()
+			if (buttons[1]) buttons[1].remove()
 			if (parent.childElementCount > 3)
 				parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>")
 		}
@@ -433,9 +432,8 @@ function saveSettings() {
 			})
 		} else if (Array.isArray(setting.value)) {
 			entry = []
-			if (typeof setting.type == "object") {
-				const parent = document.getElementById(setting.key)
-				for (const arrentry of parent.querySelectorAll("div.setgroup")) {
+			if (typeof setting.type == "object")
+				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
 					const temp = {}
 					Object.keys(setting.type).forEach(key => {
 						for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
@@ -451,7 +449,7 @@ function saveSettings() {
 					})
 					if (Object.keys(temp).length > 0) entry.push(temp)
 				}
-			} else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select,channel-picker")) entry.push(objchild.value)
+			else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select,channel-picker")) entry.push(objchild.value)
 		} else if (setting.type == "bool") entry = document.getElementById(setting.key).checked
 		else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value)
 		else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value)

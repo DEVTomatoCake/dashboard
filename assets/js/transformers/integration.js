@@ -184,8 +184,7 @@ function integrationEdit(integrationName) {
 
 let socket
 function integrationDelete(elem, integration = "") {
-	const confirmed = confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")
-	if (confirmed) {
+	if (confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")) {
 		elem.parentElement.parentElement.remove()
 		integrations = integrations.filter(int => int.name != integration)
 		socket.send({status: "success", action: "DELETE_integration", name: integration})
@@ -312,8 +311,8 @@ function createIntegration(sourceId = "") {
 
 	let input = []
 	if (sourceId) {
-		const children = document.getElementById("integration-use-input").children
-		for (const elem of children) input.push(elem.getAttribute("name") + "" + elem.getAttribute("data-desc") + "" + elem.value)
+		for (const elem of document.getElementById("integration-use-input").children)
+			input.push(elem.getAttribute("name") + "" + elem.getAttribute("data-desc") + "" + elem.value)
 	} else input = document.getElementById("integration-input").value.split("\n").map(e => e.trim()).filter(e => e)
 
 	const data = {

@@ -37,8 +37,7 @@ function getLogsHTML(guild) {
 
 const params = new URLSearchParams(location.search)
 const confirmDelete = (elem, log) => {
-	const c = confirm("Do you really want to delete the log \"" + log + "\"?")
-	if (c) {
+	if (confirm("Do you really want to delete the log \"" + log + "\"?")) {
 		get("logs/" + params.get("guild") + "/" + log, true, "DELETE")
 		elem.parentElement.parentElement.remove()
 	}

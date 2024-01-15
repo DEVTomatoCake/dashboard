@@ -17,8 +17,8 @@ function getFormHTML(formId) {
 
 					let text = "<h1 class='center'>Formular ausfüllen: " + encode(json.title) + "</h1><br>"
 					json.fields.forEach(field => {
-						text += "<div id='field-" + encode(field.name) + "-container'" + (field.page && field.page > 1 ? " hidden" : "") + ">"
-						text += "<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label>" +
+						text += "<div id='field-" + encode(field.name) + "-container'" + (field.page && field.page > 1 ? " hidden" : "") + ">" +
+							"<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label>" +
 							(field.required ? "<span class='red-text'>*</span>" : "") + "<br>"
 
 						if (field.type == "short" || field.type == "password" || field.type == "number" || field.type == "range" || field.type == "color")
@@ -181,7 +181,8 @@ const fs = async () => {
 			fields: results,
 			wantAnonymous: document.getElementById("form-anonymous") && document.getElementById("form-anonymous").checked
 		})
-		if (json.status == "success") document.getElementById("root-container").innerHTML = "<h1>Form submitted successfully!</h1>" + (form.submitMessage ? "<br><p>" + encode(form.submitMessage) + "</p>" : "")
+		if (json.status == "success")
+			document.getElementById("root-container").innerHTML = "<h1>Form submitted successfully!</h1>" + (form.submitMessage ? "<br><p>" + encode(form.submitMessage) + "</p>" : "")
 		else {
 			const error = document.createElement("h1")
 			error.innerText = "Your form couldn't be submitted: " + encode(json.message)

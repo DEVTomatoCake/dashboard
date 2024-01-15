@@ -153,6 +153,8 @@ const editDialog = (botId = "") => {
 	openDialog(document.getElementById("edit-dialog"))
 	editingBot = bots.find(b => b.id == botId)
 
+	document.getElementById("edit-donate-slug").value = editingBot.donateSlug
+
 	if (editingBot.canStatus) {
 		document.getElementById("upgrade-status").setAttribute("checked", "")
 		document.getElementById("status-container").removeAttribute("hidden")

@@ -124,14 +124,15 @@
 						<h1>Edit your custom bot</h1>
 
 						<br>
-						<h2>Edit bot token</h2>
+						<label for="edit-token">Edit bot token</label>
 						<input type="text" placeholder="Leave empty to keep the current one" minlength="50" maxlength="90" pattern="^[\-\w]{20,}\.[\-\w]{5,}\.[\-\w]{25,}$" id="edit-token">
 						<br>
 
 						<br>
-						<h2>Custom donate URL</h2>
+						<h2>Custom donate slug</h2>
+						<label for="edit-donate-slug">Slug on which users can donate credits to pay for the bot.</label>
 						<span>https://tomatenkuchen.com/custom-donate?bot=</span>
-						<input type="text" placeholder="Leave empty to keep the current one" maxlength="30" pattern="^[-\w]+$" id="edit-donate-url">
+						<input type="text" maxlength="30" pattern="^[-\w]+$" id="edit-donate-slug">
 						<br>
 
 						<br>
@@ -140,7 +141,7 @@
 						<p>
 							<ion-icon name="cash-outline"></ion-icon>
 							You can see the pricing of these upgrades on the <a href="../custom#upgrades" target="_blank" rel="noopener">custom bot page</a>.
-							Note that the price will only update if the bot is online.
+							Note that the cost displayed on the dashboard is only updated if the bot is online.
 						</p>
 
 						<label for="upgrade-status">Enable a custom and cycling bot status</label>
@@ -150,9 +151,9 @@
 							<a href="https://docs.tomatenkuchen.com/custom-bot/status" target="_blank" rel="noopener">Learn more about the status options</a>
 
 							<label for="status-interval">
-								How often to switch the status to the next one, cannot be less than <code>1m</code> (one minute)
+								How often to switch the status to the next one
 							</label>
-							<input type="text" id="status-interval" value="5m">
+							<input type="text" id="status-interval" value="5m" title="Must be between 1 minute (1m) and 360 minutes (6h)">
 
 							<h4>List of status to cycle through</h4>
 							<input type="text" placeholder="Activity text" id="status-text" minlength="1" maxlength="128">

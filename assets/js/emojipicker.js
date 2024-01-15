@@ -72,8 +72,7 @@ const updateSelected = (elem, value = "") => {
 	})
 	handleChange(elem.parentElement.parentElement.id)
 
-	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline'][title]")
-	for (const icon of threadIcons) icon.remove()
+	for (const icon of elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline'][title]")) icon.remove()
 }
 const updateMultiSelected = (elem, key, value) => {
 	if (elem.parentElement.parentElement.classList.contains("disabled")) return console.warn("Not modifying disabled " + elem.parentElement.parentElement.getAttribute("name"))
@@ -88,8 +87,7 @@ const updateMultiSelected = (elem, key, value) => {
 	})
 	handleChange(elem.parentElement.parentElement.id)
 
-	const threadIcons = elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline'][title]")
-	for (const icon of threadIcons) icon.remove()
+	for (const icon of elem.parentElement.parentElement.querySelectorAll(".list ion-icon[name='reorder-three-outline'][title]")) icon.remove()
 }
 
 class ChannelRolePicker extends HTMLElement {

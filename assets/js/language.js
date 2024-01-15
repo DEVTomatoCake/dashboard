@@ -4,7 +4,11 @@ const getLanguage = () => {
 	if (getCookie("lang")) return getCookie("lang")
 
 	const userLang = navigator.language || navigator.userLanguage
-	return userLang ? (userLang.split("-")[0] == "de" || userLang.split("-")[0] == "fr" || userLang.split("-")[0] == "hu" || userLang.split("-")[0] == "ja" ? userLang.split("-")[0] : "en") : "en"
+	if (userLang) {
+		const lang = userLang.split("-")[0]
+		return lang == "de" || lang == "fr" || lang == "hu" || lang == "ja" ? lang : "en"
+	}
+	return "en"
 }
 
 const resolveValue = (obj, keySplit) => {
@@ -15,8 +19,7 @@ const resolveValue = (obj, keySplit) => {
 const loadLangFile = async language => {
 	if (langCache[language]) return langCache[language]
 
-	const res = await fetch("/assets/lang/" + language + ".json")
-	const json = await res.json()
+	const json = await (await fetch("/assets/lang/" + language + ".json")).json()
 	langCache[language] = json
 	return json
 }

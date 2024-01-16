@@ -1,35 +1,34 @@
 let logs = []
-function getModlogsHTML(guild) {
-	return new Promise(resolve => {
-		get("modlogs/" + guild)
-			.then(json => {
-				if (json.status == "success") {
-					logs = json.data
-					let text =
-						"<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-						"<table cellpadding='8' cellspacing='0'><thead>" +
-						"<tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th>" +
-						"<th translation='logs.actions'></th></tr>" +
-						"</thead><tbody>"
+const getModlogsHTML = async guild => {
+	const json = await get("modlogs/" + guild)
+	if (json.status == "success") {
+		let text = "<h1 class='greeting'><span translation='modlogs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>"
+		if (json.data.length == 0) {
+			document.getElementsByClassName("ticketsearch-container")[0].style.display = "none"
+			return text + "<p>There are no logs for this server!</p>"
+		}
 
-					json.data.forEach(log => {
-						log.cases?.forEach(i => {
-							text +=
-								"<tr class='ticket cmdvisible'>" +
-								"<td>" + encode(i.type) + "</td>" +
-								"<td>" + encode(log.userName || "") + " <br><small>(" + encode(log.userId) + ")</small></td>" +
-								"<td>" + encode(i.modName || "") + " <br><small>(" + encode(i.modId) + ")</small></td>" +
-								"<td class='overflow'>" + encode(i.reason) + "</td>" +
-								"<td><button type='button' onclick='info(\"" + encode(log.userId) + "\",\"" + assertInt(i.date) + "\")' translation='logs.moreinfo'></button></td>" +
-								"</tr>"
-						})
-					})
+		logs = json.data
+		text +=
+			"<table cellpadding='8' cellspacing='0'><thead>" +
+			"<tr><th translation='logs.logtype'></th><th translation='modlogs.user'></th><th translation='modlogs.mod'></th><th translation='modlogs.reason'></th>" +
+			"<th translation='logs.actions'></th></tr>" +
+			"</thead><tbody>"
 
-					resolve(text + "</tbody></table>")
-				} else handleError(resolve, json.message)
-			})
-			.catch(e => handleError(resolve, e))
-	})
+		json.data.forEach(log => {
+			if (log.cases) text += log.cases.map(i =>
+				"<tr class='ticket cmdvisible'>" +
+				"<td>" + encode(i.type) + "</td>" +
+				"<td>" + encode(log.userName || "") + " <br><small>(" + encode(log.userId) + ")</small></td>" +
+				"<td>" + encode(i.modName || "") + " <br><small>(" + encode(i.modId) + ")</small></td>" +
+				"<td class='overflow'>" + encode(i.reason) + "</td>" +
+				"<td><button type='button' onclick='info(\"" + encode(log.userId) + "\",\"" + assertInt(i.date) + "\")' translation='logs.moreinfo'></button></td>" +
+				"</tr>"
+			).join("")
+		})
+
+		return text + "</tbody></table>"
+	} else return handleError(s => s, json.message)
 }
 
 const ticketSearch = () => {

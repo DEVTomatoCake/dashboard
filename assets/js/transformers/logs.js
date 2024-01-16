@@ -1,45 +1,43 @@
 let logs = []
-function getLogsHTML(guild) {
-	return new Promise(resolve => {
-		get("logs/" + guild)
-			.then(json => {
-				if (json.status == "success") {
-					let text = "<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>"
-					if (json.data.length == 0) return resolve(text + "<p>There are no logs for this server!</p>")
+const getLogsHTML = async guild => {
+	const json = await get("logs/" + guild)
+	if (json.status == "success") {
+		let text = "<h1 class='greeting'><span translation='logs.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>"
+		if (json.data.length == 0) {
+			document.getElementsByClassName("ticketsearch-container")[0].style.display = "none"
+			return text + "<p>There are no logs for this server!</p>"
+		}
 
-					text +=
-						"<table cellpadding='8' cellspacing='0'><thead>" +
-						"<tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr>" +
-						"</thead><tbody>"
+		text +=
+			"<table cellpadding='8' cellspacing='0'><thead>" +
+			"<tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr>" +
+			"</thead><tbody>"
 
-					logs = json.data
-					logs.forEach(log => {
-						text +=
-							"<tr class='ticket cmdvisible'>" +
-							"<td>" + encode(log.id) + "</td>" +
-							"<td>" + encode(log.type) + "</td>" +
-							"<td class='overflow'>" + encode(log.message) + "</td>" +
-							"<td>" + (log.source == "dashboard" ? "" : assertInt(log.count).toLocaleString()) + "</td>" +
-							"<td>" +
-								"<button type='button' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
-								((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +
-								"onclick='confirmDelete(this, \"" + encode(log.id) + "\")' translation='logs.delete'></button>" : "") +
-							"</td>" +
-							"</tr>"
-					})
+		logs = json.data
+		logs.forEach(log => {
+			text +=
+				"<tr class='ticket cmdvisible'>" +
+				"<td>" + encode(log.id) + "</td>" +
+				"<td>" + encode(log.type) + "</td>" +
+				"<td class='overflow'>" + encode(log.message) + "</td>" +
+				"<td>" + (log.source == "dashboard" ? "" : assertInt(log.count).toLocaleString()) + "</td>" +
+				"<td>" +
+					"<button type='button' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
+					((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +
+					"onclick='confirmDelete(\"" + encode(log.id) + "\", this)' translation='logs.delete'></button>" : "") +
+				"</td>" +
+				"</tr>"
+		})
 
-					resolve(text + "</tbody></table>")
-				} else handleError(resolve, json.message)
-			})
-			.catch(e => handleError(resolve, e))
-	})
+		return text + "</tbody></table>"
+	} else return handleError(s => s, json.message)
 }
 
 const params = new URLSearchParams(location.search)
-const confirmDelete = (elem, log) => {
+const confirmDelete = (log, elem) => {
 	if (confirm("Do you really want to delete the log \"" + log + "\"?")) {
 		get("logs/" + params.get("guild") + "/" + log, true, "DELETE")
-		elem.parentElement.parentElement.remove()
+		if (elem) elem.parentElement.parentElement.remove()
 	}
 }
 
@@ -66,15 +64,17 @@ function ticketSearch() {
 	}
 }
 
-function info(id) {
+const info = id => {
 	const log = logs.find(l => l.id == id)
 	openDialog(document.getElementById("info-dialog"))
 
 	document.getElementById("info-dialogText").innerHTML =
-		"<b><span translation='logs.logid'></span>:</b> " + log.id +
-		"<br><b><span translation='logs.logtype'></span>:</b> " + log.type +
-		"<br><b><span translation='logs.logmessage'></span>:</b> " + log.message +
-		"<br><b><span translation='logs.amount'></span>:</b> " + log.count.toLocaleString() +
+		"<b><span translation='logs.logid'></span>:</b> <code>" + encode(log.id) + "</code>" +
+		((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +
+			"onclick='confirmDelete(\"" + encode(log.id) + "\")' translation='logs.delete'></button>" : "") +
+		"<br><b><span translation='logs.logtype'></span>:</b> " + encode(log.type) +
+		"<br><b><span translation='logs.logmessage'></span>:</b> " + encode(log.message) +
+		(log.source == "dashboard" ? "" : "<br><b><span translation='logs.amount'></span>:</b> " + log.count.toLocaleString()) +
 		"<br><b translation='logs.firstoccured'></b> " + new Date(log.date).toLocaleString() +
 		(log.lastDate ? "<br><b translation='logs.lastoccured'></b> " + new Date(log.lastDate).toLocaleString() : "") +
 		"<br><b>Log raw data:</b><pre>" + encode(JSON.stringify(log.data, null, "\t")) + "</pre>"

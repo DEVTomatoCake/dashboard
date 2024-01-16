@@ -14,9 +14,13 @@ function getGuildsHTML() {
 						return -1
 					}).map(guild => {
 						return "" +
-							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") + "?guild=" + encode(guild.id) +
-							(target && target.split("?")[1] ? "&" + target.split("?")[1].replace(/[^\w&#=-]/gi, "") : "") + "'>" +
-							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) + " Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
+							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") +
+							"?guild=" + encode(guild.id) +
+							(target && target.split(target.includes("?") ? "?" : "#")[1] ?
+								(target.includes("?") ? "&" : "#") + target.split(target.includes("?") ? "?" : "#")[1].replace(/[^\w&#=-]/gi, "")
+							: "") + "'>" +
+							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) +
+							" Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
 							"<p>" + encode(guild.name) + "</p>" +
 							"</a>"
 					}).join("")

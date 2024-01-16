@@ -251,7 +251,7 @@ function connectWS(guild) {
 				queue.forEach(f => f())
 				queue = []
 
-				if (location.hash != "" && document.getElementById(location.hash.slice(1))) {
+				if (location.hash != "" && document.querySelector("label[for='" + location.hash.slice(1) + "']")) {
 					document.querySelector("label[for='" + location.hash.slice(1) + "']").classList.add("highlight")
 					setTimeout(() => document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true), 100)
 				}

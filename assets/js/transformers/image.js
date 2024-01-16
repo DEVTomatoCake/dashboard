@@ -69,7 +69,6 @@ function handleChange(elem) {
 	else console.log("Unknown element: " + elem.id)
 
 	currentImage.layers[currentImage.layers.indexOf(currentImage.layers.find(layer => layer.id == currentLayer.id))] = currentLayer
-
 	if (elem.id == "layer-name") document.getElementById("layer-" + currentLayer.id).getElementsByTagName("p")[0].innerText = encode(elem.value)
 
 	if (elem.id != "image-name") {
@@ -102,9 +101,9 @@ function editLayer(id = "") {
 	document.getElementById("image-border-radius-text").innerText = "Border radius: " + (currentLayer.borderRadius || 0) + "%"
 
 	document.getElementById("layer-form").value = currentLayer.content
-	document.getElementById("layer-width-form").value = currentLayer.width
-	document.getElementById("layer-height-form").value = currentLayer.height
-	document.getElementById("layer-color-form").value = currentLayer.color || "#000000"
+	document.getElementById("layer-width-form").value = currentLayer.width || 100
+	document.getElementById("layer-height-form").value = currentLayer.height || 100
+	document.getElementById("layer-color-form").value = currentLayer.color ? (currentLayer.color.length == 6 ? "#" + currentLayer.color : currentLayer.color) : "#000000"
 
 	document.getElementById("layer-name").value = currentLayer.name
 	document.getElementById("layer-x").value = currentLayer.x
@@ -139,8 +138,8 @@ function addLayer() {
 	document.getElementById("text-textBaseline").value = "alphabetic"
 
 	document.getElementById("layer-image").value = ""
-	document.getElementById("layer-width-image").value = 300
-	document.getElementById("layer-height-image").value = 300
+	document.getElementById("layer-width-image").value = 500
+	document.getElementById("layer-height-image").value = 250
 	document.getElementById("image-border-radius").value = 0
 	document.getElementById("image-border-radius-text").innerText = "Border radius: 0%"
 
@@ -301,6 +300,9 @@ function saveImage() {
 loadFunc = () => {
 	const canvas = document.getElementById("image-preview")
 	ctx = canvas.getContext("2d")
+	ctx.canvas.width = 500
+	ctx.canvas.height = 250
+
 	dialog = document.getElementById("edit-dialog")
 
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))

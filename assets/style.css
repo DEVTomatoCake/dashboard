@@ -1443,7 +1443,7 @@ a:has(ion-icon), button:has(ion-icon) {
 	padding: 5px;
 	margin-bottom: 15px;
 }
-.creditsMedia:hover {
+.creditsMedia:hover, .creditsMedia:focus {
 	transform: scale(1.2);
 }
 .creditsPackages .creditsMedia {
@@ -1472,7 +1472,7 @@ a:has(ion-icon), button:has(ion-icon) {
 .dialog-content {
 	position: relative;
 	margin: auto;
-	width: 85%;
+	width: 80%;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
 	animation-name: animateDialog;
@@ -1487,7 +1487,7 @@ a:has(ion-icon), button:has(ion-icon) {
 
 @keyframes animateDialog {
 	from {width: 0; opacity: 0;}
-	to {width: 85%; opacity: 1;}
+	to {width: 80%; opacity: 1;}
 }
 
 .close {

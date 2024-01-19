@@ -1,0 +1,16 @@
+#msgeditor-dialog .dialog-content {
+	padding: 10px 10px 0 0;
+	margin: 0 auto;
+	width: 90%;
+	height: 85%;
+	animation-name: animateDialogBig;
+}
+@keyframes animateDialogBig {
+	from {width: 0; opacity: 0;}
+	to {width: 90%; opacity: 1;}
+}
+
+#msgeditor-dialog .dialog-content iframe {
+	width: 98%;
+	height: 98%;
+}

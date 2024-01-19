@@ -57,6 +57,8 @@ function getSettingsHTML(json) {
 						setting.value = [setting.value]
 						temp += addItem(setting.key, void 0, setting.value[0], void 0, true)
 					}
+
+					if (setting.type.footericon) temp += "<div onclick='toggleMsgEditor(\"" + setting.key + "\")'>Message-Editor öffnen</div>"
 					temp += "</div><br>"
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"

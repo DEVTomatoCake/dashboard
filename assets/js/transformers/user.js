@@ -15,7 +15,7 @@ loadFunc = async () => {
 				"You currently have <b>" + json.credits.toLocaleString() + " credits</b>.</p><br><h3 translation='user.votelinks'></h3>" +
 				"<ul>" + json.votes.filter(site => site.status != 0 && !site.mb).map(formatVote).join("") + "</ul>"
 			document.getElementById("vote-mb").innerHTML = "<ul>" + json.votes.filter(site => site.status != 0 && site.mb).map(formatVote).join("") + "</ul>"
-		} else return handleError(resolve, json.message)
+		} else document.getElementById("vote-tk").innerHTML = handleError(json.message)
 
 		reloadText()
 	} else {

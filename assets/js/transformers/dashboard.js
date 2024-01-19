@@ -1,35 +1,28 @@
-function getGuildsHTML() {
-	return new Promise(resolve => {
-		get("guilds")
-			.then(json => {
-				if (json.status == "success") {
-					if (json.data.length == 0) return resolve("<h1 translation='dashboard.noservers'></h1>")
-					document.querySelector("p[translation='dashboard.selectpage']").removeAttribute("hidden")
-					document.getElementsByClassName("page-select")[0].removeAttribute("hidden")
+const getGuildsHTML = async () => {
+	const json = await get("guilds")
+	if (json.status == "success") {
+		if (json.data.length == 0) return "<h1 translation='dashboard.noservers'></h1>"
+		document.querySelector("p[translation='dashboard.selectpage']").removeAttribute("hidden")
+		document.getElementsByClassName("page-select")[0].removeAttribute("hidden")
 
-					const target = localStorage.getItem("next")
-					const text = json.data.sort((a, b) => {
-						if (a.active && b.active) return 0
-						if (!a.active && b.active) return 1
-						return -1
-					}).map(guild => {
-						return "" +
-							"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") +
-							"?guild=" + encode(guild.id) +
-							(target && target.split(target.includes("?") ? "?" : "#")[1] ?
-								(target.includes("?") ? "&" : "#") + target.split(target.includes("?") ? "?" : "#")[1].replace(/[^\w&#=-]/gi, "")
-							: "") + "'>" +
-							"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) +
-							" Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
-							"<p>" + encode(guild.name) + "</p>" +
-							"</a>"
-					}).join("")
-
-					resolve(text)
-				} else handleError(resolve, json.message)
-			})
-			.catch(e => handleError(resolve, e))
-	})
+		const target = localStorage.getItem("next")
+		return json.data.sort((a, b) => {
+			if (a.active && b.active) return 0
+			if (!a.active && b.active) return 1
+			return -1
+		}).map(guild => {
+			return "" +
+				"<a class='guild-select' title='" + encode(guild.name) + "' href='/" + (guild.active ? "dashboard/settings" : "invite") +
+				"?guild=" + encode(guild.id) +
+				(target && target.split(target.includes("?") ? "?" : "#")[1] ?
+					(target.includes("?") ? "&" : "#") + target.split(target.includes("?") ? "?" : "#")[1].replace(/[^\w&#=-]/gi, "")
+				: "") + "'>" +
+				"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) +
+				" Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
+				"<p>" + encode(guild.name) + "</p>" +
+				"</a>"
+		}).join("")
+	} else return handleError(json.message)
 }
 
 const changePage = elem => {
@@ -62,7 +55,7 @@ const login = code => {
 }
 
 const params = new URLSearchParams(location.search)
-loadFunc = () => {
+loadFunc = async () => {
 	if (getCookie("token") && (params.has("guild") || params.has("guild_id"))) {
 		document.getElementById("root-container").innerHTML = "<h1>Loading server settings...</h1>"
 		location.href = "/dashboard/settings?guild=" + encode(params.get("guild") || params.get("guild_id"))
@@ -81,18 +74,17 @@ loadFunc = () => {
 			}
 		})
 	} else if (getCookie("token")) {
-		getGuildsHTML().then(html => {
-			document.getElementById("guilds-container").innerHTML = html
-			reloadText()
+		const html = await getGuildsHTML()
+		document.getElementById("guilds-container").innerHTML = html
+		reloadText()
 
-			if (localStorage.getItem("next") && localStorage.getItem("next") != "/dashboard") {
-				const pages = document.getElementsByClassName("page-select")[0]
-				const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2].split("?")[0] + "']") ||
-					pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1].split("?")[0] + "']")
-				if (elem) changePage(elem)
-				localStorage.removeItem("next")
-			}
-		})
+		if (localStorage.getItem("next") && localStorage.getItem("next") != "/dashboard") {
+			const pages = document.getElementsByClassName("page-select")[0]
+			const elem = pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[2].split("?")[0] + "']") ||
+				pages.querySelector("[data-target='" + localStorage.getItem("next").split("/")[1].split("?")[0] + "']")
+			if (elem) changePage(elem)
+			localStorage.removeItem("next")
+		}
 	} else if (params.has("code")) {
 		document.getElementById("root-container").innerHTML = "<h1>Logging you in...</h1>"
 

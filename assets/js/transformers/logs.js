@@ -30,7 +30,7 @@ const getLogsHTML = async guild => {
 		})
 
 		return text + "</tbody></table>"
-	} else return handleError(s => s, json.message)
+	} else return handleError(json.message)
 }
 
 const params = new URLSearchParams(location.search)

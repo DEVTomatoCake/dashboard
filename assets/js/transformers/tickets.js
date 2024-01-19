@@ -51,31 +51,24 @@ const sortTable = prop => {
 	reloadText()
 }
 
-function getTicketsHTML(guild) {
-	return new Promise(resolve => {
-		get("tickets/" + guild)
-			.then(json => {
-				if (json.status == "success") {
-					tickets = json.data
+const getTicketsHTML = async guild => {
+	const json = await get("tickets/" + guild)
+	if (json.status == "success") {
+		tickets = json.data
 
-					resolve(
-						"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-						"<table cellpadding='8' cellspacing='0'><thead>" +
-						"<tr>" +
-						"<th id='sort-ticketid' class='sortable' onclick='sortTable(\"ticketid\")'>ID & Transcript <ion-icon name='filter-outline'></ion-icon></th>" +
-						"<th translation='tickets.table.user'></th>" +
-						"<th id='sort-createdAt' class='sortable' onclick='sortTable(\"createdAt\")'>Creation date <ion-icon name='filter-outline'></ion-icon></th>" +
-						"<th id='sort-state' class='sortable' onclick='sortTable(\"state\")'><span translation='tickets.table.state'></span> <ion-icon name='filter-outline'></ion-icon></th>" +
-						"<th translation='logs.actions'></th>" +
-						"</tr>" +
-						"</thead><tbody id='table-sortable'>" +
-						ticketTable(tickets) +
-						"</tbody></table>"
-					)
-				} else handleError(resolve, json.message)
-			})
-			.catch(e => handleError(resolve, e))
-	})
+		return "<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+			"<table cellpadding='8' cellspacing='0'><thead>" +
+			"<tr>" +
+			"<th id='sort-ticketid' class='sortable' onclick='sortTable(\"ticketid\")'>ID & Transcript <ion-icon name='filter-outline'></ion-icon></th>" +
+			"<th translation='tickets.table.user'></th>" +
+			"<th id='sort-createdAt' class='sortable' onclick='sortTable(\"createdAt\")'>Creation date <ion-icon name='filter-outline'></ion-icon></th>" +
+			"<th id='sort-state' class='sortable' onclick='sortTable(\"state\")'><span translation='tickets.table.state'></span> <ion-icon name='filter-outline'></ion-icon></th>" +
+			"<th translation='logs.actions'></th>" +
+			"</tr>" +
+			"</thead><tbody id='table-sortable'>" +
+			ticketTable(tickets) +
+			"</tbody></table>"
+	} else return handleError(json.message)
 }
 
 async function ticketSearch() {
@@ -109,15 +102,14 @@ async function ticketSearch() {
 	}
 }
 
-loadFunc = () => {
+loadFunc = async () => {
 	const params = new URLSearchParams(location.search)
-	if (params.has("guild") && getCookie("token"))
-		getTicketsHTML(params.get("guild")).then(data => {
-			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
-			document.getElementById("root-container").innerHTML = data
-			reloadText()
-		})
-	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
+	if (params.has("guild") && getCookie("token")) {
+		const html = await getTicketsHTML(params.get("guild"))
+		document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
+		document.getElementById("root-container").innerHTML = html
+		reloadText()
+	} else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>"
 		localStorage.setItem("next", location.pathname + location.search + location.hash)

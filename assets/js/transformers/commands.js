@@ -1,46 +1,41 @@
 let commandData = []
 
-const getCommandsHTML = () => {
-	return new Promise((resolve => {
-		get("commands?lang=" + getLanguage(), false)
-			.then(json => {
-				if (json.status == "success") {
-					commandData = json.data
-					let text = ""
-					const categories = []
-					const categoryData = []
+const getCommandsHTML = async () => {
+	const json = await get("commands?lang=" + getLanguage(), false)
+	if (json.status == "success") {
+		commandData = json.data
+		let text = ""
+		const categories = []
+		const categoryData = []
 
-					json.data.filter(cmd => cmd.category != "owner").forEach(cmd => {
-						const temp =
-							"<tr class='command cmdvisible' data-category='" + encode(cmd.category) +
-							"' onclick='cmdInfo(this, \"" + encode(cmd.name) + "\")'>" +
-							"<td>" + encode(cmd.name) + "</td>" +
-							"<td>" + encode(cmd.desc) + "</td>" +
-							"</tr>"
+		json.data.filter(cmd => cmd.category != "owner").forEach(cmd => {
+			const temp =
+				"<tr class='command cmdvisible' data-category='" + encode(cmd.category) +
+				"' onclick='cmdInfo(this, \"" + encode(cmd.name) + "\")'>" +
+				"<td>" + encode(cmd.name) + "</td>" +
+				"<td>" + encode(cmd.desc) + "</td>" +
+				"</tr>"
 
-						if (!categories.includes(cmd.category)) categories.push(cmd.category)
-						categoryData.push([cmd.category, temp])
-					})
+			if (!categories.includes(cmd.category)) categories.push(cmd.category)
+			categoryData.push([cmd.category, temp])
+		})
 
-					categories.forEach(category => {
-						text +=
-							"<h2 id='" + encode(category) + "_title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
-							"<button type='button' id='" + encode(category) + "_tb' onclick='toggleCategory(\"" +
-							encode(category) + "\")' translation='commands.hide'></button>" +
-							"<table cellpadding='8' cellspacing='0' class='category' id='" + encode(category) + "'>" +
-							"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>"
+		categories.forEach(category => {
+			text +=
+				"<h2 id='" + encode(category) + "_title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
+				"<button type='button' id='" + encode(category) + "_tb' onclick='toggleCategory(\"" +
+				encode(category) + "\")' translation='commands.hide'></button>" +
+				"<table cellpadding='8' cellspacing='0' class='category' id='" + encode(category) + "'>" +
+				"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>"
 
-						categoryData.forEach(data => {
-							if (category == data[0]) text += data[1]
-						})
-						text += "</tbody></table><br id='" + encode(category) + "_br'>"
-					})
-
-					resolve(text)
-				} else handleError(resolve, json.message)
+			categoryData.forEach(data => {
+				if (category == data[0]) text += data[1]
 			})
-			.catch(e => handleError(resolve, e))
-	}))
+			text += "</tbody></table><br id='" + encode(category) + "_br'>"
+		})
+
+		return text
+	} else return handleError(json.message)
 }
 
 const cmdSearch = search => {
@@ -136,20 +131,19 @@ const toggleCategory = category => {
 	reloadText()
 }
 
-loadFunc = () => {
-	getCommandsHTML().then(html => {
-		document.getElementById("linksidebar").innerHTML +=
-			"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
-			"<div class='tab' id='tab-ticket' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
-			"<div class='tab' id='tab-fun' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-			"<div class='tab' id='tab-suggest' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
-			"<div class='tab' id='tab-economy' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
-			"<div class='tab' id='tab-moderation' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
-			"<div class='tab' id='tab-info' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
-			"<div class='tab' id='tab-admin' onclick='cmdSearch(\"admin\", true)'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
-			"</div>"
+loadFunc = async () => {
+	const html = await getCommandsHTML()
+	document.getElementById("linksidebar").innerHTML +=
+		"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
+		"<div class='tab' id='tab-ticket' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
+		"<div class='tab' id='tab-fun' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
+		"<div class='tab' id='tab-suggest' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+		"<div class='tab' id='tab-economy' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
+		"<div class='tab' id='tab-moderation' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
+		"<div class='tab' id='tab-info' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
+		"<div class='tab' id='tab-admin' onclick='cmdSearch(\"admin\", true)'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
+		"</div>"
 
-		document.getElementById("commands-container").innerHTML = html
-		reloadText()
-	})
+	document.getElementById("commands-container").innerHTML = html
+	reloadText()
 }

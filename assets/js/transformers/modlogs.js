@@ -28,7 +28,7 @@ const getModlogsHTML = async guild => {
 		})
 
 		return text + "</tbody></table>"
-	} else return handleError(s => s, json.message)
+	} else return handleError(json.message)
 }
 
 const ticketSearch = () => {

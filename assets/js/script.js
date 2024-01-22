@@ -1,3 +1,8 @@
+const documentCopy = document
+let documentBody = null
+let documentGetElementById = null
+const locationCopy = location
+
 const url = "https://api.tomatenkuchen.com/api/"
 async function get(component, auth = true, method = "GET", body = null) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
@@ -18,20 +23,20 @@ function setCookie(name, value = "", days, global = false) {
 
 	let cookie = name + "=" + value + ";path=/;Secure;"
 	if (days) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
-	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
+	if (global && locationCopy.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
 
-	document.cookie = cookie
+	documentCopy.cookie = cookie
 }
 function getCookie(name) {
-	for (const rawCookie of document.cookie.split(";")) {
+	for (const rawCookie of documentCopy.cookie.split(";")) {
 		const cookie = rawCookie.trim()
 		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
 	}
 	return void 0
 }
 function deleteCookie(name) {
-	document.cookie = name + "=;Max-Age=-99999999;path=/;"
-	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
+	documentCopy.cookie = name + "=;Max-Age=-99999999;path=/;"
+	documentCopy.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
 let loadFunc = () => {}
@@ -186,28 +191,28 @@ let sideState = 0
 function sidebar() {
 	sideState++
 
-	document.getElementById("lineTop2").classList.add("rotated1")
-	document.getElementById("lineBottom2").classList.add("rotated2")
+	documentGetElementById("lineTop2").classList.add("rotated1")
+	documentGetElementById("lineBottom2").classList.add("rotated2")
 
-	document.getElementById("lineTop1").classList.add("rotated1")
-	document.getElementById("lineBottom1").classList.add("rotated2")
+	documentGetElementById("lineTop1").classList.add("rotated1")
+	documentGetElementById("lineBottom1").classList.add("rotated2")
 
 	if (sideState % 2 == 0) {
 		setTimeout(() => {
-			document.getElementById("content").classList.remove("no-padding")
-			document.getElementById("sidebar-container").classList.add("visible")
+			documentGetElementById("content").classList.remove("no-padding")
+			documentGetElementById("sidebar-container").classList.add("visible")
 		}, 300)
 	} else {
-		document.getElementById("content").classList.add("no-padding")
+		documentGetElementById("content").classList.add("no-padding")
 
-		document.getElementById("lineTop2").classList.remove("rotated1")
-		document.getElementById("lineBottom2").classList.remove("rotated2")
+		documentGetElementById("lineTop2").classList.remove("rotated1")
+		documentGetElementById("lineBottom2").classList.remove("rotated2")
 
-		document.getElementById("lineTop1").classList.remove("rotated1")
-		document.getElementById("lineBottom1").classList.remove("rotated2")
+		documentGetElementById("lineTop1").classList.remove("rotated1")
+		documentGetElementById("lineBottom1").classList.remove("rotated2")
 
 		setTimeout(() => {
-			document.getElementById("sidebar-container").classList.remove("visible")
+			documentGetElementById("sidebar-container").classList.remove("visible")
 		}, 100)
 	}
 }
@@ -240,8 +245,11 @@ let headerTimeout
 let prevScroll = 0
 
 function pageLoad() {
-	if (!getCookie("cookie-dismiss") && location.hash != "#no-cookie-popup") {
-		document.body.innerHTML +=
+	documentBody = documentCopy.body
+	documentGetElementById = documentCopy.getElementById.bind(documentCopy)
+
+	if (!getCookie("cookie-dismiss") && locationCopy.hash != "#no-cookie-popup") {
+		documentBody.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
 			"<p>We only use the following cookies on this website - it's your choice.<br>Essential cookies:</p>" +
@@ -251,55 +259,55 @@ function pageLoad() {
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
 			"</div>"
-		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
+		setTimeout(() => fadeIn(documentGetElementById("cookie-container")), 1000)
 	}
 
 	if (screen.width <= 600) {
-		document.getElementById("content").classList.add("no-padding")
+		documentGetElementById("content").classList.add("no-padding")
 		sideState = 1
 	}
 
-	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
+	if (getCookie("theme") == "light") documentBody.classList.replace("dark-theme", "light-theme")
 	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
-		document.body.classList.replace("dark-theme", "light-theme")
+		documentBody.classList.replace("dark-theme", "light-theme")
 		setCookie("theme", "light", 365, true)
-	} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
+	} else if (getCookie("theme") == "dark") documentGetElementById("theme-toggle").checked = true
 
 	if (getCookie("user")) {
-		document.getElementsByClassName("account")[0].removeAttribute("onclick")
+		documentCopy.getElementsByClassName("account")[0].removeAttribute("onclick")
 
-		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
+		documentCopy.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
 			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
 			//"<a href='/dashboard/custom'>Custom bots</a>" +
 			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
 
-		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
+		if (getCookie("avatar")) documentCopy.getElementsByClassName("account")[0].innerHTML +=
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"user-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
-		else document.getElementById("user-avatar").classList.add("visible")
-	} else document.getElementById("user-avatar").classList.add("visible")
+			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='documentGetElementById(\"user-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
+		else documentGetElementById("user-avatar").classList.add("visible")
+	} else documentGetElementById("user-avatar").classList.add("visible")
 
 	setTimeout(() => {
-		document.getElementById("theme-toggle").addEventListener("change", () => {
-			if (document.body.classList.contains("light-theme")) {
-				document.body.classList.replace("light-theme", "dark-theme")
+		documentGetElementById("theme-toggle").addEventListener("change", () => {
+			if (documentBody.classList.contains("light-theme")) {
+				documentBody.classList.replace("light-theme", "dark-theme")
 				setCookie("theme", "dark", 365, true)
 			} else {
-				document.body.classList.replace("dark-theme", "light-theme")
+				documentBody.classList.replace("dark-theme", "light-theme")
 				setCookie("theme", "light", 365, true)
 			}
-			document.querySelectorAll("emoji-picker").forEach(picker => {
+			documentCopy.querySelectorAll("emoji-picker").forEach(picker => {
 				picker.classList.toggle("light")
 			})
 		})
 	}, 300)
 
-	if (!window.matchMedia("(prefers-reduced-motion: reduced)").matches && screen.height <= 600) document.body.addEventListener("scroll", () => {
+	if (!window.matchMedia("(prefers-reduced-motion: reduced)").matches && screen.height <= 600) documentBody.addEventListener("scroll", () => {
 		if (!headerTimeout) headerTimeout = setTimeout(() => {
-			if (document.body.scrollTop > prevScroll) document.getElementsByTagName("header")[0].classList.add("scroll-down")
-			else document.getElementsByTagName("header")[0].classList.remove("scroll-down")
+			if (documentBody.scrollTop > prevScroll) documentCopy.getElementsByTagName("header")[0].classList.add("scroll-down")
+			else documentCopy.getElementsByTagName("header")[0].classList.remove("scroll-down")
 
-			prevScroll = document.body.scrollTop
+			prevScroll = documentBody.scrollTop
 			headerTimeout = void 0
 		}, 200)
 	}, false)
@@ -308,8 +316,8 @@ function pageLoad() {
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 
-	let script = document.createElement("script")
+	let script = documentCopy.createElement("script")
 	script.src = "/assets/js/instantpage-5.2.0.js"
 	script.type = "module"
-	document.body.appendChild(script)
+	documentBody.appendChild(script)
 }

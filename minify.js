@@ -16,12 +16,7 @@ const defaultOptions = {
 		unsafe_regexp: true
 	},
 	nameCache,
-	mangle: {
-		properties: {
-			builtins: true,
-			domprops: true
-		}
-	}
+	mangle: true
 }
 
 async function main() {

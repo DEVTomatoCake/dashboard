@@ -7,11 +7,13 @@ let _allowQueryString,
 	_preloadedList = new Set()
 
 const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
+const documentCopy = document
+const locationCopy = location
 
 init()
 
 function init() {
-	if (!document.createElement("link").relList.supports("prefetch")) {
+	if (!documentCopy.createElement("link").relList.supports("prefetch")) {
 		return
 	}
 	// instant.page is meant to be loaded with <script type=module>
@@ -25,15 +27,15 @@ function init() {
 	// but module scripts support implies this compatibility — except in Safari
 	// 10.1–12.0, but this prefetch check takes care of it.
 
-	_allowQueryString = "instantAllowQueryString" in document.body.dataset
+	_allowQueryString = "instantAllowQueryString" in documentCopy.body.dataset
 
 	const eventListenersOptions = {
 		capture: true,
 		passive: true
 	}
 
-	document.addEventListener("touchstart", touchstartListener, eventListenersOptions)
-	document.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
+	documentCopy.addEventListener("touchstart", touchstartListener, eventListenersOptions)
+	documentCopy.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
 }
 
 function touchstartListener(event) {
@@ -89,7 +91,7 @@ function isPreloadable(anchorElement) {
 		return
 	}
 
-	if (anchorElement.origin != location.origin) {
+	if (anchorElement.origin != locationCopy.origin) {
 		return
 	}
 
@@ -97,7 +99,7 @@ function isPreloadable(anchorElement) {
 		return
 	}
 
-	if (anchorElement.protocol == "http:" && location.protocol == "https:") {
+	if (anchorElement.protocol == "http:" && locationCopy.protocol == "https:") {
 		return
 	}
 
@@ -105,7 +107,7 @@ function isPreloadable(anchorElement) {
 		return
 	}
 
-	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == location.pathname + location.search) {
+	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == locationCopy.pathname + locationCopy.search) {
 		return
 	}
 
@@ -121,7 +123,7 @@ function preload(url) {
 		return
 	}
 
-	const linkElement = document.createElement("link")
+	const linkElement = documentCopy.createElement("link")
 	linkElement.rel = "prefetch"
 	linkElement.href = url
 
@@ -148,7 +150,7 @@ function preload(url) {
 	// unlike regular prefetch. That’s good for prefetching on a touch/mouse
 	// event, but might be bad when prefetching every link in the viewport.
 
-	document.head.appendChild(linkElement)
+	documentCopy.head.appendChild(linkElement)
 
 	_preloadedList.add(url)
 }

@@ -1,8 +1,8 @@
 /*! instant.page v5.2.0 - (C) 2019-2023 Alexandre Dieulot - https://instant.page/license */
 // Modified by TomatoCake from https://github.com/instantpage/instant.page/blob/3525715c22373886567c3f62faf5a00e4380b566/instantpage.js
 
-let _lastTouchTimestamp
-const _preloadedList = new Set()
+let lastTouchTimestamp
+const preloadedList = new Set()
 
 const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
 const documentCopy = document
@@ -35,7 +35,7 @@ function init() {
 }
 
 function touchstartListener(event) {
-	_lastTouchTimestamp = performance.now()
+	lastTouchTimestamp = performance.now()
 	// Chrome on Android triggers mouseover before touchcancel, so
 	// `_lastTouchTimestamp` must be assigned on touchstart to be measured
 	// on mouseover.
@@ -51,7 +51,7 @@ function touchstartListener(event) {
 
 const preloadTimeouts = {}
 function mouseoverListener(event) {
-	if (performance.now() - _lastTouchTimestamp < DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION) {
+	if (performance.now() - lastTouchTimestamp < DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION) {
 		return
 	}
 
@@ -72,7 +72,7 @@ function mouseoverListener(event) {
 
 	preloadTimeouts[anchorElement.href] = setTimeout(() => {
 		preload(anchorElement.href)
-	}, 130)
+	}, 120)
 }
 
 function mouseoutListener(event) {
@@ -111,7 +111,7 @@ function isPreloadable(anchorElement) {
 		return
 	}
 
-	if (_preloadedList.has(anchorElement.href)) {
+	if (preloadedList.has(anchorElement.href)) {
 		return
 	}
 
@@ -119,7 +119,7 @@ function isPreloadable(anchorElement) {
 }
 
 function preload(url) {
-	if (_preloadedList.has(url)) {
+	if (preloadedList.has(url)) {
 		return
 	}
 
@@ -152,5 +152,5 @@ function preload(url) {
 
 	documentCopy.head.appendChild(linkElement)
 
-	_preloadedList.add(url)
+	preloadedList.add(url)
 }

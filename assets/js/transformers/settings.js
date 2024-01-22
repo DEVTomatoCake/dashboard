@@ -322,7 +322,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
 		Object.keys(setting.type).forEach(setKey => {
 			if (setting.embed && embedKeys.has(setKey)) {
-				if (setKey == "content") html += "<div class='userData' onclick='toggleMsgEditor(\"" + setting.key + "\")'>Message-Editor öffnen</div>"
+				if (setKey == "content") html += "<button class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "-" + key + "\")'><ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
 				return
 			}
 

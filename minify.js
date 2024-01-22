@@ -1,32 +1,34 @@
 const fsPromises = require("node:fs").promises
 const UglifyJS = require("uglify-js")
 
-//(await fsPromises.readdir("./assets/js/transformers")).filter(file => file.endsWith(".js")).map(file => "./assets/js/transformers/" + file)
 const nameCache = {}
+const defaultOptions = {
+	warnings: "verbose",
+	parse: {
+		shebang: false
+	},
+	compress: {
+		passes: 2,
+		unsafe: true,
+		unsafe_Function: true,
+		unsafe_math: true,
+		unsafe_proto: true,
+		unsafe_regexp: true
+	},
+	nameCache,
+	mangle: true
+}
 
 async function main() {
-	const result = UglifyJS.minify({
+	let result = UglifyJS.minify({
 		"script.js": await fsPromises.readFile("./assets/js/script.js", "utf8")
 	}, {
-		warnings: "verbose",
 		sourceMap: {
 			root: "https://tomatenkuchen.com/assets/js/",
 			filename: "script.js",
 			url: "script.js.map"
 		},
-		parse: {
-			shebang: false
-		},
-		compress: {
-			passes: 2,
-			unsafe: true,
-			unsafe_Function: true,
-			unsafe_math: true,
-			unsafe_proto: true,
-			unsafe_regexp: true
-		},
-		mangle: true,
-		nameCache
+		...defaultOptions
 	})
 	if (result.error) throw result.error
 	if (result.warnings) console.log(result.warnings)
@@ -34,6 +36,24 @@ async function main() {
 	if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile("./assets/js/script.js", result.code)
 		await fsPromises.writeFile("./assets/js/script.js.map", result.map)
+	}
+
+	result = UglifyJS.minify({
+		"instantpage-5.2.0.js": await fsPromises.readFile("./assets/js/instantpage-5.2.0.js", "utf8")
+	}, {
+		sourceMap: {
+			root: "https://tomatenkuchen.com/assets/js/",
+			filename: "instantpage-5.2.0.js",
+			url: "instantpage-5.2.0.js.map"
+		},
+		...defaultOptions
+	})
+	if (result.error) throw result.error
+	if (result.warnings) console.log(result.warnings)
+
+	if (process.env.MINIFY_ENABLED) {
+		await fsPromises.writeFile("./assets/js/instantpage-5.2.0.js", result.code)
+		await fsPromises.writeFile("./assets/js/instantpage-5.2.0.js.map", result.map)
 	}
 }
 main()

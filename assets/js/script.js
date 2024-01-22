@@ -98,15 +98,15 @@ class Sidebar extends HTMLElement {
 				"<button type='button' onclick='location = \"/invite\"' translation='sidebar.invite'></button>" +
 
 				"<div id='linksidebar' class='section'>" +
-					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active" : "") + "'>" +
+					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active' data-no-instant" : "'") + ">" +
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +
-					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active" : "") + "'>" +
+					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active' data-no-instant" : "'") + ">" +
 						"<ion-icon name='terminal-outline'></ion-icon>" +
 						"<p translation='sidebar.commands'></p>" +
 					"</a>" +
-					"<a href='/dashboard' class='tab" + (dashboard || this.getAttribute("page") == "dashboard" ? " active" : "") + "'>" +
+					"<a href='/dashboard' class='tab" + (dashboard || this.getAttribute("page") == "dashboard" ? " active' data-no-instant" : "'") + ">" +
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
@@ -307,4 +307,9 @@ function pageLoad() {
 	loadFunc()
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
+
+	let script = document.createElement("script")
+	script.src = "/assets/js/instantpage-5.2.0.js"
+	script.type = "module"
+	document.body.appendChild(script)
 }

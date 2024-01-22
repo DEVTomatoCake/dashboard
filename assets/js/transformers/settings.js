@@ -58,7 +58,6 @@ function getSettingsHTML(json) {
 						temp += addItem(setting.key, void 0, setting.value[0], void 0, true)
 					}
 
-					if (setting.type.footericon) temp += "<div onclick='toggleMsgEditor(\"" + setting.key + "\")'>Message-Editor öffnen</div>"
 					temp += "</div><br>"
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"
@@ -289,6 +288,7 @@ function connectWS(guild) {
 	})
 }
 
+const embedKeys = new Set(["content", "author", "authoricon", "color", "title", "description", "image", "thumbnail", "footer", "footericon"])
 const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
 const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
 
@@ -321,6 +321,11 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
 		Object.keys(setting.type).forEach(setKey => {
+			if (setting.embed && embedKeys.has(setKey)) {
+				if (setKey == "content") html += "<div class='userData' onclick='toggleMsgEditor(\"" + setting.key + "\")'>Message-Editor öffnen</div>"
+				return
+			}
+
 			html += "<div><label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>"
 			if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 				"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +

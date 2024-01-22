@@ -928,7 +928,7 @@ input:focus {
 	box-shadow: 0 0 6px 3px var(--secondary-color);
 }
 input:invalid, input:out-of-range, input.invalid {
-	border: red solid 2px;
+	border: #f00 solid 2px;
 }
 
 input[type="checkbox"]:not(#theme-toggle), input[type="radio"] {
@@ -1098,7 +1098,7 @@ pre {
 }
 
 #image-preview {
-	background-color: white;
+	background-color: #fff;
 	position: sticky;
 	right: 0;
 	top: 0;

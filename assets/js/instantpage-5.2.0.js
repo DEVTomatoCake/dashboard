@@ -1,19 +1,18 @@
 /*! instant.page v5.2.0 - (C) 2019-2023 Alexandre Dieulot - https://instant.page/license */
 // Modified by TomatoCake from https://github.com/instantpage/instant.page/blob/3525715c22373886567c3f62faf5a00e4380b566/instantpage.js
 
-let _chromiumMajorVersionInUserAgent = null,
-	_allowQueryString,
-	_delayOnHover = 65,
+let _allowQueryString,
 	_lastTouchTimestamp,
 	_mouseoverTimer,
 	_preloadedList = new Set()
 
 const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
+const documentCopy = document
 
 init()
 
 function init() {
-	if (!document.createElement("link").relList.supports("prefetch")) {
+	if (!documentCopy.createElement("link").relList.supports("prefetch")) {
 		return
 	}
 	// instant.page is meant to be loaded with <script type=module>
@@ -27,26 +26,15 @@ function init() {
 	// but module scripts support implies this compatibility — except in Safari
 	// 10.1–12.0, but this prefetch check takes care of it.
 
-	const chromiumUserAgentIndex = navigator.userAgent.indexOf("Chrome/")
-	if (chromiumUserAgentIndex > -1) {
-		_chromiumMajorVersionInUserAgent = parseInt(navigator.userAgent.substring(chromiumUserAgentIndex + "Chrome/".length))
-	}
-	// The user agent client hints API is a theoretically more reliable way to
-	// get Chromium’s version… but it’s not available in Samsung Internet 20.
-	// It also requires a secure context, which would make debugging harder,
-	// and is only available in recent Chromium versions.
-	// In practice, Chromium browsers never shy from announcing "Chrome" in
-	// their regular user agent string, as that maximizes their compatibility.
-
-	_allowQueryString = "instantAllowQueryString" in document.body.dataset
+	_allowQueryString = "instantAllowQueryString" in documentCopy.body.dataset
 
 	const eventListenersOptions = {
 		capture: true,
 		passive: true
 	}
 
-	document.addEventListener("touchstart", touchstartListener, eventListenersOptions)
-	document.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
+	documentCopy.addEventListener("touchstart", touchstartListener, eventListenersOptions)
+	documentCopy.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
 }
 
 function touchstartListener(event) {
@@ -61,7 +49,7 @@ function touchstartListener(event) {
 		return
 	}
 
-	preload(anchorElement.href, "high")
+	preload(anchorElement.href)
 }
 
 function mouseoverListener(event) {
@@ -81,9 +69,9 @@ function mouseoverListener(event) {
 	anchorElement.addEventListener("mouseout", mouseoutListener, {passive: true})
 
 	_mouseoverTimer = setTimeout(() => {
-		preload(anchorElement.href, "high")
+		preload(anchorElement.href)
 		_mouseoverTimer = void 0
-	}, _delayOnHover)
+	}, 50)
 }
 
 function mouseoutListener(event) {
@@ -129,16 +117,16 @@ function isPreloadable(anchorElement) {
 	return true
 }
 
-function preload(url, fetchPriority = "auto") {
+function preload(url) {
 	if (_preloadedList.has(url)) {
 		return
 	}
 
-	const linkElement = document.createElement("link")
+	const linkElement = documentCopy.createElement("link")
 	linkElement.rel = "prefetch"
 	linkElement.href = url
 
-	linkElement.fetchPriority = fetchPriority
+	linkElement.fetchPriority = "high"
 	// By default, a prefetch is loaded with a low priority.
 	// When there’s a fair chance that this prefetch is going to be used in the
 	// near term (= after a touch/mouse event), giving it a high priority helps
@@ -161,7 +149,7 @@ function preload(url, fetchPriority = "auto") {
 	// unlike regular prefetch. That’s good for prefetching on a touch/mouse
 	// event, but might be bad when prefetching every link in the viewport.
 
-	document.head.appendChild(linkElement)
+	documentCopy.head.appendChild(linkElement)
 
 	_preloadedList.add(url)
 }

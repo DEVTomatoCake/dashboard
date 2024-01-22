@@ -7,12 +7,11 @@ let _allowQueryString,
 	_preloadedList = new Set()
 
 const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
-const documentCopy = document
 
 init()
 
 function init() {
-	if (!documentCopy.createElement("link").relList.supports("prefetch")) {
+	if (!document.createElement("link").relList.supports("prefetch")) {
 		return
 	}
 	// instant.page is meant to be loaded with <script type=module>
@@ -26,15 +25,15 @@ function init() {
 	// but module scripts support implies this compatibility — except in Safari
 	// 10.1–12.0, but this prefetch check takes care of it.
 
-	_allowQueryString = "instantAllowQueryString" in documentCopy.body.dataset
+	_allowQueryString = "instantAllowQueryString" in document.body.dataset
 
 	const eventListenersOptions = {
 		capture: true,
 		passive: true
 	}
 
-	documentCopy.addEventListener("touchstart", touchstartListener, eventListenersOptions)
-	documentCopy.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
+	document.addEventListener("touchstart", touchstartListener, eventListenersOptions)
+	document.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
 }
 
 function touchstartListener(event) {
@@ -122,7 +121,7 @@ function preload(url) {
 		return
 	}
 
-	const linkElement = documentCopy.createElement("link")
+	const linkElement = document.createElement("link")
 	linkElement.rel = "prefetch"
 	linkElement.href = url
 
@@ -149,7 +148,7 @@ function preload(url) {
 	// unlike regular prefetch. That’s good for prefetching on a touch/mouse
 	// event, but might be bad when prefetching every link in the viewport.
 
-	documentCopy.head.appendChild(linkElement)
+	document.head.appendChild(linkElement)
 
 	_preloadedList.add(url)
 }

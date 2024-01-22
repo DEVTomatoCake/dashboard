@@ -1,10 +1,8 @@
 /*! instant.page v5.2.0 - (C) 2019-2023 Alexandre Dieulot - https://instant.page/license */
 // Modified by TomatoCake from https://github.com/instantpage/instant.page/blob/3525715c22373886567c3f62faf5a00e4380b566/instantpage.js
 
-let _allowQueryString,
-	_lastTouchTimestamp,
-	_mouseoverTimer,
-	_preloadedList = new Set()
+let _lastTouchTimestamp
+const _preloadedList = new Set()
 
 const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
 const documentCopy = document
@@ -26,8 +24,6 @@ function init() {
 	// The check above used to check for IntersectionObserverEntry.isIntersecting
 	// but module scripts support implies this compatibility — except in Safari
 	// 10.1–12.0, but this prefetch check takes care of it.
-
-	_allowQueryString = "instantAllowQueryString" in documentCopy.body.dataset
 
 	const eventListenersOptions = {
 		capture: true,
@@ -53,6 +49,7 @@ function touchstartListener(event) {
 	preload(anchorElement.href)
 }
 
+const preloadTimeouts = {}
 function mouseoverListener(event) {
 	if (performance.now() - _lastTouchTimestamp < DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION) {
 		return
@@ -67,12 +64,15 @@ function mouseoverListener(event) {
 		return
 	}
 
+	if (preloadTimeouts[anchorElement.href]) {
+		return
+	}
+
 	anchorElement.addEventListener("mouseout", mouseoutListener, {passive: true})
 
-	_mouseoverTimer = setTimeout(() => {
+	preloadTimeouts[anchorElement.href] = setTimeout(() => {
 		preload(anchorElement.href)
-		_mouseoverTimer = void 0
-	}, 50)
+	}, 130)
 }
 
 function mouseoutListener(event) {
@@ -80,9 +80,9 @@ function mouseoutListener(event) {
 		return
 	}
 
-	if (_mouseoverTimer) {
-		clearTimeout(_mouseoverTimer)
-		_mouseoverTimer = void 0
+	if (preloadTimeouts[event.target.href]) {
+		clearTimeout(preloadTimeouts[event.target.href])
+		delete preloadTimeouts[event.target.href]
 	}
 }
 
@@ -103,15 +103,15 @@ function isPreloadable(anchorElement) {
 		return
 	}
 
-	if (!_allowQueryString && anchorElement.search && !("instant" in anchorElement.dataset)) {
-		return
-	}
-
 	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == locationCopy.pathname + locationCopy.search) {
 		return
 	}
 
 	if ("noInstant" in anchorElement.dataset) {
+		return
+	}
+
+	if (_preloadedList.has(anchorElement.href)) {
 		return
 	}
 

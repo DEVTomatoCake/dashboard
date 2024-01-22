@@ -28,6 +28,7 @@ async function main() {
 			filename: "script.js",
 			url: "script.js.map"
 		},
+		module: false,
 		...defaultOptions
 	})
 	if (result.error) throw result.error
@@ -46,6 +47,7 @@ async function main() {
 			filename: "instantpage-5.2.0.js",
 			url: "instantpage-5.2.0.js.map"
 		},
+		toplevel: true,
 		...defaultOptions
 	})
 	if (result.error) throw result.error

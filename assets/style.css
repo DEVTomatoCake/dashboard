@@ -724,7 +724,7 @@ footer .links {
 	background: var(--tertiary-color);
 }
 
-header {
+main header {
 	background: var(--secondary-color);
 	top: 0;
 	position: fixed;

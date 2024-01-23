@@ -85,7 +85,8 @@ function getSettingsHTML(json) {
 					temp += "<div><input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' onclick='cEmoPic(this, true)' readonly></div>"
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
 				} else {
-					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
+					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" +
+						setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
 						"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
 						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>"
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
@@ -288,6 +289,7 @@ function connectWS(guild) {
 	})
 }
 
+let messageMigratedToast
 const embedKeys = new Set(["content", "author", "authoricon", "color", "title", "description", "image", "thumbnail", "footer", "footericon"])
 const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
 const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
@@ -322,7 +324,54 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
 		Object.keys(setting.type).forEach(setKey => {
 			if (setting.embed && embedKeys.has(setKey)) {
-				if (setKey == "content") html += "<button class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "-" + key + "\")'><ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
+				if (setKey == "content") {
+					html += "<button id='" + setting.key + "_" + key + "' class='msg-editor' onclick='toggleMsgEditor(this.id)'>" +
+						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
+
+					console.log(value)
+					value.message = {
+						content: value.content || void 0,
+						embeds: [{
+							color: value.color || void 0,
+							title: value.title || void 0,
+							description: value.description || void 0,
+							image: value.image || void 0,
+							thumbnail: value.thumbnail || void 0,
+							author: {
+								name: value.author || void 0,
+								icon_url: value.authoricon || void 0
+							},
+							footer: {
+								text: value.footer || void 0,
+								icon_url: value.footericon || void 0
+							}
+						}]
+					}
+					embedKeys.forEach(embedKey => {
+						delete value[embedKey]
+					})
+
+					if (!value.message.content) delete value.message.content
+					if (!value.message.embeds[0].color) delete value.message.embeds[0].color
+					if (!value.message.embeds[0].title) delete value.message.embeds[0].title
+					if (!value.message.embeds[0].description) delete value.message.embeds[0].description
+					if (!value.message.embeds[0].image) delete value.message.embeds[0].image
+					if (!value.message.embeds[0].thumbnail) delete value.message.embeds[0].thumbnail
+					if (!value.message.embeds[0].author.name) delete value.message.embeds[0].author
+					if (!value.message.embeds[0].footer.text) delete value.message.embeds[0].footer
+					if (Object.keys(value.message.embeds[0]).length == 0) delete value.message.embeds
+					console.log(value)
+
+					queue.push(() => {
+						// TODO: setTimeout(() => handleChange(setting.key + "_" + key), 5)
+					})
+
+					if (!messageMigratedToast) messageMigratedToast = new ToastNotification({
+						type: "INFO", timeout: 30,
+						title: "Settings have been migrated",
+						description: "To allow using the new message editor, all of your messages have been updated to the new format."
+					}).show()
+				}
 				return
 			}
 

@@ -45,7 +45,7 @@ class ToastNotification {
 			"</div>" +
 			"<div class='content-wrapper'>" +
 				"<header>" +
-					"<div class='title-wrapper'>" +
+					"<div>" +
 						"<span class='title'>" + this.#title + "</span>" +
 						"<span class='tag'>" + this.#tag + "</span>" +
 					"</div>" +
@@ -74,7 +74,7 @@ class ToastNotification {
 	setTitle(title) {
 		if (this.#element.classList.contains("closed")) return
 		this.#title = title || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .title").textContent = this.#title
+		this.#element.querySelector(".content-wrapper header .title").textContent = this.#title
 		return this
 	}
 
@@ -88,7 +88,7 @@ class ToastNotification {
 	setTag(tag) {
 		if (this.#element.classList.contains("closed")) return
 		this.#tag = tag || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").textContent = this.#tag
+		this.#element.querySelector(".content-wrapper header .tag").textContent = this.#tag
 		return this
 	}
 
@@ -127,13 +127,13 @@ class ToastNotification {
 
 		const wrapper = document.body.querySelector("#toast-notification-wrapper")
 		const container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (container === null) return
+		if (!container) return
 
 		this.#element.classList.add("closed")
 
 		setTimeout(() => {
 			this.#element.remove()
-			if (container.childElementCount === 0) wrapper.remove()
+			if (container.childElementCount == 0) wrapper.remove()
 		}, 500)
 	}
 }

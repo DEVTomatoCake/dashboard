@@ -19,62 +19,38 @@ const defaultOptions = {
 	mangle: true
 }
 
-async function main() {
-	let result = UglifyJS.minify({
-		"script.js": await fsPromises.readFile("./assets/js/script.js", "utf8")
+const minifyFile = async (path, options = {}) => {
+	const content = await fsPromises.readFile(path, "utf8")
+	const result = UglifyJS.minify({
+		[path]: content
 	}, {
 		sourceMap: {
 			root: "https://tomatenkuchen.com/assets/js/",
-			filename: "script.js",
-			url: "script.js.map"
+			filename: path.split("/").pop(),
+			url: path.split("/").pop() + ".map"
 		},
-		module: false,
-		...defaultOptions
+		...defaultOptions,
+		...options
 	})
+
 	if (result.error) throw result.error
-	if (result.warnings) console.log(result.warnings)
+	if (result.warnings && result.warnings.length > defaultOptions.compress.passes) console.log(path, result.warnings)
 
 	if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile("./assets/js/script.js", result.code)
 		await fsPromises.writeFile("./assets/js/script.js.map", result.map)
 	}
+}
 
-	result = UglifyJS.minify({
-		"toasts.js": await fsPromises.readFile("./assets/js/toasts.js", "utf8")
-	}, {
-		sourceMap: {
-			root: "https://tomatenkuchen.com/assets/js/",
-			filename: "toasts.js",
-			url: "toasts.js.map"
-		},
-		module: false,
-		...defaultOptions
+async function main() {
+	minifyFile("./assets/js/script.js", {
+		module: false
 	})
-	if (result.error) throw result.error
-	if (result.warnings) console.log(result.warnings)
-
-	if (process.env.MINIFY_ENABLED) {
-		await fsPromises.writeFile("./assets/js/toasts.js", result.code)
-		await fsPromises.writeFile("./assets/js/toasts.js.map", result.map)
-	}
-
-	result = UglifyJS.minify({
-		"instantpage-5.2.0.js": await fsPromises.readFile("./assets/js/instantpage-5.2.0.js", "utf8")
-	}, {
-		sourceMap: {
-			root: "https://tomatenkuchen.com/assets/js/",
-			filename: "instantpage-5.2.0.js",
-			url: "instantpage-5.2.0.js.map"
-		},
-		toplevel: true,
-		...defaultOptions
+	minifyFile("./assets/js/toasts.js", {
+		module: false
 	})
-	if (result.error) throw result.error
-	if (result.warnings) console.log(result.warnings)
-
-	if (process.env.MINIFY_ENABLED) {
-		await fsPromises.writeFile("./assets/js/instantpage-5.2.0.js", result.code)
-		await fsPromises.writeFile("./assets/js/instantpage-5.2.0.js.map", result.map)
-	}
+	minifyFile("./assets/js/instantpage-5.2.0.js", {
+		toplevel: true
+	})
 }
 main()

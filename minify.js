@@ -43,13 +43,13 @@ const minifyFile = async (path, options = {}) => {
 }
 
 async function main() {
-	minifyFile("./assets/js/script.js", {
+	await minifyFile("./assets/js/script.js", {
 		module: false
 	})
-	minifyFile("./assets/js/toasts.js", {
+	await minifyFile("./assets/js/toasts.js", {
 		module: false
 	})
-	minifyFile("./assets/js/instantpage-5.2.0.js", {
+	await minifyFile("./assets/js/instantpage-5.2.0.js", {
 		toplevel: true
 	})
 }

@@ -78,7 +78,7 @@ emoji-picker.light {
 	cursor: pointer;
 }
 .custom-picker .element:hover {
-	opacity: 0.7;
+	opacity: .7;
 }
 
 channel-picker .picker {

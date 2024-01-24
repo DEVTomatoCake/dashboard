@@ -27,7 +27,7 @@
 #toast-notification-wrapper .toast-notification-container::-webkit-scrollbar-thumb {
 	width: 10px;
 	background-clip: padding-box;
-	background-color: rgba(0, 0, 0, 0.4);
+	background-color: #0006;
 	border: 3px solid transparent;
 	border-radius: 5px;
 }
@@ -35,13 +35,13 @@
 .toast-notification {
 	display: flex;
 	flex-shrink: 0;
-	box-shadow: 0 0 3px 3px rgba(0, 0, 0, 0.2);
+	box-shadow: 0 0 3px 3px #0003;
 	border-radius: 5px;
 	z-index: 11;
 	overflow: hidden;
 	animation-fill-mode: both;
 	animation-timing-function: cubic-bezier(0.7, 0.06, 0.48, 1.42);
-	animation-duration: 0.4s;
+	animation-duration: .4s;
 	animation-name: slide-in-animation;
 }
 
@@ -109,7 +109,7 @@
 	margin: 10px;
 	width: 25px;
 	height: 25px;
-	opacity: 0.5;
+	opacity: .5;
 }
 
 .toast-notification .content-wrapper {
@@ -132,7 +132,7 @@
 
 .toast-notification .content-wrapper header .title {
 	color: var(--primary-text-color);
-	font-weight: bold;
+	font-weight: 700;
 }
 
 .toast-notification .content-wrapper header .tag {
@@ -167,7 +167,7 @@
 .toast-notification .content-wrapper .description {
 	padding-top: 2px;
 	font-size: 13px;
-	border-top: 1px solid rgba(0, 0, 0, 0.2);
+	border-top: 1px solid #0003;
 	color: var(--secondary-text-color);
 }
 

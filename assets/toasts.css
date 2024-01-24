@@ -1,13 +1,3 @@
-:root {
-	--toast-notification-tag-color: #858585;
-
-	--toast-notification-success-color: #56ee59;
-	--toast-notification-loading-color: #cc6ef1;
-	--toast-notification-info-color: #60bbec;
-	--toast-notification-warning-color: #efb849;
-	--toast-notification-error-color: #e34e4e;
-}
-
 #toast-notification-wrapper {
 	position: absolute;
 	display: flex;
@@ -84,19 +74,19 @@
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='INFO'] {
-	background-color: var(--toast-notification-info-color);
+	background-color: #60bbec;
 }
 #toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='LOADING'] {
-	background-color: var(--toast-notification-loading-color);
+	background-color: #cc6ef1;
 }
 #toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='SUCCESS'] {
-	background-color: var(--toast-notification-success-color);
+	background-color: #56ee59;
 }
 #toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='WARNING'] {
-	background-color: var(--toast-notification-warning-color);
+	background-color: #efb849;
 }
 #toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='ERROR'] {
-	background-color: var(--toast-notification-error-color);
+	background-color: #e34e4e;
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .type-image-wrapper[data-type='INFO'] .type-image {
@@ -146,7 +136,7 @@
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .title-wrapper .tag {
-	color: var(--toast-notification-tag-color);
+	color: #858585;
 }
 
 #toast-notification-wrapper .toast-notification-container .toast-notification .content-wrapper header .close {

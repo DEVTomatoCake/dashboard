@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View the level leaderboard of a Discord server.">
+		<meta name="description" content="Multipurpose multilanguage Discord bot with many features for your Discord server. View leaderboards of a Discord server.">
 		<meta name="theme-color" content="#ed8721">
 
 		<link rel="alternate" hreflang="de-DE" href="https://tomatenkuchen.com/leaderboard">
@@ -28,22 +28,7 @@
 		<global-sidebar page="leaderboard"></global-sidebar>
 
 		<main class="main" id="main">
-			<header>
-				<div class="hamburger" onclick="sidebar()">
-					<div class="line" id="lineTop1"></div>
-					<div class="line" id="lineBottom1"></div>
-				</div>
-
-				<div class="hoverdropdown">
-					<div class="account" onclick="location='/login'">
-						<p translation="global.account">Account</p>
-						<ion-icon id="user-avatar" name="person-circle-outline"></ion-icon>
-					</div>
-					<div class="hoverdropdown-content">
-						<a href="/login" translation="global.login"></a>
-					</div>
-				</div>
-			</header>
+			<global-header></global-header>
 
 			<div class="content" id="content">
 				<span class="dialog-tab active" id="button-leveling" name="leveling" data-radio="lbtype" onclick="changeTab(this)">Leveling</span>
@@ -61,6 +46,10 @@
 		</main>
 
 		<global-footer></global-footer>
-		<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.2.0/dist/ionicons/ionicons.esm.js" integrity="sha384-zM76IY+3I2OTF49JR8mjLWUeugc/Q9wVzLMiSITfvgmdy8nQtAhci8m8IsdnTl3q" crossorigin="anonymous"></script>
+		<script
+			type="module" crossorigin="anonymous"
+			src="https://cdn.jsdelivr.net/npm/ionicons@7.2.0/dist/ionicons/ionicons.esm.js"
+			integrity="sha384-zM76IY+3I2OTF49JR8mjLWUeugc/Q9wVzLMiSITfvgmdy8nQtAhci8m8IsdnTl3q"
+		></script>
 	</body>
 </html>

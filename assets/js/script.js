@@ -48,6 +48,32 @@ const handleError = error => {
 		(typeof error == "string" ? "" : "<h3>Check your browser console to find out more!</h3>")
 }
 
+class Header extends HTMLElement {
+	constructor() {
+		super()
+	}
+	connectedCallback() {
+		this.innerHTML =
+			"<header>" +
+			"<div class='hamburger' onclick='sidebar()'>" +
+				"<div class='line' id='lineTop1'></div>" +
+				"<div class='line' id='lineBottom1'></div>" +
+			"</div>" +
+
+			"<div class='hoverdropdown'>" +
+				"<div class='account' onclick='location=\"/login\"'>" +
+					"<p translation='global.account'>Account</p>" +
+					"<ion-icon id='user-avatar' name='person-circle-outline'></ion-icon>" +
+				"</div>" +
+				"<div class='hoverdropdown-content'>" +
+					"<a href='/login' translation='global.login'></a>" +
+				"</div>" +
+			"</div>" +
+			"</header>"
+	}
+}
+customElements.define("global-header", Header)
+
 class Footer extends HTMLElement {
 	constructor() {
 		super()

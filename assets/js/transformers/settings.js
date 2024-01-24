@@ -289,6 +289,7 @@ function connectWS(guild) {
 	})
 }
 
+const messageData = {}
 let messageMigratedToast
 const embedKeys = new Set(["content", "author", "authoricon", "color", "title", "description", "image", "thumbnail", "footer", "footericon"])
 const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
@@ -325,10 +326,10 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 		Object.keys(setting.type).forEach(setKey => {
 			if (setting.embed && embedKeys.has(setKey)) {
 				if (setKey == "content") {
-					html += "<button id='" + setting.key + "_" + key + "' class='msg-editor' onclick='toggleMsgEditor(this.id)'>" +
+					const id = Math.random().toString(36).slice(4)
+					html += "<button id='" + setting.key + "_" + key + "' class='msg-editor' onclick='toggleMsgEditor(\"" + id + "\")'>" +
 						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
 
-					console.log(value)
 					value.message = {
 						content: value.content || void 0,
 						embeds: [{
@@ -360,16 +361,16 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 					if (!value.message.embeds[0].author.name) delete value.message.embeds[0].author
 					if (!value.message.embeds[0].footer.text) delete value.message.embeds[0].footer
 					if (Object.keys(value.message.embeds[0]).length == 0) delete value.message.embeds
-					console.log(value)
+					messageData[id] = value.message
 
 					queue.push(() => {
 						// TODO: setTimeout(() => handleChange(setting.key + "_" + key), 5)
 					})
 
 					if (!messageMigratedToast) messageMigratedToast = new ToastNotification({
-						type: "INFO", timeout: 30,
+						type: "INFO", timeout: 20,
 						title: "Settings have been migrated",
-						description: "To allow using the new message editor, all of your messages have been updated to the new format."
+						description: "To allow using the new message editor, all of your messages have been updated to a new format."
 					}).show()
 				}
 				return

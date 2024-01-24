@@ -40,6 +40,25 @@ async function main() {
 	}
 
 	result = UglifyJS.minify({
+		"toasts.js": await fsPromises.readFile("./assets/js/toasts.js", "utf8")
+	}, {
+		sourceMap: {
+			root: "https://tomatenkuchen.com/assets/js/",
+			filename: "toasts.js",
+			url: "toasts.js.map"
+		},
+		module: false,
+		...defaultOptions
+	})
+	if (result.error) throw result.error
+	if (result.warnings) console.log(result.warnings)
+
+	if (process.env.MINIFY_ENABLED) {
+		await fsPromises.writeFile("./assets/js/toasts.js", result.code)
+		await fsPromises.writeFile("./assets/js/toasts.js.map", result.map)
+	}
+
+	result = UglifyJS.minify({
 		"instantpage-5.2.0.js": await fsPromises.readFile("./assets/js/instantpage-5.2.0.js", "utf8")
 	}, {
 		sourceMap: {

@@ -1,8 +1,7 @@
 // Made by Mqx#8315 on "Deutsches Mapmaking" Discord
-// modified by TomatoCake
+// Modified by TomatoCake
 
 const types = new Set(["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"])
-let _toastNotifications = []
 let autoscroll = true
 
 const createWrapper = () => {
@@ -106,7 +105,6 @@ class ToastNotification {
 		autoscroll = ((container.scrollHeight - container.scrollTop - container.clientHeight) <= 40)
 
 		container.append(this.#element)
-		_toastNotifications.push(this)
 
 		if (autoscroll) container.scrollTop = container.scrollHeight
 
@@ -118,7 +116,6 @@ class ToastNotification {
 
 			if (this.#timeout <= 0) {
 				clearInterval(this.#_intervalId)
-
 				this.close()
 			}
 		}, 1000)
@@ -136,7 +133,6 @@ class ToastNotification {
 
 		setTimeout(() => {
 			this.#element.remove()
-			_toastNotifications.splice(_toastNotifications.indexOf(this), 1)
 			if (container.childElementCount === 0) wrapper.remove()
 		}, 500)
 	}

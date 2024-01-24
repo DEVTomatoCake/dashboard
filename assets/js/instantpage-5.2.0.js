@@ -2,77 +2,68 @@
 // Modified by TomatoCake from https://github.com/instantpage/instant.page/blob/3525715c22373886567c3f62faf5a00e4380b566/instantpage.js
 
 let lastTouchTimestamp
+const preloadTimeouts = {}
 const preloadedList = new Set()
 
 const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
 const documentCopy = document
 const locationCopy = location
 
-init()
-
-function init() {
-	if (!documentCopy.createElement("link").relList.supports("prefetch")) {
-		return
-	}
-	// instant.page is meant to be loaded with <script type=module>
-	// (though sometimes webmasters load it as a regular script).
-	// So it’s normally executed (and must not cause JavaScript errors) in:
-	// - Chromium 61+
-	// - Gecko in Firefox 60+
-	// - WebKit in Safari 10.1+ (iOS 10.3+, macOS 10.10+)
-	//
-	// The check above used to check for IntersectionObserverEntry.isIntersecting
-	// but module scripts support implies this compatibility — except in Safari
-	// 10.1–12.0, but this prefetch check takes care of it.
-
-	const eventListenersOptions = {
-		capture: true,
-		passive: true
-	}
-
-	documentCopy.addEventListener("touchstart", touchstartListener, eventListenersOptions)
-	documentCopy.addEventListener("mouseover", mouseoverListener, eventListenersOptions)
+const eventListenersOptions = {
+	capture: true,
+	passive: true
 }
 
-function touchstartListener(event) {
-	lastTouchTimestamp = performance.now()
-	// Chrome on Android triggers mouseover before touchcancel, so
-	// `_lastTouchTimestamp` must be assigned on touchstart to be measured
-	// on mouseover.
+// instant.page is meant to be loaded with <script type=module>
+// (though sometimes webmasters load it as a regular script).
+// So it’s normally executed (and must not cause JavaScript errors) in:
+// - Chromium 61+
+// - Gecko in Firefox 60+
+// - WebKit in Safari 10.1+ (iOS 10.3+, macOS 10.10+)
+//
+// The check above used to check for IntersectionObserverEntry.isIntersecting
+// but module scripts support implies this compatibility — except in Safari
+// 10.1–12.0, but this prefetch check takes care of it.
+if (documentCopy.createElement("link").relList.supports("prefetch")) {
+	documentCopy.addEventListener("touchstart", event => {
+		lastTouchTimestamp = performance.now()
+		// Chrome on Android triggers mouseover before touchcancel, so
+		// `_lastTouchTimestamp` must be assigned on touchstart to be measured
+		// on mouseover.
 
-	const anchorElement = event.target.closest("a")
+		const anchorElement = event.target.closest("a")
 
-	if (!isPreloadable(anchorElement)) {
-		return
-	}
+		if (!isPreloadable(anchorElement)) {
+			return
+		}
 
-	preload(anchorElement.href)
-}
-
-const preloadTimeouts = {}
-function mouseoverListener(event) {
-	if (performance.now() - lastTouchTimestamp < DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION) {
-		return
-	}
-
-	if (!("closest" in event.target)) {
-		return
-	}
-	const anchorElement = event.target.closest("a")
-
-	if (!isPreloadable(anchorElement)) {
-		return
-	}
-
-	if (preloadTimeouts[anchorElement.href]) {
-		return
-	}
-
-	anchorElement.addEventListener("mouseout", mouseoutListener, {passive: true})
-
-	preloadTimeouts[anchorElement.href] = setTimeout(() => {
 		preload(anchorElement.href)
-	}, 120)
+	}, eventListenersOptions)
+
+	documentCopy.addEventListener("mouseover", event => {
+		if (performance.now() - lastTouchTimestamp < DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION) {
+			return
+		}
+
+		if (!("closest" in event.target)) {
+			return
+		}
+		const anchorElement = event.target.closest("a")
+
+		if (!isPreloadable(anchorElement)) {
+			return
+		}
+
+		if (preloadTimeouts[anchorElement.href]) {
+			return
+		}
+
+		anchorElement.addEventListener("mouseout", mouseoutListener, {passive: true})
+
+		preloadTimeouts[anchorElement.href] = setTimeout(() => {
+			preload(anchorElement.href)
+		}, 120)
+	}, eventListenersOptions)
 }
 
 function mouseoutListener(event) {

@@ -341,6 +341,7 @@ textarea.code {
 
 #user-avatar {
 	display: none;
+	height: 35px;
 }
 #user-avatar.visible {
 	display: block;

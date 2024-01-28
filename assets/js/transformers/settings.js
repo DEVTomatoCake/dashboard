@@ -324,13 +324,13 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
 		Object.keys(setting.type).forEach(setKey => {
-			if (setting.embed && embedKeys.has(setKey)) {
-				if (setKey == "message") {
-					const id = Math.random().toString(36).slice(4)
-					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
-						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
-					messageData[id] = value.message
-				} else if (setKey == "content") {
+			if (setting.embed && setKey == "message") {
+				const id = Math.random().toString(36).slice(4)
+				html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
+					"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
+				messageData[id] = value.message
+			} else if (setting.embed && embedKeys.has(setKey)) {
+				if (setKey == "content") {
 					const id = Math.random().toString(36).slice(4)
 					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
 						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
@@ -369,14 +369,22 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 					messageData[id] = value.message
 
 					queue.push(() => {
-						setTimeout(() => handleChange(setting.key + "_" + key), 5)
+						setTimeout(() => {
+							changed.push(setting.key)
+						}, 3)
 					})
 
-					if (!messageMigratedToast) messageMigratedToast = new ToastNotification({
-						type: "INFO", timeout: 20,
-						title: "Settings have been migrated",
-						description: "To allow using the new message editor, all of your messages have been updated to a new format."
-					}).show()
+					if (!messageMigratedToast) {
+						queue.push(() => {
+							setTimeout(saveSettings, 150)
+						})
+
+						messageMigratedToast = new ToastNotification({
+							type: "INFO", timeout: 20,
+							title: "Settings have been migrated",
+							description: "To allow using the new message editor, all of your messages have been updated to a new format."
+						}).show()
+					}
 				}
 				return
 			}
@@ -484,8 +492,9 @@ function saveSettings() {
 		else if (setting.org == "object") {
 			entry = {}
 			Object.keys(setting.type).forEach(key => {
-				if (embedKeys.has(key)) {
-					if (key == "message" || key == "content") entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+				if (setting.embed && embedKeys.has(key)) {
+					if (key == "content") entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 					return
 				}
 
@@ -503,6 +512,12 @@ function saveSettings() {
 				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
 					const temp = {}
 					Object.keys(setting.type).forEach(key => {
+						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+						if (setting.embed && embedKeys.has(key)) {
+							if (key == "content") temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+							return
+						}
+
 						for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
 							let value = objchild.value
 							if (setting.type[key] == "bool") value = objchild.checked

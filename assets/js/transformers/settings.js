@@ -327,7 +327,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 			if (setting.embed && embedKeys.has(setKey)) {
 				if (setKey == "content") {
 					const id = Math.random().toString(36).slice(4)
-					html += "<button id='" + setting.key + "_" + key + "' class='msg-editor' onclick='toggleMsgEditor(\"" + id + "\")'>" +
+					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + id + "\")'>" +
 						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
 
 					value.message = {
@@ -364,7 +364,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 					messageData[id] = value.message
 
 					queue.push(() => {
-						// TODO: setTimeout(() => handleChange(setting.key + "_" + key), 5)
+						setTimeout(() => handleChange(setting.key + "_" + key), 5)
 					})
 
 					if (!messageMigratedToast) messageMigratedToast = new ToastNotification({
@@ -479,6 +479,11 @@ function saveSettings() {
 		else if (setting.org == "object") {
 			entry = {}
 			Object.keys(setting.type).forEach(key => {
+				if (embedKeys.has(key)) {
+					if (key == "content") entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+					return
+				}
+
 				const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]")
 
 				if (setting.type[key] == "bool") entry[key] = child.checked

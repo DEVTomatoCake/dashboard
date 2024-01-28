@@ -3,10 +3,6 @@ const UglifyJS = require("uglify-js")
 
 const nameCache = {}
 const defaultOptions = {
-	warnings: "verbose",
-	parse: {
-		shebang: false
-	},
 	compress: {
 		passes: 2,
 		unsafe: true,
@@ -14,9 +10,7 @@ const defaultOptions = {
 		unsafe_math: true,
 		unsafe_proto: true,
 		unsafe_regexp: true
-	},
-	nameCache,
-	mangle: true
+	}
 }
 
 const minifyFile = async (path, options = {}) => {
@@ -29,6 +23,12 @@ const minifyFile = async (path, options = {}) => {
 			filename: path.split("/").pop(),
 			url: path.split("/").pop() + ".map"
 		},
+		warnings: "verbose",
+		parse: {
+			shebang: false
+		},
+		nameCache,
+		mangle: true,
 		...defaultOptions,
 		...options
 	})

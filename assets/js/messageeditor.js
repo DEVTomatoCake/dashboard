@@ -1,7 +1,7 @@
 const toggleMsgEditor = msgId => {
 	const dialog = document.getElementById("msgeditor-dialog")
 	dialog.removeAttribute("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => {
+	document.getElementById("msgeditor-save").onclick = () => {
 		dialog.setAttribute("hidden", "")
 
 		document.getElementById("msgeditor-iframe").contentWindow.postMessage("requestMessage", "*")
@@ -11,6 +11,9 @@ const toggleMsgEditor = msgId => {
 				document.getElementById("msgeditor-iframe").src = "about:blank"
 			}
 		}
+	}
+	document.getElementById("msgeditor-cancel").onclick = () => {
+		dialog.setAttribute("hidden", "")
 	}
 
 	document.getElementById("msgeditor-iframe").src = "https://embed.tomatenkuchen.com/?data=" + btoa(encodeURIComponent(JSON.stringify(messageData[msgId])))

@@ -200,6 +200,9 @@
 		"vote": "Vote für den Bot",
 		"votemb": "Manage Bot Votelinks"
 	},
+	"settings": {
+		"messageeditor": "Message-Editor öffnen"
+	},
 	"sidebar": {
 		"commands": "Befehle",
 		"dashboard": "Dashboard",

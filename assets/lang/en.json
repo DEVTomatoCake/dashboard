@@ -200,6 +200,9 @@
 		"vote": "Vote for the bot",
 		"votemb": "Manage Bot vote links"
 	},
+	"settings": {
+		"messageeditor": "Open message editor"
+	},
 	"sidebar": {
 		"commands": "Commands",
 		"dashboard": "Dashboard",

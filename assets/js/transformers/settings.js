@@ -339,14 +339,18 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 					value.message = {
 						content: value.content || void 0,
 						embeds: [{
-							color: value.color || void 0,
-							title: value.title || void 0,
-							description: value.description || void 0,
-							image: value.image || void 0,
-							thumbnail: value.thumbnail || void 0,
 							author: {
 								name: value.author || void 0,
 								icon_url: value.authoricon || void 0
+							},
+							color: value.color || void 0,
+							title: value.title || void 0,
+							description: value.description || void 0,
+							image: {
+								url: value.image || void 0
+							},
+							thumbnail: {
+								url: value.thumbnail || void 0
 							},
 							footer: {
 								text: value.footer || void 0,
@@ -359,14 +363,16 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 					})
 
 					if (!value.message.content) delete value.message.content
-					if (!value.message.embeds[0].color) delete value.message.embeds[0].color
-					if (!value.message.embeds[0].title) delete value.message.embeds[0].title
-					if (!value.message.embeds[0].description) delete value.message.embeds[0].description
-					if (!value.message.embeds[0].image) delete value.message.embeds[0].image
-					if (!value.message.embeds[0].thumbnail) delete value.message.embeds[0].thumbnail
-					if (!value.message.embeds[0].author.name) delete value.message.embeds[0].author
-					if (!value.message.embeds[0].footer.text) delete value.message.embeds[0].footer
-					if (Object.keys(value.message.embeds[0]).length == 0) delete value.message.embeds
+					if (value.message.embeds[0]) {
+						if (!value.message.embeds[0].color) delete value.message.embeds[0].color
+						if (!value.message.embeds[0].title) delete value.message.embeds[0].title
+						if (!value.message.embeds[0].description) delete value.message.embeds[0].description
+						if (!value.message.embeds[0].image?.url) delete value.message.embeds[0].image
+						if (!value.message.embeds[0].thumbnail?.url) delete value.message.embeds[0].thumbnail
+						if (!value.message.embeds[0].author.name) delete value.message.embeds[0].author
+						if (!value.message.embeds[0].footer.text) delete value.message.embeds[0].footer
+						if (Object.keys(value.message.embeds[0]).length == 0) delete value.message.embeds
+					}
 					messageData[id] = value.message
 
 					queue.push(() => {

@@ -11,8 +11,8 @@
 }
 
 #msgeditor-dialog .dialog-content iframe {
-	width: 98%;
-	height: 98%;
+	width: 100%;
+	height: 94%;
 	border: none;
 }
 

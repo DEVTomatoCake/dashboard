@@ -325,9 +325,14 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
 		Object.keys(setting.type).forEach(setKey => {
 			if (setting.embed && embedKeys.has(setKey)) {
-				if (setKey == "content") {
+				if (setKey == "message") {
 					const id = Math.random().toString(36).slice(4)
-					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + id + "\")'>" +
+					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
+						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
+					messageData[id] = value.message
+				} else if (setKey == "content") {
+					const id = Math.random().toString(36).slice(4)
+					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
 						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
 
 					value.message = {
@@ -480,7 +485,7 @@ function saveSettings() {
 			entry = {}
 			Object.keys(setting.type).forEach(key => {
 				if (embedKeys.has(key)) {
-					if (key == "content") entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+					if (key == "message" || key == "content") entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 					return
 				}
 

@@ -328,7 +328,8 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 				const id = Math.random().toString(36).slice(4)
 				html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
 					"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
-				messageData[id] = value.message
+				messageData[id] = value.message ? JSON.parse(value.message) : {}
+				return
 			} else if (setting.embed && embedKeys.has(setKey)) {
 				if (setKey == "content") {
 					const id = Math.random().toString(36).slice(4)

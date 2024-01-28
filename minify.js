@@ -14,14 +14,14 @@ const defaultOptions = {
 }
 
 const minifyFile = async (path, options = {}) => {
-	const content = await fsPromises.readFile(path, "utf8")
+	const filename = path.split("/").pop()
 	const result = UglifyJS.minify({
-		[path]: content
+		[path]: await fsPromises.readFile(path, "utf8")
 	}, {
 		sourceMap: {
 			root: "https://tomatenkuchen.com/assets/js/",
-			filename: path.split("/").pop(),
-			url: path.split("/").pop() + ".map"
+			filename,
+			url: filename + ".map"
 		},
 		warnings: "verbose",
 		parse: {
@@ -37,8 +37,8 @@ const minifyFile = async (path, options = {}) => {
 	if (result.warnings && result.warnings.length > defaultOptions.compress.passes) console.log(path, result.warnings)
 
 	if (process.env.MINIFY_ENABLED) {
-		await fsPromises.writeFile("./assets/js/script.js", result.code)
-		await fsPromises.writeFile("./assets/js/script.js.map", result.map)
+		await fsPromises.writeFile(path, result.code)
+		await fsPromises.writeFile(path + ".map", result.map)
 	}
 }
 

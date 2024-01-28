@@ -6,7 +6,7 @@ const toggleMsgEditor = (setting, msgId) => {
 
 		document.getElementById("msgeditor-iframe").contentWindow.postMessage("requestMessage", "*")
 		window.onmessage = e => {
-			if (e.data.startsWith("respondMessage_")) {
+			if (e.origin == "https://embed.tomatenkuchen.com" && e.data.startsWith("respondMessage_")) {
 				messageData[document.getElementById("msgeditor-iframe").dataset.current] = JSON.parse(decodeURIComponent(atob(e.data.replace("respondMessage_", ""))))
 				document.getElementById("msgeditor-iframe").src = "about:blank"
 				handleChange(setting)

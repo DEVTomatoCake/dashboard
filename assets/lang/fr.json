@@ -64,8 +64,10 @@
 		"type": "Type"
 	},
 	"form": {
+		"anonymous": "Les réponses à ce formulaire sont anonymes - les membres du serveur ne peuvent pas savoir qui vous êtes.",
 		"missing": "Vous devez ajouter un nom de formulaire ou un identifiant de formulaire en tant que paramètre de requête !",
-		"submit": "Soumettre"
+		"submit": "Soumettre",
+		"unverified": "This form is not verified by or associated with TomatenKuchen. Never submit passwords or other sensitive information. <a href=\"/discord\" target=\"_blank\" rel=\"noopener\">Report abuse</a>"
 	},
 	"giveaway": {
 		"anyrole": "L'un ou l'autre de ces rôles",
@@ -95,7 +97,7 @@
 	"integration": {
 		"actions": "Actions",
 		"addaction": "Ajouter une action",
-		"additionalpublic": "Paramètres supplémentaires pour les intégrations publiques",
+		"additionalpublic": "Paramètres avancés, en particulier pour les intégrations publiques",
 		"create": "Créer l'intégration",
 		"createsource": "Créer une intégration à partir d'une intégration",
 		"edit": "Editer",
@@ -197,6 +199,9 @@
 		"title": "Votre profil TomatenKuchen",
 		"vote": "Votez pour le robot",
 		"votemb": "Gérer les liens de vote des robots"
+	},
+	"settings": {
+		"messageeditor": "Ouvrir l'éditeur de messages"
 	},
 	"sidebar": {
 		"commands": "Commandes",

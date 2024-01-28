@@ -64,8 +64,10 @@
 		"type": "Típus"
 	},
 	"form": {
+		"anonymous": "Az űrlapra adott válaszok névtelenek - a szerver tagjai nem láthatják, hogy ki vagy.",
 		"missing": "Egy űrlap slug-ot vagy egy űrlap azonosítót kell hozzáadni a lekérdezés paramétereként!",
-		"submit": "Küldje be a"
+		"submit": "Küldje be a",
+		"unverified": "This form is not verified by or associated with TomatenKuchen. Never submit passwords or other sensitive information. <a href=\"/discord\" target=\"_blank\" rel=\"noopener\">Report abuse</a>"
 	},
 	"giveaway": {
 		"anyrole": "Bármelyik szerep",
@@ -95,7 +97,7 @@
 	"integration": {
 		"actions": "Tevékenységek",
 		"addaction": "Művelet hozzáadása",
-		"additionalpublic": "További beállítások a nyilvános integrációkhoz",
+		"additionalpublic": "Speciális beállítások, különösen a nyilvános integrációk esetében",
 		"create": "Integráció létrehozása",
 		"createsource": "Integráció létrehozása integrációból integráció",
 		"edit": "Szerkesztés",
@@ -197,6 +199,9 @@
 		"title": "Az Ön TomatenKuchen profilja",
 		"vote": "Szavazz a botra",
 		"votemb": "Bot szavazási linkek kezelése"
+	},
+	"settings": {
+		"messageeditor": "Üzenetszerkesztő megnyitása"
 	},
 	"sidebar": {
 		"commands": "Parancsok",

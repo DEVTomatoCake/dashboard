@@ -299,11 +299,21 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	const setting = selectData[settingKey]
 	if (parent && setting.key == "rssUpdate")
 		value = {
-			author: "{author}",
-			title: "{title}",
-			description: "{content}",
-			image: "{image}",
-			footer: "{domain}"
+			message: JSON.stringify({
+				embeds: [{
+					author: {
+						name: "{author}"
+					},
+					title: "{title}",
+					description: "{content}",
+					image: {
+						url: "{image}"
+					},
+					footer: {
+						text: "{domain}"
+					}
+				}]
+			})
 		}
 	else if (parent && setting.key == "twitchFeed")
 		value = {
@@ -323,7 +333,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	let html = "<div class='setgroup'>"
 	if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
-		Object.keys(setting.type).forEach(setKey => {
+		Object.keys(setting.type).forEach((setKey, i) => {
 			if (setting.embed && setKey == "message") {
 				const id = Math.random().toString(36).slice(4)
 				html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
@@ -331,7 +341,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 				messageData[id] = value.message ? JSON.parse(value.message) : {}
 				return
 			} else if (setting.embed && embedKeys.has(setKey)) {
-				if (setKey == "content") {
+				if (i == Object.keys(setting.type).length - 1) {
 					const id = Math.random().toString(36).slice(4)
 					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")'>" +
 						"<ion-icon name='mail-outline'></ion-icon>Message-Editor öffnen</button>"
@@ -498,10 +508,10 @@ function saveSettings() {
 		if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value
 		else if (setting.org == "object") {
 			entry = {}
-			Object.keys(setting.type).forEach(key => {
+			Object.keys(setting.type).forEach((key, i) => {
 				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 				if (setting.embed && embedKeys.has(key)) {
-					if (key == "content") entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+					if (i == Object.keys(setting.type).length - 1) entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 					return
 				}
 
@@ -518,10 +528,10 @@ function saveSettings() {
 			if (typeof setting.type == "object")
 				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
 					const temp = {}
-					Object.keys(setting.type).forEach(key => {
+					Object.keys(setting.type).forEach((key, i) => {
 						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 						if (setting.embed && embedKeys.has(key)) {
-							if (key == "content") temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+							if (i == Object.keys(setting.type).length - 1) temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 							return
 						}
 

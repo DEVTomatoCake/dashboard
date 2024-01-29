@@ -31,27 +31,15 @@
 		<script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@%5E1/index.js" integrity="sha384-K6agUzbeMc1GXMXkIluupxooxm0lI/miwK1KgDxZqBS19dXN9xTv3eEg8qOjpQ2q" crossorigin="anonymous"></script>
 		<script src="../assets/js/emojipicker.js"></script>
 		<link href="../assets/emojipicker.css" rel="stylesheet" type="text/css">
+
+		<script src="../assets/js/messageeditor.js"></script>
+		<link href="../assets/messageeditor.css" rel="stylesheet" type="text/css">
 	</head>
 	<body class="dark-theme" onload="pageLoad()">
 		<global-sidebar dashboard="settings"></global-sidebar>
 
 		<main class="main" id="main">
-			<header>
-				<div class="hamburger" onclick="sidebar()">
-					<div class="line" id="lineTop1"></div>
-					<div class="line" id="lineBottom1"></div>
-				</div>
-
-				<div class="hoverdropdown">
-					<div class="account" onclick="location='/login'">
-						<p translation="global.account">Account</p>
-						<ion-icon id="user-avatar" name="person-circle-outline"></ion-icon>
-					</div>
-					<div class="hoverdropdown-content">
-						<a href="/login" translation="global.login"></a>
-					</div>
-				</div>
-			</header>
+			<global-header></global-header>
 
 			<div class="content" id="content">
 				<div id="thread-dialog" class="dialog" hidden>
@@ -60,6 +48,16 @@
 						<h1 id="thread-header"></h1>
 
 						<div id="thread-container"></div>
+					</div>
+				</div>
+
+				<div id="msgeditor-dialog" class="dialog" hidden>
+					<div class="dialog-content">
+						<div>
+							<button type="button" class="green" id="msgeditor-save">Save</button>
+							<button type="button" class="red" id="msgeditor-cancel">Cancel</button>
+						</div>
+						<iframe id="msgeditor-iframe" title="Message editor" src="about:blank"></iframe>
 					</div>
 				</div>
 
@@ -92,6 +90,10 @@
 		</main>
 
 		<global-footer></global-footer>
-		<script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7.2.0/dist/ionicons/ionicons.esm.js" integrity="sha384-zM76IY+3I2OTF49JR8mjLWUeugc/Q9wVzLMiSITfvgmdy8nQtAhci8m8IsdnTl3q" crossorigin="anonymous"></script>
+		<script
+			type="module" crossorigin="anonymous"
+			src="https://cdn.jsdelivr.net/npm/ionicons@7.2.0/dist/ionicons/ionicons.esm.js"
+			integrity="sha384-zM76IY+3I2OTF49JR8mjLWUeugc/Q9wVzLMiSITfvgmdy8nQtAhci8m8IsdnTl3q"
+		></script>
 	</body>
 </html>

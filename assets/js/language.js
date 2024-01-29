@@ -16,25 +16,22 @@ const resolveValue = (obj, keySplit) => {
 	return resolveValue(obj[keySplit[0]], keySplit.slice(1))
 }
 
-const loadLangFile = async language => {
-	if (langCache[language]) return langCache[language]
-
-	const json = await (await fetch("/assets/lang/" + language + ".json")).json()
-	langCache[language] = json
-	return json
-}
-
 const reloadText = async language => {
 	if (!language) language = getLanguage()
 	setCookie("lang", language, 60, true)
 	document.documentElement.lang = language
 
 	const i18n = document.querySelectorAll("[translation]")
-	if (i18n.length <= 0) return
+	if (i18n.length == 0) return
 
 	const scrollTop = document.documentElement.scrollTop || document.body.scrollTop
 
-	const json = await loadLangFile(language)
+	let json = langCache[language]
+	if (!json) {
+		json = await (await fetch("/assets/lang/" + language + ".json")).json()
+		langCache[language] = json
+	}
+
 	for (let i = 0; i < i18n.length; i++) {
 		const element = i18n.item(i)
 		const key = element.getAttribute("translation")

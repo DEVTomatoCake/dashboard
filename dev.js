@@ -1,11 +1,8 @@
 const getLocalIpAddress = () => {
-	const interfaces = require("node:os").networkInterfaces()
-	for (const iface of Object.values(interfaces)) {
-		for (const info of iface) {
-			if (!info.internal && info.family == "IPv4") return info.address
-		}
+	for (const iface of Object.values(require("node:os").networkInterfaces())) {
+		const ipv4 = iface.find(info => !info.internal && info.family == "IPv4")
+		if (ipv4) return ipv4.address
 	}
-	return null
 }
 
 const { WebSocketServer } = require("ws")

@@ -57,6 +57,7 @@ function getSettingsHTML(json) {
 						setting.value = [setting.value]
 						temp += addItem(setting.key, void 0, setting.value[0], void 0, true)
 					}
+
 					temp += "</div><br>"
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"
@@ -84,7 +85,8 @@ function getSettingsHTML(json) {
 					temp += "<div><input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' onclick='cEmoPic(this, true)' readonly></div>"
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
 				} else {
-					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" + setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
+					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" +
+						setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
 						"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
 						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>"
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
@@ -287,6 +289,9 @@ function connectWS(guild) {
 	})
 }
 
+const messageData = {}
+let messageMigratedToast
+const embedKeys = new Set(["content", "author", "authoricon", "color", "title", "description", "image", "thumbnail", "footer", "footericon"])
 const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
 const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
 
@@ -294,11 +299,21 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	const setting = selectData[settingKey]
 	if (parent && setting.key == "rssUpdate")
 		value = {
-			author: "{author}",
-			title: "{title}",
-			description: "{content}",
-			image: "{image}",
-			footer: "{domain}"
+			message: JSON.stringify({
+				embeds: [{
+					author: {
+						name: "{author}"
+					},
+					title: "{title}",
+					description: "{content}",
+					image: {
+						url: "{image}"
+					},
+					footer: {
+						text: "{domain}"
+					}
+				}]
+			})
 		}
 	else if (parent && setting.key == "twitchFeed")
 		value = {
@@ -318,7 +333,79 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value, p
 	let html = "<div class='setgroup'>"
 	if (typeof setting.type == "object" && Array.isArray(setting.value)) {
 		html += possible[key] ? "<label for='" + setting.key + "_" + key + "'>" + possible[key].name + "</label><br>" : ""
-		Object.keys(setting.type).forEach(setKey => {
+		Object.keys(setting.type).forEach((setKey, i) => {
+			if (setting.embed && setKey == "message") {
+				const id = Math.random().toString(36).slice(4)
+				html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")' translation='settings.messageeditor'>" +
+					"<ion-icon name='mail-outline'></ion-icon></button>"
+				messageData[id] = value.message ? JSON.parse(value.message) : {}
+				return
+			} else if (setting.embed && embedKeys.has(setKey)) {
+				if (i == Object.keys(setting.type).length - 1) {
+					const id = Math.random().toString(36).slice(4)
+					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")' translation='settings.messageeditor'>" +
+						"<ion-icon name='mail-outline'></ion-icon></button>"
+
+					value.message = {
+						content: value.content || void 0,
+						embeds: [{
+							author: {
+								name: value.author || void 0,
+								icon_url: value.authoricon || void 0
+							},
+							color: value.color || void 0,
+							title: value.title || void 0,
+							description: value.description || void 0,
+							image: {
+								url: value.image || void 0
+							},
+							thumbnail: {
+								url: value.thumbnail || void 0
+							},
+							footer: {
+								text: value.footer || void 0,
+								icon_url: value.footericon || void 0
+							}
+						}]
+					}
+					embedKeys.forEach(embedKey => {
+						delete value[embedKey]
+					})
+
+					if (!value.message.content) delete value.message.content
+					if (value.message.embeds[0]) {
+						if (!value.message.embeds[0].color) delete value.message.embeds[0].color
+						if (!value.message.embeds[0].title) delete value.message.embeds[0].title
+						if (!value.message.embeds[0].description) delete value.message.embeds[0].description
+						if (!value.message.embeds[0].image?.url) delete value.message.embeds[0].image
+						if (!value.message.embeds[0].thumbnail?.url) delete value.message.embeds[0].thumbnail
+						if (!value.message.embeds[0].author.name) delete value.message.embeds[0].author
+						if (!value.message.embeds[0].footer.text) delete value.message.embeds[0].footer
+						if (Object.keys(value.message.embeds[0]).length == 0) delete value.message.embeds
+					}
+					messageData[id] = value.message
+
+					queue.push(() => {
+						setTimeout(() => {
+							changed.push(setting.key)
+						}, 3)
+					})
+
+					if (!messageMigratedToast) {
+						queue.push(() => {
+							setTimeout(saveSettings, 150)
+						})
+
+						messageMigratedToast = new ToastNotification({
+							type: "INFO", timeout: 20,
+							title: "Settings have been migrated",
+							description: "To allow using the new message editor, all of your messages have been updated to a new format."
+						}).show()
+					}
+				}
+				return
+			}
+
 			html += "<div><label for='" + setting.key + "_" + setKey + "_" + key + "'>" + setKey + "</label><br>"
 			if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 				"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
@@ -421,7 +508,13 @@ function saveSettings() {
 		if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value
 		else if (setting.org == "object") {
 			entry = {}
-			Object.keys(setting.type).forEach(key => {
+			Object.keys(setting.type).forEach((key, i) => {
+				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+				if (setting.embed && embedKeys.has(key)) {
+					if (i == Object.keys(setting.type).length - 1) entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+					return
+				}
+
 				const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]")
 
 				if (setting.type[key] == "bool") entry[key] = child.checked
@@ -435,7 +528,13 @@ function saveSettings() {
 			if (typeof setting.type == "object")
 				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
 					const temp = {}
-					Object.keys(setting.type).forEach(key => {
+					Object.keys(setting.type).forEach((key, i) => {
+						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+						if (setting.embed && embedKeys.has(key)) {
+							if (i == Object.keys(setting.type).length - 1) temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+							return
+						}
+
 						for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
 							let value = objchild.value
 							if (setting.type[key] == "bool") value = objchild.checked

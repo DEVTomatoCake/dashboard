@@ -1,8 +1,7 @@
 // Made by Mqx#8315 on "Deutsches Mapmaking" Discord
-// modified by TomatoCake
+// Modified by TomatoCake
 
 const types = new Set(["INFO", "LOADING", "SUCCESS", "WARNING", "ERROR"])
-let _toastNotifications = []
 let autoscroll = true
 
 const createWrapper = () => {
@@ -40,26 +39,26 @@ class ToastNotification {
 
 		this.#element = document.createElement("div")
 		this.#element.setAttribute("class", "toast-notification")
-		this.#element.innerHTML = `
-			<div class="type-image-wrapper" data-type="${this.#type}">
-				<div class="type-image"></div>
-			</div>
-			<div class="content-wrapper">
-				<header>
-					<div class="title-wrapper">
-						<span class="title">${this.#title}</span>
-						<span class="tag">${this.#tag}</span>
-					</div>
-					<div class="close">
-						<span class="timeout"></span>
-						<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-							<path d="M448.006,0l-192.029,192l-191.983,-192l-63.994,64l191.983,192l-191.983,192l63.994,64l191.983,-192l192.029,192l63.994,-64l-191.983,-192l191.983,-192l-63.994,-64Z"/>
-						</svg>
-					</div>
-				</header>
-				<div class="description">${this.#description}</div>
-			</div>
-		`
+		this.#element.innerHTML =
+			"<div class='type-image-wrapper' data-type='" + this.#type + "'>" +
+				"<div class='type-image'></div>" +
+			"</div>" +
+			"<div class='content-wrapper'>" +
+				"<header>" +
+					"<div>" +
+						"<span class='title'>" + this.#title + "</span>" +
+						"<span class='tag'>" + this.#tag + "</span>" +
+					"</div>" +
+					"<div class='close'>" +
+						"<span class='timeout'></span>" +
+						"<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'>" +
+							"<path d='M448.006,0l-192.029,192l-191.983,-192l-63.994,64l191.983,192l-191.983,192l63.994,64l191.983,-192l192.029,192l63.994,-64l-191.983,-192l191.983,-192l-63.994,-64Z'>" +
+						"</svg>" +
+					"</div>" +
+				"</header>" +
+				"<div class='description'>" + this.#description + "</div>" +
+			"</div>"
+
 		this.#element.querySelector(".content-wrapper header .close").addEventListener("click", () => {
 			this.close()
 		})
@@ -75,7 +74,7 @@ class ToastNotification {
 	setTitle(title) {
 		if (this.#element.classList.contains("closed")) return
 		this.#title = title || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .title").textContent = this.#title
+		this.#element.querySelector(".content-wrapper header .title").textContent = this.#title
 		return this
 	}
 
@@ -89,7 +88,7 @@ class ToastNotification {
 	setTag(tag) {
 		if (this.#element.classList.contains("closed")) return
 		this.#tag = tag || ""
-		this.#element.querySelector(".content-wrapper header .title-wrapper .tag").textContent = this.#tag
+		this.#element.querySelector(".content-wrapper header .tag").textContent = this.#tag
 		return this
 	}
 
@@ -106,7 +105,6 @@ class ToastNotification {
 		autoscroll = ((container.scrollHeight - container.scrollTop - container.clientHeight) <= 40)
 
 		container.append(this.#element)
-		_toastNotifications.push(this)
 
 		if (autoscroll) container.scrollTop = container.scrollHeight
 
@@ -118,7 +116,6 @@ class ToastNotification {
 
 			if (this.#timeout <= 0) {
 				clearInterval(this.#_intervalId)
-
 				this.close()
 			}
 		}, 1000)
@@ -130,14 +127,13 @@ class ToastNotification {
 
 		const wrapper = document.body.querySelector("#toast-notification-wrapper")
 		const container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (container === null) return
+		if (!container) return
 
 		this.#element.classList.add("closed")
 
 		setTimeout(() => {
 			this.#element.remove()
-			_toastNotifications.splice(_toastNotifications.indexOf(this), 1)
-			if (container.childElementCount === 0) wrapper.remove()
+			if (container.childElementCount == 0) wrapper.remove()
 		}, 500)
 	}
 }

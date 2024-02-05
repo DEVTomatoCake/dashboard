@@ -82,7 +82,7 @@ class Footer extends HTMLElement {
 		this.innerHTML =
 			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
 			"<footer>" +
-			"<a href='/'>" +
+			"<a href='/' aria-label='Go to homepage'>" +
 			"<div id='mainlink'>" +
 				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo'>" +
 				"<span>TomatenKuchen</span>" +

@@ -62,7 +62,7 @@ const getFormHTML = async formId => {
 		const hasMultiple = json.fields.some(field => field.page && field.page > 1)
 		text += "<br>" +
 			(json.anonymous == "always" ? "<p translation='form.anonymous'></p>" : "") +
-			(json.anonymous == "optional" ? "<p id='submit-anonymous'" + (hasMultiple ? " hidden" : "") + "><label title='If checked, no one on the server is able to see "+
+			(json.anonymous == "optional" ? "<p id='submit-anonymous'" + (hasMultiple ? " hidden" : "") + "><label title='If checked, no one on the server is able to see " +
 				"who submitted this form.'>You can decide whether you want to remain anonymous to the server team: <input type='checkbox' id='form-anonymous' checked></label></p>" : "") +
 			(json.cooldown ? "<p id='submit-cooldown'" + (hasMultiple ? " hidden" : "") + ">You can only submit something every <b>" + encode(json.cooldown) + "</b>.</p>" : "") +
 			(hasMultiple ?

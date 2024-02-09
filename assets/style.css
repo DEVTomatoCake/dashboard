@@ -1103,6 +1103,8 @@ pre {
 	position: sticky;
 	right: 0;
 	top: 0;
+	width: 500px;
+	height: 250px;
 }
 
 .integration-container {

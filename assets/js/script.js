@@ -13,7 +13,7 @@ async function get(component, auth = true, method = "GET", body = null) {
 	return json
 }
 
-function setCookie(name, value = "", days, global = false) {
+function setCookie(name = "", value = "", days = void 0, global = false) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 
 	let cookie = name + "=" + value + ";path=/;Secure;"
@@ -34,6 +34,7 @@ function deleteCookie(name) {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
+// eslint-disable-next-line prefer-const
 let loadFunc = () => {}
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
 const assertInt = int => {
@@ -49,9 +50,6 @@ const handleError = error => {
 }
 
 class Header extends HTMLElement {
-	constructor() {
-		super()
-	}
 	connectedCallback() {
 		this.innerHTML =
 			"<header>" +
@@ -75,9 +73,6 @@ class Header extends HTMLElement {
 customElements.define("global-header", Header)
 
 class Footer extends HTMLElement {
-	constructor() {
-		super()
-	}
 	connectedCallback() {
 		this.innerHTML =
 			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
@@ -105,9 +100,6 @@ customElements.define("global-footer", Footer)
 class Sidebar extends HTMLElement {
 	static observedAttributes = ["page", "dashboard", "user", "guild"]
 
-	constructor() {
-		super()
-	}
 	attributeChangedCallback() {
 		const guild = this.hasAttribute("guild") ? encode(this.getAttribute("guild")) : void 0
 		const dashboard = this.getAttribute("dashboard")
@@ -334,7 +326,7 @@ function pageLoad() {
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 
-	let script = document.createElement("script")
+	const script = document.createElement("script")
 	script.src = "/assets/js/instantpage-5.2.0.js"
 	script.type = "module"
 	document.body.appendChild(script)

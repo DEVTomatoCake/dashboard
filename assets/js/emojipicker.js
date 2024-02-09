@@ -92,9 +92,6 @@ const updateMultiSelected = (elem, key, value) => {
 }
 
 class ChannelRolePicker extends HTMLElement {
-	constructor() {
-		super()
-	}
 	connectedCallback() {
 		let toSelect = pickerData[this.getAttribute("type")]
 		if (this.getAttribute("data-multi") == 1 && this.getAttribute("type") != "role" && !this.hasAttribute("data-form")) {

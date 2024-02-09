@@ -12,10 +12,16 @@ const global = {
 	encode: "writable",
 	assertInt: "writable",
 	get: "writable",
-	getCookie: "writable",
 	getLanguage: "writable",
+	getCookie: "writable",
+	setCookie: "writable",
+	deleteCookie: "writable",
 	reloadText: "writable",
 	handleError: "writable",
+	handleChange: "writable",
+	pickerData: "writable",
+	selectData: "writable",
+	messageData: "writable",
 	loadFunc: "writable",
 	openDialog: "writable",
 	fadeIn: "writable",
@@ -23,7 +29,11 @@ const global = {
 	ToastNotification: "writable",
 	sockette: "writable",
 	mentionPicker: "writable",
-	emojiPicker: "writable"
+	emojiPicker: "writable",
+	sidebar: "writable",
+	updateSelected: "writable",
+	togglePicker: "writable",
+	turnstile: "readonly"
 }
 
 const rules = {
@@ -310,7 +320,6 @@ module.exports = [
 			"@html-eslint/require-title": 2,
 			"@html-eslint/no-extra-spacing-attrs": 2,
 			"@html-eslint/lowercase": 2,
-			"@html-eslint/id-naming-convention": [1, "kebab-case"],
 			"@html-eslint/element-newline": 2,
 			"@html-eslint/quotes": 2,
 			"@html-eslint/require-img-alt": 2

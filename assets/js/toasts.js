@@ -21,14 +21,14 @@ const createWrapper = () => {
 }
 
 class ToastNotification {
-	#_intervalId;
-	#element;
+	#_intervalId
+	#element
 
-	#timeout;
-	#type;
-	#title;
-	#description;
-	#tag;
+	#timeout
+	#type
+	#title
+	#description
+	#tag
 
 	constructor({timeout = 20, type = "INFO", title = "", description = "", tag = ""}) {
 		this.#timeout = timeout

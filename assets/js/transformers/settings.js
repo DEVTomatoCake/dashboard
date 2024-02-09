@@ -1,6 +1,6 @@
 let settingsData = {}
 let categoriesData = {}
-let selectData = {}
+const selectData = {}
 let queue = []
 
 const params = new URLSearchParams(location.search)
@@ -295,7 +295,7 @@ const embedKeys = new Set(["content", "author", "authoricon", "color", "title", 
 const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
 const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
 
-function addItem(settingKey, key = Math.random().toString(36).slice(4), value, parent, noDefault = false) {
+function addItem(settingKey, key = Math.random().toString(36).slice(4), value = void 0, parent = void 0, noDefault = false) {
 	const setting = selectData[settingKey]
 	if (parent && setting.key == "rssUpdate")
 		value = {

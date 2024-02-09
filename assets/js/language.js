@@ -50,5 +50,6 @@ const reloadText = async language => {
 		else console.warn("Couldn't load lang string " + key + ", got " + typeof text + " instead", text)
 	}
 
-	document.documentElement.scrollTop = document.body.scrollTop = scrollTop
+	document.documentElement.scrollTop = scrollTop
+	document.body.scrollTop = scrollTop
 }

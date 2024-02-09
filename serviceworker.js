@@ -6,8 +6,8 @@ self.addEventListener("install", event => {
 			if (cacheName != "static" + version && cacheName != "fallback" + version) caches.delete(cacheName)
 		})
 
-		const static = await caches.open("static" + version)
-		static.addAll([
+		const staticCache = await caches.open("static" + version)
+		staticCache.addAll([
 			"/offline",
 			"/assets/fonts/gfonts_bevietmanpro_latin.woff2",
 			"/assets/images/favicon.ico",
@@ -23,8 +23,8 @@ self.addEventListener("install", event => {
 			"/assets/images/wikimedia_flagja.svg"
 		])
 
-		const fallback = await caches.open("fallback" + version)
-		fallback.addAll([
+		const fallbackCache = await caches.open("fallback" + version)
+		fallbackCache.addAll([
 			"/assets/style.css",
 			"/assets/js/script.js",
 			"/assets/js/language.js",

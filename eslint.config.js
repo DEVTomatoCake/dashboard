@@ -291,7 +291,7 @@ module.exports = [
 				ToastNotification: "writable",
 				sockette: "writable"
 			},
-			parser: html
+			parser: require("@html-eslint/parser")
 		},
 		files: ["**/*.html"],
 		plugins: {

@@ -197,7 +197,7 @@ const addStatus = () => {
 
 	document.getElementById("status-list").innerHTML +=
 		"<div><br>" +
-		"<p>" + encode(statusEmoji[document.getElementById("status-status").value] + " " + statusActivity[document.getElementById("status-activity").value] +": " +
+		"<p>" + encode(statusEmoji[document.getElementById("status-status").value] + " " + statusActivity[document.getElementById("status-activity").value] + ": " +
 		document.getElementById("status-text").value) + "</p>" +
 		"<ion-icon name='trash-outline' onclick='removeStatus(this)'></ion-icon>" +
 		"</div>"

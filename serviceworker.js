@@ -57,14 +57,14 @@ self.addEventListener("fetch", event => {
 			const preloadResponse = await event.preloadResponse
 			if (preloadResponse) return preloadResponse
 
-			const static = await caches.open("static" + version)
-			const assetResponse = await static.match(event.request)
+			const staticCache = await caches.open("static" + version)
+			const assetResponse = await staticCache.match(event.request)
 			if (assetResponse) return assetResponse
 
 			const fallback = await caches.open("fallback" + version)
 			try {
 				const response = await fetch(event.request)
-				if (url.href.startsWith("https://cdn.jsdelivr.net/npm/ionicons@")) static.put(event.request, response.clone())
+				if (url.href.startsWith("https://cdn.jsdelivr.net/npm/ionicons@")) staticCache.put(event.request, response.clone())
 				else if (url.host != "static.cloudflareinsights.com" && url.host != "sus.tomatenkuchen.com" && !url.search.includes("guild=") && !url.search.includes("token="))
 					fallback.put(event.request, response.clone())
 				return response

@@ -5,7 +5,7 @@ const getGiveawayHTML = async giveaway => {
 
 		if (json.data.ended) text += "<h2 translation='giveaway.ended'></h2><p>" +
 			(json.data.winners.length > 0 ?
-				"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + " (<b>" + assert(json.data.winnerCount) + "</b>):<br>" +
+				"Gewonnen ha" + (json.data.winners.length == 1 ? "t" : "ben") + " (<b>" + assertInt(json.data.winnerCount) + "</b>):<br>" +
 				(json.data.winners.map(user =>
 					"<img class='user-image' crossorigin='anonymous' loading='lazy' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' " +

@@ -33,6 +33,7 @@ const global = {
 	sidebar: "writable",
 	updateSelected: "writable",
 	togglePicker: "writable",
+	readImage: "readonly",
 	turnstile: "readonly"
 }
 

@@ -6,6 +6,7 @@
   "author": "TomatoCake",
   "main": "dev.js",
   "scripts": {
+    "lint": "eslint .",
     "dev": "nodemon --delay 10ms -e js,html,css,png,webp",
     "minify": "node minify.js"
   },

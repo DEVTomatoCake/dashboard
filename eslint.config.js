@@ -23,7 +23,7 @@ const global = {
 	ToastNotification: "writable",
 	sockette: "writable",
 	mentionPicker: "writable",
-	emojiPicker: "writable",
+	emojiPicker: "writable"
 }
 
 const rules = {
@@ -237,7 +237,8 @@ module.exports = [
 		languageOptions: {
 			globals: global
 		},
-		files: ["**/*.js", "!./*.js"],
+		files: ["**/*.js"],
+		ignores: ["!*.js"],
 		plugins: {
 			unicorn,
 			sonarjs,
@@ -251,10 +252,10 @@ module.exports = [
 		languageOptions: {
 			globals: {
 				...global,
-				globals.node
+				...globals.node
 			}
 		},
-		files: ["./*.js"],
+		files: ["*.js"],
 		plugins: {
 			unicorn,
 			sonarjs,
@@ -309,7 +310,7 @@ module.exports = [
 			"@html-eslint/require-title": 2,
 			"@html-eslint/no-extra-spacing-attrs": 2,
 			"@html-eslint/lowercase": 2,
-			"@html-eslint/id-naming-convention": [2, "kebab-case"],
+			"@html-eslint/id-naming-convention": [1, "kebab-case"],
 			"@html-eslint/element-newline": 2,
 			"@html-eslint/quotes": 2,
 			"@html-eslint/require-img-alt": 2

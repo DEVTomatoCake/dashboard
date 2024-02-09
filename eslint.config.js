@@ -6,6 +6,26 @@ const stylistic = require("@stylistic/eslint-plugin-js")
 const htmlESLint = require("@html-eslint/eslint-plugin")
 const html = require("eslint-plugin-html")
 
+const global = {
+	...globals.browser,
+
+	encode: "writable",
+	assertInt: "writable",
+	get: "writable",
+	getCookie: "writable",
+	getLanguage: "writable",
+	reloadText: "writable",
+	handleError: "writable",
+	loadFunc: "writable",
+	openDialog: "writable",
+	fadeIn: "writable",
+	fadeOut: "writable",
+	ToastNotification: "writable",
+	sockette: "writable",
+	mentionPicker: "writable",
+	emojiPicker: "writable",
+}
+
 const rules = {
 	"array-callback-return": 2,
 	"block-scoped-var": 2,
@@ -215,24 +235,9 @@ module.exports = [
 			reportUnusedDisableDirectives: "error"
 		},
 		languageOptions: {
-			globals: {
-				...globals.browser,
-				require: "readonly",
-				module: "readonly",
-
-				encode: "writable",
-				assertInt: "writable",
-				get: "writable",
-				getLanguage: "writable",
-				reloadText: "writable",
-				handleError: "writable",
-				loadFunc: "writable",
-				openDialog: "writable",
-				ToastNotification: "writable",
-				sockette: "writable"
-			}
+			globals: global
 		},
-		files: ["**/*.js"],
+		files: ["**/*.js", "!./*.js"],
 		plugins: {
 			unicorn,
 			sonarjs,
@@ -245,19 +250,23 @@ module.exports = [
 		},
 		languageOptions: {
 			globals: {
-				...globals.browser,
-
-				encode: "writable",
-				assertInt: "writable",
-				get: "writable",
-				getLanguage: "writable",
-				reloadText: "writable",
-				handleError: "writable",
-				loadFunc: "writable",
-				openDialog: "writable",
-				ToastNotification: "writable",
-				sockette: "writable"
-			},
+				...global,
+				globals.node
+			}
+		},
+		files: ["./*.js"],
+		plugins: {
+			unicorn,
+			sonarjs,
+			"@stylistic/js": stylistic
+		},
+		rules
+	},{
+		linterOptions: {
+			reportUnusedDisableDirectives: "error"
+		},
+		languageOptions: {
+			globals: global,
 			parser: require("@html-eslint/parser")
 		},
 		files: ["**/*.html"],
@@ -296,13 +305,11 @@ module.exports = [
 			"@html-eslint/require-li-container": 2,
 			"@html-eslint/require-closing-tags": 2,
 			"@html-eslint/require-doctype": 2,
-			"@html-eslint/require-open-graph-protocol": 2,
-			"@html-eslint/no-multiple-h1": 1,
 			"@html-eslint/require-lang": 2,
 			"@html-eslint/require-title": 2,
 			"@html-eslint/no-extra-spacing-attrs": 2,
 			"@html-eslint/lowercase": 2,
-			"@html-eslint/id-naming-convention": 2,
+			"@html-eslint/id-naming-convention": [2, "kebab-case"],
 			"@html-eslint/element-newline": 2,
 			"@html-eslint/quotes": 2,
 			"@html-eslint/require-img-alt": 2

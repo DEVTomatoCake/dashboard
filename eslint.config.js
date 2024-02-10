@@ -6,6 +6,9 @@ const stylistic = require("@stylistic/eslint-plugin-js")
 const htmlESLint = require("@html-eslint/eslint-plugin")
 const html = require("eslint-plugin-html")
 
+const linterOptions = {
+	reportUnusedDisableDirectives: "error"
+}
 const global = {
 	...globals.browser,
 
@@ -33,8 +36,10 @@ const global = {
 	sidebar: "writable",
 	updateSelected: "writable",
 	togglePicker: "writable",
+
 	renderImage: "readonly",
-	turnstile: "readonly"
+	turnstile: "readonly",
+	Chart: "readonly"
 }
 
 const rules = {
@@ -242,9 +247,7 @@ const rules = {
 
 module.exports = [
 	{
-		linterOptions: {
-			reportUnusedDisableDirectives: "error"
-		},
+		linterOptions,
 		languageOptions: {
 			globals: global
 		},
@@ -257,9 +260,7 @@ module.exports = [
 		},
 		rules
 	},{
-		linterOptions: {
-			reportUnusedDisableDirectives: "error"
-		},
+		linterOptions,
 		languageOptions: {
 			globals: {
 				...global,
@@ -274,9 +275,7 @@ module.exports = [
 		},
 		rules
 	},{
-		linterOptions: {
-			reportUnusedDisableDirectives: "error"
-		},
+		linterOptions,
 		languageOptions: {
 			globals: global,
 			parser: require("@html-eslint/parser")
@@ -286,8 +285,8 @@ module.exports = [
 			unicorn,
 			sonarjs,
 			"@stylistic/js": stylistic,
-			"@html-eslint": htmlESLint,
-			html
+			"@html-eslint": htmlESLint/*,
+			html*/
 		},
 		settings: {
 			"html/html-extensions": [".html"]

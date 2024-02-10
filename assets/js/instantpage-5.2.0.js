@@ -5,7 +5,6 @@ let lastTouchTimestamp
 const preloadTimeouts = {}
 const preloadedList = new Set()
 
-const DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION = 1111
 const documentCopy = document
 const locationCopy = location
 
@@ -33,15 +32,13 @@ if (documentCopy.createElement("link").relList.supports("prefetch")) {
 
 		const anchorElement = event.target.closest("a")
 
-		if (!isPreloadable(anchorElement)) {
-			return
-		}
+		if (!isPreloadable(anchorElement)) return
 
 		preload(anchorElement.href)
 	}, eventListenersOptions)
 
 	documentCopy.addEventListener("mouseover", event => {
-		if (performance.now() - lastTouchTimestamp < DELAY_TO_NOT_BE_CONSIDERED_A_TOUCH_INITIATED_ACTION) {
+		if (performance.now() - lastTouchTimestamp < 1111) {
 			return
 		}
 

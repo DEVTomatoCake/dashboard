@@ -285,8 +285,8 @@ module.exports = [
 			unicorn,
 			sonarjs,
 			"@stylistic/js": stylistic,
-			"@html-eslint": htmlESLint/*,
-			html*/
+			"@html-eslint": htmlESLint,
+			html
 		},
 		settings: {
 			"html/html-extensions": [".html"]

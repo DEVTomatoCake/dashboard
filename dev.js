@@ -17,7 +17,7 @@ wss.on("connection", ws => {
 })
 
 const wsRestart =
-	"<script>" +
+	"<script\>" +
 	"const devSocket = new WebSocket('ws://' + location.hostname + ':6942');" +
 	"devSocket.onclose = () => location.reload();" +
 	"</script>"

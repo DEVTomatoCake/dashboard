@@ -38,22 +38,14 @@ if (documentCopy.createElement("link").relList.supports("prefetch")) {
 	}, eventListenersOptions)
 
 	documentCopy.addEventListener("mouseover", event => {
-		if (performance.now() - lastTouchTimestamp < 1111) {
-			return
-		}
+		if (performance.now() - lastTouchTimestamp < 1111) return
 
-		if (!("closest" in event.target)) {
-			return
-		}
+		if (!("closest" in event.target)) return
 		const anchorElement = event.target.closest("a")
 
-		if (!isPreloadable(anchorElement)) {
-			return
-		}
+		if (!isPreloadable(anchorElement)) return
 
-		if (preloadTimeouts[anchorElement.href]) {
-			return
-		}
+		if (preloadTimeouts[anchorElement.href]) return
 
 		anchorElement.addEventListener("mouseout", mouseoutListener, {passive: true})
 
@@ -75,41 +67,25 @@ function mouseoutListener(event) {
 }
 
 function isPreloadable(anchorElement) {
-	if (!anchorElement || !anchorElement.href) {
-		return
-	}
+	if (!anchorElement || !anchorElement.href) return
 
-	if (anchorElement.origin != locationCopy.origin) {
-		return
-	}
+	if (anchorElement.origin != locationCopy.origin) return
 
-	if (!["http:", "https:"].includes(anchorElement.protocol)) {
-		return
-	}
+	if (!["http:", "https:"].includes(anchorElement.protocol)) return
 
-	if (anchorElement.protocol == "http:" && locationCopy.protocol == "https:") {
-		return
-	}
+	if (anchorElement.protocol == "http:" && locationCopy.protocol == "https:") return
 
-	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == locationCopy.pathname + locationCopy.search) {
-		return
-	}
+	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == locationCopy.pathname + locationCopy.search) return
 
-	if ("noInstant" in anchorElement.dataset) {
-		return
-	}
+	if ("noInstant" in anchorElement.dataset) return
 
-	if (preloadedList.has(anchorElement.href)) {
-		return
-	}
+	if (preloadedList.has(anchorElement.href)) return
 
 	return true
 }
 
 function preload(url) {
-	if (preloadedList.has(url)) {
-		return
-	}
+	if (preloadedList.has(url)) return
 
 	const linkElement = documentCopy.createElement("link")
 	linkElement.rel = "prefetch"

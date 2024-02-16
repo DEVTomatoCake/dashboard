@@ -262,10 +262,7 @@ module.exports = [
 	},{
 		linterOptions,
 		languageOptions: {
-			globals: {
-				...global,
-				...globals.node
-			}
+			globals: globals.node
 		},
 		files: ["*.js"],
 		plugins: {

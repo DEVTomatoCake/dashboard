@@ -49,6 +49,7 @@ function handleChange(id) {
 const params = new URLSearchParams(location.search)
 function createDialog() {
 	document.getElementById("create-dialog").removeAttribute("data-edit")
+	document.getElementById("create-title").innerHTML = "<span translation='integration.create'></span>"
 	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
 	document.getElementById("integration-name").removeAttribute("readonly")
 	document.getElementById("integration-short").value = ""
@@ -197,28 +198,27 @@ function nameExists(elem) {
 	elem.reportValidity()
 }
 
-function handleIntegration(integration) {
-	return "<div class='integration'>" +
-		"<div class='flex'>" +
-			(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
-			"<h3>" + encode(integration.name) + "</h3>" +
-			(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
-			(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
-			(integration.disabled ? " <ion-icon name='close-circle-outline' title='Disabled on the creating server'></ion-icon>" : "") +
-		"</div>" +
-		(integration.short ? "<p>" + encode(integration.short.substring(0, 100)) + "</p>" : "") +
-		"<br>" +
-		(integration.isOwner ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
-		"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
-		"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
-		"<div class='flex'>" +
-			"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
-			(integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
-				"<ion-icon name='build-outline'></ion-icon></button>" : "") +
-			(integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
-		"</div>" +
-		"</div>"
-}
+const handleIntegration = integration =>
+	"<div class='integration'>" +
+	"<div class='flex'>" +
+		(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
+		"<h3>" + encode(integration.name) + "</h3>" +
+		(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
+		(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
+		(integration.disabled ? " <ion-icon name='close-circle-outline' title='Disabled on the creating server'></ion-icon>" : "") +
+	"</div>" +
+	(integration.short ? "<p>" + encode(integration.short.substring(0, 100)) + "</p>" : "") +
+	"<br>" +
+	(integration.isOwner ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
+	"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
+	"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
+	"<div class='flex'>" +
+		"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
+		(integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
+			"<ion-icon name='build-outline'></ion-icon></button>" : "") +
+		(integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
+	"</div>" +
+	"</div>"
 
 let saving = false
 let savingToast
@@ -300,13 +300,22 @@ function connectWS(guild) {
 
 function createIntegration(sourceId = "") {
 	if (!params.has("guild") || saving) return
-	saving = true
 
 	const name = encode(document.getElementById("integration-name").value)
-	if (!name) return alert("Enter a name for the integration!")
-	if (!/^[a-z0-9_-]+$/g.test(name)) return alert("The name can only contain lowercase letters, numbers, underscores and dashes!")
-	if (name.length > 32) return alert("The name can be at most 32 characters long!")
+	if (!name) {
+		document.getElementById("integration-name").setCustomValidity("Enter a name for the integration!")
+		return document.getElementById("integration-name").reportValidity()
+	}
+	if (!/^[\w-]+$/g.test(name)) {
+		document.getElementById("integration-name").setCustomValidity("The name can only contain letters, numbers, underscores and dashes!")
+		return document.getElementById("integration-name").reportValidity()
+	}
+	if (name.replace(/[^\w-]/g, "").length > 50) {
+		document.getElementById("integration-name").setCustomValidity("The name can be at most 50 characters long!")
+		return document.getElementById("integration-name").reportValidity()
+	}
 
+	saving = true
 	document.getElementById("create-dialog").setAttribute("hidden", "")
 	if (document.getElementById("no-integrations")) document.getElementById("no-integrations").remove()
 

@@ -13,7 +13,7 @@ const eventListenersOptions = {
 	passive: true
 }
 
-// instant.page is meant to be loaded with <script type=module>
+// instant.page is meant to be loaded with <script type=module\>
 // (though sometimes webmasters load it as a regular script).
 // So it’s normally executed (and must not cause JavaScript errors) in:
 // - Chromium 61+

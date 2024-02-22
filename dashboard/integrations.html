@@ -47,6 +47,10 @@
 							<span translation="integration.create"></span>
 						</h1>
 
+						<label for="integration-name">Unique name</label>
+						<input type="text" maxlength="50" pattern="[a-z0-9_\-]+" placeholder="Global display name" oninput="nameExists(this)" id="integration-name">
+						<br>
+
 						<div id="integration-use-container" hidden>
 							<label for="integration-sync" translation="integration.syncmode"></label>
 
@@ -57,10 +61,10 @@
 						<br>
 						<a href="https://docs.tomatenkuchen.com/category/action-functions" target="_blank" rel="noopener">Check out all available functions in the docs!</a>
 						<br>
-						<button type="button" id="integration-addaction" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
+						<button type="button" id="integration-addaction" class="createForm cc-hidden" onclick="addAction()" translation="integration.addaction"></button>
 						<template id="actions-template">
 							<label for="action-trigger" translation="integration.trigger"></label>
-							<channel-picker class="action-trigger" type="action-trigger" id="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
+							<channel-picker class="action-trigger cc-hidden" type="action-trigger" id="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
 
 							<label for="action-name">Action name</label>
 							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" id="action-name" class="action-name">
@@ -74,19 +78,15 @@
 								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
 								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
-							<ion-icon name="trash-outline" onclick="this.parentElement.remove()"></ion-icon>
+							<ion-icon name="trash-outline" class="cc-hidden" onclick="this.parentElement.remove()"></ion-icon>
 						</template>
 						<div id="actions-container"></div>
-						<button type="button" class="createForm" onclick="addAction()" translation="integration.addaction"></button>
+						<button type="button" class="createForm cc-hidden" onclick="addAction()" translation="integration.addaction"></button>
 
 						<br>
 						<br>
-						<details>
+						<details class="cc-hidden">
 							<summary translation="integration.additionalpublic"></summary>
-
-							<label for="integration-name">Unique name</label>
-							<input type="text" maxlength="50" pattern="[a-z0-9_\-]+" placeholder="Global display name" oninput="nameExists(this)" id="integration-name">
-							<br>
 
 							<label for="integration-public" translation="integration.public"></label>
 							<input type="checkbox" id="integration-public">
@@ -117,11 +117,17 @@
 				</div>
 
 				<p>
-					Integrations are pretty much just advanced custom commands: You can reply when a command is used, but also when something else happens on your server,
-					like an AutoMod rule triggers, a user joins your server, someone levels up, creates a forum post, ...
+					Integrations are just advanced customcommands: You can reply when a bot command is used or a user sends a specific message, but also when something else happens,
+					like an AutoMod rule triggers, a user joins your server, creates a forum post and much more!
 					<br>
 					<a href="https://docs.tomatenkuchen.com/integrations" target="_blank" rel="noopener">Learn more in the docs!</a>
 				</p>
+				<button
+					type="button" id="cc-simple" class="createForm green" hidden onclick="disableSimple()"
+					title="Simple mode simplifies the integration UI to allow the creation of just customcommands.
+						If you want to create, edit or use more advanced integrations, click this button or use the Integrations tab in the sidebar.">
+					Disable simple mode
+				</button>
 				<br>
 
 				<div id="root-container">

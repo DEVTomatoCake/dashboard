@@ -374,7 +374,19 @@ function createIntegration(sourceId = "") {
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving integration \"" + encode(name) + "\"...", timeout: 7}).show()
 }
 
+const disableSimple = () => {
+	for (const elem of document.getElementsByClassName("cc-hidden")) elem.removeAttribute("hidden")
+	document.getElementById("cc-simple").remove()
+
+	new ToastNotification({type: "SUCCESS", title: "Simple mode disabled!", timeout: 10}).show()
+}
+
 loadFunc = () => {
+	if (params.has("cc")) {
+		for (const elem of document.getElementsByClassName("cc-hidden")) elem.setAttribute("hidden", "")
+		document.getElementById("cc-simple").removeAttribute("hidden")
+	}
+
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {

@@ -4,16 +4,17 @@ function getCustomHTML(json) {
 		bots = json.bots
 		return "<h1>Your custom bots</h1>" +
 			"<p>This list includes all custom bots you have access to.</p><br>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Create a custom bot</button><br>" +
+			"<button type='button' class='createForm' onclick='createDialog()'" + (bots.filter(bot => bot.hasAccess).length > 0 ? " disabled" : "") +
+				">Create a custom bot</button><br>" +
 			"<br><div class='integration-container'>" +
-			json.bots.map(bot =>
+			bots.map(bot =>
 				"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
 				"<div>" +
 				"<div class='flex'>" +
 				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy' crossorigin='anonymous'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"</div>" +
-				"<p>Credit cost per day: <b>" + (bot.cost == 0 ? "Free" : bot.cost.toLocaleString()) + "</b></p>" +
+				(bot.cost > 0 ? "<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" : "") +
 				"<p>Current balance (<b>" + assertInt(bot.donations) + "</b> total donations): <b>" + bot.balance.toLocaleString() + "</b></p>" +
 				"</div>" +
 				"<div>" +

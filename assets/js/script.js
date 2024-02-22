@@ -139,12 +139,14 @@ class Sidebar extends HTMLElement {
 						"<div class='section middle'><p class='title' translation='sidebar.dashboard'></p>" +
 						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon>" +
 							"<p translation='dashboard.settings'>Settings</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
-							"<p translation='dashboard.integrations'>Integrations</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?cc=1&guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
+							"<p>Customcommands</p></a>" +
 						"<details>" +
 						"<summary>More pages</summary>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
+							"<p translation='dashboard.integrations'>Integrations</p></a>" +
 						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon>" +
-						"<p>Reactionroles</p></a>" +
+							"<p>Reactionroles</p></a>" +
 						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "'><ion-icon name='warning-outline'></ion-icon>" +
 							"<p translation='dashboard.logs'>Logs</p></a>" +
 						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +

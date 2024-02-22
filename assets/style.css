@@ -662,7 +662,7 @@ footer .links {
 	display: flex;
 	align-items: center;
 	gap: 10px;
-	margin: 5px 25px 0 0;
+	margin: 5px 20px 0 0;
 	cursor: pointer;
 	border-top-right-radius: 20px;
 	border-bottom-right-radius: 20px;
@@ -706,7 +706,7 @@ footer .links {
 }
 
 .sidebar .section .tab.otherlinks p {
-	font-size: 18.5px;
+	font-size: 17.5px;
 }
 
 .sidebar .section.bottom .tab {
@@ -1190,7 +1190,7 @@ button:hover, button:focus {
 	background-color: var(--accent-color-hover);
 }
 button:disabled {
-	opacity: .75;
+	opacity: .55;
 	cursor: not-allowed;
 }
 

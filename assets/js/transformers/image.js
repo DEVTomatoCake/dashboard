@@ -38,7 +38,7 @@ function createDialog() {
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
 	reloadText()
-	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
+	for (const elem of document.querySelectorAll(".image-editor input, .image-editor select")) elem.oninput = () => handleChange(elem)
 }
 
 let currentLayer = {}
@@ -109,7 +109,7 @@ function editLayer(id = "") {
 	document.getElementById("layer-x").value = currentLayer.x
 	document.getElementById("layer-y").value = currentLayer.y
 	document.getElementById("layer-opacity").value = currentLayer.opacity
-	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity * 100 + "%"
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + Math.round(currentLayer.opacity * 100) + "%"
 }
 
 function addLayer() {
@@ -152,7 +152,7 @@ function addLayer() {
 	document.getElementById("layer-x").value = currentLayer.x
 	document.getElementById("layer-y").value = currentLayer.y
 	document.getElementById("layer-opacity").value = currentLayer.opacity
-	document.getElementById("layer-opacity-text").innerText = "Opacity: " + currentLayer.opacity * 100 + "%"
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + Math.round(currentLayer.opacity * 100) + "%"
 
 	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
 	document.getElementById("layer-container").innerHTML +=
@@ -187,7 +187,8 @@ function imageEdit(imageId) {
 	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
 	reloadText()
-	for (const elem of document.querySelectorAll(".image-container input, .image-container select")) elem.oninput = () => handleChange(elem)
+	for (const elem of document.querySelectorAll(".image-editor input, .image-editor select")) elem.oninput = () => handleChange(elem)
+	renderImage(ctx, currentImage)
 }
 
 const params = new URLSearchParams(location.search)
@@ -279,10 +280,14 @@ function saveImage() {
 	document.getElementById("edit-dialog").setAttribute("hidden", "")
 	if (document.getElementById("no-images")) document.getElementById("no-images").remove()
 
-	if (currentImage.edit) images = images.filter(int => int.name != currentImage.name)
+	if (currentImage.edit) images = images.filter(int => int.id != currentImage.id)
 	else {
 		const div = document.createElement("div")
-		div.innerHTML = handleImage(currentImage)
+		div.innerHTML = handleImage({
+			id: currentImage.id,
+			name,
+			lastUpdate: Date.now()
+		})
 		document.getElementsByClassName("image-container")[0].appendChild(div)
 		reloadText()
 	}

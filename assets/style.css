@@ -1093,7 +1093,7 @@ pre {
 	display: flex;
 }
 
-.image-container.flex {
+.image-editor.flex {
 	flex-wrap: wrap;
 	justify-content: space-between;
 }

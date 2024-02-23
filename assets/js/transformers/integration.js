@@ -17,9 +17,9 @@ function getIntegrationsHTML(json, guild) {
 
 		if (json.integrations.some(i => i.guild != guild && !i.isOwner))
 			text +=
-				"<br><br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
+				"<div class='cc-hidden'><br><br><h2 translation='integration.otherpublic'></h2><div class='integration-container'>" +
 				json.integrations.filter(i => i.guild != guild && !i.isOwner).map(handleIntegration).join("") +
-				"</div>"
+				"</div></div>"
 
 		if (text == "<div class='integration-container'></div>") text += "<p id='no-integrations'><b translation='integration.none'></b></p>"
 		return "<h1 class='center'><span translation='integration.title'></span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
@@ -377,6 +377,10 @@ function createIntegration(sourceId = "") {
 const disableSimple = () => {
 	for (const elem of document.getElementsByClassName("cc-hidden")) elem.removeAttribute("hidden")
 	document.getElementById("cc-simple").remove()
+
+	const newUrl = new URL(location.href)
+	newUrl.searchParams.delete("cc")
+	history.pushState({}, "", newUrl)
 
 	new ToastNotification({type: "SUCCESS", title: "Simple mode disabled!", timeout: 10}).show()
 }

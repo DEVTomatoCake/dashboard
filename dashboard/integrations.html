@@ -59,12 +59,13 @@
 						</div>
 
 						<br>
-						<a href="https://docs.tomatenkuchen.com/category/action-functions" target="_blank" rel="noopener">Check out all available functions in the docs!</a>
+						<a href="https://docs.tomatenkuchen.com/category/action-functions" target="_blank" rel="noopener">All available functions</a>
 						<br>
+
 						<button type="button" id="integration-addaction" class="createForm cc-hidden" onclick="addAction()" translation="integration.addaction"></button>
 						<template id="actions-template">
 							<label for="action-trigger" translation="integration.trigger"></label>
-							<channel-picker class="action-trigger cc-hidden" type="action-trigger" id="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
+							<channel-picker class="action-trigger" type="action-trigger" id="action-trigger" data-unsafe="1" tabindex="0"></channel-picker>
 
 							<label for="action-name">Action name</label>
 							<input type="text" maxlength="32" pattern="[a-z0-9_\-]+" placeholder="Slash/message command name" id="action-name" class="action-name">

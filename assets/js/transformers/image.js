@@ -7,7 +7,7 @@ function getImagesHTML(json, guild) {
 
 		if (text == "<div class='image-container'></div>") text += "<br><p id='no-images'><b>There are no dynamic images on this server!</b></p>"
 		return "<h1 class='center'><span>Dynamic images of</span> <span class='accent'>" + encode(json.name) + "</span></h1>" +
-			"<button type='button' class='createForm' onclick='createDialog()'>Create dynamic image</button>" + text + "</div>"
+			"<button type='button' onclick='createDialog()'>Create dynamic image</button><br>" + text + "</div>"
 	}
 
 	return (
@@ -57,7 +57,8 @@ function handleChange(elem) {
 	else if (elem.id.split("-")[1] == "color") currentLayer[elem.id.split("-")[1]] = elem.value.replace("#", "").padStart(6, "0")
 	else if (elem.id == "text-textAlign" || elem.id == "text-textBaseline") currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id.startsWith("text-")) currentLayer[elem.id.split("-")[1]] = elem.checked
-	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id.startsWith("layer-width") || elem.id.startsWith("layer-height")) currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
+	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id.startsWith("layer-width") || elem.id.startsWith("layer-height") || elem.id.startsWith("layer-fontSize"))
+		currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id == "image-width" || elem.id == "image-height") {
 		currentImage[elem.id.split("-")[1]] = parseInt(elem.value)
@@ -178,7 +179,7 @@ function imageEdit(imageId) {
 			"<div class='image-layer' id='layer-" + layer.id + "' onclick='editLayer(\"" + layer.id + "\")'>" +
 			"<p>" + encode(layer.name) + "</p>" +
 			"</div>"
-	})
+	}).join("")
 
 	currentLayer = currentImage.layers[0]
 	editLayer(currentLayer.id)

@@ -37,7 +37,10 @@ const params = new URLSearchParams(location.search)
 const confirmDelete = (log, elem) => {
 	if (confirm("Do you really want to delete the log \"" + log + "\"?")) {
 		get("logs/" + params.get("guild") + "/" + log, true, "DELETE")
+		new ToastNotification({type: "SUCCESS", title: "The log <code>" + encode(log) + "</code> was deleted successfully!", timeout: 10}).show()
+
 		if (elem) elem.parentElement.parentElement.remove()
+		else document.getElementById("info-dialog").setAttribute("hidden", "")
 	}
 }
 
@@ -70,7 +73,7 @@ const info = id => {
 
 	document.getElementById("info-dialogText").innerHTML =
 		"<b><span translation='logs.logid'></span>:</b> <code>" + encode(log.id) + "</code>" +
-		((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +
+		((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? " <button type='button' class='red' " +
 			"onclick='confirmDelete(\"" + encode(log.id) + "\")' translation='logs.delete'></button>" : "") +
 		"<br><b><span translation='logs.logtype'></span>:</b> " + encode(log.type) +
 		"<br><b><span translation='logs.logmessage'></span>:</b> " + encode(log.message) +

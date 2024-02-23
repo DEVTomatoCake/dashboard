@@ -139,10 +139,13 @@ class Sidebar extends HTMLElement {
 						"<div class='section middle'><p class='title' translation='sidebar.dashboard'></p>" +
 						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon>" +
 							"<p translation='dashboard.settings'>Settings</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?cc=1&guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' title='A simplified version of the integrations page' " +
+							"href='./integrations?cc=1&guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
 							"<p>Customcommands</p></a>" +
-						"<details>" +
-						"<summary>More pages</summary>" +
+						(dashboard == "settings" ?
+							"<details>" +
+							"<summary>More pages</summary>"
+						: "") +
 						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
 							"<p translation='dashboard.integrations'>Integrations</p></a>" +
 						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon>" +
@@ -156,7 +159,9 @@ class Sidebar extends HTMLElement {
 							"<p translation='dashboard.tickets'>Tickets</p></a>" +
 						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
 						"<a class='tab otherlinks' href='../stats?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
-						"</details>" +
+						(dashboard == "settings" ?
+							"</details>"
+						: "") +
 						"</div>"
 					: "") +
 				"</div>" +

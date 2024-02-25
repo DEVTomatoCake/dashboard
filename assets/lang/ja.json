@@ -64,8 +64,10 @@
 		"type": "タイプ"
 	},
 	"form": {
+		"anonymous": "このフォームは匿名回答です。サーバーのメンバーがあなたが誰であるかを確認することはできません。",
 		"missing": "クエリーパラメーターとして、フォームのスラッグまたはフォームIDを指定する必要があります！",
-		"submit": "投稿する"
+		"submit": "投稿する",
+		"unverified": "このフォームはTomatenKuchenによって認証されたわけではありません。パスワードやその他センシティブな情報の送信はお控えください。<a href=\"/discord\" target=\"_blank\" rel=\"noopener\">通報</a>"
 	},
 	"giveaway": {
 		"anyrole": "いずれかの役割",
@@ -95,7 +97,7 @@
 	"integration": {
 		"actions": "アクション",
 		"addaction": "アクションの追加",
-		"additionalpublic": "公開統合のための追加設定",
+		"additionalpublic": "公開範囲の詳細設定",
 		"create": "統合",
 		"createsource": "統合から統合を生み出す",
 		"edit": "編集",

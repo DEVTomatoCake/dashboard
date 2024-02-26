@@ -10,19 +10,19 @@ const getLogsHTML = async guild => {
 
 		text +=
 			"<table cellpadding='8' cellspacing='0'><thead>" +
-			"<tr><th>ID</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th translation='logs.actions'></th></tr>" +
+			"<tr><th>ID and details</th><th translation='logs.logtype'></th><th translation='logs.logmessage'></th><th translation='logs.amount'></th><th>Last occurred</th></tr>" +
 			"</thead><tbody>"
 
 		logs = json.data
 		logs.forEach(log => {
 			text +=
 				"<tr class='ticket cmdvisible'>" +
-				"<td>" + encode(log.id) + "</td>" +
+				"<td><button type='button' onclick='info(\"" + encode(log.id) + "\")'>" + encode(log.id) + "</button></td>" +
 				"<td>" + encode(log.type) + "</td>" +
 				"<td class='overflow'>" + encode(log.message) + "</td>" +
 				"<td>" + (log.source == "dashboard" ? "" : assertInt(log.count).toLocaleString()) + "</td>" +
 				"<td>" +
-					"<button type='button' onclick='info(\"" + encode(log.id) + "\")' translation='logs.moreinfo'></button>" +
+					"<p>" + new Date(log.lastDate || log.date).toLocaleString() + "</p>" +
 					((log.lastDate || log.date) < Date.now() - 1000 * 60 * 60 * 24 * 3 ? "<button type='button' class='red' " +
 					"onclick='confirmDelete(\"" + encode(log.id) + "\", this)' translation='logs.delete'></button>" : "") +
 				"</td>" +

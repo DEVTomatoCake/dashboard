@@ -120,9 +120,11 @@ function getSettingsHTML(json) {
 	)
 }
 
+let currentTab = ""
 const settingsTab = tab => {
 	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active")
 	document.getElementById("settab-" + tab).classList.add("active")
+	currentTab = tab
 
 	for (const elem of document.getElementsByClassName("settingdiv")) elem.setAttribute("hidden", "")
 	document.getElementById("setcat-" + tab).removeAttribute("hidden")
@@ -163,6 +165,8 @@ const threadClick = value => {
 let changed = []
 let hasLoaded = false
 let hasSavePopup = false
+let reverting = false
+
 function handleChange(id) {
 	if (!hasLoaded) return
 	if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0])
@@ -172,7 +176,7 @@ function handleChange(id) {
 			"<div class='userinfo-container unsaved-container' id='unsaved-container'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
 			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
-			"<button type='button' class='red' onclick='connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
+			"<button type='button' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
 			"</div>"
 		)
 		fadeIn(document.getElementById("unsaved-container"))
@@ -191,7 +195,8 @@ function connectWS(guild) {
 
 	socket = sockette("wss://api.tomatenkuchen.com", {
 		onClose: () => {
-			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
+			if (reverting) reverting = false
+			else errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 
 			if (hasSavePopup) {
 				fadeOut(document.getElementById("unsaved-container"))
@@ -262,6 +267,10 @@ function connectWS(guild) {
 				guildName = json.name
 				for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
 				hasLoaded = true
+				if (currentTab) {
+					settingsTab(currentTab)
+					document.getElementById("settab-" + currentTab).scrollIntoViewIfNeeded()
+				}
 
 				if (json.perms.length > 0) {
 					document.getElementById("missing-perms-warning").removeAttribute("hidden")

@@ -1245,6 +1245,16 @@ a:has(ion-icon), button:has(ion-icon) {
 	font-size: 40px;
 }
 
+#leveling div.flex p {
+	margin-top: 10px;
+}
+#leveling div.flex span {
+	padding: 2px 5px;
+	border: 2px solid var(--select-border);
+	border-radius: 15px;
+	font-size: 17px;
+}
+
 .feature {
 	margin-top: 25px;
 	display: grid;

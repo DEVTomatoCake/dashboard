@@ -17,6 +17,7 @@ const toggleMsgEditor = (setting, msgId) => {
 		dialog.setAttribute("hidden", "")
 	}
 
-	document.getElementById("msgeditor-iframe").src = "https://embed.tomatenkuchen.com/?data=" + btoa(encodeURIComponent(JSON.stringify(messageData[msgId])))
+	document.getElementById("msgeditor-iframe").src = "https://embed.tomatenkuchen.com/?data=" + btoa(encodeURIComponent(JSON.stringify(messageData[msgId]))) +
+		(getCookie("theme") == "light" ? "&light=1" : "")
 	document.getElementById("msgeditor-iframe").dataset.current = msgId
 }

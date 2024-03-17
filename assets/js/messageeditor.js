@@ -4,7 +4,7 @@ const toggleMsgEditor = (setting, msgId = "") => {
 	document.getElementById("msgeditor-save").onclick = () => {
 		dialog.setAttribute("hidden", "")
 
-		document.getElementById("msgeditor-iframe").contentWindow.postMessage("requestMessage", "*")
+		document.getElementById("msgeditor-iframe").contentWindow.postMessage("requestMessage", "https://embed.tomatenkuchen.com")
 		window.onmessage = e => {
 			if (e.origin == "https://embed.tomatenkuchen.com" && e.data.startsWith("respondMessage_")) {
 				messageData[document.getElementById("msgeditor-iframe").dataset.current] = JSON.parse(decodeURIComponent(atob(e.data.replace("respondMessage_", ""))))

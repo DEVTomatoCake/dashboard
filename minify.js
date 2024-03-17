@@ -90,14 +90,24 @@ async function main() {
 	await minifyFile("./assets/js/script.js", {
 		module: false
 	})
-	await minifyFile("./assets/js/toasts.js", {
+	await minifyFile("./assets/js/emojipicker.js", {
 		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
-			top_retain: ["ToastNotification"]
+			top_retain: ["emojiPicker", "insertMention", "mentionPicker", "togglePicker", "updateSelected", "updateMultiSelected"]
 		},
 		mangle: {
-			reserved: ["ToastNotification"]
+			reserved: ["emojiPicker", "insertMention", "mentionPicker", "togglePicker", "updateSelected", "updateMultiSelected"]
+		}
+	})
+	await minifyFile("./assets/js/language.js", {
+		toplevel: true,
+		compress: {
+			...defaultOptions.compress,
+			top_retain: ["getLanguage", "reloadText"]
+		},
+		mangle: {
+			reserved: ["getLanguage", "reloadText"]
 		}
 	})
 	await minifyFile("./assets/js/sockette.js", {
@@ -110,14 +120,14 @@ async function main() {
 			reserved: ["sockette"]
 		}
 	})
-	await minifyFile("./assets/js/language.js", {
+	await minifyFile("./assets/js/toasts.js", {
 		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
-			top_retain: ["getLanguage", "reloadText"]
+			top_retain: ["ToastNotification"]
 		},
 		mangle: {
-			reserved: ["getLanguage", "reloadText"]
+			reserved: ["ToastNotification"]
 		}
 	})
 	await minifyFile("./assets/js/messageeditor.js", {

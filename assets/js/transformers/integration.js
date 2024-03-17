@@ -1,3 +1,26 @@
+const params = new URLSearchParams(location.search)
+const handleIntegration = integration =>
+	"<div class='integration'>" +
+	"<div class='flex'>" +
+		(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
+		"<h3>" + encode(integration.name) + "</h3>" +
+		(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
+		(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
+		(integration.disabled ? " <ion-icon name='close-circle-outline' title='Disabled on the creating server'></ion-icon>" : "") +
+	"</div>" +
+	(integration.short ? "<p>" + encode(integration.short.substring(0, 100)) + "</p>" : "") +
+	"<br>" +
+	(integration.isOwner ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
+	"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
+	"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
+	"<div class='flex'>" +
+		"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
+		(integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
+			"<ion-icon name='build-outline'></ion-icon></button>" : "") +
+		(integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
+	"</div>" +
+	"</div>"
+
 function getIntegrationsHTML(json, guild) {
 	if (json.status == "success") {
 		let text = ""
@@ -46,7 +69,6 @@ function handleChange(id) {
 	}
 }
 
-const params = new URLSearchParams(location.search)
 function createDialog() {
 	document.getElementById("create-dialog").removeAttribute("data-edit")
 	document.getElementById("create-title").innerHTML = "<span translation='integration.create'></span>"
@@ -197,28 +219,6 @@ function nameExists(elem) {
 	else elem.setCustomValidity("")
 	elem.reportValidity()
 }
-
-const handleIntegration = integration =>
-	"<div class='integration'>" +
-	"<div class='flex'>" +
-		(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='" + encode(integration.image) + "' alt='Integration image of " + encode(integration.name) + "' loading='lazy'>" : "") +
-		"<h3>" + encode(integration.name) + "</h3>" +
-		(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
-		(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +
-		(integration.disabled ? " <ion-icon name='close-circle-outline' title='Disabled on the creating server'></ion-icon>" : "") +
-	"</div>" +
-	(integration.short ? "<p>" + encode(integration.short.substring(0, 100)) + "</p>" : "") +
-	"<br>" +
-	(integration.isOwner ? "" : "<p><span translation='integration.owner'></span> " + encode(integration.owner) + "</p>") +
-	"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
-	"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
-	"<div class='flex'>" +
-		"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
-		(integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
-			"<ion-icon name='build-outline'></ion-icon></button>" : "") +
-		(integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
-	"</div>" +
-	"</div>"
 
 let saving = false
 let savingToast

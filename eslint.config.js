@@ -4,7 +4,7 @@ const unicorn = require("eslint-plugin-unicorn")
 const sonarjs = require("eslint-plugin-sonarjs")
 const stylistic = require("@stylistic/eslint-plugin-js")
 const htmlESLint = require("@html-eslint/eslint-plugin")
-const html = require("eslint-plugin-html")
+//const html = require("eslint-plugin-html")
 
 const linterOptions = {
 	reportUnusedDisableDirectives: "error"
@@ -130,6 +130,7 @@ const rules = {
 	"prefer-const": 2,
 	"use-isnan": 2,
 	"valid-typeof": 2,
+	yoda: 2,
 
 	"@stylistic/js/array-bracket-spacing": 2,
 	"@stylistic/js/arrow-parens": [2, "as-needed"],
@@ -282,8 +283,8 @@ module.exports = [
 			unicorn,
 			sonarjs,
 			"@stylistic/js": stylistic,
-			"@html-eslint": htmlESLint,
-			html
+			"@html-eslint": htmlESLint//,
+			//html
 		},
 		settings: {
 			"html/html-extensions": [".html"]

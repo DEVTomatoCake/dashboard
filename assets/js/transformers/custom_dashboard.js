@@ -4,7 +4,7 @@ function getCustomHTML(json) {
 		bots = json.bots
 		return "<h1>Your custom bots</h1>" +
 			"<p>This list includes all custom bots you have access to.</p><br>" +
-			"<button type='button' class='createForm' onclick='createDialog()'" + (bots.filter(bot => bot.hasAccess).length > 0 ? " disabled" : "") +
+			"<button type='button' class='createForm' onclick='createDialog()'" + (bots.some(bot => bot.hasAccess) ? " disabled" : "") +
 				">Create a custom bot</button><br>" +
 			"<br><div class='integration-container'>" +
 			bots.map(bot =>

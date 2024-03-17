@@ -17,6 +17,7 @@ wss.on("connection", ws => {
 })
 
 const wsRestart =
+	// eslint-disable-next-line no-useless-escape
 	"<script\>" +
 	"const devSocket = new WebSocket('ws://' + location.hostname + ':6942');" +
 	"devSocket.onclose = () => location.reload();" +
@@ -36,7 +37,7 @@ const localIP = getLocalIpAddress()
 app.listen(4269, localIP)
 console.log("Running on http://" + localIP + ":4269 (no backend) and http://localhost:4269")
 
-let redirects = {}
+const redirects = {}
 const loadRedirects = async () => {
 	const redirectFile = await fs.readFile("./_redirects", "utf8")
 	redirectFile.split("\n").filter(line => line.trim().length > 0).forEach(line => {

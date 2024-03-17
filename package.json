@@ -16,6 +16,7 @@
     "@html-eslint/eslint-plugin": "^0.24.0",
     "@html-eslint/parser": "^0.24.0",
     "@stylistic/eslint-plugin-js": "^1.7.0",
+    "clean-css": "^5.3.3",
     "eslint": "^8.57.0",
     "eslint-plugin-html": "^8.0.0",
     "eslint-plugin-sonarjs": "^0.24.0",

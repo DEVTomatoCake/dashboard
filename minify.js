@@ -1,10 +1,12 @@
 const fsPromises = require("node:fs").promises
+
 const UglifyJS = require("uglify-js")
+const CleanCSS = require("clean-css")
 
 const nameCache = {}
 const defaultOptions = {
 	compress: {
-		passes: 2,
+		passes: 5,
 		unsafe: true,
 		unsafe_Function: true,
 		unsafe_math: true,
@@ -18,31 +20,66 @@ const minifyFile = async (path, options = {}) => {
 	const filename = path.split("/").pop()
 	const content = await fsPromises.readFile(path, "utf8")
 
-	const result = UglifyJS.minify({
-		[path]: content
-	}, {
-		sourceMap: {
-			root: "https://tomatenkuchen.com/assets/js/",
-			filename,
-			url: filename + ".map"
-		},
-		warnings: "verbose",
-		parse: {
-			shebang: false
-		},
-		nameCache,
-		mangle: true,
-		...defaultOptions,
-		...options
-	})
+	let result = {}
+	if (filename.endsWith(".js")) {
+		result = UglifyJS.minify({
+			[path]: content
+		}, {
+			sourceMap: {
+				root: "https://tomatenkuchen.com/assets/js/",
+				filename,
+				url: filename + ".map"
+			},
+			warnings: "verbose",
+			parse: {
+				shebang: false
+			},
+			nameCache,
+			mangle: true,
+			...defaultOptions,
+			...options
+		})
 
-	if (result.error) throw result.error
-	if (result.warnings && result.warnings.length > defaultOptions.compress.passes) console.log(path, result.warnings)
+		if (result.error) throw result.error
+		if (result.warnings && result.warnings.length > defaultOptions.compress.passes) console.log(path, result.warnings)
+	} else if (filename.endsWith(".css")) {
+		const clean = new CleanCSS({
+			compatibility: {
+				colors: {
+					hexAlpha: false // controls 4- and 8-character hex color support
+				},
+				properties: {
+					shorterLengthUnits: false, // controls shortening pixel units into `pc`, `pt`, or `in` units
+					spaceAfterClosingBrace: true, // controls keeping space after closing brace - `url() no-repeat` into `url()no-repeat`
+					urlQuotes: true // controls keeping quoting inside `url()`
+				}
+			},
+			level: {
+				2: {
+					mergeSemantically: false, // controls semantic merging; defaults to false
+					removeUnusedAtRules: false, // controls unused at rule removing; defaults to false (available since 4.1.0)
+					restructureRules: false // controls rule restructuring; defaults to false
+				}
+			},
+			inline: false,
+			sourceMap: true,
+			...options
+		})
 
-	if (process.env.MINIFY_ENABLED) {
+		const output = clean.minify(content)
+		console.log(typeof output.styles, typeof output.sourceMap)
+		result = {
+			code: output.styles,
+			map: output.sourceMap.toString()
+		}
+
+		if (output.warnings || output.errors) console.log(path, output.warnings, output.errors)
+	} else return console.error("Unknown minify file type: " + path)
+
+	//if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile(path, result.code)
-		await fsPromises.writeFile(path + ".map", result.map)
-	}
+		//await fsPromises.writeFile(path + ".map", result.map)
+	//}
 
 	results.push({
 		path: path.slice(2),
@@ -99,6 +136,8 @@ async function main() {
 	await minifyFile("./assets/js/instantpage-5.2.0.js", {
 		toplevel: true
 	})
+
+	await minifyFile("./assets/style.css")
 
 	results.push({
 		path: "= Total",

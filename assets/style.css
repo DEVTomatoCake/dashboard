@@ -379,7 +379,7 @@ code {
 	font-size: 22px;
 }
 .dialog-tab.active {
-	border-bottom: #d14ff8 2px solid;
+	border-bottom: 2px solid #d14ff8;
 }
 
 .bot-avatar {
@@ -456,12 +456,16 @@ code {
 }
 .sidebar .hamburger:hover {
 	background: var(--tertiary-color);
-	animation: spin 1s;
+	animation: 1s spin;
 }
 
 @keyframes spin {
-	0% {transform: rotate(0deg);}
-	100% {transform: rotate(180deg);}
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(180deg);
+	}
 }
 
 .hamburger {
@@ -480,13 +484,16 @@ code {
 }
 
 header .hamburger:hover {
-	animation: wide .3s;
+	animation: .3s wide;
 }
 
 @keyframes wide {
-	0% {gap: 5px;}
-	50% {gap: 10px;}
-	100% {gap: 5px;}
+	0%, 100% {
+		gap: 5px;
+	}
+	50% {
+		gap: 10px;
+	}
 }
 
 .hamburger .line {
@@ -929,7 +936,7 @@ input:focus {
 	box-shadow: 0 0 6px 3px var(--secondary-color);
 }
 input:invalid, input:out-of-range, input.invalid {
-	border: #f00 solid 2px;
+	border: 2px solid #f00;
 }
 
 input[type="checkbox"]:not(#theme-toggle), input[type="radio"] {
@@ -968,7 +975,7 @@ pre {
 }
 
 .highlight {
-	animation: highlight 5s;
+	animation: 5s highlight;
 }
 
 @keyframes highlight {
@@ -1059,7 +1066,7 @@ pre {
 .stats-row .uptime ion-icon {
 	background-color: var(--green);
 }
-.stats-row .users ion-icon, .stats-row .tickets ion-icon {
+.stats-row .tickets ion-icon, .stats-row .users ion-icon {
 	background-color: var(--blue);
 }
 .stats-row .servers p {
@@ -1068,7 +1075,7 @@ pre {
 .stats-row .uptime p {
 	color: var(--green);
 }
-.stats-row .users p, .stats-row .tickets p {
+.stats-row .tickets p, .stats-row .users p {
 	color: var(--blue);
 }
 
@@ -1133,19 +1140,20 @@ img.integration-image {
 	max-height: 80px;
 }
 
-.integration ion-icon, #info-container ion-icon {
+#info-container ion-icon, .integration ion-icon {
 	font-size: 32px;
 }
 .integration button ion-icon {
 	font-size: 22px;
 }
-.integration ion-icon[name="checkmark-circle-outline"], #info-container ion-icon[name="checkmark-circle-outline"] {
+
+#info-container ion-icon[name="checkmark-circle-outline"], .integration ion-icon[name="checkmark-circle-outline"] {
 	color: #2aaa64;
 }
-.integration ion-icon[name="refresh-outline"], #info-container ion-icon[name="refresh-outline"] {
+#info-container ion-icon[name="refresh-outline"], .integration ion-icon[name="refresh-outline"] {
 	color: #4585ce;
 }
-.integration ion-icon[name="close-circle-outline"], #info-container ion-icon[name="close-circle-outline"] {
+#info-container ion-icon[name="close-circle-outline"], .integration ion-icon[name="close-circle-outline"] {
 	color: #F00;
 }
 
@@ -1318,10 +1326,7 @@ a:has(ion-icon), button:has(ion-icon) {
 }
 
 @media only screen and (max-width: 500px) {
-	.sidebar-container.visible {
-		width: 100%;
-	}
-	#sidebar {
+	#sidebar, .sidebar-container.visible {
 		width: 100%;
 	}
 
@@ -1484,18 +1489,15 @@ a:has(ion-icon), button:has(ion-icon) {
 
 .dialog-content {
 	position: relative;
-	margin: auto;
+	margin: auto auto 100px;
 	width: 80%;
 	padding: 20px;
 	box-shadow: 0 4px 8px 0 rgba(0,0,0,.2), 0 6px 20px 0 rgba(0,0,0,.19);
-	animation-name: animateDialog;
-	animation-duration: .4s;
+	animation: animateDialog .4s;
 	background-color: var(--dialog-bg);
 	border-radius: 10px;
-
 	max-height: -webkit-fill-available;
 	overflow: scroll;
-	margin-bottom: 100px;
 }
 
 @keyframes animateDialog {
@@ -1538,7 +1540,7 @@ body.stats-page {
 	background-size: 8px 8px;
 	position: relative;
 	clip-path: inset(-200% -100% 0 0);
-	animation: l6-0 1.5s linear infinite;
+	animation: 1.5s linear infinite l6-0;
 }
 .loader:before {
 	content: "";
@@ -1548,7 +1550,7 @@ body.stats-page {
 	background: #000;
 	left: -16px;
 	top: 0;
-	animation: l6-1 1.5s linear infinite, l6-2 .5s cubic-bezier(0,200,.8,200) infinite;
+	animation: 1.5s linear infinite l6-1, .5s cubic-bezier(0,200,.8,200) infinite l6-2;
 }
 .loader:after {
 	content: "";
@@ -1558,24 +1560,42 @@ body.stats-page {
 	height: 8px;
 	border-radius: 50%;
 	background: #000;
-	animation: l6-3 1.5s linear infinite;
+	animation: 1.5s linear infinite l6-3;
 }
+
 @keyframes l6-0 {
-	0%,30% {background-position: 0 0, 50% 0}
-	33% {background-position: 0 100%, 50% 0}
-	41%,63% {background-position: 0 0, 50% 0}
-	66% {background-position: 0 0, 50% 100%}
-	74%,100%{background-position: 0 0, 50% 0}
+	0%, 30%, 41%, 63%, 74%, 100% {
+		background-position: 0 0, 50% 0;
+	}
+	33% {
+		background-position: 0 100%, 50% 0;
+	}
+	66% {
+		background-position: 0 0, 50% 100%;
+	}
 }
 @keyframes l6-1 {
-	90% {transform:translateY(0)}
-	95% {transform:translateY(15px)}
-	100% {transform:translateY(15px);left:calc(100% - 8px)}
+	90% {
+		transform: translateY(0);
+	}
+	95% {
+		transform: translateY(15px);
+	}
+	100% {
+		transform: translateY(15px);
+		left: calc(100% - 8px);
+	}
 }
 @keyframes l6-2 {
-	100% {top:-.1px}
+	100% {
+		top: -.1px;
+	}
 }
 @keyframes l6-3 {
-	0%,80%,100% {transform:translate(0)}
-	90% {transform:translate(26px)}
+	0%, 80%, 100% {
+		transform: translate(0);
+	}
+	90% {
+		transform: translate(26px);
+	}
 }

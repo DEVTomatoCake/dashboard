@@ -281,7 +281,7 @@ function connectWS(guild) {
 				savingToast.setType("SUCCESS").setTitle("Saved settings!")
 			} else if (json.action == "GETRES_threads") {
 				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads/posts have been found in this channel!</h2>" +
-					"<p>If you're using private channels, make sure TomatenKuchen is added to them and they're not archived.</p>"
+					"<p>If you're using private threads, make sure TomatenKuchen is added to them and they're not archived.</p>"
 				pickerData.threads = json.threads
 
 				document.getElementById("thread-container").innerHTML = "<ul>" + json.threads.map(thread => (

@@ -46,19 +46,17 @@ const minifyFile = async (path, options = {}) => {
 		const clean = new CleanCSS({
 			compatibility: {
 				colors: {
-					hexAlpha: false // controls 4- and 8-character hex color support
+					hexAlpha: true
 				},
 				properties: {
-					shorterLengthUnits: false, // controls shortening pixel units into `pc`, `pt`, or `in` units
-					spaceAfterClosingBrace: true, // controls keeping space after closing brace - `url() no-repeat` into `url()no-repeat`
-					urlQuotes: true // controls keeping quoting inside `url()`
+					shorterLengthUnits: true,
+					urlQuotes: false
 				}
 			},
 			level: {
 				2: {
-					mergeSemantically: false, // controls semantic merging; defaults to false
-					removeUnusedAtRules: false, // controls unused at rule removing; defaults to false (available since 4.1.0)
-					restructureRules: false // controls rule restructuring; defaults to false
+					mergeSemantically: true,
+					removeUnusedAtRules: true
 				}
 			},
 			inline: false,
@@ -67,19 +65,18 @@ const minifyFile = async (path, options = {}) => {
 		})
 
 		const output = clean.minify(content)
-		console.log(typeof output.styles, typeof output.sourceMap)
 		result = {
-			code: output.styles,
+			code: output.styles + "\n/*# sourceMappingURL=" + filename + ".map */",
 			map: output.sourceMap.toString()
 		}
 
-		if (output.warnings || output.errors) console.log(path, output.warnings, output.errors)
+		if (output.warnings.length > 0 || output.errors.length > 0) console.log(path, output.warnings, output.errors)
 	} else return console.error("Unknown minify file type: " + path)
 
-	//if (process.env.MINIFY_ENABLED) {
+	if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile(path, result.code)
-		//await fsPromises.writeFile(path + ".map", result.map)
-	//}
+		await fsPromises.writeFile(path + ".map", result.map)
+	}
 
 	results.push({
 		path: path.slice(2),
@@ -137,7 +134,10 @@ async function main() {
 		toplevel: true
 	})
 
+	await minifyFile("./assets/emojipicker.css")
+	await minifyFile("./assets/messageeditor.css")
 	await minifyFile("./assets/style.css")
+	await minifyFile("./assets/toasts.css")
 
 	results.push({
 		path: "= Total",

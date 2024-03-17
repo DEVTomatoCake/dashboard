@@ -1,5 +1,3 @@
-const langCache = {}
-
 const getLanguage = () => {
 	if (getCookie("lang")) return getCookie("lang")
 
@@ -16,6 +14,7 @@ const resolveValue = (obj, keySplit) => {
 	return resolveValue(obj[keySplit[0]], keySplit.slice(1))
 }
 
+const langCache = {}
 const reloadText = async language => {
 	if (!language) language = getLanguage()
 	setCookie("lang", language, 60, true)

@@ -107,11 +107,12 @@ a:visited {
 	color: var(--link-visited);
 }
 
+summary, tr.command, th.sortable, #thread-container ul li p {
+	cursor: pointer;
+}
+
 #commands-container {
 	overflow-x: auto;
-}
-tr.command, th.sortable, summary {
-	cursor: pointer;
 }
 .cmd-info {
 	padding: 2px 4px;
@@ -889,15 +890,6 @@ header .account img {
 	}
 }
 
-.content.no-padding {
-	padding-left: 0;
-}
-@media only screen and (max-width: 600px) {
-	.content {
-		padding-left: 0;
-	}
-}
-
 .accent {
 	color: var(--accent-color);
 }
@@ -1154,7 +1146,7 @@ img.integration-image {
 	color: #4585ce;
 }
 #info-container ion-icon[name="close-circle-outline"], .integration ion-icon[name="close-circle-outline"] {
-	color: #F00;
+	color: #f00;
 }
 
 .action {
@@ -1306,7 +1298,13 @@ a:has(ion-icon), button:has(ion-icon) {
 	}
 }
 
+.content.no-padding {
+	padding-left: 0;
+}
 @media only screen and (max-width: 600px) {
+	.content {
+		padding-left: 0;
+	}
 	.linkicon {
 		display: none;
 	}
@@ -1354,7 +1352,7 @@ a:has(ion-icon), button:has(ion-icon) {
 	header .account {
 		margin-right: 20px;
 	}
-	header .account p {
+	header .account p, footer #mainlink {
 		display: none;
 	}
 
@@ -1379,10 +1377,6 @@ a:has(ion-icon), button:has(ion-icon) {
 	.stats-row h3 {
 		font-size: 15px;
 		transition: .3s;
-	}
-
-	footer #mainlink {
-		display: none;
 	}
 }
 
@@ -1524,10 +1518,6 @@ body.stats-page {
 	body.stats-page {
 		background-color: #FFF;
 	}
-}
-
-#thread-container ul li p {
-	cursor: pointer;
 }
 
 .loader {

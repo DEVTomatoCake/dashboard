@@ -6,7 +6,7 @@ const getLocalIpAddress = () => {
 }
 
 const { WebSocketServer } = require("ws")
-const wss = new WebSocketServer({port: 6942})
+const wss = new WebSocketServer({noServer: true})
 
 wss.on("connection", ws => {
 	ws.on("error", console.error)
@@ -19,7 +19,7 @@ wss.on("connection", ws => {
 const wsRestart =
 	// eslint-disable-next-line no-useless-escape
 	"<script\>" +
-	"const devSocket = new WebSocket('ws://' + location.hostname + ':6942');" +
+	"const devSocket = new WebSocket('ws://' + location.hostname + ':4269');" +
 	"devSocket.onclose = () => location.reload();" +
 	"</script>"
 
@@ -31,7 +31,12 @@ app.disable("x-powered-by")
 app.disable("etag")
 app.disable("view cache")
 
-app.listen(4269)
+const httpServer = app.listen(4269)
+httpServer.on("upgrade", (request, socket, head) => {
+	wss.handleUpgrade(request, socket, head, ws => {
+		wss.emit("connection", ws, request)
+	})
+})
 
 const localIP = getLocalIpAddress()
 app.listen(4269, localIP)
@@ -50,6 +55,16 @@ const loadRedirects = async () => {
 }
 loadRedirects()
 
+const headers = {}
+const loadHeaders = async () => {
+	const headerFile = await fs.readFile("./_headers", "utf8")
+	headerFile.split("\n").filter(line => line.trim().length > 0 && line.split(": ").length > 1).forEach(line => {
+		const [key, ...value] = line.split(": ").map(part => part.trim())
+		headers[key] = value.join(": ")
+	})
+}
+loadHeaders()
+
 app.get("*", async (req, res) => {
 	if (redirects[req.url]) return res.redirect(redirects[req.url].status, redirects[req.url].to)
 	if (req.url.includes("/assets/") || req.url.endsWith(".js") || req.url.endsWith(".json") || req.url.endsWith(".txt") || req.url.endsWith(".xml"))
@@ -61,9 +76,8 @@ app.get("*", async (req, res) => {
 	try {
 		const file = await fs.readFile(path, "utf8")
 		res.set({
-			"Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-			Pragma: "no-cache",
-			Expires: 0
+			...headers,
+			"Cache-Control": "max-age=0, no-store, no-cache, must-revalidate"
 		})
 		res.send(file + wsRestart)
 	} catch (e) {

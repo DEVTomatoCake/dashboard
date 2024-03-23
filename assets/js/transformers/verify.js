@@ -1,9 +1,8 @@
-const params = new URLSearchParams(location.search)
 const verifyDone = async token => {
 	const json = await get("dc-verify?response=" + token)
 
 	if (json.status == "success") {
-		document.getElementById("root-container").innerHTML = "<h1>You verified yourself successfully and can now return to Discord.</h1>"
+		document.getElementById("root-container").innerHTML = "<h1>You were verified successfully and can now return to Discord.</h1>"
 
 		setTimeout(() => {
 			location.href = "https://tomatenkuchen.com"
@@ -11,9 +10,12 @@ const verifyDone = async token => {
 	} else document.getElementById("root-container").innerHTML = "<h1>We're unable to verify you: " + encode(json.message) + "</h1>"
 }
 
+const params = new URLSearchParams(location.search)
 window.onloadTurnstile = () => {
-    turnstile.render("#root-container", {
-        sitekey: "0x4AAAAAAAJ-TUw5w4IoLPcJ",
+	if (!params.has("verify")) return document.getElementById("root-container").innerHTML = "<h1>Invalid verification request.</h1>"
+
+	turnstile.render("#root-container", {
+		sitekey: "0x4AAAAAAAJ-TUw5w4IoLPcJ",
 		cData: params.get("verify"),
 		callback: verifyDone,
 		"error-callback": () => {
@@ -24,5 +26,5 @@ window.onloadTurnstile = () => {
 		theme: getCookie("theme") || "auto",
 		"response-field": false,
 		appearance: "interaction-only"
-    })
+	})
 }

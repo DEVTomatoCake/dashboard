@@ -6,7 +6,7 @@
   "author": "TomatoCake",
   "main": "dev.js",
   "scripts": {
-    "dev": "nodemon --delay 10ms -e js,html,css,png,webp",
+    "dev": "nodemon --ext js,html,css,png,webp",
     "minify": "node minify.js"
   },
   "dependencies": {
@@ -21,7 +21,7 @@
     "eslint-plugin-html": "^8.0.0",
     "eslint-plugin-sonarjs": "^0.24.0",
     "eslint-plugin-unicorn": "^51.0.1",
-    "express": "^4.18.3",
+    "express": "^4.19.1",
     "globals": "^14.0.0",
     "nodemon": "^3.1.0",
     "ws": "^8.16.0"

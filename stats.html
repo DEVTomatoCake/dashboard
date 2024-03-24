@@ -20,82 +20,17 @@
 
 		<script src="./assets/js/script.js"></script>
 		<script src="./assets/js/language.js"></script>
+		<script src="./assets/js/transformers/stats.js"></script>
 
 		<script
 			src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js" integrity="sha512-SIMGYRUjwY8+gKg7nn9EItdD8LCADSDfJNutF9TPrvEo86sQmFMh6MyralfIyhADlajSxqc7G0gs7+MwWF/ogQ=="
 			crossorigin="anonymous" referrerpolicy="no-referrer"
 		></script>
 	</head>
-	<body class="stats-page">
-		<script>
-
-			const createChart = apiresponse => {
-				const datasets = []
-
-				if (apiresponse.data.members.length > 0) datasets.push({
-					label: getLanguage() == "de" ? "Mitglieder" : "Members",
-					backgroundColor: "rgb(255, 99, 132)",
-					borderColor: "rgb(255, 99, 132)",
-					data: apiresponse.data.members.split(",")
-				})
-				if (apiresponse.data.messages.length > 0) datasets.push({
-					label: getLanguage() == "de" ? "Nachrichten pro Tag" : "Messages per day",
-					backgroundColor: "rgb(110, 255, 180)",
-					borderColor: "rgb(110, 255, 180)",
-					data: apiresponse.data.messages.split(",")
-				})
-				if (apiresponse.data.boosts.length > 0) datasets.push({
-					label: "Boosts",
-					backgroundColor: "rgb(244, 127, 255)",
-					borderColor: "rgb(244, 127, 255)",
-					data: apiresponse.data.boosts.split(",")
-				})
-				if (apiresponse.data.chatters.length > 0) datasets.push({
-					label: getLanguage() == "de" ? "Aktive Chatter" : "Active Chatters",
-					backgroundColor: "rgb(2, 129, 247)",
-					borderColor: "rgb(2, 129, 247)",
-					data: apiresponse.data.chatters.split(",")
-				})
-
-				const config = {
-					type: "line",
-					data: {
-						labels: apiresponse.data.labels.split(","),
-						datasets
-					},
-					options: {
-						plugins: {
-							title: {
-								display: true,
-								text: (getLanguage() == "de" ? "Statistiken von" : "Statistics of") + " " + apiresponse.name
-							}
-						}
-					}
-				}
-
-				new Chart(document.getElementById("stats"), config)
-			}
-
-			const params = new URLSearchParams(location.search)
-			if (params.has("guild")) {
-				const filters = []
-				if (params.has("time")) filters.push("time=" + params.get("time"))
-				if (params.has("type")) filters.push("type=" + params.get("type"))
-
-				get("stats/" + params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
-					if (json.status == "success") createChart(json)
-					else document.body.innerHTML =
-						"<div class='center'>" +
-						"<h1>An error occured while executing the API request:</h1>" +
-						"<h2>" + encode(json.message) + "</h2>" +
-						"</div>"
-				})
-			} else {
-				localStorage.setItem("next", location.pathname)
-				location.href = "/dashboard"
-			}
-		</script>
+	<body class="stats-page" onload="pageLoad()">
 		<canvas id="stats"></canvas>
-		<noscript>Diese Seite funktioniert ohne JavaScript nicht.</noscript>
+		<noscript>
+			<h1>This website doesn't work without JavaScript.</h1>
+		</noscript>
 	</body>
 </html>

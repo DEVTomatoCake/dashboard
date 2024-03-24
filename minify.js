@@ -71,11 +71,15 @@ const minifyFile = async (path, options = {}) => {
 		}
 
 		if (output.warnings.length > 0 || output.errors.length > 0) console.log(path, output.warnings, output.errors)
+	} else if (filename.endsWith(".json")) {
+		result = {
+			code: JSON.stringify(JSON.parse(content))
+		}
 	} else return console.error("Unknown minify file type: " + path)
 
 	if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile(path, result.code)
-		await fsPromises.writeFile(path + ".map", result.map)
+		if (result.map) await fsPromises.writeFile(path + ".map", result.map)
 	}
 
 	results.push({
@@ -148,6 +152,32 @@ async function main() {
 	await minifyFile("./assets/messageeditor.css")
 	await minifyFile("./assets/style.css")
 	await minifyFile("./assets/toasts.css")
+	await minifyFile("./assets/transcript.css")
+
+	const langFiles = await fsPromises.readdir("./assets/lang")
+	for await (const file of langFiles) {
+		await minifyFile("./assets/lang/" + file)
+	}
+
+	await minifyFile("./assets/js/transformers/invite.js", {
+		toplevel: true
+	})
+	await minifyFile("./assets/js/transformers/login.js", {
+		toplevel: true
+	})
+	await minifyFile("./assets/js/transformers/logout.js", {
+		toplevel: true
+	})
+	await minifyFile("./assets/js/transformers/transcript.js", {
+		toplevel: true,
+		compress: {
+			...defaultOptions.compress,
+			top_retain: ["loadTranscript"]
+		},
+		mangle: {
+			reserved: ["loadTranscript"]
+		}
+	})
 
 	results.push({
 		path: "= Total",

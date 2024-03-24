@@ -1,4 +1,4 @@
-const version = 3
+const version = 4
 
 self.addEventListener("install", event => {
 	event.waitUntil((async () => {
@@ -9,7 +9,7 @@ self.addEventListener("install", event => {
 		const staticCache = await caches.open("static" + version)
 		staticCache.addAll([
 			"/offline",
-			"/assets/fonts/gfonts_bevietmanpro_latin.woff2",
+			"/assets/gfonts_bevietmanpro_latin.woff2",
 			"/assets/images/favicon.ico",
 			"/assets/images/buttonroles.webp",
 			"/assets/images/autoupdate.webp",

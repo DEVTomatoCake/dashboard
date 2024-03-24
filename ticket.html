@@ -11,32 +11,11 @@
 		<link href="./assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
-		<style>
-			html {
-				overflow: auto;
-			}
-			html, body, div, iframe {
-				margin: 0;
-				padding: 0;
-				height: 100%;
-				border: none;
-			}
-			iframe {
-				display: block;
-				width: 100%;
-				border: none;
-				overflow: auto hidden;
-			}
-		</style>
-		<script>
-			function loadTranscript() {
-				const params = new URLSearchParams(location.search)
-				if (!params.has("id")) location = "/"
-				document.getElementById("transcript").src = "https://api.tomatenkuchen.com/transcript/" + params.get("id")
-			}
-		</script>
+		<link href="./assets/transcript.css" rel="stylesheet">
+
+		<script src="./assets/js/transformers/transcript.js"></script>
 	</head>
 	<body onload="loadTranscript()">
-		<iframe id="transcript" src="about:blank" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto" title="TomatenKuchen ticket transcript"></iframe>
+		<iframe id="transcript" src="about:blank" frameborder="0" marginheight="0" marginwidth="0" width="100%" height="100%" scrolling="auto" title="TomatenKuchen ticket transcript" credentialless></iframe>
 	</body>
 </html>

@@ -12,12 +12,6 @@
 		<link href="./assets/images/apple-icon-120.png" rel="apple-touch-icon" sizes="120x120">
 		<link href="./assets/images/apple-icon-152.png" rel="apple-touch-icon" sizes="152x152">
 
-		<script>
-			const params = new URLSearchParams(location.search)
-			if (params.has("next")) localStorage.setItem("next", params.get("next"))
-
-			location.href = "https://discord.com/oauth2/authorize?client_id=685166801394335819&redirect_uri=" + encodeURIComponent(location.protocol + "//" + location.host + "/dashboard") +
-				"&prompt=none&response_type=code&scope=" + encodeURIComponent("identify guilds")
-		</script>
+		<script src="./assets/js/transformers/login.js"></script>
 	</head>
 </html>

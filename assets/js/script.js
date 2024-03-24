@@ -1,5 +1,5 @@
 const url = "https://api.tomatenkuchen.com/api/"
-async function get(component, auth = true, method = "GET", body = null) {
+async function get(component = "", auth = true, method = "GET", body = null) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
 		method,
 		headers: {
@@ -13,23 +13,23 @@ async function get(component, auth = true, method = "GET", body = null) {
 	return json
 }
 
-function setCookie(name = "", value = "", days = void 0, global = false) {
+function setCookie(name = "", value = "", days = 0, global = false) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 
-	let cookie = name + "=" + value + ";path=/;Secure;"
-	if (days) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
+	let cookie = name + "=" + value + ";path=/;Secure;SameSite=Lax;"
+	if (days > 0) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
 	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
 
 	document.cookie = cookie
 }
-function getCookie(name) {
+function getCookie(name = "") {
 	for (const rawCookie of document.cookie.split(";")) {
 		const cookie = rawCookie.trim()
 		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
 	}
 	return void 0
 }
-function deleteCookie(name) {
+function deleteCookie(name = "") {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;"
 	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
@@ -38,7 +38,7 @@ function deleteCookie(name) {
 let loadFunc = () => {}
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
 const assertInt = int => {
-	if (typeof int == "number") return int
+	if (typeof int == "number" || typeof int == "bigint") return int
 	throw new Error("Not an integer: " + int)
 }
 
@@ -284,13 +284,7 @@ function pageLoad() {
 		sideState = 1
 	}
 
-	if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
-	else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
-		document.body.classList.replace("dark-theme", "light-theme")
-		setCookie("theme", "light", 365, true)
-	} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
-
-	if (getCookie("user")) {
+	if (getCookie("user") && document.getElementsByClassName("account").length > 0) {
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
@@ -302,22 +296,30 @@ function pageLoad() {
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
 			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"user-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
 		else document.getElementById("user-avatar").classList.add("visible")
-	} else document.getElementById("user-avatar").classList.add("visible")
+	} else if (document.getElementById("user-avatar")) document.getElementById("user-avatar").classList.add("visible")
 
-	setTimeout(() => {
-		document.getElementById("theme-toggle").addEventListener("change", () => {
-			if (document.body.classList.contains("light-theme")) {
-				document.body.classList.replace("light-theme", "dark-theme")
-				setCookie("theme", "dark", 365, true)
-			} else {
-				document.body.classList.replace("dark-theme", "light-theme")
-				setCookie("theme", "light", 365, true)
-			}
-			document.querySelectorAll("emoji-picker").forEach(picker => {
-				picker.classList.toggle("light")
+	if (document.getElementById("theme-toggle")) {
+		if (getCookie("theme") == "light") document.body.classList.replace("dark-theme", "light-theme")
+		else if (!getCookie("theme") && window.matchMedia("(prefers-color-scheme: light)").matches) {
+			document.body.classList.replace("dark-theme", "light-theme")
+			setCookie("theme", "light", 365, true)
+		} else if (getCookie("theme") == "dark") document.getElementById("theme-toggle").checked = true
+
+		setTimeout(() => {
+			document.getElementById("theme-toggle").addEventListener("change", () => {
+				if (document.body.classList.contains("light-theme")) {
+					document.body.classList.replace("light-theme", "dark-theme")
+					setCookie("theme", "dark", 365, true)
+				} else {
+					document.body.classList.replace("dark-theme", "light-theme")
+					setCookie("theme", "light", 365, true)
+				}
+				document.querySelectorAll("emoji-picker").forEach(picker => {
+					picker.classList.toggle("light")
+				})
 			})
-		})
-	}, 300)
+		}, 300)
+	}
 
 	if (!window.matchMedia("(prefers-reduced-motion: reduced)").matches && screen.height <= 600) document.body.addEventListener("scroll", () => {
 		if (!headerTimeout) headerTimeout = setTimeout(() => {

@@ -15,32 +15,12 @@
 		<link href="./assets/style.css" rel="stylesheet">
 
 		<script src="./assets/js/script.js"></script>
+		<script src="./assets/js/transformers/logout.js"></script>
 	</head>
-	<body class="dark-theme">
+	<body class="dark-theme" onload="pageLoad()">
 		<div class="center">
 			<h1>Logging you out...</h1>
 			<h2>You'll be redirected to the home page automatically after success.</h2>
 		</div>
-		<script>
-			get("auth/logout").then(json => {
-				if (getCookie("token")) deleteCookie("token")
-				if (getCookie("user")) deleteCookie("user")
-				if (getCookie("avatar")) deleteCookie("avatar")
-
-				if (json.status == "success") location.href = location.protocol + "//" + location.host + "/"
-				else {
-					document.body.innerHTML =
-						"<div class='center'>" +
-						"<h1>An error occured while handling your request:</h1>" +
-						"<h2>" + encode(json.message) + "</h2>" +
-						"<h3>You still were logged out in the browser.</h3>" +
-						"</div>"
-
-					setTimeout(() => {
-						location.href = location.protocol + "//" + location.host + "/"
-					}, 3500)
-				}
-			})
-		</script>
 	</body>
 </html>

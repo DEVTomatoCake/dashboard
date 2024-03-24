@@ -264,7 +264,7 @@ function openDialog(dialog) {
 let headerTimeout
 let prevScroll = 0
 
-function pageLoad() {
+document.addEventListener("DOMContentLoaded", () => {
 	if (!getCookie("cookie-dismiss") && location.hash != "#no-cookie-popup") {
 		document.body.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
@@ -339,4 +339,4 @@ function pageLoad() {
 	script.src = "/assets/js/instantpage-5.2.0.js"
 	script.type = "module"
 	document.body.appendChild(script)
-}
+})

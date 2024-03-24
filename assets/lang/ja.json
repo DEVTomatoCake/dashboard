@@ -200,6 +200,9 @@
 		"vote": "ボットに投票する",
 		"votemb": "ボット投票リンクの管理"
 	},
+	"settings": {
+		"messageeditor": "メッセージエディターを開く"
+	},
 	"sidebar": {
 		"commands": "コマンド",
 		"dashboard": "ダッシュボード",

@@ -77,6 +77,8 @@ const minifyFile = async (path, options = {}) => {
 		}
 	} else return console.error("Unknown minify file type: " + path)
 
+	if (result.code.length >= content.length) return console.log("No reduction for " + path + " (" + content.length + " -> " + result.code.length + ")")
+
 	if (process.env.MINIFY_ENABLED) {
 		await fsPromises.writeFile(path, result.code)
 		if (result.map) await fsPromises.writeFile(path + ".map", result.map)

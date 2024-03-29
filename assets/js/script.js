@@ -49,22 +49,31 @@ const handleError = error => {
 		(typeof error == "string" ? "" : "<h3>Check your browser console to find out more!</h3>")
 }
 
+const handleClickAndEnter = (elem = "", func = () => {}, ...args) => {
+	document.getElementById(elem).addEventListener("click", () => {
+		func(...args)
+	})
+	document.getElementById(elem).addEventListener("keydown", event => {
+		if (event.key == "Enter") func(...args)
+	})
+}
+
 class Header extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML =
 			"<header>" +
-			"<div class='hamburger' onclick='sidebar()'>" +
+			"<div class='hamburger' id='header-hamburger' tabindex='0'>" +
 				"<div class='line' id='lineTop1'></div>" +
 				"<div class='line' id='lineBottom1'></div>" +
 			"</div>" +
 
 			"<div class='hoverdropdown'>" +
-				"<div class='account' onclick='location=\"/login\"'>" +
+				"<div class='account' onclick='location=\"/login\"' tabindex='0'>" +
 					"<p translation='global.account'>Account</p>" +
 					"<ion-icon id='user-avatar' name='person-circle-outline'></ion-icon>" +
 				"</div>" +
-				"<div class='hoverdropdown-content'>" +
-					"<a href='/login' translation='global.login'></a>" +
+				"<div class='hoverdropdown-content' role='menu'>" +
+					"<a href='/login' translation='global.login' role='menuitem'></a>" +
 				"</div>" +
 			"</div>" +
 			"</header>"
@@ -77,20 +86,20 @@ class Footer extends HTMLElement {
 		this.innerHTML =
 			"<noscript><h1>This website doesn't work without JavaScript.</h1></noscript>" +
 			"<footer>" +
-			"<a href='/' aria-label='Go to homepage'>" +
+			"<a href='/' title='Homepage' aria-label='Go to homepage'>" +
 			"<div id='mainlink'>" +
 				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo'>" +
 				"<span>TomatenKuchen</span>" +
 			"</div>" +
 			"</a>" +
 			"<div class='links'>" +
-				//"<a href='/custom'><ion-icon name='diamond-outline'></ion-icon>Custom bots</a>" +
-				"<a href='/invite'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
-				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
-				"<a href='/discord' data-no-instant target='_blank' rel='noopener'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
-				"<a href='/credits'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
-				"<a href='/privacy'><ion-icon name='reader-outline'></ion-icon>Privacy & ToS</a>" +
-				"<a href='/legal'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
+				//"<a href='/custom' title='Information about custom bots'><ion-icon name='diamond-outline'></ion-icon>Custom bots</a>" +
+				"<a href='/invite' title='Invite TomatenKuchen'><ion-icon name='add-outline'></ion-icon>Invite bot</a>" +
+				"<a href='https://docs.tomatenkuchen.com' target='_blank' rel='noopener' title='Bot documentation'><ion-icon name='help-outline'></ion-icon>Docs</a>" +
+				"<a href='/discord' data-no-instant target='_blank' rel='noopener' title='Join our Discord server'><ion-icon name='headset-outline'></ion-icon>Support server</a>" +
+				"<a href='/credits' title='View contributors'><ion-icon name='people-outline'></ion-icon>Credits</a>" +
+				"<a href='/privacy' title='Check the privacy policy and ToS'><ion-icon name='reader-outline'></ion-icon>Privacy & ToS</a>" +
+				"<a href='/legal' title='View the site imprint'><ion-icon name='receipt-outline'></ion-icon>Legal Notice</a>" +
 			"</div>" +
 			"</footer>"
 	}
@@ -108,57 +117,60 @@ class Sidebar extends HTMLElement {
 		this.innerHTML =
 			"<div class='sidebar-container " + (screen.width > 600 ? "visible" : "") + "' id='sidebar-container'>" +
 			"<nav class='sidebar' id='sidebar'>" +
-				"<div class='hamburger' onclick='sidebar()'>" +
+				"<div class='hamburger' id='sidebar-hamburger'>" +
 					"<div class='line' id='lineTop2'></div>" +
 					"<div class='line' id='lineBottom2'></div>" +
 				"</div>" +
 
 				"<button type='button' onclick='location = \"/invite\"' translation='sidebar.invite'></button>" +
 
-				"<div id='linksidebar' class='section'>" +
-					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active' data-no-instant" : "'") + ">" +
+				"<div id='linksidebar' class='section' role='menu'>" +
+					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +
-					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active' data-no-instant" : "'") + ">" +
+					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
 						"<ion-icon name='terminal-outline'></ion-icon>" +
 						"<p translation='sidebar.commands'></p>" +
 					"</a>" +
-					"<a href='/dashboard' class='tab" + (dashboard || this.getAttribute("page") == "dashboard" ? " active' data-no-instant" : "'") + ">" +
+					"<a href='/dashboard' class='tab" + (dashboard || this.getAttribute("page") == "dashboard" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
 					(user ?
 						"<div class='section middle'><p class='title'>User profile</p>" +
-						"<a class='tab otherlinks" + (user == "user" ? " active" : "") + "' href='/user'><ion-icon name='thumbs-up-outline'></ion-icon><p>Votes</p></a>" +
-						//"<a class='tab otherlinks" + (user == "custom" ? " active" : "") + "' href='/dashboard/custom'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
-						"<a class='tab otherlinks" + (user == "dataexport" ? " active" : "") + "' href='/dashboard/dataexport'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>User data</p></a>" +
+						"<a class='tab otherlinks" + (user == "user" ? " active" : "") +
+							"' href='/user' tabindex='0'><ion-icon name='thumbs-up-outline'></ion-icon><p>Votes</p></a>" +
+						//"<a class='tab otherlinks" + (user == "custom" ? " active" : "") +
+							//"' href='/dashboard/custom' tabindex='0'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
+						"<a class='tab otherlinks" + (user == "dataexport" ? " active" : "") +
+							"' href='/dashboard/dataexport' tabindex='0'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>User data</p></a>" +
 						"</div>"
 					: "") +
 					(guild ?
 						"<div class='section middle'><p class='title' translation='sidebar.dashboard'></p>" +
-						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "'><ion-icon name='settings-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "' tabindex='0'><ion-icon name='settings-outline'></ion-icon>" +
 							"<p translation='dashboard.settings'>Settings</p></a>" +
 						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' title='A simplified version of the integrations page' " +
-							"href='./integrations?cc=1&guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
+							"href='./integrations?cc=1&guild=" + guild + "' tabindex='0'><ion-icon name='terminal-outline'></ion-icon>" +
 							"<p>Customcommands</p></a>" +
 						(dashboard == "settings" ?
 							"<details>" +
 							"<summary>More pages</summary>"
 						: "") +
-						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "'><ion-icon name='terminal-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "' tabindex='0'><ion-icon name='terminal-outline'></ion-icon>" +
 							"<p translation='dashboard.integrations'>Integrations</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "'><ion-icon name='happy-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "' tabindex='0'><ion-icon name='happy-outline'></ion-icon>" +
 							"<p>Reactionroles</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "'><ion-icon name='warning-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "' tabindex='0'><ion-icon name='warning-outline'></ion-icon>" +
 							"<p translation='dashboard.logs'>Logs</p></a>" +
-						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "'><ion-icon name='shield-half-outline'></ion-icon>" +
+						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "' tabindex='0'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "' tabindex='0'><ion-icon name='shield-half-outline'></ion-icon>" +
 							"<p translation='dashboard.modlogs'>Modlogs</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "'><ion-icon name='ticket-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "' tabindex='0'><ion-icon name='ticket-outline'></ion-icon>" +
 							"<p translation='dashboard.tickets'>Tickets</p></a>" +
-						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-						"<a class='tab otherlinks' href='../stats?guild=" + guild + "'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
+						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "' tabindex='0'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+						"<a class='tab otherlinks' href='../stats?guild=" + guild + "' tabindex='0'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 						(dashboard == "settings" ?
 							"</details>"
 						: "") +
@@ -168,36 +180,36 @@ class Sidebar extends HTMLElement {
 
 				"<div class='section bottom'>" +
 					"<div class='hoverdropdown lang'>" +
-						"<div class='hoverdropdown-content langselect'>" +
-							"<div onclick='reloadText(\"ja\")'>" +
+						"<div class='hoverdropdown-content langselect' role='menu'>" +
+							"<div id='langpicker-ja' role='menuitem'>" +
 								"<img src='/assets/images/wikimedia_flagja.svg' width='30' height='30' alt='JA flag'>" +
 								"<span>日本語</span>" +
 							"</div>" +
-							"<div onclick='reloadText(\"hu\")'>" +
+							"<div id='langpicker-hu' role='menuitem'>" +
 								"<img src='/assets/images/wikimedia_flaghu.svg' width='30' height='30' alt='HU flag'>" +
 								"<span>Magyar</span>" +
 							"</div>" +
-							"<div onclick='reloadText(\"fr\")'>" +
+							"<div id='langpicker-fr' role='menuitem'>" +
 								"<img src='/assets/images/wikimedia_flagfr.svg' width='30' height='30' alt='FR flag'>" +
 								"<span>Français</span>" +
 							"</div>" +
-							"<div onclick='reloadText(\"de\")'>" +
+							"<div id='langpicker-de' role='menuitem'>" +
 								"<img src='/assets/images/wikimedia_flagde.svg' width='30' height='30' alt='DE flag'>" +
 								"<span>Deutsch</span>" +
 							"</div>" +
-							"<div onclick='reloadText(\"en\")'>" +
+							"<div id='langpicker-en' role='menuitem'>" +
 								"<img src='/assets/images/wikimedia_flagen.svg' width='30' height='30' alt='EN flag'>" +
 								"<span>English</span>" +
 							"</div>" +
 						"</div>" +
-						"<div class='text'>" +
+						"<div class='text' tabindex='0'>" +
 							"<ion-icon name='language-outline'></ion-icon>" +
 							"<span translation='global.language'>Language</span>" +
 						"</div>" +
 					"</div>" +
 
 					"<label class='switch' data-type='theme'>" +
-						"<input type='checkbox' id='theme-toggle' aria-label='Toggle theme'>" +
+						"<input type='checkbox' id='theme-toggle' aria-label='Toggle theme' tabindex='0'>" +
 						"<span class='slider'></span>" +
 					"</label>" +
 				"</div>" +
@@ -288,9 +300,9 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' translation='global.logout'>Logout</a><a href='/user' translation='global.yourprofile'>Your profile</a>" +
+			"<a href='/logout' tabindex='0' translation='global.logout'>Logout</a><a href='/user' tabindex='0' translation='global.yourprofile'>Your profile</a>" +
 			//"<a href='/dashboard/custom'>Custom bots</a>" +
-			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
+			"<a href='/dashboard/dataexport' tabindex='0' translation='global.viewdataexport'>View own data</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
@@ -330,6 +342,14 @@ document.addEventListener("DOMContentLoaded", () => {
 			headerTimeout = void 0
 		}, 200)
 	}, false)
+
+	handleClickAndEnter("header-hamburger", sidebar)
+	handleClickAndEnter("sidebar-hamburger", sidebar)
+	handleClickAndEnter("langpicker-ja", reloadText, "ja")
+	handleClickAndEnter("langpicker-hu", reloadText, "hu")
+	handleClickAndEnter("langpicker-fr", reloadText, "fr")
+	handleClickAndEnter("langpicker-de", reloadText, "de")
+	handleClickAndEnter("langpicker-en", reloadText, "en")
 
 	loadFunc()
 	reloadText()

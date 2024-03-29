@@ -135,14 +135,22 @@ loadFunc = async () => {
 	const html = await getCommandsHTML()
 	document.getElementById("linksidebar").innerHTML +=
 		"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
-		"<div class='tab' id='tab-ticket' onclick='cmdSearch(\"ticket\", true)'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
-		"<div class='tab' id='tab-fun' onclick='cmdSearch(\"fun\", true)'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-		"<div class='tab' id='tab-suggest' onclick='cmdSearch(\"suggest\", true)'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
-		"<div class='tab' id='tab-economy' onclick='cmdSearch(\"economy\", true)'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
-		"<div class='tab' id='tab-moderation' onclick='cmdSearch(\"moderation\", true)'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
-		"<div class='tab' id='tab-info' onclick='cmdSearch(\"info\", true)'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
-		"<div class='tab' id='tab-admin' onclick='cmdSearch(\"admin\", true)'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
+		"<div class='tab' id='tab-ticket' tabindex='0'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
+		"<div class='tab' id='tab-fun' tabindex='0'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
+		"<div class='tab' id='tab-suggest' tabindex='0'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+		"<div class='tab' id='tab-economy' tabindex='0'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
+		"<div class='tab' id='tab-moderation' tabindex='0'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
+		"<div class='tab' id='tab-info' tabindex='0'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
+		"<div class='tab' id='tab-admin' tabindex='0'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
 		"</div>"
+
+	handleClickAndEnter("tab-ticket", cmdSearch, "ticket", true)
+	handleClickAndEnter("tab-fun", cmdSearch, "fun", true)
+	handleClickAndEnter("tab-suggest", cmdSearch, "suggest", true)
+	handleClickAndEnter("tab-economy", cmdSearch, "economy", true)
+	handleClickAndEnter("tab-moderation", cmdSearch, "moderation", true)
+	handleClickAndEnter("tab-info", cmdSearch, "info", true)
+	handleClickAndEnter("tab-admin", cmdSearch, "admin", true)
 
 	document.getElementById("commands-container").innerHTML = html
 	reloadText()

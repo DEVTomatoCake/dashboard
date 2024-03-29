@@ -29,7 +29,7 @@
 
 		<main class="main" id="main">
 			<header>
-				<div class="hamburger" onclick="sidebar()">
+				<div class="hamburger" id="header-hamburger" tabindex="0">
 					<div class="line" id="lineTop1"></div>
 					<div class="line" id="lineBottom1"></div>
 				</div>
@@ -40,12 +40,12 @@
 				</div>
 
 				<div class="hoverdropdown">
-					<div class="account" onclick="location='/login'">
+					<div class="account" onclick="location='/login'" tabindex="0">
 						<p translation="global.account">Account</p>
 						<ion-icon id="user-avatar" name="person-circle-outline"></ion-icon>
 					</div>
-					<div class="hoverdropdown-content">
-						<a href="/login" translation="global.login"></a>
+					<div class="hoverdropdown-content" role="menu">
+						<a href="/login" translation="global.login" role="menuitem"></a>
 					</div>
 				</div>
 			</header>

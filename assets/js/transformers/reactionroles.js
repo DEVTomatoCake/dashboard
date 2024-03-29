@@ -80,6 +80,28 @@ function changeTab(elem) {
 		elem.remove()
 }
 
+const params = new URLSearchParams(location.search)
+let hasLoaded = false
+let hasSavePopup = false
+let reverting = false
+
+const handleChange = () => {
+	if (!hasLoaded) return
+
+	if (!hasSavePopup) {
+		document.body.insertAdjacentHTML("beforeend",
+			"<div class='userinfo-container unsaved-container' id='unsaved-container'>" +
+			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
+			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
+			"<button type='button' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
+			"</div>"
+		)
+		fadeIn(document.getElementById("unsaved-container"))
+		reloadText()
+		hasSavePopup = true
+	}
+}
+
 function addRR(e) {
 	e.preventDefault()
 	if (!document.getElementById("reactionroles-buttonlabel") || document.getElementById("reactionroles-buttonlabel").length > 80)
@@ -142,15 +164,27 @@ const pickerData = {}
 const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
 
 let socket
-const params = new URLSearchParams(location.search)
 let saving = false
 let savingToast
 let errorToast
 
 function connectWS(guild) {
+	if (hasSavePopup) {
+		fadeOut(document.getElementById("unsaved-container"))
+		hasSavePopup = false
+	}
+	hasLoaded = false
+
 	socket = sockette("wss://api.tomatenkuchen.com", {
 		onClose: () => {
-			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
+			if (reverting) reverting = false
+			else errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
+
+			if (hasSavePopup) {
+				fadeOut(document.getElementById("unsaved-container"))
+				hasSavePopup = false
+			}
+			hasLoaded = false
 		},
 		onOpen: event => {
 			console.log("Connected!", event)
@@ -179,6 +213,10 @@ function connectWS(guild) {
 			else if (json.action == "RECEIVE_reactionroles") {
 				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
 				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + getReactionrolesHTML(json) + "</div>"
+
+				for (const elem of document.querySelectorAll("select.setting")) elem.onchange = () => handleChange()
+				hasLoaded = true
+
 				reloadText()
 				guildName = json.name
 			} else if (json.action == "SAVED_reactionroles") {
@@ -235,12 +273,12 @@ function saveReactionroles() {
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving reactionroles...", timeout: 7}).show()
 }
 
-const handleChange = () => {}
 loadFunc = () => {
 	let amountnew = 0
 	document.getElementById("create-form").addEventListener("submit", e => {
 		e.preventDefault()
-		if (document.getElementsByClassName("reactionrole").length == 0) return new ToastNotification({type: "ERROR", title: "You must add at least one reactionrole using the button above!", timeout: 10}).show()
+		if (document.getElementsByClassName("reactionrole").length == 0)
+			return new ToastNotification({type: "ERROR", title: "You must add at least one reactionrole using the button above!", timeout: 10}).show()
 
 		document.getElementById("create-dialog").setAttribute("hidden", "")
 		if (document.getElementById("no-rr")) document.getElementById("no-rr").remove()

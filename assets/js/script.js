@@ -16,7 +16,7 @@ async function get(component = "", auth = true, method = "GET", body = null) {
 function setCookie(name = "", value = "", days = 0, global = false) {
 	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
 
-	let cookie = name + "=" + value + ";path=/;Secure;SameSite=Lax;"
+	let cookie = name + "=" + value + ";path=/;Secure;SameSite=Strict;"
 	if (days > 0) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
 	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
 

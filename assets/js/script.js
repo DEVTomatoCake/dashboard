@@ -62,13 +62,13 @@ class Header extends HTMLElement {
 	connectedCallback() {
 		this.innerHTML =
 			"<header>" +
-			"<div class='hamburger' id='header-hamburger' tabindex='0'>" +
+			"<div class='hamburger' id='header-hamburger'>" +
 				"<div class='line' id='lineTop1'></div>" +
 				"<div class='line' id='lineBottom1'></div>" +
 			"</div>" +
 
-			"<div class='hoverdropdown'>" +
-				"<div class='account' onclick='location=\"/login\"' tabindex='0'>" +
+			"<div class='hoverdropdown' tabindex='0'>" +
+				"<div class='account' onclick='location=\"/login\"'>" +
 					"<p translation='global.account'>Account</p>" +
 					"<ion-icon id='user-avatar' name='person-circle-outline'></ion-icon>" +
 				"</div>" +
@@ -117,12 +117,12 @@ class Sidebar extends HTMLElement {
 		this.innerHTML =
 			"<div class='sidebar-container " + (screen.width > 600 ? "visible" : "") + "' id='sidebar-container'>" +
 			"<nav class='sidebar' id='sidebar'>" +
-				"<div class='hamburger' id='sidebar-hamburger'>" +
+				"<div class='hamburger' id='sidebar-hamburger' tabindex='0'>" +
 					"<div class='line' id='lineTop2'></div>" +
 					"<div class='line' id='lineBottom2'></div>" +
 				"</div>" +
 
-				"<button type='button' onclick='location = \"/invite\"' translation='sidebar.invite'></button>" +
+				"<button type='button' id='tk-invite' translation='sidebar.invite'></button>" +
 
 				"<div id='linksidebar' class='section' role='menu'>" +
 					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
@@ -152,7 +152,7 @@ class Sidebar extends HTMLElement {
 						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "' tabindex='0'><ion-icon name='settings-outline'></ion-icon>" +
 							"<p translation='dashboard.settings'>Settings</p></a>" +
 						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' title='A simplified version of the integrations page' " +
-							"href='./integrations?cc=1&guild=" + guild + "' tabindex='0'><ion-icon name='terminal-outline'></ion-icon>" +
+							"href='./integrations?cc=1&guild=" + guild + "' tabindex='0'><ion-icon name='chatbox-ellipses-outline'></ion-icon>" +
 							"<p>Customcommands</p></a>" +
 						(dashboard == "settings" ?
 							"<details>" +
@@ -179,7 +179,7 @@ class Sidebar extends HTMLElement {
 				"</div>" +
 
 				"<div class='section bottom'>" +
-					"<div class='hoverdropdown lang'>" +
+					"<div class='hoverdropdown lang' tabindex='0'>" +
 						"<div class='hoverdropdown-content langselect' role='menu'>" +
 							"<div id='langpicker-ja' role='menuitem'>" +
 								"<img src='/assets/images/wikimedia_flagja.svg' width='30' height='30' alt='JA flag'>" +
@@ -202,7 +202,7 @@ class Sidebar extends HTMLElement {
 								"<span>English</span>" +
 							"</div>" +
 						"</div>" +
-						"<div class='text' tabindex='0'>" +
+						"<div class='text'>" +
 							"<ion-icon name='language-outline'></ion-icon>" +
 							"<span translation='global.language'>Language</span>" +
 						"</div>" +
@@ -220,7 +220,7 @@ class Sidebar extends HTMLElement {
 customElements.define("global-sidebar", Sidebar)
 
 let sideState = 0
-function sidebar() {
+const sidebar = () => {
 	sideState++
 
 	document.getElementById("lineTop2").classList.add("rotated1")
@@ -233,6 +233,10 @@ function sidebar() {
 		setTimeout(() => {
 			document.getElementById("content").classList.remove("no-padding")
 			document.getElementById("sidebar-container").classList.add("visible")
+
+			document.getElementById("header-hamburger").tabIndex = -1
+			document.getElementById("sidebar-hamburger").tabIndex = 0
+			document.getElementById("sidebar-hamburger").focus()
 		}, 300)
 	} else {
 		document.getElementById("content").classList.add("no-padding")
@@ -246,6 +250,10 @@ function sidebar() {
 		setTimeout(() => {
 			document.getElementById("sidebar-container").classList.remove("visible")
 		}, 100)
+
+		document.getElementById("sidebar-hamburger").tabIndex = -1
+		document.getElementById("header-hamburger").tabIndex = 0
+		document.getElementById("header-hamburger").focus()
 	}
 }
 
@@ -267,7 +275,6 @@ function fadeIn(elem) {
 
 function openDialog(dialog) {
 	dialog.removeAttribute("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 	window.onclick = event => {
 		if (event.target == dialog) dialog.setAttribute("hidden", "")
 	}
@@ -300,9 +307,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =
-			"<a href='/logout' tabindex='0' translation='global.logout'>Logout</a><a href='/user' tabindex='0' translation='global.yourprofile'>Your profile</a>" +
+			"<a href='/logout' translation='global.logout'>Logout</a>" +
+			"<a href='/user' translation='global.yourprofile'>Your profile</a>" +
 			//"<a href='/dashboard/custom'>Custom bots</a>" +
-			"<a href='/dashboard/dataexport' tabindex='0' translation='global.viewdataexport'>View own data</a>"
+			"<a href='/dashboard/dataexport' translation='global.viewdataexport'>View own data</a>"
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
@@ -350,6 +358,11 @@ document.addEventListener("DOMContentLoaded", () => {
 	handleClickAndEnter("langpicker-fr", reloadText, "fr")
 	handleClickAndEnter("langpicker-de", reloadText, "de")
 	handleClickAndEnter("langpicker-en", reloadText, "en")
+	handleClickAndEnter("tk-invite", () => location.href = "/invite")
+
+	for (const dialogClose of document.getElementsByClassName("close")) {
+		dialogClose.onclick = () => dialogClose.parentElement.parentElement.setAttribute("hidden", "")
+	}
 
 	loadFunc()
 	reloadText()

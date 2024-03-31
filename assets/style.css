@@ -19,11 +19,12 @@
 	--secondary-color: #bfc2d4;
 	--tertiary-color: #E6E7F1;
 	--accent-color: #6148eb;
+	--accent-color-text: #6148eb;
 	--accent-color-hover: #3f4aa0;
 	--button-accent-color: #3f4caa;
 	--primary-text-color: #10121d;
 	--secondary-text-color: #3a3c46;
-	--blue: #3a4ce7;
+	--blue: #3244e2;
 	--green: #23732A;
 	--purple: #992fb9;
 	--primary-table-bgcolor: #E5E7F1;
@@ -51,7 +52,8 @@
 	--primary-color-hover: #000;
 	--secondary-color: #2e3247;
 	--tertiary-color: #4e505f;
-	--accent-color: #7966e9;
+	--accent-color: #5743C7;
+	--accent-color-text: #9689e0;
 	--accent-color-hover: #5141ac;
 	--button-accent-color: #3d3f91;
 	--primary-text-color: #E6E7F1;
@@ -96,7 +98,7 @@ h1, h2, h3, h4, p, b, small, label, input, summary, span, ul li {
 	color: var(--primary-text-color);
 }
 
-.main {
+main {
 	height: auto;
 }
 
@@ -799,11 +801,13 @@ header .account img {
 	border-radius: 50%;
 }
 
+.hoverdropdown .account {
+	margin-right: 22px;
+}
 .hoverdropdown .account, .hoverdropdown.lang .text {
 	display: flex;
 	align-items: center;
 	margin-left: auto;
-	margin-right: 22px;
 	font-size: 18px;
 	border-radius: 12px;
 	padding: 5px 7px;
@@ -890,7 +894,7 @@ header .account img {
 }
 
 .accent {
-	color: var(--accent-color);
+	color: var(--accent-color-text);
 }
 
 h1.greeting, h2.greeting {
@@ -1096,6 +1100,11 @@ pre {
 	justify-content: space-between;
 }
 
+a.docs-link {
+	font-size: 17.5px;
+	margin-left: 15px;
+}
+
 #image-preview {
 	background-color: #fff;
 	position: sticky;
@@ -1271,7 +1280,6 @@ a:has(ion-icon), button:has(ion-icon) {
 }
 .feature a, .blue-text {
 	color: var(--blue);
-	text-decoration: none;
 }
 .feature img {
 	border-radius: 7px;

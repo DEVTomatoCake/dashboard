@@ -16,7 +16,7 @@ const getGuildsHTML = async () => {
 				"?guild=" + encode(guild.id) +
 				(target && target.split(target.includes("?") ? "?" : "#")[1] ?
 					(target.includes("?") ? "&" : "#") + target.split(target.includes("?") ? "?" : "#")[1].replace(/[^\w&#=-]/gi, "")
-				: "") + "'>" +
+				: "") + "' tabindex='0'>" +
 				"<img" + (guild.active ? "" : " class='inactive'") + " alt='" + encode(guild.name) +
 				" Server icon' width='128' height='128' src='" + encode(guild.icon) + "' crossorigin='anonymous'>" +
 				"<p>" + encode(guild.name) + "</p>" +

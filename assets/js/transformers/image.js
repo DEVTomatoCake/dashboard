@@ -35,7 +35,6 @@ function createDialog() {
 
 	addLayer()
 	dialog.removeAttribute("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
 	reloadText()
 	for (const elem of document.querySelectorAll(".image-editor input, .image-editor select")) elem.oninput = () => handleChange(elem)
@@ -185,7 +184,6 @@ function imageEdit(imageId) {
 	editLayer(currentLayer.id)
 
 	dialog.removeAttribute("hidden")
-	dialog.getElementsByClassName("close")[0].onclick = () => dialog.setAttribute("hidden", "")
 
 	reloadText()
 	for (const elem of document.querySelectorAll(".image-editor input, .image-editor select")) elem.oninput = () => handleChange(elem)

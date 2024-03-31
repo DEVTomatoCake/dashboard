@@ -67,7 +67,7 @@ const minifyFile = async (path, options = {}) => {
 		const output = clean.minify(content)
 		result = {
 			code: output.styles + "\n/*# sourceMappingURL=" + filename + ".map */",
-			map: output.sourceMap.toString()
+			map: output.sourceMap.toString().replace("$stdin", filename)
 		}
 
 		if (output.warnings.length > 0 || output.errors.length > 0) console.log(path, output.warnings, output.errors)

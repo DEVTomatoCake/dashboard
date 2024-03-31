@@ -364,6 +364,36 @@ document.addEventListener("DOMContentLoaded", () => {
 		dialogClose.onclick = () => dialogClose.parentElement.parentElement.setAttribute("hidden", "")
 	}
 
+	for (const dropdown of document.getElementsByClassName("hoverdropdown")) {
+		const children = dropdown.querySelector(".hoverdropdown-content").children
+		let index = 0
+
+		// eslint-disable-next-line unicorn/consistent-function-scoping
+		const listener = event => {
+			if (event.key == "ArrowUp" || event.key == "ArrowLeft") {
+				if (index == 0) index = children.length - 1
+				else index -= 1
+
+				for (const child of children) child.classList.remove("active")
+				children[index].classList.add("active")
+			} else if (event.key == "ArrowDown" || event.key == "ArrowRight") {
+				if (index == children.length - 1) index = 0
+				else index += 1
+
+				for (const child of children) child.classList.remove("active")
+				children[index].classList.add("active")
+			} else if (event.key == "Enter") children[index].click()
+		}
+
+		dropdown.addEventListener("focus", () => {
+			dropdown.addEventListener("keydown", listener)
+		})
+		dropdown.addEventListener("blur", () => {
+			dropdown.removeEventListener("keydown", listener)
+			for (const child of children) child.classList.remove("active")
+		})
+	}
+
 	loadFunc()
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")

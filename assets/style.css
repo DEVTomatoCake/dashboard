@@ -44,6 +44,7 @@
 	--settings-upsell: #94E9DF;
 	--codebg: #dadada;
 	--custompicker-bg: #dee4f5;
+	--focus-outline: #0080ff80;
 }
 
 .dark-theme {
@@ -78,6 +79,7 @@
 	--settings-upsell: #24504e;
 	--codebg: #3f3f42;
 	--custompicker-bg: #3c4250;
+	--focus-outline: #2fa1ff80;
 }
 
 * {
@@ -107,6 +109,11 @@ a {
 }
 a:visited {
 	color: var(--link-visited);
+}
+
+:focus-visible {
+	outline: transparent solid 2px;
+	box-shadow: 0 0 0 2px var(--focus-outline);
 }
 
 summary, tr.command, th.sortable, #thread-container ul li p {
@@ -849,20 +856,22 @@ header .account img {
 	width: 180px;
 	right: 20px;
 }
+.hoverdropdown-content:not(.langselect) a {
+	color: var(--primary-text-color);
+}
 
 .hoverdropdown:hover .hoverdropdown-content, .hoverdropdown:focus .hoverdropdown-content {
 	display: block;
 }
 
-.hoverdropdown-content a, .hoverdropdown-content.langselect div {
+.hoverdropdown-content > * {
 	display: block;
-	color: var(--primary-text-color);
 	padding: 5px;
 	text-decoration: none;
-	background: var(--primary-color);
+	background-color: var(--primary-color);
 }
-.hoverdropdown-content a:hover, .hoverdropdown-content.langselect div:hover,
-.hoverdropdown-content a:focus, .hoverdropdown-content.langselect div:focus {
+.hoverdropdown-content > *:hover, .hoverdropdown-content > *:focus,
+.hoverdropdown-content > .active {
 	background-color: var(--select-hover);
 }
 

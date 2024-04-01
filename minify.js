@@ -153,15 +153,7 @@ async function main() {
 	await minifyFile("./assets/js/transformers/invite.js")
 	await minifyFile("./assets/js/transformers/login.js")
 	await minifyFile("./assets/js/transformers/logout.js")
-	await minifyFile("./assets/js/transformers/transcript.js", {
-		compress: {
-			...defaultOptions.compress,
-			top_retain: ["loadTranscript"]
-		},
-		mangle: {
-			reserved: ["loadTranscript"]
-		}
-	})
+	await minifyFile("./assets/js/transformers/transcript.js")
 
 	await minifyFile("./assets/emojipicker.css")
 	await minifyFile("./assets/messageeditor.css")

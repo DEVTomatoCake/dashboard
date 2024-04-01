@@ -9,7 +9,7 @@ const getGiveawayHTML = async giveaway => {
 				(json.data.winners.map(user =>
 					"<img class='user-image' crossorigin='anonymous' loading='lazy' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' " +
-					"alt='Avatar: " + encode(user.name) + "'> " + encode(user.name) + "<br>"
+					"alt=''> " + encode(user.name) + "<br>"
 				)).join("")
 			: "<span translation='giveaway.nowinner'></span>") + "</b></p><br><br><br>"
 
@@ -25,7 +25,7 @@ const getGiveawayHTML = async giveaway => {
 			(json.data.users.map(user =>
 				"<img class='user-image' crossorigin='anonymous' loading='lazy' src='https://cdn.discordapp.com/" +
 				(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "' " +
-				"alt='Avatar: " + encode(user.name) + "'> " + encode(user.name) + "<br>"
+				"alt=''> " + encode(user.name) + "<br>"
 			)).join("")
 
 		const reqs = json.data.requirements

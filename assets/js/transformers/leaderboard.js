@@ -5,7 +5,7 @@ const getLeaderboardHTML = async guild => {
 			json.level.map((entry, i) => {
 				const user = json.users[entry.u]
 				return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 					encode(user.name) + " <b>" + assertInt(entry.points).toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + assertInt(entry.level).toLocaleString() + "</b>)</p>"
 			}).join("") + "</div></div>" : void 0
@@ -14,7 +14,7 @@ const getLeaderboardHTML = async guild => {
 			json.counting.map((entry, i) => {
 				const user = json.users[entry.u]
 				return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 					encode(user.name) + " <b>" + assertInt(entry.points).toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
 					(entry.pointsCur ? " (Current run: <b>" + assertInt(entry.pointsCur).toLocaleString() + "</b> Point" + (entry.pointsCur == 1 ? "" : "s") + ")" : "") + "</p>"
@@ -24,7 +24,7 @@ const getLeaderboardHTML = async guild => {
 			json.countingFail.map((entry, i) => {
 				const user = json.users[entry.u]
 				return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 					encode(user.name) + " <b>" + assertInt(entry.fails).toLocaleString() + "</b> Fail" + (entry.fails == 1 ? "" : "s") + "</p>"
 			}).join("") : void 0
@@ -33,7 +33,7 @@ const getLeaderboardHTML = async guild => {
 			json.botVote.map((entry, i) => {
 				const user = json.users[entry.u]
 				return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 					encode(user.name) + " <b>" + assertInt(entry.votes).toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
 			}).join("") : void 0
@@ -42,7 +42,7 @@ const getLeaderboardHTML = async guild => {
 			json.serverVote.map((entry, i) => {
 				const user = json.users[entry.u]
 				return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " highlight" : "") + "'>" + (i + 1) + ". " +
-					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='Avatar of " + encode(user.name) + "' src='https://cdn.discordapp.com/" +
+					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
 					encode(user.name) + " <b>" + assertInt(entry.votes).toLocaleString() + "</b> Vote" + (entry.votes == 1 ? "" : "s") + "</p>"
 			}).join("") : void 0

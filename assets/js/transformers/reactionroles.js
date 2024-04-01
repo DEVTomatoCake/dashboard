@@ -23,7 +23,7 @@ function getReactionrolesHTML(json) {
 
 			text +=
 				"<div>" +
-				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='Role emoji' crossorigin='anonymous'><br>") : "") +
+				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='' crossorigin='anonymous'><br>") : "") +
 				(type == "button" || type == "select" ? "<p><b>" + encode(setting.label) + "</b></p>" : "") +
 				"<select class='setting' data-type='" + type + "' data-msg='" + encode(setting.msg) + "' " +
 				"data-channel='' " +
@@ -117,7 +117,7 @@ function addRR(e) {
 	const newelem = document.createElement("div")
 	newelem.classList.add("reactionrole")
 	newelem.innerHTML =
-		(emoji ? (isNaN(emoji) ? "<p><b>" + encode(emoji) + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + encode(emoji) + ".webp?size=32' alt='Reactionrole Image' crossorigin='anonymous'><br>") : "") +
+		(emoji ? (isNaN(emoji) ? "<p><b>" + encode(emoji) + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + encode(emoji) + ".webp?size=32' alt='' crossorigin='anonymous'><br>") : "") +
 		(type == "button" || type == "select" ? "<p><b>" + encode(document.getElementById("reactionroles-" + type + "label").value) + "</b></p>" : "") +
 		"<select class='setting' data-type='" + encode(type) + "' data-msg='" + encode(msg) + "' " +
 		"data-channel='" + encode(document.getElementById("reactionroles-channel").value) + "' " +

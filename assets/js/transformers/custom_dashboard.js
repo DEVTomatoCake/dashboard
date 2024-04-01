@@ -11,7 +11,7 @@ function getCustomHTML(json) {
 				"<div id='bot-" + encode(bot.id) + "' class='integration'>" +
 				"<div>" +
 				"<div class='flex'>" +
-				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='Bot avatar of " + encode(bot.username) + "' loading='lazy' crossorigin='anonymous'>" +
+				"<img src='" + encode(bot.avatar) + "?size=64' class='bot-avatar' alt='' loading='lazy' crossorigin='anonymous'>" +
 				"<h2>" + encode(bot.username) + "</h2>" +
 				"</div>" +
 				(bot.cost > 0 ? "<p>Credit cost per day: <b>" + bot.cost.toLocaleString() + "</b></p>" : "") +

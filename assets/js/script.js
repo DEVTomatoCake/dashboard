@@ -88,7 +88,7 @@ class Footer extends HTMLElement {
 			"<footer>" +
 			"<a href='/' title='Homepage' aria-label='Go to homepage'>" +
 			"<div id='mainlink'>" +
-				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo'>" +
+				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo - Home'>" +
 				"<span>TomatenKuchen</span>" +
 			"</div>" +
 			"</a>" +
@@ -182,23 +182,23 @@ class Sidebar extends HTMLElement {
 					"<div class='hoverdropdown lang' tabindex='0'>" +
 						"<div class='hoverdropdown-content langselect' role='menu'>" +
 							"<div id='langpicker-ja' role='menuitem'>" +
-								"<img src='/assets/images/wikimedia_flagja.svg' width='30' height='30' alt='JA flag'>" +
+								"<img src='/assets/images/wikimedia_flagja.svg' width='30' height='30' alt=''>" +
 								"<span>日本語</span>" +
 							"</div>" +
 							"<div id='langpicker-hu' role='menuitem'>" +
-								"<img src='/assets/images/wikimedia_flaghu.svg' width='30' height='30' alt='HU flag'>" +
+								"<img src='/assets/images/wikimedia_flaghu.svg' width='30' height='30' alt=''>" +
 								"<span>Magyar</span>" +
 							"</div>" +
 							"<div id='langpicker-fr' role='menuitem'>" +
-								"<img src='/assets/images/wikimedia_flagfr.svg' width='30' height='30' alt='FR flag'>" +
+								"<img src='/assets/images/wikimedia_flagfr.svg' width='30' height='30' alt=''>" +
 								"<span>Français</span>" +
 							"</div>" +
 							"<div id='langpicker-de' role='menuitem'>" +
-								"<img src='/assets/images/wikimedia_flagde.svg' width='30' height='30' alt='DE flag'>" +
+								"<img src='/assets/images/wikimedia_flagde.svg' width='30' height='30' alt=''>" +
 								"<span>Deutsch</span>" +
 							"</div>" +
 							"<div id='langpicker-en' role='menuitem'>" +
-								"<img src='/assets/images/wikimedia_flagen.svg' width='30' height='30' alt='EN flag'>" +
+								"<img src='/assets/images/wikimedia_flagen.svg' width='30' height='30' alt=''>" +
 								"<span>English</span>" +
 							"</div>" +
 						"</div>" +
@@ -314,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		if (getCookie("avatar")) document.getElementsByClassName("account")[0].innerHTML +=
 			"<img crossorigin='anonymous' src='https://cdn.discordapp.com/avatars/" + getCookie("avatar") + ".webp?size=32' srcset='https://cdn.discordapp.com/avatars/" + getCookie("avatar") +
-			".webp?size=64 2x' width='32' height='32' alt='User Avatar' onerror='document.getElementById(\"user-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
+			".webp?size=64 2x' width='32' height='32' alt='' onerror='document.getElementById(\"user-avatar\").classList.add(\"visible\");this.setAttribute(\"hidden\", \"\")'>"
 		else document.getElementById("user-avatar").classList.add("visible")
 	} else if (document.getElementById("user-avatar")) document.getElementById("user-avatar").classList.add("visible")
 

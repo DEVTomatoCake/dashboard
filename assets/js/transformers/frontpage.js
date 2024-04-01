@@ -1,5 +1,5 @@
 const formatServer = server => "" +
-	"<img src='" + encode(server.icon) + "' alt='Server icon of " + encode(server.name) + "' crossorigin='anonymous'>" +
+	"<img src='" + encode(server.icon) + "' alt='' crossorigin='anonymous'>" +
 	"<div>" +
 	"<h3>" + encode(server.name.length > 50 ? server.name.substring(0, 50) + "…" : server.name) + "</h3>" +
 	"<p class='members'>🟢 <b>" + server.online?.toLocaleString() + "</b> online⠀🔘 <b>" + server.members.toLocaleString() + "</b> <span translation='main.members'></span></p>" +

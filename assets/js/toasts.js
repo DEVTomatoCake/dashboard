@@ -8,8 +8,9 @@ const createWrapper = () => {
 	const wrapper = document.createElement("div")
 	const container = document.createElement("div")
 
-	wrapper.setAttribute("id", "toast-notification-wrapper")
-	container.setAttribute("class", "toast-notification-container")
+	wrapper.id = "toast-notification-wrapper"
+	container.class = "toast-notification-container"
+	container.role = "status"
 
 	container.addEventListener("scroll", () => {
 		autoscroll = (wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40

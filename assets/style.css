@@ -1215,7 +1215,7 @@ button span, button b {
 	color: var(--light-text-color);
 }
 
-a:has(ion-icon), button:has(ion-icon) {
+a.has-ionicon, button:has(ion-icon) {
 	display: inline-flex;
 	align-items: center;
 }

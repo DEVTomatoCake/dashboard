@@ -14,10 +14,10 @@ const handleIntegration = integration =>
 	"<p><span translation='integration.public'></span>: " + (integration.public ? "✅" : "❌") + "</p>" +
 	"<p><span translation='integration.lastupdate'></span> " + new Date(integration.lastUpdate).toLocaleDateString() + "</p>" +
 	"<div class='flex'>" +
-		"<button onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
-		(integration.guild == params.get("guild") ? "<button onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
+		"<button type='button' onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
+		(integration.guild == params.get("guild") ? "<button type='button' onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
 			"<ion-icon name='build-outline'></ion-icon></button>" : "") +
-		(integration.guild == params.get("guild") ? "<button class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
+		(integration.guild == params.get("guild") ? "<button type='button' class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
 	"</div>" +
 	"</div>"
 

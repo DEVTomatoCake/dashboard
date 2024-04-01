@@ -123,52 +123,52 @@ class Sidebar extends HTMLElement {
 				"<button type='button' id='tk-invite' translation='sidebar.invite'></button>" +
 
 				"<div id='linksidebar' class='section' role='menu'>" +
-					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
+					"<a href='/' title='Home' class='tab" + (this.getAttribute("page") == "main" ? " active' data-no-instant" : "'") + " role='menuitem'>" +
 						"<ion-icon name='home-outline'></ion-icon>" +
 						"<p translation='sidebar.home'></p>" +
 					"</a>" +
-					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
+					"<a href='/commands' title='Bot commands' class='tab" + (this.getAttribute("page") == "commands" ? " active' data-no-instant" : "'") + " role='menuitem'>" +
 						"<ion-icon name='terminal-outline'></ion-icon>" +
 						"<p translation='sidebar.commands'></p>" +
 					"</a>" +
-					"<a href='/dashboard' class='tab" + (dashboard || this.getAttribute("page") == "dashboard" ? " active' data-no-instant" : "'") + " tabindex='0'>" +
+					"<a href='/dashboard' class='tab" + (dashboard || this.getAttribute("page") == "dashboard" ? " active' data-no-instant" : "'") + " role='menuitem'>" +
 						"<ion-icon name='settings-outline'></ion-icon>" +
 						"<p translation='sidebar.dashboard'></p>" +
 					"</a>" +
 					(user ?
 						"<div class='section middle'><p class='title'>User profile</p>" +
 						"<a class='tab otherlinks" + (user == "user" ? " active" : "") +
-							"' href='/user' tabindex='0'><ion-icon name='thumbs-up-outline'></ion-icon><p>Votes</p></a>" +
+							"' href='/user' role='menuitem'><ion-icon name='thumbs-up-outline'></ion-icon><p>Votes</p></a>" +
 						//"<a class='tab otherlinks" + (user == "custom" ? " active" : "") +
-							//"' href='/dashboard/custom' tabindex='0'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
+							//"' href='/dashboard/custom' role='menuitem'><ion-icon name='diamond-outline'></ion-icon><p>Custom bots</p></a>" +
 						"<a class='tab otherlinks" + (user == "dataexport" ? " active" : "") +
-							"' href='/dashboard/dataexport' tabindex='0'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>User data</p></a>" +
+							"' href='/dashboard/dataexport' role='menuitem'><ion-icon name='file-tray-stacked-outline'></ion-icon><p>User data</p></a>" +
 						"</div>"
 					: "") +
 					(guild ?
 						"<div class='section middle'><p class='title' translation='sidebar.dashboard'></p>" +
-						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "' tabindex='0'><ion-icon name='settings-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "' role='menuitem'><ion-icon name='settings-outline'></ion-icon>" +
 							"<p translation='dashboard.settings'>Settings</p></a>" +
 						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' title='A simplified version of the integrations page' " +
-							"href='./integrations?cc=1&guild=" + guild + "' tabindex='0'><ion-icon name='chatbox-ellipses-outline'></ion-icon>" +
+							"href='./integrations?cc=1&guild=" + guild + "' role='menuitem'><ion-icon name='chatbox-ellipses-outline'></ion-icon>" +
 							"<p>Customcommands</p></a>" +
 						(dashboard == "settings" ?
 							"<details>" +
 							"<summary>More pages</summary>"
 						: "") +
-						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "' tabindex='0'><ion-icon name='terminal-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "' role='menuitem'><ion-icon name='terminal-outline'></ion-icon>" +
 							"<p translation='dashboard.integrations'>Integrations</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "' tabindex='0'><ion-icon name='happy-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "' role='menuitem'><ion-icon name='happy-outline'></ion-icon>" +
 							"<p>Reactionroles</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "' tabindex='0'><ion-icon name='warning-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "' role='menuitem'><ion-icon name='warning-outline'></ion-icon>" +
 							"<p translation='dashboard.logs'>Logs</p></a>" +
-						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "' tabindex='0'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "' tabindex='0'><ion-icon name='shield-half-outline'></ion-icon>" +
+						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "' role='menuitem'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "' role='menuitem'><ion-icon name='shield-half-outline'></ion-icon>" +
 							"<p translation='dashboard.modlogs'>Modlogs</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "' tabindex='0'><ion-icon name='ticket-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "' role='menuitem'><ion-icon name='ticket-outline'></ion-icon>" +
 							"<p translation='dashboard.tickets'>Tickets</p></a>" +
-						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "' tabindex='0'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-						"<a class='tab otherlinks' href='../stats?guild=" + guild + "' tabindex='0'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
+						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "' role='menuitem'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
+						"<a class='tab otherlinks' href='../stats?guild=" + guild + "' role='menuitem'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
 						(dashboard == "settings" ?
 							"</details>"
 						: "") +
@@ -206,8 +206,8 @@ class Sidebar extends HTMLElement {
 						"</div>" +
 					"</div>" +
 
-					"<label class='switch' data-type='theme'>" +
-						"<input type='checkbox' id='theme-toggle' aria-label='Toggle theme' tabindex='0'>" +
+					"<label class='switch' data-type='theme' aria-label='Toggle theme'>" +
+						"<input type='checkbox' id='theme-toggle' tabindex='0'>" +
 						"<span class='slider'></span>" +
 					"</label>" +
 				"</div>" +

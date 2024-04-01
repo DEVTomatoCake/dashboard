@@ -50,7 +50,8 @@ function getSettingsHTML(json) {
 					})
 				} else if (typeof setting.value == "object") {
 					temp += "<div id='" + setting.key + "' class='advancedsetting'>"
-					if (Array.isArray(setting.value)) temp += "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>"
+					if (Array.isArray(setting.value))
+						temp += "<button type='button' class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>"
 
 					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting.key, i, setting.value[i], void 0, true)).join("")
 					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting.key, i)).join("")
@@ -89,8 +90,8 @@ function getSettingsHTML(json) {
 				} else {
 					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" +
 						setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
-						"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
-						"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>"
+						"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
+						"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
 				}
 				temp += "<br>"
@@ -175,10 +176,10 @@ function handleChange(id) {
 
 	if (!hasSavePopup) {
 		document.body.insertAdjacentHTML("beforeend",
-			"<div class='userinfo-container unsaved-container' id='unsaved-container'>" +
+			"<div class='userinfo-container unsaved-container' id='unsaved-container' role='status'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
 			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
-			"<button type='button' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
+			"<button type='reset' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
 			"</div>"
 		)
 		fadeIn(document.getElementById("unsaved-container"))
@@ -347,14 +348,16 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 		Object.keys(setting.type).forEach((setKey, i) => {
 			if (setting.embed && setKey == "message") {
 				const id = Math.random().toString(36).slice(4)
-				html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")' translation='settings.messageeditor'>" +
+				html += "<button type='button' id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" +
+					setting.key + "\", \"" + id + "\")' translation='settings.messageeditor'>" +
 					"<ion-icon name='mail-outline'></ion-icon></button>"
 				messageData[id] = value.message ? JSON.parse(value.message) : {}
 				return
 			} else if (setting.embed && embedKeys.has(setKey)) {
 				if (i == Object.keys(setting.type).length - 1) {
 					const id = Math.random().toString(36).slice(4)
-					html += "<button id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" + setting.key + "\", \"" + id + "\")' translation='settings.messageeditor'>" +
+					html += "<button type='button' id='" + setting.key + "_message_" + id + "' class='msg-editor' onclick='toggleMsgEditor(\"" +
+						setting.key + "\", \"" + id + "\")' translation='settings.messageeditor'>" +
 						"<ion-icon name='mail-outline'></ion-icon></button>"
 
 					value.message = {
@@ -446,8 +449,8 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 					"<div class='emoji-container'>" +
 					"<textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + setKey + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
 					(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
-					"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
-					"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>"
+					"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
+					"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
 				if (/[<>&"']/.test(value[setKey] ?? key)) queue.push(() => document.getElementById(setting.key + "_" + setKey + "_" + key).value = value[setKey] ?? key)
 			}
 			html += "</div>"
@@ -482,8 +485,8 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 		} else {
 			html += "<div class='emoji-container'><textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
 				(parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
-				"<ion-icon name='at-outline' title='Rolepicker' onclick='cMenPic(this)'></ion-icon>" +
-				"<ion-icon name='happy-outline' title='Emojipicker' onclick='cEmoPic(this)'></ion-icon></div>"
+				"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
+				"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
 			if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key)
 		}
 	}
@@ -500,8 +503,8 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 		if (Array.isArray(setting.value)) {
 			const buttons = parent.querySelectorAll("button.createForm")
 			if (buttons[1]) buttons[1].remove()
-			if (parent.childElementCount > 3)
-				parent.insertAdjacentHTML("beforeend", "<button class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>")
+			if (parent.childElementCount > 3) parent.insertAdjacentHTML("beforeend",
+				"<button type='button' class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>")
 		}
 		reloadText()
 	} else return html

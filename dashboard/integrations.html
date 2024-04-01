@@ -76,10 +76,10 @@
 							<label for="action-content" translation="dashboard.content"></label>
 							<div class="emoji-container emoji-special">
 								<textarea class="code action-content" maxlength="2000" placeholder="Action content" id="action-content" rows="8"></textarea>
-								<ion-icon name="at-outline" title="Rolepicker" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
-								<ion-icon name="happy-outline" title="Emojipicker" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
+								<ion-icon name="at-outline" title="Rolepicker" role="button" onclick="mentionPicker(this.parentElement, pickerData.roles)"></ion-icon>
+								<ion-icon name="happy-outline" title="Emojipicker" role="button" onclick="emojiPicker(this.parentElement, pickerData.emojis, guildName)"></ion-icon>
 							</div>
-							<ion-icon name="trash-outline" class="cc-hidden" onclick="this.parentElement.remove()"></ion-icon>
+							<ion-icon name="trash-outline" class="cc-hidden" role="button" onclick="this.parentElement.remove()"></ion-icon>
 						</template>
 						<div id="actions-container"></div>
 						<button type="button" class="createForm cc-hidden" onclick="addAction()" translation="integration.addaction"></button>

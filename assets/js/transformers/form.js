@@ -66,10 +66,10 @@ const getFormHTML = async formId => {
 				"who submitted this form.'>You can decide whether you want to remain anonymous to the server team: <input type='checkbox' id='form-anonymous' checked></label></p>" : "") +
 			(json.cooldown ? "<p id='submit-cooldown'" + (hasMultiple ? " hidden" : "") + ">You can only submit something every <b>" + encode(json.cooldown) + "</b>.</p>" : "") +
 			(hasMultiple ?
-				"<button onclick='pageBack()' id='back-button' hidden>Back</button>" +
-				"<button class='green' onclick='pageNext()' id='next-button'>Next</button>" : ""
+				"<button type='button' onclick='pageBack()' id='back-button' hidden>Back</button>" +
+				"<button type='button' class='green' onclick='pageNext()' id='next-button'>Next</button>" : ""
 			) +
-			"<button class='green' translation='form.submit' onclick='fs()' id='submit-button'" + (hasMultiple ? " hidden" : "") + "></button>" +
+			"<button type='button' class='green' translation='form.submit' onclick='fs()' id='submit-button'" + (hasMultiple ? " hidden" : "") + "></button>" +
 			(maxPage > 1 ? "<br><small>Page <span id='current-page'>1</span> out of " + maxPage + " pages</small>" : "") +
 			"<br><br>" +
 			"<p translation='form.unverified'></p>"

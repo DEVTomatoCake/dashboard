@@ -90,10 +90,10 @@ const handleChange = () => {
 
 	if (!hasSavePopup) {
 		document.body.insertAdjacentHTML("beforeend",
-			"<div class='userinfo-container unsaved-container' id='unsaved-container'>" +
+			"<div class='userinfo-container unsaved-container' id='unsaved-container' role='status'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
 			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
-			"<button type='button' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
+			"<button type='reset' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
 			"</div>"
 		)
 		fadeIn(document.getElementById("unsaved-container"))

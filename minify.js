@@ -94,7 +94,7 @@ const minifyFile = async (path, options = {}) => {
 }
 
 async function main() {
-	await minifyFile("./assets/js/script_org.js", {
+	await minifyFile("./assets/js/script.js", {
 		compress: {
 			...defaultOptions.compress,
 			top_retain: ["get", "getCookie", "setCookie", "deleteCookie", "encode", "assertInt", "handleError", "handleClickAndEnter", "sidebar", "fadeOut", "fadeIn", "openDialog"]

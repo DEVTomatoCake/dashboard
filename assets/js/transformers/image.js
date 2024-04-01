@@ -301,7 +301,7 @@ function saveImage() {
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving image \"" + encode(name) + "\"...", timeout: 7}).show()
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	const canvas = document.getElementById("image-preview")
 	ctx = canvas.getContext("2d")
 	ctx.canvas.width = 500
@@ -319,4 +319,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

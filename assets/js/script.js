@@ -34,8 +34,6 @@ function deleteCookie(name = "") {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
-// eslint-disable-next-line prefer-const
-let loadFunc = () => {}
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
 const assertInt = int => {
 	if (typeof int == "number" || typeof int == "bigint") return int
@@ -394,7 +392,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		})
 	}
 
-	loadFunc()
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 

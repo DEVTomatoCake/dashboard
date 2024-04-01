@@ -84,7 +84,7 @@ const info = id => {
 	reloadText()
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	if (params.has("guild") && getCookie("token"))
 		getLogsHTML(params.get("guild")).then(data => {
 			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
@@ -100,4 +100,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

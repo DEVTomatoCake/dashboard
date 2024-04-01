@@ -131,7 +131,7 @@ const toggleCategory = category => {
 	reloadText()
 }
 
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	const html = await getCommandsHTML()
 	document.getElementById("linksidebar").innerHTML +=
 		"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
@@ -154,4 +154,4 @@ loadFunc = async () => {
 
 	document.getElementById("commands-container").innerHTML = html
 	reloadText()
-}
+})

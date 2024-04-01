@@ -75,7 +75,7 @@ const changeTab = elem => {
 	document.getElementById(elem.getAttribute("name")).removeAttribute("hidden")
 }
 
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	const params = new URLSearchParams(location.search)
 
 	if (params.has("guild")) {
@@ -101,4 +101,4 @@ loadFunc = async () => {
 		document.getElementById("content").innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>"
 		reloadText()
 	}
-}
+})

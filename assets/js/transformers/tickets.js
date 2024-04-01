@@ -102,7 +102,7 @@ async function ticketSearch() {
 	}
 }
 
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	const params = new URLSearchParams(location.search)
 	if (params.has("guild") && getCookie("token")) {
 		const html = await getTicketsHTML(params.get("guild"))
@@ -118,4 +118,4 @@ loadFunc = async () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

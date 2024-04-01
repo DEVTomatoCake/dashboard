@@ -261,7 +261,7 @@ function tokenChange() {
 	if (value.length >= 50 && value.length <= 90 && /^[-\w]{20,}\.[-\w]{5,}\.[-\w]{25,}$/.test(value)) refresh()
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	tokenElem = document.getElementById("custom-token")
 
 	if (getCookie("token")) connectWS()
@@ -269,4 +269,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

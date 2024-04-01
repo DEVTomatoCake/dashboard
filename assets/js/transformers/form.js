@@ -191,7 +191,7 @@ const fs = async () => {
 	}
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	if (getCookie("token")) {
 		const rootContainer = document.getElementById("root-container")
 
@@ -209,4 +209,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

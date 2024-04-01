@@ -46,7 +46,7 @@ const createChart = apiresponse => {
 }
 
 const params = new URLSearchParams(location.search)
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	if (params.has("guild")) {
 		const filters = []
 		if (params.has("time")) filters.push("time=" + params.get("time"))
@@ -64,4 +64,4 @@ loadFunc = () => {
 		localStorage.setItem("next", location.pathname)
 		location.href = "/dashboard"
 	}
-}
+})

@@ -273,7 +273,7 @@ function saveReactionroles() {
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving reactionroles...", timeout: 7}).show()
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	let amountnew = 0
 	document.getElementById("create-form").addEventListener("submit", e => {
 		e.preventDefault()
@@ -305,4 +305,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

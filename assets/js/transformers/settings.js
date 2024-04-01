@@ -584,7 +584,7 @@ function saveSettings() {
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 7}).show()
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))
 	else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {
@@ -595,4 +595,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

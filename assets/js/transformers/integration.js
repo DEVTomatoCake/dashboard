@@ -385,7 +385,7 @@ const disableSimple = () => {
 	new ToastNotification({type: "SUCCESS", title: "Simple mode disabled!", timeout: 10}).show()
 }
 
-loadFunc = () => {
+document.addEventListener("DOMContentLoaded", () => {
 	if (params.has("cc")) {
 		for (const elem of document.getElementsByClassName("cc-hidden")) elem.setAttribute("hidden", "")
 		document.getElementById("cc-simple").removeAttribute("hidden")
@@ -401,4 +401,4 @@ loadFunc = () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

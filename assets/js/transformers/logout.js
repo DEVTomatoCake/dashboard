@@ -1,4 +1,4 @@
-loadFunc = () =>
+document.addEventListener("DOMContentLoaded", () => {
 	get("auth/logout").then(json => {
 		if (getCookie("token")) deleteCookie("token")
 		if (getCookie("user")) deleteCookie("user")
@@ -18,3 +18,4 @@ loadFunc = () =>
 			}, 3500)
 		}
 	})
+})

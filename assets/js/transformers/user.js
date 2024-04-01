@@ -6,7 +6,7 @@ const formatVote = site =>
 	(site.next ? "<br><span class='vmiddle'><ion-icon name='arrow-forward-outline'></ion-icon>Next vote in <b>" + encode(site.next) + "</b></span>" : "") +
 	"</li>"
 
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	if (getCookie("token")) {
 		const json = await get("user?lang=" + getLanguage())
 		if (json.status == "success") {
@@ -21,4 +21,4 @@ loadFunc = async () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

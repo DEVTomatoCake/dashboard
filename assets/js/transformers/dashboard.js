@@ -54,7 +54,7 @@ const login = code => {
 }
 
 const params = new URLSearchParams(location.search)
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	if (getCookie("token") && (params.has("guild") || params.has("guild_id"))) {
 		document.getElementById("root-container").innerHTML = "<h1>Loading server settings...</h1>"
 		location.href = "/dashboard/settings?guild=" + encode(params.get("guild") || params.get("guild_id"))
@@ -106,4 +106,4 @@ loadFunc = async () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

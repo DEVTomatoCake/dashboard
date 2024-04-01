@@ -44,7 +44,7 @@ const getGiveawayHTML = async giveaway => {
 }
 
 const params = new URLSearchParams(location.search)
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	if (params.has("id")) {
 		const html = await getGiveawayHTML(params.get("id"))
 		document.getElementById("root-container").innerHTML = html
@@ -53,4 +53,4 @@ loadFunc = async () => {
 		document.getElementById("root-container").innerHTML = "<h1 class='greeting' translation='leaderboard.missingguild'></h1>"
 		reloadText()
 	}
-}
+})

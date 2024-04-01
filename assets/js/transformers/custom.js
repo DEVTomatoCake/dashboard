@@ -8,7 +8,7 @@ const calcCredits = () => {
 		Math.ceil(cost / 28).toLocaleString() + "</b> times every 24 hours <small>(and less if members vote more often)</small>!"
 }
 
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	calcCredits()
 
 	const json = await get("custom-tiers", false)
@@ -17,4 +17,4 @@ loadFunc = async () => {
 			"<tr><td>" + tier.cost.toLocaleString() + "</td><td>" + tier.text + "</td></tr>"
 		).join("")
 	} else document.getElementById("tiers-upgrade").innerHTML = "<tr><td colspan='2'>Failed to load upgrades</td></tr>"
-}
+})

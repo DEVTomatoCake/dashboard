@@ -163,7 +163,7 @@ const getDataexportHTML = async () => {
 	} else return handleError(json.message)
 }
 
-loadFunc = async () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	if (getCookie("token")) {
 		const html = await getDataexportHTML()
 		document.getElementById("content").innerHTML = html
@@ -172,4 +172,4 @@ loadFunc = async () => {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to login...</h1>"
 		location.href = "/login?next=" + encodeURIComponent(location.pathname + location.search + location.hash)
 	}
-}
+})

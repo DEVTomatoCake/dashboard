@@ -25,7 +25,6 @@ const global = {
 	pickerData: "writable",
 	selectData: "writable",
 	messageData: "writable",
-	loadFunc: "writable",
 	openDialog: "writable",
 	fadeIn: "writable",
 	fadeOut: "writable",

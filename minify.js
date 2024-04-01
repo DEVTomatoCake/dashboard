@@ -34,6 +34,7 @@ const minifyFile = async (path, options = {}) => {
 			parse: {
 				shebang: false
 			},
+			toplevel: true,
 			nameCache,
 			mangle: true,
 			...defaultOptions,
@@ -93,11 +94,16 @@ const minifyFile = async (path, options = {}) => {
 }
 
 async function main() {
-	await minifyFile("./assets/js/script.js", {
-		module: false
+	await minifyFile("./assets/js/script_org.js", {
+		compress: {
+			...defaultOptions.compress,
+			top_retain: ["get", "getCookie", "setCookie", "deleteCookie", "encode", "assertInt", "handleError", "handleClickAndEnter", "sidebar", "fadeOut", "fadeIn", "openDialog"]
+		},
+		mangle: {
+			reserved: ["get", "getCookie", "setCookie", "deleteCookie", "encode", "assertInt", "handleError", "handleClickAndEnter", "sidebar", "fadeOut", "fadeIn", "openDialog"]
+		}
 	})
 	await minifyFile("./assets/js/emojipicker.js", {
-		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
 			top_retain: ["emojiPicker", "insertMention", "mentionPicker", "togglePicker", "updateSelected", "updateMultiSelected"]
@@ -107,7 +113,6 @@ async function main() {
 		}
 	})
 	await minifyFile("./assets/js/language.js", {
-		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
 			top_retain: ["getLanguage", "reloadText"]
@@ -117,7 +122,6 @@ async function main() {
 		}
 	})
 	await minifyFile("./assets/js/sockette.js", {
-		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
 			top_retain: ["sockette"]
@@ -127,7 +131,6 @@ async function main() {
 		}
 	})
 	await minifyFile("./assets/js/toasts.js", {
-		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
 			top_retain: ["ToastNotification"]
@@ -137,7 +140,6 @@ async function main() {
 		}
 	})
 	await minifyFile("./assets/js/messageeditor.js", {
-		toplevel: true,
 		compress: {
 			...defaultOptions.compress,
 			top_retain: ["toggleMsgEditor"]
@@ -146,8 +148,19 @@ async function main() {
 			reserved: ["toggleMsgEditor"]
 		}
 	})
-	await minifyFile("./assets/js/instantpage-5.2.0.js", {
-		toplevel: true
+	await minifyFile("./assets/js/instantpage-5.2.0.js")
+
+	await minifyFile("./assets/js/transformers/invite.js")
+	await minifyFile("./assets/js/transformers/login.js")
+	await minifyFile("./assets/js/transformers/logout.js")
+	await minifyFile("./assets/js/transformers/transcript.js", {
+		compress: {
+			...defaultOptions.compress,
+			top_retain: ["loadTranscript"]
+		},
+		mangle: {
+			reserved: ["loadTranscript"]
+		}
 	})
 
 	await minifyFile("./assets/emojipicker.css")
@@ -160,26 +173,6 @@ async function main() {
 	for await (const file of langFiles) {
 		await minifyFile("./assets/lang/" + file)
 	}
-
-	await minifyFile("./assets/js/transformers/invite.js", {
-		toplevel: true
-	})
-	await minifyFile("./assets/js/transformers/login.js", {
-		toplevel: true
-	})
-	await minifyFile("./assets/js/transformers/logout.js", {
-		toplevel: true
-	})
-	await minifyFile("./assets/js/transformers/transcript.js", {
-		toplevel: true,
-		compress: {
-			...defaultOptions.compress,
-			top_retain: ["loadTranscript"]
-		},
-		mangle: {
-			reserved: ["loadTranscript"]
-		}
-	})
 
 	results.push({
 		path: "= Total",

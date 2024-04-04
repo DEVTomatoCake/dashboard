@@ -6,19 +6,16 @@ let autoscroll = true
 
 const createWrapper = () => {
 	const wrapper = document.createElement("div")
-	const container = document.createElement("div")
 
-	wrapper.id = "toast-notification-wrapper"
-	container.class = "toast-notification-container"
-	container.role = "status"
+	wrapper.setAttribute("id", "toast-notification-wrapper")
+	wrapper.setAttribute("role", "status")
 
-	container.addEventListener("scroll", () => {
+	wrapper.addEventListener("scroll", () => {
 		autoscroll = (wrapper.scrollHeight - wrapper.scrollTop - wrapper.clientHeight) <= 40
 	})
 
-	wrapper.append(container)
 	document.querySelector("body").prepend(wrapper)
-	return container
+	return wrapper
 }
 
 class ToastNotification {
@@ -99,7 +96,7 @@ class ToastNotification {
 	}
 
 	show() {
-		let container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
+		let container = document.getElementById("toast-notification-wrapper")
 		if (container === null) container = createWrapper()
 		else if (container.contains(this.#element)) return
 
@@ -126,15 +123,13 @@ class ToastNotification {
 	close() {
 		clearInterval(this.#_intervalId)
 
-		const wrapper = document.body.querySelector("#toast-notification-wrapper")
-		const container = document.body.querySelector("#toast-notification-wrapper .toast-notification-container")
-		if (!container) return
-
 		this.#element.classList.add("closed")
 
 		setTimeout(() => {
 			this.#element.remove()
-			if (container.childElementCount == 0) wrapper.remove()
+
+			const wrapper = document.getElementById("toast-notification-wrapper")
+			if (wrapper.childElementCount == 0) wrapper.remove()
 		}, 500)
 	}
 }

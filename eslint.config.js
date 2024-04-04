@@ -223,6 +223,8 @@ const rules = {
 	"unicorn/require-number-to-fixed-digits-argument": 2,
 	"unicorn/switch-case-braces": [2, "avoid"],
 	"unicorn/text-encoding-identifier-case": 2,
+	"unicorn/no-await-in-promise-methods": 2,
+	"unicorn/no-single-promise-in-promise-methods": 2,
 
 	"sonarjs/no-extra-arguments": 2,
 	"sonarjs/no-empty-collection": 2,

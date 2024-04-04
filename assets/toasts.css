@@ -5,26 +5,21 @@
 	top: 0;
 	bottom: 0;
 	right: 0;
-	flex-direction: column;
 	align-items: flex-end;
-}
-
-#toast-notification-wrapper .toast-notification-container {
-	display: flex;
-	padding: 20px 10px 10px 30px;
-	width: 100%;
-	height: 100%;
+	padding: 85px 10px 10px 30px;
+	height: calc(100% - 85px - 10px);
 	flex-direction: column;
 	gap: 10px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 	scroll-behavior: smooth;
+	pointer-events: none;
 }
 
-#toast-notification-wrapper .toast-notification-container::-webkit-scrollbar {
+#toast-notification-wrapper::-webkit-scrollbar {
 	width: 10px;
 }
-#toast-notification-wrapper .toast-notification-container::-webkit-scrollbar-thumb {
+#toast-notification-wrapper::-webkit-scrollbar-thumb {
 	width: 10px;
 	background-clip: padding-box;
 	background-color: #0006;
@@ -43,6 +38,7 @@
 	animation-timing-function: cubic-bezier(0.7, 0.06, 0.48, 1.42);
 	animation-duration: .4s;
 	animation-name: slide-in-animation;
+	pointer-events: all;
 }
 
 .toast-notification.closed {
@@ -130,16 +126,16 @@
 	justify-content: space-between;
 }
 
-.toast-notification .content-wrapper header .title {
+.toast-notification .content-wrapper .title {
 	color: var(--primary-text-color);
 	font-weight: 700;
 }
 
-.toast-notification .content-wrapper header .tag {
+.toast-notification .content-wrapper .tag {
 	color: #858585;
 }
 
-.toast-notification .content-wrapper header .close {
+.toast-notification .content-wrapper .close {
 	display: flex;
 	align-items: center;
 	border-radius: 50px;
@@ -147,16 +143,16 @@
 	background-color: var(--secondary-color);
 }
 
-.toast-notification .content-wrapper header .close .timeout {
+.toast-notification .content-wrapper .close .timeout {
 	font-size: 11px;
 	margin: 0 3px 1px 6px;
 	color: var(--primary-text-color);
 }
-.toast-notification .content-wrapper header .close .timeout:empty {
+.toast-notification .content-wrapper .close .timeout:empty {
 	display: none;
 }
 
-.toast-notification .content-wrapper header .close svg {
+.toast-notification .content-wrapper .close svg {
 	margin: 5px;
 	width: 10px;
 	height: 10px;

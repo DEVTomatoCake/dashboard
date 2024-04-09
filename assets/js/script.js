@@ -47,12 +47,13 @@ const handleError = error => {
 		(typeof error == "string" ? "" : "<h3>Check your browser console to find out more!</h3>")
 }
 
+const triggerKeys = new Set(["Enter", "Return", "Space"])
 const handleClickAndEnter = (elem = "", func = () => {}, ...args) => {
 	document.getElementById(elem).addEventListener("click", () => {
 		func(...args)
 	})
 	document.getElementById(elem).addEventListener("keydown", event => {
-		if (event.key == "Enter") func(...args)
+		if (triggerKeys.has(event.key)) func(...args)
 	})
 }
 

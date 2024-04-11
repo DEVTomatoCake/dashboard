@@ -4,7 +4,7 @@ const unicorn = require("eslint-plugin-unicorn")
 const sonarjs = require("eslint-plugin-sonarjs")
 const stylistic = require("@stylistic/eslint-plugin-js")
 const htmlESLint = require("@html-eslint/eslint-plugin")
-//const html = require("eslint-plugin-html")
+const html = require("eslint-plugin-html")
 
 const linterOptions = {
 	reportUnusedDisableDirectives: "error"
@@ -285,8 +285,8 @@ module.exports = [
 			unicorn,
 			sonarjs,
 			"@stylistic/js": stylistic,
-			"@html-eslint": htmlESLint//,
-			//html
+			"@html-eslint": htmlESLint,
+			html
 		},
 		settings: {
 			"html/html-extensions": [".html"]

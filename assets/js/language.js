@@ -34,8 +34,8 @@ const reloadText = async language => {
 	for (let i = 0; i < i18n.length; i++) {
 		const element = i18n.item(i)
 		const key = element.getAttribute("translation")
-		if (key == "global.login" && getCookie("user")) {
-			element.innerHTML = getCookie("user")
+		if ((key == "global.login" || key == "global.account") && getCookie("user")) {
+			element.textContent = getCookie("user")
 			continue
 		}
 

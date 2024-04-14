@@ -36,7 +36,7 @@ const minifyFile = async (inputPath, options = {}) => {
 			},
 			toplevel: true,
 			nameCache,
-			mangle: true,
+			mangle: false,
 			...defaultOptions,
 			...options
 		})

@@ -2,6 +2,7 @@ name: "CodeQL"
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   analyze:
@@ -25,6 +26,7 @@ jobs:
       uses: github/codeql-action/init@v3
       with:
         languages: ${{ matrix.language }}
+        packs: githubsecuritylab/codeql-javascript-queries
         queries: security-extended,security-and-quality
 
     - name: Autobuild

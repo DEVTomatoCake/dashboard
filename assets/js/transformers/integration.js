@@ -2,7 +2,7 @@ const params = new URLSearchParams(location.search)
 const handleIntegration = integration =>
 	"<div class='integration'>" +
 	"<div class='flex'>" +
-		(integration.image ? "<img class='integration-image' crossorigin='anonymous' src='" + encode(integration.image) + "' alt='' loading='lazy'>" : "") +
+		(integration.image ? "<img class='integration-image' src='" + encode(integration.image) + "' alt='' crossorigin='anonymous' loading='lazy'>" : "") +
 		"<h3>" + encode(integration.name) + "</h3>" +
 		(integration.verified ? " <ion-icon name='checkmark-circle-outline' title='Verified integration'></ion-icon>" : "") +
 		(integration.unsynced ? " <ion-icon name='refresh-outline' title='Has unsynced changes'></ion-icon>" : "") +

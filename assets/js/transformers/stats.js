@@ -26,7 +26,8 @@ const createChart = apiresponse => {
 		data: apiresponse.data.chatters.split(",")
 	})
 
-	const config = {
+	document.getElementById("loading-text").remove()
+	new Chart(document.getElementById("stats"), {
 		type: "line",
 		data: {
 			labels: apiresponse.data.labels.split(","),
@@ -40,26 +41,23 @@ const createChart = apiresponse => {
 				}
 			}
 		}
-	}
-
-	new Chart(document.getElementById("stats"), config)
+	})
 }
 
 const params = new URLSearchParams(location.search)
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	if (params.has("guild")) {
 		const filters = []
 		if (params.has("time")) filters.push("time=" + params.get("time"))
 		if (params.has("type")) filters.push("type=" + params.get("type"))
 
-		get("stats/" + params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&")).then(json => {
-			if (json.status == "success") createChart(json)
-			else document.body.innerHTML =
-				"<div class='center'>" +
-				"<h1>An error occured while executing the API request:</h1>" +
-				"<h2>" + encode(json.message) + "</h2>" +
-				"</div>"
-		})
+		const json = await get("stats/" + params.get("guild") + (filters.length > 0 ? "?" : "") + filters.join("&"))
+		if (json.status == "success") createChart(json)
+		else document.body.innerHTML =
+			"<div class='center'>" +
+			"<h1>An error occured while executing the API request:</h1>" +
+			"<h2>" + encode(json.message) + "</h2>" +
+			"</div>"
 	} else {
 		localStorage.setItem("next", location.pathname)
 		location.href = "/dashboard"

@@ -350,15 +350,6 @@ document.addEventListener("DOMContentLoaded", () => {
 		}, 200)
 	}, false)
 
-	handleClickAndEnter("header-hamburger", sidebar)
-	handleClickAndEnter("sidebar-hamburger", sidebar)
-	handleClickAndEnter("langpicker-ja", reloadText, "ja")
-	handleClickAndEnter("langpicker-hu", reloadText, "hu")
-	handleClickAndEnter("langpicker-fr", reloadText, "fr")
-	handleClickAndEnter("langpicker-de", reloadText, "de")
-	handleClickAndEnter("langpicker-en", reloadText, "en")
-	handleClickAndEnter("tk-invite", () => location.href = "/invite")
-
 	for (const dialogClose of document.getElementsByClassName("close")) {
 		dialogClose.onclick = () => dialogClose.parentElement.parentElement.setAttribute("hidden", "")
 	}
@@ -392,6 +383,17 @@ document.addEventListener("DOMContentLoaded", () => {
 			for (const child of children) child.classList.remove("active")
 		})
 	}
+
+	setTimeout(() => { // On /dashboard/ pages somehow nothing happens when the below code is executed instantly
+		handleClickAndEnter("header-hamburger", sidebar)
+		handleClickAndEnter("sidebar-hamburger", sidebar)
+		handleClickAndEnter("langpicker-ja", reloadText, "ja")
+		handleClickAndEnter("langpicker-hu", reloadText, "hu")
+		handleClickAndEnter("langpicker-fr", reloadText, "fr")
+		handleClickAndEnter("langpicker-de", reloadText, "de")
+		handleClickAndEnter("langpicker-en", reloadText, "en")
+		handleClickAndEnter("tk-invite", () => location.href = "/invite")
+	}, 250)
 
 	reloadText()
 	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")

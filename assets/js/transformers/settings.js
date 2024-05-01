@@ -171,7 +171,6 @@ let hasSavePopup = false
 let reverting = false
 
 function handleChange(id) {
-	console.log("Received change of " + id)
 	if (!hasLoaded) return
 	if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0])
 
@@ -524,8 +523,6 @@ function saveSettings() {
 		else if (setting.org == "object") {
 			entry = {}
 			Object.keys(setting.type).forEach((key, i) => {
-				if (setting.embed) console.warn("(1) In setting " + setting.key, key)
-				if (setting.embed) console.warn(JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]]))
 				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 				if (setting.embed && embedKeys.has(key)) {
 					if (i == Object.keys(setting.type).length - 1) entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
@@ -546,11 +543,9 @@ function saveSettings() {
 				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
 					const temp = {}
 					Object.keys(setting.type).forEach((key, i) => {
-						if (setting.embed) console.warn("(2) In setting " + setting.key, key)
-						if (setting.embed) console.warn(JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]]))
-						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 						if (setting.embed && embedKeys.has(key)) {
-							if (i == Object.keys(setting.type).length - 1) temp.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+							if (i == Object.keys(setting.type).length - 1) temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 							return
 						}
 

@@ -40,7 +40,7 @@ const getDataexportHTML = async () => {
 			suggests = json.data.suggest.map(suggest => "<p class='badge' title='" + encode(suggest.text) + "'>#" + assertInt(suggest.id) + "</p>").join(", ")
 
 		return "<div class='center'>" +
-			"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user")) + "</span></h1>" +
+			"<h1 class='greeting'><span translation='user.title'></span> <span class='accent'>" + encode(getCookie("user") || "You") + "</span></h1>" +
 			"<div class='userdatagrid'>" +
 
 			"<div class='userData'>" +

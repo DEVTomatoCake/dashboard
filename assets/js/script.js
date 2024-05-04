@@ -14,7 +14,7 @@ async function get(component = "", auth = true, method = "GET", body = null) {
 }
 
 function setCookie(name = "", value = "", days = 0, global = false) {
-	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "user" && name != "cookie-dismiss") return
+	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "cookie-dismiss") return
 
 	let cookie = name + "=" + value + ";path=/;Secure;SameSite=Strict;"
 	if (days > 0) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
@@ -287,10 +287,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		document.body.innerHTML +=
 			"<div class='userinfo-container' id='cookie-container'>" +
 			"<h2 translation='cookie.title'>Cookie information</h2>" +
-			"<p>We only use the following cookies on this website - it's your choice.<br>Essential cookies:</p>" +
-			"<ul><li><code>token</code> & <code>user</code>: Discord login</li><li><code>cookie-dismiss</code>: Remember cookie consent</li></ul>" +
-			"<p>Optional cookies:</p>" +
-			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>avatar</code>: Display Discord user avatar</li></ul>" +
+			"<p>We use the following cookies on this website:<br>Essential:</p>" +
+			"<ul><li><code>token</code>: Discord website login</li><li><code>cookie-dismiss</code>: Remember your consent</li></ul>" +
+			"<p>Optional:</p>" +
+			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>user</code> & <code>avatar</code>: Display Discord user data</li></ul>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
 			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
 			"</div>"

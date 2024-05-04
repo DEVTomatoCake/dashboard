@@ -35,7 +35,7 @@ const reloadText = async language => {
 		const element = i18n.item(i)
 		const key = element.getAttribute("translation")
 		if ((key == "global.login" || key == "global.account") && getCookie("user")) {
-			element.textContent = getCookie("user")
+			element.textContent = getCookie("user") || "Logged in"
 			continue
 		}
 

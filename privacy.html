@@ -35,60 +35,100 @@
 						</summary>
 						<div class="announcement settings">
 							<ion-icon name="warning-outline"></ion-icon>
-							Disclaimer: This translation might not be fully accurate and/or up to date, please refer to the German version if in doubt, or ask on our Discord server for clarification.
+							Disclaimer: This translation might not be fully accurate and/or up to date, please refer to the German version below if in doubt, or ask on our Discord server for clarification.
 						</div>
 
-						<h2 class="center">TomatenKuchen's privacy policy &amp; Terms of Service</h2>
+						<h2 class="center">Privacy policy &amp; Terms of Service</h2>
 
 						<p>
 							By using the site <a href="https://tomatenkuchen.com">tomatenkuchen.com</a>, the bot TomatenKuchen, or another bot that links to this site,
-							you agree to this privacy policy and Terms of Service/Use. This page was last updated on 2024-03-07.<br>
-							The legal entity responsible for data protection is mentioned on our <a href="/legal">Legal Notice</a>.
+							you agree to this privacy policy and Terms of Service/Use. This page was last updated on 2024-05-04.<br>
+							The legal entity responsible for the data is mentioned on our <a href="/legal">Legal Notice</a>.
 						</p>
 
 						<br>
 						<h2>
 							Privacy policy for TomatenKuchen
 						</h2>
-						<h3>What information is collected and why?</h3>
+
+						<h3>Website</h3>
+						<h4>External providers</h4>
+						<ul>
+							<li>
+								This website uses <a href="https://cloudflare.com" target="_blank" rel="noopener">Cloudflare</a>
+								to host the website. The service has its HQ in the US and may transfer personal related data (PII) there. For details, see
+								<a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">their privacy policy</a>.
+							</li>
+							<li>
+								<a href="https://discord.com" target="_blank" rel="noopener">Discord</a> is used to display Discord resources, mostly avatars and server icons.
+								It is also used when logging in with Discord.
+							</li>
+							<li>
+								We use <a href="https://simpleanalytics.com" target="_blank" rel="noopener">Simple Analytics</a>
+								to be able to collect anonymous usage statistics of the website. You can learn more about the collected data on their
+								<a href="https://docs.simpleanalytics.com/what-we-collect" target="_blank" rel="noopener">"What we collect" page</a>.
+							</li>
+						</ul>
+						<br>
+
+						<h4>Local data store</h4>
+						<ul>
+							<li>
+								<code>token</code>: A token to authentificate a user on the site.
+							</li>
+							<li>
+								<code>cookie-dismiss</code>: Stores the consent to not show the consent choice again.
+							</li>
+							<li>
+								<code>theme</code>, optional: Stores the color scheme selected in the sidebar.
+							</li>
+							<li>
+								<code>lang</code>, optional: Stores the language selected in the sidebar.
+							</li>
+							<li>
+								<code>user</code>, optional: Stores the current global Discord name.
+							</li>
+							<li>
+								<code>avatar</code>, optional: Is used to display the current user avatar in the top right corner.
+							</li>
+						</ul>
+						<br>
+
+						<h3>Data collected</h3>
 						<p>
 							In short: Only necessary data the user ("you") provides to us and is necessary to provide the functionality of our services is stored.
 							We only use it for the operation of the bot and the website and never share it with third parties unless you (implicitely) allow us to do so.
 						</p>
+						<br>
 
-						<h4>Website:</h4>
-						<p>
-							This site uses <a href="https://cloudflare.com" target="_blank" rel="noopener">Cloudflare</a>
-							for faster page loading. The service has their HQ in the US, which means that your data may be processed there. The data is processed anonymously.
-							<br>
-							If the avatar is stored a request to <a href="https://discord.com" target="_blank" rel="noopener">Discord</a> (HQ also in US) is made on page load to display the avatar.
-							This also applies to server icons.
-						</p>
-						<h4>Discord bot:</h4>
 						<ul>
 							<li>User IDs: Blacklist, reminders, economy, todo, AFK, birthday, user settings, modlogs, rejoin roles, Bot badges, levels, antiraid², antispam²,
-								server statistics³, polls, private voice channels, customroles, forms</li>
+								server statistics³, polls, private voice channels, forms, customroles, partnerships</li>
 							<li>User avatars: Tickets¹</li>
-							<li>Server IDs: Server statistics, server configuration, modlogs, levels, polls, forms</li>
-							<li>Channel IDs: Server configuration, Minecraft server status, tickets, polls, private voice channels</li>
+							<li>Server IDs: Server statistics, server configuration, modlogs, levels, active invites (invite tracking), polls, forms, partnerships</li>
+							<li>Channel IDs: Server configuration, Minecraft server status, tickets, polls, private voice channels, partnerships</li>
 							<li>Role IDs: Server configuration, rejoin roles, customroles</li>
-							<li>Message IDs: Server configuration, Minecraft server status, starboard, suggestions, giveaways, autodelete</li>
-							<li>Message content: Antispam² (detecting repeated messages), antiscam (only if links/invites in content using two external services, no saving)</li>
+							<li>Message IDs: Server configuration, Minecraft server status, starboard, suggestions, giveaways, autodelete, partnerships</li>
+							<li>
+								Message content: Antispam² (detecting repeated messages),
+								antiscam (only if links/invites in content: using two external services, no saving),
+								suggestions and partnerships (only if the message was sent in a channel selected for them)
+							</li>
 							<li>Message mentions: AFK</li>
-							<li>Attachments: Tickets¹, suggestions & starboard (images only)</li>
+							<li>Attachments: Tickets¹, suggestions and starboard (images only)</li>
 							<li>Commands used: Bot and user statistics, bug fixing</li>
 							<li>Form responses</li>
 							<li>Entered Bot data of custom bots</li>
 							<li>
 								<ion-icon name="warning-outline"></ion-icon>
-								Depending on which server parts are selected by the server admin, backups may store all server related data.
+								Depending on which server parts are selected, backups may store all Discord server related data.
 							</li>
 							<li>
-								<ion-icon name="warning-outline"></ion-icon>
-								The data stored for a longer time is encrypted with a recognized encryption method, but no 100% security can be guaranteed.
+								<ion-icon name="information-circle-outline"></ion-icon>
+								All data stored in the database is encrypted with a recognized encryption method.
 							</li>
 							<li>
-								<ion-icon name="warning-outline"></ion-icon>
+								<ion-icon name="information-circle-outline"></ion-icon>
 								To ensure data availability, backups are created several times a day on external storage media.
 							</li>
 						</ul>
@@ -110,7 +150,7 @@
 							has access to the data and can modify or delete it at any time.<br>
 							Additionally some <a href="/credits">contributors</a> have access to server logs.
 							<br>
-							The bot and the database are hosted on a server in Germany provided by <a href="https://www.hetzner.com" target="_blank" rel="noopener">Hetzner</a>.
+							The bot and the database are hosted on a server in Germany rented from <a href="https://www.hetzner.com" target="_blank" rel="noopener">Hetzner</a>.
 						</p>
 						<h3 translation="privacy.deleteowndata"></h3>
 						<ul>
@@ -180,59 +220,98 @@
 							<img src="./assets/images/wikimedia_flagde.svg" width="32" height="32" alt="" class="vmiddle">
 							German version/Deutsche Version
 						</summary>
-						<h1 class="center">TomatenKuchen's Datenschutzerklärung &amp; Nutzungsbedingungen</h1>
+						<h1 class="center">Datenschutzerklärung &amp; Nutzungsbedingungen</h1>
 
 						<p>
 							Durch die Nutzung dieser Website <a href="https://tomatenkuchen.com">tomatenkuchen.com</a>, des TomatenKuchen-Bots oder eines anderen Bots, der auf diese Seite verlinkt,
 							stimmst du der entsprechenden Datenschutzerklärung, den Terms of Use und den eventuell daraus resultierenden Konsequenzen zu.
-							Diese Datenschutzerklärung sowie die Nutzungsbedingungen wurden zuletzt am 7. März 2024 aktualisiert.<br>
-							Die Ansprechperson bzgl. dem Datenschutz ist im <a href="/legal">Impressum</a> einsehbar.
+							Diese Seite wurde zuletzt am 4. Mai 2024 aktualisiert.
+							<br>
+							<br>
+							Die rechtlich zuständige Person für die Datenverarbeitung ist im <a href="/legal">Impressum</a> einsehbar.
 						</p>
 
 						<br>
 						<h2>
 							Datenschutzerklärung für TomatenKuchen
 						</h2>
-						<h3>Welche Daten werden gespeichert und wozu werden sie benötigt?</h3>
+
+						<h3>Website</h3>
+						<h4>Externe Dienstleister</h4>
+						<ul>
+							<li>
+								Diese Website nutzt <a href="https://cloudflare.com" target="_blank" rel="noopener">Cloudflare</a>
+								zur Bereitstellung der Website. Der Dienst hat seinen Hauptsitz in der USA und überträgt möglicherweise personenbezogene Daten dorthin. Für Einzelheiten siehe
+								<a href="https://www.cloudflare.com/de-de/privacypolicy/" target="_blank" rel="noopener">dessen Datenschutzerklärung</a>.
+							</li>
+							<li>
+								<a href="https://discord.com" target="_blank" rel="noopener">Discord</a> wird zur Anzeige von Discord-Ressourcen verwendet, hauptsächlich Avatare und Servericons.
+								Ebenfalls wird die Seite bei der Anmeldung mit Discord abgerufen.
+							</li>
+							<li>
+								Ebenfalls verwenden wir <a href="https://simpleanalytics.com" target="_blank" rel="noopener">Simple Analytics</a>,
+								um anonyme Nutzungsstatistiken der Website sammeln zu können. Du kannst auf deren
+								<a href="https://docs.simpleanalytics.com/what-we-collect" target="_blank" rel="noopener">"What we collect"-Seite</a> mehr Informationen über die gesammelten Daten erhalten.
+							</li>
+						</ul>
+
+						<h4>Lokale Datenspeicherung</h4>
+						<ul>
+							<li>
+								<code>token</code>: Ein Token zur Authentifizierung des Nutzers auf der Website.
+							</li>
+							<li>
+								<code>cookie-dismiss</code>: Speichert die Einwilligung, damit das Auswahlfenster nicht erneut angezeigt wird.
+							</li>
+							<li>
+								<code>theme</code>, optional: Wird zur Speicherung des in der Sidebar ausgewählten Farbschemas verwendet.
+							</li>
+							<li>
+								<code>lang</code>, optional: Wird zur Speicherung der in der Sidebar ausgewählten Sprache verwendet.
+							</li>
+							<li>
+								<code>user</code>, optional: Speichert den aktuellen globalen Discord-Anzeigenamen.
+							</li>
+							<li>
+								<code>avatar</code>, optional: Wird zur Anzeige des Benutzeravatars in der oberen rechten Ecke der Website verwendet.
+							</li>
+						</ul>
+						<br>
+
+						<h3>Gesammelte Daten</h3>
 						<p>
 							Kurz gesagt: Es werden nur notwendige Daten gespeichert, die der Nutzer ("du") uns durch die Nutzung unserer Dienste zur Verfügung stellt.
 							Diese Daten werden nur für den Betrieb des Bots und der Website verwendet und nicht an Dritte weitergegeben, außer du erteilst uns (implizit) eine Genehmigung dafür.
 						</p>
+						<br>
 
-						<h4>Website:</h4>
-						<p>
-							Diese Website nutzt <a href="https://cloudflare.com" target="_blank" rel="noopener">Cloudflare</a>
-							zur schnellen Bereitstellung der Seite unabhängig vom Standort des Nutzers. Der Dienst hat seinen Hauptsitz in der USA und überträgt möglicherweise personenbezogene
-							Daten, in diesem Fall IP-Adressen, zu Logzwecken dorthin. Diese Daten werden anonymisiert verarbeitet, zu Einzelheiten siehe dessen Datenschutzerklärung.
-							<br>
-							Wenn der Avatar gespeichert wird wird beim Laden der Seite eine Anfrage an <a href="https://discord.com" target="_blank" rel="noopener">Discord</a> durchgeführt,
-							um den Avatar anzeigen zu können. Dies gilt auch für Servericons. Discord sitzt ebenfalls in den USA.
-						</p>
-
-						<h4>Discord-Bot:</h4>
 						<ul>
 							<li>Nutzer-IDs: Blacklist, Reminder, Economy, Todo, AFK, Geburtstag, Nutzereinstellungen, Modlogs, Rejoin-Rollen, TK-Badges, Level, Antiraid², Antispam²,
-								Serverstatistiken³, Botstatistiken, private Sprachkanäle, Umfragen, Formulare, Customrollen</li>
+								Serverstatistiken³, Botstatistiken, private Sprachkanäle, Umfragen, Formulare, Customrollen, Partnerschaften</li>
 							<li>Nutzer-Avatar: Ticketsystem¹</li>
-							<li>Server-IDs: Serverstatistiken, Serverkonfiguration, Modlogs, Level, aktive Einladungen, Umfragen, Fehlerlogs, Formulare</li>
-							<li>Kanal-IDs: Serverkonfiguration, Minecraft-Serverstatus, Ticketsystem, Umfragen, private Sprachkanäle</li>
+							<li>Server-IDs: Serverstatistiken, Serverkonfiguration, Modlogs, Level, aktive Einladungen (Invitetracking), Umfragen, Fehlerlogs, Formulare, Partnerschaften</li>
+							<li>Kanal-IDs: Serverkonfiguration, Minecraft-Serverstatus, Ticketsystem, Umfragen, private Sprachkanäle, Partnerschaften</li>
 							<li>Rollen-IDs: Serverkonfiguration, Rejoin-Rollen, Customrollen</li>
-							<li>Nachrichten-IDs: Serverkonfiguration, Minecraft-Serverstatus, Starboard, Vorschläge, Giveaways, Autodelete</li>
-							<li>Nachrichteninhalt: Antispam² (Erkennung wiederholter Nachrichten), Antiscam (nur wenn Links/Einladungen enthalten Überprüfung durch zwei externe Dienste, keine Datenspeicherung)</li>
+							<li>Nachrichten-IDs: Serverkonfiguration, Minecraft-Serverstatus, Starboard, Vorschläge, Giveaways, Autodelete, Partnerschaften</li>
+							<li>
+								Nachrichteninhalt: Antispam² (Erkennung wiederholter Nachrichten),
+								Antiscam (nur wenn Links/Einladungen enthalten sind: Überprüfung durch zwei externe Dienste, keine Datenspeicherung),
+								Vorschläge und Partnerschaften (nur, wenn eine Nachricht in einem dafür ausgewählten Kanal gesendet wird)
+							</li>
 							<li>Nachrichtenerwähnungen: AFK</li>
-							<li>Anhänge: Ticketsystem¹, Vorschläge & Starboard (nur Bilder)</li>
+							<li>Anhänge: Ticketsystem¹, Vorschläge und Starboard (nur Bilder)</li>
 							<li>Verwendete Befehle: Bot- und Nutzerstatistiken, Fehlerbehebung</li>
 							<li>eingegebene Botdaten für Custombots, z. B. der Bot-Token</li>
 							<li>
 								<ion-icon name="warning-outline" class="vmiddle"></ion-icon>
-								Je nachdem, welche Serverteile von dem Serveradmin für ein Backup ausgewählt worden sind, speichern Backups alle mit dem Server verbundenen Inhalte.
+								Je nachdem, welche Serverteile für ein Backup ausgewählt worden sind, speichern Backups alle mit dem Discordserver verbundenen Inhalte.
 							</li>
 							<li>
-								<ion-icon name="warning-outline" class="vmiddle"></ion-icon>
-								Alle längerfristig gespeicherten Daten werden mit einem anerkannten Verschlüsselungsverfahren verschlüsselt, jedoch kann keine 100 %ige Sicherheit garantiert werden.
+								<ion-icon name="information-circle-outline" class="vmiddle"></ion-icon>
+								Alle längerfristig gespeicherten Daten werden mit einem anerkannten Verschlüsselungsverfahren verschlüsselt.
 							</li>
 							<li>
-								<ion-icon name="warning-outline" class="vmiddle"></ion-icon>
+								<ion-icon name="information-circle-outline" class="vmiddle"></ion-icon>
 								Zur Sicherstellung der Datenverfügbarkeit werden täglich mehrfach Backups auf externen Speichermedien erstellt.
 							</li>
 						</ul>
@@ -240,7 +319,7 @@
 							¹Da Anhänge und Nutzer-Avatare automatisch von Discord nach einer gewissen Zeit gelöscht werden, aber für den Kontext in Ticket-Transcripten wichtig sein können,
 							werden diese automatisch von TomatenKuchen auf einem eigenen Server gespeichert. Diese Funktion kann in den Nutzereinstellungen deaktiviert werden.
 							<br>
-							²Die von Antiraid bzw. Antispam gesammelten Daten werden wenige Minuten nach der Erfassung gelöscht.
+							²Die von Antiraid gesammelten Daten werden wenige Minuten nach der Erfassung gelöscht. Laut den Antiscam-Dienstleistern erfolgt dort keine Datenspeicherung.
 							<br>
 							³Die gesammelten aktiven-Chatter-Nutzer-IDs werden täglich um etwa 0 Uhr deutscher Zeit in die Anzahl der Nutzer umgewandelt und danach gelöscht.
 							Davor sind die Nutzer-IDs nicht einsehbar.
@@ -248,16 +327,17 @@
 
 						<h3 translation="privacy.requestdata"></h3>
 						<p>
-							Du kannst deine von TomatenKuchen gespeicherten Daten auf der <a href="/dashboard/dataexport">Dataexport-Seite</a> online einsehen.
+							Du kannst deine von TomatenKuchen gespeicherten Daten auf der <a href="/dashboard/dataexport">Datenexport-Seite</a> online einsehen.
 						</p>
 
 						<h3>Wer hat Zugang zu den Daten?</h3>
 						<p>
 							Der Bot-Entwickler, <a href="https://discord.com/users/581146486646243339" target="_blank" rel="noopener">devtomatocake</a>,
 							hat Zugriff auf die Daten und kann sie jederzeit ändern oder löschen.<br>
-							Zusätzlich haben einige <a href="/credits">Contributors</a> Zugriff auf Serverlogs.
+							Zusätzlich haben einige <a href="/credits">Mithelfende</a> Zugriff auf Serverlogs.
 							<br>
-							Der Bot und die Datenbank werden auf einem von <a href="https://www.hetzner.com/de" target="_blank" rel="noopener">Hetzner</a> gemieteten Server mit Standort in Deutschland gehostet.
+							Der Bot und die Datenbank werden auf einem von <a href="https://www.hetzner.com/de" target="_blank" rel="noopener">Hetzner</a>
+							gemieteten Server in Deutschland gehostet.
 						</p>
 						<h3 translation="privacy.deleteowndata"></h3>
 						<ul>

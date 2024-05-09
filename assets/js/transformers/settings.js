@@ -242,7 +242,8 @@ function connectWS(guild) {
 				pickerData.leveltextchannel = {here: "Current channel", ...pickerData.textchannel}
 				pickerData.voicechannel = json.constant.voicechannel
 				pickerData.categorychannel = json.constant.categorychannel
-				pickerData.announcementchannel = json.data.find(setting => setting.type == "announcementchannel").possible
+				pickerData.announcementchannel = json.constant.announcementchannel
+				pickerData.textforumchannel = json.constant.textforumchannel
 				const rendered = getSettingsHTML(json)
 
 				document.querySelector(".sidebar .section.middle").classList.add("no-margin")

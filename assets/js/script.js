@@ -302,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		sideState = 1
 	}
 
-	if (getCookie("user") && document.getElementsByClassName("account").length > 0) {
+	if (getCookie("token") && document.getElementsByClassName("account").length > 0) {
 		document.getElementsByClassName("account")[0].removeAttribute("onclick")
 
 		document.querySelector(".hoverdropdown-content:not(.langselect)").innerHTML =

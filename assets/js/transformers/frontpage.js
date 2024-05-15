@@ -30,9 +30,11 @@ setInterval(() => {
 	if (currentIndex >= servers.length) currentIndex = 0
 
 	document.getElementById("server" + currentServer).classList.add("no-opacity")
+	document.getElementById("server" + currentServer).insertAdjacentHTML("beforeend", "<link rel='preload' as='image' href='" + servers[currentIndex].icon + "' crossorigin='anonymous'>")
+
 	setTimeout(() => {
 		document.getElementById("server" + currentServer).innerHTML = formatServer(servers[currentIndex])
 		document.getElementById("server" + currentServer).classList.remove("no-opacity")
 		reloadText()
 	}, 500)
-}, 8300)
+}, 7800)

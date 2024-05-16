@@ -1398,11 +1398,6 @@ a.has-ionicon, button:has(ion-icon) {
 	background: var(--accent-color-hover);
 }
 
-::selection {
-	background: var(--accent-color);
-	color: var(--primary-text-color);
-}
-
 
 .creditsContainer {
 	text-align: center;

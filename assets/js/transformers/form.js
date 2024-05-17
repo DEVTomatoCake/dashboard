@@ -6,77 +6,6 @@ const pickerData = {}
 let queue = []
 const handleChange = () => {}
 
-const getFormHTML = async formId => {
-	const json = await get("forms/" + formId + "?lang=" + getLanguage())
-	if (json.status == "success") {
-		if (json.fields.length == 0) return "<p>Das Formular mit dem Titel <b>" + encode(json.title) + "</b> existiert, aber hat keine Felder, die du ausfüllen könntest!</p>"
-		form = json
-		maxPage = Math.max(...json.fields.map(field => field.page || 1))
-
-		let text = "<h1 class='center'>Formular ausfüllen: " + encode(json.title) + "</h1><br>"
-		json.fields.forEach(field => {
-			text += "<div id='field-" + encode(field.name) + "-container'" + (field.page && field.page > 1 ? " hidden" : "") + ">" +
-				"<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label>" +
-				(field.required ? "<span class='red-text'>*</span>" : "") + "<br>"
-
-			if (field.type == "short" || field.type == "password" || field.type == "number" || field.type == "range" || field.type == "color")
-				text += "<input id='field-" + encode(field.name) + "' type='" + (field.type == "short" ? "text" : encode(field.type)) +
-					(field.min ? "' min='" + assertInt(field.min) + "' minlength='" + assertInt(field.min) : "") +
-					(field.max ? "' max='" + assertInt(field.max) + "' maxlength='" + assertInt(field.max) : "") +
-					(field.step ? "' step='" + assertInt(field.step) : "") + (field.pattern ? "' pattern='" + encode(field.pattern) : "") +
-					(field.placeholder ? "' placeholder='" + encode(field.placeholder) : "") +
-					(field.value ? "' value='" + encode(field.value) : "") + "'>"
-			else if (field.type == "date" || field.type == "time")
-				text += "<input id='field-" + encode(field.name) + "' type='" + encode(field.type) +
-					(field.min ? "' min='" + assertInt(field.min) : "") +
-					(field.max ? "' max='" + assertInt(field.max) : "") +
-					(field.value ? "' value='" + encode(field.value) : "") + "'>"
-			else if (field.type == "long")
-				text += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
-					encode(field.value) + "</textarea>"
-			else if (field.type == "checkbox") {
-				text += field.options.map(option => {
-					const id = Math.random().toString(36).substring(5)
-					return "<input id='field-" + encode(field.name) + "-" + id + "' name='" + encode(field.name) + "' " +
-						"type='radio' data-value='" + encode(option) + "'>" +
-						"<label for='field-" + encode(field.name) + "-" + id + "'>" + encode(option) + "</label>"
-				}).join("<br>")
-			} else if (field.type == "select") {
-				const optionObj = {}
-				field.options.forEach(option => optionObj[option] = option)
-				pickerData[encode(field.name)] = optionObj
-				selectData["field-" + encode(field.name)] = {value: []}
-
-				text += "<channel-picker data-form='1' id='field-" + encode(field.name) + "' " +
-					(field.min <= 1 && field.max <= 1 ? "" : "data-multi='1' ") + "type='" + encode(field.name) + "'></channel-picker>"
-				queue.push(() => {
-					document.getElementById("field-" + encode(field.name)).querySelector(".list").innerHTML =
-						"<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
-					togglePicker(document.getElementById("field-" + encode(field.name)).querySelector(".list"))
-				})
-			} else text += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ") - please report this!</i>"
-
-			text += "<br><br></div>"
-		})
-
-		const hasMultiple = json.fields.some(field => field.page && field.page > 1)
-		text += "<br>" +
-			(json.anonymous == "always" ? "<p translation='form.anonymous'></p>" : "") +
-			(json.anonymous == "optional" ? "<p id='submit-anonymous'" + (hasMultiple ? " hidden" : "") + "><label title='If checked, no one on the server is able to see " +
-				"who submitted this form.'>You can decide whether you want to remain anonymous to the server team: <input type='checkbox' id='form-anonymous' checked></label></p>" : "") +
-			(json.cooldown ? "<p id='submit-cooldown'" + (hasMultiple ? " hidden" : "") + ">You can only submit something every <b>" + encode(json.cooldown) + "</b>.</p>" : "") +
-			(hasMultiple ?
-				"<button type='button' onclick='pageBack()' id='back-button' hidden>Back</button>" +
-				"<button type='button' class='green' onclick='pageNext()' id='next-button'>Next</button>" : ""
-			) +
-			"<button type='button' class='green' translation='form.submit' onclick='fs()' id='submit-button'" + (hasMultiple ? " hidden" : "") + "></button>" +
-			(maxPage > 1 ? "<br><small>Page <span id='current-page'>1</span> out of " + maxPage + " pages</small>" : "") +
-			"<br><br>" +
-			"<p translation='form.unverified'></p>"
-		return text
-	} else return handleError(json.message)
-}
-
 const pageBack = () => {
 	currentPage--
 	document.getElementById("current-page").innerText = currentPage
@@ -191,17 +120,88 @@ const fs = async () => {
 	}
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
 	if (getCookie("token")) {
 		const rootContainer = document.getElementById("root-container")
 
-		if (params.has("id")) getFormHTML(params.get("id")).then(html => {
-			rootContainer.innerHTML = html
-			queue.forEach(f => f())
-			queue = []
-			reloadText()
-		})
-		else {
+		if (params.has("id")) {
+			const json = await get("forms/" + params.get("id") + "?lang=" + getLanguage())
+			if (json.status == "success") {
+				if (json.fields.length == 0) return "<p>Das Formular mit dem Titel <b>" + encode(json.title) + "</b> existiert, aber hat keine Felder, die du ausfüllen könntest!</p>"
+				form = json
+				maxPage = Math.max(...json.fields.map(field => field.page || 1))
+
+				let html = "<h1 class='center'>Formular ausfüllen: " + encode(json.title) + "</h1><br>"
+				json.fields.forEach(field => {
+					html += "<div id='field-" + encode(field.name) + "-container'" + (field.page && field.page > 1 ? " hidden" : "") + ">" +
+						"<label for='field-" + encode(field.name) + "'>" + encode(field.label) + "</label>" +
+						(field.required ? "<span class='red-text'>*</span>" : "") + "<br>"
+
+					if (field.type == "short" || field.type == "password" || field.type == "number" || field.type == "range" || field.type == "color")
+						html += "<input id='field-" + encode(field.name) + "' type='" + (field.type == "short" ? "text" : encode(field.type)) +
+							(field.min ? "' min='" + assertInt(field.min) + "' minlength='" + assertInt(field.min) : "") +
+							(field.max ? "' max='" + assertInt(field.max) + "' maxlength='" + assertInt(field.max) : "") +
+							(field.step ? "' step='" + assertInt(field.step) : "") + (field.pattern ? "' pattern='" + encode(field.pattern) : "") +
+							(field.placeholder ? "' placeholder='" + encode(field.placeholder) : "") +
+							(field.value ? "' value='" + encode(field.value) : "") + "'>"
+					else if (field.type == "date" || field.type == "time")
+						html += "<input id='field-" + encode(field.name) + "' type='" + encode(field.type) +
+							(field.min ? "' min='" + assertInt(field.min) : "") +
+							(field.max ? "' max='" + assertInt(field.max) : "") +
+							(field.value ? "' value='" + encode(field.value) : "") + "'>"
+					else if (field.type == "long")
+						html += "<textarea id='field-" + encode(field.name) + "' placeholder='" + encode(field.placeholder) + "'>" +
+							encode(field.value) + "</textarea>"
+					else if (field.type == "checkbox") {
+						html += field.options.map(option => {
+							const id = Math.random().toString(36).substring(5)
+							return "<input id='field-" + encode(field.name) + "-" + id + "' name='" + encode(field.name) + "' " +
+								"type='radio' data-value='" + encode(option) + "'>" +
+								"<label for='field-" + encode(field.name) + "-" + id + "'>" + encode(option) + "</label>"
+						}).join("<br>")
+					} else if (field.type == "select") {
+						const optionObj = {}
+						field.options.forEach(option => optionObj[option] = option)
+						pickerData[encode(field.name)] = optionObj
+						selectData["field-" + encode(field.name)] = {value: []}
+
+						html += "<channel-picker data-form='1' id='field-" + encode(field.name) + "' " +
+							(field.min <= 1 && field.max <= 1 ? "" : "data-multi='1' ") + "type='" + encode(field.name) + "'></channel-picker>"
+						queue.push(() => {
+							document.getElementById("field-" + encode(field.name)).querySelector(".list").innerHTML =
+								"<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+							togglePicker(document.getElementById("field-" + encode(field.name)).querySelector(".list"))
+						})
+					} else html += "<i>Unable to display field type <code>" + encode(field.type) + "</code> (" + encode(field.name) + ") - please report this!</i>"
+
+					html += "<br><br></div>"
+				})
+
+				const hasMultiple = json.fields.some(field => field.page && field.page > 1)
+				html += "<br>" +
+					(json.anonymous == "always" ? "<p translation='form.anonymous'></p>" : "") +
+					(json.anonymous == "optional" ? "<p id='submit-anonymous'" + (hasMultiple ? " hidden" : "") + "><label title='If checked, no one on the server is able to see " +
+						"who submitted this form.'>You can decide whether you want to remain anonymous to the server team: <input type='checkbox' id='form-anonymous' checked></label></p>" : "") +
+					(json.cooldown ? "<p id='submit-cooldown'" + (hasMultiple ? " hidden" : "") + ">You can only submit something every <b>" + encode(json.cooldown) + "</b>.</p>" : "") +
+					(hasMultiple ?
+						"<button type='button' id='back-button' hidden>Back</button>" +
+						"<button type='button' class='green' id='next-button'>Next</button>" : ""
+					) +
+					"<button type='button' class='green' translation='form.submit' id='submit-button'" + (hasMultiple ? " hidden" : "") + "></button>" +
+					(maxPage > 1 ? "<br><small>Page <span id='current-page'>1</span> out of " + maxPage + " pages</small>" : "") +
+					"<br><br>" +
+					"<p translation='form.unverified'></p>"
+
+				rootContainer.innerHTML = html
+				queue.forEach(f => f())
+				queue = []
+				reloadText()
+
+				handleClickAndEnter("submit-button", fs)
+				handleClickAndEnter("back-button", pageBack)
+				handleClickAndEnter("next-button", pageNext)
+			} else rootContainer.innerHTML = handleError(json.message)
+		} else {
 			rootContainer.innerHTML = "<h1 class='greeting' translation='form.missing'></h1>"
 			reloadText()
 		}

@@ -1,43 +1,5 @@
 let commandData = []
 
-const getCommandsHTML = async () => {
-	const json = await get("commands?lang=" + getLanguage(), false)
-	if (json.status == "success") {
-		commandData = json.data
-		let text = ""
-		const categories = []
-		const categoryData = []
-
-		json.data.filter(cmd => cmd.category != "owner").forEach(cmd => {
-			const temp =
-				"<tr class='command cmdvisible' data-category='" + encode(cmd.category) +
-				"' onclick='cmdInfo(this, \"" + encode(cmd.name) + "\")'>" +
-				"<td>" + encode(cmd.name) + "</td>" +
-				"<td>" + encode(cmd.desc) + "</td>" +
-				"</tr>"
-
-			if (!categories.includes(cmd.category)) categories.push(cmd.category)
-			categoryData.push([cmd.category, temp])
-		})
-
-		categories.forEach(category => {
-			text +=
-				"<h2 id='" + encode(category) + "_title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
-				"<button type='button' id='" + encode(category) + "_tb' onclick='toggleCategory(\"" +
-				encode(category) + "\")' translation='commands.hide'></button>" +
-				"<table cellpadding='8' cellspacing='0' class='category' id='" + encode(category) + "'>" +
-				"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>"
-
-			categoryData.forEach(data => {
-				if (category == data[0]) text += data[1]
-			})
-			text += "</tbody></table><br id='" + encode(category) + "_br'>"
-		})
-
-		return text
-	} else return handleError(json.message)
-}
-
 const cmdSearch = search => {
 	for (const elem of document.querySelector("#linksidebar .section.middle").getElementsByClassName("tab")) elem.classList.remove("active")
 
@@ -96,7 +58,6 @@ const cmdInfo = (elem, command) => {
 	else {
 		const cmd = commandData.find(c => c.name == command)
 		let html = "<div class='cmd-info'>" +
-			"<p><span translation='commands.category'></span>: " + encode(cmd.category.charAt(0).toUpperCase() + cmd.category.slice(1)) + "</p>" +
 			"<p><span translation='commands.usage'></span>: " + encode(cmd.usage) + "</p>"
 
 		if (cmd.aliases.length > 0) html += "<p><span translation='commands.aliases'></span> " + encode(cmd.aliases.join(", ")) + "</p>"
@@ -112,6 +73,7 @@ const cmdInfo = (elem, command) => {
 				": " + encode(o2.desc) + "</li>"
 			)).join("") + "</ul>" : "")
 		)).join("") + "</ul></p>"
+		if (cmd.docs) html += "<p>More information: <a href='https://docs.tomatenkuchen.com/" + encode(cmd.docs) + "'>Docs</a></p>"
 
 		elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>"
 		reloadText()
@@ -132,26 +94,62 @@ const toggleCategory = category => {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-	const html = await getCommandsHTML()
-	document.getElementById("linksidebar").innerHTML +=
-		"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
-		"<div class='tab' id='tab-ticket' tabindex='0'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
-		"<div class='tab' id='tab-fun' tabindex='0'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
-		"<div class='tab' id='tab-suggest' tabindex='0'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
-		"<div class='tab' id='tab-economy' tabindex='0'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
-		"<div class='tab' id='tab-moderation' tabindex='0'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
-		"<div class='tab' id='tab-info' tabindex='0'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
-		"<div class='tab' id='tab-admin' tabindex='0'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
-		"</div>"
+	const json = await get("commands?lang=" + getLanguage(), false)
+	if (json.status == "success") {
+		commandData = json.data
+		let html = ""
+		const categories = []
+		const categoryData = []
 
-	handleClickAndEnter("tab-ticket", cmdSearch, "ticket", true)
-	handleClickAndEnter("tab-fun", cmdSearch, "fun", true)
-	handleClickAndEnter("tab-suggest", cmdSearch, "suggest", true)
-	handleClickAndEnter("tab-economy", cmdSearch, "economy", true)
-	handleClickAndEnter("tab-moderation", cmdSearch, "moderation", true)
-	handleClickAndEnter("tab-info", cmdSearch, "info", true)
-	handleClickAndEnter("tab-admin", cmdSearch, "admin", true)
+		json.data.filter(cmd => cmd.category != "owner").forEach(cmd => {
+			const temp =
+				"<tr class='command cmdvisible' data-category='" + encode(cmd.category) +
+				"' onclick='cmdInfo(this, \"" + encode(cmd.name) + "\")'>" +
+				"<td>" + encode(cmd.name) + "</td>" +
+				"<td>" + encode(cmd.desc) + "</td>" +
+				"</tr>"
 
-	document.getElementById("commands-container").innerHTML = html
-	reloadText()
+			if (!categories.includes(cmd.category)) categories.push(cmd.category)
+			categoryData.push([cmd.category, temp])
+		})
+
+		categories.forEach(category => {
+			html +=
+				"<h2 id='" + encode(category) + "_title' class='center'>" + encode(category.charAt(0).toUpperCase() + category.slice(1)) + "</h2>" +
+				"<button type='button' id='" + encode(category) + "_tb' translation='commands.hide'></button>" +
+				"<table cellpadding='8' cellspacing='0' class='category' id='" + encode(category) + "'>" +
+				"<thead><tr><th translation='commands.name'></th><th translation='commands.description'></th></tr></thead><tbody>"
+
+			categoryData.forEach(data => {
+				if (category == data[0]) html += data[1]
+			})
+			html += "</tbody></table><br id='" + encode(category) + "_br'>"
+		})
+
+		document.getElementById("linksidebar").innerHTML +=
+			"<div class='section middle'><p class='title' translation='commands.categories'></p>" +
+			"<div class='tab' id='tab-ticket' tabindex='0'><ion-icon name='ticket-outline'></ion-icon><p>Ticket</p></div>" +
+			"<div class='tab' id='tab-fun' tabindex='0'><ion-icon name='happy-outline'></ion-icon><p>Fun</p></div>" +
+			"<div class='tab' id='tab-suggest' tabindex='0'><ion-icon name='bulb-outline'></ion-icon><p translation='user.suggestions'></p></div>" +
+			"<div class='tab' id='tab-economy' tabindex='0'><ion-icon name='card-outline'></ion-icon><p>Economy</p></div>" +
+			"<div class='tab' id='tab-moderation' tabindex='0'><ion-icon name='shield-half-outline'></ion-icon><p>Moderation</p></div>" +
+			"<div class='tab' id='tab-info' tabindex='0'><ion-icon name='information-outline'></ion-icon><p>Info</p></div>" +
+			"<div class='tab' id='tab-admin' tabindex='0'><ion-icon name='settings-outline'></ion-icon><p>Admin</p></div>" +
+			"</div>"
+
+		handleClickAndEnter("tab-ticket", cmdSearch, "ticket", true)
+		handleClickAndEnter("tab-fun", cmdSearch, "fun", true)
+		handleClickAndEnter("tab-suggest", cmdSearch, "suggest", true)
+		handleClickAndEnter("tab-economy", cmdSearch, "economy", true)
+		handleClickAndEnter("tab-moderation", cmdSearch, "moderation", true)
+		handleClickAndEnter("tab-info", cmdSearch, "info", true)
+		handleClickAndEnter("tab-admin", cmdSearch, "admin", true)
+
+		document.getElementById("commands-container").innerHTML = html
+		reloadText()
+
+		categories.forEach(category => {
+			handleClickAndEnter(category + "_tb", toggleCategory, category)
+		})
+	} else document.getElementById("commands-container").innerHTML = handleError(json.message)
 })

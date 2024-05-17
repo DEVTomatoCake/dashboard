@@ -1,4 +1,4 @@
-const toggleMsgEditor = (setting, msgId = "") => {
+const toggleMsgEditor = (setting = "", msgId = "") => {
 	const dialog = document.getElementById("msgeditor-dialog")
 	dialog.removeAttribute("hidden")
 	document.getElementById("msgeditor-save").onclick = () => {

@@ -51,26 +51,6 @@ const sortTable = prop => {
 	reloadText()
 }
 
-const getTicketsHTML = async guild => {
-	const json = await get("tickets/" + guild)
-	if (json.status == "success") {
-		tickets = json.data
-
-		return "<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
-			"<table cellpadding='8' cellspacing='0'><thead>" +
-			"<tr>" +
-			"<th id='sort-ticketid' class='sortable' onclick='sortTable(\"ticketid\")'>ID & Transcript <ion-icon name='filter-outline'></ion-icon></th>" +
-			"<th translation='tickets.table.user'></th>" +
-			"<th id='sort-createdAt' class='sortable' onclick='sortTable(\"createdAt\")'>Creation date <ion-icon name='filter-outline'></ion-icon></th>" +
-			"<th id='sort-state' class='sortable' onclick='sortTable(\"state\")'><span translation='tickets.table.state'></span> <ion-icon name='filter-outline'></ion-icon></th>" +
-			"<th translation='logs.actions'></th>" +
-			"</tr>" +
-			"</thead><tbody id='table-sortable'>" +
-			ticketTable(tickets) +
-			"</tbody></table>"
-	} else return handleError(json.message)
-}
-
 async function ticketSearch() {
 	const ticid = document.getElementById("ts-id").value
 	const ticuserid = document.getElementById("ts-userid").value
@@ -105,10 +85,30 @@ async function ticketSearch() {
 document.addEventListener("DOMContentLoaded", async () => {
 	const params = new URLSearchParams(location.search)
 	if (params.has("guild") && getCookie("token")) {
-		const html = await getTicketsHTML(params.get("guild"))
-		document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
-		document.getElementById("root-container").innerHTML = html
-		reloadText()
+		const json = await get("tickets/" + params.get("guild"))
+		if (json.status == "success") {
+			tickets = json.data
+
+			document.getElementById("root-container").innerHTML =
+				"<h1 class='greeting'><span translation='tickets.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +
+				"<table cellpadding='8' cellspacing='0'><thead>" +
+				"<tr>" +
+				"<th id='sort-ticketid' class='sortable'>ID & Transcript <ion-icon name='filter-outline'></ion-icon></th>" +
+				"<th translation='tickets.table.user'></th>" +
+				"<th id='sort-createdAt' class='sortable'>Creation date <ion-icon name='filter-outline'></ion-icon></th>" +
+				"<th id='sort-state' class='sortable'><span translation='tickets.table.state'></span> <ion-icon name='filter-outline'></ion-icon></th>" +
+				"<th translation='logs.actions'></th>" +
+				"</tr>" +
+				"</thead><tbody id='table-sortable'>" +
+				ticketTable(tickets) +
+				"</tbody></table>"
+			reloadText()
+			document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", params.get("guild"))
+
+			handleClickAndEnter("sort-ticketid", sortTable, "ticketid")
+			handleClickAndEnter("sort-createdAt", sortTable, "createdAt")
+			handleClickAndEnter("sort-state", sortTable, "state")
+		} else document.getElementById("root-container").innerHTML = handleError(json.message)
 	} else if (params.has("guild_id") && getCookie("token")) location.href = "./?guild=" + params.get("guild_id")
 	else if (getCookie("token")) {
 		document.getElementById("root-container").innerHTML = "<h1>Redirecting to server selection...</h1>"

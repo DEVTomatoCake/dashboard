@@ -244,7 +244,7 @@ const deleteBot = bot => {
 
 let lastChange = 0
 let lastChangeTimeout
-function tokenChange() {
+const tokenChange = () => {
 	if (lastChange + 1800 > Date.now()) {
 		clearTimeout(lastChangeTimeout)
 		lastChangeTimeout = setTimeout(tokenChange, 1800)
@@ -263,6 +263,9 @@ function tokenChange() {
 
 document.addEventListener("DOMContentLoaded", () => {
 	tokenElem = document.getElementById("custom-token")
+
+	handleClickAndEnter("forward-button", forward)
+	handleClickAndEnter("back-button", back)
 
 	if (getCookie("token")) connectWS()
 	else {

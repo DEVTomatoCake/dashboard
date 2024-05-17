@@ -87,7 +87,7 @@ class Footer extends HTMLElement {
 			"<footer>" +
 			"<a href='/' title='Homepage' aria-label='Go to homepage'>" +
 			"<div id='mainlink'>" +
-				"<img src='/assets/images/background_64.webp' fetchpriority='low' width='64' height='64' alt='TomatenKuchen Logo - Home'>" +
+				"<img src='/assets/images/background_64.webp' width='64' height='64' alt='TomatenKuchen Logo - Home' loading='lazy' fetchpriority='low'>" +
 				"<span>TomatenKuchen</span>" +
 			"</div>" +
 			"</a>" +
@@ -274,9 +274,9 @@ function fadeIn(elem) {
 
 function openDialog(dialog) {
 	dialog.removeAttribute("hidden")
-	window.onclick = event => {
+	window.addEventListener("click", event => {
 		if (event.target == dialog) dialog.setAttribute("hidden", "")
-	}
+	})
 }
 
 let headerTimeout
@@ -291,10 +291,19 @@ document.addEventListener("DOMContentLoaded", () => {
 			"<ul><li><code>token</code>: Discord website login</li><li><code>cookie-dismiss</code>: Remember your consent</li></ul>" +
 			"<p>Optional:</p>" +
 			"<ul><li><code>theme</code> & <code>lang</code>: Remember preference</li><li><code>user</code> & <code>avatar</code>: Display Discord user data</li></ul>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 2, 365, true);fadeOut(this.parentElement)' translation='cookie.all'>Accept all</button>" +
-			"<button type='button' onclick='setCookie(\"cookie-dismiss\", 1, 365, true);fadeOut(this.parentElement)' translation='cookie.necessary'>Only essential</button>" +
+			"<button type='button' id='cookie-all' translation='cookie.all'>Accept all</button>" +
+			"<button type='button' id='cookie-essential' translation='cookie.necessary'>Only essential</button>" +
 			"</div>"
 		setTimeout(() => fadeIn(document.getElementById("cookie-container")), 1000)
+
+		handleClickAndEnter("cookie-all", () => {
+			setCookie("cookie-dismiss", 2, 365, true)
+			fadeOut(document.getElementById("cookie-container"))
+		})
+		handleClickAndEnter("cookie-essential", () => {
+			setCookie("cookie-dismiss", 1, 365, true)
+			fadeOut(document.getElementById("cookie-container"))
+		})
 	}
 
 	if (screen.width <= 600) {

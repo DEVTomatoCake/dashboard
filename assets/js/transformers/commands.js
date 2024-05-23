@@ -13,8 +13,8 @@ const cmdSearch = search => {
 
 	const categories = {}
 	const filtered = new Set(commandData.filter(c =>
-		c.category != "owner" && (
-			c.category.toLowerCase().includes(input) ||
+		c.cat != "owner" && (
+			c.cat.toLowerCase().includes(input) ||
 			(!search && (c.name.toLowerCase().includes(input) || c.desc.toLowerCase().includes(input)))
 		)
 	))
@@ -58,21 +58,23 @@ const cmdInfo = (elem, command) => {
 	else {
 		const cmd = commandData.find(c => c.name == command)
 		let html = "<div class='cmd-info'>" +
-			"<p><span translation='commands.usage'></span>: " + encode(cmd.usage) + "</p>"
+			"<p><span translation='commands.usage'></span>: " + encode(cmd.name) + (cmd.usage ? " " + encode(cmd.usage) : "") + "</p>"
 
 		if (cmd.aliases.length > 0) html += "<p><span translation='commands.aliases'></span> " + encode(cmd.aliases.join(", ")) + "</p>"
-		if (cmd.options) html += "<p><span translation='commands.args'></span><ul>" + cmd.options.map(o => (
+		if (cmd.opt) html += "<p><span translation='commands.args'></span><ul>" + cmd.opt.map(o => (
 			"<li>" + encode(o.name) +
-			(o.required ? "<span class='red-text'>*</span>" : "") +
-			(o.type.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o.type) + "</small>") +
+			(o.req ? "<span class='red-text'>*</span>" : "") +
+			(o.t.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o.t) + "</small>") +
 			": " + encode(o.desc) + "</li>" +
-			(o.options ? "<ul>" + o.options.map(o2 => (
+			(o.opt ? "<ul>" + o.opt.map(o2 => (
 				"<li>" + encode(o2.name) +
-				(o2.required ? "<span class='red-text'>*</span>" : "") +
-				(o2.type.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o2.type) + "</small>") +
+				(o2.req ? "<span class='red-text'>*</span>" : "") +
+				(o2.t.startsWith("SUB_COMMAND") ? "" : " <small>" + encode(o2.t) + "</small>") +
 				": " + encode(o2.desc) + "</li>"
 			)).join("") + "</ul>" : "")
 		)).join("") + "</ul></p>"
+		if (cmd.permsBot) html += "<p>Bot permissions:<ul>" + cmd.permsBot.map(p => "<li>" + encode(p) + "</li>").join(", ") + "</ul></p>"
+		if (cmd.permsUser) html += "<p>Default user permissions:<ul>" + cmd.permsUser.map(p => "<li>" + encode(p) + "</li>").join(", ") + "</ul></p>"
 		if (cmd.docs) html += "<p>More information: <a href='https://docs.tomatenkuchen.com/" + encode(cmd.docs) + "'>Docs</a></p>"
 
 		elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>"
@@ -101,16 +103,16 @@ document.addEventListener("DOMContentLoaded", async () => {
 		const categories = []
 		const categoryData = []
 
-		json.data.filter(cmd => cmd.category != "owner").forEach(cmd => {
+		json.data.filter(cmd => cmd.cat != "owner").forEach(cmd => {
 			const temp =
-				"<tr class='command cmdvisible' data-category='" + encode(cmd.category) +
+				"<tr class='command cmdvisible' data-category='" + encode(cmd.cat) +
 				"' onclick='cmdInfo(this, \"" + encode(cmd.name) + "\")'>" +
 				"<td>" + encode(cmd.name) + "</td>" +
 				"<td>" + encode(cmd.desc) + "</td>" +
 				"</tr>"
 
-			if (!categories.includes(cmd.category)) categories.push(cmd.category)
-			categoryData.push([cmd.category, temp])
+			if (!categories.includes(cmd.cat)) categories.push(cmd.cat)
+			categoryData.push([cmd.cat, temp])
 		})
 
 		categories.forEach(category => {

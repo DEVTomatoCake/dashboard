@@ -1,4 +1,14 @@
-function getImagesHTML(json, guild) {
+const handleImage = image =>
+	"<div class='integration'>" +
+	"<h3>" + encode(image.name) + "</h3>" +
+	"<p><span translation='integration.lastupdate'></span> " + new Date(image.lastUpdate).toLocaleDateString() + "</p>" +
+	"<div class='flex'>" +
+		"<button type='button' onclick='imageEdit(\"" + encode(image.id) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" +
+		"<button type='button' class='red' onclick='imageDelete(this, \"" + encode(image.id) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" +
+	"</div>" +
+	"</div>"
+
+const getImagesHTML = (json, guild) => {
 	if (json.status == "success") {
 		let text =
 			"<div class='image-container'>" +
@@ -18,31 +28,10 @@ function getImagesHTML(json, guild) {
 
 let dialog
 let currentImage = {}
-function createDialog() {
-	document.getElementById("image-name").value = ""
-	document.getElementById("image-width").value = 500
-	document.getElementById("image-height").value = 250
-	document.getElementById("layer-container").innerHTML = ""
-	document.getElementById("image-submit").innerText = "Create dynamic image"
-
-	currentImage = {
-		id: Math.random().toString(36).slice(2),
-		name: "New image",
-		width: 500,
-		height: 250,
-		layers: []
-	}
-
-	addLayer()
-	dialog.removeAttribute("hidden")
-
-	reloadText()
-	for (const elem of document.querySelectorAll(".image-editor input, .image-editor select")) elem.oninput = () => handleChange(elem)
-}
-
 let currentLayer = {}
 let ctx
-function handleChange(elem) {
+
+const handleChange = elem => {
 	if (!elem.id) return
 
 	if (elem.id == "image-border-radius") {
@@ -77,42 +66,7 @@ function handleChange(elem) {
 	}
 }
 
-function editLayer(id = "") {
-	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
-	document.getElementById("layer-" + id).classList.add("active")
-
-	currentLayer = currentImage.layers.find(layer => layer.id == id)
-
-	document.getElementById("layer-text").value = currentLayer.content
-	document.getElementById("layer-color-text").value = currentLayer.color ? (currentLayer.color.length == 6 ? "#" + currentLayer.color : currentLayer.color) : "#000000"
-	document.getElementById("layer-width-text").value = currentLayer.width || 800
-	document.getElementById("layer-fontSize").value = currentLayer.fontSize || 16
-	document.getElementById("text-bold").checked = currentLayer.bold || false
-	document.getElementById("text-italic").checked = currentLayer.italic || false
-	document.getElementById("text-underline").checked = currentLayer.underline || false
-	document.getElementById("text-strikethrough").checked = currentLayer.strikethrough || false
-	document.getElementById("text-textAlign").value = currentLayer.textAlign || "start"
-	document.getElementById("text-textBaseline").value = currentLayer.textBaseline || "alphabetic"
-
-	document.getElementById("layer-image").value = currentLayer.content
-	document.getElementById("layer-width-image").value = currentLayer.width
-	document.getElementById("layer-height-image").value = currentLayer.height
-	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
-	document.getElementById("image-border-radius-text").innerText = "Border radius: " + (currentLayer.borderRadius || 0) + "%"
-
-	document.getElementById("layer-form").value = currentLayer.content
-	document.getElementById("layer-width-form").value = currentLayer.width || 100
-	document.getElementById("layer-height-form").value = currentLayer.height || 100
-	document.getElementById("layer-color-form").value = currentLayer.color ? (currentLayer.color.length == 6 ? "#" + currentLayer.color : currentLayer.color) : "#000000"
-
-	document.getElementById("layer-name").value = currentLayer.name
-	document.getElementById("layer-x").value = currentLayer.x
-	document.getElementById("layer-y").value = currentLayer.y
-	document.getElementById("layer-opacity").value = currentLayer.opacity
-	document.getElementById("layer-opacity-text").innerText = "Opacity: " + Math.round(currentLayer.opacity * 100) + "%"
-}
-
-function addLayer() {
+const addLayer = () => {
 	if (currentLayer.id && currentLayer.name.length > 32) return alert("The layer name can be at most 32 characters long!")
 
 	currentLayer = {
@@ -161,8 +115,65 @@ function addLayer() {
 		"</div>"
 }
 
+const editLayer = (id = "") => {
+	for (const layer of document.getElementsByClassName("image-layer")) layer.classList.remove("active")
+	document.getElementById("layer-" + id).classList.add("active")
+
+	currentLayer = currentImage.layers.find(layer => layer.id == id)
+
+	document.getElementById("layer-text").value = currentLayer.content
+	document.getElementById("layer-color-text").value = currentLayer.color ? (currentLayer.color.length == 6 ? "#" + currentLayer.color : currentLayer.color) : "#000000"
+	document.getElementById("layer-width-text").value = currentLayer.width || 800
+	document.getElementById("layer-fontSize").value = currentLayer.fontSize || 16
+	document.getElementById("text-bold").checked = currentLayer.bold || false
+	document.getElementById("text-italic").checked = currentLayer.italic || false
+	document.getElementById("text-underline").checked = currentLayer.underline || false
+	document.getElementById("text-strikethrough").checked = currentLayer.strikethrough || false
+	document.getElementById("text-textAlign").value = currentLayer.textAlign || "start"
+	document.getElementById("text-textBaseline").value = currentLayer.textBaseline || "alphabetic"
+
+	document.getElementById("layer-image").value = currentLayer.content
+	document.getElementById("layer-width-image").value = currentLayer.width
+	document.getElementById("layer-height-image").value = currentLayer.height
+	document.getElementById("image-border-radius").value = currentLayer.borderRadius || 0
+	document.getElementById("image-border-radius-text").innerText = "Border radius: " + (currentLayer.borderRadius || 0) + "%"
+
+	document.getElementById("layer-form").value = currentLayer.content
+	document.getElementById("layer-width-form").value = currentLayer.width || 100
+	document.getElementById("layer-height-form").value = currentLayer.height || 100
+	document.getElementById("layer-color-form").value = currentLayer.color ? (currentLayer.color.length == 6 ? "#" + currentLayer.color : currentLayer.color) : "#000000"
+
+	document.getElementById("layer-name").value = currentLayer.name
+	document.getElementById("layer-x").value = currentLayer.x
+	document.getElementById("layer-y").value = currentLayer.y
+	document.getElementById("layer-opacity").value = currentLayer.opacity
+	document.getElementById("layer-opacity-text").innerText = "Opacity: " + Math.round(currentLayer.opacity * 100) + "%"
+}
+
+const createDialog = () => {
+	document.getElementById("image-name").value = ""
+	document.getElementById("image-width").value = 500
+	document.getElementById("image-height").value = 250
+	document.getElementById("layer-container").innerHTML = ""
+	document.getElementById("image-submit").innerText = "Create dynamic image"
+
+	currentImage = {
+		id: Math.random().toString(36).slice(2),
+		name: "New image",
+		width: 500,
+		height: 250,
+		layers: []
+	}
+
+	addLayer()
+	dialog.removeAttribute("hidden")
+
+	reloadText()
+	for (const elem of document.querySelectorAll(".image-editor input, .image-editor select")) elem.oninput = () => handleChange(elem)
+}
+
 let images = []
-function imageEdit(imageId) {
+const imageEdit = imageId => {
 	currentImage = images.find(e => e.id == imageId)
 	currentImage.edit = true
 
@@ -200,22 +211,11 @@ const imageDelete = (elem, imageId = "") => {
 	}
 }
 
-function handleImage(image) {
-	return "<div class='integration'>" +
-		"<h3>" + encode(image.name) + "</h3>" +
-		"<p><span translation='integration.lastupdate'></span> " + new Date(image.lastUpdate).toLocaleDateString() + "</p>" +
-		"<div class='flex'>" +
-			"<button type='button' onclick='imageEdit(\"" + encode(image.id) + "\")'><span translation='integration.edit'></span> <ion-icon name='build-outline'></ion-icon></button>" +
-			"<button type='button' class='red' onclick='imageDelete(this, \"" + encode(image.id) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" +
-		"</div>" +
-		"</div>"
-}
-
 let saving = false
 let savingToast
 let errorToast
 
-function connectWS(guild) {
+const connectWS = guild => {
 	socket = sockette("wss://api.tomatenkuchen.com", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
@@ -251,7 +251,7 @@ function connectWS(guild) {
 	})
 }
 
-function changeTab(elem) {
+const changeTab = elem => {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")
@@ -266,7 +266,7 @@ function changeTab(elem) {
 	handleChange(elem)
 }
 
-function saveImage() {
+const saveImage = () => {
 	if (!params.has("guild") || saving) return
 
 	const name = encode(document.getElementById("image-name").value)

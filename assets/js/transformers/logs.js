@@ -44,7 +44,7 @@ const confirmDelete = (log, elem) => {
 	}
 }
 
-function ticketSearch() {
+const ticketSearch = () => {
 	const ticid = document.getElementById("ts-id").value
 	const tictype = document.getElementById("ts-type").value
 	const ticmessage = document.getElementById("ts-message").value

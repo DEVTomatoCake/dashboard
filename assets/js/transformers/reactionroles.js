@@ -5,7 +5,7 @@ const openForm = () => {
 	document.getElementById("reactionroles-msg").value = ""
 	openDialog(document.getElementById("create-dialog"))
 }
-function getReactionrolesHTML(json) {
+const getReactionrolesHTML = json => {
 	if (json.status == "success") {
 		let channeloptions = ""
 		Object.keys(json.data.channels).forEach(key => channeloptions += "<option value='" + key + "'>" + json.data.channels[key] + "</option>")
@@ -55,7 +55,7 @@ function getReactionrolesHTML(json) {
 	)
 }
 
-function changeTab(elem) {
+const changeTab = elem => {
 	for (const tab of document.getElementsByClassName("dialog-tab")) {
 		if (tab.getAttribute("data-radio") == elem.getAttribute("data-radio")) {
 			tab.classList.remove("active")
@@ -92,7 +92,7 @@ const handleChange = () => {
 		document.body.insertAdjacentHTML("beforeend",
 			"<div class='userinfo-container unsaved-container' id='unsaved-container' role='status'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
-			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
+			"<button type='button' onclick='saveReactionroles()' translation='unsaved.save'>Save</button>" +
 			"<button type='reset' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
 			"</div>"
 		)
@@ -102,8 +102,18 @@ const handleChange = () => {
 	}
 }
 
-function addRR(e) {
-	e.preventDefault()
+const clearInputs = (clearTabs = false) => {
+	document.getElementById("reactionroles-reaction").value = ""
+	document.getElementById("reactionroles-buttonlabel").value = ""
+	document.getElementById("reactionroles-buttonemoji").value = ""
+	document.getElementById("reactionroles-selectlabel").value = ""
+	document.getElementById("reactionroles-selectdesc").value = ""
+	document.getElementById("reactionroles-selectemoji").value = ""
+
+	if (clearTabs) for (const elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove()
+}
+const addRR = event => {
+	event.preventDefault()
 	if (!document.getElementById("reactionroles-buttonlabel") || document.getElementById("reactionroles-buttonlabel").length > 80)
 		return new ToastNotification({type: "ERROR", title: "You must enter a 1-80 character long button label!", timeout: 10}).show()
 
@@ -148,16 +158,6 @@ function addRR(e) {
 	document.getElementById("rr-currentmsg").appendChild(newelem)
 	clearInputs()
 }
-function clearInputs(clearTabs = false) {
-	document.getElementById("reactionroles-reaction").value = ""
-	document.getElementById("reactionroles-buttonlabel").value = ""
-	document.getElementById("reactionroles-buttonemoji").value = ""
-	document.getElementById("reactionroles-selectlabel").value = ""
-	document.getElementById("reactionroles-selectdesc").value = ""
-	document.getElementById("reactionroles-selectemoji").value = ""
-
-	if (clearTabs) for (const elem of document.querySelectorAll("#rr-currentmsg .reactionrole")) elem.remove()
-}
 
 let guildName = ""
 const pickerData = {}
@@ -168,7 +168,7 @@ let saving = false
 let savingToast
 let errorToast
 
-function connectWS(guild) {
+const connectWS = guild => {
 	if (hasSavePopup) {
 		fadeOut(document.getElementById("unsaved-container"))
 		hasSavePopup = false
@@ -223,16 +223,32 @@ function connectWS(guild) {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("Saved reactionroles!")
 			} else if (json.action == "GETRES_rr_message") {
-				if (json.found) document.getElementById("reactionroles-msg").classList.remove("invalid")
-				else document.getElementById("reactionroles-msg").classList.add("invalid")
+				const elem = document.getElementById("reactionroles-msg")
+				if (json.found) {
+					elem.classList.remove("invalid")
+					elem.setCustomValidity("")
+				} else {
+					elem.classList.add("invalid")
+					elem.setCustomValidity("This message ID does not exist in the selected channel.")
+				}
+				elem.reportValidity()
 			} else if (json.action == "RECEIVE_emojis") pickerData.emojis = json.emojis
 		}
 	})
 }
 
-function verifyMsg() {
+let lastChange = 0
+let lastChangeTimeout
+const verifyMsg = () => {
 	const elem = document.getElementById("reactionroles-msg")
 	if (!elem.value || !/^[0-9]{17,21}$/.test(elem.value) || !document.getElementById("reactionroles-channel").value) return
+
+	if (lastChange + 2100 > Date.now()) {
+		clearTimeout(lastChangeTimeout)
+		lastChangeTimeout = setTimeout(verifyMsg, 2100)
+		return
+	}
+	lastChange = Date.now()
 
 	socket.send({
 		status: "success",
@@ -242,7 +258,7 @@ function verifyMsg() {
 	})
 }
 
-function saveReactionroles() {
+const saveReactionroles = () => {
 	if (!params.has("guild") || saving) return
 	saving = true
 

@@ -51,7 +51,7 @@ const sortTable = prop => {
 	reloadText()
 }
 
-async function ticketSearch() {
+const ticketSearch = async () => {
 	const ticid = document.getElementById("ts-id").value
 	const ticuserid = document.getElementById("ts-userid").value
 	const ticcontent = document.getElementById("ts-content").value

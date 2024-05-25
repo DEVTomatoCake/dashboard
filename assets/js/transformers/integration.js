@@ -55,7 +55,7 @@ function getIntegrationsHTML(json, guild) {
 	)
 }
 
-function handleChange(id) {
+const handleChange = id => {
 	if (id == "integration-sync") {
 		const inputs = document.querySelectorAll(".action textarea, .action input")
 		const triggers = document.querySelectorAll(".action channel-picker.action-trigger")
@@ -69,7 +69,23 @@ function handleChange(id) {
 	}
 }
 
-function createDialog() {
+const addAction = (trigger = "command") => {
+	const newElem = document.getElementById("actions-template").content.cloneNode(true)
+	newElem.id = "actions-" + Math.random().toString(36).slice(2)
+	const wrapper = document.createElement("div")
+	wrapper.classList.add("action")
+	wrapper.appendChild(newElem)
+	document.getElementById("actions-container").appendChild(wrapper)
+
+	const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']")
+	triggerElem.classList.add("selected")
+	wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>"
+	wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"))
+
+	return wrapper
+}
+
+const createDialog = () => {
 	document.getElementById("create-dialog").removeAttribute("data-edit")
 	document.getElementById("create-title").innerHTML = "<span translation='integration.create'></span>"
 	document.getElementById("integration-name").value = params.get("guild") + "-" + Math.random().toString(36).slice(9)
@@ -88,26 +104,10 @@ function createDialog() {
 	reloadText()
 }
 
-function addAction(trigger = "command") {
-	const newElem = document.getElementById("actions-template").content.cloneNode(true)
-	newElem.id = "actions-" + Math.random().toString(36).slice(2)
-	const wrapper = document.createElement("div")
-	wrapper.classList.add("action")
-	wrapper.appendChild(newElem)
-	document.getElementById("actions-container").appendChild(wrapper)
-
-	const triggerElem = wrapper.querySelector("channel-picker .picker div[data-id='" + trigger + "']")
-	triggerElem.classList.add("selected")
-	wrapper.querySelector("channel-picker .list").innerHTML += "<div>" + triggerElem.innerHTML + "</div>"
-	wrapper.querySelector("channel-picker").setAttribute("data-selected", triggerElem.getAttribute("data-id"))
-
-	return wrapper
-}
-
 let guildName = ""
 let integrations = []
 let pickerData = {}
-function integrationInfo(integrationName) {
+const integrationInfo = integrationName => {
 	openDialog(document.getElementById("info-dialog"))
 	const integration = integrations.find(e => e.name == integrationName)
 	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!")
@@ -137,7 +137,7 @@ function integrationInfo(integrationName) {
 	reloadText()
 }
 
-function integrationUse(integrationName) {
+const integrationUse = integrationName => {
 	document.getElementById("info-dialog").setAttribute("hidden", "")
 	openDialog(document.getElementById("create-dialog"))
 	const integration = integrations.find(e => e.name == integrationName)
@@ -176,7 +176,7 @@ function integrationUse(integrationName) {
 	reloadText()
 }
 
-function integrationEdit(integrationName) {
+const integrationEdit = integrationName => {
 	openDialog(document.getElementById("create-dialog"))
 	const integration = integrations.find(e => e.name == integrationName)
 
@@ -206,7 +206,7 @@ function integrationEdit(integrationName) {
 }
 
 let socket
-function integrationDelete(elem, integration = "") {
+const integrationDelete = (elem, integration = "") => {
 	if (confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")) {
 		elem.parentElement.parentElement.remove()
 		integrations = integrations.filter(int => int.name != integration)
@@ -214,8 +214,8 @@ function integrationDelete(elem, integration = "") {
 	}
 }
 
-function nameExists(elem) {
-	if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("Name already exists.")
+const nameExists = elem => {
+	if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("An integration with this name already exists.")
 	else elem.setCustomValidity("")
 	elem.reportValidity()
 }
@@ -224,7 +224,7 @@ let saving = false
 let savingToast
 let errorToast
 
-function connectWS(guild) {
+const connectWS = guild => {
 	socket = sockette("wss://api.tomatenkuchen.com", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()

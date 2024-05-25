@@ -94,7 +94,7 @@ const minifyFile = async (inputPath, options = {}) => {
 	})
 }
 
-async function main() {
+const main = async () => {
 	await minifyFile("./assets/js/script.js", {
 		compress: {
 			...defaultOptions.compress,

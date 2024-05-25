@@ -1,3 +1,24 @@
+const getCookie = (name = "") => {
+	for (const rawCookie of document.cookie.split(";")) {
+		const cookie = rawCookie.trim()
+		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
+	}
+	return void 0
+}
+const setCookie = (name = "", value = "", days = 0, global = false) => {
+	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "cookie-dismiss") return
+
+	let cookie = name + "=" + value + ";path=/;Secure;SameSite=Strict;"
+	if (days > 0) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
+	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
+
+	document.cookie = cookie
+}
+const deleteCookie = (name = "") => {
+	document.cookie = name + "=;Max-Age=-99999999;path=/;"
+	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
+}
+
 const url = "https://api.tomatenkuchen.com/api/"
 async function get(component = "", auth = true, method = "GET", body = null) {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
@@ -11,27 +32,6 @@ async function get(component = "", auth = true, method = "GET", body = null) {
 	const json = await res.json()
 	console.log("Response for \"" + url + component + "\": " + JSON.stringify(json))
 	return json
-}
-
-function setCookie(name = "", value = "", days = 0, global = false) {
-	if ((!getCookie("cookie-dismiss") || getCookie("cookie-dismiss") == 1) && name != "token" && name != "cookie-dismiss") return
-
-	let cookie = name + "=" + value + ";path=/;Secure;SameSite=Strict;"
-	if (days > 0) cookie += "expires=" + new Date(Date.now() + 1000 * 60 * 60 * 24 * days).toUTCString() + ";"
-	if (global && location.host != "localhost:4269") cookie += "domain=.tomatenkuchen.com;"
-
-	document.cookie = cookie
-}
-function getCookie(name = "") {
-	for (const rawCookie of document.cookie.split(";")) {
-		const cookie = rawCookie.trim()
-		if (cookie.split("=")[0] == name) return cookie.substring(name.length + 1, cookie.length)
-	}
-	return void 0
-}
-function deleteCookie(name = "") {
-	document.cookie = name + "=;Max-Age=-99999999;path=/;"
-	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")

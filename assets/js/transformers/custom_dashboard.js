@@ -1,5 +1,5 @@
 let bots = []
-function getCustomHTML(json) {
+const getCustomHTML = json => {
 	if (json.status == "success") {
 		bots = json.bots
 		return "<h1>Your custom bots</h1>" +
@@ -86,7 +86,7 @@ const back = () => {
 	document.getElementById("setup-progress").value = step
 }
 
-function connectWS() {
+const connectWS = () => {
 	socket = sockette("wss://api.tomatenkuchen.com/user", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
@@ -245,9 +245,9 @@ const deleteBot = bot => {
 let lastChange = 0
 let lastChangeTimeout
 const tokenChange = () => {
-	if (lastChange + 1800 > Date.now()) {
+	if (lastChange + 2100 > Date.now()) {
 		clearTimeout(lastChangeTimeout)
-		lastChangeTimeout = setTimeout(tokenChange, 1800)
+		lastChangeTimeout = setTimeout(tokenChange, 2100)
 		return
 	}
 	lastChange = Date.now()

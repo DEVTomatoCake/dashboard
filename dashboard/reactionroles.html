@@ -48,24 +48,24 @@
 						<select id="reactionroles-channel"></select>
 
 						<br>
-						<span class="dialog-tab active" name="existingmsg" data-radio="existingornew" onclick="changeTab(this)">Zu bestehender Nachricht hinzufügen</span>
-						<span class="dialog-tab" name="newmsg" data-radio="existingornew" onclick="changeTab(this)">Neue Nachricht senden</span>
+						<span class="dialog-tab active" name="existingmsg" data-radio="existingornew" onclick="changeTab(this)">Add to existing message</span>
+						<span class="dialog-tab" name="newmsg" data-radio="existingornew" onclick="changeTab(this)">Create new message</span>
 
 						<div id="existingmsg" class="tabs active">
 							<label for="reactionroles-msg" translation="dashboard.rr.msgid"></label>
-							<input type="text" pattern="[0-9]{17,21}" maxlength="21" onchange="verifyMsg()" title="Gib eine gültige Nachrichten-ID ein" id="reactionroles-msg" autocomplete="off" required>
+							<input type="text" pattern="[0-9]{17,21}" maxlength="21" oninput="verifyMsg()" title="Enter a valid message ID" id="reactionroles-msg" autocomplete="off" required>
 						</div>
 						<div id="newmsg" class="tabs" hidden>
-							<label for="reactionroles-content">Inhalt der Nachricht</label>
+							<label for="reactionroles-content">Message text content or JSON from a message editor</label>
 							<textarea
 								form="create-form" name="reactionroles-content" id="reactionroles-content" maxlength="5000" rows="5"
-								placeholder="Text oder JSON von einem Embed-Editor wie https://embed.tomatenkuchen.com" data-required="true"
+								placeholder="Message text content or JSON from a message editor like https://embed.tomatenkuchen.com" data-required="true"
 							></textarea>
 						</div>
 
-						<span class="dialog-tab active" name="reaction" data-radio="rrtype" onclick="changeTab(this)">Reactionrole</span>
-						<span class="dialog-tab" name="button" data-radio="rrtype" onclick="changeTab(this)">Buttonrole</span>
-						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Selectrole</span>
+						<span class="dialog-tab active" name="reaction" data-radio="rrtype" onclick="changeTab(this)">Reaction role</span>
+						<span class="dialog-tab" name="button" data-radio="rrtype" onclick="changeTab(this)">Button role</span>
+						<span class="dialog-tab" name="select" data-radio="rrtype" onclick="changeTab(this)">Select role</span>
 
 						<div id="rr-currentmsg">
 							<label for="reactionroles-role" translation="dashboard.rr.role"></label>
@@ -78,7 +78,7 @@
 								</div>
 							</div>
 							<div id="button" class="tabs" hidden>
-								<label for="reactionroles-buttonstyle">Button-Design</label>
+								<label for="reactionroles-buttonstyle">Button design</label>
 								<select id="reactionroles-buttonstyle">
 									<option value="primary">Primary (Blurple)</option>
 									<option value="secondary">Secondary (Gray)</option>
@@ -113,7 +113,7 @@
 
 						<br>
 						<button type="submit" class="green" translation="dashboard.rr.create"></button>
-						<button type="reset" class="red" onclick="clearInputs(true)">Felder leeren</button>
+						<button type="reset" class="red" onclick="clearInputs(true)">Clear inputs</button>
 					</form>
 				</div>
 

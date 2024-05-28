@@ -393,22 +393,24 @@ document.addEventListener("DOMContentLoaded", () => {
 		})
 	}
 
-	setTimeout(() => { // On /dashboard/ pages somehow nothing happens when the below code is executed instantly
-		handleClickAndEnter("header-hamburger", sidebar)
-		handleClickAndEnter("sidebar-hamburger", sidebar)
-		handleClickAndEnter("langpicker-ja", reloadText, "ja")
-		handleClickAndEnter("langpicker-hu", reloadText, "hu")
-		handleClickAndEnter("langpicker-fr", reloadText, "fr")
-		handleClickAndEnter("langpicker-de", reloadText, "de")
-		handleClickAndEnter("langpicker-en", reloadText, "en")
-		handleClickAndEnter("tk-invite", () => location.href = "/invite")
-	}, 350)
+	if (location.pathname != "/stats") {
+		setTimeout(() => { // On /dashboard/ pages somehow nothing happens when the below code is executed instantly
+			handleClickAndEnter("header-hamburger", sidebar)
+			handleClickAndEnter("sidebar-hamburger", sidebar)
+			handleClickAndEnter("langpicker-ja", reloadText, "ja")
+			handleClickAndEnter("langpicker-hu", reloadText, "hu")
+			handleClickAndEnter("langpicker-fr", reloadText, "fr")
+			handleClickAndEnter("langpicker-de", reloadText, "de")
+			handleClickAndEnter("langpicker-en", reloadText, "en")
+			handleClickAndEnter("tk-invite", () => location.href = "/invite")
+		}, 450)
 
-	reloadText()
-	if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
+		reloadText()
+		if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")
 
-	const script = document.createElement("script")
-	script.src = "/assets/js/instantpage-5.2.0.js"
-	script.type = "module"
-	document.body.appendChild(script)
+		const script = document.createElement("script")
+		script.src = "/assets/js/instantpage-5.2.0.js"
+		script.type = "module"
+		document.body.appendChild(script)
+	}
 })

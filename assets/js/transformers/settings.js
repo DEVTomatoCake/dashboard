@@ -176,7 +176,7 @@ function handleChange(id) {
 
 	if (!hasSavePopup) {
 		document.body.insertAdjacentHTML("beforeend",
-			"<div class='userinfo-container unsaved-container' id='unsaved-container' role='status'>" +
+			"<div class='userinfo-container' id='unsaved-container' role='status'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
 			"<button type='button' onclick='saveSettings()' translation='unsaved.save'>Save</button>" +
 			"<button type='reset' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
@@ -587,6 +587,13 @@ function saveSettings() {
 
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 7}).show()
 }
+
+document.addEventListener("keydown", event => {
+	if ((event.metaKey || (event.ctrlKey && !event.altKey)) && event.key == "s") {
+		event.preventDefault()
+		saveSettings()
+	}
+})
 
 document.addEventListener("DOMContentLoaded", () => {
 	if (params.has("guild") && getCookie("token")) connectWS(encode(params.get("guild")))

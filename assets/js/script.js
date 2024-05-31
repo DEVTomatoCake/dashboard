@@ -403,7 +403,7 @@ document.addEventListener("DOMContentLoaded", () => {
 			handleClickAndEnter("langpicker-de", reloadText, "de")
 			handleClickAndEnter("langpicker-en", reloadText, "en")
 			handleClickAndEnter("tk-invite", () => location.href = "/invite")
-		}, 450)
+		}, location.pathname.startsWith("/dashboard/") ? 500 : 10)
 
 		reloadText()
 		if ("serviceWorker" in navigator) navigator.serviceWorker.register("/serviceworker.js")

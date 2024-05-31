@@ -90,7 +90,7 @@ const handleChange = () => {
 
 	if (!hasSavePopup) {
 		document.body.insertAdjacentHTML("beforeend",
-			"<div class='userinfo-container unsaved-container' id='unsaved-container' role='status'>" +
+			"<div class='userinfo-container' id='unsaved-container' role='status'>" +
 			"<h2 translation='unsaved.title'>Unsaved changes</h2>" +
 			"<button type='button' onclick='saveReactionroles()' translation='unsaved.save'>Save</button>" +
 			"<button type='reset' class='red' onclick='reverting=true;socket.close();connectWS(\"" + encode(params.get("guild")) + "\")' translation='unsaved.revert'>Revert</button>" +
@@ -288,6 +288,13 @@ const saveReactionroles = () => {
 
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving reactionroles...", timeout: 7}).show()
 }
+
+document.addEventListener("keydown", event => {
+	if ((event.metaKey || (event.ctrlKey && !event.altKey)) && event.key == "s") {
+		event.preventDefault()
+		saveReactionroles()
+	}
+})
 
 document.addEventListener("DOMContentLoaded", () => {
 	let amountnew = 0

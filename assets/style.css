@@ -1111,8 +1111,8 @@ pre {
 }
 
 a.docs-link {
-	font-size: 17.5px;
-	margin-left: 15px;
+	font-size: 17px;
+	margin-left: 13px;
 }
 
 #image-preview {
@@ -1240,7 +1240,7 @@ a.has-ionicon, button:has(ion-icon) {
 	max-width: 750px;
 }
 
-.unsaved-container {
+#unsaved-container {
 	min-width: 350px;
 	left: calc(50% - 275px);
 	right: unset;

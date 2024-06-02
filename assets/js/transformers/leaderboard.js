@@ -1,5 +1,5 @@
 const getLeaderboardHTML = async guild => {
-	const json = await get("leaderboard/" + guild)
+	const json = await get("lb/" + guild)
 	if (json.status == "success") {
 		const leveling = json.level.length > 0 ? "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1><div class='flex'><div>" +
 			json.level.map((entry, i) => {

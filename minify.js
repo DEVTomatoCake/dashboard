@@ -98,7 +98,7 @@ const generateSitemap = async () => {
 	const files = await fsPromises.readdir("./")
 
 	for await (const file of files.filter(f => f.endsWith(".html"))) {
-		console.log(file + ": " + new Date((await fsPromises.stat(file)).ctimeMs).toISOString().slice(0, -1) + "+00:00")
+		console.log(file + ": " + new Date((await fsPromises.stat(file)).mtimeMs).toISOString().slice(0, -1) + "+00:00")
 	}
 }
 

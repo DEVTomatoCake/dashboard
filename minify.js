@@ -94,7 +94,15 @@ const minifyFile = async (inputPath, options = {}) => {
 	})
 }
 
-const main = async () => {
+const generateSitemap = async () => {
+	const files = await fsPromises.readdir("./")
+
+	for await (const file of files.filter(f => f.endsWith(".html"))) {
+		console.log(file + ": " + new Date((await fsPromises.stat(file)).ctimeMs).toISOString().slice(0, -1) + "+00:00")
+	}
+}
+
+const minify = async () => {
 	await minifyFile("./assets/js/script.js", {
 		compress: {
 			...defaultOptions.compress,
@@ -174,5 +182,7 @@ const main = async () => {
 		"% reduction": parseFloat((100 - (results.reduce((acc, cur) => acc + cur.compressed, 0) / results.reduce((acc, cur) => acc + cur.size, 0) * 100)).toFixed(1))
 	})
 	console.table(results.sort((a, b) => a["% reduction"] - b["% reduction"]))
+
+	generateSitemap()
 }
-main()
+minify()

@@ -94,18 +94,7 @@ const minifyFile = async (inputPath, options = {}) => {
 	})
 }
 
-const generateSitemap = async () => {
-	const files = await fsPromises.readdir("./")
-
-	for await (const file of files.filter(f => f.endsWith(".html"))) {
-		console.log(file + ": c: " + new Date((await fsPromises.stat(file)).ctimeMs).toISOString().slice(0, -1) + "+00:00, m: " +
-			new Date((await fsPromises.stat(file)).mtimeMs).toISOString().slice(0, -1) + "+00:00")
-	}
-}
-
 const minify = async () => {
-	await generateSitemap()
-
 	await minifyFile("./assets/js/script.js", {
 		compress: {
 			...defaultOptions.compress,

@@ -98,11 +98,14 @@ const generateSitemap = async () => {
 	const files = await fsPromises.readdir("./")
 
 	for await (const file of files.filter(f => f.endsWith(".html"))) {
-		console.log(file + ": " + new Date((await fsPromises.stat(file)).mtimeMs).toISOString().slice(0, -1) + "+00:00")
+		console.log(file + ": c: " + new Date((await fsPromises.stat(file)).ctimeMs).toISOString().slice(0, -1) + "+00:00, m: " +
+			new Date((await fsPromises.stat(file)).mtimeMs).toISOString().slice(0, -1) + "+00:00")
 	}
 }
 
 const minify = async () => {
+	await generateSitemap()
+
 	await minifyFile("./assets/js/script.js", {
 		compress: {
 			...defaultOptions.compress,
@@ -182,7 +185,5 @@ const minify = async () => {
 		"% reduction": parseFloat((100 - (results.reduce((acc, cur) => acc + cur.compressed, 0) / results.reduce((acc, cur) => acc + cur.size, 0) * 100)).toFixed(1))
 	})
 	console.table(results.sort((a, b) => a["% reduction"] - b["% reduction"]))
-
-	generateSitemap()
 }
 minify()

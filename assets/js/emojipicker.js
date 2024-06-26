@@ -1,4 +1,5 @@
-async function emojiPicker(parent = document.body, customEmoji = [], guildName = "Serveremojis", onlyNameReplace = false) {
+// eslint-disable-next-line no-unused-vars
+const emojiPicker = async (parent = document.body, customEmoji = [], guildName = "Serveremojis", onlyNameReplace = false) => {
 	const pickerExisting = parent.querySelector("emoji-picker")
 	if (pickerExisting) return pickerExisting.remove()
 
@@ -41,7 +42,8 @@ async function emojiPicker(parent = document.body, customEmoji = [], guildName =
 }
 
 const insertMention = (elem, id) => insertText(elem.parentElement.parentElement.querySelector("textarea,input"), "<@&" + id + ">")
-async function mentionPicker(parent = document.body, roles = []) {
+// eslint-disable-next-line no-unused-vars
+const mentionPicker = (parent = document.body, roles = []) => {
 	const pickerExisting = parent.querySelector(".custom-picker")
 	if (pickerExisting) return pickerExisting.remove()
 

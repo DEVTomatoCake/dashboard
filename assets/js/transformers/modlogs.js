@@ -57,8 +57,8 @@ const ticketSearch = () => {
 }
 
 const info = (user, date) => {
-	const log = logs.find(l => l.userId == user && l.cases.find(c => c.date == parseInt(date)))
-	const entry = log.cases?.find(c => c.date == parseInt(date))
+	const log = logs.find(l => l.userId == user && l.cases.find(c => c.date == Number.parseInt(date)))
+	const entry = log.cases?.find(c => c.date == Number.parseInt(date))
 	openDialog(document.getElementById("info-dialog"))
 
 	document.getElementById("info-dialogText").innerHTML =

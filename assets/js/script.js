@@ -14,13 +14,15 @@ const setCookie = (name = "", value = "", days = 0, global = false) => {
 
 	document.cookie = cookie
 }
+// eslint-disable-next-line no-unused-vars
 const deleteCookie = (name = "") => {
 	document.cookie = name + "=;Max-Age=-99999999;path=/;"
 	document.cookie = name + "=;Max-Age=-99999999;path=/;domain=.tomatenkuchen.com;"
 }
 
 const url = "https://api.tomatenkuchen.com/api/"
-async function get(component = "", auth = true, method = "GET", body = null) {
+// eslint-disable-next-line no-unused-vars
+const get = async (component = "", auth = true, method = "GET", body = null) => {
 	const res = await fetch(url + component + (auth && getCookie("token") ? (component.includes("?") ? "&" : "?") + "token=" + getCookie("token") : ""), {
 		method,
 		headers: {
@@ -35,11 +37,13 @@ async function get(component = "", auth = true, method = "GET", body = null) {
 }
 
 const encode = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;")
+// eslint-disable-next-line no-unused-vars
 const assertInt = int => {
 	if (typeof int == "number" || typeof int == "bigint") return int
 	throw new Error("Not an integer: " + int)
 }
 
+// eslint-disable-next-line no-unused-vars
 const handleError = error => {
 	if (typeof error != "string") console.error(error)
 	return "<h1>An error occured while handling your request:</h1>" +
@@ -148,8 +152,10 @@ class Sidebar extends HTMLElement {
 					: "") +
 					(guild ?
 						"<div class='section middle'><p class='title' translation='sidebar.dashboard'></p>" +
-						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "' role='menuitem'><ion-icon name='settings-outline'></ion-icon>" +
-							"<p translation='dashboard.settings'>Settings</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "settings" ? " active" : "") + "' href='./settings?guild=" + guild + "' role='menuitem'>" +
+							"<ion-icon name='settings-outline'></ion-icon>" +
+							"<p translation='dashboard.settings'>Settings</p>" +
+						"</a>" +
 						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' title='A simplified version of the integrations page' " +
 							"href='./integrations?cc=1&guild=" + guild + "' role='menuitem'><ion-icon name='chatbox-ellipses-outline'></ion-icon>" +
 							"<p>Customcommands</p></a>" +
@@ -157,19 +163,30 @@ class Sidebar extends HTMLElement {
 							"<details>" +
 							"<summary>More pages</summary>"
 						: "") +
-						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "' role='menuitem'><ion-icon name='terminal-outline'></ion-icon>" +
-							"<p translation='dashboard.integrations'>Integrations</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "' role='menuitem'><ion-icon name='happy-outline'></ion-icon>" +
-							"<p>Reactionroles</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "integrations" ? " active" : "") + "' href='./integrations?guild=" + guild + "' role='menuitem'>" +
+							"<ion-icon name='terminal-outline'></ion-icon>" +
+							"<p translation='dashboard.integrations'>Integrations</p>" +
+						"</a>" +
+						"<a class='tab otherlinks" + (dashboard == "reactionroles" ? " active" : "") + "' href='./reactionroles?guild=" + guild + "' role='menuitem'>" +
+							"<ion-icon name='happy-outline'></ion-icon>" +
+							"<p>Reactionroles</p>" +
+						"</a>" +
 						"<a class='tab otherlinks" + (dashboard == "logs" ? " active" : "") + "' href='./logs?guild=" + guild + "' role='menuitem'><ion-icon name='warning-outline'></ion-icon>" +
 							"<p translation='dashboard.logs'>Logs</p></a>" +
-						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild + "' role='menuitem'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild + "' role='menuitem'><ion-icon name='shield-half-outline'></ion-icon>" +
+						//"<a class='tab otherlinks" + (dashboard == "images" ? " active" : "") + "' href='./images?guild=" + guild +
+						//"' role='menuitem'><ion-icon name='images-outline'></ion-icon><p>Images</p></a>" +
+						"<a class='tab otherlinks" + (dashboard == "modlogs" ? " active" : "") + "' href='./modlogs?guild=" + guild +
+						"' role='menuitem'><ion-icon name='shield-half-outline'></ion-icon>" +
 							"<p translation='dashboard.modlogs'>Modlogs</p></a>" +
-						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild + "' role='menuitem'><ion-icon name='ticket-outline'></ion-icon>" +
+						"<a class='tab otherlinks" + (dashboard == "tickets" ? " active" : "") + "' href='./tickets?guild=" + guild +
+						"' role='menuitem'><ion-icon name='ticket-outline'></ion-icon>" +
 							"<p translation='dashboard.tickets'>Tickets</p></a>" +
-						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "' role='menuitem'><ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p></a>" +
-						"<a class='tab otherlinks' href='../stats?guild=" + guild + "' role='menuitem'><ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p></a>" +
+						"<a class='tab otherlinks' href='../leaderboard?guild=" + guild + "' role='menuitem'>" +
+							"<ion-icon name='swap-vertical-outline'></ion-icon><p translation='dashboard.leaderboard'>Leaderboard</p>" +
+						"</a>" +
+						"<a class='tab otherlinks' href='../stats?guild=" + guild + "' role='menuitem'>" +
+							"<ion-icon name='bar-chart-outline'></ion-icon><p translation='dashboard.stats'>Statistics</p>" +
+						"</a>" +
 						(dashboard == "settings" ?
 							"</details>"
 						: "") +
@@ -256,23 +273,24 @@ const sidebar = () => {
 	}
 }
 
-function fadeOut(elem) {
+const fadeOut = elem => {
 	if (!elem) return
 	if (!elem.style.opacity) elem.style.opacity = 1
 
-	elem.style.opacity = parseFloat(elem.style.opacity) - 0.05
+	elem.style.opacity = Number.parseFloat(elem.style.opacity) - 0.05
 	if (elem.style.opacity >= 0) setTimeout(() => fadeOut(elem), 25)
 	else elem.remove()
 }
-function fadeIn(elem) {
+const fadeIn = elem => {
 	if (!elem) return
 	if (!elem.style.opacity) elem.style.opacity = 0
 
-	elem.style.opacity = parseFloat(elem.style.opacity) + 0.05
+	elem.style.opacity = Number.parseFloat(elem.style.opacity) + 0.05
 	if (elem.style.opacity < 1) setTimeout(() => fadeIn(elem), 25)
 }
 
-function openDialog(dialog) {
+// eslint-disable-next-line no-unused-vars
+const openDialog = dialog => {
 	dialog.removeAttribute("hidden")
 	window.addEventListener("click", event => {
 		if (event.target == dialog) dialog.setAttribute("hidden", "")

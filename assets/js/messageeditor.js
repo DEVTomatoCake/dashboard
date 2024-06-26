@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 const toggleMsgEditor = (setting = "", msgId = "") => {
 	const dialog = document.getElementById("msgeditor-dialog")
 	dialog.removeAttribute("hidden")

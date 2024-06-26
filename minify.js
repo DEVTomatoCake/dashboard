@@ -90,7 +90,7 @@ const minifyFile = async (inputPath, options = {}) => {
 		path: inputPath.slice(2),
 		size: content.length,
 		compressed: result.code.length,
-		"% reduction": parseFloat((100 - (result.code.length / content.length * 100)).toFixed(1))
+		"% reduction": Number.parseFloat((100 - (result.code.length / content.length * 100)).toFixed(1))
 	})
 }
 
@@ -171,7 +171,7 @@ const minify = async () => {
 		path: "= Total",
 		size: results.reduce((acc, cur) => acc + cur.size, 0),
 		compressed: results.reduce((acc, cur) => acc + cur.compressed, 0),
-		"% reduction": parseFloat((100 - (results.reduce((acc, cur) => acc + cur.compressed, 0) / results.reduce((acc, cur) => acc + cur.size, 0) * 100)).toFixed(1))
+		"% reduction": Number.parseFloat((100 - (results.reduce((acc, cur) => acc + cur.compressed, 0) / results.reduce((acc, cur) => acc + cur.size, 0) * 100)).toFixed(1))
 	})
 	console.table(results.sort((a, b) => a["% reduction"] - b["% reduction"]))
 }

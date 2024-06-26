@@ -23,7 +23,10 @@ const getReactionrolesHTML = json => {
 
 			text +=
 				"<div>" +
-				(emoji ? (isNaN(emoji) ? "<p><b>" + emoji + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='' crossorigin='anonymous'><br>") : "") +
+				(emoji ?
+					(/^\d{17,21}$/.test(emoji) ? "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='' crossorigin='anonymous'><br>"
+					: "<p><b>" + emoji + "</b></p>")
+				: "") +
 				(type == "button" || type == "select" ? "<p><b>" + encode(setting.label) + "</b></p>" : "") +
 				"<select class='setting' data-type='" + type + "' data-msg='" + encode(setting.msg) + "' " +
 				"data-channel='' " +
@@ -119,7 +122,8 @@ const addRR = event => {
 
 	const type = document.querySelector("span[data-radio='rrtype'].active").getAttribute("name")
 	const emoji = document.getElementById("reactionroles-reaction").value || document.getElementById("reactionroles-buttonemoji").value || document.getElementById("reactionroles-selectemoji").value
-	const msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ? "createnew_" + Math.random().toString(36).slice(2) : document.getElementById("reactionroles-msg").value
+	const msg = document.querySelector("span[data-radio='existingornew'].active").getAttribute("name") == "newmsg" ?
+		"createnew_" + Math.random().toString(36).slice(2) : document.getElementById("reactionroles-msg").value
 
 	document.getElementById("reactionroles-buttonlabel").required = false
 	document.getElementById("reactionroles-buttonlabel").dataset.required = false
@@ -127,7 +131,10 @@ const addRR = event => {
 	const newelem = document.createElement("div")
 	newelem.classList.add("reactionrole")
 	newelem.innerHTML =
-		(emoji ? (isNaN(emoji) ? "<p><b>" + encode(emoji) + "</b></p>" : "<img src='https://cdn.discordapp.com/emojis/" + encode(emoji) + ".webp?size=32' alt='' crossorigin='anonymous'><br>") : "") +
+		(emoji ?
+			(/^\d{17,21}$/.test(emoji) ? "<img src='https://cdn.discordapp.com/emojis/" + emoji + ".webp?size=32' alt='' crossorigin='anonymous'><br>"
+			: "<p><b>" + emoji + "</b></p>")
+		: "") +
 		(type == "button" || type == "select" ? "<p><b>" + encode(document.getElementById("reactionroles-" + type + "label").value) + "</b></p>" : "") +
 		"<select class='setting' data-type='" + encode(type) + "' data-msg='" + encode(msg) + "' " +
 		"data-channel='" + encode(document.getElementById("reactionroles-channel").value) + "' " +

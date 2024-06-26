@@ -49,7 +49,7 @@ const loadRedirects = async () => {
 		const [from, to, status] = line.split(" ")
 		redirects[from] = {
 			to,
-			status: status ? parseInt(status) : 301
+			status: status ? Number.parseInt(status) : 301
 		}
 	})
 }

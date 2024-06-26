@@ -15,6 +15,7 @@ const resolveValue = (obj, keySplit) => {
 }
 
 const langCache = {}
+// eslint-disable-next-line no-unused-vars
 const reloadText = async language => {
 	if (!language) language = getLanguage()
 	setCookie("lang", language, 60, true)

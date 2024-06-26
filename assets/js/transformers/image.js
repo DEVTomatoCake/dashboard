@@ -35,7 +35,7 @@ const handleChange = elem => {
 	if (!elem.id) return
 
 	if (elem.id == "image-border-radius") {
-		currentLayer.borderRadius = parseInt(elem.value)
+		currentLayer.borderRadius = Number.parseInt(elem.value)
 		document.getElementById("image-border-radius-text").innerText = "Border radius: " + elem.value + "%"
 	} else if (elem.id == "layer-opacity") {
 		const value = Math.round(elem.value * 100)
@@ -46,10 +46,10 @@ const handleChange = elem => {
 	else if (elem.id == "text-textAlign" || elem.id == "text-textBaseline") currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id.startsWith("text-")) currentLayer[elem.id.split("-")[1]] = elem.checked
 	else if (elem.id == "layer-x" || elem.id == "layer-y" || elem.id.startsWith("layer-width") || elem.id.startsWith("layer-height") || elem.id.startsWith("layer-fontSize"))
-		currentLayer[elem.id.split("-")[1]] = parseInt(elem.value)
+		currentLayer[elem.id.split("-")[1]] = Number.parseInt(elem.value)
 	else if (elem.id.startsWith("layer-")) currentLayer[elem.id.split("-")[1]] = elem.value
 	else if (elem.id == "image-width" || elem.id == "image-height") {
-		currentImage[elem.id.split("-")[1]] = parseInt(elem.value)
+		currentImage[elem.id.split("-")[1]] = Number.parseInt(elem.value)
 
 		ctx.canvas.width = currentImage.width
 		ctx.canvas.height = currentImage.height

@@ -17,11 +17,14 @@ const handleIntegration = integration =>
 		"<button type='button' onclick='integrationInfo(\"" + encode(integration.name) + "\")' translation='integration.viewuse'></button>" +
 		(integration.guild == params.get("guild") ? "<button type='button' onclick='integrationEdit(\"" + encode(integration.name) + "\")'><span translation='integration.edit'></span> " +
 			"<ion-icon name='build-outline'></ion-icon></button>" : "") +
-		(integration.guild == params.get("guild") ? "<button type='button' class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'><ion-icon name='trash-outline'></ion-icon></button>" : "") +
+		(integration.guild == params.get("guild") ?
+			"<button type='button' class='red' onclick='integrationDelete(this, \"" + encode(integration.name) + "\")'>" +
+			"<ion-icon name='trash-outline'></ion-icon></button>"
+		: "") +
 	"</div>" +
 	"</div>"
 
-function getIntegrationsHTML(json, guild) {
+const getIntegrationsHTML = (json, guild) => {
 	if (json.status == "success") {
 		let text = ""
 
@@ -137,168 +140,12 @@ const integrationInfo = integrationName => {
 	reloadText()
 }
 
-const integrationUse = integrationName => {
-	document.getElementById("info-dialog").setAttribute("hidden", "")
-	openDialog(document.getElementById("create-dialog"))
-	const integration = integrations.find(e => e.name == integrationName)
-	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!")
-
-	document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>" +
-		(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm red' onclick='socket.send({status:\"success\"," +
-			"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"})this.remove()'>Sync integration from original</button>" : "")
-	document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name)
-	document.getElementById("integration-short").value = encode(integration.short)
-	document.getElementById("integration-public").checked = false
-	document.getElementById("integration-disabled").checked = false
-	document.getElementById("integration-use-container").removeAttribute("hidden")
-	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName)
-	if (integration.input && integration.input.length > 0) {
-		document.getElementById("integration-use-inputtext").innerHTML = "<br><p>Variable inputs</p>"
-		document.getElementById("integration-use-input").innerHTML = integration.input.map(e => {
-			const randomId = Math.random().toString(36).slice(2)
-			return "<label for='use-input-" + randomId + "'>" + encode(e.split("")[1]) + "</label>" +
-				"<input type='text' maxlength='200' id='use-input-" + randomId + "' value='" + (encode(e.split("")[2]) || "") + "' name='" + encode(e.split("")[0]) + "' data-desc='" + encode(e.split("")[1]) + "'>"
-		}).join("<br>")
-	} else {
-		document.getElementById("integration-use-inputtext").innerHTML = ""
-		document.getElementById("integration-use-input").innerHTML = ""
-	}
-
-	document.getElementById("actions-container").innerHTML = ""
-	integration.actions.forEach(action => {
-		const newElem = addAction(action.trigger)
-		newElem.querySelector(".action-name").value = action.name
-		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : ""
-		newElem.querySelector(".action-content").value = action.content
-		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
-		handleChange("integration-sync")
-	})
-	reloadText()
-}
-
-const integrationEdit = integrationName => {
-	openDialog(document.getElementById("create-dialog"))
-	const integration = integrations.find(e => e.name == integrationName)
-
-	document.getElementById("create-dialog").setAttribute("data-edit", "")
-	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>"
-	document.getElementById("integration-name").value = integrationName
-	document.getElementById("integration-name").setAttribute("readonly", "")
-	document.getElementById("integration-short").value = integration.short || ""
-	document.getElementById("integration-public").checked = integration.public
-	document.getElementById("integration-disabled").checked = integration.disabled
-	document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : ""
-	document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2
-	document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : ""
-	document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2
-	document.getElementById("integration-use-container").setAttribute("hidden", "")
-	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave")
-
-	document.getElementById("actions-container").innerHTML = ""
-	integration.actions.forEach(action => {
-		const newElem = addAction(action.trigger)
-		newElem.querySelector(".action-name").value = action.name
-		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : ""
-		newElem.querySelector(".action-content").value = action.content
-		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
-	})
-	reloadText()
-}
-
 let socket
-const integrationDelete = (elem, integration = "") => {
-	if (confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")) {
-		elem.parentElement.parentElement.remove()
-		integrations = integrations.filter(int => int.name != integration)
-		socket.send({status: "success", action: "DELETE_integration", name: integration})
-	}
-}
-
-const nameExists = elem => {
-	if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("An integration with this name already exists.")
-	else elem.setCustomValidity("")
-	elem.reportValidity()
-}
-
 let saving = false
 let savingToast
 let errorToast
 
-const connectWS = guild => {
-	socket = sockette("wss://api.tomatenkuchen.com", {
-		onClose: () => {
-			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
-		},
-		onOpen: event => {
-			console.log("Connected!", event)
-			if (errorToast) {
-				errorToast.setType("SUCCESS")
-				setTimeout(() => {
-					errorToast.close()
-				}, 1000)
-			}
-			socket.send({
-				status: "success",
-				action: "GET_integrations",
-				guild,
-				lang: getLanguage(),
-				token: getCookie("token")
-			})
-			socket.send({
-				status: "success",
-				action: "GET_emojis",
-				guild,
-				token: getCookie("token")
-			})
-		},
-		onMessage: json => {
-			if (json.action == "NOTIFY") new ToastNotification(json).show()
-			else if (json.action == "RECEIVE_integrations") {
-				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
-				document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild)
-				reloadText()
-				guildName = json.name
-				integrations = json.integrations
-
-				pickerData = {
-					...pickerData,
-					"integration-sync": json.sync,
-					"action-trigger": json.triggers
-				}
-
-				const item = ["integration-sync", "safe"]
-				const pickerNode = document.createElement("channel-picker")
-				pickerNode.setAttribute("id", item[0])
-				pickerNode.setAttribute("type", item[0])
-				pickerNode.setAttribute("tabindex", "0")
-				pickerNode.setAttribute("data-unsafe", "1")
-				document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling)
-
-				const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']")
-				elem.classList.add("selected")
-				document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>"
-				document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"))
-
-				if (params.has("info") || params.has("use"))
-					setTimeout(() => {
-						if (params.has("info")) integrationInfo(params.get("info"))
-						else integrationUse(params.get("use"))
-					}, 250)
-			} else if (json.action == "SAVED_integration") {
-				saving = false
-				savingToast.setType("SUCCESS").setTitle("The integration was saved!")
-			} else if (json.action == "RECEIVE_emojis") {
-				pickerData = {
-					...pickerData,
-					emojis: json.emojis,
-					roles: json.roles
-				}
-			}
-		}
-	})
-}
-
-function createIntegration(sourceId = "") {
+const createIntegration = (sourceId = "") => {
 	if (!params.has("guild") || saving) return
 
 	const name = encode(document.getElementById("integration-name").value)
@@ -372,6 +219,163 @@ function createIntegration(sourceId = "") {
 	})
 
 	savingToast = new ToastNotification({type: "LOADING", title: "Saving integration \"" + encode(name) + "\"...", timeout: 7}).show()
+}
+
+const integrationUse = integrationName => {
+	document.getElementById("info-dialog").setAttribute("hidden", "")
+	openDialog(document.getElementById("create-dialog"))
+	const integration = integrations.find(e => e.name == integrationName)
+	if (!integration) return alert("Unknown integration \"" + integrationName + "\"!")
+
+	document.getElementById("create-title").innerHTML = "<span translation='integration.createsource'></span> <b>" + encode(integration.name) + "</b>" +
+		(integration.guild == params.get("guild") && integration.unsynced ? "<br><br><button type='button' class='createForm red' onclick='socket.send({status:\"success\"," +
+			"action:\"SYNC_integration\",name:\"" + encode(integrationName) + "\"})this.remove()'>Sync integration from original</button>" : "")
+	document.getElementById("integration-name").value = params.get("guild") + "-" + encode(integration.name)
+	document.getElementById("integration-short").value = encode(integration.short)
+	document.getElementById("integration-public").checked = false
+	document.getElementById("integration-disabled").checked = false
+	document.getElementById("integration-use-container").removeAttribute("hidden")
+	document.getElementById("integration-submit").onclick = () => createIntegration(integrationName)
+	if (integration.input && integration.input.length > 0) {
+		document.getElementById("integration-use-inputtext").innerHTML = "<br><p>Variable inputs</p>"
+		document.getElementById("integration-use-input").innerHTML = integration.input.map(e => {
+			const randomId = Math.random().toString(36).slice(2)
+			return "<label for='use-input-" + randomId + "'>" + encode(e.split("")[1]) + "</label>" +
+				"<input type='text' maxlength='200' id='use-input-" + randomId + "' value='" + (encode(e.split("")[2]) || "") +
+				"' name='" + encode(e.split("")[0]) + "' data-desc='" + encode(e.split("")[1]) + "'>"
+		}).join("<br>")
+	} else {
+		document.getElementById("integration-use-inputtext").innerHTML = ""
+		document.getElementById("integration-use-input").innerHTML = ""
+	}
+
+	document.getElementById("actions-container").innerHTML = ""
+	integration.actions.forEach(action => {
+		const newElem = addAction(action.trigger)
+		newElem.querySelector(".action-name").value = action.name
+		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : ""
+		newElem.querySelector(".action-content").value = action.content
+		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
+		handleChange("integration-sync")
+	})
+	reloadText()
+}
+
+const integrationEdit = integrationName => {
+	openDialog(document.getElementById("create-dialog"))
+	const integration = integrations.find(e => e.name == integrationName)
+
+	document.getElementById("create-dialog").setAttribute("data-edit", "")
+	document.getElementById("create-title").innerHTML = "<span translation='integration.edittitle'></span> <b>" + encode(integrationName) + "</b>"
+	document.getElementById("integration-name").value = integrationName
+	document.getElementById("integration-name").setAttribute("readonly", "")
+	document.getElementById("integration-short").value = integration.short || ""
+	document.getElementById("integration-public").checked = integration.public
+	document.getElementById("integration-disabled").checked = integration.disabled
+	document.getElementById("integration-input").value = integration.input ? integration.input.join("\n") : ""
+	document.getElementById("integration-input").rows = (integration.input ? integration.input.length : 0) + 2
+	document.getElementById("integration-env").value = integration.env ? integration.env.join("\n") : ""
+	document.getElementById("integration-env").rows = (integration.env ? integration.env.length : 0) + 2
+	document.getElementById("integration-use-container").setAttribute("hidden", "")
+	document.getElementById("integration-submit").setAttribute("translation", "integration.editsave")
+
+	document.getElementById("actions-container").innerHTML = ""
+	integration.actions.forEach(action => {
+		const newElem = addAction(action.trigger)
+		newElem.querySelector(".action-name").value = action.name
+		newElem.querySelector(".action-args1").value = action.args && action.args[0] ? action.args[0] : ""
+		newElem.querySelector(".action-content").value = action.content
+		newElem.querySelector(".action-content").rows = Math.round(action.content.split("\n").length * 1.2) + 2
+	})
+	reloadText()
+}
+
+const integrationDelete = (elem, integration = "") => {
+	if (confirm("Are you sure you want to delete the integration \"" + integration + "\"? This cannot be undone!")) {
+		elem.parentElement.parentElement.remove()
+		integrations = integrations.filter(int => int.name != integration)
+		socket.send({status: "success", action: "DELETE_integration", name: integration})
+	}
+}
+
+const nameExists = elem => {
+	if (integrations.some(int => int.name == elem.value)) elem.setCustomValidity("An integration with this name already exists.")
+	else elem.setCustomValidity("")
+	elem.reportValidity()
+}
+
+const connectWS = guild => {
+	socket = sockette("wss://api.tomatenkuchen.com", {
+		onClose: () => {
+			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
+		},
+		onOpen: event => {
+			console.log("Connected!", event)
+			if (errorToast) {
+				errorToast.setType("SUCCESS")
+				setTimeout(() => {
+					errorToast.close()
+				}, 1000)
+			}
+			socket.send({
+				status: "success",
+				action: "GET_integrations",
+				guild,
+				lang: getLanguage(),
+				token: getCookie("token")
+			})
+			socket.send({
+				status: "success",
+				action: "GET_emojis",
+				guild,
+				token: getCookie("token")
+			})
+		},
+		onMessage: json => {
+			if (json.action == "NOTIFY") new ToastNotification(json).show()
+			else if (json.action == "RECEIVE_integrations") {
+				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
+				document.getElementById("root-container").innerHTML = getIntegrationsHTML(json, guild)
+				reloadText()
+				guildName = json.name
+				integrations = json.integrations
+
+				pickerData = {
+					...pickerData,
+					"integration-sync": json.sync,
+					"action-trigger": json.triggers
+				}
+
+				const item = ["integration-sync", "safe"]
+				const pickerNode = document.createElement("channel-picker")
+				pickerNode.setAttribute("id", item[0])
+				pickerNode.setAttribute("type", item[0])
+				pickerNode.setAttribute("tabindex", "0")
+				pickerNode.setAttribute("data-unsafe", "1")
+				document.querySelector("label[for='" + item[0] + "']").parentNode.insertBefore(pickerNode, document.querySelector("label[for='" + item[0] + "']").nextSibling)
+
+				const elem = document.querySelector("#" + item[0] + " .picker div[data-id='" + item[1] + "']")
+				elem.classList.add("selected")
+				document.querySelector("#" + item[0] + " .list").innerHTML += "<div>" + elem.innerHTML + "</div>"
+				document.getElementById(item[0]).setAttribute("data-selected", elem.getAttribute("data-id"))
+
+				if (params.has("info") || params.has("use"))
+					setTimeout(() => {
+						if (params.has("info")) integrationInfo(params.get("info"))
+						else integrationUse(params.get("use"))
+					}, 250)
+			} else if (json.action == "SAVED_integration") {
+				saving = false
+				savingToast.setType("SUCCESS").setTitle("The integration was saved!")
+			} else if (json.action == "RECEIVE_emojis") {
+				pickerData = {
+					...pickerData,
+					emojis: json.emojis,
+					roles: json.roles
+				}
+			}
+		}
+	})
 }
 
 const disableSimple = () => {

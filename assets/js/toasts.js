@@ -18,6 +18,7 @@ const createWrapper = () => {
 	return wrapper
 }
 
+// eslint-disable-next-line no-unused-vars
 class ToastNotification {
 	#_intervalId
 	#element
@@ -50,7 +51,8 @@ class ToastNotification {
 					"<div class='close'>" +
 						"<span class='timeout'></span>" +
 						"<svg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'>" +
-							"<path d='M448.006,0l-192.029,192l-191.983,-192l-63.994,64l191.983,192l-191.983,192l63.994,64l191.983,-192l192.029,192l63.994,-64l-191.983,-192l191.983,-192l-63.994,-64Z'>" +
+							"<path d='M448.006,0l-192.029,192l-191.983,-192l-63.994,64l191.983,192l-191.983," +
+							"192l63.994,64l191.983,-192l192.029,192l63.994,-64l-191.983,-192l191.983,-192l-63.994,-64Z'>" +
 						"</svg>" +
 					"</div>" +
 				"</header>" +

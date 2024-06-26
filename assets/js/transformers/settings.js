@@ -12,165 +12,18 @@ let guildName = ""
 const pickerData = {}
 let socket
 
-function getSettingsHTML(json) {
-	if (json.status == "success") {
-		let text = ""
-		const categories = []
-		const categoryData = []
-
-		json.data.forEach(setting => {
-			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
-				(setting.docs ?
-					"<a href='https://docs.tomatenkuchen.com/" + (getLanguage() == "de" ? "de/" : "") + encode(setting.docs) + "' class='docs-link' target='_blank' rel='noopener'>Docs</a>"
-				: "") + "<br>"
-
-			if (setting.possible || typeof setting.value == "object") {
-				let possible = setting.possible
-				if (typeof possible == "string") possible = json.constant[possible]
-				else if (typeof possible == "object") {
-					Object.keys(possible).filter(key => key != "").forEach(key => {
-						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]]
-					})
-				}
-
-				selectData[setting.key] = setting
-				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
-					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + encode(setting.type) + "'></channel-picker>"
-					queue.push(() => {
-						document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
-						selectData[setting.key].value.forEach(v => {
-							const elem = document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']")
-							if (!elem) {
-								selectData[setting.key].value = selectData[setting.key].value.filter(val => val != v)
-								return
-							}
-							elem.classList.toggle("selected")
-							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>"
-						})
-					})
-				} else if (typeof setting.value == "object") {
-					temp += "<div id='" + setting.key + "' class='advancedsetting'>"
-					if (Array.isArray(setting.value))
-						temp += "<button type='button' class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>"
-
-					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting.key, i, setting.value[i], void 0, true)).join("")
-					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting.key, i)).join("")
-					else if (Object.keys(setting.value).length > 0) {
-						setting.org = "object"
-						setting.value = [setting.value]
-						temp += addItem(setting.key, void 0, setting.value[0], void 0, true)
-					}
-
-					temp += "</div><br>"
-				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
-					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"
-					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value))
-				} else if (setting.type == "bool")
-					temp += "<div class='switch' data-type='bool'>" +
-						"<input type='checkbox' class='setting' id='" + setting.key + "'" + (setting.value ? " checked" : "") + ">" +
-						"<span class='slider' onclick='document.getElementById(\"" + setting.key + "\").click()'></span>" +
-						"</div><br>"
-				else {
-					temp += "<select class='setting' id='" + setting.key + "'>"
-					Object.keys(possible).forEach(key => {
-						temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>"
-					})
-					temp += "</select><br>"
-				}
-			} else {
-				if (setting.type == "int" || setting.type == "number") temp +=
-					"<input type='number' min='" + assertInt(setting.min || 0) + "' max='" + assertInt(setting.max || 10000) + "' step='" + assertInt(setting.step || 1) + "' class='setting' id='" + setting.key +
-					"' value='" + (setting.type == "number" ? parseFloat(setting.value) : parseInt(setting.value)) + "'>"
-				else if (setting.type == "time" || setting.type == "singlestring") {
-					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>"
-					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
-				} else if (setting.type == "emoji") {
-					temp += "<div><input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' onclick='cEmoPic(this, true)' readonly></div>"
-					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
-				} else {
-					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" +
-						setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
-						"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
-						"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
-					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
-				}
-				temp += "<br>"
-			}
-			if (!categories.includes(setting.category)) categories.push(setting.category)
-			categoryData.push([setting.category, temp + "<br>"])
-		})
-
-		categories.forEach(category => {
-			text += "<div id='setcat-" + category + "' class='settingdiv'><h2 id='" + category + "'>" +
-				(categoriesData[category] && categoriesData[category].name ? categoriesData[category].name : category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>"
-			categoryData.forEach(data => {
-				if (category == data[0]) text += data[1]
-			})
-			text += "</div>"
-		})
-
-		return {
-			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span>" +
-				(json.premium ? "<ion-icon name='star-outline' class='yellow-text' title='This server has TomatenKuchen premium.'></ion-icon>" : "") +
-				"</h1>" + text,
-			categories
-		}
-	}
-
-	return (
-		"<h1>An error occured while handling your request:</h1>" +
-		"<h2>" + encode(json.message) + "</h2>"
-	)
-}
-
-let currentTab = ""
-const settingsTab = tab => {
-	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active")
-	document.getElementById("settab-" + tab).classList.add("active")
-	currentTab = tab
-
-	for (const elem of document.getElementsByClassName("settingdiv")) elem.setAttribute("hidden", "")
-	document.getElementById("setcat-" + tab).removeAttribute("hidden")
-
-	document.getElementById("root-container").scrollIntoView()
-	if (screen.width <= 800) sidebar()
-}
-
-let currentInteract
-const threadSelect = elem => {
-	currentInteract = elem.parentElement
-
-	socket.send({
-		status: "success",
-		action: "GET_threads",
-		guild: params.get("guild"),
-		token: getCookie("token"),
-		channel: currentInteract.getAttribute("data-id")
-	})
-
-	openDialog(document.getElementById("thread-dialog"))
-	document.getElementById("thread-header").textContent = "Thread select: " + encode(pickerData.textchannel[currentInteract.getAttribute("data-id")].name)
-	document.getElementById("thread-container").innerHTML = "<div class='loader' title='Source: css-loaders.com - The Dots vs Bars #6'></div>"
-}
-const threadClick = value => {
-	currentInteract.parentElement.parentElement.setAttribute("data-selected", value)
-	currentInteract.parentElement.querySelectorAll(".element").forEach(e => {
-		e.classList.remove("selected")
-	})
-	currentInteract.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>" +
-		"<div class='element'><ion-icon name='reorder-three-outline'></ion-icon> " +
-		pickerData.threads.find(t => t.id == value).name + " (Thread in " + pickerData.textchannel[currentInteract.getAttribute("data-id")].name + ")</div>"
-	handleChange(currentInteract.parentElement.parentElement.id)
-
-	document.getElementById("thread-dialog").setAttribute("hidden", "")
-}
-
 let changed = []
 let hasLoaded = false
 let hasSavePopup = false
 let reverting = false
 
-function handleChange(id) {
+const messageData = {}
+let messageMigratedToast
+const embedKeys = new Set(["content", "author", "authoricon", "color", "title", "description", "image", "thumbnail", "footer", "footericon"])
+const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
+const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
+
+const handleChange = id => {
 	if (!hasLoaded) return
 	if (!changed.includes(id.split("_")[0])) changed.push(id.split("_")[0])
 
@@ -188,127 +41,85 @@ function handleChange(id) {
 	}
 }
 
-function connectWS(guild) {
+const saveSettings = () => {
+	if (!params.has("guild") || saving) return
+	saving = true
+
+	const items = {}
+	settingsData.forEach(setting => {
+		if (!changed.includes(setting.key)) return
+
+		let entry
+		if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value
+		else if (setting.org == "object") {
+			entry = {}
+			Object.keys(setting.type).forEach((key, i) => {
+				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+				if (setting.embed && embedKeys.has(key)) {
+					if (i == Object.keys(setting.type).length - 1) entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+					return
+				}
+
+				const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]")
+
+				if (setting.type[key] == "bool") entry[key] = child.checked
+				else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = Number.parseFloat(child.value)
+				else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = Number.parseInt(child.value)
+				else if (child.hasAttribute("data-selected")) entry[key] = child.getAttribute("data-selected")
+				else entry[key] = child.value
+			})
+		} else if (Array.isArray(setting.value)) {
+			entry = []
+			if (typeof setting.type == "object")
+				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
+					const temp = {}
+					Object.keys(setting.type).forEach((key, i) => {
+						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+						if (setting.embed && embedKeys.has(key)) {
+							if (i == Object.keys(setting.type).length - 1)
+								temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+							return
+						}
+
+						for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
+							let value = objchild.value
+							if (setting.type[key] == "bool") value = objchild.checked
+							else if (setting.type[key] == "number" || setting.type[key].type == "number") value = Number.parseFloat(objchild.value)
+							else if (setting.type[key] == "int" || setting.type[key].type == "int") value = Number.parseInt(objchild.value)
+							else if (objchild.hasAttribute("data-selected")) value = objchild.getAttribute("data-selected")
+
+							if (objchild.id.split("_")[1] == key) temp[key] = value
+							else if (!objchild.id.split("_")[2]) entry.push(value)
+						}
+					})
+					if (Object.keys(temp).length > 0) entry.push(temp)
+				}
+			else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select,channel-picker")) entry.push(objchild.value)
+		} else if (setting.type == "bool") entry = document.getElementById(setting.key).checked
+		else if (setting.type == "number") entry = Number.parseFloat(document.getElementById(setting.key).value)
+		else if (setting.type == "int") entry = Number.parseInt(document.getElementById(setting.key).value)
+		else if (document.getElementById(setting.key).hasAttribute("data-selected")) entry = document.getElementById(setting.key).getAttribute("data-selected")
+		else entry = document.getElementById(setting.key).value
+
+		items[setting.key] = entry
+	})
+
+	socket.send({
+		status: "success",
+		action: "SAVE_settings",
+		data: items
+	})
+
 	if (hasSavePopup) {
 		fadeOut(document.getElementById("unsaved-container"))
 		hasSavePopup = false
 		changed = []
 	}
-	hasLoaded = false
 
-	socket = sockette("wss://api.tomatenkuchen.com", {
-		onClose: () => {
-			if (reverting) reverting = false
-			else errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
-
-			if (hasSavePopup) {
-				fadeOut(document.getElementById("unsaved-container"))
-				hasSavePopup = false
-				changed = []
-			}
-			hasLoaded = false
-		},
-		onOpen: event => {
-			console.log("Connected!", event)
-			if (errorToast) {
-				errorToast.setType("SUCCESS")
-				setTimeout(() => {
-					errorToast.close()
-				}, 1000)
-			}
-			socket.send({
-				status: "success",
-				action: "GET_settings",
-				guild,
-				lang: getLanguage(),
-				token: getCookie("token")
-			})
-			socket.send({
-				status: "success",
-				action: "GET_emojis",
-				guild,
-				token: getCookie("token")
-			})
-		},
-		onMessage: json => {
-			if (json.action == "NOTIFY") new ToastNotification(json).show()
-			else if (json.action == "RECEIVE_settings") {
-				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
-
-				settingsData = json.data
-				categoriesData = json.categories
-				pickerData.role = json.constant.role
-				pickerData.textchannel = json.constant.textchannel
-				pickerData.leveltextchannel = {here: "Current channel", ...pickerData.textchannel}
-				pickerData.voicechannel = json.constant.voicechannel
-				pickerData.categorychannel = json.constant.categorychannel
-				pickerData.announcementchannel = json.constant.announcementchannel
-				pickerData.textforumchannel = json.constant.textforumchannel
-				const rendered = getSettingsHTML(json)
-
-				document.querySelector(".sidebar .section.middle").classList.add("no-margin")
-				let sidebarHTML = "<div class='section middle'><hr>"
-
-				rendered.categories.forEach(category => {
-					sidebarHTML += "<div class='tab small' id='settab-" + category + "' onclick='settingsTab(\"" + category + "\")'>" +
-						"<ion-icon name='" + (json.categories[category] && json.categories[category].icon ? json.categories[category].icon : "settings-outline") + "'></ion-icon><p>" +
-						(json.categories[category] && json.categories[category].name ? json.categories[category].name : category.charAt(0).toUpperCase() + category.slice(1)) +
-						"</p></div>"
-				})
-
-				document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>"
-
-				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>"
-				queue.forEach(f => f())
-				queue = []
-
-				if (location.hash != "" && document.querySelector("label[for='" + location.hash.slice(1) + "']")) {
-					document.querySelector("label[for='" + location.hash.slice(1) + "']").classList.add("highlight")
-					setTimeout(() => document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true), 100)
-				}
-
-				reloadText()
-				guildName = json.name
-				for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
-				hasLoaded = true
-				if (currentTab) {
-					settingsTab(currentTab)
-					document.getElementById("settab-" + currentTab).scrollIntoViewIfNeeded()
-				}
-
-				if (json.perms.length > 0) {
-					document.getElementById("missing-perms-warning").removeAttribute("hidden")
-					document.getElementById("missing-perms-list").innerHTML = json.perms.map(perm => "<li>" + perm + "</li>").join("")
-				}
-			} else if (json.action == "SAVED_settings") {
-				saving = false
-				savingToast.setType("SUCCESS").setTitle("Saved settings!")
-			} else if (json.action == "GETRES_threads") {
-				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads/posts have been found in this channel!</h2>" +
-					"<p>If you're using private threads, make sure TomatenKuchen is added to them and they're not archived.</p>"
-				pickerData.threads = json.threads
-
-				document.getElementById("thread-container").innerHTML = "<ul>" + json.threads.map(thread => (
-					"<li onclick='threadClick(\"" + thread.id + "\")' title='Click here to select this thread'>" +
-					"<p>" + encode(thread.name) + "</p>" +
-					"<small>Created <b>" + encode(thread.created) + "</b> ago</small>" +
-					"</li>"
-				)).join("") + "</ul>"
-			} else if (json.action == "RECEIVE_emojis") {
-				pickerData.emojis = json.emojis
-				pickerData.roles = json.roles
-			}
-		}
-	})
+	savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 7}).show()
 }
 
-const messageData = {}
-let messageMigratedToast
-const embedKeys = new Set(["content", "author", "authoricon", "color", "title", "description", "image", "thumbnail", "footer", "footericon"])
-const cMenPic = elem => mentionPicker(elem.parentElement, pickerData.roles)
-const cEmoPic = (elem, onlyNameReplace) => emojiPicker(elem.parentElement, pickerData.emojis, guildName, onlyNameReplace)
-
-function addItem(settingKey, key = Math.random().toString(36).slice(4), value = void 0, parent = void 0, noDefault = false) {
+const addItem = (settingKey, key = Math.random().toString(36).slice(4), value = void 0, parent = void 0, noDefault = false) => {
 	const setting = selectData[settingKey]
 	if (parent && setting.key == "rssUpdate")
 		value = {
@@ -425,7 +236,9 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 			if (setting.type[setKey] == "int" || setting.type[setKey] == "number" || setting.type[setKey].type == "int" || setting.type[setKey].type == "number") html +=
 				"<input type='number' min='" + (setting.type[setKey].min || 0) + "' max='" + (setting.type[setKey].max || 10000) + "' step='" + (setting.type[setKey].step || 1) +
 				"' class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key +
-				"' value='" + (parent || noDefault ? (value[setKey] ?? "") : (setting.type[setKey] == "number" ? parseFloat(value[setKey] ?? key) : parseInt(value[setKey] ?? key))) + "'><br>"
+				"' value='" + (parent || noDefault ?
+					(value[setKey] ?? "") : (setting.type[setKey] == "number" ? Number.parseFloat(value[setKey] ?? key) : Number.parseInt(value[setKey] ?? key))
+				) + "'><br>"
 			else if (setting.type[setKey] == "role" || setting.type[setKey].endsWith("channel")) {
 				html += "<channel-picker id='" + setting.key + "_" + setKey + "_" + key + "' type='" + setting.type[setKey] + "'></channel-picker>"
 				queue.push(() => updateSelected(document.getElementById(setting.key + "_" + setKey + "_" + key).querySelector(".picker .element"), value[setKey]))
@@ -437,7 +250,8 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 			else if (typeof setting.type[setKey] == "string" && possible[setKey] && Object.keys(possible[setKey]).length > 0) {
 				html += "<select class='settingcopy' id='" + setting.key + "_" + setKey + "_" + key + "'>"
 				Object.keys(possible[setKey]).forEach(posKey => {
-					if (typeof possible[setKey][posKey] == "string") html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
+					if (typeof possible[setKey][posKey] == "string")
+						html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey] + "</option>"
 					else html += "<option value='" + posKey + "'" + (value[setKey] == posKey ? " selected" : "") + ">" + possible[setKey][posKey].name + "</option>"
 				})
 				html += "</select><br>"
@@ -448,7 +262,8 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 			} else {
 				html +=
 					"<div class='emoji-container'>" +
-					"<textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + setKey + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
+					"<textarea class='setting' rows='" + ((value[setKey] ?? key).split("\n").length + 1) + "' id='" +
+					setting.key + "_" + setKey + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
 					(parent || noDefault ? (value[setKey] ?? "") : (value[setKey] ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
 					"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
 					"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
@@ -463,7 +278,7 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 		if (!parent && !Array.isArray(setting.value)) html += "<label for='" + setting.key + "_" + key + "'>" + key + "</label><br>"
 		if (type == "int" || type == "number") html +=
 			"<input type='number' min='" + (setting.min || 0) + "' max='" + (setting.max || 10000) + "' step='" + (setting.step || 1) + "' class='settingcopy' id='" + setting.key + "_" + key +
-			"' value='" + (parent || noDefault ? "" : (type == "number" ? parseFloat(value ?? key) : parseInt(value ?? key))) + "'><br>"
+			"' value='" + (parent || noDefault ? "" : (type == "number" ? Number.parseFloat(value ?? key) : Number.parseInt(value ?? key))) + "'><br>"
 		else if (type == "role" || type.endsWith("channel")) {
 			html += "<channel-picker id='" + setting.key + "_" + key + "' type='" + type + "'></channel-picker>"
 			queue.push(() => updateSelected(document.getElementById(setting.key + "_" + key).querySelector(".picker .element"), value))
@@ -484,14 +299,16 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 			html += "<input type='text' class='setting' id='" + setting.key + "_" + key + "' value='" + (parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "'><br>"
 			if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key)
 		} else {
-			html += "<div class='emoji-container'><textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) + "' id='" + setting.key + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
+			html += "<div class='emoji-container'><textarea class='setting' rows='" + ((value ?? key).split("\n").length + 1) +
+				"' id='" + setting.key + "_" + key + "' aria-label='Value for " + setting.key + "'>" +
 				(parent || noDefault ? "" : (value ?? key).replace(/[<>&"']/g, "")) + "</textarea>" +
 				"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
 				"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
 			if (/[<>&"']/.test(value ?? key)) queue.push(() => document.getElementById(setting.key + "_" + key).value = value ?? key)
 		}
 	}
-	html += (Array.isArray(setting.value) && !setting.org ? "<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
+	html += (Array.isArray(setting.value) && !setting.org ?
+		"<ion-icon name='trash-outline' class='removeItem' onclick='this.parentElement.remove();handleChange(\"" + setting.key + "\")'></ion-icon>" : "") +
 		"</div>"
 	handleChange(setting.key + "_" + key)
 
@@ -511,81 +328,272 @@ function addItem(settingKey, key = Math.random().toString(36).slice(4), value = 
 	} else return html
 }
 
-function saveSettings() {
-	if (!params.has("guild") || saving) return
-	saving = true
+const getSettingsHTML = json => {
+	if (json.status == "success") {
+		let text = ""
+		const categories = []
+		const categoryData = []
 
-	const items = {}
-	settingsData.forEach(setting => {
-		if (!changed.includes(setting.key)) return
+		json.data.forEach(setting => {
+			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
+				(setting.docs ?
+					"<a href='https://docs.tomatenkuchen.com/" + (getLanguage() == "de" ? "de/" : "") + encode(setting.docs) + "' class='docs-link' target='_blank' rel='noopener'>Docs</a>"
+				: "") + "<br>"
 
-		let entry
-		if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) entry = selectData[setting.key].value
-		else if (setting.org == "object") {
-			entry = {}
-			Object.keys(setting.type).forEach((key, i) => {
-				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
-				if (setting.embed && embedKeys.has(key)) {
-					if (i == Object.keys(setting.type).length - 1) entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
-					return
-				}
-
-				const child = document.querySelector("[id^=" + setting.key + "_" + key + "_]")
-
-				if (setting.type[key] == "bool") entry[key] = child.checked
-				else if (setting.type[key] == "number" || setting.type[key].type == "number") entry[key] = parseFloat(child.value)
-				else if (setting.type[key] == "int" || setting.type[key].type == "int") entry[key] = parseInt(child.value)
-				else if (child.hasAttribute("data-selected")) entry[key] = child.getAttribute("data-selected")
-				else entry[key] = child.value
-			})
-		} else if (Array.isArray(setting.value)) {
-			entry = []
-			if (typeof setting.type == "object")
-				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
-					const temp = {}
-					Object.keys(setting.type).forEach((key, i) => {
-						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
-						if (setting.embed && embedKeys.has(key)) {
-							if (i == Object.keys(setting.type).length - 1) temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
-							return
-						}
-
-						for (const objchild of arrentry.querySelectorAll("input,textarea,select,channel-picker")) {
-							let value = objchild.value
-							if (setting.type[key] == "bool") value = objchild.checked
-							else if (setting.type[key] == "number" || setting.type[key].type == "number") value = parseFloat(objchild.value)
-							else if (setting.type[key] == "int" || setting.type[key].type == "int") value = parseInt(objchild.value)
-							else if (objchild.hasAttribute("data-selected")) value = objchild.getAttribute("data-selected")
-
-							if (objchild.id.split("_")[1] == key) temp[key] = value
-							else if (!objchild.id.split("_")[2]) entry.push(value)
-						}
+			if (setting.possible || typeof setting.value == "object") {
+				let possible = setting.possible
+				if (typeof possible == "string") possible = json.constant[possible]
+				else if (typeof possible == "object") {
+					Object.keys(possible).filter(key => key != "").forEach(key => {
+						if (typeof possible[key] == "string" && json.constant[possible[key]]) possible[key] = json.constant[possible[key]]
 					})
-					if (Object.keys(temp).length > 0) entry.push(temp)
 				}
-			else for (const objchild of document.getElementById(setting.key).querySelectorAll("input,textarea,select,channel-picker")) entry.push(objchild.value)
-		} else if (setting.type == "bool") entry = document.getElementById(setting.key).checked
-		else if (setting.type == "number") entry = parseFloat(document.getElementById(setting.key).value)
-		else if (setting.type == "int") entry = parseInt(document.getElementById(setting.key).value)
-		else if (document.getElementById(setting.key).hasAttribute("data-selected")) entry = document.getElementById(setting.key).getAttribute("data-selected")
-		else entry = document.getElementById(setting.key).value
 
-		items[setting.key] = entry
-	})
+				selectData[setting.key] = setting
+				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
+					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + encode(setting.type) + "'></channel-picker>"
+					queue.push(() => {
+						document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+						selectData[setting.key].value.forEach(v => {
+							const elem = document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']")
+							if (!elem) {
+								selectData[setting.key].value = selectData[setting.key].value.filter(val => val != v)
+								return
+							}
+							elem.classList.toggle("selected")
+							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>"
+						})
+					})
+				} else if (typeof setting.value == "object") {
+					temp += "<div id='" + setting.key + "' class='advancedsetting'>"
+					if (Array.isArray(setting.value))
+						temp += "<button type='button' class='createForm' onclick='addItem(\"" + setting.key + "\", void 0, \"\", this.parentElement)' translation='dashboard.add'>Add</button>"
+
+					if (setting.value.length > 0 && typeof setting.value[0] == "object") temp += Object.keys(setting.value).map(i => addItem(setting.key, i, setting.value[i], void 0, true)).join("")
+					else if (setting.value.length > 0) temp += setting.value.map(i => addItem(setting.key, i)).join("")
+					else if (Object.keys(setting.value).length > 0) {
+						setting.org = "object"
+						setting.value = [setting.value]
+						temp += addItem(setting.key, void 0, setting.value[0], void 0, true)
+					}
+
+					temp += "</div><br>"
+				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
+					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"
+					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value))
+				} else if (setting.type == "bool")
+					temp += "<div class='switch' data-type='bool'>" +
+						"<input type='checkbox' class='setting' id='" + setting.key + "'" + (setting.value ? " checked" : "") + ">" +
+						"<span class='slider' onclick='document.getElementById(\"" + setting.key + "\").click()'></span>" +
+						"</div><br>"
+				else {
+					temp += "<select class='setting' id='" + setting.key + "'>"
+					Object.keys(possible).forEach(key => {
+						temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>"
+					})
+					temp += "</select><br>"
+				}
+			} else {
+				if (setting.type == "int" || setting.type == "number") temp +=
+					"<input type='number' min='" + assertInt(setting.min || 0) + "' max='" + assertInt(setting.max || 10000) +
+					"' step='" + assertInt(setting.step || 1) + "' class='setting' id='" + setting.key +
+					"' value='" + (setting.type == "number" ? Number.parseFloat(setting.value) : Number.parseInt(setting.value)) + "'>"
+				else if (setting.type == "time" || setting.type == "singlestring") {
+					temp += "<input type='text' class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "'>"
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
+				} else if (setting.type == "emoji") {
+					temp += "<div><input class='setting' id='" + setting.key + "' value='" + setting.value.replace(/[<>&"']/g, "") + "' onclick='cEmoPic(this, true)' readonly></div>"
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
+				} else {
+					temp += "<div class='emoji-container'><textarea class='setting' rows='" + (setting.value.split("\n").length + 1) + "' id='" + setting.key + "'>" +
+						setting.value.replace(/[<>&"']/g, "") + "</textarea>" +
+						"<ion-icon name='at-outline' title='Rolepicker' role='button' onclick='cMenPic(this)'></ion-icon>" +
+						"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
+					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
+				}
+				temp += "<br>"
+			}
+			if (!categories.includes(setting.category)) categories.push(setting.category)
+			categoryData.push([setting.category, temp + "<br>"])
+		})
+
+		categories.forEach(category => {
+			text += "<div id='setcat-" + category + "' class='settingdiv'><h2 id='" + category + "'>" +
+				(categoriesData[category] && categoriesData[category].name ? categoriesData[category].name : category.charAt(0).toUpperCase() + category.slice(1)) + "</h2><br>"
+			categoryData.forEach(data => {
+				if (category == data[0]) text += data[1]
+			})
+			text += "</div>"
+		})
+
+		return {
+			html: "<h1 class='center'><span translation='dashboard.title'></span> <span class='accent'>" + encode(json.name) + "</span>" +
+				(json.premium ? "<ion-icon name='star-outline' class='yellow-text' title='This server has TomatenKuchen premium.'></ion-icon>" : "") +
+				"</h1>" + text,
+			categories
+		}
+	}
+
+	return (
+		"<h1>An error occured while handling your request:</h1>" +
+		"<h2>" + encode(json.message) + "</h2>"
+	)
+}
+
+let currentTab = ""
+const settingsTab = tab => {
+	for (const elem of document.querySelectorAll(".tab.small.active")) elem.classList.remove("active")
+	document.getElementById("settab-" + tab).classList.add("active")
+	currentTab = tab
+
+	for (const elem of document.getElementsByClassName("settingdiv")) elem.setAttribute("hidden", "")
+	document.getElementById("setcat-" + tab).removeAttribute("hidden")
+
+	document.getElementById("root-container").scrollIntoView()
+	if (screen.width <= 800) sidebar()
+}
+
+let currentInteract
+const threadSelect = elem => {
+	currentInteract = elem.parentElement
 
 	socket.send({
 		status: "success",
-		action: "SAVE_settings",
-		data: items
+		action: "GET_threads",
+		guild: params.get("guild"),
+		token: getCookie("token"),
+		channel: currentInteract.getAttribute("data-id")
 	})
 
+	openDialog(document.getElementById("thread-dialog"))
+	document.getElementById("thread-header").textContent = "Thread select: " + encode(pickerData.textchannel[currentInteract.getAttribute("data-id")].name)
+	document.getElementById("thread-container").innerHTML = "<div class='loader' title='Source: css-loaders.com - The Dots vs Bars #6'></div>"
+}
+const threadClick = value => {
+	currentInteract.parentElement.parentElement.setAttribute("data-selected", value)
+	currentInteract.parentElement.querySelectorAll(".element").forEach(e => {
+		e.classList.remove("selected")
+	})
+	currentInteract.parentElement.parentElement.querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>" +
+		"<div class='element'><ion-icon name='reorder-three-outline'></ion-icon> " +
+		pickerData.threads.find(t => t.id == value).name + " (Thread in " + pickerData.textchannel[currentInteract.getAttribute("data-id")].name + ")</div>"
+	handleChange(currentInteract.parentElement.parentElement.id)
+
+	document.getElementById("thread-dialog").setAttribute("hidden", "")
+}
+
+const connectWS = guild => {
 	if (hasSavePopup) {
 		fadeOut(document.getElementById("unsaved-container"))
 		hasSavePopup = false
 		changed = []
 	}
+	hasLoaded = false
 
-	savingToast = new ToastNotification({type: "LOADING", title: "Saving settings...", timeout: 7}).show()
+	socket = sockette("wss://api.tomatenkuchen.com", {
+		onClose: () => {
+			if (reverting) reverting = false
+			else errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
+
+			if (hasSavePopup) {
+				fadeOut(document.getElementById("unsaved-container"))
+				hasSavePopup = false
+				changed = []
+			}
+			hasLoaded = false
+		},
+		onOpen: event => {
+			console.log("Connected!", event)
+			if (errorToast) {
+				errorToast.setType("SUCCESS")
+				setTimeout(() => {
+					errorToast.close()
+				}, 1000)
+			}
+			socket.send({
+				status: "success",
+				action: "GET_settings",
+				guild,
+				lang: getLanguage(),
+				token: getCookie("token")
+			})
+			socket.send({
+				status: "success",
+				action: "GET_emojis",
+				guild,
+				token: getCookie("token")
+			})
+		},
+		onMessage: json => {
+			if (json.action == "NOTIFY") new ToastNotification(json).show()
+			else if (json.action == "RECEIVE_settings") {
+				document.getElementsByTagName("global-sidebar")[0].setAttribute("guild", guild)
+
+				settingsData = json.data
+				categoriesData = json.categories
+				pickerData.role = json.constant.role
+				pickerData.textchannel = json.constant.textchannel
+				pickerData.leveltextchannel = {here: "Current channel", ...pickerData.textchannel}
+				pickerData.voicechannel = json.constant.voicechannel
+				pickerData.categorychannel = json.constant.categorychannel
+				pickerData.announcementchannel = json.constant.announcementchannel
+				pickerData.textforumchannel = json.constant.textforumchannel
+				const rendered = getSettingsHTML(json)
+
+				document.querySelector(".sidebar .section.middle").classList.add("no-margin")
+				let sidebarHTML = "<div class='section middle'><hr>"
+
+				rendered.categories.forEach(category => {
+					sidebarHTML += "<div class='tab small' id='settab-" + category + "' onclick='settingsTab(\"" + category + "\")'>" +
+						"<ion-icon name='" + (json.categories[category] && json.categories[category].icon ? json.categories[category].icon : "settings-outline") + "'></ion-icon><p>" +
+						(json.categories[category] && json.categories[category].name ? json.categories[category].name : category.charAt(0).toUpperCase() + category.slice(1)) +
+						"</p></div>"
+				})
+
+				document.getElementById("linksidebar").innerHTML += sidebarHTML + "</div>"
+
+				document.getElementById("root-container").innerHTML = "<div class='settingsContent'>" + rendered.html + "</div>"
+				queue.forEach(f => f())
+				queue = []
+
+				if (location.hash != "" && document.querySelector("label[for='" + location.hash.slice(1) + "']")) {
+					document.querySelector("label[for='" + location.hash.slice(1) + "']").classList.add("highlight")
+					setTimeout(() => document.getElementById(location.hash.slice(1)).scrollIntoViewIfNeeded(true), 100)
+				}
+
+				reloadText()
+				guildName = json.name
+				for (const elem of document.querySelectorAll("input.setting, textarea.setting, select.setting")) elem.onchange = () => handleChange(elem.id)
+				hasLoaded = true
+				if (currentTab) {
+					settingsTab(currentTab)
+					document.getElementById("settab-" + currentTab).scrollIntoViewIfNeeded()
+				}
+
+				if (json.perms.length > 0) {
+					document.getElementById("missing-perms-warning").removeAttribute("hidden")
+					document.getElementById("missing-perms-list").innerHTML = json.perms.map(perm => "<li>" + perm + "</li>").join("")
+				}
+			} else if (json.action == "SAVED_settings") {
+				saving = false
+				savingToast.setType("SUCCESS").setTitle("Saved settings!")
+			} else if (json.action == "GETRES_threads") {
+				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads/posts have been found in this channel!</h2>" +
+					"<p>If you're using private threads, make sure TomatenKuchen is added to them and they're not archived.</p>"
+				pickerData.threads = json.threads
+
+				document.getElementById("thread-container").innerHTML = "<ul>" + json.threads.map(thread => (
+					"<li onclick='threadClick(\"" + thread.id + "\")' title='Click here to select this thread'>" +
+					"<p>" + encode(thread.name) + "</p>" +
+					"<small>Created <b>" + encode(thread.created) + "</b> ago</small>" +
+					"</li>"
+				)).join("") + "</ul>"
+			} else if (json.action == "RECEIVE_emojis") {
+				pickerData.emojis = json.emojis
+				pickerData.roles = json.roles
+			}
+		}
+	})
 }
 
 document.addEventListener("keydown", event => {

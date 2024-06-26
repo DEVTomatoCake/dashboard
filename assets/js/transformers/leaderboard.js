@@ -1,13 +1,15 @@
 const getLeaderboardHTML = async guild => {
 	const json = await get("lb/" + guild)
 	if (json.status == "success") {
-		const leveling = json.level.length > 0 ? "<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1><div class='flex'><div>" +
+		const leveling = json.level.length > 0 ?
+			"<h1 class='greeting'><span translation='leaderboard.title'></span> <span class='accent'>" + encode(json.guild) + "</span></h1><div class='flex'><div>" +
 			json.level.map((entry, i) => {
 				const user = json.users[entry.u]
 				return "<p class='leaderboard" + (user.id + "/" + user.avatar == getCookie("avatar") ? " hl" : "") + "'>" + (i + 1) + ". " +
 					"<img class='user-image' crossorigin='anonymous' loading='lazy' alt='' src='https://cdn.discordapp.com/" +
 					(user.avatar ? "avatars/" + encode(user.id + "/" + user.avatar) + ".webp?size=32" : "embed/avatars/" + (user.id >>> 22) % 6 + ".png") + "'>" +
-					encode(user.name) + " <b>" + assertInt(entry.points).toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") + " (Level <b>" + assertInt(entry.level).toLocaleString() + "</b>)</p>"
+					encode(user.name) + " <b>" + assertInt(entry.points).toLocaleString() + "</b> Point" + (entry.points == 1 ? "" : "s") +
+					" (Level <b>" + assertInt(entry.level).toLocaleString() + "</b>)</p>"
 			}).join("") + "</div></div>" : void 0
 
 		const counting = json.counting.length > 0 ? "<h1 class='greeting'><span translation='leaderboard.countingtitle'></span> <span class='accent'>" + encode(json.guild) + "</span></h1>" +

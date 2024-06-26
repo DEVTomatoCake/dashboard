@@ -13,6 +13,68 @@ const eventListenersOptions = {
 	passive: true
 }
 
+const mouseoutListener = event => {
+	if (event.relatedTarget && event.target.closest("a") == event.relatedTarget.closest("a")) return
+
+	if (preloadTimeouts[event.target.href]) {
+		clearTimeout(preloadTimeouts[event.target.href])
+		delete preloadTimeouts[event.target.href]
+	}
+}
+
+const isPreloadable = anchorElement => {
+	if (!anchorElement || !anchorElement.href) return
+
+	if (anchorElement.origin != locationCopy.origin) return
+
+	if (!["http:", "https:"].includes(anchorElement.protocol)) return
+
+	if (anchorElement.protocol == "http:" && locationCopy.protocol == "https:") return
+
+	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == locationCopy.pathname + locationCopy.search) return
+
+	if ("noInstant" in anchorElement.dataset) return
+
+	if (preloadedList.has(anchorElement.href)) return
+
+	return true
+}
+
+const preload = url => {
+	if (preloadedList.has(url)) return
+
+	const linkElement = documentCopy.createElement("link")
+	linkElement.rel = "prefetch"
+	linkElement.href = url
+
+	linkElement.fetchPriority = "high"
+	// By default, a prefetch is loaded with a low priority.
+	// When there’s a fair chance that this prefetch is going to be used in the
+	// near term (= after a touch/mouse event), giving it a high priority helps
+	// make the page load faster in case there are other resources loading.
+	// Prioritizing it implicitly means deprioritizing every other resource
+	// that’s loading on the page. Due to HTML documents usually being much
+	// smaller than other resources (notably images and JavaScript), and
+	// prefetches happening once the initial page is sufficiently loaded,
+	// this theft of bandwidth should rarely be detrimental.
+
+	linkElement.as = "document"
+	// as=document is Chromium-only and allows cross-origin prefetches to be
+	// usable for navigation. They call it “restrictive prefetch” and intend
+	// to remove it: https://crbug.com/1352371
+	//
+	// This document from the Chrome team dated 2022-08-10
+	// https://docs.google.com/document/d/1x232KJUIwIf-k08vpNfV85sVCRHkAxldfuIA5KOqi6M
+	// claims (I haven’t tested) that data- and battery-saver modes as well as
+	// the setting to disable preloading do not disable restrictive prefetch,
+	// unlike regular prefetch. That’s good for prefetching on a touch/mouse
+	// event, but might be bad when prefetching every link in the viewport.
+
+	documentCopy.head.appendChild(linkElement)
+
+	preloadedList.add(url)
+}
+
 // instant.page is meant to be loaded with <script type=module\>
 // (though sometimes webmasters load it as a regular script).
 // So it’s normally executed (and must not cause JavaScript errors) in:
@@ -53,68 +115,4 @@ if (documentCopy.createElement("link").relList.supports("prefetch")) {
 			preload(anchorElement.href)
 		}, 120)
 	}, eventListenersOptions)
-}
-
-function mouseoutListener(event) {
-	if (event.relatedTarget && event.target.closest("a") == event.relatedTarget.closest("a")) {
-		return
-	}
-
-	if (preloadTimeouts[event.target.href]) {
-		clearTimeout(preloadTimeouts[event.target.href])
-		delete preloadTimeouts[event.target.href]
-	}
-}
-
-function isPreloadable(anchorElement) {
-	if (!anchorElement || !anchorElement.href) return
-
-	if (anchorElement.origin != locationCopy.origin) return
-
-	if (!["http:", "https:"].includes(anchorElement.protocol)) return
-
-	if (anchorElement.protocol == "http:" && locationCopy.protocol == "https:") return
-
-	if (anchorElement.hash && anchorElement.pathname + anchorElement.search == locationCopy.pathname + locationCopy.search) return
-
-	if ("noInstant" in anchorElement.dataset) return
-
-	if (preloadedList.has(anchorElement.href)) return
-
-	return true
-}
-
-function preload(url) {
-	if (preloadedList.has(url)) return
-
-	const linkElement = documentCopy.createElement("link")
-	linkElement.rel = "prefetch"
-	linkElement.href = url
-
-	linkElement.fetchPriority = "high"
-	// By default, a prefetch is loaded with a low priority.
-	// When there’s a fair chance that this prefetch is going to be used in the
-	// near term (= after a touch/mouse event), giving it a high priority helps
-	// make the page load faster in case there are other resources loading.
-	// Prioritizing it implicitly means deprioritizing every other resource
-	// that’s loading on the page. Due to HTML documents usually being much
-	// smaller than other resources (notably images and JavaScript), and
-	// prefetches happening once the initial page is sufficiently loaded,
-	// this theft of bandwidth should rarely be detrimental.
-
-	linkElement.as = "document"
-	// as=document is Chromium-only and allows cross-origin prefetches to be
-	// usable for navigation. They call it “restrictive prefetch” and intend
-	// to remove it: https://crbug.com/1352371
-	//
-	// This document from the Chrome team dated 2022-08-10
-	// https://docs.google.com/document/d/1x232KJUIwIf-k08vpNfV85sVCRHkAxldfuIA5KOqi6M
-	// claims (I haven’t tested) that data- and battery-saver modes as well as
-	// the setting to disable preloading do not disable restrictive prefetch,
-	// unlike regular prefetch. That’s good for prefetching on a touch/mouse
-	// event, but might be bad when prefetching every link in the viewport.
-
-	documentCopy.head.appendChild(linkElement)
-
-	preloadedList.add(url)
 }

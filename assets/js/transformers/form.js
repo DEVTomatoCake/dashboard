@@ -4,6 +4,8 @@ let maxPage = 1
 const selectData = {}
 const pickerData = {}
 let queue = []
+
+// eslint-disable-next-line no-unused-vars
 const handleChange = () => {}
 
 const pageBack = () => {
@@ -63,7 +65,7 @@ const fs = async () => {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
 				elem.setCustomValidity("This field must be at least " + field.min + " characters long")
 				return elem.reportValidity()
-			} else if ((field.type == "number" || field.type == "range") && field.min && parseFloat(elem.value) < field.min) {
+			} else if ((field.type == "number" || field.type == "range") && field.min && Number.parseFloat(elem.value) < field.min) {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
 				elem.setCustomValidity("This value must be at least " + field.min)
 				return elem.reportValidity()
@@ -75,7 +77,7 @@ const fs = async () => {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
 				elem.setCustomValidity("This field must be at most " + field.max + " characters long")
 				return elem.reportValidity()
-			} else if ((field.type == "number" || field.type == "range") && field.max && parseFloat(elem.value) > field.max) {
+			} else if ((field.type == "number" || field.type == "range") && field.max && Number.parseFloat(elem.value) > field.max) {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
 				elem.setCustomValidity("This value must be at most " + field.max)
 				return elem.reportValidity()
@@ -95,7 +97,7 @@ const fs = async () => {
 			}
 
 			if (field.type == "select") results[encode(field.name)] = selectData["field-" + encode(field.name)].value
-			else if (field.type == "number" || field.type == "range") results[encode(field.name)] = parseFloat(elem.value)
+			else if (field.type == "number" || field.type == "range") results[encode(field.name)] = Number.parseFloat(elem.value)
 			else results[encode(field.name)] = elem.value
 		}
 	})

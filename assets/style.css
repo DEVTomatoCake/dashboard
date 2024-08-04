@@ -1600,3 +1600,7 @@ body.stats-page {
 		transform: translate(26px);
 	}
 }
+
+.setting-container {
+	margin-bottom: 50px;
+}

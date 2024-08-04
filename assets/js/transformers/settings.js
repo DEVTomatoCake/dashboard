@@ -121,28 +121,30 @@ const saveSettings = () => {
 
 const addItem = (settingKey, key = Math.random().toString(36).slice(4), value = void 0, parent = void 0, noDefault = false) => {
 	const setting = selectData[settingKey]
-	if (parent && setting.key == "rssUpdate")
-		value = {
-			message: JSON.stringify({
-				embeds: [{
-					author: {
-						name: "{author}"
-					},
-					title: "{title}",
-					description: "{content}",
-					image: {
-						url: "{image}"
-					},
-					footer: {
-						text: "{domain}"
-					}
-				}]
-			})
-		}
-	else if (parent && setting.key == "twitchFeed")
-		value = {
-			trigger: "stream.online"
-		}
+	if (parent) {
+		if (setting.key == "rssUpdate")
+			value = {
+				message: JSON.stringify({
+					embeds: [{
+						author: {
+							name: "{author}"
+						},
+						title: "{title}",
+						description: "{content}",
+						image: {
+							url: "{image}"
+						},
+						footer: {
+							text: "{domain}"
+						}
+					}]
+				})
+			}
+		else if (setting.key == "twitchFeed")
+			value = {
+				trigger: "stream.online"
+			}
+	}
 
 	let possible = setting.possible || {}
 	if (typeof setting.possible == "string") possible = pickerData[possible]
@@ -335,7 +337,9 @@ const getSettingsHTML = json => {
 		const categoryData = []
 
 		json.data.forEach(setting => {
-			let temp = "<label for='" + setting.key + "'>" + setting.desc + "</label>" +
+			let temp = "<div class='setting-container'>" +
+				(setting.title ? "<h3>" + encode(setting.title) + "</h3>" : "") +
+				"<label for='" + setting.key + "'>" + setting.desc + "</label>" +
 				(setting.docs ?
 					"<a href='https://docs.tomatenkuchen.com/" + (getLanguage() == "de" ? "de/" : "") + encode(setting.docs) + "' class='docs-link' target='_blank' rel='noopener'>Docs</a>"
 				: "") + "<br>"
@@ -353,7 +357,7 @@ const getSettingsHTML = json => {
 				if (typeof setting.type == "string" && Array.isArray(setting.value) && (setting.type == "role" || setting.type.endsWith("channel"))) {
 					temp += "<channel-picker id='" + setting.key + "' data-multi='1' type='" + encode(setting.type) + "'></channel-picker>"
 					queue.push(() => {
-						document.getElementById(setting.key).querySelector(".list").innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
+						document.getElementById(setting.key).getElementsByClassName("list")[0].innerHTML = "<div class='element'><ion-icon name='build-outline'></ion-icon></div>"
 						selectData[setting.key].value.forEach(v => {
 							const elem = document.getElementById(setting.key).querySelector(".picker div[data-id='" + v + "']")
 							if (!elem) {
@@ -361,7 +365,7 @@ const getSettingsHTML = json => {
 								return
 							}
 							elem.classList.toggle("selected")
-							document.getElementById(setting.key).querySelector(".list").innerHTML += "<div>" + elem.innerHTML + "</div>"
+							document.getElementById(setting.key).getElementsByClassName("list")[0].innerHTML += "<div>" + elem.innerHTML + "</div>"
 						})
 					})
 				} else if (typeof setting.value == "object") {
@@ -377,7 +381,7 @@ const getSettingsHTML = json => {
 						temp += addItem(setting.key, void 0, setting.value[0], void 0, true)
 					}
 
-					temp += "</div><br>"
+					temp += "</div>"
 				} else if (setting.type == "role" || setting.type.endsWith("channel")) {
 					temp += "<channel-picker id='" + setting.key + "' type='" + encode(setting.type) + "'></channel-picker>"
 					queue.push(() => updateSelected(document.getElementById(setting.key).querySelector(".picker .element"), setting.value))
@@ -385,13 +389,13 @@ const getSettingsHTML = json => {
 					temp += "<div class='switch' data-type='bool'>" +
 						"<input type='checkbox' class='setting' id='" + setting.key + "'" + (setting.value ? " checked" : "") + ">" +
 						"<span class='slider' onclick='document.getElementById(\"" + setting.key + "\").click()'></span>" +
-						"</div><br>"
+						"</div>"
 				else {
 					temp += "<select class='setting' id='" + setting.key + "'>"
 					Object.keys(possible).forEach(key => {
 						temp += "<option value='" + key + "'" + (setting.value == key ? " selected" : "") + ">" + possible[key] + "</option>"
 					})
-					temp += "</select><br>"
+					temp += "</select>"
 				}
 			} else {
 				if (setting.type == "int" || setting.type == "number") temp +=
@@ -411,10 +415,9 @@ const getSettingsHTML = json => {
 						"<ion-icon name='happy-outline' title='Emojipicker' role='button' onclick='cEmoPic(this)'></ion-icon></div>"
 					if (/[<>&"']/.test(setting.value)) queue.push(() => document.getElementById(setting.key).value = setting.value)
 				}
-				temp += "<br>"
 			}
 			if (!categories.includes(setting.category)) categories.push(setting.category)
-			categoryData.push([setting.category, temp + "<br>"])
+			categoryData.push([setting.category, temp + "</div>"])
 		})
 
 		categories.forEach(category => {

@@ -386,7 +386,7 @@ const disableSimple = () => {
 	newUrl.searchParams.delete("cc")
 	history.pushState({}, "", newUrl)
 
-	new ToastNotification({type: "SUCCESS", title: "Simple mode disabled!", timeout: 10}).show()
+	new ToastNotification({type: "SUCCESS", title: "Simple mode disabled!", description: "You'll now be able to see advanced options.", timeout: 7}).show()
 }
 
 document.addEventListener("DOMContentLoaded", () => {

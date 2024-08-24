@@ -75,6 +75,8 @@ const cmdInfo = (elem, command) => {
 		)).join("") + "</ul></p>"
 		if (cmd.permsBot) html += "<p>Bot permissions:<ul>" + cmd.permsBot.map(p => "<li>" + encode(p) + "</li>").join(", ") + "</ul></p>"
 		if (cmd.permsUser) html += "<p>Default user permissions:<ul>" + cmd.permsUser.map(p => "<li>" + encode(p) + "</li>").join(", ") + "</ul></p>"
+		if (cmd.userAppOnly) html += "<br><small>Can <b>only</b> be used in DMs and servers without the bot as user-installed app.</small>"
+		else if (cmd.userApp) html += "<br><small>Can be used in DMs and servers without the bot as user-installed app.</small>"
 		if (cmd.docs) html += "<p>More information: <a href='https://docs.tomatenkuchen.com/" + encode(cmd.docs) + "'>Docs</a></p>"
 
 		elem.querySelector("td:nth-child(2)").innerHTML += html + "</div>"

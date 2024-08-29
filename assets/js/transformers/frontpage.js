@@ -17,7 +17,8 @@ get("stats?lang=" + getLanguage() + "&publicServers=1", false).then(json => {
 	servers = json.public_guilds
 	currentIndex = Math.floor(Math.random() * (servers.length / 1.3))
 
-	document.getElementById("server1").innerHTML = formatServer(servers[currentIndex++])
+	document.getElementById("server1").innerHTML = formatServer(servers[currentIndex])
+	currentIndex++
 	document.getElementById("server2").innerHTML = formatServer(servers[currentIndex])
 	reloadText()
 })

@@ -53,12 +53,13 @@ const sockette = (url, opts = {}) => {
 	}
 
 	object.reconnect = event => {
-		if (reconnectTimer && reconnectAttempts++ < 7) {
+		if (reconnectTimer && reconnectAttempts < 7) {
 			reconnectTimer = setTimeout(() => {
 				console.log("Reconnecting...", event)
 				object.open()
 			}, 3500)
 		} else console.warn("[WS] Stopped reconnection attempts", event)
+		reconnectAttempts++
 	}
 
 	object.send = data => {

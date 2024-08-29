@@ -54,7 +54,10 @@ const saveSettings = () => {
 		else if (setting.org == "object") {
 			entry = {}
 			Object.keys(setting.type).forEach((key, i) => {
-				if (setting.embed && key == "message") return entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+				if (setting.embed && key == "message") {
+					entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+					return
+				}
 				if (setting.embed && embedKeys.has(key)) {
 					if (i == Object.keys(setting.type).length - 1) entry.message = JSON.stringify(messageData[document.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
 					return
@@ -74,7 +77,10 @@ const saveSettings = () => {
 				for (const arrentry of document.getElementById(setting.key).querySelectorAll("div.setgroup")) {
 					const temp = {}
 					Object.keys(setting.type).forEach((key, i) => {
-						if (setting.embed && key == "message") return temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+						if (setting.embed && key == "message") {
+							temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
+							return
+						}
 						if (setting.embed && embedKeys.has(key)) {
 							if (i == Object.keys(setting.type).length - 1)
 								temp.message = JSON.stringify(messageData[arrentry.querySelector("button[id^=" + setting.key + "_message_]").id.split("_")[2]])
@@ -581,8 +587,11 @@ const connectWS = guild => {
 				saving = false
 				savingToast.setType("SUCCESS").setTitle("Saved settings!")
 			} else if (json.action == "GETRES_threads") {
-				if (json.threads.length == 0) return document.getElementById("thread-container").innerHTML = "<h2>No threads/posts have been found in this channel!</h2>" +
-					"<p>If you're using private threads, make sure TomatenKuchen is added to them and they're not archived.</p>"
+				if (json.threads.length == 0) {
+					document.getElementById("thread-container").innerHTML = "<h2>No threads/posts have been found in this channel!</h2>" +
+						"<p>If you're using private threads, make sure TomatenKuchen is added to them and they're not archived.</p>"
+					return
+				}
 				pickerData.threads = json.threads
 
 				document.getElementById("thread-container").innerHTML = "<ul>" + json.threads.map(thread => (

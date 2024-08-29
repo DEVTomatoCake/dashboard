@@ -248,7 +248,7 @@ let lastChange = 0
 let lastChangeTimeout
 const verifyMsg = () => {
 	const elem = document.getElementById("reactionroles-msg")
-	if (!elem.value || !/^[0-9]{17,21}$/.test(elem.value) || !document.getElementById("reactionroles-channel").value) return
+	if (!elem.value || !/^\d{17,21}$/.test(elem.value) || !document.getElementById("reactionroles-channel").value) return
 
 	if (lastChange + 2100 > Date.now()) {
 		clearTimeout(lastChangeTimeout)

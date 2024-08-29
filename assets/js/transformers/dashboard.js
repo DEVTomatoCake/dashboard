@@ -26,7 +26,7 @@ const getGuildsHTML = async () => {
 
 const changePage = elem => {
 	const pages = document.getElementsByClassName("page-select")[0].children
-	for (let i = 0; i < pages.length; i++) pages[i].classList.remove("current")
+	for (const e of pages) e.classList.remove("current")
 	elem.classList.add("current")
 	const target = elem.getAttribute("data-target")
 

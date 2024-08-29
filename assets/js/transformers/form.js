@@ -71,7 +71,8 @@ const fs = async () => {
 				return elem.reportValidity()
 			} else if (field.type == "select" && field.min && selectData["field-" + encode(field.name)].value.length < field.min) {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
-				return elem.title = "This value must be at least " + field.min
+				elem.title = "This value must be at least " + field.min
+				return
 			}
 			if (field.type != "number" && field.type != "range" && field.type != "select" && field.max && elem.value.length > field.max) {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
@@ -83,7 +84,8 @@ const fs = async () => {
 				return elem.reportValidity()
 			} else if (field.type == "select" && field.max && selectData["field-" + encode(field.name)].value.length > field.max) {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})
-				return elem.title = "This value must be at most " + field.max
+				elem.title = "This value must be at most " + field.max
+				return
 			}
 			if (field.pattern && !new RegExp(field.pattern).test(elem.value)) {
 				elem.scrollIntoView({behavior: "smooth", block: "center", inline: "center"})

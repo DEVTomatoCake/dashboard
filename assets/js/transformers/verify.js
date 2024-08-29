@@ -12,7 +12,10 @@ const verifyDone = async token => {
 
 const params = new URLSearchParams(location.search)
 window.onloadTurnstile = () => {
-	if (!params.has("verify")) return document.getElementById("root-container").innerHTML = "<h1>Invalid verification request.</h1>"
+	if (!params.has("verify")) {
+		document.getElementById("root-container").innerHTML = "<h1>Invalid verification request.</h1>"
+		return
+	}
 
 	turnstile.render("#root-container", {
 		sitekey: "0x4AAAAAAAJ-TUw5w4IoLPcJ",

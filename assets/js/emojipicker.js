@@ -28,7 +28,7 @@ const emojiPicker = async (parent = document.body, customEmoji = [], guildName =
 	picker.addEventListener("emoji-click", e => {
 		if (onlyNameReplace) picker.parentElement.querySelector("textarea,input").value = e.detail.unicode || e.detail.emoji.name
 		else insertText(picker.parentElement.querySelector("textarea,input"),
-			e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/[0-9]{17,20}/)[0] + ">")
+			e.detail.unicode || "<" + (e.detail.emoji.url.includes(".gif") ? "a" : "") + ":" + e.detail.emoji.name + ":" + e.detail.emoji.url.match(/\d{17,20}/)[0] + ">")
 		handleChange(picker.parentElement.querySelector("textarea,input").id)
 	})
 

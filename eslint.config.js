@@ -422,7 +422,7 @@ module.exports = [
 			"@html-eslint/require-title": 2,
 			"@html-eslint/no-extra-spacing-attrs": 2,
 			"@html-eslint/lowercase": 2,
-			"@html-eslint/element-newline": 2,
+			"@html-eslint/element-newline": [2, {skip: ["p", "span", "li", "h1", "h2", "h3", "h4", "h5", "small", "td", "a"]}],
 			"@html-eslint/quotes": 2,
 			"@html-eslint/require-img-alt": 2
 		}

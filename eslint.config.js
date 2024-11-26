@@ -5,6 +5,7 @@ const sonarjs = require("eslint-plugin-sonarjs")
 const stylistic = require("@stylistic/eslint-plugin-js")
 const htmlESLint = require("@html-eslint/eslint-plugin")
 const html = require("eslint-plugin-html")
+const tseslint = require("typescript-eslint")
 
 const linterOptions = {
 	reportUnusedDisableDirectives: "error"
@@ -317,7 +318,7 @@ const rules = {
 	"sonarjs/no-undefined-assignment": 2,
 	"sonarjs/no-unthrown-error": 2,
 	"sonarjs/no-unused-collection": 2,
-	"sonarjs/no-unused-expressions": 2,
+	"typescript-eslint/no-unused-expressions": 2,
 	"sonarjs/no-useless-call": 2,
 	"sonarjs/no-useless-constructor": 2,
 	"sonarjs/no-useless-increment": 2,
@@ -360,7 +361,8 @@ module.exports = [
 		plugins: {
 			unicorn,
 			sonarjs,
-			"@stylistic/js": stylistic
+			"@stylistic/js": stylistic,
+			"typescript-eslint": tseslint.plugin
 		},
 		rules
 	},{
@@ -372,7 +374,8 @@ module.exports = [
 		plugins: {
 			unicorn,
 			sonarjs,
-			"@stylistic/js": stylistic
+			"@stylistic/js": stylistic,
+			"typescript-eslint": tseslint.plugin
 		},
 		rules
 	},{
@@ -386,6 +389,7 @@ module.exports = [
 			unicorn,
 			sonarjs,
 			"@stylistic/js": stylistic,
+			"typescript-eslint": tseslint.plugin,
 			"@html-eslint": htmlESLint,
 			html
 		},

@@ -52,7 +52,7 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
 	const url = new URL(event.request.url)
-	if (event.request.method == "GET" && url.protocol == "https:" && (event.request.mode == "navigate" || event.request.mode == "no-cors" || event.request.mode == "cors")) {
+	if (event.request.method == "GET" && url.protocol == "https:" && (event.request.mode == "navigate" || event.request.mode == "no-cors" || event.request.mode == "cors") && url.host != "tk-api.chaoshosting.eu") {
 		event.respondWith((async () => {
 			const preloadResponse = await event.preloadResponse
 			if (preloadResponse) return preloadResponse

@@ -499,7 +499,7 @@ const connectWS = guild => {
 	}
 	hasLoaded = false
 
-	socket = sockette("wss://api.tomatenkuchen.com", {
+	socket = sockette("wss://tk-api.chaoshosting.eu", {
 		onClose: () => {
 			if (reverting) reverting = false
 			else errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()

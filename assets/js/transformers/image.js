@@ -216,7 +216,7 @@ let savingToast
 let errorToast
 
 const connectWS = guild => {
-	socket = sockette("wss://api.tomatenkuchen.com", {
+	socket = sockette("wss://tk-api.chaoshosting.eu", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 		},

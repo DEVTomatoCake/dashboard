@@ -87,7 +87,7 @@ const back = () => {
 }
 
 const connectWS = () => {
-	socket = sockette("wss://api.tomatenkuchen.com/user", {
+	socket = sockette("wss://tk-api.chaoshosting.eu/user", {
 		onClose: () => {
 			errorToast = new ToastNotification({type: "ERROR", title: "Lost connection, retrying...", timeout: 30}).show()
 		},

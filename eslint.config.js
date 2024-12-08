@@ -5,7 +5,6 @@ const sonarjs = require("eslint-plugin-sonarjs")
 const stylistic = require("@stylistic/eslint-plugin-js")
 const htmlESLint = require("@html-eslint/eslint-plugin")
 const html = require("eslint-plugin-html")
-const tseslint = require("typescript-eslint")
 
 const linterOptions = {
 	reportUnusedDisableDirectives: "error"
@@ -44,6 +43,7 @@ const global = {
 }
 
 const rules = {
+	"accessor-pairs": 2,
 	"array-callback-return": 2,
 	"block-scoped-var": 2,
 	"default-case-last": 2,
@@ -125,6 +125,7 @@ const rules = {
 	"object-shorthand": 2,
 	"prefer-arrow-callback": 2,
 	"prefer-const": 2,
+	"prefer-object-spread": 2,
 	"use-isnan": 2,
 	"valid-typeof": 2,
 	yoda: 2,
@@ -229,7 +230,6 @@ const rules = {
 	"unicorn/text-encoding-identifier-case": 2,
 	"unicorn/throw-new-error": 2,
 
-	"sonarjs/accessor-pairs": 2,
 	"sonarjs/array-callback-without-return": 2,
 	"sonarjs/array-constructor": 2,
 	"sonarjs/bitwise-operators": 2,
@@ -259,12 +259,10 @@ const rules = {
 	"sonarjs/max-union-size": 2,
 	"sonarjs/misplaced-loop-counter": 2,
 	"sonarjs/new-operator-misuse": 2,
-	"sonarjs/no-accessor-field-mismatch": 2,
 	"sonarjs/no-all-duplicated-branches": 2,
 	"sonarjs/no-alphabetical-sort": 2,
 	"sonarjs/no-array-delete": 2,
 	"sonarjs/no-associative-arrays": 2,
-	"sonarjs/no-base-to-string": 2,
 	"sonarjs/no-built-in-override": 2,
 	"sonarjs/no-case-label-in-switch": 2,
 	"sonarjs/no-collapsible-if": 2,
@@ -277,7 +275,6 @@ const rules = {
 	"sonarjs/no-empty-collection": 2,
 	"sonarjs/no-empty-group": 2,
 	"sonarjs/no-equals-in-for-termination": 2,
-	"sonarjs/no-extend-native": 2,
 	"sonarjs/no-extra-arguments": 2,
 	"sonarjs/no-for-in-iterable": 2,
 	"sonarjs/no-function-declaration-in-block": 2,
@@ -309,18 +306,13 @@ const rules = {
 	"sonarjs/no-redundant-boolean": 2,
 	"sonarjs/no-redundant-jump": 2,
 	"sonarjs/no-redundant-optional": 2,
-	"sonarjs/no-redundant-type-constituents": 2,
 	"sonarjs/no-reference-error": 2,
 	"sonarjs/no-same-line-conditional": 2,
-	"sonarjs/no-self-compare": 2,
 	"sonarjs/no-try-promise": 2,
 	"sonarjs/no-undefined-argument": 2,
 	"sonarjs/no-undefined-assignment": 2,
 	"sonarjs/no-unthrown-error": 2,
 	"sonarjs/no-unused-collection": 2,
-	"typescript-eslint/no-unused-expressions": 2,
-	"sonarjs/no-useless-call": 2,
-	"sonarjs/no-useless-constructor": 2,
 	"sonarjs/no-useless-increment": 2,
 	"sonarjs/no-useless-intersection": 2,
 	"sonarjs/no-use-of-empty-return-value": 2,
@@ -330,15 +322,9 @@ const rules = {
 	"sonarjs/null-dereference": 2,
 	"sonarjs/operation-returning-nan": 2,
 	"sonarjs/post-message": 2,
-	"sonarjs/prefer-for-of": 2,
-	"sonarjs/prefer-function-type": 2,
 	"sonarjs/prefer-immediate-return": 2,
-	"sonarjs/prefer-namespace-keyword": 2,
-	"sonarjs/prefer-nullish-coalescing": 2,
 	"sonarjs/prefer-object-literal": 2,
-	"sonarjs/prefer-object-spread": 2,
 	"sonarjs/prefer-promise-shorthand": 2,
-	"sonarjs/prefer-string-starts-ends-with": 2,
 	"sonarjs/prefer-while": 2,
 	"sonarjs/reduce-initial-value": 2,
 	"sonarjs/single-character-alternation": 2,
@@ -361,8 +347,7 @@ module.exports = [
 		plugins: {
 			unicorn,
 			sonarjs,
-			"@stylistic/js": stylistic,
-			"typescript-eslint": tseslint.plugin
+			"@stylistic/js": stylistic
 		},
 		rules
 	},{
@@ -374,8 +359,7 @@ module.exports = [
 		plugins: {
 			unicorn,
 			sonarjs,
-			"@stylistic/js": stylistic,
-			"typescript-eslint": tseslint.plugin
+			"@stylistic/js": stylistic
 		},
 		rules
 	},{
@@ -389,7 +373,6 @@ module.exports = [
 			unicorn,
 			sonarjs,
 			"@stylistic/js": stylistic,
-			"typescript-eslint": tseslint.plugin,
 			"@html-eslint": htmlESLint,
 			html
 		},
